@@ -64,6 +64,7 @@ export default function FacilitiesPage() {
       icon: Users,
       defaultVisible: true,
       render: (facility) => facility.usersList.length,
+      sortValue: (facility) => facility.usersList.length,
     },
     {
       key: "activeClients",
@@ -72,6 +73,8 @@ export default function FacilitiesPage() {
       defaultVisible: true,
       render: (facility) =>
         facility.clients.filter((c) => c.status === "active").length,
+      sortValue: (facility) =>
+        facility.clients.filter((c) => c.status === "active").length,
     },
     {
       key: "locations",
@@ -79,6 +82,7 @@ export default function FacilitiesPage() {
       icon: MapPin,
       defaultVisible: true,
       render: (facility) => facility.locationsList.length,
+      sortValue: (facility) => facility.locationsList.length,
     },
     {
       key: "dayJoined",
@@ -92,6 +96,7 @@ export default function FacilitiesPage() {
       icon: Clock,
       defaultVisible: true,
       render: (facility) => facility.subscriptionEnd || "N/A",
+      sortValue: (facility) => facility.subscriptionEnd || "",
     },
   ];
 

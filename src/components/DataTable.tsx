@@ -36,7 +36,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { Search, Filter, Columns } from "lucide-react";
+import { Search, Filter, Columns, ArrowUp, ArrowDown } from "lucide-react";
 import { LucideIcon } from "lucide-react";
 
 export interface ColumnDef<T> {
@@ -45,6 +45,8 @@ export interface ColumnDef<T> {
   icon?: LucideIcon;
   render?: (item: T) => React.ReactNode;
   defaultVisible?: boolean;
+  sortable?: boolean;
+  sortValue?: (item: T) => unknown;
 }
 
 export interface FilterDef {
@@ -87,6 +89,8 @@ export function DataTable<T extends Record<string, unknown>>({
       {},
     ),
   );
+  const [sortKey, setSortKey] = useState<string | null>(null);
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
   const filteredData = data.filter((item) => {
     // Search filter
@@ -110,8 +114,25 @@ export function DataTable<T extends Record<string, unknown>>({
     return true;
   });
 
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const paginatedData = filteredData.slice(
+  const sortedData = [...filteredData].sort((a, b) => {
+    if (!sortKey) return 0;
+    const col = columns.find((c) => c.key === sortKey);
+    if (!col || col.sortable === false) return 0;
+    const getSortValue = (item: T) => {
+      if (col.sortValue) return col.sortValue(item);
+      return item[col.key as keyof T];
+    };
+    const aVal = getSortValue(a);
+    const bVal = getSortValue(b);
+    const aStr = String(aVal).toLowerCase();
+    const bStr = String(bVal).toLowerCase();
+    if (aStr < bStr) return sortDirection === "asc" ? -1 : 1;
+    if (aStr > bStr) return sortDirection === "asc" ? 1 : -1;
+    return 0;
+  });
+
+  const totalPages = Math.ceil(sortedData.length / itemsPerPage);
+  const paginatedData = sortedData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
@@ -216,9 +237,33 @@ export function DataTable<T extends Record<string, unknown>>({
           <TableHeader>
             <TableRow>
               {visibleColumnDefs.map((col) => (
-                <TableHead key={col.key}>
+                <TableHead
+                  key={col.key}
+                  className={
+                    col.sortable !== false ? "cursor-pointer select-none" : ""
+                  }
+                  onClick={() => {
+                    if (col.sortable === false) return;
+                    if (sortKey === col.key) {
+                      setSortDirection(
+                        sortDirection === "asc" ? "desc" : "asc",
+                      );
+                    } else {
+                      setSortKey(col.key);
+                      setSortDirection("asc");
+                    }
+                    setCurrentPage(1);
+                  }}
+                >
                   {col.icon && <col.icon className="mr-2 h-4 w-4 inline" />}
                   {col.label}
+                  {sortKey === col.key &&
+                    col.sortable !== false &&
+                    (sortDirection === "asc" ? (
+                      <ArrowUp className="ml-1 h-4 w-4 inline" />
+                    ) : (
+                      <ArrowDown className="ml-1 h-4 w-4 inline" />
+                    ))}
                 </TableHead>
               ))}
               {actions && <TableHead className="text-right">Actions</TableHead>}

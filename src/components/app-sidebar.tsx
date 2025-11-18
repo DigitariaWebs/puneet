@@ -38,11 +38,13 @@ const menuSections = [
         title: "Dashboard",
         url: "/dashboard",
         icon: Home,
+        disabled: false,
       },
       {
         title: "Analytics & Reporting",
         url: "/dashboard/analytics",
         icon: BarChart3,
+        disabled: true,
       },
     ],
   },
@@ -53,16 +55,19 @@ const menuSections = [
         title: "Facilities",
         url: "/dashboard/facilities",
         icon: Building,
+        disabled: false,
       },
       {
         title: "Facility Configuration",
         url: "/dashboard/facility-config",
         icon: Wrench,
+        disabled: true,
       },
       {
         title: "User & Roles",
         url: "/dashboard/users",
         icon: Users,
+        disabled: false,
       },
     ],
   },
@@ -73,16 +78,19 @@ const menuSections = [
         title: "Subscription & Billing",
         url: "/dashboard/billing",
         icon: CreditCard,
+        disabled: true,
       },
       {
         title: "Global Settings",
         url: "/dashboard/settings",
         icon: Globe,
+        disabled: true,
       },
       {
         title: "Compliance & Data",
         url: "/dashboard/compliance",
         icon: Shield,
+        disabled: true,
       },
     ],
   },
@@ -93,16 +101,19 @@ const menuSections = [
         title: "Support & Communication",
         url: "/dashboard/support",
         icon: MessageSquare,
+        disabled: true,
       },
       {
         title: "Task & Operations",
         url: "/dashboard/tasks",
         icon: CheckSquare,
+        disabled: true,
       },
       {
         title: "AI & Personalization",
         url: "/dashboard/ai",
         icon: Bot,
+        disabled: true,
       },
     ],
   },
@@ -126,12 +137,22 @@ export function AppSidebar() {
               <SidebarMenu>
                 {section.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={pathname === item.url}>
-                      <Link href={item.url}>
+                    {item.disabled ? (
+                      <SidebarMenuButton asChild={false} disabled>
                         <item.icon />
                         <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
+                      </SidebarMenuButton>
+                    ) : (
+                      <SidebarMenuButton
+                        asChild
+                        isActive={pathname === item.url}
+                      >
+                        <Link href={item.url}>
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    )}
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>
