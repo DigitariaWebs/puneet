@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 
 interface RevenueChartSectionProps {
-  data: { month: string; revenue: number }[];
+  data: { month: string; revenue: number; profit: number }[];
   chartType: "bar" | "line" | "area";
   onChartTypeChange: (type: "bar" | "line" | "area") => void;
 }
@@ -35,6 +35,7 @@ export function RevenueChartSection({
   onChartTypeChange,
 }: RevenueChartSectionProps) {
   const totalRevenue = data.reduce((sum, d) => sum + d.revenue, 0);
+  const totalProfit = data.reduce((sum, d) => sum + d.profit, 0);
 
   return (
     <Card className="border-2">
@@ -73,9 +74,18 @@ export function RevenueChartSection({
         </div>
       </CardHeader>
       <CardContent>
-        <div className="flex items-baseline gap-2 mb-4">
-          <div className="text-3xl font-bold">
-            ${totalRevenue.toLocaleString()}
+        <div className="flex items-baseline gap-4 mb-4">
+          <div>
+            <div className="text-sm text-muted-foreground">Revenue</div>
+            <div className="text-2xl font-bold">
+              ${totalRevenue.toLocaleString()}
+            </div>
+          </div>
+          <div>
+            <div className="text-sm text-muted-foreground">Profit</div>
+            <div className="text-2xl font-bold text-green-600">
+              ${totalProfit.toLocaleString()}
+            </div>
           </div>
           <div className="flex items-center text-sm text-green-600">
             <TrendingUp className="h-4 w-4 mr-1" />
@@ -103,13 +113,14 @@ export function RevenueChartSection({
                     border: "1px solid #e5e7eb",
                     borderRadius: "6px",
                   }}
-                  formatter={(value) => [
+                  formatter={(value, name) => [
                     `$${value.toLocaleString()}`,
-                    "Revenue",
+                    name === "revenue" ? "Revenue" : "Profit",
                   ]}
                 />
                 <Legend />
                 <Bar dataKey="revenue" fill="#3b82f6" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="profit" fill="#10b981" radius={[6, 6, 0, 0]} />
               </BarChart>
             ) : chartType === "line" ? (
               <LineChart data={data}>
@@ -129,9 +140,9 @@ export function RevenueChartSection({
                     border: "1px solid #e5e7eb",
                     borderRadius: "6px",
                   }}
-                  formatter={(value) => [
+                  formatter={(value, name) => [
                     `$${value.toLocaleString()}`,
-                    "Revenue",
+                    name === "revenue" ? "Revenue" : "Profit",
                   ]}
                 />
                 <Legend />
@@ -143,6 +154,14 @@ export function RevenueChartSection({
                   dot={{ fill: "#3b82f6", r: 5 }}
                   activeDot={{ r: 7 }}
                 />
+                <Line
+                  type="monotone"
+                  dataKey="profit"
+                  stroke="#10b981"
+                  strokeWidth={3}
+                  dot={{ fill: "#10b981", r: 5 }}
+                  activeDot={{ r: 7 }}
+                />
               </LineChart>
             ) : (
               <AreaChart data={data}>
@@ -150,6 +169,10 @@ export function RevenueChartSection({
                   <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8} />
                     <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.1} />
+                  </linearGradient>
+                  <linearGradient id="colorProfit" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#10b981" stopOpacity={0.1} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -168,9 +191,9 @@ export function RevenueChartSection({
                     border: "1px solid #e5e7eb",
                     borderRadius: "6px",
                   }}
-                  formatter={(value) => [
+                  formatter={(value, name) => [
                     `$${value.toLocaleString()}`,
-                    "Revenue",
+                    name === "revenue" ? "Revenue" : "Profit",
                   ]}
                 />
                 <Legend />
@@ -181,6 +204,14 @@ export function RevenueChartSection({
                   strokeWidth={2}
                   fillOpacity={1}
                   fill="url(#colorRevenue)"
+                />
+                <Area
+                  type="monotone"
+                  dataKey="profit"
+                  stroke="#10b981"
+                  strokeWidth={2}
+                  fillOpacity={1}
+                  fill="url(#colorProfit)"
                 />
               </AreaChart>
             )}

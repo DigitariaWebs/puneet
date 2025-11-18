@@ -16,12 +16,12 @@ import { FacilityTabs } from "@/components/facility/FacilityTabs";
 
 // Mock data for charts and activities
 const revenueData = [
-  { month: "Jan", revenue: 4500 },
-  { month: "Feb", revenue: 5200 },
-  { month: "Mar", revenue: 4800 },
-  { month: "Apr", revenue: 6100 },
-  { month: "May", revenue: 5500 },
-  { month: "Jun", revenue: 6700 },
+  { month: "Jan", revenue: 4500, profit: 3150 },
+  { month: "Feb", revenue: 5200, profit: 3640 },
+  { month: "Mar", revenue: 4800, profit: 3360 },
+  { month: "Apr", revenue: 6100, profit: 4270 },
+  { month: "May", revenue: 5500, profit: 3850 },
+  { month: "Jun", revenue: 6700, profit: 4690 },
 ];
 
 const bookingsData = [
@@ -31,49 +31,6 @@ const bookingsData = [
   { month: "Apr", bookings: 61 },
   { month: "May", bookings: 55 },
   { month: "Jun", bookings: 67 },
-];
-
-const recentActivities = [
-  {
-    id: 1,
-    type: "booking",
-    title: "New booking confirmed",
-    description: "Sarah Johnson booked daycare for Max",
-    time: "2 hours ago",
-    date: "2024-01-15T14:30:00Z",
-  },
-  {
-    id: 2,
-    type: "payment",
-    title: "Payment received",
-    description: "$150.00 for grooming service",
-    time: "4 hours ago",
-    date: "2024-01-15T12:30:00Z",
-  },
-  {
-    id: 3,
-    type: "user",
-    title: "New staff member added",
-    description: "Emma Davis joined as Manager",
-    time: "1 day ago",
-    date: "2024-01-14T09:00:00Z",
-  },
-  {
-    id: 4,
-    type: "client",
-    title: "Client profile updated",
-    description: "John Smith updated pet information",
-    time: "2 days ago",
-    date: "2024-01-13T16:45:00Z",
-  },
-  {
-    id: 5,
-    type: "booking",
-    title: "Service completed",
-    description: "Boarding service for Bella completed",
-    time: "3 days ago",
-    date: "2024-01-12T11:20:00Z",
-  },
 ];
 
 const billingHistory = [
@@ -137,6 +94,54 @@ export default function FacilityDetailPage() {
   if (!facility) {
     notFound();
   }
+
+  const recentActivities = [
+    {
+      id: 1,
+      type: "booking",
+      title: "New booking confirmed",
+      description: "Sarah Johnson booked daycare for Max",
+      time: "2 hours ago",
+      date: "2024-01-15T14:30:00Z",
+      facility: facility.name,
+    },
+    {
+      id: 2,
+      type: "payment",
+      title: "Payment received",
+      description: "$150.00 for grooming service",
+      time: "4 hours ago",
+      date: "2024-01-15T12:30:00Z",
+      facility: facility.name,
+    },
+    {
+      id: 3,
+      type: "user",
+      title: "New staff member added",
+      description: "Emma Davis joined as Manager",
+      time: "1 day ago",
+      date: "2024-01-14T09:00:00Z",
+      facility: facility.name,
+    },
+    {
+      id: 4,
+      type: "client",
+      title: "Client profile updated",
+      description: "John Smith updated pet information",
+      time: "2 days ago",
+      date: "2024-01-13T16:45:00Z",
+      facility: facility.name,
+    },
+    {
+      id: 5,
+      type: "booking",
+      title: "Service completed",
+      description: "Boarding service for Bella completed",
+      time: "3 days ago",
+      date: "2024-01-12T11:20:00Z",
+      facility: facility.name,
+    },
+  ];
 
   return (
     <div className="flex-1 space-y-6 p-6 pt-8">

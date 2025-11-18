@@ -11,6 +11,7 @@ interface Activity {
   description: string;
   time: string;
   date: string;
+  facility?: string;
 }
 
 interface RecentActivitiesSectionProps {
@@ -70,6 +71,11 @@ export function RecentActivitiesSection({
                   <p className="text-sm text-muted-foreground">
                     {activity.description}
                   </p>
+                  {activity.facility && (
+                    <p className="text-xs text-muted-foreground">
+                      Facility: {activity.facility}
+                    </p>
+                  )}
                   <p className="text-xs text-muted-foreground mt-1">
                     {activity.time}
                   </p>
@@ -97,6 +103,11 @@ export function RecentActivitiesSection({
                   <p className="text-sm text-muted-foreground">
                     {activity.description}
                   </p>
+                  {activity.facility && (
+                    <p className="text-xs text-muted-foreground">
+                      Facility: {activity.facility}
+                    </p>
+                  )}
                 </div>
               </div>
             ))}
