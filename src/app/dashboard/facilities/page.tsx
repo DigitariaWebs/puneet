@@ -20,7 +20,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
+import { StatusBadge } from "@/components/StatusBadge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -40,6 +40,13 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { FacilityModal } from "@/components/FacilityModal";
+import {
   Plus,
   Search,
   Filter,
@@ -56,6 +63,7 @@ import {
   Columns,
   Eye,
 } from "lucide-react";
+import Link from "next/link";
 
 type VisibleColumns = {
   status: boolean;
@@ -91,6 +99,11 @@ export default function FacilitiesPage() {
     dayJoined: true,
     subscriptionEnd: true,
   });
+  const [selectedFacility, setSelectedFacility] = useState<
+    (typeof facilities)[0] | null
+  >(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
   const itemsPerPage = 10;
 
   const filteredFacilities = facilities.filter((facility) => {
@@ -170,7 +183,7 @@ export default function FacilitiesPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {facilities.reduce((sum, f) => sum + f.users, 0)}
+              {facilities.reduce((sum, f) => sum + f.usersList.length, 0)}
             </div>
             <p className="text-xs text-muted-foreground">
               Across all facilities
@@ -186,7 +199,7 @@ export default function FacilitiesPage() {
           <CardContent>
             <div className="text-2xl font-bold">
               {Math.round(
-                facilities.reduce((sum, f) => sum + f.users, 0) /
+                facilities.reduce((sum, f) => sum + f.usersList.length, 0) /
                   facilities.length,
               )}
             </div>
@@ -206,29 +219,37 @@ export default function FacilitiesPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="active">Active</SelectItem>
-            <SelectItem value="inactive">Inactive</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select value={planFilter} onValueChange={setPlanFilter}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Plan" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Plans</SelectItem>
-            <SelectItem value="Free">Free</SelectItem>
-            <SelectItem value="Basic">Basic</SelectItem>
-            <SelectItem value="Premium">Premium</SelectItem>
-            <SelectItem value="Enterprise">Enterprise</SelectItem>
-          </SelectContent>
-        </Select>
-        <Button variant="outline" size="icon">
+        {showFilters && (
+          <>
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="active">Active</SelectItem>
+                <SelectItem value="inactive">Inactive</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={planFilter} onValueChange={setPlanFilter}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Plan" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Plans</SelectItem>
+                <SelectItem value="Free">Free</SelectItem>
+                <SelectItem value="Basic">Basic</SelectItem>
+                <SelectItem value="Premium">Premium</SelectItem>
+                <SelectItem value="Enterprise">Enterprise</SelectItem>
+              </SelectContent>
+            </Select>
+          </>
+        )}
+        <Button
+          variant={showFilters ? "default" : "outline"}
+          size="icon"
+          onClick={() => setShowFilters(!showFilters)}
+        >
           <Filter className="h-4 w-4" />
         </Button>
         <DropdownMenu>
@@ -334,24 +355,27 @@ export default function FacilitiesPage() {
                 <TableCell className="font-medium">{facility.name}</TableCell>
                 {visibleColumns.status && (
                   <TableCell>
-                    <Badge
-                      variant={
-                        facility.status === "active" ? "default" : "secondary"
-                      }
-                    >
-                      {facility.status}
-                    </Badge>
+                    <StatusBadge type="status" value={facility.status} />
                   </TableCell>
                 )}
-                {visibleColumns.plan && <TableCell>{facility.plan}</TableCell>}
+                {visibleColumns.plan && (
+                  <TableCell>
+                    <StatusBadge type="plan" value={facility.plan} />
+                  </TableCell>
+                )}
                 {visibleColumns.users && (
-                  <TableCell>{facility.users}</TableCell>
+                  <TableCell>{facility.usersList.length}</TableCell>
                 )}
                 {visibleColumns.activeClients && (
-                  <TableCell>{facility.activeClients}</TableCell>
+                  <TableCell>
+                    {
+                      facility.clients.filter((c) => c.status === "active")
+                        .length
+                    }
+                  </TableCell>
                 )}
                 {visibleColumns.locations && (
-                  <TableCell>{facility.locations}</TableCell>
+                  <TableCell>{facility.locationsList.length}</TableCell>
                 )}
                 {visibleColumns.dayJoined && (
                   <TableCell>{facility.dayJoined}</TableCell>
@@ -360,7 +384,14 @@ export default function FacilitiesPage() {
                   <TableCell>{facility.subscriptionEnd || "N/A"}</TableCell>
                 )}
                 <TableCell className="text-right">
-                  <Button variant="outline" size="sm">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setSelectedFacility(facility);
+                      setIsModalOpen(true);
+                    }}
+                  >
                     <Eye className="h-4 w-4" />
                   </Button>
                 </TableCell>
@@ -411,6 +442,29 @@ export default function FacilitiesPage() {
           </Pagination>
         </div>
       )}
+
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="min-w-5xl max-h-[90vh] flex flex-col p-0">
+          <div className="p-6 flex-1 overflow-y-auto">
+            <DialogHeader className="mb-0">
+              <DialogTitle className="sr-only">
+                {selectedFacility?.name} - Facility Details
+              </DialogTitle>
+            </DialogHeader>
+            {selectedFacility && <FacilityModal facility={selectedFacility} />}
+          </div>
+          <div className="p-6 border-t bg-background">
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setIsModalOpen(false)}>
+                Close
+              </Button>
+              <Link href={`/dashboard/facilities/${selectedFacility?.id}`}>
+                <Button>View Details</Button>
+              </Link>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -7,3 +7,6 @@
 - Don't be verbose when explaining changes made, and avoid explaining unless necessary.
 - Never generate assets like SVGs unless specified to.
 - Prefer to use shadcn components when available.
+
+## Styling
+- When possible, prefer to use Tailwind data- attributes over conditional classes.
