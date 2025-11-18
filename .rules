@@ -1,0 +1,9 @@
+# AI Instructions for this project
+
+## File Edits
+- Never rewrite an entire file when editing it, only change relevant parts.
+- Only create README files when explicitly asked to.
+- Don't try to build the project unless specified to.
+- Don't be verbose when explaining changes made, and avoid explaining unless necessary.
+- Never generate assets like SVGs unless specified to.
+- Prefer to use shadcn components when available.
