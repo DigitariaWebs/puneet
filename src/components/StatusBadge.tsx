@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { CheckCircle, XCircle, CreditCard } from "lucide-react";
 
 interface StatusBadgeProps {
-  type: "status" | "plan";
+  type: "status" | "plan" | "role";
   value: string;
   size?: "sm" | "default" | "lg";
   showIcon?: boolean;
@@ -17,6 +17,11 @@ export function StatusBadge({
   const getVariant = () => {
     if (type === "status") {
       return value === "active" ? "default" : "secondary";
+    }
+    if (type === "role") {
+      if (value === "Admin") return "default";
+      if (value === "Manager") return "secondary";
+      return "outline";
     }
     return "outline";
   };

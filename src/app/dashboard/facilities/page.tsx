@@ -4,41 +4,7 @@ import { useState } from "react";
 import { facilities } from "@/data/facilities";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { StatusBadge } from "@/components/StatusBadge";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import {
   Dialog,
   DialogContent,
@@ -46,10 +12,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { FacilityModal } from "@/components/FacilityModal";
+import { DataTable, ColumnDef, FilterDef } from "@/components/DataTable";
 import {
   Plus,
-  Search,
-  Filter,
   Download,
   Mail,
   Building,
@@ -60,67 +25,98 @@ import {
   MapPin,
   Calendar,
   Clock,
-  Columns,
   Eye,
 } from "lucide-react";
 import Link from "next/link";
 
-type VisibleColumns = {
-  status: boolean;
-  plan: boolean;
-  users: boolean;
-  activeClients: boolean;
-  locations: boolean;
-  dayJoined: boolean;
-  subscriptionEnd: boolean;
-};
-
-const columnDefinitions = [
-  { key: "status", label: "Status", icon: Shield },
-  { key: "plan", label: "Plan", icon: CreditCard },
-  { key: "users", label: "Users", icon: Users },
-  { key: "activeClients", label: "Active Clients", icon: UserCheck },
-  { key: "locations", label: "Locations", icon: MapPin },
-  { key: "dayJoined", label: "Day Joined", icon: Calendar },
-  { key: "subscriptionEnd", label: "Subscription End", icon: Clock },
-];
-
 export default function FacilitiesPage() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [planFilter, setPlanFilter] = useState("all");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [visibleColumns, setVisibleColumns] = useState<VisibleColumns>({
-    status: true,
-    plan: true,
-    users: true,
-    activeClients: true,
-    locations: true,
-    dayJoined: true,
-    subscriptionEnd: true,
-  });
   const [selectedFacility, setSelectedFacility] = useState<
     (typeof facilities)[0] | null
   >(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showFilters, setShowFilters] = useState(false);
-  const itemsPerPage = 10;
 
-  const filteredFacilities = facilities.filter((facility) => {
-    const matchesSearch = facility.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    const matchesStatus =
-      statusFilter === "all" || facility.status === statusFilter;
-    const matchesPlan = planFilter === "all" || facility.plan === planFilter;
-    return matchesSearch && matchesStatus && matchesPlan;
-  });
+  const columns: ColumnDef<(typeof facilities)[0]>[] = [
+    {
+      key: "name",
+      label: "Facility Name",
+      icon: Building,
+      defaultVisible: true,
+    },
+    {
+      key: "status",
+      label: "Status",
+      icon: Shield,
+      defaultVisible: true,
+      render: (facility) => (
+        <StatusBadge type="status" value={facility.status} />
+      ),
+    },
+    {
+      key: "plan",
+      label: "Plan",
+      icon: CreditCard,
+      defaultVisible: true,
+      render: (facility) => <StatusBadge type="plan" value={facility.plan} />,
+    },
+    {
+      key: "users",
+      label: "Users",
+      icon: Users,
+      defaultVisible: true,
+      render: (facility) => facility.usersList.length,
+    },
+    {
+      key: "activeClients",
+      label: "Active Clients",
+      icon: UserCheck,
+      defaultVisible: true,
+      render: (facility) =>
+        facility.clients.filter((c) => c.status === "active").length,
+    },
+    {
+      key: "locations",
+      label: "Locations",
+      icon: MapPin,
+      defaultVisible: true,
+      render: (facility) => facility.locationsList.length,
+    },
+    {
+      key: "dayJoined",
+      label: "Day Joined",
+      icon: Calendar,
+      defaultVisible: true,
+    },
+    {
+      key: "subscriptionEnd",
+      label: "Subscription End",
+      icon: Clock,
+      defaultVisible: true,
+      render: (facility) => facility.subscriptionEnd || "N/A",
+    },
+  ];
 
-  const totalPages = Math.ceil(filteredFacilities.length / itemsPerPage);
-  const paginatedFacilities = filteredFacilities.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
-  );
+  const filters: FilterDef[] = [
+    {
+      key: "status",
+      label: "Status",
+      options: [
+        { value: "all", label: "All Status" },
+        { value: "active", label: "Active" },
+        { value: "inactive", label: "Inactive" },
+      ],
+    },
+    {
+      key: "plan",
+      label: "Plan",
+      options: [
+        { value: "all", label: "All Plans" },
+        { value: "Free", label: "Free" },
+        { value: "Basic", label: "Basic" },
+        { value: "Premium", label: "Premium" },
+        { value: "Enterprise", label: "Enterprise" },
+      ],
+    },
+  ];
 
   return (
     <div className="flex-1 space-y-4 p-4 pt-6">
@@ -208,240 +204,26 @@ export default function FacilitiesPage() {
         </Card>
       </div>
 
-      {/* Filters */}
-      <div className="flex items-center space-x-2">
-        <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search facilities..."
-            className="pl-8"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-        {showFilters && (
-          <>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="inactive">Inactive</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={planFilter} onValueChange={setPlanFilter}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Plan" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Plans</SelectItem>
-                <SelectItem value="Free">Free</SelectItem>
-                <SelectItem value="Basic">Basic</SelectItem>
-                <SelectItem value="Premium">Premium</SelectItem>
-                <SelectItem value="Enterprise">Enterprise</SelectItem>
-              </SelectContent>
-            </Select>
-          </>
+      <DataTable
+        data={facilities}
+        columns={columns}
+        filters={filters}
+        searchKey="name"
+        searchPlaceholder="Search facilities..."
+        itemsPerPage={10}
+        actions={(facility) => (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              setSelectedFacility(facility);
+              setIsModalOpen(true);
+            }}
+          >
+            <Eye className="h-4 w-4" />
+          </Button>
         )}
-        <Button
-          variant={showFilters ? "default" : "outline"}
-          size="icon"
-          onClick={() => setShowFilters(!showFilters)}
-        >
-          <Filter className="h-4 w-4" />
-        </Button>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="icon">
-              <Columns className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="space-y-1">
-            <DropdownMenuLabel>Toggle Columns</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {columnDefinitions.map((col) => (
-              <DropdownMenuItem
-                key={col.key}
-                className="p-0"
-                onSelect={(e) => {
-                  e.preventDefault();
-                }}
-              >
-                <Label className="hover:bg-primary/30 flex items-center gap-2 rounded-md border p-2 has-aria-checked:bg-accent/5 w-full cursor-pointer">
-                  <Checkbox
-                    checked={
-                      (visibleColumns as Record<string, boolean>)[col.key]
-                    }
-                    onCheckedChange={(checked) =>
-                      setVisibleColumns((prev) => ({
-                        ...prev,
-                        [col.key]: checked,
-                      }))
-                    }
-                    className="data-[state=checked]:border-accent data-[state=checked]:bg-accent data-[state=checked]:text-primary-foreground mt-0.5"
-                  />
-                  <div className="grid gap-1 font-normal">
-                    <p className="text-xs leading-none font-medium flex items-center gap-2">
-                      <col.icon className="h-3.5 w-3.5" />
-                      {col.label}
-                    </p>
-                  </div>
-                </Label>
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-
-      {/* Facilities Table */}
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>
-                <Building className="mr-2 h-4 w-4 inline" />
-                Facility Name
-              </TableHead>
-              {visibleColumns.status && (
-                <TableHead>
-                  <Shield className="mr-2 h-4 w-4 inline" />
-                  Status
-                </TableHead>
-              )}
-              {visibleColumns.plan && (
-                <TableHead>
-                  <CreditCard className="mr-2 h-4 w-4 inline" />
-                  Plan
-                </TableHead>
-              )}
-              {visibleColumns.users && (
-                <TableHead>
-                  <Users className="mr-2 h-4 w-4 inline" />
-                  Users
-                </TableHead>
-              )}
-              {visibleColumns.activeClients && (
-                <TableHead>
-                  <UserCheck className="mr-2 h-4 w-4 inline" />
-                  Active Clients
-                </TableHead>
-              )}
-              {visibleColumns.locations && (
-                <TableHead>
-                  <MapPin className="mr-2 h-4 w-4 inline" />
-                  Locations
-                </TableHead>
-              )}
-              {visibleColumns.dayJoined && (
-                <TableHead>
-                  <Calendar className="mr-2 h-4 w-4 inline" />
-                  Day Joined
-                </TableHead>
-              )}
-              {visibleColumns.subscriptionEnd && (
-                <TableHead>
-                  <Clock className="mr-2 h-4 w-4 inline" />
-                  Subscription End
-                </TableHead>
-              )}
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {paginatedFacilities.map((facility) => (
-              <TableRow key={facility.id}>
-                <TableCell className="font-medium">{facility.name}</TableCell>
-                {visibleColumns.status && (
-                  <TableCell>
-                    <StatusBadge type="status" value={facility.status} />
-                  </TableCell>
-                )}
-                {visibleColumns.plan && (
-                  <TableCell>
-                    <StatusBadge type="plan" value={facility.plan} />
-                  </TableCell>
-                )}
-                {visibleColumns.users && (
-                  <TableCell>{facility.usersList.length}</TableCell>
-                )}
-                {visibleColumns.activeClients && (
-                  <TableCell>
-                    {
-                      facility.clients.filter((c) => c.status === "active")
-                        .length
-                    }
-                  </TableCell>
-                )}
-                {visibleColumns.locations && (
-                  <TableCell>{facility.locationsList.length}</TableCell>
-                )}
-                {visibleColumns.dayJoined && (
-                  <TableCell>{facility.dayJoined}</TableCell>
-                )}
-                {visibleColumns.subscriptionEnd && (
-                  <TableCell>{facility.subscriptionEnd || "N/A"}</TableCell>
-                )}
-                <TableCell className="text-right">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      setSelectedFacility(facility);
-                      setIsModalOpen(true);
-                    }}
-                  >
-                    <Eye className="h-4 w-4" />
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex justify-center">
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                  className={
-                    currentPage === 1 ? "pointer-events-none opacity-50" : ""
-                  }
-                />
-              </PaginationItem>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                (page) => (
-                  <PaginationItem key={page}>
-                    <PaginationLink
-                      onClick={() => setCurrentPage(page)}
-                      isActive={currentPage === page}
-                    >
-                      {page}
-                    </PaginationLink>
-                  </PaginationItem>
-                ),
-              )}
-              <PaginationItem>
-                <PaginationNext
-                  onClick={() =>
-                    setCurrentPage(Math.min(totalPages, currentPage + 1))
-                  }
-                  className={
-                    currentPage === totalPages
-                      ? "pointer-events-none opacity-50"
-                      : ""
-                  }
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
-      )}
+      />
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="min-w-5xl max-h-[90vh] flex flex-col p-0">

@@ -7,6 +7,7 @@
 - Don't be verbose when explaining changes made, and avoid explaining unless necessary.
 - Never generate assets like SVGs unless specified to.
 - Prefer to use shadcn components when available.
+- Use the DataTable component for all tables - any extra features added to DataTable must not break existing implementations unless specifically requested.
 
 ## Styling
 - When possible, prefer to use Tailwind data- attributes over conditional classes.
