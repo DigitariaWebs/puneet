@@ -1,30 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { facilities } from "@/data/facilities";
-import { RevenueChartSection } from "@/components/facility/RevenueChartSection";
-import { BookingsChartSection } from "@/components/facility/BookingsChartSection";
-import { DashboardStatisticsCards } from "@/components/facility/DashboardStatisticsCards";
 import { RecentActivitiesSection } from "@/components/facility/RecentActivitiesSection";
-import { PieChartSection } from "@/components/facility/PieChartSection";
-
-const baseRevenueData = [
-  { month: "Jan", revenue: 4500, profit: 3150 },
-  { month: "Feb", revenue: 5200, profit: 3640 },
-  { month: "Mar", revenue: 4800, profit: 3360 },
-  { month: "Apr", revenue: 6100, profit: 4270 },
-  { month: "May", revenue: 5500, profit: 3850 },
-  { month: "Jun", revenue: 6700, profit: 4690 },
-];
-
-const baseBookingsData = [
-  { month: "Jan", bookings: 45 },
-  { month: "Feb", bookings: 52 },
-  { month: "Mar", bookings: 48 },
-  { month: "Apr", bookings: 61 },
-  { month: "May", bookings: 55 },
-  { month: "Jun", bookings: 67 },
-];
 
 const recentActivities = [
   {
@@ -74,46 +51,12 @@ const recentActivities = [
 
 export default function DashboardPage() {
   const [viewMode, setViewMode] = useState<"list" | "timeline">("list");
-  const [revenueChartType, setRevenueChartType] = useState<
-    "bar" | "line" | "area"
-  >("bar");
-  const [bookingsChartType, setBookingsChartType] = useState<
-    "bar" | "line" | "area"
-  >("line");
-
-  const aggregatedRevenueData = baseRevenueData.map((item) => ({
-    ...item,
-    revenue: item.revenue * facilities.length,
-    profit: item.profit * facilities.length,
-  }));
-
-  const aggregatedBookingsData = baseBookingsData.map((item) => ({
-    ...item,
-    bookings: item.bookings * facilities.length,
-  }));
 
   return (
     <div className="flex-1 space-y-6 p-6 pt-8">
       <div className="flex items-center justify-between">
         <h1 className="text-4xl font-bold tracking-tight">Dashboard</h1>
       </div>
-
-      {/* Revenue & Bookings Overview */}
-      <div className="grid gap-6 md:grid-cols-2">
-        <RevenueChartSection
-          data={aggregatedRevenueData}
-          chartType={revenueChartType}
-          onChartTypeChange={setRevenueChartType}
-        />
-        <BookingsChartSection
-          data={aggregatedBookingsData}
-          chartType={bookingsChartType}
-          onChartTypeChange={setBookingsChartType}
-        />
-      </div>
-
-      <PieChartSection />
-      <DashboardStatisticsCards />
 
       <RecentActivitiesSection
         activities={recentActivities}

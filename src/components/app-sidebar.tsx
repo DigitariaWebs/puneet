@@ -45,7 +45,7 @@ const menuSections = [
         title: "Analytics & Reporting",
         url: "/dashboard/analytics",
         icon: BarChart3,
-        disabled: true,
+        disabled: false,
       },
     ],
   },

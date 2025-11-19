@@ -71,10 +71,29 @@ export function PieChartSection() {
     value,
   }));
 
+  // Compute client status data
+  const clientStatusData = facilities.reduce(
+    (acc, facility) => {
+      facility.clients.forEach((client) => {
+        const status = client.status;
+        acc[status] = (acc[status] || 0) + 1;
+      });
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
+
+  const clientStatusChartData = Object.entries(clientStatusData).map(
+    ([name, value]) => ({
+      name: name.charAt(0).toUpperCase() + name.slice(1),
+      value,
+    }),
+  );
+
   const [showStatus, setShowStatus] = useState(false);
 
   return (
-    <div className="grid gap-6 md:grid-cols-2">
+    <div className="grid gap-6 md:grid-cols-3">
       {/* User Types Pie Chart */}
       <Card className="border-2">
         <CardHeader>
@@ -166,6 +185,45 @@ export function PieChartSection() {
                       />
                     ),
                   )}
+                </Pie>
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Client Status Pie Chart */}
+      <Card className="border-2">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Users className="h-5 w-5 text-purple-600" />
+            Client Status Composition
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-64 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={clientStatusChartData}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={({ name, percent }) =>
+                    `${name} ${((percent || 0) * 100).toFixed(0)}%`
+                  }
+                  outerRadius={80}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {clientStatusChartData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
                 </Pie>
                 <Tooltip />
                 <Legend />

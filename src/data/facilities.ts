@@ -254,4 +254,254 @@ export const facilities = [
       },
     ],
   },
+  {
+    id: 6,
+    name: "Pet Groomers Paradise",
+    status: "active",
+    plan: "Premium",
+    dayJoined: "2023-07-12",
+    subscriptionEnd: "2024-07-12",
+    locationsList: [
+      {
+        name: "Main Salon",
+        address: "741 Elm St, Groomtown",
+        services: ["grooming", "daycare"],
+      },
+      {
+        name: "Express Lane",
+        address: "852 Oak St, Groomtown",
+        services: ["grooming"],
+      },
+    ],
+    clients: [
+      {
+        person: {
+          name: "Nina Patel",
+          email: "nina@example.com",
+          phone: "999-000-1111",
+        },
+        status: "active",
+      },
+      {
+        person: {
+          name: "Oscar Kim",
+          email: "oscar@example.com",
+          phone: "222-333-4444",
+        },
+        status: "active",
+      },
+      {
+        person: { name: "Paula Lee", email: "paula@example.com" },
+        status: "inactive",
+      },
+    ],
+    usersList: [
+      {
+        person: { name: "Admin Groom2", email: "admin@petgroomers.com" },
+        role: "Admin",
+      },
+      {
+        person: { name: "Manager Groom", email: "manager@petgroomers.com" },
+        role: "Manager",
+      },
+      {
+        person: { name: "Staff Groom2", email: "staff2@petgroomers.com" },
+        role: "Staff",
+      },
+    ],
+  },
+  {
+    id: 7,
+    name: "Animal Care Center",
+    status: "active",
+    plan: "Basic",
+    dayJoined: "2023-10-05",
+    subscriptionEnd: "2024-10-05",
+    locationsList: [
+      {
+        name: "Central Clinic",
+        address: "963 Pine St, Careville",
+        services: ["vet", "grooming", "boarding"],
+      },
+    ],
+    clients: [
+      {
+        person: {
+          name: "Quinn Taylor",
+          email: "quinn@example.com",
+          phone: "555-666-7777",
+        },
+        status: "active",
+      },
+      {
+        person: { name: "Rachel Adams", email: "rachel@example.com" },
+        status: "active",
+      },
+    ],
+    usersList: [
+      {
+        person: { name: "Admin Care", email: "admin@animalcare.com" },
+        role: "Admin",
+      },
+      {
+        person: { name: "Staff Care", email: "staff@animalcare.com" },
+        role: "Staff",
+      },
+    ],
+  },
+  {
+    id: 8,
+    name: "Feline Friends",
+    status: "inactive",
+    plan: "Enterprise",
+    dayJoined: "2023-02-20",
+    subscriptionEnd: "2024-02-20",
+    locationsList: [
+      {
+        name: "Cat Lounge",
+        address: "147 Birch St, Feline City",
+        services: ["daycare", "boarding"],
+      },
+      {
+        name: "Grooming Room",
+        address: "258 Cedar St, Feline City",
+        services: ["grooming"],
+      },
+    ],
+    clients: [
+      {
+        person: {
+          name: "Sam Wilson",
+          email: "sam@example.com",
+          phone: "888-999-0000",
+        },
+        status: "active",
+      },
+      {
+        person: { name: "Tina Garcia", email: "tina@example.com" },
+        status: "inactive",
+      },
+      {
+        person: {
+          name: "Uma Patel",
+          email: "uma@example.com",
+          phone: "111-222-3333",
+        },
+        status: "active",
+      },
+    ],
+    usersList: [
+      {
+        person: { name: "Admin Feline", email: "admin@felinefriends.com" },
+        role: "Admin",
+      },
+      {
+        person: { name: "Manager Feline", email: "manager@felinefriends.com" },
+        role: "Manager",
+      },
+      {
+        person: { name: "Staff Feline1", email: "staff1@felinefriends.com" },
+        role: "Staff",
+      },
+      {
+        person: { name: "Staff Feline2", email: "staff2@felinefriends.com" },
+        role: "Staff",
+      },
+    ],
+  },
+  {
+    id: 9,
+    name: "Doggy Day Spa",
+    status: "active",
+    plan: "Premium",
+    dayJoined: "2023-12-01",
+    subscriptionEnd: "2024-12-01",
+    locationsList: [
+      {
+        name: "Spa Center",
+        address: "369 Maple St, Dogtown",
+        services: ["grooming", "daycare", "boarding"],
+      },
+    ],
+    clients: [
+      {
+        person: {
+          name: "Victor Chen",
+          email: "victor@example.com",
+          phone: "444-555-6666",
+        },
+        status: "active",
+      },
+      {
+        person: { name: "Wendy Liu", email: "wendy@example.com" },
+        status: "active",
+      },
+      {
+        person: {
+          name: "Xavier Kim",
+          email: "xavier@example.com",
+          phone: "777-888-9999",
+        },
+        status: "active",
+      },
+    ],
+    usersList: [
+      {
+        person: { name: "Admin Spa", email: "admin@doggyspa.com" },
+        role: "Admin",
+      },
+      {
+        person: { name: "Manager Spa", email: "manager@doggyspa.com" },
+        role: "Manager",
+      },
+      {
+        person: { name: "Staff Spa", email: "staff@doggyspa.com" },
+        role: "Staff",
+      },
+    ],
+  },
+  {
+    id: 10,
+    name: "Exotic Pets Hub",
+    status: "active",
+    plan: "Basic",
+    dayJoined: "2023-05-15",
+    subscriptionEnd: "2024-05-15",
+    locationsList: [
+      {
+        name: "Exotic Wing",
+        address: "741 Walnut St, Exoticville",
+        services: ["boarding", "vet"],
+      },
+      {
+        name: "Reptile Room",
+        address: "852 Chestnut St, Exoticville",
+        services: ["boarding"],
+      },
+    ],
+    clients: [
+      {
+        person: {
+          name: "Yara Ahmed",
+          email: "yara@example.com",
+          phone: "000-111-2222",
+        },
+        status: "active",
+      },
+      {
+        person: { name: "Zoe Martinez", email: "zoe@example.com" },
+        status: "active",
+      },
+    ],
+    usersList: [
+      {
+        person: { name: "Admin Exotic", email: "admin@exoticpets.com" },
+        role: "Admin",
+      },
+      {
+        person: { name: "Staff Exotic", email: "staff@exoticpets.com" },
+        role: "Staff",
+      },
+    ],
+  },
 ];
