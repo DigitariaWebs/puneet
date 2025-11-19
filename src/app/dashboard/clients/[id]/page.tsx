@@ -9,7 +9,37 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ClientStatisticsCards } from "@/components/client/ClientStatisticsCards";
 import { RecentActivitiesSection } from "@/components/facility/RecentActivitiesSection";
-import { ClientTabs } from "@/components/client/ClientTabs";
+import { PetsSection } from "@/components/client/PetsSection";
+import { ClientBillingSection } from "@/components/client/ClientBillingSection";
+import { ProfileDetails } from "@/components/ProfileDetails";
+
+// Mock data for billing
+const clientBillingHistory = [
+  {
+    id: 1,
+    date: "2024-01-15",
+    description: "Daycare service for Buddy",
+    amount: 50.0,
+    status: "paid",
+    invoice: "INV-2024-001",
+  },
+  {
+    id: 2,
+    date: "2024-01-10",
+    description: "Grooming service for Whiskers",
+    amount: 75.0,
+    status: "paid",
+    invoice: "INV-2024-002",
+  },
+  {
+    id: 3,
+    date: "2023-12-20",
+    description: "Boarding service for Max",
+    amount: 120.0,
+    status: "paid",
+    invoice: "INV-2023-015",
+  },
+];
 
 // Mock data for activities
 const clientActivities = [
@@ -57,6 +87,9 @@ const clientActivities = [
 import { useParams } from "next/navigation";
 export default function ClientDetailPage() {
   const [viewMode, setViewMode] = useState<"list" | "timeline">("list");
+  const [billingView, setBillingView] = useState<"current" | "history">(
+    "current",
+  );
 
   const params = useParams();
   const client = clients.find((c) => c.id === Number(params.id));
@@ -93,12 +126,6 @@ export default function ClientDetailPage() {
 
       <ClientStatisticsCards client={client} />
 
-      <RecentActivitiesSection
-        activities={recentActivities}
-        viewMode={viewMode}
-        onViewModeChange={setViewMode}
-      />
-
       <div className="flex items-center justify-between">
         <h3 className="text-2xl font-semibold">Client Information</h3>
         <div className="text-sm text-muted-foreground">
@@ -106,7 +133,22 @@ export default function ClientDetailPage() {
         </div>
       </div>
 
-      <ClientTabs client={client} />
+      <ProfileDetails person={client} />
+
+      <ClientBillingSection
+        client={client}
+        billingHistory={clientBillingHistory}
+        view={billingView}
+        onViewChange={setBillingView}
+      />
+
+      <PetsSection client={client} />
+
+      <RecentActivitiesSection
+        activities={recentActivities}
+        viewMode={viewMode}
+        onViewModeChange={setViewMode}
+      />
     </div>
   );
 }

@@ -9,7 +9,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { UserStatisticsCards } from "@/components/user/UserStatisticsCards";
 import { RecentActivitiesSection } from "@/components/facility/RecentActivitiesSection";
-import { UserTabs } from "@/components/user/UserTabs";
+import { PermissionsSection } from "@/components/user/PermissionsSection";
+import { ProfileDetails } from "@/components/ProfileDetails";
 
 // Mock data for activities
 const userActivities = [
@@ -94,12 +95,6 @@ export default function UserDetailPage() {
 
       <UserStatisticsCards user={user} />
 
-      <RecentActivitiesSection
-        activities={recentActivities}
-        viewMode={viewMode}
-        onViewModeChange={setViewMode}
-      />
-
       <div className="flex items-center justify-between">
         <h3 className="text-2xl font-semibold">User Information</h3>
         <div className="text-sm text-muted-foreground">
@@ -107,7 +102,15 @@ export default function UserDetailPage() {
         </div>
       </div>
 
-      <UserTabs user={user} />
+      <ProfileDetails person={user} />
+
+      <PermissionsSection user={user} />
+
+      <RecentActivitiesSection
+        activities={recentActivities}
+        viewMode={viewMode}
+        onViewModeChange={setViewMode}
+      />
     </div>
   );
 }
