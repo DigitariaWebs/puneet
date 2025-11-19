@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import { Badge } from "@/components/ui/badge";
 import { DetailsModal } from "./DetailsModal";
 import { InfoCard } from "./DateCard";
@@ -90,77 +90,26 @@ export function UserModal({ user }: UserModalProps) {
           </Card>
         </div>
 
-        <Tabs defaultValue="permissions" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 h-auto">
-            <TabsTrigger value="permissions" className="gap-2">
-              <Building className="h-4 w-4" />
-              Permissions
-            </TabsTrigger>
-            <TabsTrigger value="pets" className="gap-2">
-              <Clock className="h-4 w-4" />
-              Pets ({user.pets.length})
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="permissions" className="mt-3">
-            <Card className="border-l-4 border-l-primary">
-              <CardHeader className="pb-2 px-4 pt-4">
-                <CardTitle className="text-xs font-medium">
-                  User Permissions
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="px-4 pb-4">
-                <div className="flex flex-wrap gap-2">
-                  {user.permissions.map((permission) => (
-                    <Badge
-                      key={permission}
-                      variant="secondary"
-                      className="capitalize text-xs hover:bg-primary hover:text-primary-foreground transition-colors cursor-default"
-                    >
-                      {permission.replace(/_/g, " ")}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          <TabsContent value="pets" className="mt-3">
-            {user.pets.length > 0 ? (
-              <div className="space-y-2">
-                {user.pets.map((pet, index) => (
-                  <Card
-                    key={index}
-                    className="border-l-4 border-l-green-500 hover:shadow-md transition-all duration-200 group"
-                  >
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <h4 className="font-semibold text-base group-hover:text-primary transition-colors">
-                            {pet.name}
-                          </h4>
-                          <p className="text-xs text-muted-foreground mt-0.5">
-                            <span className="font-medium">{pet.type}</span> •{" "}
-                            {pet.age} {pet.age === 1 ? "year" : "years"} old
-                          </p>
-                        </div>
-                        <Badge variant="outline" className="text-xs">
-                          {pet.type}
-                        </Badge>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            ) : (
-              <Card className="border-l-4 border-l-muted">
-                <CardContent className="py-4 text-center">
-                  <p className="text-xs text-muted-foreground">
-                    No pets registered for this user.
-                  </p>
-                </CardContent>
-              </Card>
-            )}
-          </TabsContent>
-        </Tabs>
+        <Card className="border-l-4 border-l-primary">
+          <CardHeader className="pb-2 px-4 pt-4">
+            <CardTitle className="text-xs font-medium">
+              User Permissions
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="px-4 pb-4">
+            <div className="flex flex-wrap gap-2">
+              {user.permissions.map((permission) => (
+                <Badge
+                  key={permission}
+                  variant="secondary"
+                  className="capitalize text-xs hover:bg-primary hover:text-primary-foreground transition-colors cursor-default"
+                >
+                  {permission.replace(/_/g, " ")}
+                </Badge>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </DetailsModal>
   );

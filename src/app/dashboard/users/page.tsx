@@ -206,7 +206,7 @@ export default function UsersPage() {
           <div className="p-6 flex-1 overflow-y-auto">
             <DialogHeader className="mb-0">
               <DialogTitle className="sr-only">
-                {selectedUser?.name} - Facility Details
+                {selectedUser?.name} - User Details
               </DialogTitle>
             </DialogHeader>
             {selectedUser && <UserModal user={selectedUser} />}
