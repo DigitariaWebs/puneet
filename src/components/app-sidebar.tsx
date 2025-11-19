@@ -85,7 +85,7 @@ const menuSections = [
         title: "Subscription & Billing",
         url: "/dashboard/billing",
         icon: CreditCard,
-        disabled: true,
+        disabled: false,
       },
       {
         title: "Global Settings",
