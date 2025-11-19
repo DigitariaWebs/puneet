@@ -62,7 +62,7 @@ const menuSections = [
         title: "Facility Configuration",
         url: "/dashboard/facility-config",
         icon: Wrench,
-        disabled: true,
+        disabled: false,
       },
       {
         title: "Users",
