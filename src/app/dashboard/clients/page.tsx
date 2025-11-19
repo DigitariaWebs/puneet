@@ -15,12 +15,52 @@ import {
 import { ClientModal } from "@/components/ClientModal";
 import { Download, User, Mail as MailIcon, Building, Eye } from "lucide-react";
 
+const exportClientsToCSV = (clientsData: typeof clients) => {
+  const headers = [
+    "ID",
+    "Name",
+    "Email",
+    "Phone",
+    "Status",
+    "Facility",
+    "Pets Count",
+  ];
+
+  const csvContent = [
+    headers.join(","),
+    ...clientsData.map((client) =>
+      [
+        client.id,
+        `"${client.name.replace(/"/g, '""')}"`,
+        client.email,
+        client.phone || "",
+        client.status,
+        `"${client.facility.replace(/"/g, '""')}"`,
+        client.pets.length,
+      ].join(","),
+    ),
+  ].join("\n");
+
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const link = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+  link.setAttribute("href", url);
+  link.setAttribute(
+    "download",
+    `clients_export_${new Date().toISOString().split("T")[0]}.csv`,
+  );
+  link.style.visibility = "hidden";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
 export default function ClientsPage() {
   const [selectedClient, setSelectedClient] = useState<
-    (typeof clients)[0] | null
+    (typeof clients)[number] | null
   >(null);
 
-  const columns: ColumnDef<(typeof clients)[0]>[] = [
+  const columns: ColumnDef<(typeof clients)[number]>[] = [
     {
       key: "name",
       label: "Name",
@@ -85,7 +125,7 @@ export default function ClientsPage() {
           Clients Management
         </h2>
         <div className="flex items-center space-x-2">
-          <Button variant="outline">
+          <Button variant="outline" onClick={() => exportClientsToCSV(clients)}>
             <Download className="mr-2 h-4 w-4" />
             Export
           </Button>

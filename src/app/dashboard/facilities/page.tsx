@@ -29,6 +29,54 @@ import {
   Eye,
 } from "lucide-react";
 
+const exportToCSV = (facilities: typeof initialFacilities) => {
+  const headers = [
+    "ID",
+    "Name",
+    "Status",
+    "Plan",
+    "Day Joined",
+    "Subscription End",
+    "Primary Address",
+    "Total Users",
+    "Active Clients",
+    "Locations Count",
+    "Services",
+  ];
+
+  const csvContent = [
+    headers.join(","),
+    ...facilities.map((facility) =>
+      [
+        facility.id,
+        `"${facility.name.replace(/"/g, '""')}"`,
+        facility.status,
+        facility.plan,
+        facility.dayJoined,
+        facility.subscriptionEnd || "",
+        `"${facility.locationsList[0]?.address?.replace(/"/g, '""') || ""}"`,
+        facility.usersList.length,
+        facility.clients.filter((c) => c.status === "active").length,
+        facility.locationsList.length,
+        `"${facility.locationsList[0]?.services?.join("; ") || ""}"`,
+      ].join(","),
+    ),
+  ].join("\n");
+
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const link = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+  link.setAttribute("href", url);
+  link.setAttribute(
+    "download",
+    `facilities_export_${new Date().toISOString().split("T")[0]}.csv`,
+  );
+  link.style.visibility = "hidden";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
 export default function FacilitiesPage() {
   const [facilitiesState, setFacilitiesState] = useState(initialFacilities);
   const [selectedFacility, setSelectedFacility] = useState<
@@ -136,7 +184,10 @@ export default function FacilitiesPage() {
           Facilities Management
         </h2>
         <div className="flex items-center space-x-2">
-          <Button variant="outline">
+          <Button
+            variant="outline"
+            onClick={() => exportToCSV(facilitiesState)}
+          >
             <Download className="mr-2 h-4 w-4" />
             Export
           </Button>

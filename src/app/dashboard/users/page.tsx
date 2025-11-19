@@ -23,6 +23,54 @@ import {
   Eye,
 } from "lucide-react";
 
+const exportUsersToCSV = (usersData: typeof users) => {
+  const headers = [
+    "ID",
+    "Name",
+    "Email",
+    "Role",
+    "Facility",
+    "Status",
+    "Last Login",
+    "Phone",
+    "Hire Date",
+    "Permissions",
+    "Pets Count",
+  ];
+
+  const csvContent = [
+    headers.join(","),
+    ...usersData.map((user: (typeof users)[number]) =>
+      [
+        user.id,
+        `"${user.name.replace(/"/g, '""')}"`,
+        user.email,
+        user.role,
+        `"${user.facility.replace(/"/g, '""')}"`,
+        user.status,
+        user.lastLogin,
+        user.phone || "",
+        user.hireDate,
+        `"${user.permissions.join("; ")}"`,
+        user.pets.length,
+      ].join(","),
+    ),
+  ].join("\n");
+
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const link = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+  link.setAttribute("href", url);
+  link.setAttribute(
+    "download",
+    `users_export_${new Date().toISOString().split("T")[0]}.csv`,
+  );
+  link.style.visibility = "hidden";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
 export default function UsersPage() {
   const [selectedUser, setSelectedUser] = useState<(typeof users)[0] | null>(
     null,
@@ -107,7 +155,7 @@ export default function UsersPage() {
       <div className="flex items-center justify-between space-y-2">
         <h2 className="text-3xl font-bold tracking-tight">Users Management</h2>
         <div className="flex items-center space-x-2">
-          <Button variant="outline">
+          <Button variant="outline" onClick={() => exportUsersToCSV(users)}>
             <Download className="mr-2 h-4 w-4" />
             Export
           </Button>
