@@ -4,7 +4,7 @@ import { useState } from "react";
 import { facilities } from "@/data/facilities";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { RevenueChartSection } from "@/components/facility/RevenueChartSection";
@@ -13,6 +13,21 @@ import { StatisticsCards } from "@/components/facility/StatisticsCards";
 import { RecentActivitiesSection } from "@/components/facility/RecentActivitiesSection";
 import { BillingSection } from "@/components/facility/BillingSection";
 import { FacilityTabs } from "@/components/facility/FacilityTabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 // Mock data for charts and activities
 const revenueData = [
@@ -95,6 +110,11 @@ export default function FacilityDetailPage() {
     notFound();
   }
 
+  const [currentStatus, setCurrentStatus] = useState(facility.status);
+  const [pendingStatus, setPendingStatus] = useState<string | null>(null);
+  const [showStatusDialog, setShowStatusDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
   const recentActivities = [
     {
       id: 1,
@@ -160,8 +180,33 @@ export default function FacilityDetailPage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <StatusBadge type="status" value={facility.status} showIcon />
+          <StatusBadge type="status" value={currentStatus} showIcon />
           <StatusBadge type="plan" value={facility.plan} showIcon />
+          <Select
+            value={currentStatus}
+            onValueChange={(value) => {
+              if (value !== currentStatus) {
+                setPendingStatus(value);
+                setShowStatusDialog(true);
+              }
+            }}
+          >
+            <SelectTrigger className="w-[120px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="active">Active</SelectItem>
+              <SelectItem value="inactive">Inactive</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={() => setShowDeleteDialog(true)}
+          >
+            <Trash2 className="h-4 w-4 mr-2" />
+            Delete
+          </Button>
         </div>
       </div>
 
@@ -205,6 +250,75 @@ export default function FacilityDetailPage() {
       </div>
 
       <FacilityTabs facility={facility} />
+
+      {/* Status Change Confirmation Dialog */}
+      <Dialog open={showStatusDialog} onOpenChange={setShowStatusDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Change Facility Status</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to change the status to{" "}
+              <strong>{pendingStatus}</strong>? This may affect facility
+              operations.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setShowStatusDialog(false);
+                setPendingStatus(null);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={() => {
+                if (pendingStatus) {
+                  setCurrentStatus(pendingStatus as "active" | "inactive");
+                  console.log(`Status changed to ${pendingStatus}`);
+                  // TODO: Implement actual status change
+                }
+                setShowStatusDialog(false);
+                setPendingStatus(null);
+              }}
+            >
+              Confirm
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete Facility</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete this facility? This action cannot
+              be undone and will permanently remove all associated data.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setShowDeleteDialog(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                console.log("Facility deleted");
+                // TODO: Implement actual delete
+                setShowDeleteDialog(false);
+              }}
+            >
+              Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
