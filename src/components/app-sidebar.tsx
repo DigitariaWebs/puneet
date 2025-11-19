@@ -15,6 +15,7 @@ import {
   Home,
   Wrench,
   Globe,
+  UserCheck,
 } from "lucide-react";
 
 import {
@@ -64,9 +65,15 @@ const menuSections = [
         disabled: true,
       },
       {
-        title: "User & Roles",
+        title: "Users",
         url: "/dashboard/users",
         icon: Users,
+        disabled: false,
+      },
+      {
+        title: "Clients",
+        url: "/dashboard/clients",
+        icon: UserCheck,
         disabled: false,
       },
     ],
