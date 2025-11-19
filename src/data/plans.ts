@@ -48,8 +48,8 @@ export const plans: Plan[] = [
       bookings: 50,
     },
     status: "active",
-    createdAt: "2023-01-01",
-    updatedAt: "2023-01-01",
+    createdAt: "2025-11-01",
+    updatedAt: "2025-11-01",
   },
   {
     id: "basic",
@@ -85,8 +85,8 @@ export const plans: Plan[] = [
       bookings: 500,
     },
     status: "active",
-    createdAt: "2023-01-01",
-    updatedAt: "2023-01-01",
+    createdAt: "2025-11-01",
+    updatedAt: "2025-11-01",
   },
   {
     id: "premium",
@@ -130,8 +130,8 @@ export const plans: Plan[] = [
       bookings: -1, // unlimited
     },
     status: "active",
-    createdAt: "2023-01-01",
-    updatedAt: "2023-01-01",
+    createdAt: "2025-11-01",
+    updatedAt: "2025-11-01",
   },
   {
     id: "enterprise",
@@ -174,7 +174,7 @@ export const plans: Plan[] = [
       bookings: -1,
     },
     status: "active",
-    createdAt: "2023-01-01",
-    updatedAt: "2023-01-01",
+    createdAt: "2025-11-01",
+    updatedAt: "2025-11-01",
   },
 ];

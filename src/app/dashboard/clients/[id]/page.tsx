@@ -17,27 +17,27 @@ import { ProfileDetails } from "@/components/ProfileDetails";
 const clientBillingHistory = [
   {
     id: 1,
-    date: "2024-01-15",
+    date: "2025-11-15",
     description: "Daycare service for Buddy",
     amount: 50.0,
     status: "paid",
-    invoice: "INV-2024-001",
+    invoice: "INV-2025-011",
   },
   {
     id: 2,
-    date: "2024-01-10",
+    date: "2025-11-10",
     description: "Grooming service for Whiskers",
     amount: 75.0,
     status: "paid",
-    invoice: "INV-2024-002",
+    invoice: "INV-2025-010",
   },
   {
     id: 3,
-    date: "2023-12-20",
+    date: "2025-09-20",
     description: "Boarding service for Max",
     amount: 120.0,
     status: "paid",
-    invoice: "INV-2023-015",
+    invoice: "INV-2025-009",
   },
 ];
 
@@ -49,7 +49,7 @@ const clientActivities = [
     title: "New booking confirmed",
     description: "Daycare booking for Buddy",
     time: "2 hours ago",
-    date: "2024-01-15T14:30:00Z",
+    date: "2025-11-15T14:30:00Z",
   },
   {
     id: 2,
@@ -57,7 +57,7 @@ const clientActivities = [
     title: "Payment received",
     description: "$50.00 for grooming service",
     time: "4 hours ago",
-    date: "2024-01-15T12:30:00Z",
+    date: "2025-11-15T12:30:00Z",
   },
   {
     id: 3,
@@ -65,7 +65,7 @@ const clientActivities = [
     title: "Pet record updated",
     description: "Updated information for Whiskers",
     time: "1 day ago",
-    date: "2024-01-14T09:00:00Z",
+    date: "2025-11-14T09:00:00Z",
   },
   {
     id: 4,
@@ -73,7 +73,7 @@ const clientActivities = [
     title: "Contact updated",
     description: "Phone number changed",
     time: "2 days ago",
-    date: "2024-01-13T16:45:00Z",
+    date: "2025-11-13T16:45:00Z",
   },
   {
     id: 5,
@@ -81,7 +81,7 @@ const clientActivities = [
     title: "Service completed",
     description: "Boarding service for Max completed",
     time: "3 days ago",
-    date: "2024-01-12T11:20:00Z",
+    date: "2025-11-12T11:20:00Z",
   },
 ];
 import { useParams } from "next/navigation";

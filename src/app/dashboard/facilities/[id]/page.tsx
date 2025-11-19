@@ -36,43 +36,43 @@ const bookingsData = [
 const billingHistory = [
   {
     id: 1,
-    date: "2024-01-01",
+    date: "2025-11-01",
     description: "Premium Plan - Monthly",
     amount: 299.99,
     status: "paid",
-    invoice: "INV-2024-001",
+    invoice: "INV-2025-011",
   },
   {
     id: 2,
-    date: "2023-12-01",
+    date: "2025-10-01",
     description: "Premium Plan - Monthly",
     amount: 299.99,
     status: "paid",
-    invoice: "INV-2023-012",
+    invoice: "INV-2025-010",
   },
   {
     id: 3,
-    date: "2023-11-01",
+    date: "2025-09-01",
     description: "Premium Plan - Monthly",
     amount: 299.99,
     status: "paid",
-    invoice: "INV-2023-011",
+    invoice: "INV-2025-009",
   },
   {
     id: 4,
-    date: "2023-10-01",
+    date: "2025-08-01",
     description: "Basic Plan - Monthly",
     amount: 149.99,
     status: "paid",
-    invoice: "INV-2023-010",
+    invoice: "INV-2025-008",
   },
   {
     id: 5,
-    date: "2023-09-01",
+    date: "2025-07-01",
     description: "Basic Plan - Monthly",
     amount: 149.99,
     status: "paid",
-    invoice: "INV-2023-009",
+    invoice: "INV-2025-007",
   },
 ];
 import { useParams } from "next/navigation";
@@ -102,7 +102,7 @@ export default function FacilityDetailPage() {
       title: "New booking confirmed",
       description: "Sarah Johnson booked daycare for Max",
       time: "2 hours ago",
-      date: "2024-01-15T14:30:00Z",
+      date: "2025-11-15T14:30:00Z",
       facility: facility.name,
     },
     {
@@ -111,7 +111,7 @@ export default function FacilityDetailPage() {
       title: "Payment received",
       description: "$150.00 for grooming service",
       time: "4 hours ago",
-      date: "2024-01-15T12:30:00Z",
+      date: "2025-11-15T12:30:00Z",
       facility: facility.name,
     },
     {
@@ -120,7 +120,7 @@ export default function FacilityDetailPage() {
       title: "New staff member added",
       description: "Emma Davis joined as Manager",
       time: "1 day ago",
-      date: "2024-01-14T09:00:00Z",
+      date: "2025-11-14T09:00:00Z",
       facility: facility.name,
     },
     {
@@ -129,7 +129,7 @@ export default function FacilityDetailPage() {
       title: "Client profile updated",
       description: "John Smith updated pet information",
       time: "2 days ago",
-      date: "2024-01-13T16:45:00Z",
+      date: "2025-11-13T16:45:00Z",
       facility: facility.name,
     },
     {
@@ -138,7 +138,7 @@ export default function FacilityDetailPage() {
       title: "Service completed",
       description: "Boarding service for Bella completed",
       time: "3 days ago",
-      date: "2024-01-12T11:20:00Z",
+      date: "2025-11-12T11:20:00Z",
       facility: facility.name,
     },
   ];

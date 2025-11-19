@@ -90,8 +90,8 @@ export function ClientGrowthModal({
   const [selectedFacilities, setSelectedFacilities] = useState<string[]>(
     facilities.map((f) => f.id.toString()),
   );
-  const [dateFrom, setDateFrom] = useState("2024-01-01");
-  const [dateTo, setDateTo] = useState("2024-12-31");
+  const [dateFrom, setDateFrom] = useState("2025-11-01");
+  const [dateTo, setDateTo] = useState("2025-11-30");
   const [groupBy, setGroupBy] = useState<"day" | "week" | "month">("month");
 
   // Generate filtered data

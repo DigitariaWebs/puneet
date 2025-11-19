@@ -21,8 +21,8 @@ const recentActivities = [
     type: "trial",
     title: "Trial request received",
     description: "ABC Company requested a trial for daycare services",
-    time: "30 minutes ago",
-    date: "2024-01-15T16:00:00Z",
+    time: "45 minutes ago",
+    date: "2025-11-15T15:45:00Z",
     facility: "Paws & Play Daycare",
   },
   {
@@ -30,8 +30,8 @@ const recentActivities = [
     type: "trial",
     title: "Trial request received",
     description: "XYZ Pet Care requested a trial for grooming",
-    time: "1 hour ago",
-    date: "2024-01-15T15:30:00Z",
+    time: "5 minutes ago",
+    date: "2025-11-15T15:30:00Z",
     facility: "Furry Friends Grooming",
   },
   {
@@ -39,8 +39,8 @@ const recentActivities = [
     type: "booking",
     title: "New booking confirmed",
     description: "Sarah Johnson booked daycare for Max",
-    time: "2 hours ago",
-    date: "2024-01-15T14:30:00Z",
+    time: "1 hour ago",
+    date: "2025-11-15T14:30:00Z",
     facility: "Paws & Play Daycare",
   },
   {
@@ -48,8 +48,8 @@ const recentActivities = [
     type: "payment",
     title: "Payment received",
     description: "$150.00 for grooming service",
-    time: "4 hours ago",
-    date: "2024-01-15T12:30:00Z",
+    time: "2 hours ago",
+    date: "2025-11-15T12:30:00Z",
     facility: "Furry Friends Grooming",
   },
   {
@@ -57,8 +57,8 @@ const recentActivities = [
     type: "user",
     title: "New staff member added",
     description: "Emma Davis joined as Manager",
-    time: "1 day ago",
-    date: "2024-01-14T09:00:00Z",
+    time: "4 hours ago",
+    date: "2025-11-14T09:00:00Z",
     facility: "Happy Tails Boarding",
   },
   {
@@ -66,16 +66,16 @@ const recentActivities = [
     type: "client",
     title: "Client profile updated",
     description: "John Smith updated pet information",
-    time: "2 days ago",
-    date: "2024-01-13T16:45:00Z",
+    time: "1 day ago",
+    date: "2025-11-13T16:45:00Z",
   },
   {
     id: 7,
     type: "booking",
     title: "Service completed",
     description: "Boarding service for Bella completed",
-    time: "3 days ago",
-    date: "2024-01-12T11:20:00Z",
+    time: "2 days ago",
+    date: "2025-11-12T11:20:00Z",
   },
 ];
 
@@ -85,7 +85,7 @@ const initialNotifications: Notification[] = [
     title: "Trial request from ABC Company",
     description:
       "ABC Company has requested a trial for daycare services at Paws & Play Daycare.",
-    time: "30 minutes ago",
+    time: "10 minutes ago",
     type: "trial",
     status: "pending",
     severity: "normal",
@@ -95,7 +95,7 @@ const initialNotifications: Notification[] = [
     title: "Trial request from XYZ Pet Care",
     description:
       "XYZ Pet Care has requested a trial for grooming services at Furry Friends Grooming.",
-    time: "1 hour ago",
+    time: "15 minutes ago",
     type: "trial",
     status: "pending",
     severity: "normal",
@@ -105,7 +105,7 @@ const initialNotifications: Notification[] = [
     title: "Incident: Pet emergency",
     description:
       "Max is showing signs of distress during daycare session. Immediate attention required.",
-    time: "15 minutes ago",
+    time: "3 minutes ago",
     type: "incident",
     status: "pending",
     severity: "high",
@@ -115,7 +115,7 @@ const initialNotifications: Notification[] = [
     title: "Incident: Allergic reaction",
     description:
       "Bella had an allergic reaction to grooming products. Vet consultation needed.",
-    time: "45 minutes ago",
+    time: "8 minutes ago",
     type: "incident",
     status: "pending",
     severity: "high",

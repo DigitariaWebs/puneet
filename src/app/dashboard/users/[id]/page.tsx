@@ -20,7 +20,7 @@ const userActivities = [
     title: "User logged in",
     description: "Accessed the dashboard",
     time: "2 hours ago",
-    date: "2024-01-15T14:30:00Z",
+    date: "2025-11-15T14:30:00Z",
   },
   {
     id: 2,
@@ -28,7 +28,7 @@ const userActivities = [
     title: "Updated pet record",
     description: "Modified information for Buddy",
     time: "4 hours ago",
-    date: "2024-01-15T12:30:00Z",
+    date: "2025-11-15T12:30:00Z",
   },
   {
     id: 3,
@@ -36,7 +36,7 @@ const userActivities = [
     title: "Scheduled appointment",
     description: "Booked grooming for Max",
     time: "1 day ago",
-    date: "2024-01-14T09:00:00Z",
+    date: "2025-11-14T09:00:00Z",
   },
   {
     id: 4,
@@ -44,7 +44,7 @@ const userActivities = [
     title: "Client interaction",
     description: "Assisted John Smith with booking",
     time: "2 days ago",
-    date: "2024-01-13T16:45:00Z",
+    date: "2025-11-13T16:45:00Z",
   },
   {
     id: 5,
@@ -52,7 +52,7 @@ const userActivities = [
     title: "Completed task",
     description: "Finished boarding service for Bella",
     time: "3 days ago",
-    date: "2024-01-12T11:20:00Z",
+    date: "2025-11-12T11:20:00Z",
   },
 ];
 import { useParams } from "next/navigation";

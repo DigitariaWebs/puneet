@@ -7,12 +7,12 @@ This plan outlines the phased development of the UI for the pet care SaaS platfo
 ## Phase 1: Super Admin Dashboard (MVP Focus)
 
 - [x] Set up routing and layout.
-- [ ] Implement tenancy basics and facility setup.
+- [x] Implement tenancy basics and facility setup.
 - [ ] Build services catalogue & pricing management.
 - [ ] Develop booking engine for Daycare & Boarding with capacity control and check-in/out.
-- [ ] Integrate CRM for clients, pets, and vaccines.
-- [ ] Add invoices, Stripe payments, and email notifications.
-- [ ] Create basic reports (revenue, bookings by service) and audit log.
+- [x] Integrate CRM for clients, pets, and vaccines.
+- [x] Add invoices, Stripe payments, and email notifications.
+- [x] Create basic reports (revenue, bookings by service) and audit log.
 - [ ] Implement EN/FR UI localization.
 
 ## Phase 2: Tenants Dashboard
