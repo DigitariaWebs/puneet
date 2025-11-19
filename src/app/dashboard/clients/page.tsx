@@ -13,14 +13,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ClientModal } from "@/components/ClientModal";
-import {
-  Download,
-  Mail,
-  User,
-  Mail as MailIcon,
-  Building,
-  Eye,
-} from "lucide-react";
+import { Download, User, Mail as MailIcon, Building, Eye } from "lucide-react";
 
 export default function ClientsPage() {
   const [selectedClient, setSelectedClient] = useState<
@@ -96,11 +89,6 @@ export default function ClientsPage() {
             <Download className="mr-2 h-4 w-4" />
             Export
           </Button>
-          <Button variant="outline">
-            <Mail className="mr-2 h-4 w-4" />
-            Notify All
-          </Button>
-          <Button>Add Client</Button>
         </div>
       </div>
 

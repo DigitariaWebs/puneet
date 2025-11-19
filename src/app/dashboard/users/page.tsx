@@ -14,9 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { UserModal } from "@/components/UserModal";
 import {
-  Plus,
   Download,
-  Mail,
   User,
   Mail as MailIcon,
   Shield,
@@ -112,14 +110,6 @@ export default function UsersPage() {
           <Button variant="outline">
             <Download className="mr-2 h-4 w-4" />
             Export
-          </Button>
-          <Button variant="outline">
-            <Mail className="mr-2 h-4 w-4" />
-            Notify All
-          </Button>
-          <Button>
-            <Plus className="mr-2 h-4 w-4" />
-            Add User
           </Button>
         </div>
       </div>

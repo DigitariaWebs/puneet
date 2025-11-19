@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { facilities } from "@/data/facilities";
+import { facilities as initialFacilities } from "@/data/facilities";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -12,6 +12,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { FacilityModal } from "@/components/FacilityModal";
+import { CreateFacilityModal } from "@/components/CreateFacilityModal";
 import { DataTable, ColumnDef, FilterDef } from "@/components/DataTable";
 import {
   Plus,
@@ -29,12 +30,14 @@ import {
 } from "lucide-react";
 
 export default function FacilitiesPage() {
+  const [facilitiesState, setFacilitiesState] = useState(initialFacilities);
   const [selectedFacility, setSelectedFacility] = useState<
-    (typeof facilities)[0] | null
+    (typeof initialFacilities)[0] | null
   >(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
-  const columns: ColumnDef<(typeof facilities)[0]>[] = [
+  const columns: ColumnDef<(typeof initialFacilities)[0]>[] = [
     {
       key: "name",
       label: "Facility Name",
@@ -122,6 +125,10 @@ export default function FacilitiesPage() {
     },
   ];
 
+  const handleCreateFacility = (newFacility: (typeof initialFacilities)[0]) => {
+    setFacilitiesState((prev) => [...prev, newFacility]);
+  };
+
   return (
     <div className="flex-1 space-y-4 p-4 pt-6">
       <div className="flex items-center justify-between space-y-2">
@@ -137,7 +144,7 @@ export default function FacilitiesPage() {
             <Mail className="mr-2 h-4 w-4" />
             Notify All
           </Button>
-          <Button>
+          <Button onClick={() => setIsCreateModalOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
             Add Facility
           </Button>
@@ -153,9 +160,10 @@ export default function FacilitiesPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{facilities.length}</div>
+            <div className="text-2xl font-bold">{facilitiesState.length}</div>
             <p className="text-xs text-muted-foreground">
-              {facilities.filter((f) => f.status === "active").length} active
+              {facilitiesState.filter((f) => f.status === "active").length}{" "}
+              active
             </p>
           </CardContent>
         </Card>
@@ -165,12 +173,12 @@ export default function FacilitiesPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {facilities.filter((f) => f.plan === "Premium").length}
+              {facilitiesState.filter((f) => f.plan === "Premium").length}
             </div>
             <p className="text-xs text-muted-foreground">
               {Math.round(
-                (facilities.filter((f) => f.plan === "Premium").length /
-                  facilities.length) *
+                (facilitiesState.filter((f) => f.plan === "Premium").length /
+                  facilitiesState.length) *
                   100,
               )}
               % of total
@@ -183,7 +191,7 @@ export default function FacilitiesPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {facilities.reduce((sum, f) => sum + f.usersList.length, 0)}
+              {facilitiesState.reduce((sum, f) => sum + f.usersList.length, 0)}
             </div>
             <p className="text-xs text-muted-foreground">
               Across all facilities
@@ -199,8 +207,10 @@ export default function FacilitiesPage() {
           <CardContent>
             <div className="text-2xl font-bold">
               {Math.round(
-                facilities.reduce((sum, f) => sum + f.usersList.length, 0) /
-                  facilities.length,
+                facilitiesState.reduce(
+                  (sum, f) => sum + f.usersList.length,
+                  0,
+                ) / facilitiesState.length,
               )}
             </div>
             <p className="text-xs text-muted-foreground">Per active facility</p>
@@ -209,7 +219,7 @@ export default function FacilitiesPage() {
       </div>
 
       <DataTable
-        data={facilities}
+        data={facilitiesState}
         columns={columns}
         filters={filters}
         searchKey="name"
@@ -241,6 +251,12 @@ export default function FacilitiesPage() {
           </div>
         </DialogContent>
       </Dialog>
+
+      <CreateFacilityModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onCreate={handleCreateFacility}
+      />
     </div>
   );
 }
