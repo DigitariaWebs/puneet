@@ -18,14 +18,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Separator } from "@/components/ui/separator";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { facilityConfig } from "@/data/facility-config";
 import { facilities } from "@/data/facilities";
 import {
@@ -37,8 +29,9 @@ import {
   X,
   ChevronDown,
   ChevronRight,
-  AlertTriangle,
 } from "lucide-react";
+import { WarningModal } from "./WarningModal";
+import { DestructiveModal } from "./DestructiveModal";
 
 type FacilityConfig = typeof facilityConfig;
 type ServiceKey = keyof typeof facilityConfig.services;
@@ -62,11 +55,13 @@ export function ServiceSettings({
   const [tempConfig, setTempConfig] = useState<FacilityConfig | null>(null);
   const [confirmationModal, setConfirmationModal] = useState<{
     isOpen: boolean;
+    type: "warning" | "destructive";
     service: ServiceKey | null;
     newStatus: string | null;
     currentStatus: string | null;
   }>({
     isOpen: false,
+    type: "warning",
     service: null,
     newStatus: null,
     currentStatus: null,
@@ -116,6 +111,7 @@ export function ServiceSettings({
     if (currentStatus !== status) {
       setConfirmationModal({
         isOpen: true,
+        type: status === "stopped" ? "destructive" : "warning",
         service,
         newStatus: status,
         currentStatus,
@@ -143,6 +139,7 @@ export function ServiceSettings({
     }
     setConfirmationModal({
       isOpen: false,
+      type: "warning",
       service: null,
       newStatus: null,
       currentStatus: null,
@@ -152,6 +149,7 @@ export function ServiceSettings({
   const cancelStatusChange = () => {
     setConfirmationModal({
       isOpen: false,
+      type: "warning",
       service: null,
       newStatus: null,
       currentStatus: null,
@@ -162,7 +160,7 @@ export function ServiceSettings({
     <Card>
       <TooltipProvider>
         <CardHeader
-          className="cursor-pointer hover:bg-muted/50 transition-colors"
+          className="cursor-pointer transition-colors"
           onClick={handleToggle}
         >
           <CardTitle className="flex items-center justify-between">
@@ -335,136 +333,29 @@ export function ServiceSettings({
         </CardContent>
       )}
 
-      <Dialog
-        open={confirmationModal.isOpen}
-        onOpenChange={(open) => {
-          if (!open) cancelStatusChange();
-        }}
-      >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-yellow-600" />
-              Confirm Service Status Change
-            </DialogTitle>
-            <DialogDescription>
-              You are about to change the status of{" "}
-              <strong className="capitalize">
-                {confirmationModal.service}
-              </strong>{" "}
-              service.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="text-sm font-medium">Current Status</label>
-                <div className="mt-1">
-                  <Badge
-                    variant={
-                      confirmationModal.currentStatus === "available"
-                        ? "default"
-                        : confirmationModal.currentStatus === "unavailable"
-                          ? "secondary"
-                          : "destructive"
-                    }
-                  >
-                    {confirmationModal.currentStatus}
-                  </Badge>
-                </div>
-              </div>
-              <div>
-                <label className="text-sm font-medium">New Status</label>
-                <div className="mt-1">
-                  <Badge
-                    variant={
-                      confirmationModal.newStatus === "available"
-                        ? "default"
-                        : confirmationModal.newStatus === "unavailable"
-                          ? "secondary"
-                          : "destructive"
-                    }
-                  >
-                    {confirmationModal.newStatus}
-                  </Badge>
-                </div>
-              </div>
-            </div>
-            <div className="bg-muted p-3 rounded-lg">
-              <div className="text-sm">
-                {confirmationModal.newStatus === "available" && (
-                  <p>
-                    This service will become active and available to all current
-                    facilities with plans that include this service.
-                  </p>
-                )}
-                {confirmationModal.newStatus === "unavailable" && (
-                  <p>
-                    This service will stop being available to new facilities but
-                    will continue for existing facilities until their
-                    subscription ends. Facilities will be notified.
-                  </p>
-                )}
-                {confirmationModal.newStatus === "stopped" && (
-                  <div className="space-y-2">
-                    <p className="text-destructive font-medium">
-                      ⚠️ Destructive Action
-                    </p>
-                    <p>
-                      This will immediately stop the service for ALL facilities.
-                      This may disrupt existing bookings and operations.
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
-            {confirmationModal.service && (
-              <div>
-                <label className="text-sm font-medium">
-                  Facilities currently using this service:
-                </label>
-                <div className="mt-2 flex flex-wrap gap-1">
-                  {getFacilitiesUsingService(confirmationModal.service)
-                    .slice(0, 5)
-                    .map((facility) => (
-                      <Badge
-                        key={facility.id}
-                        variant="outline"
-                        className="text-xs"
-                      >
-                        {facility.name}
-                      </Badge>
-                    ))}
-                  {getFacilitiesUsingService(confirmationModal.service).length >
-                    5 && (
-                    <Badge variant="outline" className="text-xs">
-                      +
-                      {getFacilitiesUsingService(confirmationModal.service)
-                        .length - 5}{" "}
-                      more
-                    </Badge>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={cancelStatusChange}>
-              Cancel
-            </Button>
-            <Button
-              onClick={confirmStatusChange}
-              variant={
-                confirmationModal.newStatus === "stopped"
-                  ? "destructive"
-                  : "default"
-              }
-            >
-              Confirm Change
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      {confirmationModal.type === "destructive" ? (
+        <DestructiveModal
+          isOpen={confirmationModal.isOpen}
+          onClose={cancelStatusChange}
+          onConfirm={confirmStatusChange}
+          title="Confirm Destructive Service Change"
+          description={`You are about to stop the ${confirmationModal.service} service for ALL facilities. This will immediately disrupt existing bookings and operations. This action cannot be easily undone.`}
+          confirmText="Stop Service Anyway"
+        />
+      ) : (
+        <WarningModal
+          isOpen={confirmationModal.isOpen}
+          onClose={cancelStatusChange}
+          onConfirm={confirmStatusChange}
+          title="Confirm Service Status Change"
+          description={`You are about to change the status of ${confirmationModal.service} service from ${confirmationModal.currentStatus} to ${confirmationModal.newStatus}. ${
+            confirmationModal.newStatus === "available"
+              ? "This service will become active and available to all current facilities with plans that include this service."
+              : "This service will stop being available to new facilities but will continue for existing facilities until their subscription ends. Facilities will be notified."
+          }`}
+          confirmText="Confirm Change"
+        />
+      )}
     </Card>
   );
 }

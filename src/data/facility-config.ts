@@ -17,6 +17,7 @@ export const facilityConfig = {
     },
   },
   pricing: {
+    enforceOnAll: false,
     defaultPricing: {
       boarding: { basePrice: 50, additionalPet: 25 },
       daycare: { basePrice: 30, additionalPet: 15 },
@@ -32,6 +33,7 @@ export const facilityConfig = {
     },
   },
   bookingRules: {
+    enforceOnAll: false,
     cutOffTimes: {
       boarding: 24, // hours before check-in
       daycare: 2, // hours before start
