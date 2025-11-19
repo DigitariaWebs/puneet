@@ -27,7 +27,6 @@ import {
   Clock,
   Eye,
 } from "lucide-react";
-import Link from "next/link";
 
 export default function FacilitiesPage() {
   const [selectedFacility, setSelectedFacility] = useState<
@@ -239,16 +238,6 @@ export default function FacilitiesPage() {
               </DialogTitle>
             </DialogHeader>
             {selectedFacility && <FacilityModal facility={selectedFacility} />}
-          </div>
-          <div className="p-6 border-t bg-background">
-            <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => setIsModalOpen(false)}>
-                Close
-              </Button>
-              <Link href={`/dashboard/facilities/${selectedFacility?.id}`}>
-                <Button>View Details</Button>
-              </Link>
-            </div>
           </div>
         </DialogContent>
       </Dialog>

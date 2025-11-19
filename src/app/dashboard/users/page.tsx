@@ -1,10 +1,18 @@
 "use client";
 
+import { useState } from "react";
 import { users } from "@/data/users";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/StatusBadge";
 import { DataTable, ColumnDef, FilterDef } from "@/components/DataTable";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { UserModal } from "@/components/UserModal";
 import {
   Plus,
   Download,
@@ -16,9 +24,12 @@ import {
   Clock,
   Eye,
 } from "lucide-react";
-import Link from "next/link";
 
 export default function UsersPage() {
+  const [selectedUser, setSelectedUser] = useState<(typeof users)[0] | null>(
+    null,
+  );
+
   const columns: ColumnDef<(typeof users)[0]>[] = [
     {
       key: "name",
@@ -181,13 +192,27 @@ export default function UsersPage() {
         searchPlaceholder="Search users..."
         itemsPerPage={10}
         actions={(user) => (
-          <Link href={`/dashboard/users/${user.id}`}>
-            <Button variant="outline" size="sm">
-              <Eye className="h-4 w-4" />
-            </Button>
-          </Link>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setSelectedUser(user)}
+          >
+            <Eye className="h-4 w-4" />
+          </Button>
         )}
       />
+      <Dialog open={!!selectedUser} onOpenChange={() => setSelectedUser(null)}>
+        <DialogContent className="min-w-5xl max-h-[90vh] flex flex-col p-0">
+          <div className="p-6 flex-1 overflow-y-auto">
+            <DialogHeader className="mb-0">
+              <DialogTitle className="sr-only">
+                {selectedUser?.name} - Facility Details
+              </DialogTitle>
+            </DialogHeader>
+            {selectedUser && <UserModal user={selectedUser} />}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

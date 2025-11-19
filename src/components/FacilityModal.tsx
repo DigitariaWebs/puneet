@@ -2,7 +2,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { StatusBadge } from "./StatusBadge";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+import { DetailsModal } from "./DetailsModal";
+import { InfoCard } from "./DateCard";
+import { StatCard } from "./StatCard";
 import {
   Building,
   Users,
@@ -22,94 +24,64 @@ interface FacilityModalProps {
 
 export function FacilityModal({ facility }: FacilityModalProps) {
   return (
-    <div className="space-y-4 pb-2">
-      {/* Facility Overview */}
-      <div className="flex items-center justify-between">
-        <div className="space-y-0.5">
-          <h3 className="text-xl font-bold">{facility.name}</h3>
-          <div className="flex items-center gap-2">
-            <StatusBadge type="status" value={facility.status} showIcon />
-            <StatusBadge type="plan" value={facility.plan} showIcon />
-          </div>
-        </div>
-      </div>
-
-      <Separator className="my-3" />
-
+    <DetailsModal
+      title={facility.name}
+      badges={[
+        <StatusBadge
+          key="status"
+          type="status"
+          value={facility.status}
+          showIcon
+        />,
+        <StatusBadge key="plan" type="plan" value={facility.plan} showIcon />,
+      ]}
+      linkHref={`/dashboard/facilities/${facility.id}`}
+      linkText="View Full Facility Details"
+    >
       {/* Statistic Cards */}
-      <div className="grid gap-4 grid-cols-2 md:grid-cols-3">
-        <Card className="border-l-4 border-l-primary">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Users</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {facility.usersList.length}
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">Total staff</p>
-          </CardContent>
-        </Card>
-        <Card className="border-l-2 border-l-green-500">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 px-3 pt-3">
-            <CardTitle className="text-xs font-medium">
-              Active Clients
-            </CardTitle>
-            <UserCheck className="h-3 w-3 text-muted-foreground" />
-          </CardHeader>
-          <CardContent className="pt-0 px-3 pb-3">
-            <div className="text-base font-bold">
-              {facility.clients.filter((c) => c.status === "active").length}
-            </div>
-            <p className="text-[10px] text-muted-foreground">Active</p>
-          </CardContent>
-        </Card>
-        <Card className="border-l-4 border-l-blue-500">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Locations</CardTitle>
-            <MapPin className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {facility.locationsList.length}
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Total locations
-            </p>
-          </CardContent>
-        </Card>
+      <div className="grid gap-3 grid-cols-2 md:grid-cols-3">
+        <StatCard
+          title="Users"
+          value={facility.usersList.length}
+          subtitle="Total staff"
+          icon={Users}
+          variant="primary"
+        />
+        <StatCard
+          title="Active Clients"
+          value={facility.clients.filter((c) => c.status === "active").length}
+          subtitle="Active"
+          icon={UserCheck}
+          variant="success"
+        />
+        <StatCard
+          title="Locations"
+          value={facility.locationsList.length}
+          subtitle="Total locations"
+          icon={MapPin}
+          variant="info"
+        />
       </div>
 
       {/* Date Information */}
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
-        <Card className="border-l-2 border-l-amber-500">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 px-3 pt-3">
-            <CardTitle className="text-xs font-medium">Day Joined</CardTitle>
-            <Calendar className="h-3 w-3 text-muted-foreground" />
-          </CardHeader>
-          <CardContent className="pt-0 px-3 pb-3">
-            <div className="text-xs font-medium">{facility.dayJoined}</div>
-            <p className="text-[10px] text-muted-foreground">Member since</p>
-          </CardContent>
-        </Card>
-        <Card className="border-l-2 border-l-purple-500">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 px-3 pt-3">
-            <CardTitle className="text-xs font-medium">
-              Subscription End
-            </CardTitle>
-            <Clock className="h-3 w-3 text-muted-foreground" />
-          </CardHeader>
-          <CardContent className="pt-0 px-3 pb-3">
-            <div className="text-xs font-medium">
-              {facility.subscriptionEnd || "N/A"}
-            </div>
-            <p className="text-[10px] text-muted-foreground">Expires</p>
-          </CardContent>
-        </Card>
+      <div className="grid gap-3 grid-cols-1 md:grid-cols-2">
+        <InfoCard
+          title="Day Joined"
+          value={facility.dayJoined}
+          subtitle="Member since"
+          icon={Calendar}
+          variant="warning"
+        />
+        <InfoCard
+          title="Subscription End"
+          value={facility.subscriptionEnd || "N/A"}
+          subtitle="Expires"
+          icon={Clock}
+          variant="default"
+        />
       </div>
 
-      {/* Tabs */}
-      <Tabs defaultValue="locations" className="w-full">
+      <Tabs defaultValue="locations" className="w-full mt-1">
         <TabsList className="grid w-full grid-cols-3 h-auto">
           <TabsTrigger value="locations" className="gap-2">
             <MapPin className="h-4 w-4" />
@@ -124,11 +96,11 @@ export function FacilityModal({ facility }: FacilityModalProps) {
             Users ({facility.usersList.length})
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="locations" className="mt-3">
+        <TabsContent value="locations" className="mt-2">
           <div className="space-y-2">
             {facility.locationsList.map((location, index: number) => (
               <Card key={index} className="hover:shadow-md transition-shadow">
-                <CardHeader className="pb-1 px-3 pt-3">
+                <CardHeader className="pb-1 px-4 pt-3">
                   <div className="flex items-start justify-between">
                     <div className="space-y-1">
                       <CardTitle className="text-sm font-semibold flex items-center gap-2">
@@ -142,7 +114,7 @@ export function FacilityModal({ facility }: FacilityModalProps) {
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="pt-1 px-3 pb-3">
+                <CardContent className="pt-1 px-4 pb-3">
                   <div className="flex flex-wrap gap-1">
                     {location.services.map((service: string) => (
                       <Badge
@@ -159,11 +131,11 @@ export function FacilityModal({ facility }: FacilityModalProps) {
             ))}
           </div>
         </TabsContent>
-        <TabsContent value="clients" className="mt-3">
+        <TabsContent value="clients" className="mt-2">
           <div className="space-y-2">
             {facility.clients.map((client, index: number) => (
               <Card key={index} className="hover:shadow-md transition-shadow">
-                <CardHeader className="pb-1 px-3 pt-3">
+                <CardHeader className="pb-1 px-4 pt-3">
                   <div className="flex items-start justify-between">
                     <CardTitle className="text-sm font-semibold">
                       {client.person.name}
@@ -176,13 +148,13 @@ export function FacilityModal({ facility }: FacilityModalProps) {
                     </Badge>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-1 pt-1 px-3 pb-3">
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <CardContent className="space-y-1 pt-1 px-4 pb-3">
+                  <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
                     <Mail className="h-3 w-3" />
                     {client.person.email}
                   </div>
                   {client.person.phone && (
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
                       <Phone className="h-3 w-3" />
                       {client.person.phone}
                     </div>
@@ -192,11 +164,11 @@ export function FacilityModal({ facility }: FacilityModalProps) {
             ))}
           </div>
         </TabsContent>
-        <TabsContent value="users" className="mt-3">
+        <TabsContent value="users" className="mt-2">
           <div className="space-y-2">
             {facility.usersList.map((user, index: number) => (
               <Card key={index} className="hover:shadow-md transition-shadow">
-                <CardHeader className="pb-1 px-3 pt-3">
+                <CardHeader className="pb-1 px-4 pt-3">
                   <div className="flex items-start justify-between">
                     <CardTitle className="text-sm font-semibold">
                       {user.person.name}
@@ -209,12 +181,12 @@ export function FacilityModal({ facility }: FacilityModalProps) {
                     </Badge>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-1 pt-1 px-3 pb-3">
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <CardContent className="space-y-1 pt-1 px-4 pb-3">
+                  <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
                     <Mail className="h-3 w-3" />
                     {user.person.email}
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
                     <Briefcase className="h-3 w-3" />
                     {user.role}
                   </div>
@@ -224,6 +196,6 @@ export function FacilityModal({ facility }: FacilityModalProps) {
           </div>
         </TabsContent>
       </Tabs>
-    </div>
+    </DetailsModal>
   );
 }
