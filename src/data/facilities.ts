@@ -504,4 +504,51 @@ export const facilities = [
       },
     ],
   },
+  {
+    id: 11,
+    name: "Example Pet Care Facility",
+    status: "active",
+    plan: "Basic",
+    dayJoined: "2025-01-01",
+    subscriptionEnd: "2026-01-01",
+    locationsList: [
+      {
+        name: "Main Location",
+        address: "123 Example St, Example City",
+        services: ["daycare", "grooming", "boarding"],
+      },
+    ],
+    clients: [
+      {
+        person: {
+          name: "John Doe",
+          email: "john@example.com",
+          phone: "123-456-7890",
+        },
+        status: "active",
+      },
+      {
+        person: {
+          name: "Jane Smith",
+          email: "jane@example.com",
+          phone: "098-765-4321",
+        },
+        status: "active",
+      },
+    ],
+    usersList: [
+      {
+        person: { name: "Facility Admin", email: "admin@example.com" },
+        role: "Admin",
+      },
+      {
+        person: { name: "Facility Manager", email: "manager@example.com" },
+        role: "Manager",
+      },
+      {
+        person: { name: "Facility Staff", email: "staff@example.com" },
+        role: "Staff",
+      },
+    ],
+  },
 ];

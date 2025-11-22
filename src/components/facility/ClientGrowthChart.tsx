@@ -36,7 +36,7 @@ import {
 } from "recharts";
 import { Users, TrendingUp, Maximize, ChevronDown } from "lucide-react";
 import { facilities } from "@/data/facilities";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 interface ClientGrowthChartProps {
   data: Array<Record<string, string | number>>;
