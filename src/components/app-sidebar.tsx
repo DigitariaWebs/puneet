@@ -16,6 +16,7 @@ import {
   Wrench,
   Globe,
   UserCheck,
+  AlertTriangle,
 } from "lucide-react";
 
 import {
@@ -104,6 +105,12 @@ const menuSections = [
   {
     label: "Support & Features",
     items: [
+      {
+        title: "Incidents",
+        url: "/dashboard/incidents",
+        icon: AlertTriangle,
+        disabled: false,
+      },
       {
         title: "Support & Communication",
         url: "/dashboard/support",
