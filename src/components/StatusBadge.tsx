@@ -16,12 +16,15 @@ export function StatusBadge({
 }: StatusBadgeProps) {
   const getVariant = () => {
     if (type === "status") {
-      return value === "active" ? "default" : "secondary";
+      return value === "active" ? "success" : "secondary";
     }
     if (type === "role") {
       if (value === "Admin") return "default";
-      if (value === "Manager") return "secondary";
+      if (value === "Manager") return "info";
       return "outline";
+    }
+    if (type === "plan") {
+      return "default";
     }
     return "outline";
   };

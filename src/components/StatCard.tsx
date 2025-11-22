@@ -12,17 +12,17 @@ interface StatCardProps {
 const variantStyles = {
   default: "border-l-muted-foreground",
   primary: "border-l-primary",
-  success: "border-l-green-500",
-  warning: "border-l-amber-500",
-  info: "border-l-blue-500",
+  success: "border-l-success",
+  warning: "border-l-warning",
+  info: "border-l-info",
 };
 
 const iconVariantStyles = {
   default: "text-muted-foreground bg-muted",
   primary: "text-primary bg-primary/10",
-  success: "text-green-600 bg-green-500/10",
-  warning: "text-amber-600 bg-amber-500/10",
-  info: "text-blue-600 bg-blue-500/10",
+  success: "text-success bg-success/10",
+  warning: "text-warning bg-warning/10",
+  info: "text-info bg-info/10",
 };
 
 export function StatCard({
@@ -34,14 +34,14 @@ export function StatCard({
 }: StatCardProps) {
   return (
     <Card
-      className={`border-l-4 ${variantStyles[variant]} hover:shadow-md transition-all duration-200 group cursor-default`}
+      className={`border-l-4 ${variantStyles[variant]} hover:shadow-md hover:-translate-y-1 transition-all duration-200 group cursor-default`}
     >
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 px-4 pt-4">
         <CardTitle className="text-xs font-medium text-muted-foreground">
           {title}
         </CardTitle>
         <div
-          className={`p-1.5 rounded-md ${iconVariantStyles[variant]} group-hover:scale-110 transition-transform duration-200`}
+          className={`p-2 rounded-lg ${iconVariantStyles[variant]} group-hover:scale-110 transition-transform duration-200`}
         >
           <Icon className="h-4 w-4" />
         </div>

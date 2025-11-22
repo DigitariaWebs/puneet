@@ -55,48 +55,59 @@ export function UserModal({ user }: UserModalProps) {
         </div>
 
         <div className="grid gap-3 grid-cols-1 md:grid-cols-2">
-          <Card className="border-l-4 border-l-blue-500 hover:shadow-md transition-all duration-200">
-            <CardHeader className="pb-2 px-4 pt-4">
-              <CardTitle className="text-xs font-medium text-muted-foreground flex items-center gap-2">
-                <Building className="h-3.5 w-3.5" />
+          <Card className="bg-linear-to-br from-card to-muted/20 border-none shadow-sm hover:shadow-md transition-all duration-200">
+            <CardHeader className="pb-3 px-5 pt-5">
+              <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-info/10 text-info">
+                  <Building className="h-4 w-4" />
+                </div>
                 Facility
               </CardTitle>
             </CardHeader>
-            <CardContent className="px-4 pb-4">
-              <div className="text-base font-semibold">{user.facility}</div>
-              <p className="text-[10px] text-muted-foreground mt-0.5">
-                Works at
-              </p>
+            <CardContent className="px-5 pb-5">
+              <div className="p-3 rounded-lg bg-background/60 backdrop-blur-sm">
+                <div className="text-base font-semibold">{user.facility}</div>
+                <p className="text-xs text-muted-foreground mt-1">Works at</p>
+              </div>
             </CardContent>
           </Card>
 
-          <Card className="border-l-4 border-l-primary hover:shadow-md transition-all duration-200">
-            <CardHeader className="pb-2 px-4 pt-4">
-              <CardTitle className="text-xs font-medium text-muted-foreground flex items-center gap-2">
-                <Mail className="h-3.5 w-3.5" />
+          <Card className="bg-linear-to-br from-card to-muted/20 border-none shadow-sm hover:shadow-md transition-all duration-200">
+            <CardHeader className="pb-3 px-5 pt-5">
+              <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
+                  <Mail className="h-4 w-4" />
+                </div>
                 Contact Information
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-1.5 px-4 pb-4">
-              <div className="flex items-center gap-2 text-xs">
-                <Mail className="h-3.5 w-3.5 text-muted-foreground" />
-                <span className="font-medium">{user.email}</span>
+            <CardContent className="space-y-2.5 px-5 pb-5">
+              <div className="flex items-center gap-3 p-2.5 rounded-lg bg-background/60 backdrop-blur-sm">
+                <div className="p-2 rounded-lg bg-muted">
+                  <Mail className="h-4 w-4 text-muted-foreground" />
+                </div>
+                <span className="text-sm font-medium">{user.email}</span>
               </div>
-              <div className="flex items-center gap-2 text-xs">
-                <Phone className="h-3.5 w-3.5 text-muted-foreground" />
-                <span className="font-medium">{user.phone}</span>
+              <div className="flex items-center gap-3 p-2.5 rounded-lg bg-background/60 backdrop-blur-sm">
+                <div className="p-2 rounded-lg bg-muted">
+                  <Phone className="h-4 w-4 text-muted-foreground" />
+                </div>
+                <span className="text-sm font-medium">{user.phone}</span>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        <Card className="border-l-4 border-l-primary">
-          <CardHeader className="pb-2 px-4 pt-4">
-            <CardTitle className="text-xs font-medium">
+        <Card className="bg-linear-to-br from-card to-muted/20 border-none shadow-sm hover:shadow-md transition-all duration-200">
+          <CardHeader className="pb-3 px-5 pt-5">
+            <CardTitle className="text-sm font-semibold flex items-center gap-2">
+              <div className="p-1.5 rounded-lg bg-warning/10 text-warning">
+                <Shield className="h-4 w-4" />
+              </div>
               User Permissions
             </CardTitle>
           </CardHeader>
-          <CardContent className="px-4 pb-4">
+          <CardContent className="px-5 pb-5">
             <div className="flex flex-wrap gap-2">
               {user.permissions.map((permission) => (
                 <Badge

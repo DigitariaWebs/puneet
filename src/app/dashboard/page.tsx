@@ -171,12 +171,17 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="flex-1 space-y-6 p-6 pt-8">
-      <div className="flex items-center justify-between">
-        <h1 className="text-4xl font-bold tracking-tight">Dashboard</h1>
+    <div className="flex-1 space-y-8 p-8">
+      <div className="space-y-2">
+        <h1 className="text-4xl font-bold tracking-tight bg-linear-to-r from-primary via-primary to-secondary bg-clip-text text-transparent">
+          Dashboard
+        </h1>
+        <p className="text-muted-foreground text-lg">
+          Welcome back! Here&apos;s what&apos;s happening today 🐾
+        </p>
       </div>
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 gap-8">
         <div className="col-span-2">
           <NotificationsSection
             notifications={notifications}

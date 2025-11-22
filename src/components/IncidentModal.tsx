@@ -17,6 +17,8 @@ import {
   AlertCircle,
   Users,
   UserCheck,
+  Mail,
+  Phone,
 } from "lucide-react";
 import { Incident } from "@/data/incidents";
 
@@ -125,12 +127,21 @@ export function IncidentModal({ incident, onResolve }: IncidentModalProps) {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="details" className="mt-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Description</CardTitle>
+          <Card className="bg-linear-to-br from-card to-muted/20 border-none shadow-sm hover:shadow-md transition-all duration-200">
+            <CardHeader className="px-5 pt-5 pb-3">
+              <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
+                  <FileText className="h-4 w-4" />
+                </div>
+                Description
+              </CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-sm">{incident.description}</p>
+            <CardContent className="px-5 pb-5">
+              <div className="p-3.5 rounded-lg bg-background/60 backdrop-blur-sm">
+                <p className="text-sm leading-relaxed">
+                  {incident.description}
+                </p>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -142,27 +153,42 @@ export function IncidentModal({ incident, onResolve }: IncidentModalProps) {
                   <Users className="h-4 w-4" />
                   Staff Involved ({incident.involvedStaff.length})
                 </h3>
-                <div className="space-y-2">
+                <div className="space-y-2.5">
                   {incident.involvedStaff.map((staff, index) => (
                     <Card
                       key={index}
-                      className="hover:shadow-md transition-shadow"
+                      className="bg-linear-to-br from-card to-muted/20 border-none shadow-sm hover:shadow-md transition-all duration-200"
                     >
-                      <CardContent className="pt-4">
-                        <div className="flex items-start justify-between">
-                          <div className="space-y-1">
-                            <p className="text-sm font-medium">{staff.name}</p>
-                            <p className="text-xs text-muted-foreground">
-                              {staff.role}
+                      <CardContent className="pt-4 px-5 pb-4">
+                        <div className="flex items-start gap-3">
+                          <div className="p-2 rounded-lg bg-primary/10 text-primary shrink-0 mt-0.5">
+                            <User className="h-4 w-4" />
+                          </div>
+                          <div className="space-y-2 flex-1">
+                            <p className="text-sm font-semibold">
+                              {staff.name}
                             </p>
-                            <p className="text-xs text-muted-foreground">
-                              {staff.email}
-                            </p>
-                            {staff.phone && (
-                              <p className="text-xs text-muted-foreground">
-                                {staff.phone}
-                              </p>
-                            )}
+                            <div className="space-y-1.5">
+                              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                <Badge variant="secondary" className="text-xs">
+                                  {staff.role}
+                                </Badge>
+                              </div>
+                              <div className="flex items-center gap-2 p-2 rounded-lg bg-background/60 backdrop-blur-sm">
+                                <Mail className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                                <span className="text-xs font-medium">
+                                  {staff.email}
+                                </span>
+                              </div>
+                              {staff.phone && (
+                                <div className="flex items-center gap-2 p-2 rounded-lg bg-background/60 backdrop-blur-sm">
+                                  <Phone className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                                  <span className="text-xs font-medium">
+                                    {staff.phone}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </CardContent>
@@ -178,31 +204,47 @@ export function IncidentModal({ incident, onResolve }: IncidentModalProps) {
                     <UserCheck className="h-4 w-4" />
                     Clients Involved ({incident.involvedClients.length})
                   </h3>
-                  <div className="space-y-2">
+                  <div className="space-y-2.5">
                     {incident.involvedClients.map((client, index) => (
                       <Card
                         key={index}
-                        className="hover:shadow-md transition-shadow"
+                        className="bg-linear-to-br from-card to-muted/20 border-none shadow-sm hover:shadow-md transition-all duration-200"
                       >
-                        <CardContent className="pt-4">
-                          <div className="flex items-start justify-between">
-                            <div className="space-y-1">
-                              <p className="text-sm font-medium">
-                                {client.name}
-                              </p>
-                              {client.petName && (
-                                <p className="text-xs text-muted-foreground">
-                                  Pet: {client.petName}
+                        <CardContent className="pt-4 px-5 pb-4">
+                          <div className="flex items-start gap-3">
+                            <div className="p-2 rounded-lg bg-success/10 text-success shrink-0 mt-0.5">
+                              <UserCheck className="h-4 w-4" />
+                            </div>
+                            <div className="space-y-2 flex-1">
+                              <div className="flex items-start justify-between">
+                                <p className="text-sm font-semibold">
+                                  {client.name}
                                 </p>
-                              )}
-                              <p className="text-xs text-muted-foreground">
-                                {client.email}
-                              </p>
-                              {client.phone && (
-                                <p className="text-xs text-muted-foreground">
-                                  {client.phone}
-                                </p>
-                              )}
+                                {client.petName && (
+                                  <Badge
+                                    variant="secondary"
+                                    className="text-xs"
+                                  >
+                                    Pet: {client.petName}
+                                  </Badge>
+                                )}
+                              </div>
+                              <div className="space-y-1.5">
+                                <div className="flex items-center gap-2 p-2 rounded-lg bg-background/60 backdrop-blur-sm">
+                                  <Mail className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                                  <span className="text-xs font-medium">
+                                    {client.email}
+                                  </span>
+                                </div>
+                                {client.phone && (
+                                  <div className="flex items-center gap-2 p-2 rounded-lg bg-background/60 backdrop-blur-sm">
+                                    <Phone className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                                    <span className="text-xs font-medium">
+                                      {client.phone}
+                                    </span>
+                                  </div>
+                                )}
+                              </div>
                             </div>
                           </div>
                         </CardContent>
@@ -214,45 +256,66 @@ export function IncidentModal({ incident, onResolve }: IncidentModalProps) {
             {(!incident.involvedStaff || incident.involvedStaff.length === 0) &&
               (!incident.involvedClients ||
                 incident.involvedClients.length === 0) && (
-                <p className="text-sm text-muted-foreground">
-                  No involved parties listed
-                </p>
+                <div className="p-4 rounded-lg bg-muted/50 text-center">
+                  <p className="text-sm text-muted-foreground">
+                    No involved parties listed
+                  </p>
+                </div>
               )}
           </div>
         </TabsContent>
         <TabsContent value="attachments" className="mt-2">
-          <div className="space-y-2">
+          <div className="space-y-2.5">
             {incident.attachments && incident.attachments.length > 0 ? (
               incident.attachments.map((attachment, index) => (
-                <Card key={index} className="hover:shadow-md transition-shadow">
-                  <CardContent className="pt-4">
-                    <div className="flex items-center gap-2">
-                      <FileText className="h-4 w-4 text-primary" />
-                      <span className="text-sm">{attachment}</span>
+                <Card
+                  key={index}
+                  className="bg-linear-to-br from-card to-muted/20 border-none shadow-sm hover:shadow-md transition-all duration-200 group"
+                >
+                  <CardContent className="pt-4 px-5 pb-4">
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-background/60 backdrop-blur-sm">
+                      <div className="p-2 rounded-lg bg-info/10 text-info group-hover:scale-110 transition-transform">
+                        <FileText className="h-4 w-4" />
+                      </div>
+                      <span className="text-sm font-medium">{attachment}</span>
                     </div>
                   </CardContent>
                 </Card>
               ))
             ) : (
-              <p className="text-sm text-muted-foreground">No attachments</p>
+              <div className="p-4 rounded-lg bg-muted/50 text-center">
+                <p className="text-sm text-muted-foreground">No attachments</p>
+              </div>
             )}
           </div>
         </TabsContent>
         <TabsContent value="resolution" className="mt-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Resolution Notes</CardTitle>
+          <Card className="bg-linear-to-br from-card to-muted/20 border-none shadow-sm hover:shadow-md transition-all duration-200">
+            <CardHeader className="px-5 pt-5 pb-3">
+              <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-success/10 text-success">
+                  <CheckCircle className="h-4 w-4" />
+                </div>
+                Resolution Notes
+              </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 px-5 pb-5">
               {incident.status === "Resolved" ? (
-                <div>
-                  <p className="text-sm">{incident.resolutionNotes}</p>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    Resolved on{" "}
-                    {incident.resolvedAt
-                      ? new Date(incident.resolvedAt).toLocaleString()
-                      : "N/A"}
-                  </p>
+                <div className="space-y-3">
+                  <div className="p-3.5 rounded-lg bg-background/60 backdrop-blur-sm">
+                    <p className="text-sm leading-relaxed">
+                      {incident.resolutionNotes}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 p-2.5 rounded-lg bg-success/10 text-success">
+                    <CheckCircle className="h-4 w-4 shrink-0" />
+                    <p className="text-xs font-medium">
+                      Resolved on{" "}
+                      {incident.resolvedAt
+                        ? new Date(incident.resolvedAt).toLocaleString()
+                        : "N/A"}
+                    </p>
+                  </div>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -261,6 +324,7 @@ export function IncidentModal({ incident, onResolve }: IncidentModalProps) {
                     value={resolutionNotes}
                     onChange={(e) => setResolutionNotes(e.target.value)}
                     rows={4}
+                    className="bg-background/60"
                   />
                   <Button
                     onClick={handleResolve}
