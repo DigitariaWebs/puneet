@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { CheckCircle, XCircle, CreditCard, Crown } from "lucide-react";
 
 interface StatusBadgeProps {
-  type: "status" | "plan" | "role";
+  type: "status" | "plan" | "role" | "inventory";
   value: string;
   size?: "sm" | "default" | "lg";
   showIcon?: boolean;
@@ -17,6 +17,12 @@ export function StatusBadge({
   const getVariant = () => {
     if (type === "status") {
       return value === "active" ? "success" : "secondary";
+    }
+    if (type === "inventory") {
+      if (value === "in_stock") return "success";
+      if (value === "low_stock") return "warning";
+      if (value === "out_of_stock") return "destructive";
+      return "secondary";
     }
     if (type === "role") {
       if (value === "Admin") return "default";
