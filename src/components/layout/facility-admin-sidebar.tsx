@@ -10,6 +10,7 @@ import {
   Settings,
   Package,
   Clock,
+  MessageSquare,
 } from "lucide-react";
 
 import { GenericSidebar, MenuSection } from "@/components/ui/generic-sidebar";
@@ -45,6 +46,12 @@ const menuSections: MenuSection[] = [
         title: "Clients",
         url: "/facility/dashboard/clients",
         icon: Users,
+        disabled: false,
+      },
+      {
+        title: "Customer Reach",
+        url: "/facility/customer-reach",
+        icon: MessageSquare,
         disabled: false,
       },
       {
