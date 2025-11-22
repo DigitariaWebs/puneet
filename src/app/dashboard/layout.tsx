@@ -1,4 +1,4 @@
-import { AppSidebar } from "@/components/layout/app-sidebar";
+import { AppSidebar } from "@/components/layout/super-admin-sidebar";
 import {
   SidebarInset,
   SidebarProvider,

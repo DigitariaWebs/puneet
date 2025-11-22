@@ -1,4 +1,4 @@
-import { FacilitySidebar } from "@/components/layout/facility-sidebar";
+import { FacilitySidebar } from "@/components/layout/facility-admin-sidebar";
 import {
   SidebarInset,
   SidebarProvider,

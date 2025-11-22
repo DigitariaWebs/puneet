@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import {
   Home,
   BarChart3,
@@ -14,20 +12,9 @@ import {
   Clock,
 } from "lucide-react";
 
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarHeader,
-  useSidebar,
-} from "@/components/ui/sidebar";
+import { GenericSidebar, MenuSection } from "@/components/ui/generic-sidebar";
 
-const menuSections = [
+const menuSections: MenuSection[] = [
   {
     label: "Overview",
     items: [
@@ -134,47 +121,16 @@ const menuSections = [
 ];
 
 export function FacilitySidebar() {
-  const { state } = useSidebar();
-  const pathname = usePathname();
+  const handleLogout = () => {
+    // TODO: Implement logout logic
+    console.log("Logout clicked");
+  };
 
   return (
-    <Sidebar collapsible="icon">
-      {state === "expanded" && (
-        <SidebarHeader className="border-b px-6 py-3">
-          <h2 className="text-lg font-semibold">Facility Dashboard</h2>
-        </SidebarHeader>
-      )}
-      <SidebarContent>
-        {menuSections.map((section) => (
-          <SidebarGroup key={section.label}>
-            <SidebarGroupLabel>{section.label}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {section.items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    {item.disabled ? (
-                      <SidebarMenuButton asChild={false} disabled>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </SidebarMenuButton>
-                    ) : (
-                      <SidebarMenuButton
-                        asChild
-                        isActive={pathname === item.url}
-                      >
-                        <Link href={item.url}>
-                          <item.icon />
-                          <span>{item.title}</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    )}
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
-      </SidebarContent>
-    </Sidebar>
+    <GenericSidebar
+      header={<h2 className="text-lg font-semibold">Facility Dashboard</h2>}
+      menuSections={menuSections}
+      onLogout={handleLogout}
+    />
   );
 }
