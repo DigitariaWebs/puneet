@@ -50,9 +50,7 @@ export function GenericSidebar({
   return (
     <Sidebar collapsible="icon">
       {state === "expanded" && header && (
-        <SidebarHeader className="border-b px-6 py-3">
-          {header}
-        </SidebarHeader>
+        <SidebarHeader className="border-b px-6 py-3">{header}</SidebarHeader>
       )}
       <SidebarContent>
         {menuSections.map((section) => (
