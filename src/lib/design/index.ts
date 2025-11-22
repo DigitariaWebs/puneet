@@ -26,7 +26,7 @@ export {
   serviceIcons,
   petEmojis,
   priorityStyles,
-} from './utils';
+} from "./utils";
 
 // Templates
 export {
@@ -37,12 +37,11 @@ export {
   EmptyStateTemplate,
   NotificationCardTemplate,
   ListItemTemplate,
-} from './templates';
+} from "./templates";
 
 // Showcase
-export { DesignShowcase } from './showcase';
+export { DesignShowcase } from "./showcase";
 
 // Types
-export type {
-  // Add type exports as needed
-} from './utils';
+export type {} from // Add type exports as needed
+"./utils";

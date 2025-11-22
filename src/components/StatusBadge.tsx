@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, XCircle, CreditCard } from "lucide-react";
+import { CheckCircle, XCircle, CreditCard, Crown } from "lucide-react";
 
 interface StatusBadgeProps {
   type: "status" | "plan" | "role";
@@ -24,7 +24,11 @@ export function StatusBadge({
       return "outline";
     }
     if (type === "plan") {
-      return "default";
+      if (value === "Free") return "outline";
+      if (value === "Basic") return "secondary";
+      if (value === "Premium") return "default";
+      if (value === "Enterprise") return "destructive";
+      return "outline";
     }
     return "outline";
   };
@@ -39,6 +43,7 @@ export function StatusBadge({
       );
     }
     if (type === "plan") {
+      if (value === "Enterprise") return <Crown className="w-3 h-3 mr-1" />;
       return <CreditCard className="w-3 h-3 mr-1" />;
     }
     return null;

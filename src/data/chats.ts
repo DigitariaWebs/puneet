@@ -89,7 +89,8 @@ export const chatConversations: ChatConversation[] = [
       {
         id: "msg-9",
         sender: "Support Agent",
-        message: "Thank you for the feedback. We'll investigate and get back to you.",
+        message:
+          "Thank you for the feedback. We'll investigate and get back to you.",
         timestamp: "2023-10-03T11:15:00Z",
       },
     ],

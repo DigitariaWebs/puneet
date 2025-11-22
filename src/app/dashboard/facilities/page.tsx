@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { facilities as initialFacilities } from "@/data/facilities";
+import { facilityRequests } from "@/data/facility-requests";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -78,12 +80,17 @@ const exportToCSV = (facilities: typeof initialFacilities) => {
 };
 
 export default function FacilitiesPage() {
+  const router = useRouter();
   const [facilitiesState, setFacilitiesState] = useState(initialFacilities);
   const [selectedFacility, setSelectedFacility] = useState<
     (typeof initialFacilities)[0] | null
   >(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
+  const pendingRequestsCount = facilityRequests.filter(
+    (r) => r.status === "pending",
+  ).length;
 
   const columns: ColumnDef<(typeof initialFacilities)[0]>[] = [
     {
@@ -267,6 +274,17 @@ export default function FacilitiesPage() {
             <p className="text-xs text-muted-foreground">Per active facility</p>
           </CardContent>
         </Card>
+      </div>
+
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-semibold">Facility Trial Requests</h3>
+        <Button
+          variant="outline"
+          onClick={() => router.push("/dashboard/facilities/requests")}
+        >
+          <Eye className="mr-2 h-4 w-4" />
+          View Requests ({pendingRequestsCount} pending)
+        </Button>
       </div>
 
       <DataTable

@@ -63,6 +63,7 @@ interface DataTableProps<T> {
   searchPlaceholder?: string;
   itemsPerPage?: number;
   actions?: (item: T) => React.ReactNode;
+  rowClassName?: (item: T) => string;
 }
 
 export function DataTable<T extends Record<string, unknown>>({
@@ -73,6 +74,7 @@ export function DataTable<T extends Record<string, unknown>>({
   searchPlaceholder = "Search...",
   itemsPerPage = 10,
   actions,
+  rowClassName,
 }: DataTableProps<T>) {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterValues, setFilterValues] = useState<Record<string, string>>(
@@ -281,7 +283,7 @@ export function DataTable<T extends Record<string, unknown>>({
               </TableRow>
             ) : (
               paginatedData.map((item, index) => (
-                <TableRow key={index}>
+                <TableRow key={index} className={rowClassName?.(item)}>
                   {visibleColumnDefs.map((col) => (
                     <TableCell
                       key={col.key}

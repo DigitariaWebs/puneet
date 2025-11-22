@@ -14,7 +14,8 @@ export const announcements: Announcement[] = [
   {
     id: "ANN-001",
     title: "Platform Maintenance Scheduled",
-    content: "The platform will undergo scheduled maintenance on October 15th from 2-4 AM EST. Services may be temporarily unavailable during this time.",
+    content:
+      "The platform will undergo scheduled maintenance on October 15th from 2-4 AM EST. Services may be temporarily unavailable during this time.",
     target: "All Facilities",
     createdAt: "2023-10-01T08:00:00Z",
     author: "Platform Admin",
@@ -24,7 +25,8 @@ export const announcements: Announcement[] = [
   {
     id: "ANN-002",
     title: "New Feature: Enhanced Booking System",
-    content: "We've released an updated booking system with improved mobile support and faster check-in processes. Check out the new features in your dashboard.",
+    content:
+      "We've released an updated booking system with improved mobile support and faster check-in processes. Check out the new features in your dashboard.",
     target: "All Facilities",
     createdAt: "2023-10-03T10:00:00Z",
     author: "Product Team",
@@ -34,7 +36,8 @@ export const announcements: Announcement[] = [
   {
     id: "ANN-003",
     title: "Holiday Hours Reminder",
-    content: "Please note our adjusted hours for the upcoming holiday. Support will be limited from Dec 24-26. Emergency support available via email.",
+    content:
+      "Please note our adjusted hours for the upcoming holiday. Support will be limited from Dec 24-26. Emergency support available via email.",
     target: "All Facilities",
     createdAt: "2023-10-05T14:00:00Z",
     author: "Support Team",
@@ -44,7 +47,8 @@ export const announcements: Announcement[] = [
   {
     id: "ANN-004",
     title: "Facility-Specific Update",
-    content: "Facility ABC: New grooming equipment has been installed. Staff training will occur next week.",
+    content:
+      "Facility ABC: New grooming equipment has been installed. Staff training will occur next week.",
     target: "Specific Facilities",
     facilities: ["Facility ABC"],
     createdAt: "2023-10-07T09:00:00Z",
@@ -55,7 +59,8 @@ export const announcements: Announcement[] = [
   {
     id: "ANN-005",
     title: "Draft: Upcoming Training Session",
-    content: "A training session on the new CRM features will be held on October 20th. Details to follow.",
+    content:
+      "A training session on the new CRM features will be held on October 20th. Details to follow.",
     target: "All Facilities",
     createdAt: "2023-10-08T11:00:00Z",
     author: "Training Team",

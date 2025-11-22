@@ -1,0 +1,165 @@
+export interface FacilityRequest extends Record<string, unknown> {
+  id: number;
+  facilityName: string;
+  requestType:
+    | "Trial"
+    | "Plan Upgrade"
+    | "Plan Downgrade"
+    | "Add Service"
+    | "Remove Service";
+  description: string;
+  time: string;
+  status: "pending" | "approved" | "denied";
+  severity?: "normal" | "high";
+  details: string;
+  businessType: string;
+  address: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+  phone: string;
+  email: string;
+  adminName: string;
+  adminEmail: string;
+  plan: string;
+  requestedPlan?: string;
+  requestedService?: string;
+}
+
+export const facilityRequests: FacilityRequest[] = [
+  {
+    id: 1,
+    facilityName: "Paws & Play Daycare",
+    requestType: "Trial",
+    description: "Request for trial of new daycare management software",
+    time: "10 minutes ago",
+    status: "pending",
+    severity: "normal",
+    details:
+      "Facility is interested in upgrading their daycare services with advanced features.",
+    businessType: "Daycare",
+    address: "123 Main St",
+    city: "Anytown",
+    state: "CA",
+    zipCode: "12345",
+    country: "USA",
+    phone: "(555) 123-4567",
+    email: "contact@pawsplay.com",
+    adminName: "John Doe",
+    adminEmail: "admin@pawsplay.com",
+    plan: "Premium",
+  },
+  {
+    id: 2,
+    facilityName: "Furry Friends Grooming",
+    requestType: "Trial",
+    description: "Request for trial of grooming appointment system",
+    time: "15 minutes ago",
+    status: "pending",
+    severity: "normal",
+    details:
+      "Looking to streamline their booking process for grooming services.",
+    businessType: "Grooming",
+    address: "456 Elm St",
+    city: "Anytown",
+    state: "CA",
+    zipCode: "12345",
+    country: "USA",
+    phone: "(555) 987-6543",
+    email: "info@furryfriends.com",
+    adminName: "Jane Smith",
+    adminEmail: "admin@furryfriends.com",
+    plan: "Basic",
+  },
+  {
+    id: 3,
+    facilityName: "Happy Tails Boarding",
+    requestType: "Plan Upgrade",
+    description: "Request to upgrade from Basic to Premium plan",
+    time: "30 minutes ago",
+    status: "pending",
+    severity: "normal",
+    details:
+      "Facility wants access to premium features for better client management.",
+    businessType: "Boarding",
+    address: "789 Oak St",
+    city: "Anytown",
+    state: "CA",
+    zipCode: "12345",
+    country: "USA",
+    phone: "(555) 456-7890",
+    email: "contact@happytails.com",
+    adminName: "Bob Johnson",
+    adminEmail: "admin@happytails.com",
+    plan: "Basic",
+    requestedPlan: "Premium",
+  },
+  {
+    id: 4,
+    facilityName: "Pet Paradise Vet",
+    requestType: "Add Service",
+    description: "Request to add emergency veterinary services",
+    time: "1 hour ago",
+    status: "approved",
+    severity: "high",
+    details: "Adding emergency services to provide 24/7 care for pets.",
+    businessType: "Veterinary",
+    address: "321 Pine St",
+    city: "Anytown",
+    state: "CA",
+    zipCode: "12345",
+    country: "USA",
+    phone: "(555) 321-0987",
+    email: "vet@petparadise.com",
+    adminName: "Alice Brown",
+    adminEmail: "admin@petparadise.com",
+    plan: "Premium",
+    requestedService: "Emergency Veterinary Services",
+  },
+  {
+    id: 5,
+    facilityName: "Cozy Paws Resort",
+    requestType: "Plan Downgrade",
+    description: "Request to downgrade from Enterprise to Premium plan",
+    time: "2 hours ago",
+    status: "pending",
+    severity: "normal",
+    details:
+      "Facility no longer needs enterprise-level features due to reduced operations.",
+    businessType: "Boarding",
+    address: "654 Maple Ave",
+    city: "Anytown",
+    state: "CA",
+    zipCode: "12345",
+    country: "USA",
+    phone: "(555) 654-3210",
+    email: "info@cozypaws.com",
+    adminName: "Charlie Wilson",
+    adminEmail: "admin@cozypaws.com",
+    plan: "Enterprise",
+    requestedPlan: "Premium",
+  },
+  {
+    id: 6,
+    facilityName: "Whisker Wash Spa",
+    requestType: "Remove Service",
+    description: "Request to remove mobile grooming services",
+    time: "3 hours ago",
+    status: "denied",
+    severity: "normal",
+    details: "Discontinuing mobile services due to operational challenges.",
+    businessType: "Grooming",
+    address: "987 Birch Ln",
+    city: "Anytown",
+    state: "CA",
+    zipCode: "12345",
+    country: "USA",
+    phone: "(555) 987-1234",
+    email: "spa@whiskerwash.com",
+    adminName: "Diana Lee",
+    adminEmail: "admin@whiskerwash.com",
+    plan: "Basic",
+    requestedService: "Mobile Grooming",
+  },
+];
