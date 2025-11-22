@@ -1,30 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { PawPrint, Clock, DollarSign, MapPin, Calendar } from "lucide-react";
+  ServiceSettingsComponent,
+  ServiceSettings,
+} from "@/components/facility/services/service-settings";
+import { Stethoscope } from "lucide-react";
 import { facilities } from "@/data/facilities";
 
 export default function VetServicePage() {
@@ -34,342 +15,209 @@ export default function VetServicePage() {
   const locations = facility?.locationsList || [];
 
   // Mock vet settings
-  const [settings, setSettings] = useState({
+  const [settings] = useState<ServiceSettings>({
     enabled: true,
-    consultationPrice: 60,
-    emergencyFee: 150,
+    basePrice: 60,
     operatingHours: {
       start: "09:00",
       end: "17:00",
     },
-    availableLocations: ["Main Location"], // Default to first location
+    availableLocations: locations.length > 0 ? [locations[0].name] : [],
     description:
-      "Professional veterinary care including check-ups, vaccinations, and emergency services.",
+      "Professional veterinary care including check-ups, vaccinations, and emergency services. Our licensed veterinarians provide comprehensive medical care with state-of-the-art equipment and compassionate service.",
     rules:
-      "Appointments required for non-emergencies. Bring vaccination records and any medications.",
+      "Appointments required for non-emergencies. Bring vaccination records and any medications. Emergency services available 24/7 with additional fees. Please arrive 10 minutes early for first-time visits.",
+    packages: [
+      {
+        id: "pkg-1",
+        name: "Wellness Exam",
+        price: 60,
+        duration: 30,
+        description: "Routine check-up and preventive care",
+        includes: [
+          "Physical examination",
+          "Weight and vitals check",
+          "Health consultation",
+          "Vaccination review",
+          "Basic health report",
+        ],
+      },
+      {
+        id: "pkg-2",
+        name: "Vaccination Package",
+        price: 85,
+        duration: 30,
+        description: "Core vaccinations and protection",
+        includes: [
+          "Wellness exam",
+          "Core vaccines (DHPP/FVRCP)",
+          "Rabies vaccination",
+          "Vaccination certificate",
+          "Next visit reminder",
+        ],
+      },
+      {
+        id: "pkg-3",
+        name: "Senior Pet Care",
+        price: 120,
+        duration: 60,
+        description: "Comprehensive care for aging pets",
+        includes: [
+          "Complete physical exam",
+          "Blood work panel",
+          "Urinalysis",
+          "Arthritis screening",
+          "Nutritional counseling",
+          "Detailed health report",
+        ],
+      },
+      {
+        id: "pkg-4",
+        name: "Dental Cleaning",
+        price: 250,
+        duration: 120,
+        description: "Professional dental care under anesthesia",
+        includes: [
+          "Pre-anesthetic blood work",
+          "Anesthesia & monitoring",
+          "Ultrasonic cleaning",
+          "Polishing",
+          "Dental exam & X-rays",
+          "Post-care instructions",
+        ],
+      },
+      {
+        id: "pkg-5",
+        name: "Emergency Visit",
+        price: 150,
+        duration: 45,
+        description: "Urgent care for critical situations",
+        includes: [
+          "Immediate assessment",
+          "Emergency treatment",
+          "Pain management",
+          "Stabilization care",
+          "Follow-up plan",
+        ],
+      },
+    ],
     sessions: [
       {
         id: "1",
         date: "2024-01-15",
-        time: "10:00-11:00",
-        staff: ["Facility Staff"],
+        time: "09:00 - 09:30",
+        staff: ["Dr. Sarah Williams"],
         pets: ["Buddy"],
+        status: "scheduled",
+        capacity: 1,
+        bookedCount: 1,
       },
       {
         id: "2",
-        date: "2024-01-16",
-        time: "14:00-15:00",
-        staff: ["Facility Staff"],
-        pets: ["Bella"],
+        date: "2024-01-15",
+        time: "10:00 - 10:30",
+        staff: ["Dr. Michael Chen"],
+        pets: ["Max"],
+        status: "scheduled",
+        capacity: 1,
+        bookedCount: 1,
       },
+      {
+        id: "3",
+        date: "2024-01-15",
+        time: "14:00 - 14:30",
+        staff: ["Dr. Sarah Williams"],
+        pets: ["Charlie"],
+        status: "scheduled",
+        capacity: 1,
+        bookedCount: 1,
+      },
+      {
+        id: "4",
+        date: "2024-01-16",
+        time: "09:30 - 10:00",
+        staff: ["Dr. Michael Chen"],
+        pets: ["Luna"],
+        status: "scheduled",
+        capacity: 1,
+        bookedCount: 1,
+      },
+      {
+        id: "5",
+        date: "2024-01-16",
+        time: "11:00 - 11:30",
+        staff: ["Dr. Sarah Williams"],
+        pets: ["Bella"],
+        status: "scheduled",
+        capacity: 1,
+        bookedCount: 1,
+      },
+      {
+        id: "6",
+        date: "2024-01-14",
+        time: "10:00 - 10:30",
+        staff: ["Dr. Sarah Williams"],
+        pets: ["Rocky"],
+        status: "completed",
+        capacity: 1,
+        bookedCount: 1,
+      },
+      {
+        id: "7",
+        date: "2024-01-13",
+        time: "14:00 - 14:30",
+        staff: ["Dr. Michael Chen"],
+        pets: ["Daisy"],
+        status: "completed",
+        capacity: 1,
+        bookedCount: 1,
+      },
+      {
+        id: "8",
+        date: "2024-01-12",
+        time: "09:00 - 09:30",
+        staff: ["Dr. Sarah Williams"],
+        pets: ["Cooper"],
+        status: "completed",
+        capacity: 1,
+        bookedCount: 1,
+      },
+    ],
+    requirements: [
+      "Valid pet identification",
+      "Previous medical records (for new patients)",
+      "Current medication list",
+      "Insurance information (if applicable)",
+      "Emergency contact information",
+    ],
+    amenities: [
+      "Licensed veterinarians",
+      "Digital X-ray equipment",
+      "In-house laboratory",
+      "Surgical suite",
+      "Pharmacy on-site",
+      "Separate cat & dog waiting areas",
+      "Emergency care available",
+      "Pet health records portal",
     ],
   });
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [tempSettings, setTempSettings] = useState(settings);
-
-  const handleEdit = () => {
-    setIsEditing(true);
-    setTempSettings(settings);
-  };
-
   const handleSave = () => {
-    setSettings(tempSettings);
-    setIsEditing(false);
-    // TODO: Save to backend
+    // TODO: Implement API call to save settings
   };
-
-  const handleCancel = () => {
-    setTempSettings(settings);
-    setIsEditing(false);
-  };
-
-  const handleLocationChange = (locationName: string, checked: boolean) => {
-    const currentLocations = tempSettings.availableLocations;
-    if (checked) {
-      setTempSettings({
-        ...tempSettings,
-        availableLocations: [...currentLocations, locationName],
-      });
-    } else {
-      setTempSettings({
-        ...tempSettings,
-        availableLocations: currentLocations.filter(
-          (loc) => loc !== locationName,
-        ),
-      });
-    }
-  };
-
-  const currentSettings = isEditing ? tempSettings : settings;
 
   return (
-    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-3xl font-bold tracking-tight">
-            Veterinary Service
-          </h2>
-          <p className="text-muted-foreground">
-            Manage your veterinary service settings and pricing
-          </p>
-        </div>
-        <Badge variant={settings.enabled ? "default" : "secondary"}>
-          {settings.enabled ? "Enabled" : "Disabled"}
-        </Badge>
-      </div>
-
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <PawPrint className="h-5 w-5" />
-              Service Status
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="enabled">Enable Veterinary Service</Label>
-              <Switch
-                id="enabled"
-                checked={currentSettings.enabled}
-                onCheckedChange={(checked) =>
-                  setTempSettings({ ...tempSettings, enabled: checked })
-                }
-                disabled={!isEditing}
-              />
-            </div>
-            <p className="text-sm text-muted-foreground">
-              When enabled, customers can book veterinary appointments for their
-              pets.
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <DollarSign className="h-5 w-5" />
-              Pricing
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="consultation">Consultation Price ($)</Label>
-              <Input
-                id="consultation"
-                type="number"
-                value={currentSettings.consultationPrice}
-                onChange={(e) =>
-                  setTempSettings({
-                    ...tempSettings,
-                    consultationPrice: parseFloat(e.target.value) || 0,
-                  })
-                }
-                disabled={!isEditing}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="emergency">Emergency Fee ($)</Label>
-              <Input
-                id="emergency"
-                type="number"
-                value={currentSettings.emergencyFee}
-                onChange={(e) =>
-                  setTempSettings({
-                    ...tempSettings,
-                    emergencyFee: parseFloat(e.target.value) || 0,
-                  })
-                }
-                disabled={!isEditing}
-              />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Clock className="h-5 w-5" />
-              Operating Hours
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="start">Start Time</Label>
-                <Select
-                  value={currentSettings.operatingHours.start}
-                  onValueChange={(value) =>
-                    setTempSettings({
-                      ...tempSettings,
-                      operatingHours: {
-                        ...tempSettings.operatingHours,
-                        start: value,
-                      },
-                    })
-                  }
-                  disabled={!isEditing}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="08:00">8:00 AM</SelectItem>
-                    <SelectItem value="09:00">9:00 AM</SelectItem>
-                    <SelectItem value="10:00">10:00 AM</SelectItem>
-                    <SelectItem value="11:00">11:00 AM</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="end">End Time</Label>
-                <Select
-                  value={currentSettings.operatingHours.end}
-                  onValueChange={(value) =>
-                    setTempSettings({
-                      ...tempSettings,
-                      operatingHours: {
-                        ...tempSettings.operatingHours,
-                        end: value,
-                      },
-                    })
-                  }
-                  disabled={!isEditing}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="16:00">4:00 PM</SelectItem>
-                    <SelectItem value="17:00">5:00 PM</SelectItem>
-                    <SelectItem value="18:00">6:00 PM</SelectItem>
-                    <SelectItem value="19:00">7:00 PM</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <MapPin className="h-5 w-5" />
-            Available Locations
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {locations.map((location) => (
-            <div key={location.name} className="flex items-center space-x-2">
-              <Checkbox
-                id={`location-${location.name}`}
-                checked={currentSettings.availableLocations.includes(
-                  location.name,
-                )}
-                onCheckedChange={(checked) =>
-                  handleLocationChange(location.name, checked as boolean)
-                }
-                disabled={!isEditing}
-              />
-              <Label htmlFor={`location-${location.name}`}>
-                {location.name} - {location.address}
-              </Label>
-            </div>
-          ))}
-          <p className="text-sm text-muted-foreground">
-            Select the locations where this veterinary service is available.
-          </p>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Calendar className="h-5 w-5" />
-            Upcoming Sessions
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Date</TableHead>
-                <TableHead>Time</TableHead>
-                <TableHead>Staff</TableHead>
-                <TableHead>Booked Pets</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {currentSettings.sessions.map((session) => (
-                <TableRow key={session.id}>
-                  <TableCell>{session.date}</TableCell>
-                  <TableCell>{session.time}</TableCell>
-                  <TableCell>{session.staff.join(", ")}</TableCell>
-                  <TableCell>{session.pets.join(", ")}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          {isEditing && (
-            <div className="mt-4">
-              <Button variant="outline">Manage Sessions</Button>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Service Details</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
-            <Textarea
-              id="description"
-              value={currentSettings.description}
-              onChange={(e) =>
-                setTempSettings({
-                  ...tempSettings,
-                  description: e.target.value,
-                })
-              }
-              disabled={!isEditing}
-              rows={3}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="rules">Rules & Requirements</Label>
-            <Textarea
-              id="rules"
-              value={currentSettings.rules}
-              onChange={(e) =>
-                setTempSettings({
-                  ...tempSettings,
-                  rules: e.target.value,
-                })
-              }
-              disabled={!isEditing}
-              rows={3}
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      <div className="flex justify-end gap-2">
-        {!isEditing ? (
-          <Button onClick={handleEdit}>Edit Settings</Button>
-        ) : (
-          <>
-            <Button variant="outline" onClick={handleCancel}>
-              Cancel
-            </Button>
-            <Button onClick={handleSave}>Save Changes</Button>
-          </>
-        )}
-      </div>
-    </div>
+    <ServiceSettingsComponent
+      serviceName="Veterinary"
+      serviceIcon={<Stethoscope className="h-6 w-6" />}
+      locations={locations}
+      settings={settings}
+      onSave={handleSave}
+      priceLabel="Consultation Fee"
+      showCapacity={false}
+      showOperatingHours={true}
+      showCheckInOut={false}
+      showPackages={true}
+    />
   );
 }

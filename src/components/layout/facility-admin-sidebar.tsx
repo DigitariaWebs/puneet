@@ -136,7 +136,6 @@ const menuSections: MenuSection[] = [
 export function FacilitySidebar() {
   const handleLogout = () => {
     // TODO: Implement logout logic
-    console.log("Logout clicked");
   };
 
   return (

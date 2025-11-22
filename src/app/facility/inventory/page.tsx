@@ -164,7 +164,6 @@ export default function FacilityInventoryPage() {
 
   const handleSaveItem = () => {
     // TODO: Save to backend
-    console.log("Saving inventory item:", formData);
     setIsAddEditModalOpen(false);
   };
 
@@ -175,7 +174,6 @@ export default function FacilityInventoryPage() {
 
   const handleDeleteConfirm = () => {
     // TODO: Delete from backend
-    console.log("Deleting inventory item:", deletingItem?.id);
     setIsDeleteModalOpen(false);
     setDeletingItem(null);
   };
@@ -188,10 +186,6 @@ export default function FacilityInventoryPage() {
 
   const handleReorderConfirm = () => {
     // TODO: Create purchase order
-    console.log("Reordering:", {
-      itemId: reorderingItem?.id,
-      quantity: reorderQuantity,
-    });
     setIsReorderModalOpen(false);
     setReorderingItem(null);
   };

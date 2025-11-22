@@ -478,27 +478,11 @@ export default function FacilitySchedulingPage() {
       ? exampleSchedules
       : schedules.filter((schedule) => schedule.facility === facility.name);
 
-  // Debug: Log loaded schedule data
-  console.log("Facility name:", facility.name);
-  console.log("Example schedules count:", exampleSchedules.length);
-  console.log("Loaded facility schedules:", facilitySchedules.length, "shifts");
-  console.log(
-    "Schedule details:",
-    facilitySchedules.slice(0, 5).map((s) => ({
-      staff: s.staffName,
-      date: s.date,
-      time: `${s.startTime}-${s.endTime}`,
-      status: s.status,
-    })),
-  );
-
   // Use example staff data for testing
   const facilityStaff =
     exampleStaff.length > 0
       ? exampleStaff
       : users.filter((user) => user.facility === facility.name);
-
-  console.log("Facility staff for calendar:", facilityStaff.length, "members");
 
   // Get dates based on calendar view
   const getViewDates = () => {
@@ -630,11 +614,6 @@ export default function FacilitySchedulingPage() {
 
   const handleSaveSchedule = () => {
     // TODO: Save to backend
-    console.log("Saving schedule:", formData);
-    console.log(
-      "Editing existing schedule:",
-      editingSchedule?.id || "New schedule",
-    );
     setIsAddEditModalOpen(false);
   };
 
@@ -645,14 +624,6 @@ export default function FacilitySchedulingPage() {
 
   const handleDeleteConfirm = () => {
     // TODO: Delete from backend
-    console.log(
-      "Deleting schedule:",
-      deletingSchedule?.staffName,
-      "on",
-      deletingSchedule?.date,
-      "ID:",
-      deletingSchedule?.id,
-    );
     setIsDeleteModalOpen(false);
     setDeletingSchedule(null);
   };

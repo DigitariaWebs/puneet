@@ -257,19 +257,6 @@ export default function FacilityStaffPage() {
       ? exampleStaff
       : users.filter((user) => user.facility === facility.name);
 
-  // Debug: Log loaded staff data
-  console.log("Facility name:", facility.name);
-  console.log("Example staff count:", exampleStaff.length);
-  console.log("Loaded facility staff:", facilityStaff.length, "members");
-  console.log(
-    "Staff details:",
-    facilityStaff.map((s) => ({
-      name: s.name,
-      role: s.role,
-      status: s.status,
-    })),
-  );
-
   const handleAddNew = () => {
     setEditingStaff(null);
     setFormData({
@@ -300,8 +287,6 @@ export default function FacilityStaffPage() {
 
   const handleSaveStaff = () => {
     // TODO: Save to backend
-    console.log("Saving staff:", formData);
-    console.log("Editing existing staff:", editingStaff?.name || "New staff");
     setIsAddEditModalOpen(false);
     // In a real app, this would trigger a data refresh
   };
@@ -312,13 +297,6 @@ export default function FacilityStaffPage() {
   };
 
   const handleDeleteConfirm = () => {
-    // TODO: Delete from backend
-    console.log(
-      "Deleting staff:",
-      deletingStaff?.name,
-      "ID:",
-      deletingStaff?.id,
-    );
     setIsDeleteModalOpen(false);
     setDeletingStaff(null);
   };

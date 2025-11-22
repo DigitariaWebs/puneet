@@ -23,7 +23,7 @@ export const inventory = [
     status: "in_stock",
     reorderPoint: 75,
     lastRestocked: "2025-11-12",
-    costPerUnit: 1.50,
+    costPerUnit: 1.5,
   },
   {
     id: 3,
@@ -62,7 +62,7 @@ export const inventory = [
     status: "low_stock",
     reorderPoint: 10,
     lastRestocked: "2025-10-30",
-    costPerUnit: 45.00,
+    costPerUnit: 45.0,
   },
   {
     id: 6,
@@ -101,7 +101,7 @@ export const inventory = [
     status: "in_stock",
     reorderPoint: 25,
     lastRestocked: "2025-11-04",
-    costPerUnit: 22.50,
+    costPerUnit: 22.5,
   },
   {
     id: 9,

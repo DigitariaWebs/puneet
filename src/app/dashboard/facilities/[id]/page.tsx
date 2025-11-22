@@ -276,7 +276,6 @@ export default function FacilityDetailPage() {
               onClick={() => {
                 if (pendingStatus) {
                   setCurrentStatus(pendingStatus as "active" | "inactive");
-                  console.log(`Status changed to ${pendingStatus}`);
                   // TODO: Implement actual status change
                 }
                 setShowStatusDialog(false);
@@ -309,7 +308,6 @@ export default function FacilityDetailPage() {
             <Button
               variant="destructive"
               onClick={() => {
-                console.log("Facility deleted");
                 // TODO: Implement actual delete
                 setShowDeleteDialog(false);
               }}

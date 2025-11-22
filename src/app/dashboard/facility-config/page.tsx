@@ -26,12 +26,10 @@ export default function FacilityConfigPage() {
 
   const handleSave = () => {
     // TODO: Implement save functionality
-    console.log("Saving configuration:", config);
   };
 
-  const handleSectionSave = (section: string) => {
+  const handleSectionSave = () => {
     // TODO: Implement section-specific save functionality
-    console.log(`Saving ${section} section:`, config);
   };
 
   const toggleSection = (section: string) => {
@@ -81,7 +79,7 @@ export default function FacilityConfigPage() {
           setConfig={setConfig}
           isOpen={openSections.services}
           onToggle={() => toggleSection("services")}
-          onSave={() => handleSectionSave("services")}
+          onSave={() => handleSectionSave()}
         />
 
         <PricingSettings
@@ -89,7 +87,7 @@ export default function FacilityConfigPage() {
           setConfig={setConfig}
           isOpen={openSections.pricing}
           onToggle={() => toggleSection("pricing")}
-          onSave={() => handleSectionSave("pricing")}
+          onSave={() => handleSectionSave()}
         />
 
         <BookingRulesSettings
@@ -97,7 +95,7 @@ export default function FacilityConfigPage() {
           setConfig={setConfig}
           isOpen={openSections.booking}
           onToggle={() => toggleSection("booking")}
-          onSave={() => handleSectionSave("booking")}
+          onSave={() => handleSectionSave()}
         />
 
         <ScheduleSettings
@@ -105,7 +103,7 @@ export default function FacilityConfigPage() {
           setConfig={setConfig}
           isOpen={openSections.schedules}
           onToggle={() => toggleSection("schedules")}
-          onSave={() => handleSectionSave("schedules")}
+          onSave={() => handleSectionSave()}
         />
 
         <PoliciesSettings
@@ -113,7 +111,7 @@ export default function FacilityConfigPage() {
           setConfig={setConfig}
           isOpen={openSections.policies}
           onToggle={() => toggleSection("policies")}
-          onSave={() => handleSectionSave("policies")}
+          onSave={() => handleSectionSave()}
         />
 
         <AdvancedSettings
@@ -121,7 +119,7 @@ export default function FacilityConfigPage() {
           setConfig={setConfig}
           isOpen={openSections.advanced}
           onToggle={() => toggleSection("advanced")}
-          onSave={() => handleSectionSave("advanced")}
+          onSave={() => handleSectionSave()}
         />
       </div>
     </div>

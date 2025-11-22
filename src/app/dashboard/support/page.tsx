@@ -168,7 +168,6 @@ export default function SupportPage() {
 
   const handleCreateAnnouncement = () => {
     // Mock create announcement
-    console.log("Creating announcement:", newAnnouncement);
     setNewAnnouncement({
       title: "",
       content: "",
@@ -181,7 +180,6 @@ export default function SupportPage() {
   const handleSendMessage = () => {
     if (newMessage.trim()) {
       // Mock send message
-      console.log("Sending message:", newMessage);
       setNewMessage("");
     }
   };
