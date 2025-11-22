@@ -115,7 +115,7 @@ const menuSections = [
         title: "Support & Communication",
         url: "/dashboard/support",
         icon: MessageSquare,
-        disabled: true,
+        disabled: false,
       },
       {
         title: "Task & Operations",
