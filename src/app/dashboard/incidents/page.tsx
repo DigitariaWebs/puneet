@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { IncidentModal } from "@/components/IncidentModal";
+import { IncidentModal } from "@/components/modals/IncidentModal";
 import { DataTable, ColumnDef, FilterDef } from "@/components/DataTable";
 import {
   AlertTriangle,

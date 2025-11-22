@@ -13,8 +13,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { FacilityModal } from "@/components/FacilityModal";
-import { CreateFacilityModal } from "@/components/CreateFacilityModal";
+import { FacilityModal } from "@/components/modals/FacilityModal";
+import { CreateFacilityModal } from "@/components/modals/CreateFacilityModal";
 import { DataTable, ColumnDef, FilterDef } from "@/components/DataTable";
 import {
   Plus,

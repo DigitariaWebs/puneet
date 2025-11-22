@@ -4,8 +4,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { DetailsModal } from "./DetailsModal";
-import { InfoCard } from "./DateCard";
+import { DetailsModal } from "@/components/modals/DetailsModal";
+import { InfoCard } from "@/components/DateCard";
 import {
   AlertTriangle,
   Calendar,

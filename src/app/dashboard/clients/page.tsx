@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { ClientModal } from "@/components/ClientModal";
+import { ClientModal } from "@/components/modals/ClientModal";
 import { Download, User, Mail as MailIcon, Building, Eye } from "lucide-react";
 
 const exportClientsToCSV = (clientsData: typeof clients) => {

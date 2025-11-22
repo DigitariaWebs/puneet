@@ -1,10 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { StatusBadge } from "./StatusBadge";
+import { StatusBadge } from "@/components/StatusBadge";
 import { Badge } from "@/components/ui/badge";
-import { DetailsModal } from "./DetailsModal";
-import { InfoCard } from "./DateCard";
-import { StatCard } from "./StatCard";
+import { DetailsModal } from "@/components/modals/DetailsModal";
+import { InfoCard } from "@/components/DateCard";
+import { StatCard } from "@/components/StatCard";
 import {
   Building,
   Users,

@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { UserModal } from "@/components/UserModal";
+import { UserModal } from "@/components/modals/UserModal";
 import {
   Download,
   User,

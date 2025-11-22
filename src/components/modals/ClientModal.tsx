@@ -1,8 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { DetailsModal } from "./DetailsModal";
-import { InfoCard } from "./DateCard";
-import { StatusBadge } from "./StatusBadge";
+import { DetailsModal } from "@/components/modals/DetailsModal";
+import { InfoCard } from "@/components/DateCard";
+import { StatusBadge } from "@/components/StatusBadge";
 import { Building, Mail, Phone, Heart } from "lucide-react";
 import { clients } from "@/data/clients";
 
