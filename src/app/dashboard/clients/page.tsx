@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { clients } from "@/data/clients";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -56,8 +57,11 @@ const exportClientsToCSV = (clientsData: typeof clients) => {
 };
 
 export default function ClientsPage() {
+  const t = useTranslations("clients");
+  const tCommon = useTranslations("common");
+  const tStatus = useTranslations("status");
   const [selectedClient, setSelectedClient] = useState<
-    (typeof clients)[number] | null
+    (typeof clients)[0] | null
   >(null);
 
   const columns: ColumnDef<(typeof clients)[number]>[] = [
@@ -98,18 +102,18 @@ export default function ClientsPage() {
   const filters: FilterDef[] = [
     {
       key: "status",
-      label: "Status",
+      label: tCommon("status"),
       options: [
-        { value: "all", label: "All Status" },
-        { value: "active", label: "Active" },
-        { value: "inactive", label: "Inactive" },
+        { value: "all", label: tCommon("all") + " " + tCommon("status") },
+        { value: "active", label: tStatus("active") },
+        { value: "inactive", label: tStatus("inactive") },
       ],
     },
     {
       key: "facility",
-      label: "Facility",
+      label: tCommon("facility"),
       options: [
-        { value: "all", label: "All Facilities" },
+        { value: "all", label: tCommon("all") + " " + tCommon("facilities") },
         ...Array.from(new Set(clients.map((c) => c.facility))).map((f) => ({
           value: f,
           label: f,
@@ -121,13 +125,11 @@ export default function ClientsPage() {
   return (
     <div className="flex-1 space-y-4 p-4 pt-6">
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">
-          Clients Management
-        </h2>
+        <h2 className="text-3xl font-bold tracking-tight">{t("title")}</h2>
         <div className="flex items-center space-x-2">
           <Button variant="outline" onClick={() => exportClientsToCSV(clients)}>
             <Download className="mr-2 h-4 w-4" />
-            Export
+            {tCommon("export")}
           </Button>
         </div>
       </div>
@@ -192,7 +194,7 @@ export default function ClientsPage() {
         columns={columns}
         filters={filters}
         searchKey="name"
-        searchPlaceholder="Search clients..."
+        searchPlaceholder={t("searchClients")}
         itemsPerPage={10}
         actions={(client) => (
           <Button
@@ -212,7 +214,7 @@ export default function ClientsPage() {
           <div className="p-6 flex-1 overflow-y-auto">
             <DialogHeader className="mb-0">
               <DialogTitle className="sr-only">
-                {selectedClient?.name} - Client Details
+                {selectedClient?.name} - {t("clientDetails")}
               </DialogTitle>
             </DialogHeader>
             {selectedClient && <ClientModal client={selectedClient} />}

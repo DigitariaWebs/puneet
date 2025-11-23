@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { RecentActivitiesSection } from "@/components/facility/RecentActivitiesSection";
 import { NotificationsSection } from "@/components/facility/NotificationsSection";
 import { ActiveNowSection } from "@/components/facility/ActiveNowSection";
@@ -155,6 +156,7 @@ const activeItems = [
 ];
 
 export default function DashboardPage() {
+  const t = useTranslations("dashboard");
   const [viewMode, setViewMode] = useState<"list" | "timeline">("list");
   const [notifications, setNotifications] = useState(initialNotifications);
 
@@ -174,11 +176,9 @@ export default function DashboardPage() {
     <div className="flex-1 space-y-8 p-8">
       <div className="space-y-2">
         <h1 className="text-4xl font-bold tracking-tight bg-linear-to-r from-primary via-primary to-secondary bg-clip-text text-transparent">
-          Dashboard
+          {t("title")}
         </h1>
-        <p className="text-muted-foreground text-lg">
-          Welcome back! Here&apos;s what&apos;s happening today 🐾
-        </p>
+        <p className="text-muted-foreground text-lg">{t("welcome")}</p>
       </div>
 
       <div className="grid grid-cols-3 gap-8">

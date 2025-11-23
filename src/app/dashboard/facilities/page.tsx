@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { facilities as initialFacilities } from "@/data/facilities";
 import { facilityRequests } from "@/data/facility-requests";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -81,6 +82,10 @@ const exportToCSV = (facilities: typeof initialFacilities) => {
 
 export default function FacilitiesPage() {
   const router = useRouter();
+  const t = useTranslations("facilities");
+  const tCommon = useTranslations("common");
+  const tStatus = useTranslations("status");
+  const tPlans = useTranslations("plans");
   const [facilitiesState, setFacilitiesState] = useState(initialFacilities);
   const [selectedFacility, setSelectedFacility] = useState<
     (typeof initialFacilities)[0] | null
@@ -95,13 +100,13 @@ export default function FacilitiesPage() {
   const columns: ColumnDef<(typeof initialFacilities)[0]>[] = [
     {
       key: "name",
-      label: "Facility Name",
+      label: t("facilityName"),
       icon: Building,
       defaultVisible: true,
     },
     {
       key: "status",
-      label: "Status",
+      label: tCommon("status"),
       icon: Shield,
       defaultVisible: true,
       render: (facility) => (
@@ -110,14 +115,14 @@ export default function FacilitiesPage() {
     },
     {
       key: "plan",
-      label: "Plan",
+      label: tCommon("plan"),
       icon: CreditCard,
       defaultVisible: true,
       render: (facility) => <StatusBadge type="plan" value={facility.plan} />,
     },
     {
       key: "users",
-      label: "Users",
+      label: t("totalUsers"),
       icon: Users,
       defaultVisible: true,
       render: (facility) => facility.usersList.length,
@@ -125,7 +130,7 @@ export default function FacilitiesPage() {
     },
     {
       key: "activeClients",
-      label: "Active Clients",
+      label: t("activeClients"),
       icon: UserCheck,
       defaultVisible: true,
       render: (facility) =>
@@ -135,7 +140,7 @@ export default function FacilitiesPage() {
     },
     {
       key: "locations",
-      label: "Locations",
+      label: t("locations"),
       icon: MapPin,
       defaultVisible: true,
       render: (facility) => facility.locationsList.length,
@@ -143,13 +148,13 @@ export default function FacilitiesPage() {
     },
     {
       key: "dayJoined",
-      label: "Day Joined",
+      label: t("dayJoined"),
       icon: Calendar,
       defaultVisible: true,
     },
     {
       key: "subscriptionEnd",
-      label: "Subscription End",
+      label: t("subscriptionEnd"),
       icon: Clock,
       defaultVisible: true,
       render: (facility) => facility.subscriptionEnd || "N/A",
@@ -160,22 +165,22 @@ export default function FacilitiesPage() {
   const filters: FilterDef[] = [
     {
       key: "status",
-      label: "Status",
+      label: tCommon("status"),
       options: [
-        { value: "all", label: "All Status" },
-        { value: "active", label: "Active" },
-        { value: "inactive", label: "Inactive" },
+        { value: "all", label: tCommon("all") + " " + tCommon("status") },
+        { value: "active", label: tStatus("active") },
+        { value: "inactive", label: tStatus("inactive") },
       ],
     },
     {
       key: "plan",
-      label: "Plan",
+      label: tCommon("plan"),
       options: [
-        { value: "all", label: "All Plans" },
-        { value: "Free", label: "Free" },
-        { value: "Basic", label: "Basic" },
-        { value: "Premium", label: "Premium" },
-        { value: "Enterprise", label: "Enterprise" },
+        { value: "all", label: tCommon("all") + " " + tCommon("plans") },
+        { value: "Free", label: tPlans("free") },
+        { value: "Basic", label: tPlans("basic") },
+        { value: "Premium", label: tPlans("premium") },
+        { value: "Enterprise", label: tPlans("enterprise") },
       ],
     },
   ];
@@ -187,24 +192,22 @@ export default function FacilitiesPage() {
   return (
     <div className="flex-1 space-y-4 p-4 pt-6">
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">
-          Facilities Management
-        </h2>
+        <h2 className="text-3xl font-bold tracking-tight">{t("title")}</h2>
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
             onClick={() => exportToCSV(facilitiesState)}
           >
             <Download className="mr-2 h-4 w-4" />
-            Export
+            {tCommon("export")}
           </Button>
           <Button variant="outline">
             <Mail className="mr-2 h-4 w-4" />
-            Notify All
+            {t("notifyAll")}
           </Button>
           <Button onClick={() => setIsCreateModalOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
-            Add Facility
+            {t("addFacility")}
           </Button>
         </div>
       </div>
@@ -214,20 +217,22 @@ export default function FacilitiesPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Total Facilities
+              {t("totalFacilities")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{facilitiesState.length}</div>
             <p className="text-xs text-muted-foreground">
               {facilitiesState.filter((f) => f.status === "active").length}{" "}
-              active
+              {tStatus("active").toLowerCase()}
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Premium Plans</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t("premiumPlans")}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
@@ -239,27 +244,29 @@ export default function FacilitiesPage() {
                   facilitiesState.length) *
                   100,
               )}
-              % of total
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {facilitiesState.reduce((sum, f) => sum + f.usersList.length, 0)}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Across all facilities
+              % {t("ofTotal")}
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Avg Users/Facility
+              {t("totalUsers")}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {facilitiesState.reduce((sum, f) => sum + f.usersList.length, 0)}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {t("acrossAllFacilities")}
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              {t("avgUsersPerFacility")}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -271,19 +278,22 @@ export default function FacilitiesPage() {
                 ) / facilitiesState.length,
               )}
             </div>
-            <p className="text-xs text-muted-foreground">Per active facility</p>
+            <p className="text-xs text-muted-foreground">
+              {t("perActiveFacility")}
+            </p>
           </CardContent>
         </Card>
       </div>
 
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">Facility Trial Requests</h3>
+        <h3 className="text-lg font-semibold">{t("facilityTrialRequests")}</h3>
         <Button
           variant="outline"
           onClick={() => router.push("/dashboard/facilities/requests")}
         >
           <Eye className="mr-2 h-4 w-4" />
-          View Requests ({pendingRequestsCount} pending)
+          {t("viewRequests")} ({pendingRequestsCount}{" "}
+          {tCommon("pending").toLowerCase()})
         </Button>
       </div>
 
@@ -292,7 +302,7 @@ export default function FacilitiesPage() {
         columns={columns}
         filters={filters}
         searchKey="name"
-        searchPlaceholder="Search facilities..."
+        searchPlaceholder={t("searchFacilities")}
         itemsPerPage={10}
         actions={(facility) => (
           <Button

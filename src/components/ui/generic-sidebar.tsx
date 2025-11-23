@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LogOut } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import {
   Sidebar,
@@ -46,6 +47,7 @@ export function GenericSidebar({
 }: GenericSidebarProps) {
   const { state } = useSidebar();
   const pathname = usePathname();
+  const t = useTranslations("navigation");
 
   return (
     <Sidebar collapsible="icon">
@@ -93,7 +95,7 @@ export function GenericSidebar({
             >
               <button>
                 <LogOut className="h-4 w-4" />
-                <span>Logout</span>
+                <span>{t("logout")}</span>
               </button>
             </SidebarMenuButton>
           )}

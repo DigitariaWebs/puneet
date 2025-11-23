@@ -13,7 +13,7 @@ This plan outlines the phased development of the UI for the pet care SaaS platfo
 - [x] Integrate CRM for clients, pets, and vaccines.
 - [x] Add invoices, Stripe payments, and email notifications.
 - [x] Create basic reports (revenue, bookings by service) and audit log.
-- [ ] Implement EN/FR UI localization.
+- [x] Implement EN/FR UI localization.
 
 ## Phase 2: Tenants Dashboard
 
