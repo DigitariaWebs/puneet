@@ -14,7 +14,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ClientModal } from "@/components/modals/ClientModal";
-import { Download, User, Mail as MailIcon, Eye } from "lucide-react";
+import { CreateClientModal } from "@/components/clients/CreateClientModal";
+import { Download, User, Mail as MailIcon, Eye, Plus } from "lucide-react";
 
 const exportClientsToCSV = (clientsData: typeof clients) => {
   const headers = ["ID", "Name", "Email", "Phone", "Status", "Pets Count"];
@@ -52,17 +53,60 @@ export default function FacilityClientsPage() {
   const facilityId = 11;
   const facility = facilities.find((f) => f.id === facilityId);
 
+  const [clientsData, setClientsData] = useState(clients);
   const [selectedClient, setSelectedClient] = useState<
     (typeof clients)[number] | null
   >(null);
+  const [creatingClient, setCreatingClient] = useState(false);
 
   if (!facility) {
     return <div>Facility not found</div>;
   }
 
-  const facilityClients = clients.filter(
+  const facilityClients = clientsData.filter(
     (client) => client.facility === facility.name,
   );
+
+  const handleCreateClient = (newClient: {
+    name: string;
+    email: string;
+    phone?: string;
+    status: string;
+    facility: string;
+    pets: Array<{
+      name: string;
+      type: string;
+      breed: string;
+      age: number;
+      weight: number;
+      color: string;
+      microchip: string;
+      allergies: string;
+      specialNeeds: string;
+    }>;
+  }) => {
+    const maxId = Math.max(...clientsData.map((c) => c.id), 0);
+    const petMaxId = Math.max(
+      ...clientsData.flatMap((c) => c.pets.map((p) => p.id)),
+      0,
+    );
+
+    const petsWithIds = newClient.pets.map((pet, index) => ({
+      id: petMaxId + index + 1,
+      ...pet,
+    }));
+
+    const clientWithId = {
+      id: maxId + 1,
+      name: newClient.name,
+      email: newClient.email,
+      phone: newClient.phone,
+      status: newClient.status,
+      facility: newClient.facility,
+      pets: petsWithIds,
+    };
+    setClientsData([...clientsData, clientWithId]);
+  };
 
   const columns: ColumnDef<(typeof clients)[number]>[] = [
     {
@@ -125,6 +169,10 @@ export default function FacilityClientsPage() {
           >
             <Download className="mr-2 h-4 w-4" />
             Export
+          </Button>
+          <Button onClick={() => setCreatingClient(true)}>
+            <Plus className="mr-2 h-4 w-4" />
+            New Client
           </Button>
         </div>
       </div>
@@ -208,6 +256,16 @@ export default function FacilityClientsPage() {
           </Button>
         )}
       />
+
+      {/* Create Client Modal */}
+      <CreateClientModal
+        open={creatingClient}
+        onOpenChange={setCreatingClient}
+        onSave={handleCreateClient}
+        facilityName={facility.name}
+      />
+
+      {/* View Client Details Modal */}
       <Dialog
         open={!!selectedClient}
         onOpenChange={() => setSelectedClient(null)}
