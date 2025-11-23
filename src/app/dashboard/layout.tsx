@@ -1,23 +1,34 @@
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { AppSidebar } from "@/components/layout/super-admin-sidebar";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { HeaderDropdown } from "@/components/layout/HeaderDropdown";
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const cookieStore = await cookies();
+  const userRole = cookieStore.get("user_role")?.value;
+
+  // If user is facility_admin, redirect to facility dashboard
+  if (userRole === "facility_admin") {
+    redirect("/facility/dashboard");
+  }
+
+  // Allow access for super_admin or no role (defaults to super_admin)
   return (
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b bg-linear-to-r from-background to-muted/20 px-6 backdrop-blur-sm">
           <SidebarTrigger className="-ml-1 hover:bg-accent/50 rounded-lg transition-colors" />
-          <LanguageSwitcher />
+          <HeaderDropdown />
         </header>
         {children}
       </SidebarInset>
