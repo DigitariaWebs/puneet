@@ -5,6 +5,8 @@ import { useTranslations } from "next-intl";
 import { schedules } from "@/data/schedules";
 import { users } from "@/data/users";
 import { facilities } from "@/data/facilities";
+import { GenericCalendar } from "@/components/calendar";
+import type { CalendarItem, CalendarRowData } from "@/components/calendar";
 
 // Example staff data for testing (matching staff page)
 const exampleStaff = [
@@ -357,8 +359,6 @@ import {
   Plus,
   Edit,
   Trash2,
-  ChevronLeft,
-  ChevronRight,
 } from "lucide-react";
 
 const exportSchedulesToCSV = (scheduleData: typeof schedules) => {
@@ -402,15 +402,6 @@ const exportSchedulesToCSV = (scheduleData: typeof schedules) => {
 };
 
 // Helper function to get week dates
-const getWeekDates = (startDate: Date) => {
-  const dates = [];
-  for (let i = 0; i < 7; i++) {
-    const date = new Date(startDate);
-    date.setDate(startDate.getDate() + i);
-    dates.push(date);
-  }
-  return dates;
-};
 
 // Helper function to format date
 const formatDate = (date: Date) => {
@@ -485,110 +476,6 @@ export default function FacilitySchedulingPage() {
     exampleStaff.length > 0
       ? exampleStaff
       : users.filter((user) => user.facility === facility.name);
-
-  // Get dates based on calendar view
-  const getViewDates = () => {
-    if (calendarView === "week") {
-      return getWeekDates(currentWeekStart);
-    } else {
-      // Month view - get all days in the month
-      const year = currentWeekStart.getFullYear();
-      const month = currentWeekStart.getMonth();
-      const firstDay = new Date(year, month, 1);
-      const lastDay = new Date(year, month + 1, 0);
-      const dates = [];
-      for (
-        let d = new Date(firstDay);
-        d <= lastDay;
-        d.setDate(d.getDate() + 1)
-      ) {
-        dates.push(new Date(d));
-      }
-      return dates;
-    }
-  };
-
-  const viewDates = getViewDates();
-
-  // Get all schedules for a specific date
-  const getSchedulesForDate = (date: Date) => {
-    const dateStr = formatDate(date);
-    return facilitySchedules.filter((s) => s.date === dateStr);
-  };
-
-  // Generate calendar grid for month view (including padding days)
-  const getMonthCalendarGrid = () => {
-    const year = currentWeekStart.getFullYear();
-    const month = currentWeekStart.getMonth();
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
-
-    // Get day of week for first day (0 = Sunday, 1 = Monday, etc.)
-    const firstDayOfWeek = firstDay.getDay();
-    const startPadding = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1; // Adjust for Monday start
-
-    const grid = [];
-
-    // Add padding days from previous month
-    for (let i = startPadding - 1; i >= 0; i--) {
-      const paddingDate = new Date(firstDay);
-      paddingDate.setDate(paddingDate.getDate() - (i + 1));
-      grid.push({ date: paddingDate, isCurrentMonth: false });
-    }
-
-    // Add current month days
-    for (let d = new Date(firstDay); d <= lastDay; d.setDate(d.getDate() + 1)) {
-      grid.push({ date: new Date(d), isCurrentMonth: true });
-    }
-
-    // Add padding days from next month to complete the grid
-    const remainingCells = 7 - (grid.length % 7);
-    if (remainingCells < 7) {
-      for (let i = 1; i <= remainingCells; i++) {
-        const paddingDate = new Date(lastDay);
-        paddingDate.setDate(paddingDate.getDate() + i);
-        grid.push({ date: paddingDate, isCurrentMonth: false });
-      }
-    }
-
-    // Split into weeks
-    const weeks = [];
-    for (let i = 0; i < grid.length; i += 7) {
-      weeks.push(grid.slice(i, i + 7));
-    }
-
-    return weeks;
-  };
-
-  const monthCalendarGrid =
-    calendarView === "month" ? getMonthCalendarGrid() : [];
-
-  const handlePrevious = () => {
-    const newDate = new Date(currentWeekStart);
-    if (calendarView === "week") {
-      newDate.setDate(newDate.getDate() - 7);
-    } else {
-      newDate.setMonth(newDate.getMonth() - 1);
-    }
-    setCurrentWeekStart(newDate);
-  };
-
-  const handleNext = () => {
-    const newDate = new Date(currentWeekStart);
-    if (calendarView === "week") {
-      newDate.setDate(newDate.getDate() + 7);
-    } else {
-      newDate.setMonth(newDate.getMonth() + 1);
-    }
-    setCurrentWeekStart(newDate);
-  };
-
-  const handleToday = () => {
-    const today = new Date();
-    const day = today.getDay();
-    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
-    setCurrentWeekStart(new Date(today.setDate(diff)));
-  };
 
   const handleAddNew = (date?: string) => {
     setEditingSchedule(null);
@@ -742,261 +629,144 @@ export default function FacilitySchedulingPage() {
         </div>
 
         {viewMode === "calendar" && (
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1 mr-4">
-              <Button
-                variant={calendarView === "week" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setCalendarView("week")}
-              >
-                Week
-              </Button>
-              <Button
-                variant={calendarView === "month" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setCalendarView("month")}
-              >
-                Month
-              </Button>
-            </div>
-            <Button variant="outline" size="sm" onClick={handlePrevious}>
-              <ChevronLeft className="h-4 w-4" />
+          <div className="flex items-center gap-1">
+            <Button
+              variant={calendarView === "week" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setCalendarView("week")}
+            >
+              Week
             </Button>
-            <Button variant="outline" size="sm" onClick={handleToday}>
-              Today
+            <Button
+              variant={calendarView === "month" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setCalendarView("month")}
+            >
+              Month
             </Button>
-            <Button variant="outline" size="sm" onClick={handleNext}>
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-            <span className="text-sm font-medium ml-2">
-              {calendarView === "week"
-                ? `${currentWeekStart.toLocaleDateString("en-US", {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  })} - ${viewDates[viewDates.length - 1].toLocaleDateString(
-                    "en-US",
-                    {
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                    },
-                  )}`
-                : currentWeekStart.toLocaleDateString("en-US", {
-                    month: "long",
-                    year: "numeric",
-                  })}
-            </span>
           </div>
         )}
       </div>
 
-      {/* Calendar View - Day/Week */}
-      {viewMode === "calendar" && calendarView !== "month" && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Weekly Schedule</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[150px]">Staff</TableHead>
-                    {viewDates.map((date) => {
-                      const isToday =
-                        formatDate(date) === formatDate(new Date());
-                      return (
-                        <TableHead
-                          key={date.toISOString()}
-                          className={`text-center ${
-                            isToday ? "bg-primary/10" : ""
-                          }`}
-                        >
-                          <div className="flex flex-col">
-                            <span
-                              className={`font-semibold ${
-                                isToday ? "text-primary" : ""
-                              }`}
-                            >
-                              {date.toLocaleDateString("en-US", {
-                                weekday: "short",
-                              })}
-                            </span>
-                            <span
-                              className={`text-xs ${
-                                isToday
-                                  ? "text-primary font-semibold"
-                                  : "text-muted-foreground"
-                              }`}
-                            >
-                              {date.toLocaleDateString("en-US", {
-                                month: "short",
-                                day: "numeric",
-                              })}
-                            </span>
-                          </div>
-                        </TableHead>
-                      );
-                    })}
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {facilityStaff.map((staff) => (
-                    <TableRow key={staff.id}>
-                      <TableCell className="font-medium">
-                        <div>
-                          <div>{staff.name}</div>
-                          <Badge variant="outline" className="text-xs">
-                            {staff.role}
-                          </Badge>
-                        </div>
-                      </TableCell>
-                      {viewDates.map((date) => {
-                        const schedule = getScheduleForDateAndStaff(
-                          date,
-                          staff.id,
-                        );
-                        const isToday =
-                          formatDate(date) === formatDate(new Date());
-                        return (
-                          <TableCell
-                            key={date.toISOString()}
-                            className={`text-center p-2 ${
-                              isToday ? "bg-primary/5" : ""
-                            }`}
-                          >
-                            {schedule ? (
-                              <div className="group relative">
-                                <Badge
-                                  variant="secondary"
-                                  className="cursor-pointer hover:bg-secondary/80"
-                                >
-                                  {schedule.startTime} - {schedule.endTime}
-                                </Badge>
-                                <div className="absolute hidden group-hover:flex gap-1 top-full left-1/2 transform -translate-x-1/2 mt-1 z-10">
-                                  <Button
-                                    size="sm"
-                                    variant="outline"
-                                    className="h-6 px-2"
-                                    onClick={() => handleEdit(schedule)}
-                                  >
-                                    <Edit className="h-3 w-3" />
-                                  </Button>
-                                  <Button
-                                    size="sm"
-                                    variant="outline"
-                                    className="h-6 px-2"
-                                    onClick={() => handleDeleteClick(schedule)}
-                                  >
-                                    <Trash2 className="h-3 w-3 text-destructive" />
-                                  </Button>
-                                </div>
-                              </div>
-                            ) : (
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="h-8 w-full text-xs"
-                                onClick={() => handleAddNew(formatDate(date))}
-                              >
-                                <Plus className="h-3 w-3" />
-                              </Button>
-                            )}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Calendar View - Month */}
-      {viewMode === "calendar" && calendarView === "month" && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Monthly Calendar</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-7 gap-2">
-              {/* Day headers */}
-              {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
-                <div
-                  key={day}
-                  className="text-center font-semibold text-sm py-2 border-b"
-                >
-                  {day}
-                </div>
-              ))}
-
-              {/* Calendar grid */}
-              {monthCalendarGrid.map((week, weekIndex) =>
-                week.map((cell, dayIndex) => {
-                  const daySchedules = getSchedulesForDate(cell.date);
-                  const isToday =
-                    formatDate(cell.date) === formatDate(new Date());
-
-                  return (
-                    <div
-                      key={`${weekIndex}-${dayIndex}`}
-                      className={`min-h-[120px] border rounded-lg p-2 ${
-                        !cell.isCurrentMonth
-                          ? "bg-muted/30 text-muted-foreground"
-                          : "bg-card"
-                      } ${isToday ? "ring-2 ring-primary" : ""}`}
-                    >
-                      <div className="flex justify-between items-start mb-1">
-                        <span
-                          className={`text-sm font-medium ${
-                            isToday ? "text-primary font-bold" : ""
-                          }`}
-                        >
-                          {cell.date.getDate()}
-                        </span>
-                        {cell.isCurrentMonth && (
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-5 w-5 p-0"
-                            onClick={() => handleAddNew(formatDate(cell.date))}
-                          >
-                            <Plus className="h-3 w-3" />
-                          </Button>
-                        )}
-                      </div>
-
-                      <div className="space-y-1">
-                        {daySchedules.slice(0, 3).map((schedule) => (
-                          <div
-                            key={schedule.id}
-                            className="group relative text-xs bg-secondary/50 rounded px-1.5 py-0.5 cursor-pointer hover:bg-secondary/80"
-                            onClick={() => handleEdit(schedule)}
-                          >
-                            <div className="font-medium truncate">
-                              {schedule.staffName}
-                            </div>
-                            <div className="text-[10px] text-muted-foreground">
-                              {schedule.startTime}-{schedule.endTime}
-                            </div>
-                          </div>
-                        ))}
-                        {daySchedules.length > 3 && (
-                          <div className="text-[10px] text-muted-foreground text-center">
-                            +{daySchedules.length - 3} more
-                          </div>
-                        )}
-                      </div>
+      {/* Calendar View - Week/Month */}
+      {viewMode === "calendar" && (
+        <GenericCalendar<(typeof facilitySchedules)[0] & CalendarItem>
+          items={facilitySchedules}
+          config={{
+            title:
+              calendarView === "week" ? "Weekly Schedule" : "Monthly Calendar",
+            onItemClick: handleEdit,
+            onAddClick: handleAddNew,
+            showAddButton: true,
+            rowData:
+              calendarView === "week"
+                ? facilityStaff.map(
+                    (staff) =>
+                      ({
+                        id: staff.id,
+                        name: staff.name,
+                        role: staff.role,
+                      }) as CalendarRowData,
+                  )
+                : undefined,
+            getItemsForDateAndRow:
+              calendarView === "week"
+                ? (date, staffId) => {
+                    return getScheduleForDateAndStaff(date, Number(staffId))
+                      ? [getScheduleForDateAndStaff(date, Number(staffId))!]
+                      : [];
+                  }
+                : undefined,
+            renderRowHeader:
+              calendarView === "week"
+                ? (row) => (
+                    <div>
+                      <div>{row.name}</div>
+                      <Badge variant="outline" className="text-xs">
+                        {String(row.role || "")}
+                      </Badge>
                     </div>
-                  );
-                }),
-              )}
-            </div>
-          </CardContent>
-        </Card>
+                  )
+                : undefined,
+            renderWeekCell:
+              calendarView === "week"
+                ? ({ items, date }) => (
+                    <>
+                      {items.length > 0 ? (
+                        items.map((schedule) => (
+                          <div key={schedule.id} className="group relative">
+                            <Badge
+                              variant="secondary"
+                              className="cursor-pointer hover:bg-secondary/80"
+                              onClick={() => handleEdit(schedule)}
+                            >
+                              {schedule.startTime} - {schedule.endTime}
+                            </Badge>
+                            <div className="absolute hidden group-hover:flex gap-1 top-full left-1/2 transform -translate-x-1/2 mt-1 z-10">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="h-6 px-2"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleEdit(schedule);
+                                }}
+                              >
+                                <Edit className="h-3 w-3" />
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="h-6 px-2"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDeleteClick(schedule);
+                                }}
+                              >
+                                <Trash2 className="h-3 w-3 text-destructive" />
+                              </Button>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 w-full text-xs"
+                          onClick={() => handleAddNew(formatDate(date))}
+                        >
+                          <Plus className="h-3 w-3" />
+                        </Button>
+                      )}
+                    </>
+                  )
+                : ({ items }) => (
+                    <>
+                      {items.slice(0, 3).map((schedule) => (
+                        <div
+                          key={schedule.id}
+                          className="group relative text-xs bg-secondary/50 rounded px-1.5 py-0.5 cursor-pointer hover:bg-secondary/80"
+                          onClick={() => handleEdit(schedule)}
+                        >
+                          <div className="font-medium truncate">
+                            {schedule.staffName}
+                          </div>
+                          <div className="text-[10px] text-muted-foreground">
+                            {schedule.startTime}-{schedule.endTime}
+                          </div>
+                        </div>
+                      ))}
+                      {items.length > 3 && (
+                        <div className="text-[10px] text-muted-foreground text-center">
+                          +{items.length - 3} more
+                        </div>
+                      )}
+                    </>
+                  ),
+          }}
+          view={calendarView}
+          initialDate={currentWeekStart}
+        />
       )}
 
       {/* List View */}

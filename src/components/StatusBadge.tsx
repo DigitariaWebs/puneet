@@ -23,7 +23,17 @@ export function StatusBadge({
 
   const getVariant = () => {
     if (type === "status") {
-      return value === "active" ? "success" : "secondary";
+      if (
+        value === "active" ||
+        value === "completed" ||
+        value === "confirmed" ||
+        value === "paid"
+      )
+        return "success";
+      if (value === "pending") return "warning";
+      if (value === "cancelled" || value === "inactive") return "secondary";
+      if (value === "refunded") return "info";
+      return "secondary";
     }
     if (type === "inventory") {
       if (value === "in_stock") return "success";
@@ -85,7 +95,12 @@ export function StatusBadge({
         | "online"
         | "offline"
         | "busy"
-        | "available";
+        | "available"
+        | "completed"
+        | "confirmed"
+        | "cancelled"
+        | "paid"
+        | "refunded";
       return tStatus(statusKey);
     }
     if (type === "plan") {

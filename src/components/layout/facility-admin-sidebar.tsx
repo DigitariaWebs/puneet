@@ -44,9 +44,9 @@ export function FacilitySidebar() {
       items: [
         {
           title: tCommon("bookings"),
-          url: "/facility/bookings",
+          url: "/facility/dashboard/bookings",
           icon: Calendar,
-          disabled: true,
+          disabled: false,
         },
         {
           title: t("clients"),
