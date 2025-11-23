@@ -67,32 +67,32 @@ export default function ClientsPage() {
   const columns: ColumnDef<(typeof clients)[number]>[] = [
     {
       key: "name",
-      label: "Name",
+      label: tCommon("name"),
       icon: User,
       defaultVisible: true,
     },
     {
       key: "email",
-      label: "Email",
+      label: tCommon("email"),
       icon: MailIcon,
       defaultVisible: true,
     },
     {
       key: "phone",
-      label: "Phone",
+      label: tCommon("phone"),
       icon: MailIcon,
       defaultVisible: true,
       render: (client) => client.phone || "N/A",
     },
     {
       key: "facility",
-      label: "Facility",
+      label: tCommon("facility"),
       icon: Building,
       defaultVisible: true,
     },
     {
       key: "status",
-      label: "Status",
+      label: tCommon("status"),
       icon: Building,
       defaultVisible: true,
       render: (client) => <StatusBadge type="status" value={client.status} />,
@@ -138,43 +138,52 @@ export default function ClientsPage() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Clients</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t("totalClients")}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{clients.length}</div>
             <p className="text-xs text-muted-foreground">
-              {clients.filter((c) => c.status === "active").length} active
+              {clients.filter((c) => c.status === "active").length}{" "}
+              {tStatus("active").toLowerCase()}
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Active Clients
+              {tStatus("active")} {t("title")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
               {clients.filter((c) => c.status === "active").length}
             </div>
-            <p className="text-xs text-muted-foreground">Currently active</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Facilities</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {Array.from(new Set(clients.map((c) => c.facility))).length}
-            </div>
-            <p className="text-xs text-muted-foreground">With clients</p>
+            <p className="text-xs text-muted-foreground">
+              {tStatus("active").toLowerCase()}
+            </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Avg Clients/Facility
+              {tCommon("facilities")}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {Array.from(new Set(clients.map((c) => c.facility))).length}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {tCommon("active").toLowerCase()}
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              {t("avgClientsPerFacility")}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -184,7 +193,9 @@ export default function ClientsPage() {
                   Array.from(new Set(clients.map((c) => c.facility))).length,
               )}
             </div>
-            <p className="text-xs text-muted-foreground">Per facility</p>
+            <p className="text-xs text-muted-foreground">
+              {tCommon("perFacility")}
+            </p>
           </CardContent>
         </Card>
       </div>

@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { notFound } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -204,6 +205,8 @@ const petPhotos: Record<number, string[]> = {
 };
 
 export default function PetDetailPage() {
+  const t = useTranslations("pets");
+  const tCommon = useTranslations("common");
   const params = useParams();
   const router = useRouter();
   const clientId = Number(params.id);
@@ -233,11 +236,13 @@ export default function PetDetailPage() {
       <div className="flex items-center gap-4">
         <Button variant="outline" size="sm" onClick={() => router.back()}>
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Client
+          {tCommon("back")}
         </Button>
         <div>
           <h1 className="text-3xl font-bold tracking-tight">{pet.name}</h1>
-          <p className="text-muted-foreground">Pet Details - {client.name}</p>
+          <p className="text-muted-foreground">
+            {t("petDetails")} - {client.name}
+          </p>
         </div>
       </div>
 
@@ -246,48 +251,56 @@ export default function PetDetailPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Heart className="h-5 w-5" />
-            Pet Overview
+            {t("petDetails")}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Type</p>
+              <p className="text-sm font-medium text-muted-foreground">
+                {tCommon("type")}
+              </p>
               <p>{pet.type}</p>
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Breed</p>
+              <p className="text-sm font-medium text-muted-foreground">
+                {t("breed")}
+              </p>
               <p>{pet.breed}</p>
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Age</p>
+              <p className="text-sm font-medium text-muted-foreground">
+                {t("age")}
+              </p>
               <p>{pet.age} years</p>
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">
-                Weight
+                {t("weight")}
               </p>
               <p>{pet.weight} kg</p>
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Color</p>
+              <p className="text-sm font-medium text-muted-foreground">
+                {t("color")}
+              </p>
               <p>{pet.color}</p>
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">
-                Microchip
+                {t("microchip")}
               </p>
               <p>{pet.microchip}</p>
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">
-                Allergies
+                {tCommon("allergies")}
               </p>
               <p>{pet.allergies}</p>
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">
-                Special Needs
+                {tCommon("specialNeeds")}
               </p>
               <p>{pet.specialNeeds}</p>
             </div>
@@ -300,27 +313,27 @@ export default function PetDetailPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <User className="h-5 w-5" />
-            Owner Information
+            {tCommon("owner")} {tCommon("details")}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
             <p>
-              <strong>Name:</strong> {client.name}
+              <strong>{tCommon("name")}:</strong> {client.name}
             </p>
             <p>
-              <strong>Email:</strong> {client.email}
+              <strong>{tCommon("email")}:</strong> {client.email}
             </p>
             {client.phone && (
               <p>
-                <strong>Phone:</strong> {client.phone}
+                <strong>{tCommon("phone")}:</strong> {client.phone}
               </p>
             )}
             <p>
-              <strong>Facility:</strong> {client.facility}
+              <strong>{tCommon("facility")}:</strong> {client.facility}
             </p>
             <p>
-              <strong>Status:</strong>{" "}
+              <strong>{tCommon("status")}:</strong>{" "}
               <Badge
                 variant={client.status === "active" ? "default" : "secondary"}
               >
@@ -337,19 +350,19 @@ export default function PetDetailPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Syringe className="h-5 w-5" />
-              Vaccine History
+              {t("vaccinations")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <DataTable
               data={vaccines as unknown as Record<string, unknown>[]}
               columns={[
-                { key: "vaccine", label: "Vaccine" },
-                { key: "date", label: "Date" },
-                { key: "nextDue", label: "Next Due" },
+                { key: "vaccine", label: tCommon("vaccine") },
+                { key: "date", label: tCommon("date") },
+                { key: "nextDue", label: tCommon("nextDue") },
                 {
                   key: "status",
-                  label: "Status",
+                  label: tCommon("status"),
                   render: (item) => (
                     <Badge
                       variant={
@@ -372,19 +385,19 @@ export default function PetDetailPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <AlertTriangle className="h-5 w-5" />
-              Incident History
+              {tCommon("incidents")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <DataTable
               data={incidents as unknown as Record<string, unknown>[]}
               columns={[
-                { key: "date", label: "Date" },
-                { key: "type", label: "Type" },
-                { key: "description", label: "Description" },
+                { key: "date", label: tCommon("date") },
+                { key: "type", label: tCommon("type") },
+                { key: "description", label: tCommon("description") },
                 {
                   key: "severity",
-                  label: "Severity",
+                  label: tCommon("severity"),
                   render: (item) => (
                     <Badge
                       variant={
@@ -411,19 +424,19 @@ export default function PetDetailPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Calendar className="h-5 w-5" />
-            Subscribed Services
+            {tCommon("services")}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <DataTable
             data={services as unknown as Record<string, unknown>[]}
             columns={[
-              { key: "service", label: "Service" },
-              { key: "frequency", label: "Frequency" },
-              { key: "nextVisit", label: "Next Visit" },
+              { key: "service", label: tCommon("service") },
+              { key: "frequency", label: tCommon("frequency") },
+              { key: "nextVisit", label: tCommon("nextVisit") },
               {
                 key: "status",
-                label: "Status",
+                label: tCommon("status"),
                 render: (item) => (
                   <Badge
                     variant={
@@ -444,16 +457,16 @@ export default function PetDetailPage() {
       {/* Medical Records */}
       <Card>
         <CardHeader>
-          <CardTitle>Medical Records</CardTitle>
+          <CardTitle>{t("medicalHistory")}</CardTitle>
         </CardHeader>
         <CardContent>
           <DataTable
             data={medicalRecords as unknown as Record<string, unknown>[]}
             columns={[
-              { key: "date", label: "Date" },
-              { key: "type", label: "Type" },
-              { key: "description", label: "Description" },
-              { key: "vet", label: "Veterinarian" },
+              { key: "date", label: tCommon("date") },
+              { key: "type", label: tCommon("type") },
+              { key: "description", label: tCommon("description") },
+              { key: "vet", label: tCommon("veterinarian") },
             ]}
           />
         </CardContent>
@@ -462,7 +475,7 @@ export default function PetDetailPage() {
       {/* Behavior Notes */}
       <Card>
         <CardHeader>
-          <CardTitle>Behavior Notes</CardTitle>
+          <CardTitle>{t("behaviorNotes")}</CardTitle>
         </CardHeader>
         <CardContent>
           <p>{behaviorNotes}</p>
@@ -474,22 +487,22 @@ export default function PetDetailPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Utensils className="h-5 w-5" />
-            Diet & Feeding
+            {t("dietaryNeeds")}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
             <p>
-              <strong>Food:</strong> {diet.food}
+              <strong>{tCommon("food")}:</strong> {diet.food}
             </p>
             <p>
-              <strong>Amount:</strong> {diet.amount}
+              <strong>{tCommon("amount")}:</strong> {diet.amount}
             </p>
             <p>
-              <strong>Treats:</strong> {diet.treats}
+              <strong>{tCommon("treats")}:</strong> {diet.treats}
             </p>
             <p>
-              <strong>Restrictions:</strong> {diet.restrictions}
+              <strong>{tCommon("restrictions")}:</strong> {diet.restrictions}
             </p>
           </div>
         </CardContent>
@@ -500,7 +513,7 @@ export default function PetDetailPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Camera className="h-5 w-5" />
-            Photos
+            {tCommon("photos")}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -517,7 +530,7 @@ export default function PetDetailPage() {
               ))}
             </div>
           ) : (
-            <p className="text-muted-foreground">No photos available</p>
+            <p className="text-muted-foreground">{tCommon("noPhotos")}</p>
           )}
         </CardContent>
       </Card>

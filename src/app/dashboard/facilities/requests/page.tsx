@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { DataTable, ColumnDef, FilterDef } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,6 +20,7 @@ import { facilityRequests, FacilityRequest } from "@/data/facility-requests";
 
 export default function FacilitiesRequestsPage() {
   const router = useRouter();
+  const tCommon = useTranslations("common");
   const [requests, setRequests] = useState(facilityRequests);
   const [selectedRequest, setSelectedRequest] =
     useState<FacilityRequest | null>(null);
@@ -41,12 +43,12 @@ export default function FacilitiesRequestsPage() {
   const columns: ColumnDef<FacilityRequest>[] = [
     {
       key: "facilityName",
-      label: "Facility",
+      label: tCommon("facility"),
       defaultVisible: true,
     },
     {
       key: "requestType",
-      label: "Type",
+      label: tCommon("type"),
       defaultVisible: true,
     },
     {

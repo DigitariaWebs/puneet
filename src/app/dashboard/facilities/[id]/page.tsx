@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { facilities } from "@/data/facilities";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
@@ -92,6 +93,9 @@ const billingHistory = [
 ];
 import { useParams } from "next/navigation";
 export default function FacilityDetailPage() {
+  const t = useTranslations("facilities");
+  const tCommon = useTranslations("common");
+  const tStatus = useTranslations("status");
   const [viewMode, setViewMode] = useState<"list" | "timeline">("list");
   const [billingView, setBillingView] = useState<"current" | "history">(
     "current",
@@ -168,16 +172,14 @@ export default function FacilityDetailPage() {
       <Link href="/dashboard/facilities" className="mb-6">
         <Button variant="outline" size="sm">
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Facilities
+          {tCommon("back")} {t("title")}
         </Button>
       </Link>
 
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-4xl font-bold tracking-tight">{facility.name}</h1>
-          <p className="text-muted-foreground mt-1">
-            Facility Details & Management
-          </p>
+          <p className="text-muted-foreground mt-1">{t("facilityDetails")}</p>
         </div>
         <div className="flex items-center gap-2">
           <StatusBadge type="status" value={currentStatus} showIcon />
@@ -195,8 +197,8 @@ export default function FacilityDetailPage() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="active">Active</SelectItem>
-              <SelectItem value="inactive">Inactive</SelectItem>
+              <SelectItem value="active">{tStatus("active")}</SelectItem>
+              <SelectItem value="inactive">{tStatus("inactive")}</SelectItem>
             </SelectContent>
           </Select>
           <Button
@@ -205,7 +207,7 @@ export default function FacilityDetailPage() {
             onClick={() => setShowDeleteDialog(true)}
           >
             <Trash2 className="h-4 w-4 mr-2" />
-            Delete
+            {tCommon("delete")}
           </Button>
         </div>
       </div>
@@ -240,9 +242,9 @@ export default function FacilityDetailPage() {
       />
 
       <div className="flex items-center justify-between">
-        <h3 className="text-2xl font-semibold">Facility Information</h3>
+        <h3 className="text-2xl font-semibold">{t("facilityDetails")}</h3>
         <div className="text-sm text-muted-foreground">
-          Subscription expires:{" "}
+          {t("subscriptionEnd")}:{" "}
           <span className="font-medium">
             {facility.subscriptionEnd || "N/A"}
           </span>
@@ -255,11 +257,9 @@ export default function FacilityDetailPage() {
       <Dialog open={showStatusDialog} onOpenChange={setShowStatusDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Change Facility Status</DialogTitle>
+            <DialogTitle>{tCommon("changeStatus")}</DialogTitle>
             <DialogDescription>
-              Are you sure you want to change the status to{" "}
-              <strong>{pendingStatus}</strong>? This may affect facility
-              operations.
+              {tCommon("confirmChangeStatus")} <strong>{pendingStatus}</strong>?
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -270,7 +270,7 @@ export default function FacilityDetailPage() {
                 setPendingStatus(null);
               }}
             >
-              Cancel
+              {tCommon("cancel")}
             </Button>
             <Button
               onClick={() => {
@@ -282,7 +282,7 @@ export default function FacilityDetailPage() {
                 setPendingStatus(null);
               }}
             >
-              Confirm
+              {tCommon("confirm")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -292,18 +292,17 @@ export default function FacilityDetailPage() {
       <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Delete Facility</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to delete this facility? This action cannot
-              be undone and will permanently remove all associated data.
-            </DialogDescription>
+            <DialogTitle>
+              {tCommon("delete")} {tCommon("facility")}
+            </DialogTitle>
+            <DialogDescription>{tCommon("confirmDelete")}</DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button
               variant="outline"
               onClick={() => setShowDeleteDialog(false)}
             >
-              Cancel
+              {tCommon("cancel")}
             </Button>
             <Button
               variant="destructive"
@@ -312,7 +311,7 @@ export default function FacilityDetailPage() {
                 setShowDeleteDialog(false);
               }}
             >
-              Delete
+              {tCommon("delete")}
             </Button>
           </DialogFooter>
         </DialogContent>

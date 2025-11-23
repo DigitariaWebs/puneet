@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { plans as initialPlans, type Plan } from "@/data/plans";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -38,6 +39,7 @@ import {
 } from "lucide-react";
 
 export default function BillingPage() {
+  const t = useTranslations("billing");
   const [plansState, setPlansState] = useState(initialPlans);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [isPlanModalOpen, setIsPlanModalOpen] = useState(false);
@@ -101,11 +103,9 @@ export default function BillingPage() {
   ];
 
   return (
-    <div className="flex-1 space-y-4 p-4 pt-6">
-      <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">
-          Subscription & Billing
-        </h2>
+    <div className="flex-1 space-y-6 p-6 pt-8">
+      <div className="flex items-center justify-between">
+        <h1 className="text-4xl font-bold tracking-tight">{t("title")}</h1>
         <div className="flex items-center space-x-2">
           <Button variant="outline">
             <Receipt className="mr-2 h-4 w-4" />
@@ -164,7 +164,7 @@ export default function BillingPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Active Subscriptions
+              {t("avgRevenuePerSub")}
             </CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>

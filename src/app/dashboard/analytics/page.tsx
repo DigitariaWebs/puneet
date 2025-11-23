@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { facilities } from "@/data/facilities";
 import { RevenueChartSection } from "@/components/facility/RevenueChartSection";
 import { BookingsChartSection } from "@/components/facility/BookingsChartSection";
@@ -42,6 +43,7 @@ const baseBookingsData = [
 ];
 
 export default function AnalyticsPage() {
+  const t = useTranslations("analytics");
   const [revenueChartType, setRevenueChartType] = useState<
     "bar" | "line" | "area"
   >("bar");
@@ -66,7 +68,7 @@ export default function AnalyticsPage() {
   return (
     <div className="flex-1 space-y-6 p-6 pt-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-4xl font-bold tracking-tight">Analytics</h1>
+        <h1 className="text-4xl font-bold tracking-tight">{t("title")}</h1>
       </div>
 
       {/* Revenue & Bookings Overview */}

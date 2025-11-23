@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { facilityConfig } from "@/data/facility-config";
 import { ServiceSettings } from "@/components/facility-config/ServiceSettings";
@@ -14,6 +15,8 @@ import { Save, AlertTriangle } from "lucide-react";
 type FacilityConfig = typeof facilityConfig;
 
 export default function FacilityConfigPage() {
+  const t = useTranslations("facilityConfig");
+  const tCommon = useTranslations("common");
   const [config, setConfig] = useState<FacilityConfig>(facilityConfig);
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     services: true,
@@ -44,29 +47,23 @@ export default function FacilityConfigPage() {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-3xl font-bold tracking-tight">
-              Facility Configuration
-            </h2>
-            <p className="text-muted-foreground">
-              Configure global settings that apply to all facilities in the
-              platform, including service availability, pricing structures,
-              booking rules, and operational policies.
-            </p>
+            <h2 className="text-3xl font-bold tracking-tight">{t("title")}</h2>
+            <p className="text-muted-foreground">{t("configDescription")}</p>
           </div>
           <Button onClick={handleSave}>
             <Save className="mr-2 h-4 w-4" />
-            Save All Changes
+            {t("saveChanges")}
           </Button>
         </div>
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
           <div className="flex items-start space-x-2">
             <AlertTriangle className="h-5 w-5 text-yellow-600 mt-0.5 shrink-0" />
             <div>
-              <div className="text-yellow-800 font-medium">Warning</div>
+              <div className="text-yellow-800 font-medium">
+                {tCommon("warning")}
+              </div>
               <div className="text-sm text-yellow-700">
-                Some configuration changes may be destructive and could affect
-                existing bookings, pricing, or facility operations. Please
-                review changes carefully before saving.
+                {t("configWarning")}
               </div>
             </div>
           </div>

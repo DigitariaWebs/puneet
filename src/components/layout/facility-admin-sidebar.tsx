@@ -12,135 +12,142 @@ import {
   Clock,
   MessageSquare,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { GenericSidebar, MenuSection } from "@/components/ui/generic-sidebar";
 
-const menuSections: MenuSection[] = [
-  {
-    label: "Overview",
-    items: [
-      {
-        title: "Dashboard",
-        url: "/facility/dashboard",
-        icon: Home,
-        disabled: false,
-      },
-      {
-        title: "Analytics",
-        url: "/facility/analytics",
-        icon: BarChart3,
-        disabled: true,
-      },
-    ],
-  },
-  {
-    label: "Operations",
-    items: [
-      {
-        title: "Bookings",
-        url: "/facility/bookings",
-        icon: Calendar,
-        disabled: true,
-      },
-      {
-        title: "Clients",
-        url: "/facility/dashboard/clients",
-        icon: Users,
-        disabled: false,
-      },
-      {
-        title: "Customer Reach",
-        url: "/facility/customer-reach",
-        icon: MessageSquare,
-        disabled: false,
-      },
-      {
-        title: "Pets",
-        url: "/facility/pets",
-        icon: PawPrint,
-        disabled: true,
-      },
-    ],
-  },
-  {
-    label: "Services",
-    items: [
-      {
-        title: "Daycare",
-        url: "/facility/dashboard/services/daycare",
-        icon: PawPrint,
-        disabled: false,
-      },
-      {
-        title: "Grooming",
-        url: "/facility/dashboard/services/grooming",
-        icon: PawPrint,
-        disabled: false,
-      },
-      {
-        title: "Boarding",
-        url: "/facility/dashboard/services/boarding",
-        icon: PawPrint,
-        disabled: false,
-      },
-      {
-        title: "Veterinary",
-        url: "/facility/dashboard/services/vet",
-        icon: PawPrint,
-        disabled: false,
-      },
-      {
-        title: "Store",
-        url: "/facility/dashboard/services/store",
-        icon: PawPrint,
-        disabled: false,
-      },
-    ],
-  },
-  {
-    label: "Management",
-    items: [
-      {
-        title: "Staff",
-        url: "/facility/staff",
-        icon: UserCheck,
-        disabled: false,
-      },
-      {
-        title: "Scheduling",
-        url: "/facility/scheduling",
-        icon: Clock,
-        disabled: false,
-      },
-      {
-        title: "Inventory",
-        url: "/facility/inventory",
-        icon: Package,
-        disabled: false,
-      },
-    ],
-  },
-  {
-    label: "Settings",
-    items: [
-      {
-        title: "Facility Settings",
-        url: "/facility/settings",
-        icon: Settings,
-        disabled: true,
-      },
-    ],
-  },
-];
-
 export function FacilitySidebar() {
+  const t = useTranslations("navigation");
+  const tServices = useTranslations("services");
+  const tCommon = useTranslations("common");
+
+  const menuSections: MenuSection[] = [
+    {
+      label: t("overview"),
+      items: [
+        {
+          title: t("dashboard"),
+          url: "/facility/dashboard",
+          icon: Home,
+          disabled: false,
+        },
+        {
+          title: t("analyticsReporting"),
+          url: "/facility/analytics",
+          icon: BarChart3,
+          disabled: true,
+        },
+      ],
+    },
+    {
+      label: t("operations"),
+      items: [
+        {
+          title: tCommon("bookings"),
+          url: "/facility/bookings",
+          icon: Calendar,
+          disabled: true,
+        },
+        {
+          title: t("clients"),
+          url: "/facility/dashboard/clients",
+          icon: Users,
+          disabled: false,
+        },
+        {
+          title: t("customerReach"),
+          url: "/facility/customer-reach",
+          icon: MessageSquare,
+          disabled: false,
+        },
+        {
+          title: tCommon("pets"),
+          url: "/facility/pets",
+          icon: PawPrint,
+          disabled: true,
+        },
+      ],
+    },
+    {
+      label: tCommon("services"),
+      items: [
+        {
+          title: tServices("daycare"),
+          url: "/facility/dashboard/services/daycare",
+          icon: PawPrint,
+          disabled: false,
+        },
+        {
+          title: tServices("grooming"),
+          url: "/facility/dashboard/services/grooming",
+          icon: PawPrint,
+          disabled: false,
+        },
+        {
+          title: tServices("boarding"),
+          url: "/facility/dashboard/services/boarding",
+          icon: PawPrint,
+          disabled: false,
+        },
+        {
+          title: tServices("veterinary"),
+          url: "/facility/dashboard/services/vet",
+          icon: PawPrint,
+          disabled: false,
+        },
+        {
+          title: tServices("store"),
+          url: "/facility/dashboard/services/store",
+          icon: PawPrint,
+          disabled: false,
+        },
+      ],
+    },
+    {
+      label: t("management"),
+      items: [
+        {
+          title: t("staff"),
+          url: "/facility/staff",
+          icon: UserCheck,
+          disabled: false,
+        },
+        {
+          title: t("scheduling"),
+          url: "/facility/scheduling",
+          icon: Clock,
+          disabled: false,
+        },
+        {
+          title: t("inventory"),
+          url: "/facility/inventory",
+          icon: Package,
+          disabled: false,
+        },
+      ],
+    },
+    {
+      label: tCommon("settings"),
+      items: [
+        {
+          title: t("facilitySettings"),
+          url: "/facility/settings",
+          icon: Settings,
+          disabled: true,
+        },
+      ],
+    },
+  ];
+
   const handleLogout = () => {
     // TODO: Implement logout logic
   };
 
   return (
     <GenericSidebar
-      header={<h2 className="text-lg font-semibold">Facility Dashboard</h2>}
+      header={
+        <h2 className="text-lg font-semibold">{t("facilityDashboard")}</h2>
+      }
       menuSections={menuSections}
       onLogout={handleLogout}
     />

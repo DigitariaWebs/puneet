@@ -2,6 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Wrench } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface ActiveItem {
   id: number;
@@ -18,6 +19,8 @@ interface ActiveNowSectionProps {
 }
 
 export function ActiveNowSection({ activeItems }: ActiveNowSectionProps) {
+  const t = useTranslations("dashboard");
+
   const sortedItems = [...activeItems].sort((a, b) => {
     if (a.requestingSupport && !b.requestingSupport) return -1;
     if (!a.requestingSupport && b.requestingSupport) return 1;
@@ -42,7 +45,7 @@ export function ActiveNowSection({ activeItems }: ActiveNowSectionProps) {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Users className="h-5 w-5" />
-          Active Now
+          {t("activeNow")}
         </CardTitle>
       </CardHeader>
       <CardContent>

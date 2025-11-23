@@ -3,6 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Activity, List, Clock } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface Activity {
   id: number;
@@ -25,13 +26,15 @@ export function RecentActivitiesSection({
   viewMode,
   onViewModeChange,
 }: RecentActivitiesSectionProps) {
+  const t = useTranslations("dashboard");
+
   return (
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2">
             <Activity className="h-5 w-5" />
-            Recent Activities
+            {t("recentActivities")}
           </CardTitle>
           <div className="flex items-center gap-2">
             <Button
@@ -40,7 +43,7 @@ export function RecentActivitiesSection({
               onClick={() => onViewModeChange("list")}
             >
               <List className="h-4 w-4 mr-2" />
-              List
+              {t("listView")}
             </Button>
             <Button
               variant={viewMode === "timeline" ? "default" : "outline"}
@@ -48,6 +51,7 @@ export function RecentActivitiesSection({
               onClick={() => onViewModeChange("timeline")}
             >
               <Clock className="h-4 w-4 mr-2" />
+              {t("timelineView")}
               Timeline
             </Button>
           </div>

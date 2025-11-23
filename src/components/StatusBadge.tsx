@@ -1,5 +1,8 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, XCircle, CreditCard, Crown } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface StatusBadgeProps {
   type: "status" | "plan" | "role" | "inventory";
@@ -14,6 +17,10 @@ export function StatusBadge({
   size = "default",
   showIcon = false,
 }: StatusBadgeProps) {
+  const tStatus = useTranslations("status");
+  const tPlans = useTranslations("plans");
+  const tRoles = useTranslations("userRoles");
+
   const getVariant = () => {
     if (type === "status") {
       return value === "active" ? "success" : "secondary";
@@ -66,10 +73,45 @@ export function StatusBadge({
     }
   };
 
+  const getTranslatedValue = () => {
+    if (type === "status") {
+      const statusKey = value.toLowerCase() as
+        | "active"
+        | "inactive"
+        | "pending"
+        | "approved"
+        | "denied"
+        | "suspended"
+        | "online"
+        | "offline"
+        | "busy"
+        | "available";
+      return tStatus(statusKey);
+    }
+    if (type === "plan") {
+      const planKey = value.toLowerCase() as
+        | "free"
+        | "basic"
+        | "premium"
+        | "enterprise";
+      return tPlans(planKey);
+    }
+    if (type === "role") {
+      if (value === "Super Admin") return tRoles("superAdmin");
+      if (value === "Facility Admin" || value === "Admin")
+        return tRoles("facilityAdmin");
+      if (value === "Manager") return tRoles("manager");
+      if (value === "Staff") return tRoles("staff");
+      if (value === "Customer") return tRoles("customer");
+      return value;
+    }
+    return value;
+  };
+
   return (
     <Badge variant={getVariant()} className={getSizeClass()}>
       {getIcon()}
-      {value}
+      {getTranslatedValue()}
     </Badge>
   );
 }

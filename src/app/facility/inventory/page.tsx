@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { inventory } from "@/data/inventory";
 import { facilities } from "@/data/facilities";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -96,7 +97,8 @@ const categories = [
 
 const units = ["pieces", "bags", "bottles", "cans", "boxes", "packs", "beds"];
 
-export default function FacilityInventoryPage() {
+export default function InventoryPage() {
+  const t = useTranslations("inventory");
   // Static facility ID for now (would come from user token in production)
   const facilityId = 11;
   const facility = facilities.find((f) => f.id === facilityId);
@@ -302,7 +304,7 @@ export default function FacilityInventoryPage() {
         <div className="flex items-center space-x-2">
           <Button onClick={handleAddNew}>
             <Plus className="mr-2 h-4 w-4" />
-            Add Item
+            {t("addItem")}
           </Button>
           <Button
             variant="outline"
@@ -337,7 +339,9 @@ export default function FacilityInventoryPage() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Items</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t("totalValue")}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{totalItems}</div>
@@ -359,7 +363,9 @@ export default function FacilityInventoryPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Value</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t("outOfStock")}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">${totalValue.toFixed(2)}</div>
@@ -386,7 +392,7 @@ export default function FacilityInventoryPage() {
         columns={columns}
         filters={filters}
         searchKey="name"
-        searchPlaceholder="Search inventory..."
+        searchPlaceholder={t("searchItems")}
         itemsPerPage={10}
         actions={(item) => (
           <div className="flex gap-2">

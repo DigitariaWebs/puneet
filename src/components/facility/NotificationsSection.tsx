@@ -3,6 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Bell, Check, X, Eye, AlertTriangle } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface Notification {
   id: number;
@@ -25,6 +26,8 @@ export function NotificationsSection({
   onApprove,
   onDeny,
 }: NotificationsSectionProps) {
+  const t = useTranslations("dashboard");
+
   const handleViewDetails = () => {
     // TODO: Implement view details
   };
@@ -48,6 +51,7 @@ export function NotificationsSection({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Bell className="h-5 w-5" />
+          {t("notifications")}
           Notifications
         </CardTitle>
       </CardHeader>

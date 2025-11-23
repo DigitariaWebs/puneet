@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { incidents as initialIncidents, Incident } from "@/data/incidents";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -13,14 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { IncidentModal } from "@/components/modals/IncidentModal";
 import { DataTable, ColumnDef, FilterDef } from "@/components/DataTable";
-import {
-  AlertTriangle,
-  Download,
-  Eye,
-  CheckCircle,
-  Clock,
-  AlertCircle,
-} from "lucide-react";
+import { AlertTriangle, Download, Eye, CheckCircle, Clock } from "lucide-react";
 
 const exportToCSV = (incidents: Incident[]) => {
   const headers = [
@@ -65,6 +59,8 @@ const exportToCSV = (incidents: Incident[]) => {
 };
 
 export default function IncidentsPage() {
+  const t = useTranslations("incidents");
+  const tCommon = useTranslations("common");
   const [incidentsState, setIncidentsState] = useState(initialIncidents);
   const [selectedIncident, setSelectedIncident] = useState<Incident | null>(
     null,
@@ -80,7 +76,7 @@ export default function IncidentsPage() {
     },
     {
       key: "title",
-      label: "Title",
+      label: tCommon("details"),
       icon: AlertTriangle,
       defaultVisible: true,
     },
@@ -126,22 +122,21 @@ export default function IncidentsPage() {
     },
     {
       key: "reporter",
-      label: "Reporter",
-      icon: AlertCircle,
+      label: t("reportedBy"),
+      icon: AlertTriangle,
       defaultVisible: true,
     },
     {
       key: "facility",
-      label: "Facility",
+      label: tCommon("facility"),
       icon: AlertTriangle,
       defaultVisible: true,
     },
     {
       key: "createdAt",
-      label: "Created",
+      label: t("reportedAt"),
       icon: Clock,
       defaultVisible: true,
-      render: (incident) => new Date(incident.createdAt).toLocaleDateString(),
     },
   ];
 
@@ -215,13 +210,13 @@ export default function IncidentsPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Total Incidents
+              {t("totalIncidents")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{incidentsState.length}</div>
             <p className="text-xs text-muted-foreground">
-              {resolvedIncidents} resolved
+              {incidentsState.filter((i) => i.status === "Open").length} open
             </p>
           </CardContent>
         </Card>
@@ -278,7 +273,7 @@ export default function IncidentsPage() {
         columns={columns}
         filters={filters}
         searchKey="title"
-        searchPlaceholder="Search incidents..."
+        searchPlaceholder={t("searchIncidents")}
         itemsPerPage={10}
         actions={(incident) => (
           <Button

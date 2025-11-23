@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { users } from "@/data/users";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -72,6 +73,10 @@ const exportUsersToCSV = (usersData: typeof users) => {
 };
 
 export default function UsersPage() {
+  const t = useTranslations("users");
+  const tCommon = useTranslations("common");
+  const tStatus = useTranslations("status");
+  const tRoles = useTranslations("userRoles");
   const [selectedUser, setSelectedUser] = useState<(typeof users)[0] | null>(
     null,
   );
@@ -79,39 +84,39 @@ export default function UsersPage() {
   const columns: ColumnDef<(typeof users)[0]>[] = [
     {
       key: "name",
-      label: "Name",
+      label: t("userName"),
       icon: User,
       defaultVisible: true,
     },
     {
       key: "email",
-      label: "Email",
+      label: t("email"),
       icon: MailIcon,
       defaultVisible: true,
     },
     {
       key: "role",
-      label: "Role",
+      label: t("role"),
       icon: Shield,
       defaultVisible: true,
       render: (user) => <StatusBadge type="role" value={user.role} />,
     },
     {
       key: "facility",
-      label: "Facility",
+      label: t("facility"),
       icon: Building,
       defaultVisible: true,
     },
     {
       key: "status",
-      label: "Status",
+      label: tCommon("status"),
       icon: Shield,
       defaultVisible: true,
       render: (user) => <StatusBadge type="status" value={user.status} />,
     },
     {
       key: "lastLogin",
-      label: "Last Login",
+      label: t("lastLogin"),
       icon: Clock,
       defaultVisible: true,
     },
@@ -120,28 +125,30 @@ export default function UsersPage() {
   const filters: FilterDef[] = [
     {
       key: "status",
-      label: "Status",
+      label: tCommon("status"),
       options: [
-        { value: "all", label: "All Status" },
-        { value: "active", label: "Active" },
-        { value: "inactive", label: "Inactive" },
+        { value: "all", label: tCommon("all") + " " + tCommon("status") },
+        { value: "active", label: tStatus("active") },
+        { value: "inactive", label: tStatus("inactive") },
       ],
     },
     {
       key: "role",
-      label: "Role",
+      label: t("role"),
       options: [
-        { value: "all", label: "All Roles" },
-        { value: "Admin", label: "Admin" },
-        { value: "Manager", label: "Manager" },
-        { value: "Staff", label: "Staff" },
+        { value: "all", label: tCommon("all") + " " + t("role") },
+        { value: "Super Admin", label: tRoles("superAdmin") },
+        { value: "Facility Admin", label: tRoles("facilityAdmin") },
+        { value: "Manager", label: tRoles("manager") },
+        { value: "Staff", label: tRoles("staff") },
+        { value: "Customer", label: tRoles("customer") },
       ],
     },
     {
       key: "facility",
-      label: "Facility",
+      label: t("facility"),
       options: [
-        { value: "all", label: "All Facilities" },
+        { value: "all", label: tCommon("all") + " " + tCommon("facilities") },
         ...Array.from(new Set(users.map((u) => u.facility))).map((f) => ({
           value: f,
           label: f,
@@ -153,11 +160,11 @@ export default function UsersPage() {
   return (
     <div className="flex-1 space-y-4 p-4 pt-6">
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Users Management</h2>
+        <h2 className="text-3xl font-bold tracking-tight">{t("title")}</h2>
         <div className="flex items-center space-x-2">
           <Button variant="outline" onClick={() => exportUsersToCSV(users)}>
             <Download className="mr-2 h-4 w-4" />
-            Export
+            {tCommon("export")}
           </Button>
         </div>
       </div>
@@ -166,12 +173,15 @@ export default function UsersPage() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t("totalUsers")}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{users.length}</div>
             <p className="text-xs text-muted-foreground">
-              {users.filter((u) => u.status === "active").length} active
+              {users.filter((u) => u.status === "active").length}{" "}
+              {tStatus("active").toLowerCase()}
             </p>
           </CardContent>
         </Card>
@@ -195,7 +205,9 @@ export default function UsersPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Users</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t("adminUsers")}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
@@ -227,7 +239,7 @@ export default function UsersPage() {
         columns={columns}
         filters={filters}
         searchKey="name"
-        searchPlaceholder="Search users..."
+        searchPlaceholder={t("searchUsers")}
         itemsPerPage={10}
         actions={(user) => (
           <Button
@@ -244,7 +256,7 @@ export default function UsersPage() {
           <div className="p-6 flex-1 overflow-y-auto">
             <DialogHeader className="mb-0">
               <DialogTitle className="sr-only">
-                {selectedUser?.name} - User Details
+                {selectedUser?.name} - {t("userDetails")}
               </DialogTitle>
             </DialogHeader>
             {selectedUser && <UserModal user={selectedUser} />}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -49,6 +50,7 @@ type NewAnnouncement = {
 };
 
 export default function SupportPage() {
+  const t = useTranslations("support");
   const [ticketsState] = useState(supportTickets);
   const [selectedTicket, setSelectedTicket] = useState<SupportTicket | null>(
     null,
@@ -185,11 +187,9 @@ export default function SupportPage() {
   };
 
   return (
-    <div className="flex-1 space-y-4 p-4 pt-6">
-      <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">
-          Support & Communication
-        </h2>
+    <div className="flex-1 space-y-6 p-6 pt-8">
+      <div className="flex items-center justify-between">
+        <h1 className="text-4xl font-bold tracking-tight">{t("title")}</h1>
       </div>
 
       <Tabs defaultValue="tickets" className="w-full">

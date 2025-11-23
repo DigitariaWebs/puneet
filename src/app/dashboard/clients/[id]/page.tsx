@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { clients } from "@/data/clients";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
@@ -86,6 +87,8 @@ const clientActivities = [
 ];
 import { useParams } from "next/navigation";
 export default function ClientDetailPage() {
+  const t = useTranslations("clients");
+  const tCommon = useTranslations("common");
   const [viewMode, setViewMode] = useState<"list" | "timeline">("list");
   const [billingView, setBillingView] = useState<"current" | "history">(
     "current",
@@ -108,16 +111,14 @@ export default function ClientDetailPage() {
       <Link href="/dashboard/clients" className="mb-6">
         <Button variant="outline" size="sm">
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Clients
+          {tCommon("back")} {t("title")}
         </Button>
       </Link>
 
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-4xl font-bold tracking-tight">{client.name}</h1>
-          <p className="text-muted-foreground mt-1">
-            Client Details & Management
-          </p>
+          <p className="text-muted-foreground mt-1">{t("clientDetails")}</p>
         </div>
         <div className="flex items-center gap-2">
           <StatusBadge type="status" value={client.status} showIcon />
@@ -127,9 +128,10 @@ export default function ClientDetailPage() {
       <ClientStatisticsCards client={client} />
 
       <div className="flex items-center justify-between">
-        <h3 className="text-2xl font-semibold">Client Information</h3>
+        <h3 className="text-2xl font-semibold">{t("clientDetails")}</h3>
         <div className="text-sm text-muted-foreground">
-          Facility: <span className="font-medium">{client.facility}</span>
+          {tCommon("facility")}:{" "}
+          <span className="font-medium">{client.facility}</span>
         </div>
       </div>
 
