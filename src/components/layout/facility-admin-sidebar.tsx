@@ -11,6 +11,7 @@ import {
   Package,
   Clock,
   MessageSquare,
+  DollarSign,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -62,9 +63,9 @@ export function FacilitySidebar() {
         },
         {
           title: tCommon("pets"),
-          url: "/facility/pets",
+          url: "/facility/dashboard/pets",
           icon: PawPrint,
-          disabled: true,
+          disabled: false,
         },
       ],
     },
@@ -122,6 +123,12 @@ export function FacilitySidebar() {
           title: t("inventory"),
           url: "/facility/inventory",
           icon: Package,
+          disabled: false,
+        },
+        {
+          title: "Billing",
+          url: "/facility/dashboard/billing",
+          icon: DollarSign,
           disabled: false,
         },
       ],
