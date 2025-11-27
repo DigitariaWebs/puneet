@@ -6,15 +6,16 @@ import {
   Shield,
   MessageSquare,
   BarChart3,
-  Users,
   CheckSquare,
   Bot,
   Home,
   Wrench,
   Globe,
-  UserCheck,
   AlertTriangle,
   Layers,
+  UserCog,
+  Activity,
+  KeyRound,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -79,16 +80,27 @@ export function AppSidebar() {
           icon: Wrench,
           disabled: false,
         },
+      ],
+    },
+    {
+      label: t("userManagement"),
+      items: [
         {
-          title: t("users"),
-          url: "/dashboard/users",
-          icon: Users,
+          title: t("adminUsers"),
+          url: "/dashboard/user-management",
+          icon: UserCog,
           disabled: false,
         },
         {
-          title: t("clients"),
-          url: "/dashboard/clients",
-          icon: UserCheck,
+          title: t("rolesPermissions"),
+          url: "/dashboard/user-management/roles",
+          icon: KeyRound,
+          disabled: false,
+        },
+        {
+          title: t("activityTracking"),
+          url: "/dashboard/user-management/activity",
+          icon: Activity,
           disabled: false,
         },
       ],

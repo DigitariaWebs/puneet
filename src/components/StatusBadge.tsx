@@ -1,11 +1,11 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, XCircle, CreditCard, Crown } from "lucide-react";
+import { CheckCircle, XCircle, CreditCard, Crown, Shield, Key } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 interface StatusBadgeProps {
-  type: "status" | "plan" | "role" | "inventory";
+  type: "status" | "plan" | "role" | "inventory" | "adminRole" | "accessLevel" | "severity";
   value: string;
   size?: "sm" | "default" | "lg";
   showIcon?: boolean;
@@ -20,6 +20,8 @@ export function StatusBadge({
   const tStatus = useTranslations("status");
   const tPlans = useTranslations("plans");
   const tRoles = useTranslations("userRoles");
+  const tAdminRoles = useTranslations("adminRoles");
+  const tUserMgmt = useTranslations("userManagement");
 
   const getVariant = () => {
     if (type === "status") {
@@ -33,6 +35,7 @@ export function StatusBadge({
       if (value === "pending") return "warning";
       if (value === "cancelled" || value === "inactive") return "secondary";
       if (value === "refunded") return "info";
+      if (value === "suspended") return "destructive";
       return "secondary";
     }
     if (type === "inventory") {
@@ -45,6 +48,27 @@ export function StatusBadge({
       if (value === "Admin") return "default";
       if (value === "Manager") return "info";
       return "outline";
+    }
+    if (type === "adminRole") {
+      if (value === "system_administrator") return "destructive";
+      if (value === "account_manager") return "default";
+      if (value === "sales_team") return "success";
+      if (value === "technical_support") return "info";
+      if (value === "financial_auditor") return "warning";
+      return "outline";
+    }
+    if (type === "accessLevel") {
+      if (value === "full") return "destructive";
+      if (value === "read_write") return "default";
+      if (value === "read_only") return "info";
+      if (value === "restricted") return "secondary";
+      return "outline";
+    }
+    if (type === "severity") {
+      if (value === "high") return "destructive";
+      if (value === "medium") return "warning";
+      if (value === "low") return "success";
+      return "secondary";
     }
     if (type === "plan") {
       if (value === "Free") return "outline";
@@ -68,6 +92,12 @@ export function StatusBadge({
     if (type === "plan") {
       if (value === "Enterprise") return <Crown className="w-3 h-3 mr-1" />;
       return <CreditCard className="w-3 h-3 mr-1" />;
+    }
+    if (type === "adminRole") {
+      return <Shield className="w-3 h-3 mr-1" />;
+    }
+    if (type === "accessLevel") {
+      return <Key className="w-3 h-3 mr-1" />;
     }
     return null;
   };
@@ -118,6 +148,27 @@ export function StatusBadge({
       if (value === "Manager") return tRoles("manager");
       if (value === "Staff") return tRoles("staff");
       if (value === "Customer") return tRoles("customer");
+      return value;
+    }
+    if (type === "adminRole") {
+      if (value === "sales_team") return tAdminRoles("salesTeam");
+      if (value === "technical_support") return tAdminRoles("technicalSupport");
+      if (value === "account_manager") return tAdminRoles("accountManager");
+      if (value === "financial_auditor") return tAdminRoles("financialAuditor");
+      if (value === "system_administrator") return tAdminRoles("systemAdministrator");
+      return value;
+    }
+    if (type === "accessLevel") {
+      if (value === "full") return tUserMgmt("fullAccess");
+      if (value === "read_write") return tUserMgmt("readWriteAccess");
+      if (value === "read_only") return tUserMgmt("readOnlyAccess");
+      if (value === "restricted") return tUserMgmt("restrictedAccess");
+      return value;
+    }
+    if (type === "severity") {
+      if (value === "high") return "High";
+      if (value === "medium") return "Medium";
+      if (value === "low") return "Low";
       return value;
     }
     return value;
