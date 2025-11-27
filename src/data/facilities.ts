@@ -1,3 +1,82 @@
+// Available modules for facilities
+export const availableModules = [
+  {
+    id: "booking",
+    name: "Booking/Reservation",
+    description: "Online booking and reservation management",
+    icon: "Calendar",
+    basePrice: 29.99,
+  },
+  {
+    id: "scheduling",
+    name: "Staff Scheduling",
+    description: "Staff shift and schedule management",
+    icon: "Users",
+    basePrice: 24.99,
+  },
+  {
+    id: "customers",
+    name: "Customer Management",
+    description: "Client profiles and pet records",
+    icon: "UserCheck",
+    basePrice: 19.99,
+  },
+  {
+    id: "financial",
+    name: "Financial Reporting",
+    description: "Revenue, expenses, and financial analytics",
+    icon: "CreditCard",
+    basePrice: 39.99,
+  },
+  {
+    id: "communication",
+    name: "Communication",
+    description: "SMS, email, and notification system",
+    icon: "MessageSquare",
+    basePrice: 14.99,
+  },
+  {
+    id: "training",
+    name: "Training/Education",
+    description: "Training programs and certifications",
+    icon: "GraduationCap",
+    basePrice: 34.99,
+  },
+  {
+    id: "grooming",
+    name: "Grooming Management",
+    description: "Grooming appointments and tracking",
+    icon: "Scissors",
+    basePrice: 19.99,
+  },
+  {
+    id: "inventory",
+    name: "Inventory Management",
+    description: "Stock and supplies tracking",
+    icon: "Package",
+    basePrice: 24.99,
+  },
+];
+
+// Base subscription prices by plan
+export const planPrices: Record<string, number> = {
+  Basic: 49.99,
+  Starter: 99.99,
+  Professional: 199.99,
+  Premium: 299.99,
+  Enterprise: 499.99,
+};
+
+// Custom quoted prices per facility per module (overrides basePrice)
+// Key format: `${facilityId}-${moduleId}`
+export const moduleQuotedPrices: Record<string, number> = {
+  "1-booking": 24.99, // Paws & Play got a discount
+  "1-financial": 34.99,
+  "3-booking": 39.99, // Furry Friends pays premium
+  "3-scheduling": 29.99,
+  "8-communication": 9.99, // Canine Care got a deal
+};
+
 export const facilities = [
   {
     id: 1,
@@ -6,6 +85,30 @@ export const facilities = [
     plan: "Premium",
     dayJoined: "2025-06-15",
     subscriptionEnd: "2026-06-15",
+    contact: {
+      email: "contact@pawsplay.com",
+      phone: "(555) 123-4567",
+      website: "https://pawsplay.com",
+    },
+    owner: {
+      name: "John Anderson",
+      email: "john.anderson@pawsplay.com",
+      phone: "(555) 123-4568",
+    },
+    limits: {
+      locations: 10,
+      staff: 50,
+      clients: 500,
+      pets: -1, // unlimited
+    },
+    enabledModules: [
+      "booking",
+      "scheduling",
+      "customers",
+      "financial",
+      "communication",
+      "grooming",
+    ],
     locationsList: [
       {
         name: "Main Campus",
@@ -62,6 +165,23 @@ export const facilities = [
     plan: "Basic",
     dayJoined: "2025-08-22",
     subscriptionEnd: "2026-08-22",
+    contact: {
+      email: "info@furryfriends.com",
+      phone: "(555) 234-5678",
+      website: "https://furryfriends.com",
+    },
+    owner: {
+      name: "Sarah Mitchell",
+      email: "sarah@furryfriends.com",
+      phone: "(555) 234-5679",
+    },
+    limits: {
+      locations: 3,
+      staff: 10,
+      clients: 100,
+      pets: 250,
+    },
+    enabledModules: ["booking", "customers", "grooming"],
     locationsList: [
       {
         name: "Downtown Salon",
@@ -101,6 +221,32 @@ export const facilities = [
     plan: "Enterprise",
     dayJoined: "2025-03-10",
     subscriptionEnd: "2026-03-10",
+    contact: {
+      email: "hello@happytails.com",
+      phone: "(555) 345-6789",
+      website: "https://happytails.com",
+    },
+    owner: {
+      name: "Michael Thompson",
+      email: "michael@happytails.com",
+      phone: "(555) 345-6780",
+    },
+    limits: {
+      locations: -1,
+      staff: -1,
+      clients: -1,
+      pets: -1,
+    },
+    enabledModules: [
+      "booking",
+      "scheduling",
+      "customers",
+      "financial",
+      "communication",
+      "training",
+      "grooming",
+      "inventory",
+    ],
     locationsList: [
       {
         name: "Main Kennel",
@@ -166,6 +312,29 @@ export const facilities = [
     plan: "Premium",
     dayJoined: "2025-11-05",
     subscriptionEnd: "2026-11-05",
+    contact: {
+      email: "care@petparadise.com",
+      phone: "(555) 456-7890",
+      website: "https://petparadise.com",
+    },
+    owner: {
+      name: "Dr. Emily Roberts",
+      email: "emily@petparadise.com",
+      phone: "(555) 456-7891",
+    },
+    limits: {
+      locations: 10,
+      staff: 50,
+      clients: 500,
+      pets: -1,
+    },
+    enabledModules: [
+      "booking",
+      "scheduling",
+      "customers",
+      "financial",
+      "communication",
+    ],
     locationsList: [
       {
         name: "Central Clinic",
@@ -217,6 +386,23 @@ export const facilities = [
     plan: "Basic",
     dayJoined: "2025-09-18",
     subscriptionEnd: "2026-09-18",
+    contact: {
+      email: "meow@whiskerwonderland.com",
+      phone: "(555) 567-8901",
+      website: "https://whiskerwonderland.com",
+    },
+    owner: {
+      name: "Lisa Chen",
+      email: "lisa@whiskerwonderland.com",
+      phone: "(555) 567-8902",
+    },
+    limits: {
+      locations: 3,
+      staff: 10,
+      clients: 100,
+      pets: 250,
+    },
+    enabledModules: ["booking", "customers", "communication"],
     locationsList: [
       {
         name: "Cat Haven",
@@ -261,6 +447,30 @@ export const facilities = [
     plan: "Premium",
     dayJoined: "2025-07-12",
     subscriptionEnd: "2026-07-12",
+    contact: {
+      email: "book@petgroomers.com",
+      phone: "(555) 678-9012",
+      website: "https://petgroomers.com",
+    },
+    owner: {
+      name: "David Park",
+      email: "david@petgroomers.com",
+      phone: "(555) 678-9013",
+    },
+    limits: {
+      locations: 10,
+      staff: 50,
+      clients: 500,
+      pets: -1,
+    },
+    enabledModules: [
+      "booking",
+      "scheduling",
+      "customers",
+      "financial",
+      "grooming",
+      "inventory",
+    ],
     locationsList: [
       {
         name: "Main Salon",
@@ -317,6 +527,23 @@ export const facilities = [
     plan: "Basic",
     dayJoined: "2025-10-05",
     subscriptionEnd: "2026-10-05",
+    contact: {
+      email: "support@animalcare.com",
+      phone: "(555) 789-0123",
+      website: "https://animalcare.com",
+    },
+    owner: {
+      name: "Robert Williams",
+      email: "robert@animalcare.com",
+      phone: "(555) 789-0124",
+    },
+    limits: {
+      locations: 3,
+      staff: 10,
+      clients: 100,
+      pets: 250,
+    },
+    enabledModules: ["booking", "customers", "grooming"],
     locationsList: [
       {
         name: "Central Clinic",
@@ -356,6 +583,32 @@ export const facilities = [
     plan: "Enterprise",
     dayJoined: "2025-02-20",
     subscriptionEnd: "2026-02-20",
+    contact: {
+      email: "purr@felinefriends.com",
+      phone: "(555) 890-1234",
+      website: "https://felinefriends.com",
+    },
+    owner: {
+      name: "Jennifer Lee",
+      email: "jennifer@felinefriends.com",
+      phone: "(555) 890-1235",
+    },
+    limits: {
+      locations: -1,
+      staff: -1,
+      clients: -1,
+      pets: -1,
+    },
+    enabledModules: [
+      "booking",
+      "scheduling",
+      "customers",
+      "financial",
+      "communication",
+      "training",
+      "grooming",
+      "inventory",
+    ],
     locationsList: [
       {
         name: "Cat Lounge",
@@ -416,6 +669,30 @@ export const facilities = [
     plan: "Premium",
     dayJoined: "2025-12-01",
     subscriptionEnd: "2026-12-01",
+    contact: {
+      email: "woof@doggyspa.com",
+      phone: "(555) 901-2345",
+      website: "https://doggyspa.com",
+    },
+    owner: {
+      name: "Jennifer Brown",
+      email: "jennifer@doggyspa.com",
+      phone: "(555) 901-2346",
+    },
+    limits: {
+      locations: 10,
+      staff: 50,
+      clients: 500,
+      pets: -1,
+    },
+    enabledModules: [
+      "booking",
+      "scheduling",
+      "customers",
+      "financial",
+      "communication",
+      "grooming",
+    ],
     locationsList: [
       {
         name: "Spa Center",
@@ -467,6 +744,23 @@ export const facilities = [
     plan: "Basic",
     dayJoined: "2025-05-15",
     subscriptionEnd: "2026-05-15",
+    contact: {
+      email: "exotic@exoticpets.com",
+      phone: "(555) 012-3456",
+      website: "https://exoticpets.com",
+    },
+    owner: {
+      name: "Carlos Martinez",
+      email: "carlos@exoticpets.com",
+      phone: "(555) 012-3457",
+    },
+    limits: {
+      locations: 3,
+      staff: 10,
+      clients: 100,
+      pets: 250,
+    },
+    enabledModules: ["booking", "customers", "inventory"],
     locationsList: [
       {
         name: "Exotic Wing",
@@ -511,6 +805,23 @@ export const facilities = [
     plan: "Basic",
     dayJoined: "2025-01-01",
     subscriptionEnd: "2026-01-01",
+    contact: {
+      email: "info@examplepetcare.com",
+      phone: "(555) 111-2222",
+      website: "https://examplepetcare.com",
+    },
+    owner: {
+      name: "Admin Owner",
+      email: "owner@examplepetcare.com",
+      phone: "(555) 111-2223",
+    },
+    limits: {
+      locations: 3,
+      staff: 10,
+      clients: 100,
+      pets: 250,
+    },
+    enabledModules: ["booking", "customers", "communication"],
     locationsList: [
       {
         name: "Main Location",

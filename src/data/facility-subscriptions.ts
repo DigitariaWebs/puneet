@@ -495,13 +495,13 @@ export const moduleUsageStats: ModuleUsageStats[] = [
 
 // Helper functions
 export function getSubscriptionByFacilityId(
-  facilityId: number
+  facilityId: number,
 ): FacilitySubscription | undefined {
   return facilitySubscriptions.find((sub) => sub.facilityId === facilityId);
 }
 
 export function getSubscriptionsByStatus(
-  status: SubscriptionStatus
+  status: SubscriptionStatus,
 ): FacilitySubscription[] {
   return facilitySubscriptions.filter((sub) => sub.status === status);
 }
@@ -514,14 +514,18 @@ export function getActiveSubscriptions(): FacilitySubscription[] {
   return facilitySubscriptions.filter((sub) => sub.status === "active");
 }
 
-export function getExpiringSubscriptions(daysThreshold: number = 30): FacilitySubscription[] {
+export function getExpiringSubscriptions(
+  daysThreshold: number = 30,
+): FacilitySubscription[] {
   const today = new Date();
   const thresholdDate = new Date(today);
   thresholdDate.setDate(today.getDate() + daysThreshold);
 
   return facilitySubscriptions.filter((sub) => {
     const endDate = new Date(sub.endDate);
-    return endDate <= thresholdDate && endDate >= today && sub.status === "active";
+    return (
+      endDate <= thresholdDate && endDate >= today && sub.status === "active"
+    );
   });
 }
 

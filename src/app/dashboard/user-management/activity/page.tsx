@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { adminUsers, roleDisplayNames, AdminUser } from "@/data/admin-users";
+import { adminUsers, roleDisplayNames } from "@/data/admin-users";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -24,29 +24,35 @@ import {
 } from "lucide-react";
 
 // Flatten all activity logs from all users
-const allActivityLogs = adminUsers.flatMap((user) =>
-  user.activityLog.map((log) => ({
-    ...log,
-    userName: user.name,
-    userRole: user.role,
-    userEmail: user.email,
-    userId: user.id,
-  }))
-).sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+const allActivityLogs = adminUsers
+  .flatMap((user) =>
+    user.activityLog.map((log) => ({
+      ...log,
+      userName: user.name,
+      userRole: user.role,
+      userEmail: user.email,
+      userId: user.id,
+    })),
+  )
+  .sort(
+    (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+  );
 
 // Flatten all login history from all users
-const allLoginHistory = adminUsers.flatMap((user) =>
-  user.loginHistory.map((login) => ({
-    ...login,
-    userName: user.name,
-    userRole: user.role,
-    userEmail: user.email,
-    userId: user.id,
-  }))
-).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+const allLoginHistory = adminUsers
+  .flatMap((user) =>
+    user.loginHistory.map((login) => ({
+      ...login,
+      userName: user.name,
+      userRole: user.role,
+      userEmail: user.email,
+      userId: user.id,
+    })),
+  )
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-type ActivityLogEntry = typeof allActivityLogs[number];
-type LoginHistoryEntry = typeof allLoginHistory[number];
+type ActivityLogEntry = (typeof allActivityLogs)[number];
+type LoginHistoryEntry = (typeof allLoginHistory)[number];
 
 const exportActivityToCSV = (data: ActivityLogEntry[]) => {
   const headers = [
@@ -121,9 +127,7 @@ export default function ActivityTrackingPage() {
       label: t("action"),
       icon: Activity,
       defaultVisible: true,
-      render: (log) => (
-        <div className="font-medium">{log.action}</div>
-      ),
+      render: (log) => <div className="font-medium">{log.action}</div>,
     },
     {
       key: "target",
@@ -267,22 +271,30 @@ export default function ActivityTrackingPage() {
     },
   ];
 
-  const highSeverityCount = allActivityLogs.filter((log) => log.severity === "high").length;
-  const todayLogins = allLoginHistory.filter(
-    (log) => new Date(log.date).toDateString() === new Date().toDateString()
+  const highSeverityCount = allActivityLogs.filter(
+    (log) => log.severity === "high",
   ).length;
-  const uniqueLocations = new Set(allLoginHistory.map((log) => log.location)).size;
+  const todayLogins = allLoginHistory.filter(
+    (log) => new Date(log.date).toDateString() === new Date().toDateString(),
+  ).length;
+  const uniqueLocations = new Set(allLoginHistory.map((log) => log.location))
+    .size;
 
   return (
     <div className="flex-1 space-y-6 p-4 pt-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight">{t("activityTrackingTitle")}</h2>
+          <h2 className="text-3xl font-bold tracking-tight">
+            {t("activityTrackingTitle")}
+          </h2>
           <p className="text-muted-foreground mt-1">
             Monitor admin user actions, login history, and audit trails
           </p>
         </div>
-        <Button variant="outline" onClick={() => exportActivityToCSV(allActivityLogs)}>
+        <Button
+          variant="outline"
+          onClick={() => exportActivityToCSV(allActivityLogs)}
+        >
           <Download className="mr-2 h-4 w-4" />
           {t("exportAuditLog")}
         </Button>
@@ -292,9 +304,7 @@ export default function ActivityTrackingPage() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Total Actions
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Total Actions</CardTitle>
             <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -306,11 +316,15 @@ export default function ActivityTrackingPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("sensitiveActions")}</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t("sensitiveActions")}
+            </CardTitle>
             <AlertTriangle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-red-600">{highSeverityCount}</div>
+            <div className="text-2xl font-bold text-red-600">
+              {highSeverityCount}
+            </div>
             <p className="text-xs text-muted-foreground">
               High severity actions
             </p>
@@ -318,11 +332,15 @@ export default function ActivityTrackingPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Today&apos;s Logins</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Today&apos;s Logins
+            </CardTitle>
             <History className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">{todayLogins}</div>
+            <div className="text-2xl font-bold text-green-600">
+              {todayLogins}
+            </div>
             <p className="text-xs text-muted-foreground">
               Login sessions today
             </p>
@@ -330,20 +348,24 @@ export default function ActivityTrackingPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Unique Locations</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Unique Locations
+            </CardTitle>
             <Globe className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{uniqueLocations}</div>
-            <p className="text-xs text-muted-foreground">
-              Access locations
-            </p>
+            <p className="text-xs text-muted-foreground">Access locations</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Tabs for Activity and Login History */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+      <Tabs
+        value={activeTab}
+        onValueChange={setActiveTab}
+        className="space-y-4"
+      >
         <TabsList>
           <TabsTrigger value="activity" className="flex items-center gap-2">
             <Activity className="h-4 w-4" />
@@ -411,7 +433,9 @@ export default function ActivityTrackingPage() {
                           </div>
                           <StatusBadge type="severity" value={log.severity} />
                         </div>
-                        <p className="text-sm text-muted-foreground mt-1">{log.details}</p>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          {log.details}
+                        </p>
                         <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
                           <span className="flex items-center gap-1">
                             <User className="h-3 w-3" />
@@ -425,7 +449,8 @@ export default function ActivityTrackingPage() {
                       </div>
                     </div>
                   ))}
-                {allActivityLogs.filter((log) => log.severity === "high").length === 0 && (
+                {allActivityLogs.filter((log) => log.severity === "high")
+                  .length === 0 && (
                   <div className="text-center py-8 text-muted-foreground">
                     No sensitive actions recorded
                   </div>

@@ -1,11 +1,25 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, XCircle, CreditCard, Crown, Shield, Key } from "lucide-react";
+import {
+  CheckCircle,
+  XCircle,
+  CreditCard,
+  Crown,
+  Shield,
+  Key,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 
 interface StatusBadgeProps {
-  type: "status" | "plan" | "role" | "inventory" | "adminRole" | "accessLevel" | "severity";
+  type:
+    | "status"
+    | "plan"
+    | "role"
+    | "inventory"
+    | "adminRole"
+    | "accessLevel"
+    | "severity";
   value: string;
   size?: "sm" | "default" | "lg";
   showIcon?: boolean;
@@ -155,7 +169,8 @@ export function StatusBadge({
       if (value === "technical_support") return tAdminRoles("technicalSupport");
       if (value === "account_manager") return tAdminRoles("accountManager");
       if (value === "financial_auditor") return tAdminRoles("financialAuditor");
-      if (value === "system_administrator") return tAdminRoles("systemAdministrator");
+      if (value === "system_administrator")
+        return tAdminRoles("systemAdministrator");
       return value;
     }
     if (type === "accessLevel") {

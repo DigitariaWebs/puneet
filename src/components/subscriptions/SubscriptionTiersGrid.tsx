@@ -1,10 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  SubscriptionTier,
-  subscriptionTiers,
-} from "@/data/subscription-tiers";
+import { SubscriptionTier, subscriptionTiers } from "@/data/subscription-tiers";
 import {
   Card,
   CardContent,
@@ -24,7 +21,6 @@ import {
   Calendar,
   HardDrive,
   MapPin,
-  UserCircle,
 } from "lucide-react";
 
 interface TierCardProps {
@@ -78,21 +74,15 @@ function TierCard({ tier, onEdit, onDelete }: TierCardProps) {
           </h4>
           <div className="grid grid-cols-3 gap-2">
             <div className="text-center p-2 bg-muted rounded-lg">
-              <p className="text-2xl font-bold">
-                ${tier.pricing.monthly}
-              </p>
+              <p className="text-2xl font-bold">${tier.pricing.monthly}</p>
               <p className="text-xs text-muted-foreground">/ month</p>
             </div>
             <div className="text-center p-2 bg-muted rounded-lg">
-              <p className="text-2xl font-bold">
-                ${tier.pricing.quarterly}
-              </p>
+              <p className="text-2xl font-bold">${tier.pricing.quarterly}</p>
               <p className="text-xs text-muted-foreground">/ quarter</p>
             </div>
             <div className="text-center p-2 bg-muted rounded-lg">
-              <p className="text-2xl font-bold">
-                ${tier.pricing.yearly}
-              </p>
+              <p className="text-2xl font-bold">${tier.pricing.yearly}</p>
               <p className="text-xs text-muted-foreground">/ year</p>
             </div>
           </div>
@@ -168,9 +158,7 @@ function TierCard({ tier, onEdit, onDelete }: TierCardProps) {
           <Badge variant={tier.isActive ? "default" : "secondary"}>
             {tier.isActive ? "Active" : "Inactive"}
           </Badge>
-          {tier.isCustomizable && (
-            <Badge variant="outline">Customizable</Badge>
-          )}
+          {tier.isCustomizable && <Badge variant="outline">Customizable</Badge>}
         </div>
       </CardContent>
 

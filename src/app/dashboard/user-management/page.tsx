@@ -104,9 +104,7 @@ export default function UserManagementPage() {
       label: t("assignRole"),
       icon: Shield,
       defaultVisible: true,
-      render: (user) => (
-        <StatusBadge type="adminRole" value={user.role} />
-      ),
+      render: (user) => <StatusBadge type="adminRole" value={user.role} />,
     },
     {
       key: "department",
@@ -126,7 +124,9 @@ export default function UserManagementPage() {
       label: t("accessLevel"),
       icon: Key,
       defaultVisible: true,
-      render: (user) => <StatusBadge type="accessLevel" value={user.accessLevel} />,
+      render: (user) => (
+        <StatusBadge type="accessLevel" value={user.accessLevel} />
+      ),
     },
     {
       key: "lastLogin",
@@ -174,15 +174,24 @@ export default function UserManagementPage() {
   ];
 
   const activeUsers = adminUsers.filter((u) => u.status === "active").length;
-  const suspendedUsers = adminUsers.filter((u) => u.status === "suspended").length;
-  const inactiveUsers = adminUsers.filter((u) => u.status === "inactive").length;
+  const suspendedUsers = adminUsers.filter(
+    (u) => u.status === "suspended",
+  ).length;
+  const inactiveUsers = adminUsers.filter(
+    (u) => u.status === "inactive",
+  ).length;
 
   return (
     <div className="flex-1 space-y-4 p-4 pt-6">
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">{t("adminUsersTitle")}</h2>
+        <h2 className="text-3xl font-bold tracking-tight">
+          {t("adminUsersTitle")}
+        </h2>
         <div className="flex items-center space-x-2">
-          <Button variant="outline" onClick={() => exportUsersToCSV(adminUsers)}>
+          <Button
+            variant="outline"
+            onClick={() => exportUsersToCSV(adminUsers)}
+          >
             <Download className="mr-2 h-4 w-4" />
             {tCommon("export")}
           </Button>
@@ -204,18 +213,20 @@ export default function UserManagementPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{adminUsers.length}</div>
-            <p className="text-xs text-muted-foreground">
-              Across all roles
-            </p>
+            <p className="text-xs text-muted-foreground">Across all roles</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("activeAdminUsers")}</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t("activeAdminUsers")}
+            </CardTitle>
             <UserCheck className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">{activeUsers}</div>
+            <div className="text-2xl font-bold text-green-600">
+              {activeUsers}
+            </div>
             <p className="text-xs text-muted-foreground">
               {Math.round((activeUsers / adminUsers.length) * 100)}% of total
             </p>
@@ -223,11 +234,15 @@ export default function UserManagementPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("suspendedUsers")}</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t("suspendedUsers")}
+            </CardTitle>
             <UserX className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-red-600">{suspendedUsers}</div>
+            <div className="text-2xl font-bold text-red-600">
+              {suspendedUsers}
+            </div>
             <p className="text-xs text-muted-foreground">
               {inactiveUsers} inactive
             </p>
@@ -235,7 +250,9 @@ export default function UserManagementPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("rolesConfigured")}</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t("rolesConfigured")}
+            </CardTitle>
             <Key className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>

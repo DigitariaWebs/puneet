@@ -30,7 +30,7 @@ import {
 
 export function FacilitySubscriptionsTable() {
   const [subscriptions] = useState<FacilitySubscription[]>(
-    facilitySubscriptions
+    facilitySubscriptions,
   );
 
   const getStatusColor = (status: string) => {
@@ -69,11 +69,8 @@ export function FacilitySubscriptionsTable() {
     switch (metric) {
       case "users":
         const maxUsers =
-          sub.customizations?.maxUsers ||
-          getTierLimit(sub.tierId, "maxUsers");
-        return maxUsers === -1
-          ? 0
-          : (sub.usage.currentUsers / maxUsers) * 100;
+          sub.customizations?.maxUsers || getTierLimit(sub.tierId, "maxUsers");
+        return maxUsers === -1 ? 0 : (sub.usage.currentUsers / maxUsers) * 100;
       case "reservations":
         const maxReservations =
           sub.customizations?.maxReservations ||
@@ -83,7 +80,8 @@ export function FacilitySubscriptionsTable() {
           : (sub.usage.monthlyReservations / maxReservations) * 100;
       case "storage":
         const maxStorage =
-          sub.customizations?.storageGB || getTierLimit(sub.tierId, "storageGB");
+          sub.customizations?.storageGB ||
+          getTierLimit(sub.tierId, "storageGB");
         return maxStorage === -1
           ? 0
           : (sub.usage.storageUsedGB / maxStorage) * 100;
@@ -164,9 +162,7 @@ export function FacilitySubscriptionsTable() {
                 {Math.round(userPercent)}%
               </span>
             </div>
-            {isHighUsage && (
-              <TrendingUp className="h-4 w-4 text-orange-500" />
-            )}
+            {isHighUsage && <TrendingUp className="h-4 w-4 text-orange-500" />}
           </div>
         );
       },
@@ -195,7 +191,7 @@ export function FacilitySubscriptionsTable() {
         const endDate = new Date(item.endDate);
         const today = new Date();
         const daysUntilEnd = Math.ceil(
-          (endDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+          (endDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
         );
         const isExpiringSoon = daysUntilEnd <= 30 && daysUntilEnd > 0;
 
@@ -213,7 +209,7 @@ export function FacilitySubscriptionsTable() {
     },
   ];
 
-  const renderActions = (item: FacilitySubscription) => (
+  const renderActions = () => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-8 w-8 p-0">
@@ -264,9 +260,7 @@ export function FacilitySubscriptionsTable() {
 
       <Tabs defaultValue="all">
         <TabsList>
-          <TabsTrigger value="all">
-            All ({subscriptions.length})
-          </TabsTrigger>
+          <TabsTrigger value="all">All ({subscriptions.length})</TabsTrigger>
           <TabsTrigger value="active">
             Active ({activeSubscriptions.length})
           </TabsTrigger>
@@ -280,11 +274,13 @@ export function FacilitySubscriptionsTable() {
 
         <TabsContent value="all" className="mt-4">
           <DataTable
-            columns={
-              columns as unknown as ColumnDef<Record<string, unknown>>[]
-            }
+            columns={columns as unknown as ColumnDef<Record<string, unknown>>[]}
             data={subscriptions as unknown as Record<string, unknown>[]}
-            actions={renderActions as unknown as (item: Record<string, unknown>) => React.ReactNode}
+            actions={
+              renderActions as unknown as (
+                item: Record<string, unknown>,
+              ) => React.ReactNode
+            }
             searchKey="facilityName"
             searchPlaceholder="Search facilities..."
           />
@@ -292,11 +288,13 @@ export function FacilitySubscriptionsTable() {
 
         <TabsContent value="active" className="mt-4">
           <DataTable
-            columns={
-              columns as unknown as ColumnDef<Record<string, unknown>>[]
-            }
+            columns={columns as unknown as ColumnDef<Record<string, unknown>>[]}
             data={activeSubscriptions as unknown as Record<string, unknown>[]}
-            actions={renderActions as unknown as (item: Record<string, unknown>) => React.ReactNode}
+            actions={
+              renderActions as unknown as (
+                item: Record<string, unknown>,
+              ) => React.ReactNode
+            }
             searchKey="facilityName"
             searchPlaceholder="Search facilities..."
           />
@@ -304,11 +302,13 @@ export function FacilitySubscriptionsTable() {
 
         <TabsContent value="trial" className="mt-4">
           <DataTable
-            columns={
-              columns as unknown as ColumnDef<Record<string, unknown>>[]
-            }
+            columns={columns as unknown as ColumnDef<Record<string, unknown>>[]}
             data={trialSubscriptions as unknown as Record<string, unknown>[]}
-            actions={renderActions as unknown as (item: Record<string, unknown>) => React.ReactNode}
+            actions={
+              renderActions as unknown as (
+                item: Record<string, unknown>,
+              ) => React.ReactNode
+            }
             searchKey="facilityName"
             searchPlaceholder="Search facilities..."
           />
@@ -316,13 +316,15 @@ export function FacilitySubscriptionsTable() {
 
         <TabsContent value="suspended" className="mt-4">
           <DataTable
-            columns={
-              columns as unknown as ColumnDef<Record<string, unknown>>[]
-            }
+            columns={columns as unknown as ColumnDef<Record<string, unknown>>[]}
             data={
               suspendedSubscriptions as unknown as Record<string, unknown>[]
             }
-            actions={renderActions as unknown as (item: Record<string, unknown>) => React.ReactNode}
+            actions={
+              renderActions as unknown as (
+                item: Record<string, unknown>,
+              ) => React.ReactNode
+            }
             searchKey="facilityName"
             searchPlaceholder="Search facilities..."
           />

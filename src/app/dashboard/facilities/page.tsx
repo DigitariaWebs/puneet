@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { facilities as initialFacilities } from "@/data/facilities";
@@ -8,12 +8,14 @@ import { facilityRequests } from "@/data/facility-requests";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/StatusBadge";
+import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+
 import { FacilityModal } from "@/components/modals/FacilityModal";
 import { CreateFacilityModal } from "@/components/modals/CreateFacilityModal";
 import { DataTable, ColumnDef, FilterDef } from "@/components/DataTable";
@@ -30,6 +32,9 @@ import {
   Calendar,
   Clock,
   Eye,
+  TrendingUp,
+  Activity,
+  AlertCircle,
 } from "lucide-react";
 
 const exportToCSV = (facilities: typeof initialFacilities) => {
@@ -80,6 +85,61 @@ const exportToCSV = (facilities: typeof initialFacilities) => {
   document.body.removeChild(link);
 };
 
+// Stat card component matching dashboard theme
+function StatCard({
+  title,
+  value,
+  subtitle,
+  icon: Icon,
+  iconBgStyle,
+  trend,
+}: {
+  title: string;
+  value: string | number;
+  subtitle?: string;
+  icon: React.ElementType;
+  iconBgStyle: React.CSSProperties;
+  trend?: { value: string; isPositive: boolean };
+}) {
+  return (
+    <Card className="relative overflow-hidden border-0 shadow-card hover:shadow-elevated transition-all duration-300 group">
+      <CardContent className="p-5">
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
+            <p className="text-sm font-medium text-muted-foreground mb-1">
+              {title}
+            </p>
+            <div className="flex items-baseline gap-2">
+              <h3 className="text-2xl font-bold tracking-tight">{value}</h3>
+              {trend && (
+                <span
+                  className={`inline-flex items-center text-xs font-medium ${
+                    trend.isPositive ? "text-success" : "text-destructive"
+                  }`}
+                >
+                  <TrendingUp
+                    className={`h-3 w-3 mr-0.5 ${!trend.isPositive && "rotate-180"}`}
+                  />
+                  {trend.value}
+                </span>
+              )}
+            </div>
+            {subtitle && (
+              <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>
+            )}
+          </div>
+          <div
+            className="flex items-center justify-center w-11 h-11 rounded-xl transition-transform duration-300 group-hover:scale-110"
+            style={iconBgStyle}
+          >
+            <Icon className="h-5 w-5 text-white" />
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 export default function FacilitiesPage() {
   const router = useRouter();
   const t = useTranslations("facilities");
@@ -97,12 +157,46 @@ export default function FacilitiesPage() {
     (r) => r.status === "pending",
   ).length;
 
+  // Calculate stats
+  const stats = useMemo(() => {
+    const active = facilitiesState.filter((f) => f.status === "active").length;
+    const totalUsers = facilitiesState.reduce(
+      (sum, f) => sum + f.usersList.length,
+      0,
+    );
+    const totalClients = facilitiesState.reduce(
+      (sum, f) => sum + f.clients.filter((c) => c.status === "active").length,
+      0,
+    );
+    const premiumCount = facilitiesState.filter(
+      (f) => f.plan === "Premium" || f.plan === "Enterprise",
+    ).length;
+
+    return {
+      total: facilitiesState.length,
+      active,
+      inactive: facilitiesState.length - active,
+      totalUsers,
+      totalClients,
+      premiumCount,
+      avgUsers: Math.round(totalUsers / facilitiesState.length),
+    };
+  }, [facilitiesState]);
+
   const columns: ColumnDef<(typeof initialFacilities)[0]>[] = [
     {
       key: "name",
       label: t("facilityName"),
       icon: Building,
       defaultVisible: true,
+      render: (facility) => (
+        <div className="flex flex-col">
+          <span className="font-medium">{facility.name}</span>
+          <span className="text-xs text-muted-foreground">
+            {facility.locationsList[0]?.address || "No address"}
+          </span>
+        </div>
+      ),
     },
     {
       key: "status",
@@ -119,6 +213,29 @@ export default function FacilitiesPage() {
       icon: CreditCard,
       defaultVisible: true,
       render: (facility) => <StatusBadge type="plan" value={facility.plan} />,
+    },
+    {
+      key: "businessType",
+      label: "Business Type",
+      icon: Activity,
+      defaultVisible: true,
+      render: (facility) => {
+        const services = facility.locationsList[0]?.services || [];
+        return (
+          <div className="flex flex-wrap gap-1">
+            {services.slice(0, 2).map((service) => (
+              <Badge key={service} variant="secondary" className="text-xs">
+                {service}
+              </Badge>
+            ))}
+            {services.length > 2 && (
+              <Badge variant="outline" className="text-xs">
+                +{services.length - 2}
+              </Badge>
+            )}
+          </div>
+        );
+      },
     },
     {
       key: "users",
@@ -142,7 +259,7 @@ export default function FacilitiesPage() {
       key: "locations",
       label: t("locations"),
       icon: MapPin,
-      defaultVisible: true,
+      defaultVisible: false,
       render: (facility) => facility.locationsList.length,
       sortValue: (facility) => facility.locationsList.length,
     },
@@ -156,7 +273,7 @@ export default function FacilitiesPage() {
       key: "subscriptionEnd",
       label: t("subscriptionEnd"),
       icon: Clock,
-      defaultVisible: true,
+      defaultVisible: false,
       render: (facility) => facility.subscriptionEnd || "N/A",
       sortValue: (facility) => facility.subscriptionEnd || "",
     },
@@ -190,10 +307,16 @@ export default function FacilitiesPage() {
   };
 
   return (
-    <div className="flex-1 space-y-4 p-4 pt-6">
-      <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">{t("title")}</h2>
-        <div className="flex items-center space-x-2">
+    <div className="flex-1 space-y-6 p-6">
+      {/* Header */}
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">{t("title")}</h1>
+          <p className="text-muted-foreground mt-1">
+            Manage and monitor all facility operations
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
           <Button
             variant="outline"
             onClick={() => exportToCSV(facilitiesState)}
@@ -213,111 +336,122 @@ export default function FacilitiesPage() {
       </div>
 
       {/* Stats Section */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {t("totalFacilities")}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{facilitiesState.length}</div>
-            <p className="text-xs text-muted-foreground">
-              {facilitiesState.filter((f) => f.status === "active").length}{" "}
-              {tStatus("active").toLowerCase()}
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {t("premiumPlans")}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {facilitiesState.filter((f) => f.plan === "Premium").length}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              {Math.round(
-                (facilitiesState.filter((f) => f.plan === "Premium").length /
-                  facilitiesState.length) *
-                  100,
-              )}
-              % {t("ofTotal")}
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {t("totalUsers")}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {facilitiesState.reduce((sum, f) => sum + f.usersList.length, 0)}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              {t("acrossAllFacilities")}
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {t("avgUsersPerFacility")}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {Math.round(
-                facilitiesState.reduce(
-                  (sum, f) => sum + f.usersList.length,
-                  0,
-                ) / facilitiesState.length,
-              )}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              {t("perActiveFacility")}
-            </p>
-          </CardContent>
-        </Card>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <StatCard
+          title={t("totalFacilities")}
+          value={stats.total}
+          subtitle={`${stats.active} ${tStatus("active").toLowerCase()}, ${stats.inactive} inactive`}
+          icon={Building}
+          iconBgStyle={{
+            background: "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)",
+          }}
+          trend={{ value: "+12%", isPositive: true }}
+        />
+        <StatCard
+          title={t("totalUsers")}
+          value={stats.totalUsers}
+          subtitle={t("acrossAllFacilities")}
+          icon={Users}
+          iconBgStyle={{
+            background: "linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)",
+          }}
+          trend={{ value: "+8%", isPositive: true }}
+        />
+        <StatCard
+          title="Active Clients"
+          value={stats.totalClients}
+          subtitle="Total across facilities"
+          icon={UserCheck}
+          iconBgStyle={{
+            background: "linear-gradient(135deg, #22c55e 0%, #16a34a 100%)",
+          }}
+          trend={{ value: "+15%", isPositive: true }}
+        />
+        <StatCard
+          title="Premium & Enterprise"
+          value={stats.premiumCount}
+          subtitle={`${Math.round((stats.premiumCount / stats.total) * 100)}% of total facilities`}
+          icon={CreditCard}
+          iconBgStyle={{
+            background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+          }}
+        />
       </div>
 
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">{t("facilityTrialRequests")}</h3>
-        <Button
-          variant="outline"
-          onClick={() => router.push("/dashboard/facilities/requests")}
-        >
-          <Eye className="mr-2 h-4 w-4" />
-          {t("viewRequests")} ({pendingRequestsCount}{" "}
-          {tCommon("pending").toLowerCase()})
-        </Button>
-      </div>
+      {/* Pending Requests Alert */}
+      {pendingRequestsCount > 0 && (
+        <Card className="border-0 shadow-card bg-warning/5 border-l-4 border-l-warning">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-warning/10">
+                  <AlertCircle className="h-5 w-5 text-warning" />
+                </div>
+                <div>
+                  <h3 className="font-semibold">
+                    {pendingRequestsCount} Pending Facility Requests
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    New facilities awaiting approval
+                  </p>
+                </div>
+              </div>
+              <Button
+                variant="outline"
+                onClick={() => router.push("/dashboard/facilities/requests")}
+              >
+                <Eye className="mr-2 h-4 w-4" />
+                {t("viewRequests")}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
-      <DataTable
-        data={facilitiesState}
-        columns={columns}
-        filters={filters}
-        searchKey="name"
-        searchPlaceholder={t("searchFacilities")}
-        itemsPerPage={10}
-        actions={(facility) => (
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              setSelectedFacility(facility);
-              setIsModalOpen(true);
-            }}
-          >
-            <Eye className="h-4 w-4" />
-          </Button>
-        )}
-      />
+      {/* Facilities Table */}
+      <Card className="border-0 shadow-card">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-lg font-semibold">
+            All Facilities
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <DataTable
+            data={facilitiesState}
+            columns={columns}
+            filters={filters}
+            searchKey="name"
+            searchPlaceholder={t("searchFacilities")}
+            itemsPerPage={10}
+            actions={(facility) => (
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setSelectedFacility(facility);
+                    setIsModalOpen(true);
+                  }}
+                >
+                  <Eye className="h-4 w-4 mr-1.5" />
+                  Overview
+                </Button>
+                <Button
+                  variant="default"
+                  size="sm"
+                  onClick={() =>
+                    router.push(`/dashboard/facilities/${facility.id}`)
+                  }
+                >
+                  Details
+                </Button>
+              </div>
+            )}
+          />
+        </CardContent>
+      </Card>
 
+      {/* Facility Details Modal */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="min-w-5xl max-h-[90vh] flex flex-col p-0">
           <div className="p-6 flex-1 overflow-y-auto">
@@ -331,6 +465,7 @@ export default function FacilitiesPage() {
         </DialogContent>
       </Dialog>
 
+      {/* Create/Edit Facility Modal */}
       <CreateFacilityModal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}

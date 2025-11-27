@@ -183,8 +183,8 @@ export function CreateAdminUserModal({
         role === "system_administrator"
           ? "full"
           : role === "financial_auditor"
-          ? "read_only"
-          : "read_write",
+            ? "read_only"
+            : "read_write",
     });
     if (errors.role) setErrors({ ...errors, role: "" });
   };
@@ -265,7 +265,9 @@ export function CreateAdminUserModal({
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckCircle className="h-8 w-8 text-green-600" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">User Created Successfully</h3>
+            <h3 className="text-xl font-semibold mb-2">
+              User Created Successfully
+            </h3>
             <p className="text-muted-foreground">
               {formData.name} has been added as a{" "}
               {formData.role && roleDisplayNames[formData.role as AdminRole]}.
@@ -405,7 +407,9 @@ export function CreateAdminUserModal({
                     </Select>
                   </div>
                   {errors.department && (
-                    <p className="text-sm text-destructive">{errors.department}</p>
+                    <p className="text-sm text-destructive">
+                      {errors.department}
+                    </p>
                   )}
                 </div>
               </div>
@@ -420,17 +424,21 @@ export function CreateAdminUserModal({
                   </Label>
                   <Select
                     value={formData.role}
-                    onValueChange={(value) => handleRoleChange(value as AdminRole)}
+                    onValueChange={(value) =>
+                      handleRoleChange(value as AdminRole)
+                    }
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Select role" />
                     </SelectTrigger>
                     <SelectContent>
-                      {(Object.keys(rolePermissions) as AdminRole[]).map((role) => (
-                        <SelectItem key={role} value={role}>
-                          {roleDisplayNames[role]}
-                        </SelectItem>
-                      ))}
+                      {(Object.keys(rolePermissions) as AdminRole[]).map(
+                        (role) => (
+                          <SelectItem key={role} value={role}>
+                            {roleDisplayNames[role]}
+                          </SelectItem>
+                        ),
+                      )}
                     </SelectContent>
                   </Select>
                   {errors.role && (
@@ -440,7 +448,9 @@ export function CreateAdminUserModal({
 
                 {formData.role && (
                   <div className="p-3 bg-muted/30 rounded-lg">
-                    <p className="text-sm font-medium mb-2">Role Permissions:</p>
+                    <p className="text-sm font-medium mb-2">
+                      Role Permissions:
+                    </p>
                     <div className="flex flex-wrap gap-1">
                       {rolePermissions[formData.role as AdminRole]
                         .slice(0, 5)
@@ -453,9 +463,12 @@ export function CreateAdminUserModal({
                             {perm.replace(/_/g, " ")}
                           </Badge>
                         ))}
-                      {rolePermissions[formData.role as AdminRole].length > 5 && (
+                      {rolePermissions[formData.role as AdminRole].length >
+                        5 && (
                         <Badge variant="secondary" className="text-xs">
-                          +{rolePermissions[formData.role as AdminRole].length - 5}{" "}
+                          +
+                          {rolePermissions[formData.role as AdminRole].length -
+                            5}{" "}
                           more
                         </Badge>
                       )}
@@ -498,11 +511,17 @@ export function CreateAdminUserModal({
                     </Select>
                   </div>
                   {errors.accessLevel && (
-                    <p className="text-sm text-destructive">{errors.accessLevel}</p>
+                    <p className="text-sm text-destructive">
+                      {errors.accessLevel}
+                    </p>
                   )}
                   {formData.accessLevel && (
                     <p className="text-xs text-muted-foreground mt-1">
-                      {accessLevelDescriptions[formData.accessLevel as AccessLevel]}
+                      {
+                        accessLevelDescriptions[
+                          formData.accessLevel as AccessLevel
+                        ]
+                      }
                     </p>
                   )}
                 </div>

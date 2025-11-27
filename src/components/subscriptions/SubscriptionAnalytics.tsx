@@ -20,10 +20,10 @@ export function SubscriptionAnalytics() {
   // Calculate key metrics
   const totalSubscriptions = facilitySubscriptions.length;
   const activeSubscriptions = facilitySubscriptions.filter(
-    (sub) => sub.status === "active"
+    (sub) => sub.status === "active",
   ).length;
   const trialSubscriptions = facilitySubscriptions.filter(
-    (sub) => sub.status === "trial"
+    (sub) => sub.status === "trial",
   ).length;
 
   // Calculate MRR (Monthly Recurring Revenue)
@@ -53,7 +53,7 @@ export function SubscriptionAnalytics() {
   const moduleUsage = modules.map((module) => ({
     module: module.name,
     count: facilitySubscriptions.filter((sub) =>
-      sub.enabledModules.includes(module.id)
+      sub.enabledModules.includes(module.id),
     ).length,
   }));
   const topModules = moduleUsage.sort((a, b) => b.count - a.count).slice(0, 5);
@@ -78,14 +78,14 @@ export function SubscriptionAnalytics() {
   const expiringSoon = facilitySubscriptions.filter((sub) => {
     const endDate = new Date(sub.endDate);
     const daysUntilEnd = Math.ceil(
-      (endDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+      (endDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
     );
     return daysUntilEnd <= 30 && daysUntilEnd > 0 && sub.status === "active";
   }).length;
 
   // Churn risk (suspended or not auto-renewing)
   const churnRisk = facilitySubscriptions.filter(
-    (sub) => sub.status === "suspended" || !sub.autoRenew
+    (sub) => sub.status === "suspended" || !sub.autoRenew,
   ).length;
 
   const formatCurrency = (amount: number) => {
@@ -171,7 +171,10 @@ export function SubscriptionAnalytics() {
           <CardContent>
             <div className="space-y-3">
               {tierDistribution.map((item) => (
-                <div key={item.tier} className="flex items-center justify-between">
+                <div
+                  key={item.tier}
+                  className="flex items-center justify-between"
+                >
                   <div className="flex items-center gap-3">
                     <Activity className="h-4 w-4 text-muted-foreground" />
                     <span className="text-sm font-medium">{item.tier}</span>
@@ -201,7 +204,10 @@ export function SubscriptionAnalytics() {
           <CardContent>
             <div className="space-y-3">
               {topModules.map((item) => (
-                <div key={item.module} className="flex items-center justify-between">
+                <div
+                  key={item.module}
+                  className="flex items-center justify-between"
+                >
                   <div className="flex items-center gap-3">
                     <Target className="h-4 w-4 text-muted-foreground" />
                     <span className="text-sm font-medium">{item.module}</span>
@@ -237,8 +243,8 @@ export function SubscriptionAnalytics() {
                 <div>
                   <p className="text-sm font-medium">Upsell Opportunity</p>
                   <p className="text-sm text-muted-foreground">
-                    {upsellOpportunities} facilities are using over 80% of their tier
-                    limits. Consider reaching out for an upgrade.
+                    {upsellOpportunities} facilities are using over 80% of their
+                    tier limits. Consider reaching out for an upgrade.
                   </p>
                 </div>
               </div>
@@ -250,8 +256,8 @@ export function SubscriptionAnalytics() {
                 <div>
                   <p className="text-sm font-medium">Expiring Subscriptions</p>
                   <p className="text-sm text-muted-foreground">
-                    {expiringSoon} subscriptions are expiring within 30 days. Follow
-                    up to ensure renewals.
+                    {expiringSoon} subscriptions are expiring within 30 days.
+                    Follow up to ensure renewals.
                   </p>
                 </div>
               </div>
@@ -263,8 +269,8 @@ export function SubscriptionAnalytics() {
                 <div>
                   <p className="text-sm font-medium">Active Trials</p>
                   <p className="text-sm text-muted-foreground">
-                    {trialSubscriptions} facilities are currently on trial. Monitor
-                    their usage and engage before trial ends.
+                    {trialSubscriptions} facilities are currently on trial.
+                    Monitor their usage and engage before trial ends.
                   </p>
                 </div>
               </div>

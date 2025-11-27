@@ -12,7 +12,9 @@ export interface Plan {
   features: string[];
   limits: {
     pets: number;
-    users: number;
+    locations: number;
+    staff: number;
+    clients: number;
     storage: number; // in GB
     bookings: number;
   };
@@ -42,8 +44,10 @@ export const plans: Plan[] = [
       "Email notifications",
     ],
     limits: {
-      pets: 10,
-      users: 2,
+      locations: 1,
+      staff: 2,
+      clients: 25,
+      pets: 50,
       storage: 1,
       bookings: 50,
     },
@@ -79,8 +83,10 @@ export const plans: Plan[] = [
       "Mobile app access",
     ],
     limits: {
-      pets: 100,
-      users: 10,
+      locations: 3,
+      staff: 10,
+      clients: 100,
+      pets: 250,
       storage: 5,
       bookings: 500,
     },
@@ -124,8 +130,10 @@ export const plans: Plan[] = [
       "Custom integrations",
     ],
     limits: {
+      locations: 10,
+      staff: 50,
+      clients: 500,
       pets: -1, // unlimited
-      users: 50,
       storage: 50,
       bookings: -1, // unlimited
     },
@@ -168,8 +176,10 @@ export const plans: Plan[] = [
       "Multi-location support",
     ],
     limits: {
+      locations: -1, // unlimited
+      staff: -1,
+      clients: -1,
       pets: -1,
-      users: -1,
       storage: -1,
       bookings: -1,
     },

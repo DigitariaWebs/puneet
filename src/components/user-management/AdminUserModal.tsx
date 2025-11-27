@@ -17,7 +17,11 @@ import {
   Monitor,
   Globe,
 } from "lucide-react";
-import { AdminUser, roleDisplayNames, accessLevelDescriptions } from "@/data/admin-users";
+import {
+  AdminUser,
+  roleDisplayNames,
+  accessLevelDescriptions,
+} from "@/data/admin-users";
 
 interface AdminUserModalProps {
   user: AdminUser;
@@ -53,7 +57,9 @@ export function AdminUserModal({ user }: AdminUserModalProps) {
           <InfoCard
             title="Access Level"
             value={user.accessLevel.replace("_", " ").toUpperCase()}
-            subtitle={accessLevelDescriptions[user.accessLevel].slice(0, 30) + "..."}
+            subtitle={
+              accessLevelDescriptions[user.accessLevel].slice(0, 30) + "..."
+            }
             icon={Key}
             variant="primary"
           />
@@ -75,7 +81,9 @@ export function AdminUserModal({ user }: AdminUserModalProps) {
                 <p className="text-xs text-muted-foreground mt-1">Department</p>
               </div>
               <div className="p-3 rounded-lg bg-background/60 backdrop-blur-sm">
-                <div className="text-base font-semibold">{roleDisplayNames[user.role]}</div>
+                <div className="text-base font-semibold">
+                  {roleDisplayNames[user.role]}
+                </div>
                 <p className="text-xs text-muted-foreground mt-1">Role</p>
               </div>
             </CardContent>
@@ -167,18 +175,27 @@ export function AdminUserModal({ user }: AdminUserModalProps) {
           <CardContent className="px-5 pb-5">
             <div className="space-y-2">
               {user.loginHistory.slice(0, 3).map((login, index) => (
-                <div key={index} className="flex items-center justify-between p-2.5 rounded-lg bg-background/60 backdrop-blur-sm">
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-2.5 rounded-lg bg-background/60 backdrop-blur-sm"
+                >
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-lg bg-muted">
                       <Globe className="h-4 w-4 text-muted-foreground" />
                     </div>
                     <div>
-                      <span className="text-sm font-medium">{login.device}</span>
-                      <p className="text-xs text-muted-foreground">{login.location}</p>
+                      <span className="text-sm font-medium">
+                        {login.device}
+                      </span>
+                      <p className="text-xs text-muted-foreground">
+                        {login.location}
+                      </p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="text-xs text-muted-foreground">{login.ip}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {login.ip}
+                    </span>
                     <p className="text-xs text-muted-foreground">
                       {new Date(login.date).toLocaleDateString()}
                     </p>

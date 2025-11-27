@@ -214,7 +214,7 @@ export function getTiersByType(type: TierType): SubscriptionTier[] {
 
 export function calculateTierPrice(
   tier: SubscriptionTier,
-  billingCycle: "monthly" | "quarterly" | "yearly"
+  billingCycle: "monthly" | "quarterly" | "yearly",
 ): number {
   return tier.pricing[billingCycle];
 }

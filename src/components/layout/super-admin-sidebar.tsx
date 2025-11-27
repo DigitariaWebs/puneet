@@ -113,7 +113,7 @@ export function AppSidebar() {
           title: t("subscriptionBilling"),
           url: "/dashboard/billing",
           icon: CreditCard,
-          disabled: false,
+          disabled: true,
         },
         {
           title: t("subscriptionManagement"),

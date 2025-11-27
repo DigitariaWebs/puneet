@@ -3,8 +3,20 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { rolePermissions, roleDisplayNames, AdminRole, AccessLevel, accessLevelDescriptions } from "@/data/admin-users";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  rolePermissions,
+  roleDisplayNames,
+  AdminRole,
+  AccessLevel,
+  accessLevelDescriptions,
+} from "@/data/admin-users";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -73,7 +85,6 @@ const responsibilityOptions = [
 export default function CreateUserPage() {
   const t = useTranslations("userManagement");
   const tCommon = useTranslations("common");
-  const tRoles = useTranslations("adminRoles");
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -94,8 +105,12 @@ export default function CreateUserPage() {
       ...formData,
       role,
       // Auto-suggest access level based on role
-      accessLevel: role === "system_administrator" ? "full" : 
-                   role === "financial_auditor" ? "read_only" : "read_write",
+      accessLevel:
+        role === "system_administrator"
+          ? "full"
+          : role === "financial_auditor"
+            ? "read_only"
+            : "read_write",
     });
   };
 
@@ -111,20 +126,25 @@ export default function CreateUserPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1500));
-    
+
     setIsSubmitting(false);
     setShowSuccess(true);
-    
+
     // Redirect after success
     setTimeout(() => {
       router.push("/dashboard/user-management");
     }, 2000);
   };
 
-  const isFormValid = formData.name && formData.email && formData.role && formData.accessLevel && formData.department;
+  const isFormValid =
+    formData.name &&
+    formData.email &&
+    formData.role &&
+    formData.accessLevel &&
+    formData.department;
 
   if (showSuccess) {
     return (
@@ -134,9 +154,12 @@ export default function CreateUserPage() {
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckCircle className="h-8 w-8 text-green-600" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">User Created Successfully</h3>
+            <h3 className="text-xl font-semibold mb-2">
+              User Created Successfully
+            </h3>
             <p className="text-muted-foreground mb-4">
-              {formData.name} has been added as a {formData.role && roleDisplayNames[formData.role]}.
+              {formData.name} has been added as a{" "}
+              {formData.role && roleDisplayNames[formData.role]}.
             </p>
             <p className="text-sm text-muted-foreground">
               Redirecting to user management...
@@ -156,7 +179,9 @@ export default function CreateUserPage() {
           </Button>
         </Link>
         <div>
-          <h2 className="text-3xl font-bold tracking-tight">{t("createUserTitle")}</h2>
+          <h2 className="text-3xl font-bold tracking-tight">
+            {t("createUserTitle")}
+          </h2>
           <p className="text-muted-foreground mt-1">
             Add a new admin user with role and permissions
           </p>
@@ -183,7 +208,9 @@ export default function CreateUserPage() {
                   id="name"
                   placeholder="Enter full name"
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -197,7 +224,9 @@ export default function CreateUserPage() {
                     placeholder="email@example.com"
                     className="pl-10"
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -212,7 +241,9 @@ export default function CreateUserPage() {
                     placeholder="+1-555-0000"
                     className="pl-10"
                     value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, phone: e.target.value })
+                    }
                   />
                 </div>
               </div>
@@ -222,7 +253,9 @@ export default function CreateUserPage() {
                   <Building className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
                   <Select
                     value={formData.department}
-                    onValueChange={(value) => setFormData({ ...formData, department: value })}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, department: value })
+                    }
                   >
                     <SelectTrigger className="pl-10">
                       <SelectValue placeholder="Select department" />
@@ -256,17 +289,21 @@ export default function CreateUserPage() {
                 <Label htmlFor="role">User Role *</Label>
                 <Select
                   value={formData.role}
-                  onValueChange={(value) => handleRoleChange(value as AdminRole)}
+                  onValueChange={(value) =>
+                    handleRoleChange(value as AdminRole)
+                  }
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select role" />
                   </SelectTrigger>
                   <SelectContent>
-                    {(Object.keys(rolePermissions) as AdminRole[]).map((role) => (
-                      <SelectItem key={role} value={role}>
-                        {roleDisplayNames[role]}
-                      </SelectItem>
-                    ))}
+                    {(Object.keys(rolePermissions) as AdminRole[]).map(
+                      (role) => (
+                        <SelectItem key={role} value={role}>
+                          {roleDisplayNames[role]}
+                        </SelectItem>
+                      ),
+                    )}
                   </SelectContent>
                 </Select>
               </div>
@@ -276,7 +313,11 @@ export default function CreateUserPage() {
                   <p className="text-sm font-medium mb-2">Role Permissions:</p>
                   <div className="flex flex-wrap gap-1">
                     {rolePermissions[formData.role].slice(0, 5).map((perm) => (
-                      <Badge key={perm} variant="outline" className="text-xs capitalize">
+                      <Badge
+                        key={perm}
+                        variant="outline"
+                        className="text-xs capitalize"
+                      >
                         {perm.replace(/_/g, " ")}
                       </Badge>
                     ))}
@@ -295,16 +336,27 @@ export default function CreateUserPage() {
                   <Key className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
                   <Select
                     value={formData.accessLevel}
-                    onValueChange={(value) => setFormData({ ...formData, accessLevel: value as AccessLevel })}
+                    onValueChange={(value) =>
+                      setFormData({
+                        ...formData,
+                        accessLevel: value as AccessLevel,
+                      })
+                    }
                   >
                     <SelectTrigger className="pl-10">
                       <SelectValue placeholder="Select access level" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="full">{t("fullAccess")}</SelectItem>
-                      <SelectItem value="read_write">{t("readWriteAccess")}</SelectItem>
-                      <SelectItem value="read_only">{t("readOnlyAccess")}</SelectItem>
-                      <SelectItem value="restricted">{t("restrictedAccess")}</SelectItem>
+                      <SelectItem value="read_write">
+                        {t("readWriteAccess")}
+                      </SelectItem>
+                      <SelectItem value="read_only">
+                        {t("readOnlyAccess")}
+                      </SelectItem>
+                      <SelectItem value="restricted">
+                        {t("restrictedAccess")}
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -350,7 +402,9 @@ export default function CreateUserPage() {
               </div>
               {formData.responsibilityAreas.length > 0 && (
                 <div className="mt-4 p-3 bg-muted/30 rounded-lg">
-                  <p className="text-sm font-medium mb-2">Selected Areas ({formData.responsibilityAreas.length}):</p>
+                  <p className="text-sm font-medium mb-2">
+                    Selected Areas ({formData.responsibilityAreas.length}):
+                  </p>
                   <div className="flex flex-wrap gap-2">
                     {formData.responsibilityAreas.map((area) => (
                       <Badge key={area} variant="secondary">

@@ -269,22 +269,22 @@ export function getActiveModules(): Module[] {
 }
 
 export function getModulesByCategory(
-  category: "core" | "advanced" | "premium" | "addon"
+  category: "core" | "advanced" | "premium" | "addon",
 ): Module[] {
   return modules.filter((module) => module.category === category);
 }
 
 export function getModulesByTier(
-  tier: "beginner" | "pro" | "enterprise"
+  tier: "beginner" | "pro" | "enterprise",
 ): Module[] {
   return modules.filter(
-    (module) => module.requiredTier === tier || module.requiredTier === "all"
+    (module) => module.requiredTier === tier || module.requiredTier === "all",
   );
 }
 
 export function calculateModulePrice(
   module: Module,
-  billingCycle: "monthly" | "quarterly" | "yearly"
+  billingCycle: "monthly" | "quarterly" | "yearly",
 ): number {
   return module.pricing[billingCycle];
 }

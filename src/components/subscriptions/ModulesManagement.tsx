@@ -111,9 +111,7 @@ function ModuleCard({ module, onEdit, onToggle }: ModuleCardProps) {
               ? "All Tiers"
               : `${module.requiredTier}+`}
           </Badge>
-          {module.isStandalone && (
-            <Badge variant="secondary">Standalone</Badge>
-          )}
+          {module.isStandalone && <Badge variant="secondary">Standalone</Badge>}
           {!module.isActive && <Badge variant="destructive">Inactive</Badge>}
         </div>
 
@@ -260,9 +258,7 @@ export function ModulesManagement() {
           <TabsTrigger value="all">
             All Modules ({allModules.length})
           </TabsTrigger>
-          <TabsTrigger value="core">
-            Core ({coreModules.length})
-          </TabsTrigger>
+          <TabsTrigger value="core">Core ({coreModules.length})</TabsTrigger>
           <TabsTrigger value="advanced">
             Advanced ({advancedModules.length})
           </TabsTrigger>
