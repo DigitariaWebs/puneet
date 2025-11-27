@@ -7,6 +7,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { HeaderDropdown } from "@/components/layout/HeaderDropdown";
+import { Bell } from "lucide-react";
 
 export default async function DashboardLayout({
   children,
@@ -25,12 +26,27 @@ export default async function DashboardLayout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b bg-linear-to-r from-background to-muted/20 px-6 backdrop-blur-sm">
-          <SidebarTrigger className="-ml-1 hover:bg-accent/50 rounded-lg transition-colors" />
-          <HeaderDropdown />
+      <SidebarInset className="bg-background">
+        <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between gap-4 border-b border-border/50 bg-background/80 backdrop-blur-md px-6">
+          <div className="flex items-center gap-4">
+            <SidebarTrigger className="h-9 w-9 rounded-xl hover:bg-muted transition-colors" />
+          </div>
+
+          <div className="flex items-center gap-3">
+            {/* Notifications */}
+            <button className="relative flex items-center justify-center h-10 w-10 rounded-xl hover:bg-muted transition-colors">
+              <Bell className="h-5 w-5 text-muted-foreground" />
+              <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-primary animate-pulse" />
+            </button>
+
+            {/* Divider */}
+            <div className="h-8 w-px bg-border/50" />
+
+            {/* User Dropdown */}
+            <HeaderDropdown />
+          </div>
         </header>
-        {children}
+        <main className="flex-1">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

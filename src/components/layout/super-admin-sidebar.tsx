@@ -14,10 +14,34 @@ import {
   Globe,
   UserCheck,
   AlertTriangle,
+  Layers,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { GenericSidebar, MenuSection } from "@/components/ui/generic-sidebar";
+
+function SidebarLogo() {
+  return (
+    <div className="flex items-center gap-3">
+      <div
+        className="flex items-center justify-center w-10 h-10 rounded-xl shadow-sm"
+        style={{
+          background: "linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)",
+        }}
+      >
+        <Layers className="h-5 w-5 text-white" />
+      </div>
+      <div className="flex flex-col">
+        <span className="text-base font-bold text-foreground tracking-tight">
+          PetCare
+        </span>
+        <span className="text-[11px] font-medium text-muted-foreground -mt-0.5">
+          Platform Admin
+        </span>
+      </div>
+    </div>
+  );
+}
 
 export function AppSidebar() {
   const t = useTranslations("navigation");
@@ -129,7 +153,7 @@ export function AppSidebar() {
 
   return (
     <GenericSidebar
-      header={<h2 className="text-lg font-semibold">{t("platformAdmin")}</h2>}
+      header={<SidebarLogo />}
       menuSections={menuSections}
       onLogout={handleLogout}
     />

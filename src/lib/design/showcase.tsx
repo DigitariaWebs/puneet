@@ -203,17 +203,32 @@ export function DesignShowcase() {
       <section className="space-y-4">
         <h2 className="text-2xl font-bold">Gradients</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-gradient-warm rounded-xl p-6 border">
-            <p className="font-semibold">Warm Gradient</p>
+          <div
+            className="rounded-xl p-6 border"
+            style={{
+              background: "linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)",
+            }}
+          >
+            <p className="font-semibold">Subtle Gradient</p>
             <code className="text-xs text-muted-foreground">
-              bg-gradient-warm
+              bg-gradient-subtle
             </code>
           </div>
-          <div className="bg-gradient-primary rounded-xl p-6 text-white">
+          <div
+            className="rounded-xl p-6 text-white"
+            style={{
+              background: "linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)",
+            }}
+          >
             <p className="font-semibold">Primary Gradient</p>
             <code className="text-xs opacity-80">bg-gradient-primary</code>
           </div>
-          <div className="bg-gradient-success rounded-xl p-6 text-white">
+          <div
+            className="rounded-xl p-6 text-white"
+            style={{
+              background: "linear-gradient(135deg, #22c55e 0%, #16a34a 100%)",
+            }}
+          >
             <p className="font-semibold">Success Gradient</p>
             <code className="text-xs opacity-80">bg-gradient-success</code>
           </div>

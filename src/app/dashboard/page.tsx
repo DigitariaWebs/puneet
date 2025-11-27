@@ -1,204 +1,1124 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
-import { RecentActivitiesSection } from "@/components/facility/RecentActivitiesSection";
-import { NotificationsSection } from "@/components/facility/NotificationsSection";
-import { ActiveNowSection } from "@/components/facility/ActiveNowSection";
+import Link from "next/link";
+import { facilities } from "@/data/facilities";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  AreaChart,
+  Area,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
+import {
+  Building2,
+  CalendarCheck,
+  DollarSign,
+  Activity,
+  Plus,
+  Clock,
+  Headphones,
+  Megaphone,
+  TrendingUp,
+  TrendingDown,
+  ArrowUpRight,
+  ArrowRight,
+  MoreHorizontal,
+  ChevronRight,
+  CheckCircle2,
+  AlertCircle,
+  XCircle,
+  Calendar,
+  Users,
+  CreditCard,
+  MessageSquare,
+  Scissors,
+} from "lucide-react";
 
-interface Notification {
-  id: number;
-  title: string;
-  description: string;
-  time: string;
-  type: string;
-  status: "pending" | "approved" | "denied";
-  severity?: "normal" | "high";
-}
+// Mock data for charts
+const revenueData = [
+  { month: "Jan", revenue: 45000, profit: 31500 },
+  { month: "Feb", revenue: 52000, profit: 36400 },
+  { month: "Mar", revenue: 48000, profit: 33600 },
+  { month: "Apr", revenue: 61000, profit: 42700 },
+  { month: "May", revenue: 55000, profit: 38500 },
+  { month: "Jun", revenue: 67000, profit: 46900 },
+  { month: "Jul", revenue: 72000, profit: 50400 },
+  { month: "Aug", revenue: 69000, profit: 48300 },
+  { month: "Sep", revenue: 75000, profit: 52500 },
+  { month: "Oct", revenue: 78000, profit: 54600 },
+  { month: "Nov", revenue: 81000, profit: 56700 },
+  { month: "Dec", revenue: 85000, profit: 59500 },
+];
 
-const recentActivities = [
+const reservationVolumeData = [
+  { month: "Jan", reservations: 320 },
+  { month: "Feb", reservations: 380 },
+  { month: "Mar", reservations: 420 },
+  { month: "Apr", reservations: 510 },
+  { month: "May", reservations: 480 },
+  { month: "Jun", reservations: 620 },
+  { month: "Jul", reservations: 750 },
+  { month: "Aug", reservations: 710 },
+  { month: "Sep", reservations: 680 },
+  { month: "Oct", reservations: 720 },
+  { month: "Nov", reservations: 810 },
+  { month: "Dec", reservations: 890 },
+];
+
+const activityData = [
+  { name: "Active", value: 45, color: "#22c55e" },
+  { name: "Pending", value: 23, color: "#f59e0b" },
+  { name: "Completed", value: 32, color: "#0ea5e9" },
+];
+
+// Quick actions data
+const quickActions = [
   {
     id: 1,
-    type: "trial",
-    title: "Trial request received",
-    description: "ABC Company requested a trial for daycare services",
-    time: "45 minutes ago",
-    date: "2025-11-15T15:45:00Z",
-    facility: "Paws & Play Daycare",
+    label: "Add Facility",
+    icon: Plus,
+    href: "/dashboard/facilities/new",
   },
   {
     id: 2,
-    type: "trial",
-    title: "Trial request received",
-    description: "XYZ Pet Care requested a trial for grooming",
-    time: "5 minutes ago",
-    date: "2025-11-15T15:30:00Z",
-    facility: "Furry Friends Grooming",
+    label: "View Activity",
+    icon: Clock,
+    href: "/dashboard/analytics",
   },
   {
     id: 3,
-    type: "booking",
-    title: "New booking confirmed",
-    description: "Sarah Johnson booked daycare for Max",
-    time: "1 hour ago",
-    date: "2025-11-15T14:30:00Z",
-    facility: "Paws & Play Daycare",
+    label: "Support",
+    icon: Headphones,
+    href: "/dashboard/support",
   },
   {
     id: 4,
-    type: "payment",
-    title: "Payment received",
-    description: "$150.00 for grooming service",
-    time: "2 hours ago",
-    date: "2025-11-15T12:30:00Z",
-    facility: "Furry Friends Grooming",
-  },
-  {
-    id: 5,
-    type: "user",
-    title: "New staff member added",
-    description: "Emma Davis joined as Manager",
-    time: "4 hours ago",
-    date: "2025-11-14T09:00:00Z",
-    facility: "Happy Tails Boarding",
-  },
-  {
-    id: 6,
-    type: "client",
-    title: "Client profile updated",
-    description: "John Smith updated pet information",
-    time: "1 day ago",
-    date: "2025-11-13T16:45:00Z",
-  },
-  {
-    id: 7,
-    type: "booking",
-    title: "Service completed",
-    description: "Boarding service for Bella completed",
-    time: "2 days ago",
-    date: "2025-11-12T11:20:00Z",
+    label: "Announce",
+    icon: Megaphone,
+    href: "/dashboard/announcements",
   },
 ];
 
-const initialNotifications: Notification[] = [
+// Facility activity data (for Active Facilities card)
+const facilityActivityData = [
   {
-    id: 1,
-    title: "Trial request from ABC Company",
-    description:
-      "ABC Company has requested a trial for daycare services at Paws & Play Daycare.",
-    time: "10 minutes ago",
-    type: "trial",
-    status: "pending",
-    severity: "normal",
+    name: "Pawsome Care NYC",
+    lastActivity: "2 min ago",
+    status: "active" as const,
   },
   {
-    id: 2,
-    title: "Trial request from XYZ Pet Care",
-    description:
-      "XYZ Pet Care has requested a trial for grooming services at Furry Friends Grooming.",
-    time: "15 minutes ago",
-    type: "trial",
-    status: "pending",
-    severity: "normal",
+    name: "Happy Tails LA",
+    lastActivity: "5 min ago",
+    status: "active" as const,
   },
   {
-    id: 3,
-    title: "Incident: Pet emergency",
-    description:
-      "Max is showing signs of distress during daycare session. Immediate attention required.",
-    time: "3 minutes ago",
-    type: "incident",
-    status: "pending",
-    severity: "high",
+    name: "Pet Paradise Miami",
+    lastActivity: "12 min ago",
+    status: "active" as const,
   },
   {
-    id: 4,
-    title: "Incident: Allergic reaction",
-    description:
-      "Bella had an allergic reaction to grooming products. Vet consultation needed.",
-    time: "8 minutes ago",
-    type: "incident",
-    status: "pending",
-    severity: "high",
+    name: "Bark & Play Chicago",
+    lastActivity: "18 min ago",
+    status: "active" as const,
   },
 ];
 
-const activeItems = [
+// Top facilities by reservations
+const topFacilitiesByReservations = [
+  { name: "Pawsome Care NYC", reservations: 1842, trend: "+12%" },
+  { name: "Happy Tails LA", reservations: 1567, trend: "+8%" },
+  { name: "Pet Paradise Miami", reservations: 1234, trend: "+15%" },
+  { name: "Bark & Play Chicago", reservations: 1089, trend: "+5%" },
+];
+
+// Module health data
+const moduleHealthData = [
   {
-    id: 1,
-    type: "user" as const,
-    name: "Sarah Johnson",
-    description: "Managing daycare services",
-    status: "online" as const,
+    name: "Booking",
+    icon: Calendar,
+    status: "operational" as const,
+    uptime: 99.9,
   },
   {
-    id: 2,
-    type: "service" as const,
-    name: "Grooming Session",
-    description: "Bella's grooming in progress",
-    status: "busy" as const,
+    name: "Staff Scheduling",
+    icon: Users,
+    status: "operational" as const,
+    uptime: 99.8,
   },
   {
-    id: 3,
-    type: "user" as const,
-    name: "Emma Davis",
-    description: "Handling client inquiries",
-    status: "online" as const,
-    requestingSupport: true,
+    name: "Customer Management",
+    icon: Users,
+    status: "degraded" as const,
+    uptime: 98.2,
   },
   {
-    id: 4,
-    type: "user" as const,
-    name: "John Smith",
-    description: "Online and available",
-    status: "online" as const,
+    name: "Financial Reporting",
+    icon: CreditCard,
+    status: "operational" as const,
+    uptime: 99.9,
+  },
+  {
+    name: "Communication",
+    icon: MessageSquare,
+    status: "operational" as const,
+    uptime: 99.7,
+  },
+  {
+    name: "Grooming",
+    icon: Scissors,
+    status: "operational" as const,
+    uptime: 99.9,
   },
 ];
 
-export default function DashboardPage() {
-  const t = useTranslations("dashboard");
-  const [viewMode, setViewMode] = useState<"list" | "timeline">("list");
-  const [notifications, setNotifications] = useState(initialNotifications);
-
-  const handleApprove = (id: number) => {
-    setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, status: "approved" } : n)),
-    );
-  };
-
-  const handleDeny = (id: number) => {
-    setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, status: "denied" } : n)),
-    );
+function SystemHealthCard({ overallHealth }: { overallHealth: number }) {
+  const getStatusIcon = (status: "operational" | "degraded" | "down") => {
+    switch (status) {
+      case "operational":
+        return <CheckCircle2 className="h-3.5 w-3.5 text-success" />;
+      case "degraded":
+        return <AlertCircle className="h-3.5 w-3.5 text-warning" />;
+      case "down":
+        return <XCircle className="h-3.5 w-3.5 text-destructive" />;
+    }
   };
 
   return (
-    <div className="flex-1 space-y-8 p-8">
-      <div className="space-y-2">
-        <h1 className="text-4xl font-bold tracking-tight bg-linear-to-r from-primary via-primary to-secondary bg-clip-text text-transparent">
-          {t("title")}
-        </h1>
-        <p className="text-muted-foreground text-lg">{t("welcome")}</p>
+    <Card className="relative overflow-hidden border-0 shadow-card hover:shadow-elevated transition-all duration-300 group">
+      <CardContent className="p-5">
+        <div className="flex items-start justify-between mb-3">
+          <div className="flex-1">
+            <p className="text-sm font-medium text-muted-foreground mb-1">
+              System Health
+            </p>
+            <div className="flex items-baseline gap-2">
+              <h3 className="text-2xl font-bold tracking-tight">
+                {overallHealth}%
+              </h3>
+              <span className="inline-flex items-center text-xs font-medium text-muted-foreground">
+                Operational
+              </span>
+            </div>
+          </div>
+          <div
+            className="flex items-center justify-center w-11 h-11 rounded-xl transition-transform duration-300 group-hover:scale-110"
+            style={{
+              background: "linear-gradient(135deg, #fb923c 0%, #f97316 100%)",
+            }}
+          >
+            <Activity className="h-5 w-5 text-white" />
+          </div>
+        </div>
+        <div className="space-y-1.5">
+          {moduleHealthData.map((module) => (
+            <div
+              key={module.name}
+              className="flex items-center justify-between py-1 px-2 rounded-md bg-muted/50 hover:bg-muted transition-colors"
+            >
+              <div className="flex items-center gap-2">
+                <module.icon className="h-3.5 w-3.5 text-muted-foreground" />
+                <span className="text-xs font-medium">{module.name}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] text-muted-foreground">
+                  {module.uptime}%
+                </span>
+                {getStatusIcon(module.status)}
+              </div>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function ActiveFacilitiesCard({
+  activeFacilities,
+  totalFacilities,
+}: {
+  activeFacilities: number;
+  totalFacilities: number;
+}) {
+  return (
+    <Card className="relative overflow-hidden border-0 shadow-card hover:shadow-elevated transition-all duration-300 group">
+      <CardContent className="p-5">
+        <div className="flex items-start justify-between mb-3">
+          <div className="flex-1">
+            <p className="text-sm font-medium text-muted-foreground mb-1">
+              Active Facilities
+            </p>
+            <div className="flex items-baseline gap-2">
+              <h3 className="text-2xl font-bold tracking-tight">
+                {activeFacilities}
+              </h3>
+              <span className="inline-flex items-center text-xs font-medium text-success">
+                <TrendingUp className="h-3 w-3 mr-0.5" />
+                +2 new
+              </span>
+            </div>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              of {totalFacilities} total
+            </p>
+          </div>
+          <div
+            className="flex items-center justify-center w-11 h-11 rounded-xl transition-transform duration-300 group-hover:scale-110"
+            style={{
+              background: "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)",
+            }}
+          >
+            <Building2 className="h-5 w-5 text-white" />
+          </div>
+        </div>
+        <div className="space-y-1.5">
+          <p className="text-[10px] uppercase text-muted-foreground font-medium tracking-wider">
+            Latest Activity
+          </p>
+          {facilityActivityData.map((facility) => (
+            <div
+              key={facility.name}
+              className="flex items-center justify-between py-1 px-2 rounded-md bg-muted/50 hover:bg-muted transition-colors"
+            >
+              <div className="flex items-center gap-2">
+                <div className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
+                <span className="text-xs font-medium truncate max-w-[120px]">
+                  {facility.name}
+                </span>
+              </div>
+              <span className="text-[10px] text-muted-foreground">
+                {facility.lastActivity}
+              </span>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function ReservationsCard({
+  totalReservations,
+}: {
+  totalReservations: number;
+}) {
+  return (
+    <Card className="relative overflow-hidden border-0 shadow-card hover:shadow-elevated transition-all duration-300 group">
+      <CardContent className="p-5">
+        <div className="flex items-start justify-between mb-3">
+          <div className="flex-1">
+            <p className="text-sm font-medium text-muted-foreground mb-1">
+              Total Reservations
+            </p>
+            <div className="flex items-baseline gap-2">
+              <h3 className="text-2xl font-bold tracking-tight">
+                {totalReservations.toLocaleString()}
+              </h3>
+              <span className="inline-flex items-center text-xs font-medium text-success">
+                <TrendingUp className="h-3 w-3 mr-0.5" />
+                +8.2%
+              </span>
+            </div>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              vs last month 7,660
+            </p>
+          </div>
+          <div
+            className="flex items-center justify-center w-11 h-11 rounded-xl transition-transform duration-300 group-hover:scale-110"
+            style={{
+              background: "linear-gradient(135deg, #22c55e 0%, #16a34a 100%)",
+            }}
+          >
+            <CalendarCheck className="h-5 w-5 text-white" />
+          </div>
+        </div>
+        <div className="space-y-1.5">
+          <p className="text-[10px] uppercase text-muted-foreground font-medium tracking-wider">
+            Top Facilities
+          </p>
+          {topFacilitiesByReservations.map((facility) => (
+            <div
+              key={facility.name}
+              className="flex items-center justify-between py-1 px-2 rounded-md bg-muted/50 hover:bg-muted transition-colors"
+            >
+              <span className="text-xs font-medium truncate max-w-[120px]">
+                {facility.name}
+              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-medium">
+                  {facility.reservations.toLocaleString()}
+                </span>
+                <span className="text-[10px] text-success">
+                  {facility.trend}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+interface StatCardProps {
+  title: string;
+  value: string;
+  change: string;
+  changeType: "up" | "down" | "neutral";
+  subtitle?: string;
+  icon: React.ElementType;
+  iconBgStyle: React.CSSProperties;
+  chart?: React.ReactNode;
+}
+
+function StatCard({
+  title,
+  value,
+  change,
+  changeType,
+  subtitle,
+  icon: Icon,
+  iconBgStyle,
+  chart,
+}: StatCardProps) {
+  return (
+    <Card className="relative overflow-hidden border-0 shadow-card hover:shadow-elevated transition-all duration-300 group">
+      <CardContent className="p-5">
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
+            <p className="text-sm font-medium text-muted-foreground mb-1">
+              {title}
+            </p>
+            <div className="flex items-baseline gap-2">
+              <h3 className="text-2xl font-bold tracking-tight">{value}</h3>
+              <span
+                className={`inline-flex items-center text-xs font-medium ${
+                  changeType === "up"
+                    ? "text-success"
+                    : changeType === "down"
+                      ? "text-destructive"
+                      : "text-muted-foreground"
+                }`}
+              >
+                {changeType === "up" ? (
+                  <TrendingUp className="h-3 w-3 mr-0.5" />
+                ) : changeType === "down" ? (
+                  <TrendingDown className="h-3 w-3 mr-0.5" />
+                ) : null}
+                {change}
+              </span>
+            </div>
+            {subtitle && (
+              <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>
+            )}
+          </div>
+          <div
+            className="flex items-center justify-center w-11 h-11 rounded-xl transition-transform duration-300 group-hover:scale-110"
+            style={iconBgStyle}
+          >
+            <Icon className="h-5 w-5 text-white" />
+          </div>
+        </div>
+        {chart && <div className="mt-4 h-12">{chart}</div>}
+      </CardContent>
+    </Card>
+  );
+}
+
+function MiniSparkline({ data, color }: { data: number[]; color: string }) {
+  const sparkData = data.map((value, index) => ({ value, index }));
+  return (
+    <ResponsiveContainer width="100%" height="100%">
+      <AreaChart data={sparkData}>
+        <defs>
+          <linearGradient id={`spark-${color}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={color} stopOpacity={0.3} />
+            <stop offset="100%" stopColor={color} stopOpacity={0} />
+          </linearGradient>
+        </defs>
+        <Area
+          type="monotone"
+          dataKey="value"
+          stroke={color}
+          strokeWidth={2}
+          fill={`url(#spark-${color})`}
+        />
+      </AreaChart>
+    </ResponsiveContainer>
+  );
+}
+
+export default function DashboardPage() {
+  const t = useTranslations("dashboard");
+  const [timeRange, setTimeRange] = useState<"7d" | "30d" | "90d" | "12m">(
+    "12m",
+  );
+  const [comparisonMetric, setComparisonMetric] = useState<
+    "revenue" | "reservations" | "customers" | "occupancy"
+  >("revenue");
+
+  // Calculate key metrics from facilities data
+  const metrics = useMemo(() => {
+    const activeFacilities = facilities.filter((f) => f.status === "active");
+    const totalClients = facilities.reduce(
+      (sum, f) => sum + f.clients.length,
+      0,
+    );
+    const totalUsers = facilities.reduce(
+      (sum, f) => sum + f.usersList.length,
+      0,
+    );
+
+    return {
+      totalFacilities: facilities.length,
+      activeFacilities: activeFacilities.length,
+      totalReservations: 8290,
+      totalRevenue: 788000,
+      activeUsers: totalUsers + totalClients,
+      systemHealth: 99.8,
+      totalClients,
+    };
+  }, []);
+
+  // Generate facility performance data
+  const facilityPerformance = useMemo(() => {
+    const totalClients = facilities.reduce(
+      (sum, f) => sum + f.clients.length,
+      0,
+    );
+
+    return facilities.map((facility, index) => {
+      const proportion = facility.clients.length / totalClients;
+      const revenue = Math.round(788000 * proportion);
+      const reservations = Math.round(8290 * proportion);
+      const occupancy = Math.round(65 + ((index * 7) % 30));
+      const growth = Math.round(-10 + ((index * 13) % 35));
+
+      return {
+        id: facility.id,
+        name: facility.name,
+        status: facility.status,
+        plan: facility.plan,
+        revenue,
+        reservations,
+        clients: facility.clients.length,
+        staff: facility.usersList.length,
+        locations: facility.locationsList.length,
+        occupancy,
+        growth,
+      };
+    });
+  }, []);
+
+  // Sort facilities for top performers
+  const sortedByRevenue = [...facilityPerformance].sort(
+    (a, b) => b.revenue - a.revenue,
+  );
+  const topPerformers = sortedByRevenue.slice(0, 5);
+
+  return (
+    <div className="flex-1 p-6 lg:p-8 bg-background bg-gradient-mesh min-h-screen">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+        <div>
+          <h1 className="text-2xl lg:text-3xl font-bold tracking-tight text-foreground">
+            {t("title")}
+          </h1>
+          <p className="text-muted-foreground mt-1">{t("welcome")}</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <Select
+            value={timeRange}
+            onValueChange={(v) => setTimeRange(v as typeof timeRange)}
+          >
+            <SelectTrigger className="w-36 h-10 rounded-xl border-border/50 bg-card shadow-sm">
+              <SelectValue placeholder="Time range" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="7d">Last 7 days</SelectItem>
+              <SelectItem value="30d">Last 30 days</SelectItem>
+              <SelectItem value="90d">Last 90 days</SelectItem>
+              <SelectItem value="12m">Last 12 months</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-8">
-        <div className="col-span-2">
-          <NotificationsSection
-            notifications={notifications}
-            onApprove={handleApprove}
-            onDeny={handleDeny}
-          />
-        </div>
-        <div className="col-span-1">
-          <ActiveNowSection activeItems={activeItems} />
-        </div>
+      {/* Key Metrics */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+        <StatCard
+          title="Total Revenue"
+          value={`$${(metrics.totalRevenue / 1000).toFixed(0)}K`}
+          change="+12.5%"
+          changeType="up"
+          subtitle="vs last month $702K"
+          icon={DollarSign}
+          iconBgStyle={{
+            background: "linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)",
+          }}
+          chart={
+            <MiniSparkline
+              data={revenueData.map((d) => d.revenue)}
+              color="#0ea5e9"
+            />
+          }
+        />
+        <ReservationsCard totalReservations={metrics.totalReservations} />
+        <ActiveFacilitiesCard
+          activeFacilities={metrics.activeFacilities}
+          totalFacilities={metrics.totalFacilities}
+        />
+        <SystemHealthCard overallHealth={metrics.systemHealth} />
       </div>
 
-      <RecentActivitiesSection
-        activities={recentActivities}
-        viewMode={viewMode}
-        onViewModeChange={setViewMode}
-      />
+      {/* Main Content Grid */}
+      <div className="grid gap-6 lg:grid-cols-3 mb-8">
+        {/* Revenue Chart - Takes 2 columns */}
+        <Card className="lg:col-span-2 border-0 shadow-card">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <div>
+              <CardTitle className="text-lg font-semibold">
+                Revenue Overview
+              </CardTitle>
+              <p className="text-sm text-muted-foreground mt-0.5">
+                Monthly revenue and profit trends
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <Select defaultValue="monthly">
+                <SelectTrigger className="w-28 h-8 text-xs rounded-lg">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="weekly">Weekly</SelectItem>
+                  <SelectItem value="monthly">Monthly</SelectItem>
+                  <SelectItem value="yearly">Yearly</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button variant="ghost" size="icon" className="h-8 w-8">
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-6 mb-4">
+              <div>
+                <p className="text-2xl font-bold">$788K</p>
+                <p className="text-xs text-muted-foreground">Total Revenue</p>
+              </div>
+              <div className="h-8 w-px bg-border" />
+              <div>
+                <p className="text-2xl font-bold text-success">$551K</p>
+                <p className="text-xs text-muted-foreground">Total Profit</p>
+              </div>
+              <div className="flex items-center gap-1 ml-auto text-sm text-success">
+                <TrendingUp className="h-4 w-4" />
+                <span className="font-medium">+18.2%</span>
+                <span className="text-muted-foreground">vs last year</span>
+              </div>
+            </div>
+            <div className="h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={revenueData}>
+                  <defs>
+                    <linearGradient
+                      id="colorRevenue"
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="1"
+                    >
+                      <stop offset="0%" stopColor="#0ea5e9" stopOpacity={0.2} />
+                      <stop offset="100%" stopColor="#0ea5e9" stopOpacity={0} />
+                    </linearGradient>
+                    <linearGradient
+                      id="colorProfit"
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="1"
+                    >
+                      <stop offset="0%" stopColor="#22c55e" stopOpacity={0.2} />
+                      <stop offset="100%" stopColor="#22c55e" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    stroke="#e2e8f0"
+                    vertical={false}
+                  />
+                  <XAxis
+                    dataKey="month"
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: "#94a3b8", fontSize: 12 }}
+                  />
+                  <YAxis
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: "#94a3b8", fontSize: 12 }}
+                    tickFormatter={(value) => `$${value / 1000}K`}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#ffffff",
+                      border: "none",
+                      borderRadius: "12px",
+                      boxShadow:
+                        "0 4px 16px -2px rgba(0, 0, 0, 0.1), 0 8px 32px -4px rgba(0, 0, 0, 0.1)",
+                    }}
+                    formatter={(value: number) => [
+                      `$${value.toLocaleString()}`,
+                    ]}
+                  />
+                  <Legend
+                    iconType="circle"
+                    iconSize={8}
+                    wrapperStyle={{ paddingTop: "16px" }}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="revenue"
+                    stroke="#0ea5e9"
+                    strokeWidth={2.5}
+                    fill="url(#colorRevenue)"
+                    name="Revenue"
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="profit"
+                    stroke="#22c55e"
+                    strokeWidth={2.5}
+                    fill="url(#colorProfit)"
+                    name="Profit"
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Activity Donut Chart */}
+        <Card className="border-0 shadow-card">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <div>
+              <CardTitle className="text-lg font-semibold">
+                Reservation Status
+              </CardTitle>
+              <p className="text-sm text-muted-foreground mt-0.5">
+                Current month breakdown
+              </p>
+            </div>
+            <Select defaultValue="monthly">
+              <SelectTrigger className="w-24 h-8 text-xs rounded-lg">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="weekly">Weekly</SelectItem>
+                <SelectItem value="monthly">Monthly</SelectItem>
+              </SelectContent>
+            </Select>
+          </CardHeader>
+          <CardContent>
+            <div className="relative h-52">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={activityData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={85}
+                    paddingAngle={4}
+                    dataKey="value"
+                    strokeWidth={0}
+                  >
+                    {activityData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <p className="text-3xl font-bold">786</p>
+                <p className="text-xs text-muted-foreground">Total</p>
+              </div>
+            </div>
+            <div className="flex justify-center gap-6 mt-4">
+              {activityData.map((item) => (
+                <div key={item.name} className="flex items-center gap-2">
+                  <div
+                    className="w-2.5 h-2.5 rounded-full"
+                    style={{ backgroundColor: item.color }}
+                  />
+                  <div>
+                    <p className="text-sm font-semibold">{item.value}</p>
+                    <p className="text-xs text-muted-foreground">{item.name}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Second Row */}
+      <div className="grid gap-6 lg:grid-cols-3 mb-8">
+        {/* Reservations Chart */}
+        <Card className="lg:col-span-2 border-0 shadow-card">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <div>
+              <CardTitle className="text-lg font-semibold">
+                Reservation Trends
+              </CardTitle>
+              <p className="text-sm text-muted-foreground mt-0.5">
+                <span className="text-success font-medium">+178%</span> growth
+                this year
+              </p>
+            </div>
+            <Button variant="ghost" size="icon" className="h-8 w-8">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={reservationVolumeData} barSize={32}>
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    stroke="#e2e8f0"
+                    vertical={false}
+                  />
+                  <XAxis
+                    dataKey="month"
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: "#94a3b8", fontSize: 12 }}
+                  />
+                  <YAxis
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: "#94a3b8", fontSize: 12 }}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#ffffff",
+                      border: "none",
+                      borderRadius: "12px",
+                      boxShadow:
+                        "0 4px 16px -2px rgba(0, 0, 0, 0.1), 0 8px 32px -4px rgba(0, 0, 0, 0.1)",
+                    }}
+                  />
+                  <Bar
+                    dataKey="reservations"
+                    fill="#8b5cf6"
+                    radius={[6, 6, 0, 0]}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Quick Actions */}
+        <Card className="border-0 shadow-card">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg font-semibold">
+              Quick Actions
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {quickActions.map((action) => (
+              <Link
+                key={action.id}
+                href={action.href}
+                className="flex items-center gap-3 p-3 rounded-xl hover:bg-muted/50 transition-colors group"
+              >
+                <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-muted group-hover:bg-primary/10 transition-colors">
+                  <action.icon className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                </div>
+                <span className="font-medium text-sm flex-1">
+                  {action.label}
+                </span>
+                <ChevronRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+              </Link>
+            ))}
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Facility Performance Section */}
+      <div className="grid gap-6 lg:grid-cols-3">
+        {/* Top Performers */}
+        <Card className="lg:col-span-2 border-0 shadow-card">
+          <CardHeader className="flex flex-row items-center justify-between pb-3">
+            <div>
+              <CardTitle className="text-lg font-semibold">
+                Top Performing Facilities
+              </CardTitle>
+              <p className="text-sm text-muted-foreground mt-0.5">
+                Ranked by revenue
+              </p>
+            </div>
+            <Button variant="ghost" size="sm" asChild className="gap-1">
+              <Link href="/dashboard/facilities">
+                View All
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {topPerformers.map((facility, index) => (
+                <div
+                  key={facility.id}
+                  className="flex items-center gap-4 p-3 rounded-xl hover:bg-muted/30 transition-colors"
+                >
+                  <div
+                    className={`flex items-center justify-center w-8 h-8 rounded-lg text-sm font-bold ${
+                      index === 0
+                        ? "bg-amber-100 text-amber-700"
+                        : index === 1
+                          ? "bg-slate-100 text-slate-600"
+                          : index === 2
+                            ? "bg-orange-100 text-orange-700"
+                            : "bg-muted text-muted-foreground"
+                    }`}
+                  >
+                    {index + 1}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-sm truncate">
+                      {facility.name}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {facility.clients} clients • {facility.locations}{" "}
+                      locations
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-semibold text-sm">
+                      ${(facility.revenue / 1000).toFixed(1)}K
+                    </p>
+                    <div
+                      className={`flex items-center justify-end gap-0.5 text-xs ${
+                        facility.growth > 0
+                          ? "text-success"
+                          : "text-destructive"
+                      }`}
+                    >
+                      {facility.growth > 0 ? (
+                        <TrendingUp className="h-3 w-3" />
+                      ) : (
+                        <TrendingDown className="h-3 w-3" />
+                      )}
+                      {facility.growth > 0 ? "+" : ""}
+                      {facility.growth}%
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Comparative Analytics */}
+        <Card className="border-0 shadow-card">
+          <CardHeader className="flex flex-row items-center justify-between pb-3">
+            <CardTitle className="text-lg font-semibold">
+              Facility Metrics
+            </CardTitle>
+            <Select
+              value={comparisonMetric}
+              onValueChange={(v) =>
+                setComparisonMetric(v as typeof comparisonMetric)
+              }
+            >
+              <SelectTrigger className="w-28 h-8 text-xs rounded-lg">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="revenue">Revenue</SelectItem>
+                <SelectItem value="reservations">Bookings</SelectItem>
+                <SelectItem value="customers">Clients</SelectItem>
+                <SelectItem value="occupancy">Occupancy</SelectItem>
+              </SelectContent>
+            </Select>
+          </CardHeader>
+          <CardContent>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={facilityPerformance.slice(0, 6)}
+                  layout="vertical"
+                  margin={{ left: -10 }}
+                >
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    stroke="#e2e8f0"
+                    horizontal={false}
+                  />
+                  <XAxis
+                    type="number"
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: "#94a3b8", fontSize: 10 }}
+                    tickFormatter={(value) =>
+                      comparisonMetric === "revenue"
+                        ? `$${value / 1000}K`
+                        : comparisonMetric === "occupancy"
+                          ? `${value}%`
+                          : value.toString()
+                    }
+                  />
+                  <YAxis
+                    dataKey="name"
+                    type="category"
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: "#64748b", fontSize: 10 }}
+                    width={80}
+                    tickFormatter={(value) =>
+                      value.length > 12 ? value.slice(0, 12) + "..." : value
+                    }
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#ffffff",
+                      border: "none",
+                      borderRadius: "12px",
+                      boxShadow:
+                        "0 4px 16px -2px rgba(0, 0, 0, 0.1), 0 8px 32px -4px rgba(0, 0, 0, 0.1)",
+                    }}
+                    formatter={(value: number) => [
+                      comparisonMetric === "revenue"
+                        ? `$${value.toLocaleString()}`
+                        : comparisonMetric === "occupancy"
+                          ? `${value}%`
+                          : value,
+                    ]}
+                  />
+                  <Bar
+                    dataKey={
+                      comparisonMetric === "customers"
+                        ? "clients"
+                        : comparisonMetric
+                    }
+                    fill="#0ea5e9"
+                    radius={[0, 6, 6, 0]}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Facility Cards Grid */}
+      <div className="mt-8">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold">All Facilities</h2>
+          <Button variant="ghost" size="sm" asChild className="gap-1">
+            <Link href="/dashboard/facilities">
+              View All {facilities.length}
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {facilityPerformance.slice(0, 8).map((facility) => (
+            <Card
+              key={facility.id}
+              className="border-0 shadow-card hover:shadow-elevated transition-all duration-300 cursor-pointer group"
+            >
+              <CardContent className="p-4">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-sm truncate leading-tight group-hover:text-primary transition-colors">
+                      {facility.name}
+                    </h3>
+                    <div className="flex items-center gap-1.5 mt-1.5">
+                      <Badge
+                        variant={
+                          facility.status === "active" ? "default" : "secondary"
+                        }
+                        className="text-[10px] px-1.5 py-0"
+                      >
+                        {facility.status}
+                      </Badge>
+                      <Badge
+                        variant="outline"
+                        className="text-[10px] px-1.5 py-0"
+                      >
+                        {facility.plan}
+                      </Badge>
+                    </div>
+                  </div>
+                  <div
+                    className={`flex items-center justify-center w-7 h-7 rounded-lg ${
+                      facility.growth > 0
+                        ? "bg-success/10 text-success"
+                        : "bg-destructive/10 text-destructive"
+                    }`}
+                  >
+                    {facility.growth > 0 ? (
+                      <TrendingUp className="h-3.5 w-3.5" />
+                    ) : (
+                      <TrendingDown className="h-3.5 w-3.5" />
+                    )}
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-3 text-xs">
+                  <div>
+                    <p className="text-muted-foreground">Revenue</p>
+                    <p className="font-semibold mt-0.5">
+                      ${(facility.revenue / 1000).toFixed(1)}K
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-muted-foreground">Occupancy</p>
+                    <p className="font-semibold mt-0.5">
+                      {facility.occupancy}%
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-3 pt-3 border-t border-border/50 flex items-center justify-between text-xs text-muted-foreground">
+                  <span>
+                    {facility.staff} staff • {facility.clients} clients
+                  </span>
+                  <span
+                    className={`font-medium ${
+                      facility.growth > 0 ? "text-success" : "text-destructive"
+                    }`}
+                  >
+                    {facility.growth > 0 ? "+" : ""}
+                    {facility.growth}%
+                  </span>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

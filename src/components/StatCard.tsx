@@ -1,57 +1,110 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LucideIcon } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { LucideIcon, TrendingUp, TrendingDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface StatCardProps {
   title: string;
   value: string | number;
   subtitle?: string;
+  change?: string;
+  changeType?: "up" | "down" | "neutral";
   icon: LucideIcon;
-  variant?: "default" | "primary" | "success" | "warning" | "info";
+  variant?:
+    | "default"
+    | "primary"
+    | "success"
+    | "warning"
+    | "info"
+    | "secondary";
 }
 
 const variantStyles = {
-  default: "border-l-muted-foreground",
-  primary: "border-l-primary",
-  success: "border-l-success",
-  warning: "border-l-warning",
-  info: "border-l-info",
-};
-
-const iconVariantStyles = {
-  default: "text-muted-foreground bg-muted",
-  primary: "text-primary bg-primary/10",
-  success: "text-success bg-success/10",
-  warning: "text-warning bg-warning/10",
-  info: "text-info bg-info/10",
+  default: {
+    iconBg: "bg-muted",
+    iconColor: "text-muted-foreground",
+  },
+  primary: {
+    iconBg: "bg-gradient-to-br from-primary to-primary/80",
+    iconColor: "text-primary-foreground",
+  },
+  success: {
+    iconBg: "bg-gradient-to-br from-success to-success/80",
+    iconColor: "text-success-foreground",
+  },
+  warning: {
+    iconBg: "bg-gradient-to-br from-warning to-warning/80",
+    iconColor: "text-warning-foreground",
+  },
+  info: {
+    iconBg: "bg-gradient-to-br from-info to-info/80",
+    iconColor: "text-info-foreground",
+  },
+  secondary: {
+    iconBg: "bg-gradient-to-br from-secondary to-secondary/80",
+    iconColor: "text-secondary-foreground",
+  },
 };
 
 export function StatCard({
   title,
   value,
   subtitle,
+  change,
+  changeType = "neutral",
   icon: Icon,
   variant = "primary",
 }: StatCardProps) {
+  const styles = variantStyles[variant];
+
   return (
-    <Card
-      className={`border-l-4 ${variantStyles[variant]} hover:shadow-md hover:-translate-y-1 transition-all duration-200 group cursor-default`}
-    >
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 px-4 pt-4">
-        <CardTitle className="text-xs font-medium text-muted-foreground">
-          {title}
-        </CardTitle>
-        <div
-          className={`p-2 rounded-lg ${iconVariantStyles[variant]} group-hover:scale-110 transition-transform duration-200`}
-        >
-          <Icon className="h-4 w-4" />
+    <Card className="relative overflow-hidden border-0 shadow-card hover:shadow-elevated transition-all duration-300 group">
+      <CardContent className="p-5">
+        <div className="flex items-start justify-between">
+          <div className="flex-1 space-y-1">
+            <p className="text-sm font-medium text-muted-foreground">{title}</p>
+            <div className="flex items-baseline gap-2">
+              <h3 className="text-2xl font-bold tracking-tight">{value}</h3>
+              {change && (
+                <span
+                  className={cn(
+                    "inline-flex items-center text-xs font-medium",
+                    changeType === "up" && "text-success",
+                    changeType === "down" && "text-destructive",
+                    changeType === "neutral" && "text-muted-foreground",
+                  )}
+                >
+                  {changeType === "up" && (
+                    <TrendingUp className="h-3 w-3 mr-0.5" />
+                  )}
+                  {changeType === "down" && (
+                    <TrendingDown className="h-3 w-3 mr-0.5" />
+                  )}
+                  {change}
+                </span>
+              )}
+            </div>
+            {subtitle && (
+              <p className="text-xs text-muted-foreground">{subtitle}</p>
+            )}
+          </div>
+          <div
+            className={cn(
+              "flex items-center justify-center w-11 h-11 rounded-xl shadow-sm transition-transform duration-300 group-hover:scale-110",
+              styles.iconBg,
+            )}
+          >
+            <Icon className={cn("h-5 w-5", styles.iconColor)} />
+          </div>
         </div>
-      </CardHeader>
-      <CardContent className="px-4 pb-4">
-        <div className="text-2xl font-bold tracking-tight">{value}</div>
-        {subtitle && (
-          <p className="text-[10px] text-muted-foreground mt-0.5">{subtitle}</p>
-        )}
       </CardContent>
+
+      {/* Decorative gradient overlay */}
+      <div
+        className="absolute top-0 right-0 w-24 h-24 opacity-5 pointer-events-none"
+        style={{
+          background: `radial-gradient(circle at top right, currentColor 0%, transparent 70%)`,
+        }}
+      />
     </Card>
   );
 }
