@@ -16,6 +16,7 @@ import {
   UserCog,
   Activity,
   KeyRound,
+  Package,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -112,6 +113,12 @@ export function AppSidebar() {
           title: t("subscriptionBilling"),
           url: "/dashboard/billing",
           icon: CreditCard,
+          disabled: false,
+        },
+        {
+          title: t("subscriptionManagement"),
+          url: "/dashboard/subscriptions",
+          icon: Package,
           disabled: false,
         },
         {
