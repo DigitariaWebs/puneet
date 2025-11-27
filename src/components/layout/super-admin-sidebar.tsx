@@ -4,7 +4,6 @@ import {
   Building,
   CreditCard,
   Shield,
-  MessageSquare,
   BarChart3,
   CheckSquare,
   Bot,
@@ -17,6 +16,8 @@ import {
   Activity,
   KeyRound,
   Package,
+  Megaphone,
+  Headphones,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -136,18 +137,29 @@ export function AppSidebar() {
       ],
     },
     {
+      label: t("communicationSupport"),
+      items: [
+        {
+          title: t("liveSupport"),
+          url: "/dashboard/communication/live-support",
+          icon: Headphones,
+          disabled: false,
+        },
+        {
+          title: t("announcements"),
+          url: "/dashboard/communication/announcements",
+          icon: Megaphone,
+          disabled: false,
+        },
+      ],
+    },
+    {
       label: t("supportFeatures"),
       items: [
         {
           title: t("incidents"),
           url: "/dashboard/incidents",
           icon: AlertTriangle,
-          disabled: false,
-        },
-        {
-          title: t("supportCommunication"),
-          url: "/dashboard/support",
-          icon: MessageSquare,
           disabled: false,
         },
         {
