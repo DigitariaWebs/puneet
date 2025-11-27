@@ -17,6 +17,7 @@ import {
   Activity,
   KeyRound,
   Package,
+  DollarSign,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -119,6 +120,12 @@ export function AppSidebar() {
           title: t("subscriptionManagement"),
           url: "/dashboard/subscriptions",
           icon: Package,
+          disabled: false,
+        },
+        {
+          title: t("financialManagement"),
+          url: "/dashboard/financial",
+          icon: DollarSign,
           disabled: false,
         },
         {
