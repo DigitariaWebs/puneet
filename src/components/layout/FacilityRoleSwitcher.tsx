@@ -13,21 +13,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import {
-  type FacilityRole,
+  ALL_FACILITY_ROLES,
   FACILITY_ROLE_LABELS,
   FACILITY_ROLE_DESCRIPTIONS,
   getFacilityRole,
   setFacilityRole,
+  type FacilityRole,
 } from "@/lib/role-utils";
-
-const ALL_FACILITY_ROLES: FacilityRole[] = [
-  "owner",
-  "manager",
-  "front_desk",
-  "groomer",
-  "trainer",
-  "kennel_tech",
-];
 
 export function FacilityRoleSwitcher() {
   const [isPending, startTransition] = useTransition();

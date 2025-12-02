@@ -12,6 +12,16 @@ export type FacilityRole =
   | "trainer"
   | "kennel_tech";
 
+// All facility roles as an array (derived from the type)
+export const ALL_FACILITY_ROLES: FacilityRole[] = [
+  "owner",
+  "manager",
+  "front_desk",
+  "groomer",
+  "trainer",
+  "kennel_tech",
+];
+
 // Role display names for UI
 export const FACILITY_ROLE_LABELS: Record<FacilityRole, string> = {
   owner: "Owner/Admin",
@@ -298,15 +308,7 @@ export function getFacilityRole(): FacilityRole {
   if (!roleCookie) return "owner"; // Default to owner for backward compatibility
 
   const role = roleCookie.split("=")[1] as FacilityRole;
-  const validRoles: FacilityRole[] = [
-    "owner",
-    "manager",
-    "front_desk",
-    "groomer",
-    "trainer",
-    "kennel_tech",
-  ];
-  return validRoles.includes(role) ? role : "owner";
+  return ALL_FACILITY_ROLES.includes(role) ? role : "owner";
 }
 
 // Set facility-specific role
