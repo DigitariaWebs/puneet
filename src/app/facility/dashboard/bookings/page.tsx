@@ -476,8 +476,7 @@ export default function FacilityBookingsPage() {
           <CardContent>
             <div className="text-2xl font-bold">{totalBookings}</div>
             <p className="text-xs text-muted-foreground">
-              {upcomingBookings.length}{" "}
-              {"Upcoming Bookings".toLowerCase()}
+              {upcomingBookings.length} upcoming bookings
             </p>
           </CardContent>
         </Card>
@@ -522,7 +521,7 @@ export default function FacilityBookingsPage() {
           <CardContent>
             <div className="text-2xl font-bold">{pendingBookings.length}</div>
             <p className="text-xs text-muted-foreground">
-              ${pendingRevenue} {"Pending Revenue".toLowerCase()}
+              ${pendingRevenue} pending revenue
             </p>
           </CardContent>
         </Card>

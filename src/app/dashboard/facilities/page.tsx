@@ -299,7 +299,7 @@ export default function FacilitiesPage() {
       key: "status",
       label: "Status",
       options: [
-        { value: "all", label: "All" + " " + "Status" },
+        { value: "all", label: "All Status" },
         { value: "active", label: "Active" },
         { value: "inactive", label: "Inactive" },
       ],
@@ -308,7 +308,7 @@ export default function FacilitiesPage() {
       key: "plan",
       label: "Plan",
       options: [
-        { value: "all", label: "All" + " " + "Plans" },
+        { value: "all", label: "All Plans" },
         { value: "Free", label: "Free" },
         { value: "Basic", label: "Basic" },
         { value: "Premium", label: "Premium" },

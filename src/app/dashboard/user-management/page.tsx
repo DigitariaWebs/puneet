@@ -137,7 +137,7 @@ export default function UserManagementPage() {
       key: "status",
       label: "Status",
       options: [
-        { value: "all", label: "All" + " " + "Status" },
+        { value: "all", label: "All Status" },
         { value: "active", label: "Active" },
         { value: "inactive", label: "Inactive" },
         { value: "suspended", label: "Suspended" },
@@ -147,7 +147,7 @@ export default function UserManagementPage() {
       key: "role",
       label: "Assign Role",
       options: [
-        { value: "all", label: "All" + " Roles" },
+        { value: "all", label: "All Roles" },
         { value: "sales_team", label: "Sales Team" },
         { value: "technical_support", label: "Technical Support" },
         { value: "account_manager", label: "Account Manager" },
@@ -159,7 +159,7 @@ export default function UserManagementPage() {
       key: "accessLevel",
       label: "Access Level",
       options: [
-        { value: "all", label: "All" + " Access Levels" },
+        { value: "all", label: "All Access Levels" },
         { value: "full", label: "Full Access" },
         { value: "read_write", label: "Read/Write Access" },
         { value: "read_only", label: "Read Only Access" },
