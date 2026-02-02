@@ -177,15 +177,21 @@ interface ThemeStyle {
   bannerClass: string;
   /** Full card background - the outer themed wrapper */
   cardBg: string;
-  /** Accent color for date band, section headers */
+  /** Inner content card - white or themed (e.g. orange for Halloween) */
+  innerCardBg: string;
+  /** Accent color for date band */
   accentBg: string;
   accentText: string;
   /** Decorative icon component - shown in corner */
   DecorativeIcon: React.ComponentType<{ className?: string }>;
+  /** Icon color (e.g. yellow for Christmas bell) */
+  iconColor?: string;
   /** Position of main decorative icon */
   iconPosition: "top-right" | "top-left" | "bottom-right" | "bottom-left";
-  /** Background pattern - snowflakes, spiderwebs, etc. */
+  /** Background pattern */
   patternClass?: string;
+  /** Torn paper / calendar style for date band */
+  dateBandStyle?: "flat" | "torn-paper";
 }
 
 const themeMeta: Record<string, ThemeStyle> = {
@@ -194,77 +200,94 @@ const themeMeta: Record<string, ThemeStyle> = {
     emoji: "✨",
     bannerClass: "bg-gradient-to-r from-slate-100 to-slate-200",
     cardBg: "bg-gradient-to-br from-slate-100 via-slate-50 to-slate-200",
+    innerCardBg: "bg-white",
     accentBg: "bg-slate-600",
     accentText: "text-white",
     DecorativeIcon: Star,
     iconPosition: "top-right",
     patternClass: "report-card-pattern-dots",
+    dateBandStyle: "flat",
   },
   christmas: {
     label: "Christmas Edition",
     emoji: "🎄",
     bannerClass: "bg-gradient-to-r from-emerald-100 to-red-100",
     cardBg: "bg-gradient-to-br from-red-600 via-red-500 to-rose-600",
+    innerCardBg: "bg-white",
     accentBg: "bg-emerald-600",
     accentText: "text-white",
     DecorativeIcon: Bell,
+    iconColor: "text-amber-300",
     iconPosition: "top-right",
     patternClass: "report-card-pattern-snowflakes",
+    dateBandStyle: "torn-paper",
   },
   halloween: {
     label: "Halloween Edition",
     emoji: "🎃",
     bannerClass: "bg-gradient-to-r from-orange-100 to-violet-100",
-    cardBg: "bg-gradient-to-br from-violet-700 via-purple-600 to-violet-800",
-    accentBg: "bg-orange-500",
-    accentText: "text-white",
+    cardBg: "bg-gradient-to-br from-violet-800 via-purple-700 to-violet-900",
+    innerCardBg: "bg-orange-400",
+    accentBg: "bg-orange-400",
+    accentText: "text-gray-800",
     DecorativeIcon: Ghost,
+    iconColor: "text-white/90",
     iconPosition: "top-right",
     patternClass: "report-card-pattern-spiderweb",
+    dateBandStyle: "torn-paper",
+    cornerDecoration: "spiderweb",
   },
   easter: {
     label: "Easter Edition",
     emoji: "🐣",
     bannerClass: "bg-gradient-to-r from-yellow-100 to-pink-100",
     cardBg: "bg-gradient-to-br from-amber-200 via-pink-100 to-yellow-200",
+    innerCardBg: "bg-white",
     accentBg: "bg-pink-500",
     accentText: "text-white",
     DecorativeIcon: Egg,
     iconPosition: "bottom-right",
     patternClass: "report-card-pattern-dots",
+    dateBandStyle: "flat",
   },
   thanksgiving: {
     label: "Thanksgiving Edition",
     emoji: "🦃",
     bannerClass: "bg-gradient-to-r from-amber-100 to-orange-100",
     cardBg: "bg-gradient-to-br from-amber-700 via-orange-600 to-amber-800",
+    innerCardBg: "bg-white",
     accentBg: "bg-amber-500",
     accentText: "text-white",
     DecorativeIcon: Star,
     iconPosition: "top-right",
     patternClass: "report-card-pattern-dots",
+    dateBandStyle: "flat",
   },
   new_year: {
     label: "New Year Edition",
     emoji: "🎉",
     bannerClass: "bg-gradient-to-r from-blue-100 to-indigo-100",
     cardBg: "bg-gradient-to-br from-blue-700 via-indigo-600 to-blue-800",
+    innerCardBg: "bg-white",
     accentBg: "bg-amber-400",
     accentText: "text-blue-900",
     DecorativeIcon: PartyPopper,
     iconPosition: "top-right",
     patternClass: "report-card-pattern-dots",
+    dateBandStyle: "flat",
   },
   valentines: {
     label: "Valentine's Day Edition",
     emoji: "💘",
     bannerClass: "bg-gradient-to-r from-pink-100 to-rose-100",
     cardBg: "bg-gradient-to-br from-rose-500 via-pink-500 to-rose-600",
+    innerCardBg: "bg-white",
     accentBg: "bg-rose-600",
     accentText: "text-white",
     DecorativeIcon: Heart,
     iconPosition: "top-right",
     patternClass: "report-card-pattern-dots",
+    dateBandStyle: "flat",
   },
 };
 
@@ -1112,7 +1135,7 @@ export default function DaycareReportCardsPage() {
           </DialogHeader>
           {viewingCard && (
             <div className="space-y-6">
-              {/* Full themed card - like the reference images */}
+              {/* Full themed card - Christmas (red/green) & Halloween (purple/orange) as reference */}
               <div
                 className={cn(
                   "relative rounded-2xl overflow-hidden p-6 min-h-[320px]",
@@ -1120,10 +1143,32 @@ export default function DaycareReportCardsPage() {
                   viewingThemeMeta.patternClass,
                 )}
               >
-                {/* Decorative icon - themed (bell, ghost, etc.) */}
+                {/* Decorative icon - yellow bell (Christmas), ghost (Halloween) */}
+                {/* Spiderweb in bottom-left (Halloween) */}
+                {viewingThemeMeta.cornerDecoration === "spiderweb" && (
+                  <div className="absolute bottom-4 left-4 w-20 h-20 opacity-40">
+                    <svg
+                      viewBox="0 0 80 80"
+                      fill="none"
+                      stroke="white"
+                      strokeWidth="1.5"
+                      className="w-full h-full"
+                    >
+                      <ellipse cx="40" cy="40" rx="35" ry="35" />
+                      <ellipse cx="40" cy="40" rx="25" ry="25" />
+                      <ellipse cx="40" cy="40" rx="15" ry="15" />
+                      <path d="M40 5v70M5 40h70M15 15l50 50M65 15L15 65" />
+                      <path
+                        d="M40 15v50M15 40h50"
+                        transform="rotate(45 40 40)"
+                      />
+                    </svg>
+                  </div>
+                )}
+
                 <div
                   className={cn(
-                    "absolute w-16 h-16 flex items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm text-white",
+                    "absolute w-14 h-14 flex items-center justify-center rounded-xl backdrop-blur-sm",
                     viewingThemeMeta.iconPosition === "top-right" &&
                       "top-4 right-4",
                     viewingThemeMeta.iconPosition === "top-left" && "top-4 left-4",
@@ -1131,39 +1176,71 @@ export default function DaycareReportCardsPage() {
                       "bottom-4 right-4",
                     viewingThemeMeta.iconPosition === "bottom-left" &&
                       "bottom-4 left-4",
+                    viewingThemeMeta.iconColor ?? "text-white",
+                    viewingThemeMeta.iconColor?.includes("amber")
+                      ? "bg-amber-300/40"
+                      : "bg-white/20",
                   )}
                 >
-                  <viewingThemeMeta.DecorativeIcon className="h-8 w-8" />
+                  <viewingThemeMeta.DecorativeIcon className="h-7 w-7" />
                 </div>
 
-                {/* Title on themed background */}
+                {/* Header - "Your next appointment" style */}
                 <h2 className="text-xl font-bold text-white mb-4 drop-shadow-sm">
-                  {viewingThemeMeta.emoji} {viewingThemeMeta.label}
+                  Today&apos;s Report
                 </h2>
 
-                {/* Inner white "paper" card - hangs on the themed background */}
-                <div className="relative bg-white rounded-xl shadow-lg overflow-hidden -mt-1">
-                  {/* Themed date band - like tear-off calendar */}
+                {/* Inner card - white (Christmas) or orange (Halloween) */}
+                <div
+                  className={cn(
+                    "relative rounded-xl shadow-lg overflow-hidden -mt-1",
+                    viewingThemeMeta.innerCardBg,
+                  )}
+                >
+                  {/* Date band - green (Christmas) or orange (Halloween), torn-paper style */}
                   <div
                     className={cn(
-                      "px-4 py-2.5 text-sm font-medium",
+                      "px-4 py-2.5 text-sm font-medium flex items-center justify-between",
                       viewingThemeMeta.accentBg,
                       viewingThemeMeta.accentText,
+                      viewingThemeMeta.dateBandStyle === "torn-paper" &&
+                        "report-card-torn-paper",
                     )}
                   >
-                    {new Date(viewingCard.visitDate).toLocaleDateString(
-                      "en-US",
-                      {
-                        month: "long",
-                        day: "numeric",
-                        year: "numeric",
-                      },
+                    <span>
+                      {new Date(viewingCard.visitDate).toLocaleDateString(
+                        "en-US",
+                        {
+                          month: "short",
+                          day: "2-digit",
+                          year: "numeric",
+                        },
+                      )}
+                    </span>
+                    {viewingThemeMeta.dateBandStyle === "torn-paper" && (
+                      <span className="flex gap-1">
+                        <span className="w-2 h-2 rounded-full bg-white/40" />
+                        <span className="w-2 h-2 rounded-full bg-white/40" />
+                      </span>
                     )}
                   </div>
-                  <div className="p-4 space-y-4">
+                  <div
+                    className={cn(
+                      "p-4 space-y-4",
+                      viewingThemeMeta.innerCardBg.includes("orange") &&
+                        "text-gray-800",
+                    )}
+                  >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="h-12 w-12 rounded-lg border bg-muted/50 flex items-center justify-center overflow-hidden">
+                        <div
+                          className={cn(
+                            "h-12 w-12 rounded-lg border flex items-center justify-center overflow-hidden",
+                            viewingThemeMeta.innerCardBg.includes("orange")
+                              ? "bg-orange-300/50 border-orange-500/30"
+                              : "bg-muted/50",
+                          )}
+                        >
                           {profile.logo ? (
                             <img
                               src={profile.logo}
@@ -1171,11 +1248,25 @@ export default function DaycareReportCardsPage() {
                               className="h-full w-full object-contain"
                             />
                           ) : (
-                            <PawPrint className="h-5 w-5 text-muted-foreground" />
+                            <PawPrint
+                              className={cn(
+                                "h-5 w-5",
+                                viewingThemeMeta.innerCardBg.includes("orange")
+                                  ? "text-gray-700"
+                                  : "text-muted-foreground",
+                              )}
+                            />
                           )}
                         </div>
                         <div>
-                          <p className="text-sm text-muted-foreground">
+                          <p
+                            className={cn(
+                              "text-sm",
+                              viewingThemeMeta.innerCardBg.includes("orange")
+                                ? "text-gray-600"
+                                : "text-muted-foreground",
+                            )}
+                          >
                             Facility
                           </p>
                           <p className="font-semibold">{facilityName}</p>
@@ -1184,19 +1275,40 @@ export default function DaycareReportCardsPage() {
                     </div>
                     <div className="grid gap-3 md:grid-cols-2 text-sm">
                       <div>
-                        <p className="text-xs text-muted-foreground">
+                        <p
+                          className={cn(
+                            "text-xs",
+                            viewingThemeMeta.innerCardBg.includes("orange")
+                              ? "text-gray-600"
+                              : "text-muted-foreground",
+                          )}
+                        >
                           Dog name
                         </p>
                         <p className="font-medium">{viewingCard.petName}</p>
                       </div>
                       <div>
-                        <p className="text-xs text-muted-foreground">
+                        <p
+                          className={cn(
+                            "text-xs",
+                            viewingThemeMeta.innerCardBg.includes("orange")
+                              ? "text-gray-600"
+                              : "text-muted-foreground",
+                          )}
+                        >
                           Parent name
                         </p>
                         <p className="font-medium">{viewingCard.ownerName}</p>
                       </div>
                       <div>
-                        <p className="text-xs text-muted-foreground">
+                        <p
+                          className={cn(
+                            "text-xs",
+                            viewingThemeMeta.innerCardBg.includes("orange")
+                              ? "text-gray-600"
+                              : "text-muted-foreground",
+                          )}
+                        >
                           Service type
                         </p>
                         <p className="font-medium capitalize">
@@ -1204,7 +1316,16 @@ export default function DaycareReportCardsPage() {
                         </p>
                       </div>
                       <div>
-                        <p className="text-xs text-muted-foreground">Theme</p>
+                        <p
+                          className={cn(
+                            "text-xs",
+                            viewingThemeMeta.innerCardBg.includes("orange")
+                              ? "text-gray-600"
+                              : "text-muted-foreground",
+                          )}
+                        >
+                          Theme
+                        </p>
                         <p className="font-medium">
                           {viewingThemeMeta.emoji} {viewingThemeMeta.label}
                         </p>

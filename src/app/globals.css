@@ -688,3 +688,21 @@ button {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.15)' stroke-width='0.3'%3E%3Cellipse cx='30' cy='30' rx='25' ry='25'/%3E%3Cellipse cx='30' cy='30' rx='18' ry='18'/%3E%3Cellipse cx='30' cy='30' rx='10' ry='10'/%3E%3Cpath d='M30 5v50M5 30h50M12 12l36 36M48 12L12 48'/%3E%3C/g%3E%3C/svg%3E");
   background-size: 60px 60px;
 }
+
+/* Torn paper / calendar clip holes for date band */
+.report-card-torn-paper {
+  border-radius: 0 0 0.5rem 0.5rem;
+  position: relative;
+}
+
+.report-card-torn-paper::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: inherit;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  opacity: 0.9;
+}
