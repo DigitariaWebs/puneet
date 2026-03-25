@@ -39,7 +39,6 @@ import { EmailTemplateModal } from "@/components/marketing/EmailTemplateModal";
 import { SegmentBuilderModal } from "@/components/marketing/SegmentBuilderModal";
 import { CampaignBuilderModal } from "@/components/marketing/CampaignBuilderModal";
 import { PromoCodeModal } from "@/components/marketing/PromoCodeModal";
-import { LoyaltySettingsModal } from "@/components/marketing/LoyaltySettingsModal";
 import { FacilityBrandingSection } from "@/components/marketing/FacilityBrandingSection";
 import { PlaydateAlertsTab } from "@/components/marketing/PlaydateAlertsTab";
 import { LoyaltyBuilderModal } from "@/components/marketing/LoyaltyBuilderModal";
@@ -58,7 +57,8 @@ export default function MarketingPage() {
   const [selectedCampaign, setSelectedCampaign] = useState<
     (typeof campaigns)[0] | null
   >(null);
-  const [selectedSegment, setSelectedSegment] = useState<CustomerSegment | null>(null);
+  const [selectedSegment, setSelectedSegment] =
+    useState<CustomerSegment | null>(null);
 
   // Campaign analytics
   const sentCampaigns = campaigns.filter((c) => c.status === "sent");
@@ -66,15 +66,19 @@ export default function MarketingPage() {
   const avgOpenRate =
     sentCampaigns.length > 0
       ? sentCampaigns.reduce(
-          (sum, c) => sum + (c.stats.sent > 0 ? (c.stats.opened / c.stats.sent) * 100 : 0),
-          0
+          (sum, c) =>
+            sum +
+            (c.stats.sent > 0 ? (c.stats.opened / c.stats.sent) * 100 : 0),
+          0,
         ) / sentCampaigns.length
       : 0;
   const avgClickRate =
     sentCampaigns.length > 0
       ? sentCampaigns.reduce(
-          (sum, c) => sum + (c.stats.opened > 0 ? (c.stats.clicked / c.stats.opened) * 100 : 0),
-          0
+          (sum, c) =>
+            sum +
+            (c.stats.opened > 0 ? (c.stats.clicked / c.stats.opened) * 100 : 0),
+          0,
         ) / sentCampaigns.length
       : 0;
 
@@ -175,7 +179,9 @@ export default function MarketingPage() {
             <div className="font-medium flex items-center gap-1.5">
               {row.original.name}
               {row.original.isBuiltIn && (
-                <Badge variant="outline" className="text-[10px] py-0 px-1">Built-in</Badge>
+                <Badge variant="outline" className="text-[10px] py-0 px-1">
+                  Built-in
+                </Badge>
               )}
             </div>
             <div className="text-sm text-muted-foreground">
@@ -200,7 +206,7 @@ export default function MarketingPage() {
       cell: ({ row }) => {
         const totalFilters = row.original.filterGroups.reduce(
           (sum: number, g: { filters: unknown[] }) => sum + g.filters.length,
-          0
+          0,
         );
         return `${totalFilters} filter${totalFilters !== 1 ? "s" : ""} in ${row.original.filterGroups.length} group${row.original.filterGroups.length !== 1 ? "s" : ""}`;
       },
@@ -251,7 +257,10 @@ export default function MarketingPage() {
           <div className="text-sm text-muted-foreground capitalize flex items-center gap-1.5">
             {row.original.type} Campaign
             {row.original.goal && (
-              <Badge variant="outline" className="text-[10px] py-0 px-1 capitalize">
+              <Badge
+                variant="outline"
+                className="text-[10px] py-0 px-1 capitalize"
+              >
                 {row.original.goal.replace(/_/g, " ")}
               </Badge>
             )}
@@ -482,7 +491,8 @@ export default function MarketingPage() {
         <div>
           <h1 className="text-3xl font-bold">Marketing</h1>
           <p className="text-muted-foreground mt-1">
-            Email campaigns, segments, playdate alerts, loyalty programs, and promotions
+            Email campaigns, segments, playdate alerts, loyalty programs, and
+            promotions
           </p>
         </div>
       </div>
@@ -490,36 +500,36 @@ export default function MarketingPage() {
       {/* Marketing Tabs */}
       <Tabs defaultValue="campaigns" className="space-y-4">
         <div className="overflow-x-auto">
-        <TabsList>
-          <TabsTrigger value="campaigns">
-            <Send className="h-4 w-4 mr-2" />
-            Campaigns
-          </TabsTrigger>
-          <TabsTrigger value="templates">
-            <Mail className="h-4 w-4 mr-2" />
-            Templates
-          </TabsTrigger>
-          <TabsTrigger value="segments">
-            <Users className="h-4 w-4 mr-2" />
-            Segments
-          </TabsTrigger>
-          <TabsTrigger value="playdate-alerts">
-            <Heart className="h-4 w-4 mr-2" />
-            Playdate Alerts
-          </TabsTrigger>
-          <TabsTrigger value="loyalty">
-            <Award className="h-4 w-4 mr-2" />
-            Loyalty
-          </TabsTrigger>
-          <TabsTrigger value="referrals">
-            <Target className="h-4 w-4 mr-2" />
-            Referrals
-          </TabsTrigger>
-          <TabsTrigger value="promos">
-            <Tag className="h-4 w-4 mr-2" />
-            Promo Codes
-          </TabsTrigger>
-        </TabsList>
+          <TabsList>
+            <TabsTrigger value="campaigns">
+              <Send className="h-4 w-4 mr-2" />
+              Campaigns
+            </TabsTrigger>
+            <TabsTrigger value="templates">
+              <Mail className="h-4 w-4 mr-2" />
+              Templates
+            </TabsTrigger>
+            <TabsTrigger value="segments">
+              <Users className="h-4 w-4 mr-2" />
+              Segments
+            </TabsTrigger>
+            <TabsTrigger value="playdate-alerts">
+              <Heart className="h-4 w-4 mr-2" />
+              Playdate Alerts
+            </TabsTrigger>
+            <TabsTrigger value="loyalty">
+              <Award className="h-4 w-4 mr-2" />
+              Loyalty
+            </TabsTrigger>
+            <TabsTrigger value="referrals">
+              <Target className="h-4 w-4 mr-2" />
+              Referrals
+            </TabsTrigger>
+            <TabsTrigger value="promos">
+              <Tag className="h-4 w-4 mr-2" />
+              Promo Codes
+            </TabsTrigger>
+          </TabsList>
         </div>
 
         {/* Campaigns Tab */}
@@ -528,7 +538,9 @@ export default function MarketingPage() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium">Total Campaigns</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Total Campaigns
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{campaigns.length}</div>
@@ -539,10 +551,14 @@ export default function MarketingPage() {
             </Card>
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium">Total Emails Sent</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Total Emails Sent
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{totalSent.toLocaleString()}</div>
+                <div className="text-2xl font-bold">
+                  {totalSent.toLocaleString()}
+                </div>
                 <p className="text-xs text-muted-foreground mt-1">
                   Across all campaigns
                 </p>
@@ -550,10 +566,14 @@ export default function MarketingPage() {
             </Card>
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium">Avg Open Rate</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Avg Open Rate
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{avgOpenRate.toFixed(1)}%</div>
+                <div className="text-2xl font-bold">
+                  {avgOpenRate.toFixed(1)}%
+                </div>
                 <p className="text-xs text-muted-foreground mt-1">
                   Across sent campaigns
                 </p>
@@ -561,10 +581,14 @@ export default function MarketingPage() {
             </Card>
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium">Avg Click Rate</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Avg Click Rate
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{avgClickRate.toFixed(1)}%</div>
+                <div className="text-2xl font-bold">
+                  {avgClickRate.toFixed(1)}%
+                </div>
                 <p className="text-xs text-muted-foreground mt-1">
                   Of opened emails
                 </p>
@@ -581,7 +605,12 @@ export default function MarketingPage() {
                     Create and manage marketing campaigns
                   </p>
                 </div>
-                <Button onClick={() => { setSelectedCampaign(null); setShowCampaignModal(true); }}>
+                <Button
+                  onClick={() => {
+                    setSelectedCampaign(null);
+                    setShowCampaignModal(true);
+                  }}
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Create Campaign
                 </Button>
@@ -612,7 +641,12 @@ export default function MarketingPage() {
                     Manage reusable email templates with branded preview
                   </p>
                 </div>
-                <Button onClick={() => { setSelectedTemplate(null); setShowTemplateModal(true); }}>
+                <Button
+                  onClick={() => {
+                    setSelectedTemplate(null);
+                    setShowTemplateModal(true);
+                  }}
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Create Template
                 </Button>
@@ -644,8 +678,16 @@ export default function MarketingPage() {
                   <Button
                     variant="outline"
                     onClick={() => {
-                      const csv = customerSegments.map((s) => `${s.name},${s.customerCount},${s.description}`).join("\n");
-                      const blob = new Blob([`Name,Customers,Description\n${csv}`], { type: "text/csv" });
+                      const csv = customerSegments
+                        .map(
+                          (s) =>
+                            `${s.name},${s.customerCount},${s.description}`,
+                        )
+                        .join("\n");
+                      const blob = new Blob(
+                        [`Name,Customers,Description\n${csv}`],
+                        { type: "text/csv" },
+                      );
                       const url = URL.createObjectURL(blob);
                       const a = document.createElement("a");
                       a.href = url;
@@ -656,7 +698,12 @@ export default function MarketingPage() {
                   >
                     Export CSV
                   </Button>
-                  <Button onClick={() => { setSelectedSegment(null); setShowSegmentModal(true); }}>
+                  <Button
+                    onClick={() => {
+                      setSelectedSegment(null);
+                      setShowSegmentModal(true);
+                    }}
+                  >
                     <Plus className="h-4 w-4 mr-2" />
                     Create Segment
                   </Button>
@@ -972,9 +1019,14 @@ export default function MarketingPage() {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={showReferralConfigModal} onOpenChange={setShowReferralConfigModal}>
+      <Dialog
+        open={showReferralConfigModal}
+        onOpenChange={setShowReferralConfigModal}
+      >
         <DialogContent className="min-w-5xl max-h-[90vh] overflow-y-auto">
-          <ReferralConfigModal onClose={() => setShowReferralConfigModal(false)} />
+          <ReferralConfigModal
+            onClose={() => setShowReferralConfigModal(false)}
+          />
         </DialogContent>
       </Dialog>
     </div>
