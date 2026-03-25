@@ -36,7 +36,13 @@ import {
   promoCodes,
   type CustomerSegment,
 } from "@/data/marketing";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { EmailTemplateModal } from "@/components/marketing/EmailTemplateModal";
 import { SegmentBuilderModal } from "@/components/marketing/SegmentBuilderModal";
 import { CampaignBuilderModal } from "@/components/marketing/CampaignBuilderModal";
@@ -102,7 +108,10 @@ export default function MarketingPage() {
           <div className="flex items-center gap-2">
             <span className="font-medium">{row.original.name}</span>
             {row.original.variables.length > 0 && (
-              <Badge variant="secondary" className="text-xs gap-0.5 px-1.5 py-0">
+              <Badge
+                variant="secondary"
+                className="text-xs gap-0.5 px-1.5 py-0"
+              >
                 <Braces className="h-2.5 w-2.5" />
                 {row.original.variables.length}
               </Badge>
@@ -180,7 +189,6 @@ export default function MarketingPage() {
               navigator.clipboard.writeText(row.original.body);
               console.log(`Template "${row.original.name}" copied`);
             }}
-            aria-label={`Copy template ${row.original.name}`}
           >
             <Copy className="h-4 w-4" />
           </Button>
@@ -716,7 +724,9 @@ export default function MarketingPage() {
                     key={reply.name}
                     type="button"
                     className="p-3 border rounded-lg hover:bg-muted/50 cursor-pointer group text-left"
-                    onClick={() => alert(`Quick reply "${reply.name}" copied to clipboard`)}
+                    onClick={() =>
+                      alert(`Quick reply "${reply.name}" copied to clipboard`)
+                    }
                   >
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-sm font-medium">{reply.name}</span>
@@ -1119,7 +1129,10 @@ export default function MarketingPage() {
                   emptyMessage="This template has no content"
                 />
                 <div className="flex justify-end">
-                  <Button variant="outline" onClick={() => setShowPreviewModal(false)}>
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowPreviewModal(false)}
+                  >
                     Close
                   </Button>
                 </div>
