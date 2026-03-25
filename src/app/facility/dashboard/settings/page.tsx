@@ -15,7 +15,8 @@ import { MobileAppSettings } from "@/components/additional-features/MobileAppSet
 import { YipyyGoSettings } from "@/components/yipyygo/YipyyGoSettings";
 import { getYipyyGoConfig } from "@/data/yipyygo-config";
 import { FormRequirementsSettings } from "@/components/forms/FormRequirementsSettings";
-import { Shield } from "lucide-react";
+import { TagNotesSettings } from "@/components/facility-config/TagNotesSettings";
+import { Shield, Tag } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -37,7 +38,6 @@ import {
   Smartphone,
   CalendarX,
   Clock,
-  PackageCheck,
   Plus,
   Timer,
   Trash2,
@@ -513,8 +513,8 @@ function ServiceDayBlockingCard() {
                 className="max-w-sm"
               />
               <p className="text-xs text-muted-foreground">
-                Shown when a customer hovers over or focuses the blocked date
-                in the booking calendar.
+                Shown when a customer hovers over or focuses the blocked date in
+                the booking calendar.
               </p>
             </div>
             <Button
@@ -546,23 +546,19 @@ function ServiceDayBlockingCard() {
                     <div className="flex flex-col gap-1">
                       <div className="flex items-center gap-3">
                         <span className="font-medium">
-                          {new Date(block.date + "T12:00:00").toLocaleDateString(
-                            "en-US",
-                            {
-                              weekday: "short",
-                              month: "short",
-                              day: "numeric",
-                              year: "numeric",
-                            },
-                          )}
+                          {new Date(
+                            block.date + "T12:00:00",
+                          ).toLocaleDateString("en-US", {
+                            weekday: "short",
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          })}
                         </span>
                         <div className="flex flex-wrap gap-1">
                           {block.services.length ===
                           SERVICE_BLOCK_OPTIONS.length ? (
-                            <Badge
-                              variant="secondary"
-                              className="text-xs"
-                            >
+                            <Badge variant="secondary" className="text-xs">
                               All services
                             </Badge>
                           ) : (
@@ -742,11 +738,7 @@ function OneDayScheduleOverrideCard() {
                 onChange={(e) => setNewCloseTime(e.target.value)}
               />
             </div>
-            <Button
-              type="button"
-              onClick={handleAdd}
-              disabled={!newDate}
-            >
+            <Button type="button" onClick={handleAdd} disabled={!newDate}>
               <Plus className="h-4 w-4 mr-2" />
               Add override
             </Button>
@@ -783,13 +775,11 @@ function OneDayScheduleOverrideCard() {
                         {override.services &&
                         override.services.length ===
                           SERVICE_BLOCK_OPTIONS.length ? (
-                          <Badge
-                            variant="secondary"
-                            className="text-xs"
-                          >
+                          <Badge variant="secondary" className="text-xs">
                             All services
                           </Badge>
-                        ) : override.services && override.services.length > 0 ? (
+                        ) : override.services &&
+                          override.services.length > 0 ? (
                           override.services.map((s) => (
                             <Badge
                               key={s}
@@ -830,7 +820,8 @@ function OneDayScheduleOverrideCard() {
 
 // Drop-Off & Pick-Up Time Overrides
 function DropOffPickUpOverrideCard() {
-  const { dropOffPickUpOverrides, updateDropOffPickUpOverrides } = useSettings();
+  const { dropOffPickUpOverrides, updateDropOffPickUpOverrides } =
+    useSettings();
   const [newDate, setNewDate] = useState("");
   const [newServices, setNewServices] = useState<string[]>([]);
   const [newDropOffStart, setNewDropOffStart] = useState("07:30");
@@ -1017,10 +1008,7 @@ function DropOffPickUpOverrideCard() {
                         <div className="flex flex-wrap gap-1">
                           {override.services.length ===
                           SERVICE_BLOCK_OPTIONS.length ? (
-                            <Badge
-                              variant="secondary"
-                              className="text-xs"
-                            >
+                            <Badge variant="secondary" className="text-xs">
                               All services
                             </Badge>
                           ) : (
@@ -1038,8 +1026,8 @@ function DropOffPickUpOverrideCard() {
                         </div>
                       </div>
                       <span className="text-sm text-muted-foreground">
-                        Drop-off {override.dropOffStart}–{override.dropOffEnd}{" "}
-                        · Pick-up {override.pickUpStart}–{override.pickUpEnd}
+                        Drop-off {override.dropOffStart}–{override.dropOffEnd} ·
+                        Pick-up {override.pickUpStart}–{override.pickUpEnd}
                       </span>
                     </div>
                     <Button
@@ -1444,11 +1432,13 @@ function EvaluationSettingsCard() {
                     <SelectValue placeholder="Select duration" />
                   </SelectTrigger>
                   <SelectContent>
-                    {localEvaluation.schedule.durationOptionsMinutes.map((m) => (
-                      <SelectItem key={m} value={String(m)}>
-                        {m / 60}h
-                      </SelectItem>
-                    ))}
+                    {localEvaluation.schedule.durationOptionsMinutes.map(
+                      (m) => (
+                        <SelectItem key={m} value={String(m)}>
+                          {m / 60}h
+                        </SelectItem>
+                      ),
+                    )}
                   </SelectContent>
                 </Select>
               </div>
@@ -1477,7 +1467,9 @@ function EvaluationSettingsCard() {
                       }}
                       placeholder="Label"
                       readOnly={!isEditing}
-                      className={!isEditing ? "bg-gray-100 cursor-not-allowed" : ""}
+                      className={
+                        !isEditing ? "bg-gray-100 cursor-not-allowed" : ""
+                      }
                     />
                     <Input
                       type="time"
@@ -1497,7 +1489,9 @@ function EvaluationSettingsCard() {
                         });
                       }}
                       readOnly={!isEditing}
-                      className={!isEditing ? "bg-gray-100 cursor-not-allowed" : ""}
+                      className={
+                        !isEditing ? "bg-gray-100 cursor-not-allowed" : ""
+                      }
                     />
                     <Input
                       type="time"
@@ -1517,7 +1511,9 @@ function EvaluationSettingsCard() {
                         });
                       }}
                       readOnly={!isEditing}
-                      className={!isEditing ? "bg-gray-100 cursor-not-allowed" : ""}
+                      className={
+                        !isEditing ? "bg-gray-100 cursor-not-allowed" : ""
+                      }
                     />
                   </div>
                 ))}
@@ -1571,7 +1567,9 @@ function EvaluationSettingsCard() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="fixed">Fixed start times</SelectItem>
-                    <SelectItem value="window">Any time within window</SelectItem>
+                    <SelectItem value="window">
+                      Any time within window
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -1595,7 +1593,9 @@ function EvaluationSettingsCard() {
                     }}
                     placeholder="09:00, 11:00, 13:00"
                     readOnly={!isEditing}
-                    className={!isEditing ? "bg-gray-100 cursor-not-allowed" : ""}
+                    className={
+                      !isEditing ? "bg-gray-100 cursor-not-allowed" : ""
+                    }
                   />
                 </div>
               )}
@@ -1612,10 +1612,13 @@ function ReportCardSettingsCard() {
   const { activeModules: customServices } = useCustomServices();
   const [sectionServiceId, setSectionServiceId] = useState("daycare");
   const [newQuestionText, setNewQuestionText] = useState("");
-  const [newQuestionType, setNewQuestionType] = useState<CustomFeedbackType>("text");
+  const [newQuestionType, setNewQuestionType] =
+    useState<CustomFeedbackType>("text");
   const [newOptionText, setNewOptionText] = useState("");
   const [newCategoryLabel, setNewCategoryLabel] = useState("");
-  const [newConditionOption, setNewConditionOption] = useState<Record<string, string>>({});
+  const [newConditionOption, setNewConditionOption] = useState<
+    Record<string, string>
+  >({});
   const [newFeedbackOption, setNewFeedbackOption] = useState("");
 
   const themeOptions = [
@@ -1641,17 +1644,34 @@ function ReportCardSettingsCard() {
   ];
 
   const allSectionIds: ReportCardSectionId[] = [
-    "todaysVibe", "friendsAndFun", "careMetrics", "holidaySparkle",
-    "closingNote", "overallFeedback", "customFeedback", "petCondition",
-    "nextAppointment", "reviewBooster", "photoShowcase",
+    "todaysVibe",
+    "friendsAndFun",
+    "careMetrics",
+    "holidaySparkle",
+    "closingNote",
+    "overallFeedback",
+    "customFeedback",
+    "petCondition",
+    "nextAppointment",
+    "reviewBooster",
+    "photoShowcase",
   ];
 
-  const getServiceConfig = (cfg: typeof reportCards, serviceId: string): ReportCardServiceConfig => {
-    return cfg.serviceConfigs?.find((s) => s.serviceId === serviceId) ?? {
-      serviceId,
-      enabled: false,
-      enabledSections: ["todaysVibe", "closingNote", "photoShowcase"] as ReportCardSectionId[],
-    };
+  const getServiceConfig = (
+    cfg: typeof reportCards,
+    serviceId: string,
+  ): ReportCardServiceConfig => {
+    return (
+      cfg.serviceConfigs?.find((s) => s.serviceId === serviceId) ?? {
+        serviceId,
+        enabled: false,
+        enabledSections: [
+          "todaysVibe",
+          "closingNote",
+          "photoShowcase",
+        ] as ReportCardSectionId[],
+      }
+    );
   };
 
   const updateServiceConfig = (
@@ -1673,7 +1693,16 @@ function ReportCardSettingsCard() {
       ...cfg,
       serviceConfigs: [
         ...configs,
-        { serviceId, enabled: false, enabledSections: ["todaysVibe", "closingNote", "photoShowcase"] as ReportCardSectionId[], ...updates },
+        {
+          serviceId,
+          enabled: false,
+          enabledSections: [
+            "todaysVibe",
+            "closingNote",
+            "photoShowcase",
+          ] as ReportCardSectionId[],
+          ...updates,
+        },
       ],
     };
   };
@@ -1686,11 +1715,22 @@ function ReportCardSettingsCard() {
       onSave={updateReportCards}
     >
       {(isEditing, localConfig, setLocalConfig) => {
-        const brand = localConfig.brand ?? { reportTitle: "Daily Report Card", accentColor: "#6366f1", showFacilityLogo: true };
-        const overallFeedback = localConfig.overallFeedback ?? { title: "Overall Experience", responseOptions: ["Excellent", "Good", "Fair", "Needs Attention"] };
+        const brand = localConfig.brand ?? {
+          reportTitle: "Daily Report Card",
+          accentColor: "#6366f1",
+          showFacilityLogo: true,
+        };
+        const overallFeedback = localConfig.overallFeedback ?? {
+          title: "Overall Experience",
+          responseOptions: ["Excellent", "Good", "Fair", "Needs Attention"],
+        };
         const customQuestions = localConfig.customQuestions ?? [];
         const petCondition = localConfig.petCondition ?? { categories: [] };
-        const reviewBooster = localConfig.reviewBooster ?? { ratingThreshold: 4, reviewUrl: "", reviewPromptText: "" };
+        const reviewBooster = localConfig.reviewBooster ?? {
+          ratingThreshold: 4,
+          reviewUrl: "",
+          reviewPromptText: "",
+        };
 
         return (
           <Tabs defaultValue="general" className="w-full">
@@ -1713,7 +1753,10 @@ function ReportCardSettingsCard() {
                       value={brand.reportTitle}
                       readOnly={!isEditing}
                       onChange={(e) =>
-                        setLocalConfig({ ...localConfig, brand: { ...brand, reportTitle: e.target.value } })
+                        setLocalConfig({
+                          ...localConfig,
+                          brand: { ...brand, reportTitle: e.target.value },
+                        })
                       }
                     />
                   </div>
@@ -1726,7 +1769,10 @@ function ReportCardSettingsCard() {
                         disabled={!isEditing}
                         className="h-9 w-12 rounded border cursor-pointer disabled:cursor-not-allowed"
                         onChange={(e) =>
-                          setLocalConfig({ ...localConfig, brand: { ...brand, accentColor: e.target.value } })
+                          setLocalConfig({
+                            ...localConfig,
+                            brand: { ...brand, accentColor: e.target.value },
+                          })
                         }
                       />
                       <Input
@@ -1734,7 +1780,10 @@ function ReportCardSettingsCard() {
                         readOnly={!isEditing}
                         className="flex-1"
                         onChange={(e) =>
-                          setLocalConfig({ ...localConfig, brand: { ...brand, accentColor: e.target.value } })
+                          setLocalConfig({
+                            ...localConfig,
+                            brand: { ...brand, accentColor: e.target.value },
+                          })
                         }
                       />
                     </div>
@@ -1746,16 +1795,25 @@ function ReportCardSettingsCard() {
                     checked={brand.showFacilityLogo}
                     disabled={!isEditing}
                     onCheckedChange={(checked) =>
-                      setLocalConfig({ ...localConfig, brand: { ...brand, showFacilityLogo: checked } })
+                      setLocalConfig({
+                        ...localConfig,
+                        brand: { ...brand, showFacilityLogo: checked },
+                      })
                     }
                   />
-                  <Label htmlFor="rc-show-logo">Show Facility Logo on Report Cards</Label>
+                  <Label htmlFor="rc-show-logo">
+                    Show Facility Logo on Report Cards
+                  </Label>
                 </div>
               </div>
 
               <div className="space-y-4">
-                <Label className="text-base font-semibold">Enabled Services</Label>
-                <p className="text-sm text-muted-foreground">Choose which services can have report cards.</p>
+                <Label className="text-base font-semibold">
+                  Enabled Services
+                </Label>
+                <p className="text-sm text-muted-foreground">
+                  Choose which services can have report cards.
+                </p>
                 <div className="grid grid-cols-2 gap-2 rounded-lg border p-3">
                   {allServices.map((svc) => {
                     const svcCfg = getServiceConfig(localConfig, svc.id);
@@ -1766,7 +1824,11 @@ function ReportCardSettingsCard() {
                           checked={svcCfg.enabled}
                           disabled={!isEditing}
                           onCheckedChange={(checked) =>
-                            setLocalConfig(updateServiceConfig(localConfig, svc.id, { enabled: checked === true }))
+                            setLocalConfig(
+                              updateServiceConfig(localConfig, svc.id, {
+                                enabled: checked === true,
+                              }),
+                            )
                           }
                         />
                         <Label htmlFor={`rc-svc-${svc.id}`}>{svc.label}</Label>
@@ -1777,7 +1839,9 @@ function ReportCardSettingsCard() {
               </div>
 
               <div className="space-y-2">
-                <Label className="text-base font-semibold">Enabled Themes</Label>
+                <Label className="text-base font-semibold">
+                  Enabled Themes
+                </Label>
                 <div className="grid grid-cols-2 gap-2 rounded-lg border p-3">
                   {themeOptions.map((theme) => (
                     <div key={theme.id} className="flex items-center gap-2">
@@ -1791,7 +1855,9 @@ function ReportCardSettingsCard() {
                             ...localConfig,
                             enabledThemes: enabled
                               ? [...localConfig.enabledThemes, theme.id]
-                              : localConfig.enabledThemes.filter((t) => t !== theme.id),
+                              : localConfig.enabledThemes.filter(
+                                  (t) => t !== theme.id,
+                                ),
                           });
                         }}
                       />
@@ -1806,13 +1872,18 @@ function ReportCardSettingsCard() {
             <TabsContent value="sections" className="space-y-6">
               <div className="space-y-2">
                 <Label>Configure sections for</Label>
-                <Select value={sectionServiceId} onValueChange={setSectionServiceId}>
+                <Select
+                  value={sectionServiceId}
+                  onValueChange={setSectionServiceId}
+                >
                   <SelectTrigger className="w-60">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
                     {allServices.map((svc) => (
-                      <SelectItem key={svc.id} value={svc.id}>{svc.label}</SelectItem>
+                      <SelectItem key={svc.id} value={svc.id}>
+                        {svc.label}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -1820,7 +1891,10 @@ function ReportCardSettingsCard() {
               <div className="space-y-1">
                 {allSectionIds.map((sectionId) => {
                   const meta = reportCardSectionMeta[sectionId];
-                  const svcCfg = getServiceConfig(localConfig, sectionServiceId);
+                  const svcCfg = getServiceConfig(
+                    localConfig,
+                    sectionServiceId,
+                  );
                   const isOn = svcCfg.enabledSections.includes(sectionId);
                   return (
                     <div
@@ -1828,18 +1902,28 @@ function ReportCardSettingsCard() {
                       className="flex items-center justify-between rounded-lg border px-4 py-3"
                     >
                       <div>
-                        <p className="text-sm font-medium">{meta?.label ?? sectionId}</p>
-                        <p className="text-xs text-muted-foreground">{meta?.description}</p>
+                        <p className="text-sm font-medium">
+                          {meta?.label ?? sectionId}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {meta?.description}
+                        </p>
                       </div>
                       <Switch
                         checked={isOn}
                         disabled={!isEditing}
                         onCheckedChange={(checked) => {
-                          const newSections = (checked
-                            ? [...svcCfg.enabledSections, sectionId]
-                            : svcCfg.enabledSections.filter((s) => s !== sectionId)) as ReportCardSectionId[];
+                          const newSections = (
+                            checked
+                              ? [...svcCfg.enabledSections, sectionId]
+                              : svcCfg.enabledSections.filter(
+                                  (s) => s !== sectionId,
+                                )
+                          ) as ReportCardSectionId[];
                           setLocalConfig(
-                            updateServiceConfig(localConfig, sectionServiceId, { enabledSections: newSections }),
+                            updateServiceConfig(localConfig, sectionServiceId, {
+                              enabledSections: newSections,
+                            }),
                           );
                         }}
                       />
@@ -1852,14 +1936,22 @@ function ReportCardSettingsCard() {
             {/* ── Feedback Tab ─────────────────────────────── */}
             <TabsContent value="feedback" className="space-y-6">
               <div className="space-y-4">
-                <Label className="text-base font-semibold">Overall Feedback</Label>
+                <Label className="text-base font-semibold">
+                  Overall Feedback
+                </Label>
                 <div className="space-y-2">
                   <Label>Feedback Title</Label>
                   <Input
                     value={overallFeedback.title}
                     readOnly={!isEditing}
                     onChange={(e) =>
-                      setLocalConfig({ ...localConfig, overallFeedback: { ...overallFeedback, title: e.target.value } })
+                      setLocalConfig({
+                        ...localConfig,
+                        overallFeedback: {
+                          ...overallFeedback,
+                          title: e.target.value,
+                        },
+                      })
                     }
                   />
                 </div>
@@ -1873,9 +1965,17 @@ function ReportCardSettingsCard() {
                           readOnly={!isEditing}
                           className="flex-1"
                           onChange={(e) => {
-                            const updated = [...overallFeedback.responseOptions];
+                            const updated = [
+                              ...overallFeedback.responseOptions,
+                            ];
                             updated[idx] = e.target.value;
-                            setLocalConfig({ ...localConfig, overallFeedback: { ...overallFeedback, responseOptions: updated } });
+                            setLocalConfig({
+                              ...localConfig,
+                              overallFeedback: {
+                                ...overallFeedback,
+                                responseOptions: updated,
+                              },
+                            });
                           }}
                         />
                         {isEditing && (
@@ -1883,8 +1983,17 @@ function ReportCardSettingsCard() {
                             variant="ghost"
                             size="icon"
                             onClick={() => {
-                              const updated = overallFeedback.responseOptions.filter((_, i) => i !== idx);
-                              setLocalConfig({ ...localConfig, overallFeedback: { ...overallFeedback, responseOptions: updated } });
+                              const updated =
+                                overallFeedback.responseOptions.filter(
+                                  (_, i) => i !== idx,
+                                );
+                              setLocalConfig({
+                                ...localConfig,
+                                overallFeedback: {
+                                  ...overallFeedback,
+                                  responseOptions: updated,
+                                },
+                              });
                             }}
                           >
                             <Trash2 className="h-4 w-4" />
@@ -1908,7 +2017,10 @@ function ReportCardSettingsCard() {
                               ...localConfig,
                               overallFeedback: {
                                 ...overallFeedback,
-                                responseOptions: [...overallFeedback.responseOptions, newFeedbackOption.trim()],
+                                responseOptions: [
+                                  ...overallFeedback.responseOptions,
+                                  newFeedbackOption.trim(),
+                                ],
                               },
                             });
                             setNewFeedbackOption("");
@@ -1923,20 +2035,37 @@ function ReportCardSettingsCard() {
               </div>
 
               <div className="space-y-4">
-                <Label className="text-base font-semibold">Custom Questions</Label>
+                <Label className="text-base font-semibold">
+                  Custom Questions
+                </Label>
                 <p className="text-sm text-muted-foreground">
-                  Create your own feedback questions that staff fill out per report card.
+                  Create your own feedback questions that staff fill out per
+                  report card.
                 </p>
                 <div className="space-y-2">
                   {customQuestions.map((q) => (
-                    <div key={q.id} className="flex items-center justify-between rounded-lg border px-4 py-3">
+                    <div
+                      key={q.id}
+                      className="flex items-center justify-between rounded-lg border px-4 py-3"
+                    >
                       <div>
                         <p className="text-sm font-medium">{q.question}</p>
                         <div className="flex items-center gap-2 mt-1">
-                          <Badge variant="outline" className="text-xs capitalize">{q.type.replace("_", "/")}</Badge>
-                          {q.required && <Badge variant="secondary" className="text-xs">Required</Badge>}
+                          <Badge
+                            variant="outline"
+                            className="text-xs capitalize"
+                          >
+                            {q.type.replace("_", "/")}
+                          </Badge>
+                          {q.required && (
+                            <Badge variant="secondary" className="text-xs">
+                              Required
+                            </Badge>
+                          )}
                           {q.type === "select" && q.options && (
-                            <span className="text-xs text-muted-foreground">{q.options.length} options</span>
+                            <span className="text-xs text-muted-foreground">
+                              {q.options.length} options
+                            </span>
                           )}
                         </div>
                       </div>
@@ -1945,7 +2074,12 @@ function ReportCardSettingsCard() {
                           variant="ghost"
                           size="icon"
                           onClick={() =>
-                            setLocalConfig({ ...localConfig, customQuestions: customQuestions.filter((cq) => cq.id !== q.id) })
+                            setLocalConfig({
+                              ...localConfig,
+                              customQuestions: customQuestions.filter(
+                                (cq) => cq.id !== q.id,
+                              ),
+                            })
                           }
                         >
                           <Trash2 className="h-4 w-4" />
@@ -1957,7 +2091,9 @@ function ReportCardSettingsCard() {
                 {isEditing && (
                   <Card>
                     <CardContent className="p-4 space-y-3">
-                      <Label className="text-sm font-medium">Add New Question</Label>
+                      <Label className="text-sm font-medium">
+                        Add New Question
+                      </Label>
                       <Input
                         placeholder="Question text..."
                         value={newQuestionText}
@@ -1966,13 +2102,20 @@ function ReportCardSettingsCard() {
                       <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-1">
                           <Label className="text-xs">Type</Label>
-                          <Select value={newQuestionType} onValueChange={(v) => setNewQuestionType(v as CustomFeedbackType)}>
+                          <Select
+                            value={newQuestionType}
+                            onValueChange={(v) =>
+                              setNewQuestionType(v as CustomFeedbackType)
+                            }
+                          >
                             <SelectTrigger>
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="text">Text</SelectItem>
-                              <SelectItem value="rating">Rating (1-5)</SelectItem>
+                              <SelectItem value="rating">
+                                Rating (1-5)
+                              </SelectItem>
                               <SelectItem value="select">Select</SelectItem>
                               <SelectItem value="yes_no">Yes / No</SelectItem>
                             </SelectContent>
@@ -1980,7 +2123,9 @@ function ReportCardSettingsCard() {
                         </div>
                         {newQuestionType === "select" && (
                           <div className="space-y-1">
-                            <Label className="text-xs">Options (comma-separated)</Label>
+                            <Label className="text-xs">
+                              Options (comma-separated)
+                            </Label>
                             <Input
                               placeholder="Option A, Option B, ..."
                               value={newOptionText}
@@ -1998,10 +2143,19 @@ function ReportCardSettingsCard() {
                             id: `q-${Date.now()}`,
                             question: newQuestionText.trim(),
                             type: newQuestionType,
-                            options: newQuestionType === "select" ? newOptionText.split(",").map((o) => o.trim()).filter(Boolean) : undefined,
+                            options:
+                              newQuestionType === "select"
+                                ? newOptionText
+                                    .split(",")
+                                    .map((o) => o.trim())
+                                    .filter(Boolean)
+                                : undefined,
                             required: false,
                           };
-                          setLocalConfig({ ...localConfig, customQuestions: [...customQuestions, newQ] });
+                          setLocalConfig({
+                            ...localConfig,
+                            customQuestions: [...customQuestions, newQ],
+                          });
                           setNewQuestionText("");
                           setNewOptionText("");
                         }}
@@ -2017,9 +2171,12 @@ function ReportCardSettingsCard() {
             {/* ── Condition Tab ─────────────────────────────── */}
             <TabsContent value="condition" className="space-y-6">
               <div className="space-y-4">
-                <Label className="text-base font-semibold">Pet Condition Categories</Label>
+                <Label className="text-base font-semibold">
+                  Pet Condition Categories
+                </Label>
                 <p className="text-sm text-muted-foreground">
-                  Document health, coat, skin, and other observations on each report card.
+                  Document health, coat, skin, and other observations on each
+                  report card.
                 </p>
                 {petCondition.categories.map((cat) => (
                   <Card key={cat.id}>
@@ -2034,7 +2191,9 @@ function ReportCardSettingsCard() {
                               setLocalConfig({
                                 ...localConfig,
                                 petCondition: {
-                                  categories: petCondition.categories.filter((c) => c.id !== cat.id),
+                                  categories: petCondition.categories.filter(
+                                    (c) => c.id !== cat.id,
+                                  ),
                                 },
                               })
                             }
@@ -2047,16 +2206,31 @@ function ReportCardSettingsCard() {
                     <CardContent className="px-4 pb-4 pt-0">
                       <div className="flex flex-wrap gap-1.5">
                         {cat.options.map((opt, idx) => (
-                          <Badge key={idx} variant="secondary" className="text-xs gap-1">
+                          <Badge
+                            key={idx}
+                            variant="secondary"
+                            className="text-xs gap-1"
+                          >
                             {opt}
                             {isEditing && (
                               <button
                                 className="ml-1 hover:text-destructive"
                                 onClick={() => {
-                                  const updatedCats = petCondition.categories.map((c) =>
-                                    c.id === cat.id ? { ...c, options: c.options.filter((_, i) => i !== idx) } : c,
-                                  );
-                                  setLocalConfig({ ...localConfig, petCondition: { categories: updatedCats } });
+                                  const updatedCats =
+                                    petCondition.categories.map((c) =>
+                                      c.id === cat.id
+                                        ? {
+                                            ...c,
+                                            options: c.options.filter(
+                                              (_, i) => i !== idx,
+                                            ),
+                                          }
+                                        : c,
+                                    );
+                                  setLocalConfig({
+                                    ...localConfig,
+                                    petCondition: { categories: updatedCats },
+                                  });
                                 }}
                               >
                                 x
@@ -2071,19 +2245,43 @@ function ReportCardSettingsCard() {
                             placeholder="New option..."
                             className="h-8 text-sm"
                             value={newConditionOption[cat.id] ?? ""}
-                            onChange={(e) => setNewConditionOption({ ...newConditionOption, [cat.id]: e.target.value })}
+                            onChange={(e) =>
+                              setNewConditionOption({
+                                ...newConditionOption,
+                                [cat.id]: e.target.value,
+                              })
+                            }
                           />
                           <Button
                             variant="outline"
                             size="sm"
                             className="h-8"
-                            disabled={!(newConditionOption[cat.id] ?? "").trim()}
+                            disabled={
+                              !(newConditionOption[cat.id] ?? "").trim()
+                            }
                             onClick={() => {
-                              const updatedCats = petCondition.categories.map((c) =>
-                                c.id === cat.id ? { ...c, options: [...c.options, (newConditionOption[cat.id] ?? "").trim()] } : c,
+                              const updatedCats = petCondition.categories.map(
+                                (c) =>
+                                  c.id === cat.id
+                                    ? {
+                                        ...c,
+                                        options: [
+                                          ...c.options,
+                                          (
+                                            newConditionOption[cat.id] ?? ""
+                                          ).trim(),
+                                        ],
+                                      }
+                                    : c,
                               );
-                              setLocalConfig({ ...localConfig, petCondition: { categories: updatedCats } });
-                              setNewConditionOption({ ...newConditionOption, [cat.id]: "" });
+                              setLocalConfig({
+                                ...localConfig,
+                                petCondition: { categories: updatedCats },
+                              });
+                              setNewConditionOption({
+                                ...newConditionOption,
+                                [cat.id]: "",
+                              });
                             }}
                           >
                             <Plus className="h-3 w-3" />
@@ -2109,7 +2307,11 @@ function ReportCardSettingsCard() {
                           petCondition: {
                             categories: [
                               ...petCondition.categories,
-                              { id: `cat-${Date.now()}`, label: newCategoryLabel.trim(), options: ["Normal"] },
+                              {
+                                id: `cat-${Date.now()}`,
+                                label: newCategoryLabel.trim(),
+                                options: ["Normal"],
+                              },
                             ],
                           },
                         });
@@ -2126,7 +2328,9 @@ function ReportCardSettingsCard() {
             {/* ── Delivery Tab ─────────────────────────────── */}
             <TabsContent value="delivery" className="space-y-6">
               <div className="space-y-4">
-                <Label className="text-base font-semibold">Auto-send Timing</Label>
+                <Label className="text-base font-semibold">
+                  Auto-send Timing
+                </Label>
                 <div className="grid grid-cols-2 gap-4">
                   <Select
                     value={localConfig.autoSend.mode}
@@ -2142,14 +2346,20 @@ function ReportCardSettingsCard() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="immediate">Send immediately</SelectItem>
-                      <SelectItem value="scheduled">Schedule for time</SelectItem>
+                      <SelectItem value="immediate">
+                        Send immediately
+                      </SelectItem>
+                      <SelectItem value="scheduled">
+                        Schedule for time
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                   <Input
                     type="time"
                     value={localConfig.autoSend.sendTime ?? "18:00"}
-                    readOnly={!isEditing || localConfig.autoSend.mode !== "scheduled"}
+                    readOnly={
+                      !isEditing || localConfig.autoSend.mode !== "scheduled"
+                    }
                     className={
                       !isEditing || localConfig.autoSend.mode !== "scheduled"
                         ? "bg-gray-100 cursor-not-allowed"
@@ -2158,7 +2368,10 @@ function ReportCardSettingsCard() {
                     onChange={(e) =>
                       setLocalConfig({
                         ...localConfig,
-                        autoSend: { ...localConfig.autoSend, sendTime: e.target.value },
+                        autoSend: {
+                          ...localConfig.autoSend,
+                          sendTime: e.target.value,
+                        },
                       })
                     }
                   />
@@ -2175,19 +2388,26 @@ function ReportCardSettingsCard() {
                             ...localConfig,
                             autoSend: {
                               ...localConfig.autoSend,
-                              channels: { ...localConfig.autoSend.channels, [ch]: checked === true },
+                              channels: {
+                                ...localConfig.autoSend.channels,
+                                [ch]: checked === true,
+                              },
                             },
                           })
                         }
                       />
-                      <Label htmlFor={`rc-send-${ch}`} className="capitalize">{ch}</Label>
+                      <Label htmlFor={`rc-send-${ch}`} className="capitalize">
+                        {ch}
+                      </Label>
                     </div>
                   ))}
                 </div>
               </div>
 
               <div className="space-y-4">
-                <Label className="text-base font-semibold">Review Booster</Label>
+                <Label className="text-base font-semibold">
+                  Review Booster
+                </Label>
                 <p className="text-sm text-muted-foreground">
                   Prompt happy customers to leave reviews on external platforms.
                 </p>
@@ -2198,7 +2418,13 @@ function ReportCardSettingsCard() {
                       value={String(reviewBooster.ratingThreshold)}
                       disabled={!isEditing}
                       onValueChange={(v) =>
-                        setLocalConfig({ ...localConfig, reviewBooster: { ...reviewBooster, ratingThreshold: Number(v) } })
+                        setLocalConfig({
+                          ...localConfig,
+                          reviewBooster: {
+                            ...reviewBooster,
+                            ratingThreshold: Number(v),
+                          },
+                        })
                       }
                     >
                       <SelectTrigger>
@@ -2206,7 +2432,9 @@ function ReportCardSettingsCard() {
                       </SelectTrigger>
                       <SelectContent>
                         {[1, 2, 3, 4, 5].map((n) => (
-                          <SelectItem key={n} value={String(n)}>{n} star{n > 1 ? "s" : ""}</SelectItem>
+                          <SelectItem key={n} value={String(n)}>
+                            {n} star{n > 1 ? "s" : ""}
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -2218,7 +2446,13 @@ function ReportCardSettingsCard() {
                       value={reviewBooster.reviewUrl}
                       readOnly={!isEditing}
                       onChange={(e) =>
-                        setLocalConfig({ ...localConfig, reviewBooster: { ...reviewBooster, reviewUrl: e.target.value } })
+                        setLocalConfig({
+                          ...localConfig,
+                          reviewBooster: {
+                            ...reviewBooster,
+                            reviewUrl: e.target.value,
+                          },
+                        })
                       }
                     />
                   </div>
@@ -2229,14 +2463,22 @@ function ReportCardSettingsCard() {
                     value={reviewBooster.reviewPromptText}
                     readOnly={!isEditing}
                     onChange={(e) =>
-                      setLocalConfig({ ...localConfig, reviewBooster: { ...reviewBooster, reviewPromptText: e.target.value } })
+                      setLocalConfig({
+                        ...localConfig,
+                        reviewBooster: {
+                          ...reviewBooster,
+                          reviewPromptText: e.target.value,
+                        },
+                      })
                     }
                   />
                 </div>
               </div>
 
               <div className="space-y-4">
-                <Label className="text-base font-semibold">Template Wording (by Theme)</Label>
+                <Label className="text-base font-semibold">
+                  Template Wording (by Theme)
+                </Label>
                 <div className="space-y-4">
                   {themeOptions.map((theme) => (
                     <Card key={theme.id}>
@@ -2244,9 +2486,19 @@ function ReportCardSettingsCard() {
                         <CardTitle className="text-sm">{theme.label}</CardTitle>
                       </CardHeader>
                       <CardContent className="px-4 pb-4 pt-0 space-y-3">
-                        {(["todaysVibe", "friendsAndFun", "careMetrics", "holidaySparkle", "closingNote"] as const).map((field) => (
+                        {(
+                          [
+                            "todaysVibe",
+                            "friendsAndFun",
+                            "careMetrics",
+                            "holidaySparkle",
+                            "closingNote",
+                          ] as const
+                        ).map((field) => (
                           <div key={field} className="space-y-1">
-                            <Label className="text-xs capitalize">{field.replace(/([A-Z])/g, " $1").trim()}</Label>
+                            <Label className="text-xs capitalize">
+                              {field.replace(/([A-Z])/g, " $1").trim()}
+                            </Label>
                             <Textarea
                               value={localConfig.templates[theme.id][field]}
                               readOnly={!isEditing}
@@ -2330,7 +2582,8 @@ function FacilityBookingFlowCard() {
                   Hide Services Until Evaluation Completed
                 </div>
                 <div className="text-sm text-muted-foreground">
-                  Show only the Evaluation service until it is completed or booked.
+                  Show only the Evaluation service until it is completed or
+                  booked.
                 </div>
               </div>
               <Switch
@@ -2584,7 +2837,7 @@ export default function SettingsPage() {
 
       {/* Settings Tabs */}
       <Tabs defaultValue="business" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-10">
+        <TabsList className="grid w-full grid-cols-10 lg:flex lg:flex-wrap">
           <TabsTrigger value="business">
             <Building2 className="h-4 w-4 mr-2" />
             Business
@@ -2621,6 +2874,10 @@ export default function SettingsPage() {
           <TabsTrigger value="form-requirements">
             <Shield className="h-4 w-4 mr-2" />
             Forms
+          </TabsTrigger>
+          <TabsTrigger value="tags-notes">
+            <Tag className="h-4 w-4 mr-2" />
+            Tags &amp; Notes
           </TabsTrigger>
         </TabsList>
 
@@ -3282,6 +3539,10 @@ export default function SettingsPage() {
         {/* Form Requirements Tab (7.1) */}
         <TabsContent value="form-requirements" className="space-y-6">
           <FormRequirementsSettings />
+        </TabsContent>
+
+        <TabsContent value="tags-notes" className="space-y-6">
+          <TagNotesSettings />
         </TabsContent>
       </Tabs>
     </div>

@@ -92,7 +92,13 @@ export type Permission =
   | "send_marketing"
   | "manage_incidents"
   | "delete_records"
-  | "manage_permissions";
+  | "manage_permissions"
+  // Tags & Notes
+  | "manage_tags"
+  | "assign_tags"
+  | "manage_notes"
+  | "view_internal_notes"
+  | "delete_notes";
 
 // Permission display labels
 export const PERMISSION_LABELS: Record<Permission, string> = {
@@ -143,6 +149,11 @@ export const PERMISSION_LABELS: Record<Permission, string> = {
   manage_incidents: "Manage Incidents",
   delete_records: "Delete Records",
   manage_permissions: "Manage Permissions",
+  manage_tags: "Manage Tags",
+  assign_tags: "Assign Tags",
+  manage_notes: "Manage Notes Settings",
+  view_internal_notes: "View Internal Notes",
+  delete_notes: "Delete Notes",
 };
 
 // Permission categories for grouping in UI
@@ -198,6 +209,13 @@ export const PERMISSION_CATEGORIES: Record<string, Permission[]> = {
     "delete_records",
   ],
   "Pet Care": ["add_pet_notes", "add_grooming_notes", "add_training_notes"],
+  "Tags & Notes": [
+    "manage_tags",
+    "assign_tags",
+    "manage_notes",
+    "view_internal_notes",
+    "delete_notes",
+  ],
   "Reports & Marketing": ["export_reports", "send_marketing"],
 };
 
@@ -250,6 +268,11 @@ export const DEFAULT_ROLE_PERMISSIONS: Record<FacilityRole, Permission[]> = {
     "manage_incidents",
     "delete_records",
     "manage_permissions",
+    "manage_tags",
+    "assign_tags",
+    "manage_notes",
+    "view_internal_notes",
+    "delete_notes",
   ],
   manager: [
     // Operational oversight, limited financial visibility
@@ -294,6 +317,11 @@ export const DEFAULT_ROLE_PERMISSIONS: Record<FacilityRole, Permission[]> = {
     "export_reports",
     "send_marketing",
     "manage_incidents",
+    "manage_tags",
+    "assign_tags",
+    "manage_notes",
+    "view_internal_notes",
+    "delete_notes",
     // No manage_pricing, manage_settings, manage_services, delete_records
   ],
   front_desk: [
@@ -320,6 +348,8 @@ export const DEFAULT_ROLE_PERMISSIONS: Record<FacilityRole, Permission[]> = {
     // No process_refund
     // No apply_discount
     "add_pet_notes",
+    "assign_tags",
+    "view_internal_notes",
     // No view_revenue, view_financials
   ],
   groomer: [
@@ -332,6 +362,8 @@ export const DEFAULT_ROLE_PERMISSIONS: Record<FacilityRole, Permission[]> = {
     "add_grooming_notes",
     "add_pet_notes",
     "check_in_out",
+    "assign_tags",
+    "view_internal_notes",
   ],
   trainer: [
     // Training only
@@ -343,6 +375,8 @@ export const DEFAULT_ROLE_PERMISSIONS: Record<FacilityRole, Permission[]> = {
     "add_training_notes",
     "add_pet_notes",
     "check_in_out",
+    "assign_tags",
+    "view_internal_notes",
   ],
   kennel_tech: [
     // Daily pet care
@@ -355,6 +389,7 @@ export const DEFAULT_ROLE_PERMISSIONS: Record<FacilityRole, Permission[]> = {
     "view_scheduling",
     "add_pet_notes",
     "check_in_out",
+    "view_internal_notes",
   ],
 };
 
