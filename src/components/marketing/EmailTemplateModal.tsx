@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import {
   DialogHeader,
   DialogTitle,
@@ -18,9 +18,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { Mail, Eye } from "lucide-react";
+import { VariableInsertDropdown } from "@/components/shared/VariableInsertDropdown";
+import { TemplatePreviewPanel } from "@/components/shared/TemplatePreviewPanel";
+import { useInsertAtCursor } from "@/hooks/use-insert-at-cursor";
 
 interface EmailTemplate {
   name?: string;
@@ -48,27 +49,24 @@ export function EmailTemplateModal({
   });
 
   const [previewMode, setPreviewMode] = useState(false);
-
-  const availableVariables = [
-    "{{client_name}}",
-    "{{pet_name}}",
-    "{{facility_name}}",
-    "{{service_type}}",
-    "{{appointment_time}}",
-    "{{booking_date}}",
-  ];
+  const [activeField, setActiveField] = useState<"subject" | "body">("body");
+  const subjectRef = useRef<HTMLInputElement>(null);
+  const bodyRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSave = () => {
     console.log("Saving template:", formData);
     onClose();
   };
 
-  const insertVariable = (variable: string) => {
-    setFormData({
-      ...formData,
-      body: formData.body + " " + variable,
-    });
-  };
+  const activeRef = activeField === "subject" ? subjectRef : bodyRef;
+  const activeValue = formData[activeField];
+  const setActiveValue = useCallback(
+    (newValue: string) => {
+      setFormData((prev) => ({ ...prev, [activeField]: newValue }));
+    },
+    [activeField],
+  );
+  const insertVariable = useInsertAtCursor(activeRef, activeValue, setActiveValue);
 
   return (
     <>
@@ -84,11 +82,11 @@ export function EmailTemplateModal({
       <div className="space-y-6 py-4">
         {!previewMode ? (
           <>
-            {/* Template Name */}
             <div className="space-y-2">
               <Label htmlFor="name">Template Name *</Label>
               <Input
                 id="name"
+                aria-required="true"
                 value={formData.name}
                 onChange={(e) =>
                   setFormData({ ...formData, name: e.target.value })
@@ -97,7 +95,6 @@ export function EmailTemplateModal({
               />
             </div>
 
-            {/* Category */}
             <div className="space-y-2">
               <Label htmlFor="category">Category *</Label>
               <Select
@@ -106,7 +103,7 @@ export function EmailTemplateModal({
                   setFormData({ ...formData, category: value })
                 }
               >
-                <SelectTrigger>
+                <SelectTrigger aria-required="true">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -118,79 +115,48 @@ export function EmailTemplateModal({
               </Select>
             </div>
 
-            {/* Subject Line */}
             <div className="space-y-2">
-              <Label htmlFor="subject">Subject Line *</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="subject">Subject Line *</Label>
+                <VariableInsertDropdown
+                  context="marketing"
+                  onInsert={insertVariable}
+                />
+              </div>
               <Input
                 id="subject"
+                ref={subjectRef}
+                aria-required="true"
                 value={formData.subject}
                 onChange={(e) =>
                   setFormData({ ...formData, subject: e.target.value })
                 }
+                onFocus={() => setActiveField("subject")}
                 placeholder="e.g., Welcome to {{facility_name}}!"
               />
             </div>
 
-            {/* Body */}
             <div className="space-y-2">
               <Label htmlFor="body">Email Body *</Label>
               <Textarea
                 id="body"
+                ref={bodyRef}
+                aria-required="true"
                 value={formData.body}
                 onChange={(e) =>
                   setFormData({ ...formData, body: e.target.value })
                 }
+                onFocus={() => setActiveField("body")}
                 placeholder="Enter your email content here..."
                 rows={10}
               />
             </div>
-
-            {/* Available Variables */}
-            <Card>
-              <CardContent className="pt-6">
-                <Label className="text-sm font-medium">
-                  Available Variables
-                </Label>
-                <p className="text-sm text-muted-foreground mt-1 mb-3">
-                  Click to insert into email body
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {availableVariables.map((variable) => (
-                    <Badge
-                      key={variable}
-                      variant="outline"
-                      className="cursor-pointer hover:bg-primary hover:text-primary-foreground"
-                      onClick={() => insertVariable(variable)}
-                    >
-                      {variable}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
           </>
         ) : (
-          <Card>
-            <CardContent className="pt-6">
-              <div className="space-y-4">
-                <div>
-                  <Label className="text-sm text-muted-foreground">From:</Label>
-                  <div className="font-medium">
-                    {"{{facility_name}}"} &lt;noreply@facility.com&gt;
-                  </div>
-                </div>
-                <div>
-                  <Label className="text-sm text-muted-foreground">
-                    Subject:
-                  </Label>
-                  <div className="font-medium">{formData.subject}</div>
-                </div>
-                <div className="border-t pt-4">
-                  <div className="whitespace-pre-wrap">{formData.body}</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <TemplatePreviewPanel
+            template={formData.body}
+            subject={formData.subject}
+          />
         )}
       </div>
 

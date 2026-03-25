@@ -8,7 +8,7 @@ export interface EmailTemplate {
   subject: string;
   body: string;
   category: "promotional" | "transactional" | "reminder" | "newsletter";
-  variables: string[]; // e.g., {{client_name}}, {{pet_name}}
+  variables: string[]; // e.g., {{customer_full_name}}, {{pet_name}}
   createdAt: string;
   updatedAt: string;
   timesUsed: number;
@@ -19,9 +19,9 @@ export const emailTemplates: EmailTemplate[] = [
     id: "tpl-001",
     name: "Welcome New Client",
     subject: "Welcome to {{facility_name}}!",
-    body: `Hi {{client_name}},\n\nWelcome to {{facility_name}}! We're thrilled to have you and {{pet_name}} join our family.\n\nAs a new client, you'll receive 10% off your first booking. Use code: WELCOME10\n\nBest regards,\nThe {{facility_name}} Team`,
+    body: `Hi {{customer_full_name}},\n\nWelcome to {{facility_name}}! We're thrilled to have you and {{pet_name}} join our family.\n\nAs a new client, you'll receive 10% off your first booking. Use code: WELCOME10\n\nBest regards,\nThe {{facility_name}} Team`,
     category: "promotional",
-    variables: ["client_name", "pet_name", "facility_name"],
+    variables: ["customer_full_name", "pet_name", "facility_name"],
     createdAt: "2024-01-15T10:00:00Z",
     updatedAt: "2024-01-15T10:00:00Z",
     timesUsed: 45,
@@ -30,13 +30,13 @@ export const emailTemplates: EmailTemplate[] = [
     id: "tpl-002",
     name: "Booking Reminder - 24 Hours",
     subject: "Reminder: {{pet_name}}'s appointment tomorrow",
-    body: `Hi {{client_name}},\n\nThis is a friendly reminder that {{pet_name}} has a {{service_type}} appointment tomorrow at {{appointment_time}}.\n\nSee you soon!\n\nThe {{facility_name}} Team`,
+    body: `Hi {{customer_full_name}},\n\nThis is a friendly reminder that {{pet_name}} has a {{service_name}} appointment tomorrow at {{booking_time}}.\n\nSee you soon!\n\nThe {{facility_name}} Team`,
     category: "reminder",
     variables: [
-      "client_name",
+      "customer_full_name",
       "pet_name",
-      "service_type",
-      "appointment_time",
+      "service_name",
+      "booking_time",
       "facility_name",
     ],
     createdAt: "2024-01-10T09:00:00Z",
@@ -47,10 +47,10 @@ export const emailTemplates: EmailTemplate[] = [
     id: "tpl-003",
     name: "Vaccination Expiry Warning",
     subject: "{{pet_name}}'s vaccinations need updating",
-    body: `Hi {{client_name}},\n\nOur records show that {{pet_name}}'s {{vaccine_name}} vaccination expires on {{expiry_date}}.\n\nPlease update their vaccination records to continue using our services.\n\nThank you,\n{{facility_name}}`,
+    body: `Hi {{customer_full_name}},\n\nOur records show that {{pet_name}}'s {{vaccine_name}} vaccination expires on {{expiry_date}}.\n\nPlease update their vaccination records to continue using our services.\n\nThank you,\n{{facility_name}}`,
     category: "reminder",
     variables: [
-      "client_name",
+      "customer_full_name",
       "pet_name",
       "vaccine_name",
       "expiry_date",
@@ -64,9 +64,9 @@ export const emailTemplates: EmailTemplate[] = [
     id: "tpl-004",
     name: "Monthly Newsletter",
     subject: "{{facility_name}} Monthly Update - {{month}}",
-    body: `Hi {{client_name}},\n\nHere's what's new at {{facility_name}} this month:\n\n- Special holiday hours\n- New grooming services\n- Pet care tips\n\nRead more on our website!\n\nBest,\nThe Team`,
+    body: `Hi {{customer_full_name}},\n\nHere's what's new at {{facility_name}} this month:\n\n- Special holiday hours\n- New grooming services\n- Pet care tips\n\nRead more on our website!\n\nBest,\nThe Team`,
     category: "newsletter",
-    variables: ["client_name", "facility_name", "month"],
+    variables: ["customer_full_name", "facility_name", "month"],
     createdAt: "2024-02-01T08:00:00Z",
     updatedAt: "2024-02-01T08:00:00Z",
     timesUsed: 12,
@@ -75,9 +75,9 @@ export const emailTemplates: EmailTemplate[] = [
     id: "tpl-005",
     name: "Birthday Celebration",
     subject: "Happy Birthday {{pet_name}}! 🎉",
-    body: `Hi {{client_name}},\n\n{{pet_name}} is celebrating a birthday! 🎂\n\nEnjoy 20% off your next booking with code: BIRTHDAY20\n\nValid for 30 days.\n\nCheers,\n{{facility_name}}`,
+    body: `Hi {{customer_full_name}},\n\n{{pet_name}} is celebrating a birthday! 🎂\n\nEnjoy 20% off your next booking with code: BIRTHDAY20\n\nValid for 30 days.\n\nCheers,\n{{facility_name}}`,
     category: "promotional",
-    variables: ["client_name", "pet_name", "facility_name"],
+    variables: ["customer_full_name", "pet_name", "facility_name"],
     createdAt: "2024-01-25T10:00:00Z",
     updatedAt: "2024-01-25T10:00:00Z",
     timesUsed: 89,
