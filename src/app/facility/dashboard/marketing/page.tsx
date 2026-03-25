@@ -42,6 +42,8 @@ import { PromoCodeModal } from "@/components/marketing/PromoCodeModal";
 import { LoyaltySettingsModal } from "@/components/marketing/LoyaltySettingsModal";
 import { FacilityBrandingSection } from "@/components/marketing/FacilityBrandingSection";
 import { PlaydateAlertsTab } from "@/components/marketing/PlaydateAlertsTab";
+import { LoyaltyBuilderModal } from "@/components/marketing/LoyaltyBuilderModal";
+import { ReferralConfigModal } from "@/components/marketing/ReferralConfigModal";
 
 export default function MarketingPage() {
   const [showTemplateModal, setShowTemplateModal] = useState(false);
@@ -49,6 +51,7 @@ export default function MarketingPage() {
   const [showCampaignModal, setShowCampaignModal] = useState(false);
   const [showPromoModal, setShowPromoModal] = useState(false);
   const [showLoyaltyModal, setShowLoyaltyModal] = useState(false);
+  const [showReferralConfigModal, setShowReferralConfigModal] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState<
     (typeof emailTemplates)[0] | null
   >(null);
@@ -860,15 +863,24 @@ export default function MarketingPage() {
                     Customer referral program
                   </p>
                 </div>
-                <Button
-                  onClick={() => {
-                    const newCode = `REF${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
-                    console.log(`New referral code generated: ${newCode}`);
-                  }}
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Generate Code
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowReferralConfigModal(true)}
+                  >
+                    <Settings className="h-4 w-4 mr-2" />
+                    Configure Program
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      const newCode = `REF${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+                      alert(`New referral code generated: ${newCode}`);
+                    }}
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Generate Code
+                  </Button>
+                </div>
               </div>
             </CardHeader>
             <CardContent>
@@ -956,7 +968,13 @@ export default function MarketingPage() {
 
       <Dialog open={showLoyaltyModal} onOpenChange={setShowLoyaltyModal}>
         <DialogContent className="min-w-5xl max-h-[90vh] overflow-y-auto">
-          <LoyaltySettingsModal onClose={() => setShowLoyaltyModal(false)} />
+          <LoyaltyBuilderModal onClose={() => setShowLoyaltyModal(false)} />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showReferralConfigModal} onOpenChange={setShowReferralConfigModal}>
+        <DialogContent className="min-w-5xl max-h-[90vh] overflow-y-auto">
+          <ReferralConfigModal onClose={() => setShowReferralConfigModal(false)} />
         </DialogContent>
       </Dialog>
     </div>
