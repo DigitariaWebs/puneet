@@ -98,7 +98,7 @@ export type Permission =
   | "assign_tags"
   | "manage_notes"
   | "view_internal_notes"
-  | "delete_notes";
+  | "delete_notes"
   // Forms (Section 8)
   | "forms_create"
   | "forms_edit"
