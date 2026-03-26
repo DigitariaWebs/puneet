@@ -6,7 +6,12 @@ import { CalendarClock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useBookingRequestsStore } from "@/hooks/use-booking-requests";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   Tooltip,
   TooltipContent,
@@ -29,7 +34,10 @@ export function BookingRequestsTopbarDropdown({
   const facilityId = 11;
   const { requests } = useBookingRequestsStore();
   const pendingCount = React.useMemo(
-    () => requests.filter((r) => r.facilityId === facilityId && r.status === "pending").length,
+    () =>
+      requests.filter(
+        (r) => r.facilityId === facilityId && r.status === "pending",
+      ).length,
     [requests, facilityId],
   );
   const badge = formatBadge(pendingCount);
@@ -77,4 +85,3 @@ export function BookingRequestsTopbarDropdown({
     </Dialog>
   );
 }
-

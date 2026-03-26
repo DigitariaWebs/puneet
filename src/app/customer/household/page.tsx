@@ -3,7 +3,13 @@
 import { useState, useMemo } from "react";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
 import { clients } from "@/data/clients";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -34,7 +40,7 @@ export default function CustomerHouseholdPage() {
   // Get customer data
   const customer = useMemo(
     () => clients.find((c) => c.id === MOCK_CUSTOMER_ID),
-    []
+    [],
   );
 
   const [profileData, setProfileData] = useState({
@@ -49,7 +55,9 @@ export default function CustomerHouseholdPage() {
     },
   });
 
-  const [householdContacts, setHouseholdContacts] = useState<HouseholdContact[]>(() => {
+  const [householdContacts, setHouseholdContacts] = useState<
+    HouseholdContact[]
+  >(() => {
     const primary: HouseholdContact = {
       id: "primary",
       name: profileData.name,
@@ -67,14 +75,17 @@ export default function CustomerHouseholdPage() {
           name: profileData.emergencyContact.name,
           email: profileData.emergencyContact.email,
           phone: profileData.emergencyContact.phone,
-          relationship: profileData.emergencyContact.relationship || "Secondary contact",
+          relationship:
+            profileData.emergencyContact.relationship || "Secondary contact",
           canBook: true,
           canPay: false,
           canViewCameras: true,
         } as HouseholdContact)
       : undefined;
 
-    return secondaryFromEmergency ? [primary, secondaryFromEmergency] : [primary];
+    return secondaryFromEmergency
+      ? [primary, secondaryFromEmergency]
+      : [primary];
   });
 
   const [newContact, setNewContact] = useState<HouseholdContact>({
@@ -135,7 +146,8 @@ export default function CustomerHouseholdPage() {
           <div>
             <h1 className="text-3xl font-bold">Household & Contacts</h1>
             <p className="text-muted-foreground mt-1">
-              Manage who in your household can book, pay, and view cameras for your pets
+              Manage who in your household can book, pay, and view cameras for
+              your pets
             </p>
           </div>
           {!isEditing ? (
@@ -145,7 +157,11 @@ export default function CustomerHouseholdPage() {
             </Button>
           ) : (
             <div className="flex gap-2">
-              <Button variant="outline" onClick={handleCancel} disabled={isSaving}>
+              <Button
+                variant="outline"
+                onClick={handleCancel}
+                disabled={isSaving}
+              >
                 Cancel
               </Button>
               <Button onClick={handleSave} disabled={isSaving}>
@@ -173,18 +189,22 @@ export default function CustomerHouseholdPage() {
               Household & Contacts
             </CardTitle>
             <CardDescription>
-              Manage who in your household can book, pay, and view cameras for your pets.
+              Manage who in your household can book, pay, and view cameras for
+              your pets.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="text-sm text-muted-foreground">
-              Many families share responsibilities. Add secondary contacts (spouse, partner,
-              roommate) and choose what each person is allowed to do.
+              Many families share responsibilities. Add secondary contacts
+              (spouse, partner, roommate) and choose what each person is allowed
+              to do.
             </div>
 
             {/* Existing Contacts */}
             <div className="space-y-2">
-              <div className="text-sm font-medium text-muted-foreground">People on this account</div>
+              <div className="text-sm font-medium text-muted-foreground">
+                People on this account
+              </div>
               <div className="space-y-2">
                 {householdContacts.map((contact) => (
                   <div
@@ -217,7 +237,9 @@ export default function CustomerHouseholdPage() {
                         onCheckedChange={(checked) =>
                           setHouseholdContacts((prev) =>
                             prev.map((c) =>
-                              c.id === contact.id ? { ...c, canBook: checked } : c,
+                              c.id === contact.id
+                                ? { ...c, canBook: checked }
+                                : c,
                             ),
                           )
                         }
@@ -231,7 +253,9 @@ export default function CustomerHouseholdPage() {
                         onCheckedChange={(checked) =>
                           setHouseholdContacts((prev) =>
                             prev.map((c) =>
-                              c.id === contact.id ? { ...c, canPay: checked } : c,
+                              c.id === contact.id
+                                ? { ...c, canPay: checked }
+                                : c,
                             ),
                           )
                         }
@@ -245,7 +269,9 @@ export default function CustomerHouseholdPage() {
                         onCheckedChange={(checked) =>
                           setHouseholdContacts((prev) =>
                             prev.map((c) =>
-                              c.id === contact.id ? { ...c, canViewCameras: checked } : c,
+                              c.id === contact.id
+                                ? { ...c, canViewCameras: checked }
+                                : c,
                             ),
                           )
                         }
@@ -282,7 +308,10 @@ export default function CustomerHouseholdPage() {
                     id="hh-name"
                     value={newContact.name}
                     onChange={(e) =>
-                      setNewContact((prev) => ({ ...prev, name: e.target.value }))
+                      setNewContact((prev) => ({
+                        ...prev,
+                        name: e.target.value,
+                      }))
                     }
                     disabled={!isEditing}
                     placeholder="Spouse / Partner"
@@ -295,7 +324,10 @@ export default function CustomerHouseholdPage() {
                     type="email"
                     value={newContact.email}
                     onChange={(e) =>
-                      setNewContact((prev) => ({ ...prev, email: e.target.value }))
+                      setNewContact((prev) => ({
+                        ...prev,
+                        email: e.target.value,
+                      }))
                     }
                     disabled={!isEditing}
                     placeholder="contact@example.com"
@@ -307,7 +339,10 @@ export default function CustomerHouseholdPage() {
                     id="hh-phone"
                     value={newContact.phone}
                     onChange={(e) =>
-                      setNewContact((prev) => ({ ...prev, phone: e.target.value }))
+                      setNewContact((prev) => ({
+                        ...prev,
+                        phone: e.target.value,
+                      }))
                     }
                     disabled={!isEditing}
                     placeholder="(555) 123-4567"
@@ -355,7 +390,10 @@ export default function CustomerHouseholdPage() {
                   <Switch
                     checked={newContact.canViewCameras}
                     onCheckedChange={(checked) =>
-                      setNewContact((prev) => ({ ...prev, canViewCameras: checked }))
+                      setNewContact((prev) => ({
+                        ...prev,
+                        canViewCameras: checked,
+                      }))
                     }
                     disabled={!isEditing}
                   />

@@ -33,10 +33,12 @@ export function CancelBookingDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>Cancel Booking</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to cancel this booking? This action cannot be undone.
+            Are you sure you want to cancel this booking? This action cannot be
+            undone.
             {booking.paymentStatus === "paid" && (
               <span className="block mt-2 text-sm font-medium">
-                A refund will be processed according to the facility's cancellation policy.
+                A refund will be processed according to the facility's
+                cancellation policy.
               </span>
             )}
           </AlertDialogDescription>

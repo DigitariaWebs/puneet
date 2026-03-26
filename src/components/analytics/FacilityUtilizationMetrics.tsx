@@ -204,7 +204,10 @@ export function FacilityUtilizationMetrics() {
                       borderRadius: "12px",
                       boxShadow: "0 4px 16px -2px rgba(0, 0, 0, 0.1)",
                     }}
-                    formatter={(value: number | undefined) => [`${value || 0}%`, ""]}
+                    formatter={(value: number | undefined) => [
+                      `${value || 0}%`,
+                      "",
+                    ]}
                   />
                   <Bar
                     dataKey="utilizationRate"
@@ -391,7 +394,10 @@ export function FacilityUtilizationMetrics() {
                             borderRadius: "8px",
                             boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
                           }}
-                          formatter={(value: number | undefined) => [`${value || 0}%`, "Rate"]}
+                          formatter={(value: number | undefined) => [
+                            `${value || 0}%`,
+                            "Rate",
+                          ]}
                         />
                       </LineChart>
                     </ResponsiveContainer>

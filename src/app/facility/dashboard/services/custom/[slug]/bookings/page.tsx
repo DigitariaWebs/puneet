@@ -93,7 +93,13 @@ const MOCK_BOOKINGS: MockBooking[] = [
   },
 ];
 
-const STATUS_CONFIG: Record<BookingStatus, { label: string; variant: "default" | "secondary" | "outline" | "destructive" }> = {
+const STATUS_CONFIG: Record<
+  BookingStatus,
+  {
+    label: string;
+    variant: "default" | "secondary" | "outline" | "destructive";
+  }
+> = {
   confirmed: { label: "Confirmed", variant: "default" },
   pending: { label: "Pending", variant: "secondary" },
   completed: { label: "Completed", variant: "outline" },

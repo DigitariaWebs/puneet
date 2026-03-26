@@ -12,11 +12,7 @@ import {
   Archive,
   Eye,
 } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,7 +27,11 @@ import { resolveIcon } from "@/lib/service-registry";
 import type { CustomServiceModule } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-import { getCategoryMeta, getGradientStyle, PRICING_MODEL_LABELS } from "@/data/custom-services";
+import {
+  getCategoryMeta,
+  getGradientStyle,
+  PRICING_MODEL_LABELS,
+} from "@/data/custom-services";
 
 interface CustomServiceModuleCardProps {
   module: CustomServiceModule;
@@ -58,15 +58,20 @@ export const CustomServiceModuleCard = memo(function CustomServiceModuleCard({
   const handleEdit = useCallback(() => {
     onEdit
       ? onEdit(module)
-      : router.push(
-          `/facility/dashboard/services/custom/${module.slug}/edit`,
-        );
+      : router.push(`/facility/dashboard/services/custom/${module.slug}/edit`);
   }, [onEdit, module, router]);
 
   return (
-    <Card className="group relative overflow-hidden transition-all duration-200 hover:shadow-md hover:-translate-y-0.5" aria-label={module.name} role="article">
+    <Card
+      className="group relative overflow-hidden transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
+      aria-label={module.name}
+      role="article"
+    >
       {/* Gradient accent bar */}
-      <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style={gradientStyle} />
+      <div
+        className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl"
+        style={gradientStyle}
+      />
 
       <CardHeader className="pb-3 pt-6">
         <div className="flex items-start justify-between gap-3">
@@ -105,32 +110,24 @@ export const CustomServiceModuleCard = memo(function CustomServiceModuleCard({
                 <Pencil className="h-4 w-4" />
                 Edit Module
               </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => onDuplicate?.(module.id)}
-              >
+              <DropdownMenuItem onClick={() => onDuplicate?.(module.id)}>
                 <Copy className="h-4 w-4" />
                 Duplicate
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               {module.status === "active" ? (
-                <DropdownMenuItem
-                  onClick={() => onToggleStatus?.(module)}
-                >
+                <DropdownMenuItem onClick={() => onToggleStatus?.(module)}>
                   <ToggleLeft className="h-4 w-4" />
                   Disable
                 </DropdownMenuItem>
               ) : (
-                <DropdownMenuItem
-                  onClick={() => onToggleStatus?.(module)}
-                >
+                <DropdownMenuItem onClick={() => onToggleStatus?.(module)}>
                   <ToggleRight className="h-4 w-4" />
                   Activate
                 </DropdownMenuItem>
               )}
               {module.status !== "archived" && (
-                <DropdownMenuItem
-                  onClick={() => onArchive?.(module.id)}
-                >
+                <DropdownMenuItem onClick={() => onArchive?.(module.id)}>
                   <Archive className="h-4 w-4" />
                   Archive
                 </DropdownMenuItem>
@@ -160,10 +157,15 @@ export const CustomServiceModuleCard = memo(function CustomServiceModuleCard({
         <div className="flex flex-wrap gap-1.5">
           <CustomServiceStatusBadge status={module.status} />
           {catMeta && (
-            <Badge className={cn("text-xs border", catMeta.badgeClass)}>{catMeta.name}</Badge>
+            <Badge className={cn("text-xs border", catMeta.badgeClass)}>
+              {catMeta.name}
+            </Badge>
           )}
           {module.onlineBooking.enabled && (
-            <Badge variant="outline" className="text-xs text-blue-600 border-blue-200 bg-blue-50 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800">
+            <Badge
+              variant="outline"
+              className="text-xs text-blue-600 border-blue-200 bg-blue-50 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800"
+            >
               Online
             </Badge>
           )}

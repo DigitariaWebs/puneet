@@ -8,7 +8,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { StatCard } from "@/components/ui/StatCard";
 import { useCustomServices } from "@/hooks/use-custom-services";
-import { getCategoryMeta, COLOR_HEX_MAP, PRICING_MODEL_LABELS } from "@/data/custom-services";
+import {
+  getCategoryMeta,
+  COLOR_HEX_MAP,
+  PRICING_MODEL_LABELS,
+} from "@/data/custom-services";
 import {
   CalendarDays,
   DollarSign,
@@ -162,7 +166,9 @@ export default function CustomServiceDashboardPage() {
                             <PawPrint className="h-5 w-5 text-primary" />
                           </div>
                           <div className="min-w-0">
-                            <p className="font-medium truncate">{booking.petName}</p>
+                            <p className="font-medium truncate">
+                              {booking.petName}
+                            </p>
                             <p className="text-xs text-muted-foreground truncate">
                               {booking.client}
                             </p>
@@ -195,7 +201,9 @@ export default function CustomServiceDashboardPage() {
         <div>
           <Card
             className="border-l-4"
-            style={{ borderLeftColor: COLOR_HEX_MAP[module.iconColor] ?? undefined }}
+            style={{
+              borderLeftColor: COLOR_HEX_MAP[module.iconColor] ?? undefined,
+            }}
           >
             <CardHeader>
               <CardTitle className="text-lg font-semibold">
@@ -249,7 +257,9 @@ export default function CustomServiceDashboardPage() {
             <CardContent className="space-y-2 text-sm">
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Category</span>
-                <Badge className={cn("text-xs capitalize", catMeta?.badgeClass)}>
+                <Badge
+                  className={cn("text-xs capitalize", catMeta?.badgeClass)}
+                >
                   <span className={catMeta?.textClass}>
                     {catMeta?.name ?? module.category.replace(/_/g, " ")}
                   </span>
@@ -263,13 +273,16 @@ export default function CustomServiceDashboardPage() {
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Base Price</span>
-                <span className="font-medium">
-                  ${module.pricing.basePrice}
-                </span>
+                <span className="font-medium">${module.pricing.basePrice}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Online Booking</span>
-                <Badge variant={module.onlineBooking.enabled ? "default" : "secondary"} className="text-xs">
+                <Badge
+                  variant={
+                    module.onlineBooking.enabled ? "default" : "secondary"
+                  }
+                  className="text-xs"
+                >
                   {module.onlineBooking.enabled ? "On" : "Off"}
                 </Badge>
               </div>

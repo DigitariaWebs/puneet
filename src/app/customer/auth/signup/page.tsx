@@ -7,7 +7,13 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff, Mail, Lock, User, Loader2 } from "lucide-react";
 
@@ -90,10 +96,10 @@ export default function SignUpPage() {
     try {
       // TODO: Replace with actual Google OAuth implementation
       const googleUser = await signInWithGoogle();
-      
+
       // Check if customer exists with same email
       const existingCustomer = await checkExistingCustomer(googleUser.email);
-      
+
       if (existingCustomer) {
         // Link Google account to existing customer
         await linkGoogleAccount(googleUser);
@@ -103,7 +109,7 @@ export default function SignUpPage() {
         await createAccountWithGoogle(googleUser);
         toast.success("Account created successfully!");
       }
-      
+
       router.push("/customer/dashboard");
     } catch (error: any) {
       toast.error(error.message || "Failed to sign up with Google");
@@ -152,7 +158,9 @@ export default function SignUpPage() {
           <div className="flex justify-center mb-4">
             <img src="/yipyy-transparent.png" alt="Yipyy" className="h-12" />
           </div>
-          <CardTitle className="text-2xl font-bold">Create your account</CardTitle>
+          <CardTitle className="text-2xl font-bold">
+            Create your account
+          </CardTitle>
           <CardDescription>
             Sign up to manage your pets and book services
           </CardDescription>
@@ -191,7 +199,9 @@ export default function SignUpPage() {
               <Separator />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+              <span className="bg-card px-2 text-muted-foreground">
+                Or continue with
+              </span>
             </div>
           </div>
 
@@ -280,7 +290,10 @@ export default function SignUpPage() {
                   placeholder="••••••••"
                   value={formData.confirmPassword}
                   onChange={(e) =>
-                    setFormData({ ...formData, confirmPassword: e.target.value })
+                    setFormData({
+                      ...formData,
+                      confirmPassword: e.target.value,
+                    })
                   }
                   className="pl-9 pr-9"
                   aria-invalid={errors.confirmPassword ? "true" : "false"}

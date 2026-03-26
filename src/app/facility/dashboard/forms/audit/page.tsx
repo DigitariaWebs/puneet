@@ -15,7 +15,9 @@ export default function FormAuditPage() {
           </Link>
         </Button>
         <div>
-          <h2 className="text-3xl font-bold tracking-tight">Audit & Compliance</h2>
+          <h2 className="text-3xl font-bold tracking-tight">
+            Audit & Compliance
+          </h2>
           <p className="text-muted-foreground">
             Immutable log of every form change for compliance review.
           </p>

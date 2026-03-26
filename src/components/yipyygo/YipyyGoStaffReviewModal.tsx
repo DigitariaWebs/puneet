@@ -173,15 +173,20 @@ export function YipyyGoStaffReviewModal({
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent>
-          <p className="text-muted-foreground">No YipyyGo form found for this booking.</p>
+          <p className="text-muted-foreground">
+            No YipyyGo form found for this booking.
+          </p>
           <p className="text-sm text-muted-foreground">
-            You can mark as manually completed if the customer did not submit. This is logged for audit.
+            You can mark as manually completed if the customer did not submit.
+            This is logged for audit.
           </p>
           <DialogFooter>
             <Button variant="outline" onClick={() => onOpenChange(false)}>
               Close
             </Button>
-            <Button onClick={handleManualCompleteNoForm}>Mark Manually Completed</Button>
+            <Button onClick={handleManualCompleteNoForm}>
+              Mark Manually Completed
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -218,7 +223,8 @@ export function YipyyGoStaffReviewModal({
                   <ul className="list-disc pl-4 space-y-1">
                     {form.belongings.map((b) => (
                       <li key={b.id}>
-                        {b.type.replace("_", " ")} {b.quantity ? `× ${b.quantity}` : ""}
+                        {b.type.replace("_", " ")}{" "}
+                        {b.quantity ? `× ${b.quantity}` : ""}
                         {b.notes ? ` – ${b.notes}` : ""}
                       </li>
                     ))}
@@ -241,9 +247,11 @@ export function YipyyGoStaffReviewModal({
                 </CardTitle>
               </CardHeader>
               <CardContent className="text-sm">
-                {form.feedingInstructions?.foodType || form.feedingInstructions?.portionSize ? (
+                {form.feedingInstructions?.foodType ||
+                form.feedingInstructions?.portionSize ? (
                   <p>
-                    {form.feedingInstructions.foodType} – {form.feedingInstructions.portionSize}{" "}
+                    {form.feedingInstructions.foodType} –{" "}
+                    {form.feedingInstructions.portionSize}{" "}
                     {form.feedingInstructions.portionUnit}
                   </p>
                 ) : (
@@ -307,7 +315,8 @@ export function YipyyGoStaffReviewModal({
                   <ul className="list-disc pl-4">
                     {selectedAddOns.map((a) => (
                       <li key={a.id}>
-                        {a.name} {a.quantity ? `× ${a.quantity}` : ""} – ${a.price}
+                        {a.name} {a.quantity ? `× ${a.quantity}` : ""} – $
+                        {a.price}
                       </li>
                     ))}
                   </ul>
@@ -329,17 +338,26 @@ export function YipyyGoStaffReviewModal({
                   <CheckCircle2 className="h-4 w-4 mr-2" />
                   Approve
                 </Button>
-                <Button variant="secondary" onClick={() => setRequestChangesOpen(true)}>
+                <Button
+                  variant="secondary"
+                  onClick={() => setRequestChangesOpen(true)}
+                >
                   <MessageSquare className="h-4 w-4 mr-2" />
                   Request changes
                 </Button>
-                <Button variant="secondary" onClick={() => setEditReasonOpen(true)}>
+                <Button
+                  variant="secondary"
+                  onClick={() => setEditReasonOpen(true)}
+                >
                   <Pencil className="h-4 w-4 mr-2" />
                   Edit internally
                 </Button>
               </>
             ) : null}
-            <Button variant="outline" onClick={() => setManualCompleteOpen(true)}>
+            <Button
+              variant="outline"
+              onClick={() => setManualCompleteOpen(true)}
+            >
               <UserCheck className="h-4 w-4 mr-2" />
               Manual completion
             </Button>
@@ -361,7 +379,10 @@ export function YipyyGoStaffReviewModal({
             rows={4}
           />
           <DialogFooter>
-            <Button variant="outline" onClick={() => setRequestChangesOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setRequestChangesOpen(false)}
+            >
               Cancel
             </Button>
             <Button onClick={handleRequestChanges}>Send request</Button>
@@ -386,7 +407,10 @@ export function YipyyGoStaffReviewModal({
             <Button variant="outline" onClick={() => setEditReasonOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={handleEditInternally} disabled={!internalEditReason.trim()}>
+            <Button
+              onClick={handleEditInternally}
+              disabled={!internalEditReason.trim()}
+            >
               Save & approve
             </Button>
           </DialogFooter>
@@ -400,11 +424,15 @@ export function YipyyGoStaffReviewModal({
             <DialogTitle>Manual completion</DialogTitle>
           </DialogHeader>
           <p className="text-sm text-muted-foreground">
-            Mark this booking’s YipyyGo as completed without a customer submission. Use when the
-            customer provided info in person or by phone.
+            Mark this booking’s YipyyGo as completed without a customer
+            submission. Use when the customer provided info in person or by
+            phone.
           </p>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setManualCompleteOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setManualCompleteOpen(false)}
+            >
               Cancel
             </Button>
             <Button onClick={handleManualComplete}>Mark completed</Button>

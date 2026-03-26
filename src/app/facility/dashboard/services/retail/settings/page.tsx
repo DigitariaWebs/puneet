@@ -23,10 +23,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  customPaymentMethods,
-  type CustomPaymentMethod,
-} from "@/data/retail";
+import { customPaymentMethods, type CustomPaymentMethod } from "@/data/retail";
 
 export default function RetailSettingsPage() {
   const [settings, setSettings] = useState({
@@ -112,9 +109,12 @@ export default function RetailSettingsPage() {
   });
 
   const [isEditing, setIsEditing] = useState(false);
-  const [isCustomPaymentMethodModalOpen, setIsCustomPaymentMethodModalOpen] = useState(false);
-  const [editingPaymentMethod, setEditingPaymentMethod] = useState<CustomPaymentMethod | null>(null);
-  const [customPaymentMethodsList, setCustomPaymentMethodsList] = useState<CustomPaymentMethod[]>(customPaymentMethods);
+  const [isCustomPaymentMethodModalOpen, setIsCustomPaymentMethodModalOpen] =
+    useState(false);
+  const [editingPaymentMethod, setEditingPaymentMethod] =
+    useState<CustomPaymentMethod | null>(null);
+  const [customPaymentMethodsList, setCustomPaymentMethodsList] =
+    useState<CustomPaymentMethod[]>(customPaymentMethods);
   const [customPaymentForm, setCustomPaymentForm] = useState({
     name: "",
     description: "",
@@ -279,81 +279,103 @@ export default function RetailSettingsPage() {
               <>
                 <Separator />
                 <div className="space-y-3">
-                  <Label className="text-base font-medium">Tips by Service Type</Label>
+                  <Label className="text-base font-medium">
+                    Tips by Service Type
+                  </Label>
                   <p className="text-sm text-muted-foreground">
                     Configure tip options for different service types
                   </p>
-                  
-                  {Object.entries(settings.tipsByServiceType).map(([serviceType, config]) => (
-                    <div key={serviceType} className="p-3 border rounded-lg space-y-3">
-                      <div className="flex items-center justify-between">
-                        <Label className="capitalize">{serviceType}</Label>
-                        <Switch
-                          checked={config.enabled}
-                          onCheckedChange={(checked) =>
-                            setSettings({
-                              ...settings,
-                              tipsByServiceType: {
-                                ...settings.tipsByServiceType,
-                                [serviceType]: { ...config, enabled: checked },
-                              },
-                            })
-                          }
-                          disabled={!isEditing}
-                        />
-                      </div>
-                      {config.enabled && (
-                        <div className="space-y-2">
-                          <Label className="text-xs text-muted-foreground">
-                            Tip Percentages
-                          </Label>
-                          <div className="flex gap-2 flex-wrap">
-                            {config.percentages.map((percent, index) => (
-                              <Input
-                                key={index}
-                                type="number"
-                                min="0"
-                                max="100"
-                                step="1"
-                                value={percent}
-                                onChange={(e) => {
-                                  const newPercentages = [...config.percentages];
-                                  newPercentages[index] = parseInt(e.target.value) || 0;
+
+                  {Object.entries(settings.tipsByServiceType).map(
+                    ([serviceType, config]) => (
+                      <div
+                        key={serviceType}
+                        className="p-3 border rounded-lg space-y-3"
+                      >
+                        <div className="flex items-center justify-between">
+                          <Label className="capitalize">{serviceType}</Label>
+                          <Switch
+                            checked={config.enabled}
+                            onCheckedChange={(checked) =>
+                              setSettings({
+                                ...settings,
+                                tipsByServiceType: {
+                                  ...settings.tipsByServiceType,
+                                  [serviceType]: {
+                                    ...config,
+                                    enabled: checked,
+                                  },
+                                },
+                              })
+                            }
+                            disabled={!isEditing}
+                          />
+                        </div>
+                        {config.enabled && (
+                          <div className="space-y-2">
+                            <Label className="text-xs text-muted-foreground">
+                              Tip Percentages
+                            </Label>
+                            <div className="flex gap-2 flex-wrap">
+                              {config.percentages.map((percent, index) => (
+                                <Input
+                                  key={index}
+                                  type="number"
+                                  min="0"
+                                  max="100"
+                                  step="1"
+                                  value={percent}
+                                  onChange={(e) => {
+                                    const newPercentages = [
+                                      ...config.percentages,
+                                    ];
+                                    newPercentages[index] =
+                                      parseInt(e.target.value) || 0;
+                                    setSettings({
+                                      ...settings,
+                                      tipsByServiceType: {
+                                        ...settings.tipsByServiceType,
+                                        [serviceType]: {
+                                          ...config,
+                                          percentages: newPercentages,
+                                        },
+                                      },
+                                    });
+                                  }}
+                                  disabled={!isEditing}
+                                  className="w-16 h-8 text-xs"
+                                />
+                              ))}
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="h-8 w-8 p-0"
+                                onClick={() => {
+                                  const newPercentages = [
+                                    ...config.percentages,
+                                    0,
+                                  ];
                                   setSettings({
                                     ...settings,
                                     tipsByServiceType: {
                                       ...settings.tipsByServiceType,
-                                      [serviceType]: { ...config, percentages: newPercentages },
+                                      [serviceType]: {
+                                        ...config,
+                                        percentages: newPercentages,
+                                      },
                                     },
                                   });
                                 }}
                                 disabled={!isEditing}
-                                className="w-16 h-8 text-xs"
-                              />
-                            ))}
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="h-8 w-8 p-0"
-                              onClick={() => {
-                                const newPercentages = [...config.percentages, 0];
-                                setSettings({
-                                  ...settings,
-                                  tipsByServiceType: {
-                                    ...settings.tipsByServiceType,
-                                    [serviceType]: { ...config, percentages: newPercentages },
-                                  },
-                                });
-                              }}
-                              disabled={!isEditing}
-                            >
-                              <Plus className="h-3 w-3" />
-                            </Button>
+                              >
+                                <Plus className="h-3 w-3" />
+                              </Button>
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                        )}
+                      </div>
+                    ),
+                  )}
                 </div>
               </>
             )}
@@ -481,7 +503,9 @@ export default function RetailSettingsPage() {
             <div>
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <Label className="text-base font-medium">Custom Payment Methods</Label>
+                  <Label className="text-base font-medium">
+                    Custom Payment Methods
+                  </Label>
                   <p className="text-sm text-muted-foreground">
                     Add custom payment methods (e.g., Check, Venmo, etc.)
                   </p>
@@ -514,15 +538,21 @@ export default function RetailSettingsPage() {
                       <div className="flex items-center gap-2">
                         <p className="font-medium">{method.name}</p>
                         {!method.isActive && (
-                          <span className="text-xs text-muted-foreground">(Inactive)</span>
+                          <span className="text-xs text-muted-foreground">
+                            (Inactive)
+                          </span>
                         )}
                       </div>
                       {method.description && (
-                        <p className="text-sm text-muted-foreground">{method.description}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {method.description}
+                        </p>
                       )}
                       <div className="flex items-center gap-4 mt-1">
                         <span className="text-xs text-muted-foreground">
-                          {method.canBeUsedForRefunds ? "Can be used for refunds" : "Not available for refunds"}
+                          {method.canBeUsedForRefunds
+                            ? "Can be used for refunds"
+                            : "Not available for refunds"}
                         </span>
                       </div>
                     </div>
@@ -551,7 +581,9 @@ export default function RetailSettingsPage() {
                         className="h-8 w-8 text-destructive"
                         onClick={() => {
                           setCustomPaymentMethodsList(
-                            customPaymentMethodsList.filter((m) => m.id !== method.id)
+                            customPaymentMethodsList.filter(
+                              (m) => m.id !== method.id,
+                            ),
                           );
                         }}
                         disabled={!isEditing}
@@ -1156,11 +1188,16 @@ export default function RetailSettingsPage() {
       </div>
 
       {/* Custom Payment Method Modal */}
-      <Dialog open={isCustomPaymentMethodModalOpen} onOpenChange={setIsCustomPaymentMethodModalOpen}>
+      <Dialog
+        open={isCustomPaymentMethodModalOpen}
+        onOpenChange={setIsCustomPaymentMethodModalOpen}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {editingPaymentMethod ? "Edit Custom Payment Method" : "Add Custom Payment Method"}
+              {editingPaymentMethod
+                ? "Edit Custom Payment Method"
+                : "Add Custom Payment Method"}
             </DialogTitle>
             <DialogDescription>
               {editingPaymentMethod
@@ -1174,7 +1211,10 @@ export default function RetailSettingsPage() {
               <Input
                 value={customPaymentForm.name}
                 onChange={(e) =>
-                  setCustomPaymentForm({ ...customPaymentForm, name: e.target.value })
+                  setCustomPaymentForm({
+                    ...customPaymentForm,
+                    name: e.target.value,
+                  })
                 }
                 placeholder="e.g., Check, Venmo, PayPal"
               />
@@ -1184,7 +1224,10 @@ export default function RetailSettingsPage() {
               <Textarea
                 value={customPaymentForm.description}
                 onChange={(e) =>
-                  setCustomPaymentForm({ ...customPaymentForm, description: e.target.value })
+                  setCustomPaymentForm({
+                    ...customPaymentForm,
+                    description: e.target.value,
+                  })
                 }
                 placeholder="Brief description of this payment method"
                 rows={2}
@@ -1200,7 +1243,10 @@ export default function RetailSettingsPage() {
               <Switch
                 checked={customPaymentForm.isActive}
                 onCheckedChange={(checked) =>
-                  setCustomPaymentForm({ ...customPaymentForm, isActive: checked })
+                  setCustomPaymentForm({
+                    ...customPaymentForm,
+                    isActive: checked,
+                  })
                 }
               />
             </div>
@@ -1214,7 +1260,10 @@ export default function RetailSettingsPage() {
               <Switch
                 checked={customPaymentForm.canBeUsedForRefunds}
                 onCheckedChange={(checked) =>
-                  setCustomPaymentForm({ ...customPaymentForm, canBeUsedForRefunds: checked })
+                  setCustomPaymentForm({
+                    ...customPaymentForm,
+                    canBeUsedForRefunds: checked,
+                  })
                 }
               />
             </div>
@@ -1247,11 +1296,12 @@ export default function RetailSettingsPage() {
                             name: customPaymentForm.name,
                             description: customPaymentForm.description,
                             isActive: customPaymentForm.isActive,
-                            canBeUsedForRefunds: customPaymentForm.canBeUsedForRefunds,
+                            canBeUsedForRefunds:
+                              customPaymentForm.canBeUsedForRefunds,
                             updatedAt: new Date().toISOString().slice(0, 19),
                           }
-                        : m
-                    )
+                        : m,
+                    ),
                   );
                 } else {
                   // Add new
@@ -1264,7 +1314,10 @@ export default function RetailSettingsPage() {
                     createdAt: new Date().toISOString().slice(0, 19),
                     updatedAt: new Date().toISOString().slice(0, 19),
                   };
-                  setCustomPaymentMethodsList([...customPaymentMethodsList, newMethod]);
+                  setCustomPaymentMethodsList([
+                    ...customPaymentMethodsList,
+                    newMethod,
+                  ]);
                 }
                 setIsCustomPaymentMethodModalOpen(false);
                 setEditingPaymentMethod(null);

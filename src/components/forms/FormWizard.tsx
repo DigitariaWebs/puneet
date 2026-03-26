@@ -58,7 +58,7 @@ function loadDraft(formId: string, petId: number): Record<string, unknown> {
 function saveDraft(
   formId: string,
   petId: number,
-  answers: Record<string, unknown>
+  answers: Record<string, unknown>,
 ): void {
   if (typeof window === "undefined") return;
   try {
@@ -360,7 +360,10 @@ function WizardQuestionInput({
                 if (file) onChange(file.name);
               }}
             />
-            <label htmlFor={htmlId} className="cursor-pointer touch-manipulation">
+            <label
+              htmlFor={htmlId}
+              className="cursor-pointer touch-manipulation"
+            >
               <div className="text-sm text-muted-foreground">
                 {value ? (
                   <span className="text-foreground font-medium">
@@ -560,7 +563,7 @@ export function FormWizard({
       (f) =>
         !f.internal &&
         f.status !== "archived" &&
-        (f.type === "intake" || f.type === "pet")
+        (f.type === "intake" || f.type === "pet"),
     );
 
     // Check which forms have already been completed for this pet
@@ -639,14 +642,13 @@ export function FormWizard({
 
       // Validate required fields
       const requiredQuestions = visibleQuestions.filter(
-        (q) =>
-          q.required || logicEffects?.requiredQuestionIds.has(q.id)
+        (q) => q.required || logicEffects?.requiredQuestionIds.has(q.id),
       );
       const missing = requiredQuestions.filter(
         (q) =>
           answers[q.id] === undefined ||
           answers[q.id] === "" ||
-          answers[q.id] === null
+          answers[q.id] === null,
       );
 
       if (missing.length > 0) {
@@ -655,7 +657,7 @@ export function FormWizard({
             ? `Please answer: "${missing[0].label}".`
             : `Please complete these required fields: ${missing
                 .map((q) => `"${q.label}"`)
-                .join(", ")}.`
+                .join(", ")}.`,
         );
         return;
       }
@@ -718,7 +720,7 @@ export function FormWizard({
       currentStep,
       totalSteps,
       onComplete,
-    ]
+    ],
   );
 
   const handleBack = useCallback(() => {
@@ -754,9 +756,7 @@ export function FormWizard({
             <CheckCircle className="h-10 w-10 text-emerald-600" />
           </div>
           <h2 className="text-xl font-semibold mb-2">
-            {totalSteps === 0
-              ? "No Forms Required"
-              : "All Forms Completed"}
+            {totalSteps === 0 ? "No Forms Required" : "All Forms Completed"}
           </h2>
           <p className="text-muted-foreground text-sm max-w-xs">
             {totalSteps === 0
@@ -772,7 +772,7 @@ export function FormWizard({
   if (!currentForm) return null;
 
   const answered = visibleQuestions.filter(
-    (q) => answers[q.id] !== undefined && answers[q.id] !== ""
+    (q) => answers[q.id] !== undefined && answers[q.id] !== "",
   ).length;
   const progressPct =
     visibleQuestions.length > 0
@@ -812,8 +812,8 @@ export function FormWizard({
                   idx < currentStep
                     ? "bg-emerald-400"
                     : idx === currentStep
-                    ? "bg-primary"
-                    : "bg-slate-200"
+                      ? "bg-primary"
+                      : "bg-slate-200"
                 }`}
               />
             ))}
@@ -854,7 +854,9 @@ export function FormWizard({
                 className="rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-700"
                 role="alert"
               >
-                <p className="font-medium">Please complete the required fields</p>
+                <p className="font-medium">
+                  Please complete the required fields
+                </p>
                 <p className="mt-1 opacity-90">{error}</p>
               </div>
             )}

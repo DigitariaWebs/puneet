@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
 import {
   daycareConfig,
   boardingConfig,
@@ -78,12 +84,14 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   const [boarding, setBoarding] = useState<ModuleConfig>(boardingConfig);
   const [grooming, setGrooming] = useState<ModuleConfig>(groomingConfig);
   const [training, setTraining] = useState<ModuleConfig>(trainingConfig);
-  const [evaluation, setEvaluation] = useState<EvaluationConfig>(evaluationConfig);
+  const [evaluation, setEvaluation] =
+    useState<EvaluationConfig>(evaluationConfig);
   const [hours, setHours] = useState<BusinessHours>(businessHours);
   const [profile, setProfile] = useState<BusinessProfile>(businessProfile);
   const [rules, setRules] = useState<BookingRules>(bookingRules);
-  const [bookingFlow, setBookingFlow] =
-    useState<FacilityBookingFlowConfig>(facilityBookingFlowConfig);
+  const [bookingFlow, setBookingFlow] = useState<FacilityBookingFlowConfig>(
+    facilityBookingFlowConfig,
+  );
   const [reportCards, setReportCards] =
     useState<ReportCardConfig>(reportCardConfig);
   const [serviceDateBlocksState, setServiceDateBlocksState] = useState<
@@ -150,7 +158,10 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       facilityBookingFlowConfig,
     );
     if (nextBookingFlow) setBookingFlow(nextBookingFlow);
-    const nextReportCards = loadStored("settings-report-cards", reportCardConfig);
+    const nextReportCards = loadStored(
+      "settings-report-cards",
+      reportCardConfig,
+    );
     if (nextReportCards) setReportCards(nextReportCards);
     const nextBlocks = loadStored(
       "settings-service-date-blocks",

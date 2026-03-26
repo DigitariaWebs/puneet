@@ -6,7 +6,13 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Mail, Loader2, Scissors, ArrowLeft } from "lucide-react";
 
 export default function ForgotPasswordPage() {
@@ -46,7 +52,9 @@ export default function ForgotPasswordPage() {
                 <Scissors className="h-8 w-8 text-white" />
               </div>
             </div>
-            <CardTitle className="text-2xl font-bold">Check your email</CardTitle>
+            <CardTitle className="text-2xl font-bold">
+              Check your email
+            </CardTitle>
             <CardDescription>
               We&apos;ve sent a password reset link to {email}
             </CardDescription>

@@ -139,11 +139,18 @@ export default function GroomingCalendarPage() {
 
   // Get available stylists for the selected date/time and pet
   const availableStylists = useMemo(() => {
-    if (!formData.date || !formData.startTime || !formData.packageId || !formData.petSize) {
+    if (
+      !formData.date ||
+      !formData.startTime ||
+      !formData.packageId ||
+      !formData.petSize
+    ) {
       return activeStylists;
     }
 
-    const selectedPackage = groomingPackages.find((p) => p.id === formData.packageId);
+    const selectedPackage = groomingPackages.find(
+      (p) => p.id === formData.packageId,
+    );
     if (!selectedPackage) return activeStylists;
 
     // Calculate end time
@@ -243,7 +250,9 @@ export default function GroomingCalendarPage() {
     // Validate stylist assignment
     const stylist = activeStylists.find((s) => s.id === formData.stylistId);
     if (stylist) {
-      const selectedPackage = groomingPackages.find((p) => p.id === formData.packageId);
+      const selectedPackage = groomingPackages.find(
+        (p) => p.id === formData.packageId,
+      );
       if (!selectedPackage) {
         toast.error("Please select a package");
         return;
@@ -272,7 +281,10 @@ export default function GroomingCalendarPage() {
           .map((c) => c.message)
           .join(", ");
         toast.error("Stylist not available", {
-          description: conflictMessages || availability.conflicts.reason || "Conflict detected",
+          description:
+            conflictMessages ||
+            availability.conflicts.reason ||
+            "Conflict detected",
         });
         return;
       }
@@ -358,7 +370,10 @@ export default function GroomingCalendarPage() {
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Grooming Calendar</CardTitle>
           <div className="flex gap-2">
-            <Button onClick={() => setIsGroomingBookingOpen(true)} variant="default">
+            <Button
+              onClick={() => setIsGroomingBookingOpen(true)}
+              variant="default"
+            >
               <Plus className="mr-2 h-4 w-4" />
               Book Grooming (Customer Flow)
             </Button>
@@ -620,13 +635,13 @@ export default function GroomingCalendarPage() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="startTime">Time</Label>
-                  <Select
-                    value={formData.startTime}
-                    onValueChange={(value) => {
-                      setFormData({ ...formData, startTime: value });
-                      // End time will be recalculated automatically when package is selected
-                    }}
-                  >
+                <Select
+                  value={formData.startTime}
+                  onValueChange={(value) => {
+                    setFormData({ ...formData, startTime: value });
+                    // End time will be recalculated automatically when package is selected
+                  }}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select time" />
                   </SelectTrigger>
@@ -669,16 +684,21 @@ export default function GroomingCalendarPage() {
                     </div>
                   ) : (
                     availableStylists.map((stylist) => {
-                      const skillLevel = stylist.capacity?.skillLevel || "intermediate";
-                      const skillBadge = {
-                        master: "⭐ Master",
-                        senior: "👑 Senior",
-                        intermediate: "✓ Intermediate",
-                        junior: "🌱 Junior",
-                      }[skillLevel] || "";
+                      const skillLevel =
+                        stylist.capacity?.skillLevel || "intermediate";
+                      const skillBadge =
+                        {
+                          master: "⭐ Master",
+                          senior: "👑 Senior",
+                          intermediate: "✓ Intermediate",
+                          junior: "🌱 Junior",
+                        }[skillLevel] || "";
 
-                      const preferredPetSizes = stylist.capacity?.preferredPetSizes || [];
-                      const isPreferred = preferredPetSizes.includes(formData.petSize);
+                      const preferredPetSizes =
+                        stylist.capacity?.preferredPetSizes || [];
+                      const isPreferred = preferredPetSizes.includes(
+                        formData.petSize,
+                      );
 
                       return (
                         <SelectItem key={stylist.id} value={stylist.id}>
@@ -698,7 +718,8 @@ export default function GroomingCalendarPage() {
                   )}
                   {activeStylists.length > availableStylists.length && (
                     <div className="p-2 text-xs text-muted-foreground border-t">
-                      {activeStylists.length - availableStylists.length} stylist(s) unavailable
+                      {activeStylists.length - availableStylists.length}{" "}
+                      stylist(s) unavailable
                     </div>
                   )}
                 </SelectContent>
@@ -818,12 +839,16 @@ export default function GroomingCalendarPage() {
                   <Select
                     value={formData.packageId}
                     onValueChange={(value) => {
-                      const selectedPkg = groomingPackages.find((p) => p.id === value);
+                      const selectedPkg = groomingPackages.find(
+                        (p) => p.id === value,
+                      );
                       let updatedFormData = { ...formData, packageId: value };
-                      
+
                       // Automatically calculate end time based on package duration
                       if (selectedPkg && formData.startTime) {
-                        const [hours, minutes] = formData.startTime.split(":").map(Number);
+                        const [hours, minutes] = formData.startTime
+                          .split(":")
+                          .map(Number);
                         const startMinutes = hours * 60 + minutes;
                         const endMinutes = startMinutes + selectedPkg.duration;
                         const endHours = Math.floor(endMinutes / 60);
@@ -832,7 +857,7 @@ export default function GroomingCalendarPage() {
                         // Note: endTime is calculated but not stored in formData since it's derived
                         // The endTime will be calculated on save using the package duration
                       }
-                      
+
                       setFormData(updatedFormData);
                     }}
                   >
@@ -844,24 +869,30 @@ export default function GroomingCalendarPage() {
                         .filter((pkg) => {
                           // Filter by active status
                           if (!pkg.isActive) return false;
-                          
+
                           // Filter by assigned stylists if package has restrictions
-                          if (pkg.assignedStylistIds && pkg.assignedStylistIds.length > 0) {
+                          if (
+                            pkg.assignedStylistIds &&
+                            pkg.assignedStylistIds.length > 0
+                          ) {
                             // If a stylist is already selected, check if package is available for that stylist
                             if (formData.stylistId) {
-                              return pkg.assignedStylistIds.includes(formData.stylistId);
+                              return pkg.assignedStylistIds.includes(
+                                formData.stylistId,
+                              );
                             }
                             // If no stylist selected yet, show all packages (will be filtered when stylist is selected)
                             return true;
                           }
-                          
+
                           return true;
                         })
                         .map((pkg) => (
                           <SelectItem key={pkg.id} value={pkg.id}>
                             <div className="flex items-center gap-2">
                               <span>
-                                {pkg.name} - ${pkg.sizePricing[formData.petSize]} (
+                                {pkg.name} - $
+                                {pkg.sizePricing[formData.petSize]} (
                                 {pkg.duration} min)
                               </span>
                               {pkg.requiresEvaluation && (
@@ -869,11 +900,15 @@ export default function GroomingCalendarPage() {
                                   Eval Required
                                 </Badge>
                               )}
-                              {pkg.assignedStylistIds && pkg.assignedStylistIds.length > 0 && (
-                                <Badge variant="secondary" className="text-xs">
-                                  {pkg.assignedStylistIds.length} stylist(s)
-                                </Badge>
-                              )}
+                              {pkg.assignedStylistIds &&
+                                pkg.assignedStylistIds.length > 0 && (
+                                  <Badge
+                                    variant="secondary"
+                                    className="text-xs"
+                                  >
+                                    {pkg.assignedStylistIds.length} stylist(s)
+                                  </Badge>
+                                )}
                             </div>
                           </SelectItem>
                         ))}
@@ -883,9 +918,9 @@ export default function GroomingCalendarPage() {
                 {(() => {
                   const selectedPackage = getSelectedPackage();
                   if (!selectedPackage) return null;
-                  
+
                   const assignedStylistIds = selectedPackage.assignedStylistIds;
-                  
+
                   return (
                     <div className="rounded-lg bg-muted p-3 space-y-2">
                       <div>
@@ -902,10 +937,14 @@ export default function GroomingCalendarPage() {
                         </Badge>
                         {formData.startTime && (
                           <Badge variant="outline" className="bg-blue-50">
-                            End: {(() => {
-                              const [hours, minutes] = formData.startTime.split(":").map(Number);
+                            End:{" "}
+                            {(() => {
+                              const [hours, minutes] = formData.startTime
+                                .split(":")
+                                .map(Number);
                               const startMinutes = hours * 60 + minutes;
-                              const endMinutes = startMinutes + selectedPackage.duration;
+                              const endMinutes =
+                                startMinutes + selectedPackage.duration;
                               const endHours = Math.floor(endMinutes / 60);
                               const endMins = endMinutes % 60;
                               return `${String(endHours).padStart(2, "0")}:${String(endMins).padStart(2, "0")}`;
@@ -917,14 +956,17 @@ export default function GroomingCalendarPage() {
                             Evaluation Required
                           </Badge>
                         )}
-                        {assignedStylistIds && assignedStylistIds.length > 0 && (
-                          <Badge variant="secondary">
-                            {assignedStylistIds.length} stylist(s)
-                          </Badge>
-                        )}
+                        {assignedStylistIds &&
+                          assignedStylistIds.length > 0 && (
+                            <Badge variant="secondary">
+                              {assignedStylistIds.length} stylist(s)
+                            </Badge>
+                          )}
                       </div>
                       <div className="mt-2">
-                        <p className="text-xs text-muted-foreground">Includes:</p>
+                        <p className="text-xs text-muted-foreground">
+                          Includes:
+                        </p>
                         <ul className="text-xs mt-1 space-y-0.5">
                           {selectedPackage.includes.map((item, idx) => (
                             <li key={idx}>• {item}</li>
@@ -937,7 +979,8 @@ export default function GroomingCalendarPage() {
                       {selectedPackage.requiresEvaluation && (
                         <div className="mt-2 p-2 rounded bg-orange-50 dark:bg-orange-950/20 border border-orange-200 dark:border-orange-900">
                           <p className="text-xs text-orange-800 dark:text-orange-200">
-                            ⚠️ This package requires a valid pet evaluation before booking.
+                            ⚠️ This package requires a valid pet evaluation
+                            before booking.
                           </p>
                         </div>
                       )}

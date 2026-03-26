@@ -1,9 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Download, Share2, X, Image as ImageIcon, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Download,
+  Share2,
+  X,
+  Image as ImageIcon,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { toast } from "sonner";
 import { facilityConfig } from "@/data/facility-config";
 
@@ -26,8 +38,10 @@ export function ReportCardPhotoGallery({
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
 
   // Check if photo download/share is enabled (facility-controlled)
-  const photoSharingEnabled = facilityConfig.reports?.photoSharing?.enabled ?? true;
-  const photoDownloadEnabled = facilityConfig.reports?.photoSharing?.allowDownload ?? true;
+  const photoSharingEnabled =
+    facilityConfig.reports?.photoSharing?.enabled ?? true;
+  const photoDownloadEnabled =
+    facilityConfig.reports?.photoSharing?.allowDownload ?? true;
 
   const handleDownloadPhoto = (photoUrl: string, index: number) => {
     if (!photoDownloadEnabled) {
@@ -55,7 +69,9 @@ export function ReportCardPhotoGallery({
       if (navigator.share) {
         const response = await fetch(photoUrl);
         const blob = await response.blob();
-        const file = new File([blob], `${petName}-photo.jpg`, { type: blob.type });
+        const file = new File([blob], `${petName}-photo.jpg`, {
+          type: blob.type,
+        });
 
         await navigator.share({
           title: `${petName}'s ${serviceType} photos`,
@@ -148,7 +164,12 @@ export function ReportCardPhotoGallery({
                 <Button
                   size="sm"
                   variant="secondary"
-                  onClick={() => handleDownloadPhoto(photos[selectedPhotoIndex], selectedPhotoIndex)}
+                  onClick={() =>
+                    handleDownloadPhoto(
+                      photos[selectedPhotoIndex],
+                      selectedPhotoIndex,
+                    )
+                  }
                 >
                   <Download className="h-4 w-4 mr-2" />
                   Download
@@ -174,7 +195,9 @@ export function ReportCardPhotoGallery({
                   size="icon"
                   className="absolute left-4 top-1/2 -translate-y-1/2"
                   onClick={() =>
-                    setSelectedPhotoIndex((prev) => (prev > 0 ? prev - 1 : photos.length - 1))
+                    setSelectedPhotoIndex((prev) =>
+                      prev > 0 ? prev - 1 : photos.length - 1,
+                    )
                   }
                 >
                   <ChevronLeft className="h-4 w-4" />
@@ -184,7 +207,9 @@ export function ReportCardPhotoGallery({
                   size="icon"
                   className="absolute right-4 top-1/2 -translate-y-1/2"
                   onClick={() =>
-                    setSelectedPhotoIndex((prev) => (prev < photos.length - 1 ? prev + 1 : 0))
+                    setSelectedPhotoIndex((prev) =>
+                      prev < photos.length - 1 ? prev + 1 : 0,
+                    )
                   }
                 >
                   <ChevronRight className="h-4 w-4" />

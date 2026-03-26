@@ -313,86 +313,86 @@ export function UserProfileSheet({
       {/* Notifications Sheet */}
       {showNotifications && (
         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-        <SheetContent side="right" className="w-full sm:max-w-md p-0">
-          <div className="flex flex-col h-full">
-            {/* Header */}
-            <SheetHeader className="p-6 pb-4">
-              <SheetTitle className="flex items-center gap-2">
-                <Bell className="h-5 w-5" />
-                Notifications
-                {unreadCount > 0 && (
-                  <Badge variant="secondary" className="text-xs">
-                    {unreadCount} new
-                  </Badge>
-                )}
-              </SheetTitle>
-            </SheetHeader>
-
-            {/* Notifications Content */}
-            <div className="flex-1 overflow-y-auto">
-              <div className="p-6 space-y-4">
-                {unreadCount > 0 && (
-                  <div className="flex justify-end">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-xs text-muted-foreground hover:text-foreground"
-                      onClick={markAllAsRead}
-                    >
-                      Mark all as read
-                    </Button>
-                  </div>
-                )}
-
-                <div className="space-y-2">
-                  {notifications.length === 0 ? (
-                    <div className="p-8 text-center text-sm text-muted-foreground">
-                      No notifications
-                    </div>
-                  ) : (
-                    notifications.map((notification) => (
-                      <Link
-                        key={notification.id}
-                        href={notification.link || "#"}
-                        onClick={() => handleNotificationClick(notification)}
-                        className={`group block items-start gap-3 p-3 rounded-lg hover:bg-muted/50 cursor-pointer transition-colors ${
-                          !notification.read ? "bg-primary/5" : ""
-                        }`}
-                      >
-                        <div className="mt-0.5">
-                          {getIcon(notification.type)}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium leading-tight">
-                            {notification.title}
-                          </p>
-                          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
-                            {notification.message}
-                          </p>
-                          <p className="text-xs text-muted-foreground mt-1">
-                            {notification.timestamp}
-                          </p>
-                        </div>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            removeNotification(notification.id);
-                          }}
-                        >
-                          <X className="h-3 w-3" />
-                        </Button>
-                      </Link>
-                    ))
+          <SheetContent side="right" className="w-full sm:max-w-md p-0">
+            <div className="flex flex-col h-full">
+              {/* Header */}
+              <SheetHeader className="p-6 pb-4">
+                <SheetTitle className="flex items-center gap-2">
+                  <Bell className="h-5 w-5" />
+                  Notifications
+                  {unreadCount > 0 && (
+                    <Badge variant="secondary" className="text-xs">
+                      {unreadCount} new
+                    </Badge>
                   )}
+                </SheetTitle>
+              </SheetHeader>
+
+              {/* Notifications Content */}
+              <div className="flex-1 overflow-y-auto">
+                <div className="p-6 space-y-4">
+                  {unreadCount > 0 && (
+                    <div className="flex justify-end">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-xs text-muted-foreground hover:text-foreground"
+                        onClick={markAllAsRead}
+                      >
+                        Mark all as read
+                      </Button>
+                    </div>
+                  )}
+
+                  <div className="space-y-2">
+                    {notifications.length === 0 ? (
+                      <div className="p-8 text-center text-sm text-muted-foreground">
+                        No notifications
+                      </div>
+                    ) : (
+                      notifications.map((notification) => (
+                        <Link
+                          key={notification.id}
+                          href={notification.link || "#"}
+                          onClick={() => handleNotificationClick(notification)}
+                          className={`group block items-start gap-3 p-3 rounded-lg hover:bg-muted/50 cursor-pointer transition-colors ${
+                            !notification.read ? "bg-primary/5" : ""
+                          }`}
+                        >
+                          <div className="mt-0.5">
+                            {getIcon(notification.type)}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium leading-tight">
+                              {notification.title}
+                            </p>
+                            <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
+                              {notification.message}
+                            </p>
+                            <p className="text-xs text-muted-foreground mt-1">
+                              {notification.timestamp}
+                            </p>
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              removeNotification(notification.id);
+                            }}
+                          >
+                            <X className="h-3 w-3" />
+                          </Button>
+                        </Link>
+                      ))
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </SheetContent>
+          </SheetContent>
         </Sheet>
       )}
     </div>

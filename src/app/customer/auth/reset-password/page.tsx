@@ -7,14 +7,20 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Eye, EyeOff, Lock, Loader2, ArrowLeft } from "lucide-react";
 
 function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-  
+
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -79,7 +85,9 @@ function ResetPasswordForm() {
       toast.success("Password reset successfully!");
       router.push("/customer/auth/login");
     } catch (error: any) {
-      toast.error(error.message || "Failed to reset password. Please try again.");
+      toast.error(
+        error.message || "Failed to reset password. Please try again.",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -118,7 +126,9 @@ function ResetPasswordForm() {
             <div className="flex justify-center mb-4">
               <img src="/yipyy-transparent.png" alt="Yipyy" className="h-12" />
             </div>
-            <CardTitle className="text-2xl font-bold">Invalid reset link</CardTitle>
+            <CardTitle className="text-2xl font-bold">
+              Invalid reset link
+            </CardTitle>
             <CardDescription>
               This password reset link is invalid or has expired
             </CardDescription>
@@ -156,10 +166,10 @@ function ResetPasswordForm() {
           <div className="flex justify-center mb-4">
             <img src="/yipyy-transparent.png" alt="Yipyy" className="h-12" />
           </div>
-          <CardTitle className="text-2xl font-bold">Reset your password</CardTitle>
-          <CardDescription>
-            Enter your new password below
-          </CardDescription>
+          <CardTitle className="text-2xl font-bold">
+            Reset your password
+          </CardTitle>
+          <CardDescription>Enter your new password below</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -205,7 +215,10 @@ function ResetPasswordForm() {
                   placeholder="••••••••"
                   value={formData.confirmPassword}
                   onChange={(e) =>
-                    setFormData({ ...formData, confirmPassword: e.target.value })
+                    setFormData({
+                      ...formData,
+                      confirmPassword: e.target.value,
+                    })
                   }
                   className="pl-9 pr-9"
                   aria-invalid={errors.confirmPassword ? "true" : "false"}

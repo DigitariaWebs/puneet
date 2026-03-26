@@ -277,10 +277,7 @@ const holidaySectionTitles: Record<string, string> = {
   valentines: "💘 Valentine's Special Moment",
 };
 
-const holidayDefaults: Record<
-  string,
-  { yes: string; no: string }
-> = {
+const holidayDefaults: Record<string, { yes: string; no: string }> = {
   christmas: {
     yes: "made the Nice List today! They posed beautifully for photos and soaked up the holiday cheer like a pro.",
     no: "preferred a quieter corner while the holiday cheer was happening.",
@@ -314,18 +311,28 @@ function replaceTokens(template: string, tokens: Record<string, string>) {
   );
 }
 
-export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceType }) {
+export function ReportCardsModule({
+  defaultServiceType = "daycare" as ServiceType,
+}) {
   const [isMounted, setIsMounted] = useState(false);
   const { reportCards: reportCardConfig, profile } = useSettings();
   const facilityName = profile.businessName;
 
   const getEnabledSections = (svcType: string): ReportCardSectionId[] => {
     const svcId = svcType === "hotel" ? "boarding" : svcType;
-    const svcCfg = reportCardConfig.serviceConfigs?.find((s) => s.serviceId === svcId);
-    return svcCfg?.enabledSections ?? [
-      "todaysVibe", "friendsAndFun", "careMetrics", "holidaySparkle",
-      "closingNote", "photoShowcase",
-    ];
+    const svcCfg = reportCardConfig.serviceConfigs?.find(
+      (s) => s.serviceId === svcId,
+    );
+    return (
+      svcCfg?.enabledSections ?? [
+        "todaysVibe",
+        "friendsAndFun",
+        "careMetrics",
+        "holidaySparkle",
+        "closingNote",
+        "photoShowcase",
+      ]
+    );
   };
 
   const overallFeedbackConfig = reportCardConfig.overallFeedback ?? {
@@ -333,14 +340,17 @@ export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceTyp
     responseOptions: ["Excellent", "Good", "Fair", "Needs Attention"],
   };
   const customQuestionsConfig = reportCardConfig.customQuestions ?? [];
-  const petConditionConfig = reportCardConfig.petCondition ?? { categories: [] };
+  const petConditionConfig = reportCardConfig.petCondition ?? {
+    categories: [],
+  };
 
   const [reportCards, setReportCards] = useState<ReportCardEntry[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [viewingCard, setViewingCard] = useState<ReportCardEntry | null>(null);
 
-  const [serviceType, setServiceType] = useState<ServiceType>(defaultServiceType);
+  const [serviceType, setServiceType] =
+    useState<ServiceType>(defaultServiceType);
   const [selectedVisitId, setSelectedVisitId] = useState<string>("");
   const [selectedTheme, setSelectedTheme] = useState<string>(
     reportCardConfig.enabledThemes[0] ?? "everyday",
@@ -397,11 +407,16 @@ export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceTyp
   );
 
   const visitOptions =
-    serviceType === "daycare" ? daycareOptions :
-    serviceType === "hotel" ? hotelOptions :
-    serviceType === "grooming" ? groomingOptions :
-    trainingOptions;
-  const selectedVisit = visitOptions.find((visit) => visit.id === selectedVisitId);
+    serviceType === "daycare"
+      ? daycareOptions
+      : serviceType === "hotel"
+        ? hotelOptions
+        : serviceType === "grooming"
+          ? groomingOptions
+          : trainingOptions;
+  const selectedVisit = visitOptions.find(
+    (visit) => visit.id === selectedVisitId,
+  );
 
   const themeOptions = useMemo(
     () =>
@@ -434,7 +449,8 @@ export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceTyp
       moodLabel: moodLabels[entryInput.mood],
       energyLabel: energyLabels[entryInput.energy],
       socialLabel: socialLabels[entryInput.socialization],
-      playNote: entryInput.playNotes.trim() || "Enjoyed playtime throughout the day.",
+      playNote:
+        entryInput.playNotes.trim() || "Enjoyed playtime throughout the day.",
       appetiteLabel: appetiteLabels[entryInput.appetite],
       pottyLabel: pottyLabels[entryInput.potty],
       medsLabel: medsLabels[entryInput.meds],
@@ -486,14 +502,17 @@ export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceTyp
         .filter(Boolean)
         .join(" "),
       friendsAndFun: entryInput.bestFriends.trim()
-        ? `Social life update: ${petName} was ${socialLabels[entryInput.socialization]} today! ${petName} especially enjoyed spending time with ${entryInput.bestFriends.trim()}, and ${petName}'s favorite activity was ${(entryInput.favoriteActivities.length
+        ? `Social life update: ${petName} was ${socialLabels[entryInput.socialization]} today! ${petName} especially enjoyed spending time with ${entryInput.bestFriends.trim()}, and ${petName}'s favorite activity was ${(entryInput
+            .favoriteActivities.length
             ? entryInput.favoriteActivities
             : (["fetch"] as FavoriteActivity[])
           )
             .map(
               (activity: FavoriteActivity) => favoriteActivityLabels[activity],
             )
-            .join(" followed by ")}${entryInput.playNotes.trim() ? `, ${entryInput.playNotes.trim()}` : ""}.`
+            .join(
+              " followed by ",
+            )}${entryInput.playNotes.trim() ? `, ${entryInput.playNotes.trim()}` : ""}.`
         : `Social life update: ${petName} bonded closely with our amazing staff team today and enjoyed plenty of one-on-one attention.`,
       careMetrics: [
         `Eating habits: ${appetiteLabels[entryInput.appetite]}`,
@@ -516,16 +535,16 @@ export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceTyp
 
   const handlePhotoUpload = (files: FileList | null) => {
     if (!files) return;
-    const previews = Array.from(files).map((file) =>
-      URL.createObjectURL(file),
-    );
+    const previews = Array.from(files).map((file) => URL.createObjectURL(file));
     setPhotoPreviews((prev) => [...prev, ...previews]);
   };
 
   const canSubmit =
     selectedVisitId &&
-    (input.closingComment.trim().length > 0 || !getEnabledSections(serviceType).includes("closingNote")) &&
-    (photoPreviews.length > 0 || !getEnabledSections(serviceType).includes("photoShowcase"));
+    (input.closingComment.trim().length > 0 ||
+      !getEnabledSections(serviceType).includes("closingNote")) &&
+    (photoPreviews.length > 0 ||
+      !getEnabledSections(serviceType).includes("photoShowcase"));
 
   const handleSubmit = () => {
     if (!selectedVisit) return;
@@ -563,9 +582,7 @@ export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceTyp
     const sentAt = new Date().toISOString();
     setReportCards((prev) =>
       prev.map((rc) =>
-        rc.id === cardId
-          ? { ...rc, delivery: { status: "sent", sentAt } }
-          : rc,
+        rc.id === cardId ? { ...rc, delivery: { status: "sent", sentAt } } : rc,
       ),
     );
   };
@@ -645,8 +662,9 @@ export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceTyp
 
   const today = new Date().toISOString().split("T")[0];
   const todayCards = reportCards.filter((rc) => rc.visitDate === today).length;
-  const sentCards = reportCards.filter((rc) => rc.delivery.status === "sent")
-    .length;
+  const sentCards = reportCards.filter(
+    (rc) => rc.delivery.status === "sent",
+  ).length;
   const scheduledCards = reportCards.filter(
     (rc) => rc.delivery.status === "scheduled",
   ).length;
@@ -844,7 +862,9 @@ export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceTyp
                   {facilityName}
                 </div>
                 <div>
-                  <span className="font-medium text-foreground">Visit date:</span>{" "}
+                  <span className="font-medium text-foreground">
+                    Visit date:
+                  </span>{" "}
                   {selectedVisit?.visitDate ?? "—"}
                 </div>
               </div>
@@ -861,41 +881,61 @@ export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceTyp
                       <Label>Mood & Energy</Label>
                       <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <Label className="text-xs text-muted-foreground">Mood</Label>
+                          <Label className="text-xs text-muted-foreground">
+                            Mood
+                          </Label>
                           <RadioGroup
                             value={input.mood}
                             onValueChange={(value: MoodValue) =>
                               setInput({ ...input, mood: value })
                             }
                           >
-                            {(["happy", "content", "shy", "tired"] as const).map(
-                              (value) => (
-                                <div key={value} className="flex items-center gap-2">
-                                  <RadioGroupItem value={value} id={`mood-${value}`} />
-                                  <Label htmlFor={`mood-${value}`}>
-                                    {value.charAt(0).toUpperCase() + value.slice(1)}
-                                  </Label>
-                                </div>
-                              ),
-                            )}
+                            {(
+                              ["happy", "content", "shy", "tired"] as const
+                            ).map((value) => (
+                              <div
+                                key={value}
+                                className="flex items-center gap-2"
+                              >
+                                <RadioGroupItem
+                                  value={value}
+                                  id={`mood-${value}`}
+                                />
+                                <Label htmlFor={`mood-${value}`}>
+                                  {value.charAt(0).toUpperCase() +
+                                    value.slice(1)}
+                                </Label>
+                              </div>
+                            ))}
                           </RadioGroup>
                         </div>
                         <div className="space-y-2">
-                          <Label className="text-xs text-muted-foreground">Energy</Label>
+                          <Label className="text-xs text-muted-foreground">
+                            Energy
+                          </Label>
                           <RadioGroup
                             value={input.energy}
                             onValueChange={(value: EnergyValue) =>
                               setInput({ ...input, energy: value })
                             }
                           >
-                            {(["high", "medium", "low"] as const).map((value) => (
-                              <div key={value} className="flex items-center gap-2">
-                                <RadioGroupItem value={value} id={`energy-${value}`} />
-                                <Label htmlFor={`energy-${value}`}>
-                                  {value.charAt(0).toUpperCase() + value.slice(1)}
-                                </Label>
-                              </div>
-                            ))}
+                            {(["high", "medium", "low"] as const).map(
+                              (value) => (
+                                <div
+                                  key={value}
+                                  className="flex items-center gap-2"
+                                >
+                                  <RadioGroupItem
+                                    value={value}
+                                    id={`energy-${value}`}
+                                  />
+                                  <Label htmlFor={`energy-${value}`}>
+                                    {value.charAt(0).toUpperCase() +
+                                      value.slice(1)}
+                                  </Label>
+                                </div>
+                              ),
+                            )}
                           </RadioGroup>
                         </div>
                       </div>
@@ -914,8 +954,14 @@ export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceTyp
                       >
                         {(["social", "selective", "independent"] as const).map(
                           (value) => (
-                            <div key={value} className="flex items-center gap-2">
-                              <RadioGroupItem value={value} id={`social-${value}`} />
+                            <div
+                              key={value}
+                              className="flex items-center gap-2"
+                            >
+                              <RadioGroupItem
+                                value={value}
+                                id={`social-${value}`}
+                              />
                               <Label htmlFor={`social-${value}`}>
                                 {value.charAt(0).toUpperCase() + value.slice(1)}
                               </Label>
@@ -931,12 +977,28 @@ export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceTyp
                         placeholder="Best friends (e.g., Luna and Max)"
                       />
                       <div className="grid gap-2">
-                        <Label className="text-xs text-muted-foreground">Favorite activity</Label>
+                        <Label className="text-xs text-muted-foreground">
+                          Favorite activity
+                        </Label>
                         <div className="grid grid-cols-2 gap-2 rounded-lg border p-3">
-                          {(["fetch", "group-play", "water-play", "sniffing", "training", "cuddles", "rest"] as const).map((activity) => {
-                            const checked = input.favoriteActivities.includes(activity);
+                          {(
+                            [
+                              "fetch",
+                              "group-play",
+                              "water-play",
+                              "sniffing",
+                              "training",
+                              "cuddles",
+                              "rest",
+                            ] as const
+                          ).map((activity) => {
+                            const checked =
+                              input.favoriteActivities.includes(activity);
                             return (
-                              <div key={activity} className="flex items-center gap-2">
+                              <div
+                                key={activity}
+                                className="flex items-center gap-2"
+                              >
                                 <Checkbox
                                   id={`activity-${activity}`}
                                   checked={checked}
@@ -945,8 +1007,13 @@ export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceTyp
                                     setInput({
                                       ...input,
                                       favoriteActivities: next
-                                        ? [...input.favoriteActivities, activity]
-                                        : input.favoriteActivities.filter((item) => item !== activity),
+                                        ? [
+                                            ...input.favoriteActivities,
+                                            activity,
+                                          ]
+                                        : input.favoriteActivities.filter(
+                                            (item) => item !== activity,
+                                          ),
                                     });
                                   }}
                                 />
@@ -974,19 +1041,61 @@ export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceTyp
                       <Label>Wellness & Habits</Label>
                       <div className="grid grid-cols-3 gap-4">
                         <div className="space-y-2">
-                          <Label className="text-xs text-muted-foreground">Meals</Label>
+                          <Label className="text-xs text-muted-foreground">
+                            Meals
+                          </Label>
                           <RadioGroup
                             value={input.appetite}
                             onValueChange={(value: AppetiteValue) =>
                               setInput({ ...input, appetite: value })
                             }
                           >
-                            {(["ate-all", "ate-most", "ate-some", "refused"] as const).map(
+                            {(
+                              [
+                                "ate-all",
+                                "ate-most",
+                                "ate-some",
+                                "refused",
+                              ] as const
+                            ).map((value) => (
+                              <div
+                                key={value}
+                                className="flex items-center gap-2"
+                              >
+                                <RadioGroupItem
+                                  value={value}
+                                  id={`appetite-${value}`}
+                                />
+                                <Label htmlFor={`appetite-${value}`}>
+                                  {value.replace("-", " ")}
+                                </Label>
+                              </div>
+                            ))}
+                          </RadioGroup>
+                        </div>
+                        <div className="space-y-2">
+                          <Label className="text-xs text-muted-foreground">
+                            Potty
+                          </Label>
+                          <RadioGroup
+                            value={input.potty}
+                            onValueChange={(value: PottyValue) =>
+                              setInput({ ...input, potty: value })
+                            }
+                          >
+                            {(["normal", "irregular", "accident"] as const).map(
                               (value) => (
-                                <div key={value} className="flex items-center gap-2">
-                                  <RadioGroupItem value={value} id={`appetite-${value}`} />
-                                  <Label htmlFor={`appetite-${value}`}>
-                                    {value.replace("-", " ")}
+                                <div
+                                  key={value}
+                                  className="flex items-center gap-2"
+                                >
+                                  <RadioGroupItem
+                                    value={value}
+                                    id={`potty-${value}`}
+                                  />
+                                  <Label htmlFor={`potty-${value}`}>
+                                    {value.charAt(0).toUpperCase() +
+                                      value.slice(1)}
                                   </Label>
                                 </div>
                               ),
@@ -994,39 +1103,31 @@ export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceTyp
                           </RadioGroup>
                         </div>
                         <div className="space-y-2">
-                          <Label className="text-xs text-muted-foreground">Potty</Label>
-                          <RadioGroup
-                            value={input.potty}
-                            onValueChange={(value: PottyValue) =>
-                              setInput({ ...input, potty: value })
-                            }
-                          >
-                            {(["normal", "irregular", "accident"] as const).map((value) => (
-                              <div key={value} className="flex items-center gap-2">
-                                <RadioGroupItem value={value} id={`potty-${value}`} />
-                                <Label htmlFor={`potty-${value}`}>
-                                  {value.charAt(0).toUpperCase() + value.slice(1)}
-                                </Label>
-                              </div>
-                            ))}
-                          </RadioGroup>
-                        </div>
-                        <div className="space-y-2">
-                          <Label className="text-xs text-muted-foreground">Meds</Label>
+                          <Label className="text-xs text-muted-foreground">
+                            Meds
+                          </Label>
                           <RadioGroup
                             value={input.meds}
                             onValueChange={(value: MedsValue) =>
                               setInput({ ...input, meds: value })
                             }
                           >
-                            {(["given", "not-needed", "missed"] as const).map((value) => (
-                              <div key={value} className="flex items-center gap-2">
-                                <RadioGroupItem value={value} id={`meds-${value}`} />
-                                <Label htmlFor={`meds-${value}`}>
-                                  {value.replace("-", " ")}
-                                </Label>
-                              </div>
-                            ))}
+                            {(["given", "not-needed", "missed"] as const).map(
+                              (value) => (
+                                <div
+                                  key={value}
+                                  className="flex items-center gap-2"
+                                >
+                                  <RadioGroupItem
+                                    value={value}
+                                    id={`meds-${value}`}
+                                  />
+                                  <Label htmlFor={`meds-${value}`}>
+                                    {value.replace("-", " ")}
+                                  </Label>
+                                </div>
+                              ),
+                            )}
                           </RadioGroup>
                         </div>
                       </div>
@@ -1045,7 +1146,10 @@ export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceTyp
                       >
                         {(["yes", "no"] as const).map((value) => (
                           <div key={value} className="flex items-center gap-2">
-                            <RadioGroupItem value={value} id={`holiday-${value}`} />
+                            <RadioGroupItem
+                              value={value}
+                              id={`holiday-${value}`}
+                            />
                             <Label htmlFor={`holiday-${value}`}>
                               {value === "yes"
                                 ? "Joined the holiday activity"
@@ -1085,75 +1189,144 @@ export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceTyp
                   )}
 
                   {/* Custom Feedback — customFeedback */}
-                  {has("customFeedback") && customQuestionsConfig.length > 0 && (
-                    <div className="space-y-3">
-                      <Label>Custom Feedback</Label>
-                      {customQuestionsConfig.map((q) => (
-                        <div key={q.id} className="space-y-1">
-                          <Label className="text-xs text-muted-foreground">
-                            {q.question}{q.required && " *"}
-                          </Label>
-                          {q.type === "text" && (
-                            <Input
-                              value={input.customAnswers?.[q.id] ?? ""}
-                              onChange={(e) =>
-                                setInput({
-                                  ...input,
-                                  customAnswers: { ...input.customAnswers, [q.id]: e.target.value },
-                                })
-                              }
-                              placeholder="Your answer..."
-                            />
-                          )}
-                          {q.type === "yes_no" && (
-                            <RadioGroup
-                              value={input.customAnswers?.[q.id] ?? ""}
-                              onValueChange={(v) =>
-                                setInput({
-                                  ...input,
-                                  customAnswers: { ...input.customAnswers, [q.id]: v },
-                                })
-                              }
-                            >
-                              <div className="flex items-center gap-4">
-                                <div className="flex items-center gap-2">
-                                  <RadioGroupItem value="yes" id={`cq-${q.id}-yes`} />
-                                  <Label htmlFor={`cq-${q.id}-yes`}>Yes</Label>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  <RadioGroupItem value="no" id={`cq-${q.id}-no`} />
-                                  <Label htmlFor={`cq-${q.id}-no`}>No</Label>
-                                </div>
-                              </div>
-                            </RadioGroup>
-                          )}
-                          {q.type === "rating" && (
-                            <RadioGroup
-                              value={input.customAnswers?.[q.id] ?? ""}
-                              onValueChange={(v) =>
-                                setInput({
-                                  ...input,
-                                  customAnswers: { ...input.customAnswers, [q.id]: v },
-                                })
-                              }
-                            >
-                              <div className="flex items-center gap-3">
-                                {[1, 2, 3, 4, 5].map((n) => (
-                                  <div key={n} className="flex items-center gap-1">
-                                    <RadioGroupItem value={String(n)} id={`cq-${q.id}-${n}`} />
-                                    <Label htmlFor={`cq-${q.id}-${n}`}>{n}</Label>
+                  {has("customFeedback") &&
+                    customQuestionsConfig.length > 0 && (
+                      <div className="space-y-3">
+                        <Label>Custom Feedback</Label>
+                        {customQuestionsConfig.map((q) => (
+                          <div key={q.id} className="space-y-1">
+                            <Label className="text-xs text-muted-foreground">
+                              {q.question}
+                              {q.required && " *"}
+                            </Label>
+                            {q.type === "text" && (
+                              <Input
+                                value={input.customAnswers?.[q.id] ?? ""}
+                                onChange={(e) =>
+                                  setInput({
+                                    ...input,
+                                    customAnswers: {
+                                      ...input.customAnswers,
+                                      [q.id]: e.target.value,
+                                    },
+                                  })
+                                }
+                                placeholder="Your answer..."
+                              />
+                            )}
+                            {q.type === "yes_no" && (
+                              <RadioGroup
+                                value={input.customAnswers?.[q.id] ?? ""}
+                                onValueChange={(v) =>
+                                  setInput({
+                                    ...input,
+                                    customAnswers: {
+                                      ...input.customAnswers,
+                                      [q.id]: v,
+                                    },
+                                  })
+                                }
+                              >
+                                <div className="flex items-center gap-4">
+                                  <div className="flex items-center gap-2">
+                                    <RadioGroupItem
+                                      value="yes"
+                                      id={`cq-${q.id}-yes`}
+                                    />
+                                    <Label htmlFor={`cq-${q.id}-yes`}>
+                                      Yes
+                                    </Label>
                                   </div>
-                                ))}
-                              </div>
-                            </RadioGroup>
-                          )}
-                          {q.type === "select" && q.options && (
+                                  <div className="flex items-center gap-2">
+                                    <RadioGroupItem
+                                      value="no"
+                                      id={`cq-${q.id}-no`}
+                                    />
+                                    <Label htmlFor={`cq-${q.id}-no`}>No</Label>
+                                  </div>
+                                </div>
+                              </RadioGroup>
+                            )}
+                            {q.type === "rating" && (
+                              <RadioGroup
+                                value={input.customAnswers?.[q.id] ?? ""}
+                                onValueChange={(v) =>
+                                  setInput({
+                                    ...input,
+                                    customAnswers: {
+                                      ...input.customAnswers,
+                                      [q.id]: v,
+                                    },
+                                  })
+                                }
+                              >
+                                <div className="flex items-center gap-3">
+                                  {[1, 2, 3, 4, 5].map((n) => (
+                                    <div
+                                      key={n}
+                                      className="flex items-center gap-1"
+                                    >
+                                      <RadioGroupItem
+                                        value={String(n)}
+                                        id={`cq-${q.id}-${n}`}
+                                      />
+                                      <Label htmlFor={`cq-${q.id}-${n}`}>
+                                        {n}
+                                      </Label>
+                                    </div>
+                                  ))}
+                                </div>
+                              </RadioGroup>
+                            )}
+                            {q.type === "select" && q.options && (
+                              <Select
+                                value={input.customAnswers?.[q.id] ?? ""}
+                                onValueChange={(v) =>
+                                  setInput({
+                                    ...input,
+                                    customAnswers: {
+                                      ...input.customAnswers,
+                                      [q.id]: v,
+                                    },
+                                  })
+                                }
+                              >
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select..." />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {q.options.map((opt) => (
+                                    <SelectItem key={opt} value={opt}>
+                                      {opt}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                  {/* Pet Condition — petCondition */}
+                  {has("petCondition") &&
+                    petConditionConfig.categories.length > 0 && (
+                      <div className="space-y-3">
+                        <Label>Pet Condition</Label>
+                        {petConditionConfig.categories.map((cat) => (
+                          <div key={cat.id} className="space-y-1">
+                            <Label className="text-xs text-muted-foreground">
+                              {cat.label}
+                            </Label>
                             <Select
-                              value={input.customAnswers?.[q.id] ?? ""}
+                              value={input.petConditions?.[cat.id] ?? ""}
                               onValueChange={(v) =>
                                 setInput({
                                   ...input,
-                                  customAnswers: { ...input.customAnswers, [q.id]: v },
+                                  petConditions: {
+                                    ...input.petConditions,
+                                    [cat.id]: v,
+                                  },
                                 })
                               }
                             >
@@ -1161,46 +1334,17 @@ export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceTyp
                                 <SelectValue placeholder="Select..." />
                               </SelectTrigger>
                               <SelectContent>
-                                {q.options.map((opt) => (
-                                  <SelectItem key={opt} value={opt}>{opt}</SelectItem>
+                                {cat.options.map((opt) => (
+                                  <SelectItem key={opt} value={opt}>
+                                    {opt}
+                                  </SelectItem>
                                 ))}
                               </SelectContent>
                             </Select>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Pet Condition — petCondition */}
-                  {has("petCondition") && petConditionConfig.categories.length > 0 && (
-                    <div className="space-y-3">
-                      <Label>Pet Condition</Label>
-                      {petConditionConfig.categories.map((cat) => (
-                        <div key={cat.id} className="space-y-1">
-                          <Label className="text-xs text-muted-foreground">{cat.label}</Label>
-                          <Select
-                            value={input.petConditions?.[cat.id] ?? ""}
-                            onValueChange={(v) =>
-                              setInput({
-                                ...input,
-                                petConditions: { ...input.petConditions, [cat.id]: v },
-                              })
-                            }
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select..." />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {cat.options.map((opt) => (
-                                <SelectItem key={opt} value={opt}>{opt}</SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
 
                   {/* Closing Comment — closingNote */}
                   {has("closingNote") && (
@@ -1219,7 +1363,9 @@ export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceTyp
                   {/* Photos — photoShowcase */}
                   {has("photoShowcase") && (
                     <div className="space-y-2">
-                      <Label>Photos (at least 1, holiday/festive preferred)</Label>
+                      <Label>
+                        Photos (at least 1, holiday/festive preferred)
+                      </Label>
                       <Input
                         type="file"
                         multiple
@@ -1308,10 +1454,14 @@ export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceTyp
                 <viewingThemeMeta.DecorativeIcon
                   className={cn(
                     "absolute h-20 w-20 opacity-[0.06] text-gray-900",
-                    viewingThemeMeta.iconPosition === "top-right" && "-top-1 -right-1",
-                    viewingThemeMeta.iconPosition === "top-left" && "-top-1 -left-1",
-                    viewingThemeMeta.iconPosition === "bottom-right" && "-bottom-1 -right-1",
-                    viewingThemeMeta.iconPosition === "bottom-left" && "-bottom-1 -left-1",
+                    viewingThemeMeta.iconPosition === "top-right" &&
+                      "-top-1 -right-1",
+                    viewingThemeMeta.iconPosition === "top-left" &&
+                      "-top-1 -left-1",
+                    viewingThemeMeta.iconPosition === "bottom-right" &&
+                      "-bottom-1 -right-1",
+                    viewingThemeMeta.iconPosition === "bottom-left" &&
+                      "-bottom-1 -left-1",
                   )}
                 />
 
@@ -1451,44 +1601,60 @@ export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceTyp
               )}
               {viewingCard.input.overallFeedback && (
                 <div className="space-y-3">
-                  <h3 className="font-semibold">{overallFeedbackConfig.title}</h3>
+                  <h3 className="font-semibold">
+                    {overallFeedbackConfig.title}
+                  </h3>
                   <p className="text-sm text-muted-foreground">
                     {viewingCard.input.overallFeedback}
                   </p>
                 </div>
               )}
-              {viewingCard.input.customAnswers && Object.keys(viewingCard.input.customAnswers).length > 0 && (
-                <div className="space-y-3">
-                  <h3 className="font-semibold">Custom Feedback</h3>
-                  <div className="space-y-2 text-sm text-muted-foreground">
-                    {Object.entries(viewingCard.input.customAnswers).map(([qId, answer]) => {
-                      const question = customQuestionsConfig.find((q) => q.id === qId);
-                      return (
-                        <div key={qId}>
-                          <p className="font-medium text-foreground text-xs">{question?.question ?? qId}</p>
-                          <p>{answer}</p>
-                        </div>
-                      );
-                    })}
+              {viewingCard.input.customAnswers &&
+                Object.keys(viewingCard.input.customAnswers).length > 0 && (
+                  <div className="space-y-3">
+                    <h3 className="font-semibold">Custom Feedback</h3>
+                    <div className="space-y-2 text-sm text-muted-foreground">
+                      {Object.entries(viewingCard.input.customAnswers).map(
+                        ([qId, answer]) => {
+                          const question = customQuestionsConfig.find(
+                            (q) => q.id === qId,
+                          );
+                          return (
+                            <div key={qId}>
+                              <p className="font-medium text-foreground text-xs">
+                                {question?.question ?? qId}
+                              </p>
+                              <p>{answer}</p>
+                            </div>
+                          );
+                        },
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
-              {viewingCard.input.petConditions && Object.keys(viewingCard.input.petConditions).length > 0 && (
-                <div className="space-y-3">
-                  <h3 className="font-semibold">Pet Condition</h3>
-                  <div className="grid grid-cols-2 gap-2 text-sm">
-                    {Object.entries(viewingCard.input.petConditions).map(([catId, value]) => {
-                      const cat = petConditionConfig.categories.find((c) => c.id === catId);
-                      return (
-                        <div key={catId}>
-                          <p className="text-xs text-muted-foreground">{cat?.label ?? catId}</p>
-                          <p className="font-medium">{value}</p>
-                        </div>
-                      );
-                    })}
+                )}
+              {viewingCard.input.petConditions &&
+                Object.keys(viewingCard.input.petConditions).length > 0 && (
+                  <div className="space-y-3">
+                    <h3 className="font-semibold">Pet Condition</h3>
+                    <div className="grid grid-cols-2 gap-2 text-sm">
+                      {Object.entries(viewingCard.input.petConditions).map(
+                        ([catId, value]) => {
+                          const cat = petConditionConfig.categories.find(
+                            (c) => c.id === catId,
+                          );
+                          return (
+                            <div key={catId}>
+                              <p className="text-xs text-muted-foreground">
+                                {cat?.label ?? catId}
+                              </p>
+                              <p className="font-medium">{value}</p>
+                            </div>
+                          );
+                        },
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
               <div className="space-y-3">
                 <h3 className="font-semibold">A Personal Note from the Team</h3>
                 <p className="text-sm text-muted-foreground">
@@ -1502,9 +1668,7 @@ export function ReportCardsModule({ defaultServiceType = "daycare" as ServiceTyp
               <div className="space-y-1 text-sm text-muted-foreground">
                 <p className="font-medium text-foreground">With love,</p>
                 <p>The {viewingCard.facilityName} Team 🐶</p>
-                <p>
-                  Thanks for trusting us with {viewingCard.petName}'s day!
-                </p>
+                <p>Thanks for trusting us with {viewingCard.petName}'s day!</p>
                 <p className="text-xs text-muted-foreground">
                   Reply to this message if you have any questions 💬
                 </p>

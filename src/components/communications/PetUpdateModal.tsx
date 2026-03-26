@@ -20,7 +20,11 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Bell, Camera } from "lucide-react";
 import { clients } from "@/data/clients";
-import { resolveTemplate, resolveVariable, getMockPreviewData } from "@/lib/template-variable-resolver";
+import {
+  resolveTemplate,
+  resolveVariable,
+  getMockPreviewData,
+} from "@/lib/template-variable-resolver";
 import { VariableInsertDropdown } from "@/components/shared/VariableInsertDropdown";
 import { useInsertAtCursor } from "@/hooks/use-insert-at-cursor";
 
@@ -105,13 +109,14 @@ export function PetUpdateModal({ onClose }: PetUpdateModalProps) {
     });
   };
 
-  const setMessage = useCallback(
-    (newValue: string) => {
-      setFormData((prev) => ({ ...prev, message: newValue }));
-    },
-    [],
+  const setMessage = useCallback((newValue: string) => {
+    setFormData((prev) => ({ ...prev, message: newValue }));
+  }, []);
+  const handleInsertVariable = useInsertAtCursor(
+    messageRef,
+    formData.message,
+    setMessage,
   );
-  const handleInsertVariable = useInsertAtCursor(messageRef, formData.message, setMessage);
 
   const handlePhotoAttach = () => {
     setPhotoAttached(!photoAttached);
@@ -275,9 +280,7 @@ export function PetUpdateModal({ onClose }: PetUpdateModalProps) {
                     <span className="font-semibold">{facilityName}</span>
                   </div>
                   <div className="text-sm">
-                    <strong>
-                      {selectedPet?.name} Update:
-                    </strong>{" "}
+                    <strong>{selectedPet?.name} Update:</strong>{" "}
                     {formData.message}
                   </div>
                   <div className="text-xs text-muted-foreground">Just now</div>

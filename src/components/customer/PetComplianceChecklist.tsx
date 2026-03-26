@@ -24,10 +24,13 @@ export function PetComplianceChecklist({
 }: PetComplianceChecklistProps) {
   // Check vaccination compliance
   const vaccinationStatus = useMemo(() => {
-    const petVaccinations = vaccinationRecords.filter((v) => v.petId === pet.id);
-    const requiredVaccines = facilityConfig.vaccinationRequirements.requiredVaccinations.filter(
-      (v) => v.required
+    const petVaccinations = vaccinationRecords.filter(
+      (v) => v.petId === pet.id,
     );
+    const requiredVaccines =
+      facilityConfig.vaccinationRequirements.requiredVaccinations.filter(
+        (v) => v.required,
+      );
 
     let allValid = true;
     const missing: string[] = [];
@@ -38,7 +41,7 @@ export function PetComplianceChecklist({
       const vaccination = petVaccinations.find(
         (v) =>
           v.vaccineName.toLowerCase().includes(req.name.toLowerCase()) ||
-          req.name.toLowerCase().includes(v.vaccineName.toLowerCase())
+          req.name.toLowerCase().includes(v.vaccineName.toLowerCase()),
       );
 
       if (!vaccination) {
@@ -48,7 +51,7 @@ export function PetComplianceChecklist({
         const expiryDate = new Date(vaccination.expiryDate);
         const now = new Date();
         const daysUntilExpiry = Math.floor(
-          (expiryDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+          (expiryDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24),
         );
 
         if (daysUntilExpiry < 0) {
@@ -77,7 +80,7 @@ export function PetComplianceChecklist({
     ].filter((a) => a.required);
 
     const clientDocs = clientDocuments.filter(
-      (doc) => doc.clientId === clientId && doc.facilityId === facilityId
+      (doc) => doc.clientId === clientId && doc.facilityId === facilityId,
     );
 
     const signedAgreements = clientDocs.filter(
@@ -85,8 +88,8 @@ export function PetComplianceChecklist({
         (doc.type === "agreement" || doc.type === "waiver") &&
         doc.signedAt &&
         requiredAgreements.some((req) =>
-          doc.name.toLowerCase().includes(req.name.toLowerCase())
-        )
+          doc.name.toLowerCase().includes(req.name.toLowerCase()),
+        ),
     );
 
     return {
@@ -100,7 +103,7 @@ export function PetComplianceChecklist({
   const evaluationStatus = useMemo(() => {
     // Check if pet has valid evaluation
     const hasValidEvaluation = pet.evaluations?.some(
-      (e) => e.status === "passed" && e.isExpired !== true
+      (e) => e.status === "passed" && e.isExpired !== true,
     );
 
     // For now, we'll assume evaluation is required for daycare/boarding
@@ -117,10 +120,12 @@ export function PetComplianceChecklist({
   // Check overdue invoices
   const invoicesStatus = useMemo(() => {
     const clientInvoices = invoices.filter(
-      (inv) => inv.clientId === clientId && inv.facilityId === facilityId
+      (inv) => inv.clientId === clientId && inv.facilityId === facilityId,
     );
 
-    const overdueInvoices = clientInvoices.filter((inv) => inv.status === "overdue");
+    const overdueInvoices = clientInvoices.filter(
+      (inv) => inv.status === "overdue",
+    );
 
     return {
       valid: overdueInvoices.length === 0,

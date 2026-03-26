@@ -3,7 +3,13 @@
 import { useMemo } from "react";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
 import { customerCredits, giftCards, invoices } from "@/data/payments";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Wallet, Gift, CreditCard, TrendingUp, Calendar } from "lucide-react";
 
@@ -14,7 +20,9 @@ export function BalancesTab() {
   const { selectedFacility } = useCustomerFacility();
 
   const customerCreditsList = useMemo(() => {
-    let filtered = customerCredits.filter((c) => c.clientId === MOCK_CUSTOMER_ID);
+    let filtered = customerCredits.filter(
+      (c) => c.clientId === MOCK_CUSTOMER_ID,
+    );
 
     if (selectedFacility) {
       filtered = filtered.filter((c) => c.facilityId === selectedFacility.id);
@@ -27,7 +35,7 @@ export function BalancesTab() {
     let filtered = giftCards.filter(
       (gc) =>
         gc.purchasedByClientId === MOCK_CUSTOMER_ID ||
-        gc.recipientEmail?.includes("@example.com") // Simplified check
+        gc.recipientEmail?.includes("@example.com"), // Simplified check
     );
 
     if (selectedFacility) {
@@ -54,7 +62,10 @@ export function BalancesTab() {
   }, [customerGiftCards]);
 
   const totalOutstanding = useMemo(() => {
-    return customerOutstandingInvoices.reduce((sum, inv) => sum + inv.amountDue, 0);
+    return customerOutstandingInvoices.reduce(
+      (sum, inv) => sum + inv.amountDue,
+      0,
+    );
   }, [customerOutstandingInvoices]);
 
   const formatCurrency = (amount: number) => {
@@ -118,7 +129,9 @@ export function BalancesTab() {
       }
     });
 
-    return tx.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    return tx.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+    );
   }, [customerCreditsList]);
 
   return (
@@ -126,7 +139,8 @@ export function BalancesTab() {
       <div className="space-y-2">
         <h2 className="text-2xl font-semibold">Account Balances</h2>
         <p className="text-muted-foreground">
-          Store credit, gift cards, prepaid balances, and any outstanding amounts
+          Store credit, gift cards, prepaid balances, and any outstanding
+          amounts
         </p>
       </div>
 
@@ -140,7 +154,9 @@ export function BalancesTab() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">{formatCurrency(totalCredits)}</div>
+            <div className="text-3xl font-bold">
+              {formatCurrency(totalCredits)}
+            </div>
             <p className="text-sm text-muted-foreground mt-1">
               {customerCreditsList.length} active credit
               {customerCreditsList.length !== 1 ? "s" : ""}
@@ -156,7 +172,9 @@ export function BalancesTab() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">{formatCurrency(totalGiftCardBalance)}</div>
+            <div className="text-3xl font-bold">
+              {formatCurrency(totalGiftCardBalance)}
+            </div>
             <p className="text-sm text-muted-foreground mt-1">
               {customerGiftCards.length} active gift card
               {customerGiftCards.length !== 1 ? "s" : ""}
@@ -176,7 +194,8 @@ export function BalancesTab() {
               {formatCurrency(totalOutstanding)}
             </div>
             <p className="text-sm text-muted-foreground mt-1">
-              From unpaid or overdue invoices (if your facility allows pay-later)
+              From unpaid or overdue invoices (if your facility allows
+              pay-later)
             </p>
           </CardContent>
         </Card>
@@ -206,8 +225,12 @@ export function BalancesTab() {
                 <CardContent>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div>
-                      <p className="text-sm text-muted-foreground">Original Amount</p>
-                      <p className="text-lg font-semibold">{formatCurrency(credit.amount)}</p>
+                      <p className="text-sm text-muted-foreground">
+                        Original Amount
+                      </p>
+                      <p className="text-lg font-semibold">
+                        {formatCurrency(credit.amount)}
+                      </p>
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Remaining</p>
@@ -266,13 +289,17 @@ export function BalancesTab() {
                 <CardContent>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground">Current Balance:</span>
+                      <span className="text-muted-foreground">
+                        Current Balance:
+                      </span>
                       <span className="text-2xl font-bold">
                         {formatCurrency(giftCard.currentBalance)}
                       </span>
                     </div>
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Initial Amount:</span>
+                      <span className="text-muted-foreground">
+                        Initial Amount:
+                      </span>
                       <span>{formatCurrency(giftCard.initialAmount)}</span>
                     </div>
                     {giftCard.expiryDate && (
@@ -302,7 +329,9 @@ export function BalancesTab() {
       {/* Transaction History for Credits */}
       {creditTransactions.length > 0 && (
         <div>
-          <h3 className="text-lg font-semibold mb-4">Credit Transaction History</h3>
+          <h3 className="text-lg font-semibold mb-4">
+            Credit Transaction History
+          </h3>
           <div className="space-y-2">
             {creditTransactions.map((tx) => (
               <div
@@ -319,7 +348,9 @@ export function BalancesTab() {
                     <div className="font-medium">
                       {tx.type === "added" ? "Credit Added" : "Credit Used"}
                     </div>
-                    <div className="text-xs text-muted-foreground">{tx.description}</div>
+                    <div className="text-xs text-muted-foreground">
+                      {tx.description}
+                    </div>
                   </div>
                 </div>
                 <div className="text-right">
@@ -349,7 +380,8 @@ export function BalancesTab() {
               <Wallet className="h-12 w-12 mx-auto text-muted-foreground opacity-50" />
               <p className="font-semibold">No active balances</p>
               <p className="text-sm text-muted-foreground">
-                Your credits, gift card balances, and outstanding amounts will appear here
+                Your credits, gift card balances, and outstanding amounts will
+                appear here
               </p>
             </CardContent>
           </Card>

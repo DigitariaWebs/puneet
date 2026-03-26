@@ -101,9 +101,8 @@ export function EvaluationDetails({
   const durationOptions = evaluation.schedule.durationOptionsMinutes;
   const defaultDuration =
     evaluation.schedule.defaultDurationMinutes ?? durationOptions[0] ?? 60;
-  const [selectedDuration, setSelectedDuration] = React.useState<number>(
-    defaultDuration,
-  );
+  const [selectedDuration, setSelectedDuration] =
+    React.useState<number>(defaultDuration);
 
   const selectedDates = React.useMemo(() => {
     if (!startDate) return [];
@@ -147,7 +146,14 @@ export function EvaluationDetails({
   const timeWindows =
     evaluation.schedule.timeWindows.length > 0
       ? evaluation.schedule.timeWindows
-      : [{ id: "all-day", label: "All day", startTime: "00:00", endTime: "23:59" }];
+      : [
+          {
+            id: "all-day",
+            label: "All day",
+            startTime: "00:00",
+            endTime: "23:59",
+          },
+        ];
 
   const slots = React.useMemo(() => {
     const duration = selectedDuration || defaultDuration;
@@ -169,10 +175,18 @@ export function EvaluationDetails({
             duration,
           };
         })
-        .filter(Boolean) as Array<{ startTime: string; endTime: string; duration: number }>;
+        .filter(Boolean) as Array<{
+        startTime: string;
+        endTime: string;
+        duration: number;
+      }>;
     }
 
-    const generated: Array<{ startTime: string; endTime: string; duration: number }> = [];
+    const generated: Array<{
+      startTime: string;
+      endTime: string;
+      duration: number;
+    }> = [];
     windows.forEach((window) => {
       const start = timeToMinutes(window.startTime);
       const end = timeToMinutes(window.endTime);
@@ -305,15 +319,13 @@ export function EvaluationDetails({
                         <p className="text-sm font-medium text-primary">
                           Selected:{" "}
                           {
-                            slots.find(
-                              (s) => s.startTime === selectedSlot,
-                            )?.startTime
+                            slots.find((s) => s.startTime === selectedSlot)
+                              ?.startTime
                           }{" "}
                           -{" "}
                           {
-                            slots.find(
-                              (s) => s.startTime === selectedSlot,
-                            )?.endTime
+                            slots.find((s) => s.startTime === selectedSlot)
+                              ?.endTime
                           }
                         </p>
                       </div>

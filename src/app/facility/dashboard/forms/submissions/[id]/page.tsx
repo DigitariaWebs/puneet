@@ -74,14 +74,22 @@ function formatSubmissionDate(iso: string): string {
 }
 
 /** Check if a value looks like an address object */
-function isAddressObject(value: unknown): value is { street?: string; city?: string; state?: string; zip?: string } {
-  if (typeof value !== "object" || value === null || Array.isArray(value)) return false;
+function isAddressObject(
+  value: unknown,
+): value is { street?: string; city?: string; state?: string; zip?: string } {
+  if (typeof value !== "object" || value === null || Array.isArray(value))
+    return false;
   const v = value as Record<string, unknown>;
-  return ("street" in v || "city" in v || "state" in v || "zip" in v);
+  return "street" in v || "city" in v || "state" in v || "zip" in v;
 }
 
 /** Format address object to a single line */
-function formatAddress(value: { street?: string; city?: string; state?: string; zip?: string }): string {
+function formatAddress(value: {
+  street?: string;
+  city?: string;
+  state?: string;
+  zip?: string;
+}): string {
   const parts: string[] = [];
   if (value.street) parts.push(value.street);
   const cityStateZip: string[] = [];
@@ -90,7 +98,9 @@ function formatAddress(value: { street?: string; city?: string; state?: string; 
   if (value.zip) cityStateZip.push(value.zip);
   if (cityStateZip.length > 0) {
     if (value.city && value.state) {
-      parts.push(`${value.city}, ${value.state}${value.zip ? " " + value.zip : ""}`);
+      parts.push(
+        `${value.city}, ${value.state}${value.zip ? " " + value.zip : ""}`,
+      );
     } else {
       parts.push(cityStateZip.join(", "));
     }
@@ -98,13 +108,21 @@ function formatAddress(value: { street?: string; city?: string; state?: string; 
   return parts.join(", ") || "—";
 }
 
-function AnswerBlock({ question, value }: { question: FormQuestion; value: unknown }) {
+function AnswerBlock({
+  question,
+  value,
+}: {
+  question: FormQuestion;
+  value: unknown;
+}) {
   // File-type answers
   if (question.type === "file") {
     const filename = typeof value === "string" ? value : formatValue(value);
     return (
       <div className="space-y-1">
-        <Label className="text-muted-foreground font-normal text-xs">{question.label}</Label>
+        <Label className="text-muted-foreground font-normal text-xs">
+          {question.label}
+        </Label>
         <div className="flex items-center gap-2 text-sm font-medium">
           <File className="h-3.5 w-3.5 text-muted-foreground" />
           <span>{filename}</span>
@@ -118,7 +136,9 @@ function AnswerBlock({ question, value }: { question: FormQuestion; value: unkno
     const addr = isAddressObject(value) ? value : null;
     return (
       <div className="space-y-1">
-        <Label className="text-muted-foreground font-normal text-xs">{question.label}</Label>
+        <Label className="text-muted-foreground font-normal text-xs">
+          {question.label}
+        </Label>
         <div className="flex items-center gap-2 text-sm font-medium">
           <MapPin className="h-3.5 w-3.5 text-muted-foreground" />
           <span>{addr ? formatAddress(addr) : formatValue(value)}</span>
@@ -129,25 +149,47 @@ function AnswerBlock({ question, value }: { question: FormQuestion; value: unkno
 
   // Signature-type answers (with e-sign metadata support)
   if (question.type === "signature") {
-    const isEsignObj = typeof value === "object" && value !== null && "name" in (value as Record<string, unknown>);
-    const sigName = isEsignObj ? String((value as Record<string, unknown>).name) : formatValue(value);
+    const isEsignObj =
+      typeof value === "object" &&
+      value !== null &&
+      "name" in (value as Record<string, unknown>);
+    const sigName = isEsignObj
+      ? String((value as Record<string, unknown>).name)
+      : formatValue(value);
     const sigMeta = isEsignObj ? (value as Record<string, unknown>) : null;
     return (
       <div className="space-y-1">
-        <Label className="text-muted-foreground font-normal text-xs">{question.label}</Label>
+        <Label className="text-muted-foreground font-normal text-xs">
+          {question.label}
+        </Label>
         <div className="flex items-center gap-2">
           <p className="text-sm font-medium italic">{sigName}</p>
-          <Badge variant="outline" className="text-[10px] h-5 gap-1 font-normal bg-violet-50 text-violet-700 border-violet-200">
+          <Badge
+            variant="outline"
+            className="text-[10px] h-5 gap-1 font-normal bg-violet-50 text-violet-700 border-violet-200"
+          >
             <PenLine className="h-2.5 w-2.5" />
             e-signed
           </Badge>
         </div>
         {Boolean(sigMeta?.signedAt) && (
           <div className="mt-1.5 rounded-md bg-violet-50/50 border border-violet-100 px-2.5 py-2 text-[11px] text-muted-foreground space-y-0.5">
-            <p>Signed: {String(sigMeta!.signedAt).slice(0, 19).replace("T", " ")} UTC</p>
-            {Boolean(sigMeta!.timezone) && <p>Timezone: {String(sigMeta!.timezone)}</p>}
-            {Boolean(sigMeta!.userAgent) && <p className="truncate">Device: {String(sigMeta!.userAgent).slice(0, 80)}{String(sigMeta!.userAgent).length > 80 ? "..." : ""}</p>}
-            {Boolean(sigMeta!.agreementText) && <p className="italic">"{String(sigMeta!.agreementText)}"</p>}
+            <p>
+              Signed: {String(sigMeta!.signedAt).slice(0, 19).replace("T", " ")}{" "}
+              UTC
+            </p>
+            {Boolean(sigMeta!.timezone) && (
+              <p>Timezone: {String(sigMeta!.timezone)}</p>
+            )}
+            {Boolean(sigMeta!.userAgent) && (
+              <p className="truncate">
+                Device: {String(sigMeta!.userAgent).slice(0, 80)}
+                {String(sigMeta!.userAgent).length > 80 ? "..." : ""}
+              </p>
+            )}
+            {Boolean(sigMeta!.agreementText) && (
+              <p className="italic">"{String(sigMeta!.agreementText)}"</p>
+            )}
           </div>
         )}
       </div>
@@ -156,10 +198,13 @@ function AnswerBlock({ question, value }: { question: FormQuestion; value: unkno
 
   // Boolean / yes_no / checkbox answers
   if (question.type === "yes_no" || question.type === "checkbox") {
-    const boolVal = value === true || value === "yes" || value === "Yes" || value === "true";
+    const boolVal =
+      value === true || value === "yes" || value === "Yes" || value === "true";
     return (
       <div className="space-y-1">
-        <Label className="text-muted-foreground font-normal text-xs">{question.label}</Label>
+        <Label className="text-muted-foreground font-normal text-xs">
+          {question.label}
+        </Label>
         <div className="flex items-center gap-2 text-sm font-medium">
           {boolVal ? (
             <div className="flex items-center gap-1.5 text-green-700">
@@ -180,7 +225,9 @@ function AnswerBlock({ question, value }: { question: FormQuestion; value: unkno
   // Default
   return (
     <div className="space-y-1">
-      <Label className="text-muted-foreground font-normal text-xs">{question.label}</Label>
+      <Label className="text-muted-foreground font-normal text-xs">
+        {question.label}
+      </Label>
       <p className="text-sm font-medium">{formatValue(value)}</p>
     </div>
   );
@@ -198,9 +245,11 @@ export default function SubmissionDetailPage({
   const form = submission ? getFormById(submission.formId) : null;
 
   const [selectedCustomerId, setSelectedCustomerId] = useState<number | "">(
-    submission?.customerId ?? record?.relatedCustomerId ?? ""
+    submission?.customerId ?? record?.relatedCustomerId ?? "",
   );
-  const [mergeRule, setMergeRule] = useState<"submitted_wins" | "existing_wins" | "ask">("submitted_wins");
+  const [mergeRule, setMergeRule] = useState<
+    "submitted_wins" | "existing_wins" | "ask"
+  >("submitted_wins");
   const [selectedPetIds, setSelectedPetIds] = useState<number[]>([]);
   const [linkedCustomerName, setLinkedCustomerName] = useState<string>("");
 
@@ -219,12 +268,18 @@ export default function SubmissionDetailPage({
   const answers = submission?.answers ?? {};
   const visibleQuestions = useMemo(() => {
     if (!form) return [];
-    return form.questions.filter((q) => answers[q.id] !== undefined && answers[q.id] !== "");
+    return form.questions.filter(
+      (q) => answers[q.id] !== undefined && answers[q.id] !== "",
+    );
   }, [form, answers]);
 
   const mappingResults = useMemo(() => {
     if (!form || !submission) return {};
-    return getMappingResultsByGroup(submission.id, form.fieldMapping, form.questions);
+    return getMappingResultsByGroup(
+      submission.id,
+      form.fieldMapping,
+      form.questions,
+    );
   }, [form, submission]);
 
   const hasMappings = Object.keys(mappingResults).length > 0;
@@ -236,10 +291,15 @@ export default function SubmissionDetailPage({
   const groupedQuestions = useMemo(() => {
     if (!hasSections) return null;
     const sortedSections = [...sections].sort((a, b) => a.order - b.order);
-    const grouped: { section: typeof sections[0]; questions: FormQuestion[] }[] = [];
+    const grouped: {
+      section: (typeof sections)[0];
+      questions: FormQuestion[];
+    }[] = [];
     const unsectioned: FormQuestion[] = [];
     for (const sec of sortedSections) {
-      const secQuestions = visibleQuestions.filter((q) => q.sectionId === sec.id);
+      const secQuestions = visibleQuestions.filter(
+        (q) => q.sectionId === sec.id,
+      );
       if (secQuestions.length > 0) {
         grouped.push({ section: sec, questions: secQuestions });
       }
@@ -283,7 +343,13 @@ export default function SubmissionDetailPage({
       const val = answers[q.id];
       if (!val) continue;
       const lbl = q.label.toLowerCase();
-      if (lbl.includes("pet name") || lbl.includes("pet's name") || lbl.includes("animal name") || lbl.includes("dog name") || lbl.includes("cat name")) {
+      if (
+        lbl.includes("pet name") ||
+        lbl.includes("pet's name") ||
+        lbl.includes("animal name") ||
+        lbl.includes("dog name") ||
+        lbl.includes("cat name")
+      ) {
         const s = String(val).trim();
         if (s) names.push(s);
       }
@@ -293,7 +359,7 @@ export default function SubmissionDetailPage({
 
   const submissionAuditEntries = useMemo(
     () => (id ? getFormAuditLog({ submissionId: id }) : []),
-    [id]
+    [id],
   );
 
   const matchingCustomers = useMemo(() => {
@@ -335,33 +401,60 @@ export default function SubmissionDetailPage({
     if (!selectedCustomerId || !form) return [];
     const customer = clients.find((c) => c.id === selectedCustomerId);
     if (!customer) return [];
-    const diffs: { field: string; label: string; submitted: string; existing: string; useSubmitted: boolean }[] = [];
+    const diffs: {
+      field: string;
+      label: string;
+      submitted: string;
+      existing: string;
+      useSubmitted: boolean;
+    }[] = [];
     // Check field mappings
     const mappings = form.fieldMapping ?? [];
     for (const m of mappings) {
       const answer = answers[m.questionId];
       if (answer === undefined || answer === "") continue;
-      const submitted = typeof answer === "object" ? JSON.stringify(answer) : String(answer);
+      const submitted =
+        typeof answer === "object" ? JSON.stringify(answer) : String(answer);
       let existing = "";
       let label = m.target;
-      if (m.target === "customer.name") { existing = customer.name ?? ""; label = "Name"; }
-      else if (m.target === "customer.email") { existing = customer.email ?? ""; label = "Email"; }
-      else if (m.target === "customer.phone") { existing = customer.phone ?? ""; label = "Phone"; }
-      else if (m.target.startsWith("customer.address")) {
+      if (m.target === "customer.name") {
+        existing = customer.name ?? "";
+        label = "Name";
+      } else if (m.target === "customer.email") {
+        existing = customer.email ?? "";
+        label = "Email";
+      } else if (m.target === "customer.phone") {
+        existing = customer.phone ?? "";
+        label = "Phone";
+      } else if (m.target.startsWith("customer.address")) {
         const key = m.target.split(".").pop() ?? "";
-        existing = (customer as Record<string, unknown>)[key] as string ?? "";
+        existing = ((customer as Record<string, unknown>)[key] as string) ?? "";
         label = `Address (${key})`;
       }
       if (submitted && existing && submitted !== existing) {
-        diffs.push({ field: m.target, label, submitted, existing, useSubmitted: mergeRule === "submitted_wins" });
+        diffs.push({
+          field: m.target,
+          label,
+          submitted,
+          existing,
+          useSubmitted: mergeRule === "submitted_wins",
+        });
       } else if (submitted && !existing) {
-        diffs.push({ field: m.target, label, submitted, existing: "(empty)", useSubmitted: true });
+        diffs.push({
+          field: m.target,
+          label,
+          submitted,
+          existing: "(empty)",
+          useSubmitted: true,
+        });
       }
     }
     return diffs;
   }, [selectedCustomerId, form, answers, mergeRule]);
 
-  const [conflictChoices, setConflictChoices] = useState<Record<string, boolean>>({});
+  const [conflictChoices, setConflictChoices] = useState<
+    Record<string, boolean>
+  >({});
 
   const handleMatchExisting = (customerId: number) => {
     if (!id) return;
@@ -371,14 +464,26 @@ export default function SubmissionDetailPage({
         field: d.field,
         submittedValue: d.submitted,
         existingValue: d.existing,
-        chosen: mergeRule === "ask" ? (conflictChoices[d.field] ?? true ? "submitted" : "existing") : mergeRule === "submitted_wins" ? "submitted" : "existing",
+        chosen:
+          mergeRule === "ask"
+            ? (conflictChoices[d.field] ?? true)
+              ? "submitted"
+              : "existing"
+            : mergeRule === "submitted_wins"
+              ? "submitted"
+              : "existing",
       }));
-    linkSubmissionToCustomer(id, customerId, selectedPetIds.length > 0 ? selectedPetIds : undefined, {
-      mergeRule: mergeRule,
-      overrides,
-      staffUserId: "staff-demo",
-      staffUserName: "Staff",
-    });
+    linkSubmissionToCustomer(
+      id,
+      customerId,
+      selectedPetIds.length > 0 ? selectedPetIds : undefined,
+      {
+        mergeRule: mergeRule,
+        overrides,
+        staffUserId: "staff-demo",
+        staffUserName: "Staff",
+      },
+    );
     const customer = clients.find((c) => c.id === customerId);
     setLinkedCustomerName(customer?.name ?? "Customer");
     setSelectedCustomerId(customerId);
@@ -389,7 +494,10 @@ export default function SubmissionDetailPage({
   const handleCreateNew = () => {
     if (!id || !submission) return;
     // Extract name/email/phone from answers
-    const name = Object.values(answers).find((v) => typeof v === "string" && v.includes(" ") && !v.includes("@")) as string ?? "New Customer";
+    const name =
+      (Object.values(answers).find(
+        (v) => typeof v === "string" && v.includes(" ") && !v.includes("@"),
+      ) as string) ?? "New Customer";
     const email = emailFromAnswers || undefined;
     const phone = phoneFromAnswers || undefined;
     // In production, this creates a real customer + pet record via API
@@ -422,7 +530,9 @@ export default function SubmissionDetailPage({
 
   const togglePetSelection = (petId: number) => {
     setSelectedPetIds((prev) =>
-      prev.includes(petId) ? prev.filter((id) => id !== petId) : [...prev, petId]
+      prev.includes(petId)
+        ? prev.filter((id) => id !== petId)
+        : [...prev, petId],
     );
   };
 
@@ -432,7 +542,12 @@ export default function SubmissionDetailPage({
         <Card>
           <CardContent className="py-12 text-center text-muted-foreground">
             Submission not found.
-            <Button variant="link" onClick={() => router.push("/facility/dashboard/forms/submissions")}>
+            <Button
+              variant="link"
+              onClick={() =>
+                router.push("/facility/dashboard/forms/submissions")
+              }
+            >
               Back to Inbox
             </Button>
           </CardContent>
@@ -444,22 +559,30 @@ export default function SubmissionDetailPage({
   return (
     <div className="flex-1 space-y-4 p-4 pt-6">
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" onClick={() => router.push("/facility/dashboard/forms/submissions")}>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => router.push("/facility/dashboard/forms/submissions")}
+        >
           <ArrowLeft className="h-4 w-4" />
         </Button>
         <div>
           <h2 className="text-2xl font-bold tracking-tight">Submission</h2>
           <p className="text-sm text-muted-foreground">
-            {form?.name ?? submission.formId} · {formatSubmissionDate(submission.createdAt)}
+            {form?.name ?? submission.formId} ·{" "}
+            {formatSubmissionDate(submission.createdAt)}
           </p>
         </div>
-        <Badge variant={record.status === "unread" ? "default" : "secondary"} className="ml-auto">
+        <Badge
+          variant={record.status === "unread" ? "default" : "secondary"}
+          className="ml-auto"
+        >
           {record.status}
         </Badge>
       </div>
 
       {/* Scoring Outcome (Phase 2) */}
-      {record.scoreOutcome && (
+      {record.scoreOutcome &&
         (() => {
           const outcome = getOutcomeDisplay(record.scoreOutcome!);
           const rules = record.scoreDetails ?? [];
@@ -475,15 +598,22 @@ export default function SubmissionDetailPage({
               <CardContent>
                 <div className="flex items-center gap-4">
                   <div className={`rounded-xl px-4 py-2.5 ${outcome.bg}`}>
-                    <p className="text-2xl font-bold tabular-nums">{totalPoints}</p>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">points</p>
+                    <p className="text-2xl font-bold tabular-nums">
+                      {totalPoints}
+                    </p>
+                    <p className="text-[10px] text-muted-foreground mt-0.5">
+                      points
+                    </p>
                   </div>
                   <div>
-                    <Badge className={`${outcome.bg} ${outcome.color} border-0 text-xs font-semibold`}>
+                    <Badge
+                      className={`${outcome.bg} ${outcome.color} border-0 text-xs font-semibold`}
+                    >
                       {outcome.label}
                     </Badge>
                     <p className="text-xs text-muted-foreground mt-1.5">
-                      {rules.length} rule{rules.length !== 1 ? "s" : ""} evaluated
+                      {rules.length} rule{rules.length !== 1 ? "s" : ""}{" "}
+                      evaluated
                     </p>
                   </div>
                   {rules.length > 0 && (
@@ -492,10 +622,15 @@ export default function SubmissionDetailPage({
                         <div
                           key={i}
                           className={`rounded-md px-2.5 py-1.5 text-center text-xs border ${
-                            r.points > 0 ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-muted/50 border-muted text-muted-foreground"
+                            r.points > 0
+                              ? "bg-emerald-50 border-emerald-200 text-emerald-700"
+                              : "bg-muted/50 border-muted text-muted-foreground"
                           }`}
                         >
-                          <span className="font-semibold">{r.points > 0 ? "+" : ""}{r.points}</span>
+                          <span className="font-semibold">
+                            {r.points > 0 ? "+" : ""}
+                            {r.points}
+                          </span>
                         </div>
                       ))}
                     </div>
@@ -504,8 +639,7 @@ export default function SubmissionDetailPage({
               </CardContent>
             </Card>
           );
-        })()
-      )}
+        })()}
 
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Left: Answers in form layout */}
@@ -518,21 +652,31 @@ export default function SubmissionDetailPage({
           </CardHeader>
           <CardContent className="space-y-4">
             {visibleQuestions.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No answers recorded.</p>
+              <p className="text-sm text-muted-foreground">
+                No answers recorded.
+              </p>
             ) : hasSections && groupedQuestions ? (
               /* Section-grouped layout */
               groupedQuestions.map((group, gi) => (
                 <div key={group.section.id}>
                   {gi > 0 && <Separator className="my-4" />}
                   <div className="mb-3">
-                    <h3 className="text-sm font-semibold text-foreground">{group.section.title}</h3>
+                    <h3 className="text-sm font-semibold text-foreground">
+                      {group.section.title}
+                    </h3>
                     {group.section.description && (
-                      <p className="text-xs text-muted-foreground mt-0.5">{group.section.description}</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        {group.section.description}
+                      </p>
                     )}
                   </div>
                   <div className="space-y-3 pl-1">
                     {group.questions.map((q) => (
-                      <AnswerBlock key={q.id} question={q} value={answers[q.id]} />
+                      <AnswerBlock
+                        key={q.id}
+                        question={q}
+                        value={answers[q.id]}
+                      />
                     ))}
                   </div>
                 </div>
@@ -562,10 +706,13 @@ export default function SubmissionDetailPage({
             {linkedCustomerName && (
               <div className="rounded-md bg-green-50 border border-green-200 p-3 text-sm flex items-center gap-2">
                 <CheckCircle className="h-4 w-4 text-green-600" />
-                <span className="font-medium text-green-800">Linked to {linkedCustomerName}</span>
+                <span className="font-medium text-green-800">
+                  Linked to {linkedCustomerName}
+                </span>
                 {selectedPetIds.length > 0 && (
                   <span className="text-green-700 text-xs ml-1">
-                    ({selectedPetIds.length} pet{selectedPetIds.length !== 1 ? "s" : ""} selected)
+                    ({selectedPetIds.length} pet
+                    {selectedPetIds.length !== 1 ? "s" : ""} selected)
                   </span>
                 )}
               </div>
@@ -584,36 +731,54 @@ export default function SubmissionDetailPage({
                 <Label>Matching customers</Label>
                 {/* Prompt when matches exist but no selection */}
                 {!selectedCustomerId && !linkedCustomerName && (
-                  <p className="text-xs text-muted-foreground italic">Select a customer to see merge preview</p>
+                  <p className="text-xs text-muted-foreground italic">
+                    Select a customer to see merge preview
+                  </p>
                 )}
                 <div className="space-y-2">
                   {matchingCustomers.map((c) => (
                     <div
                       key={c.id}
                       className={`flex items-center justify-between rounded-lg border p-3 transition-colors ${
-                        selectedCustomerId === c.id ? "border-primary bg-primary/5" : ""
+                        selectedCustomerId === c.id
+                          ? "border-primary bg-primary/5"
+                          : ""
                       }`}
                     >
                       <div>
                         <p className="font-medium">{c.name}</p>
-                        <p className="text-xs text-muted-foreground">{c.email}</p>
-                        {c.phone && <p className="text-xs text-muted-foreground">{c.phone}</p>}
+                        <p className="text-xs text-muted-foreground">
+                          {c.email}
+                        </p>
+                        {c.phone && (
+                          <p className="text-xs text-muted-foreground">
+                            {c.phone}
+                          </p>
+                        )}
                       </div>
                       <Button
                         size="sm"
-                        variant={selectedCustomerId === c.id ? "secondary" : "outline"}
+                        variant={
+                          selectedCustomerId === c.id ? "secondary" : "outline"
+                        }
                         onClick={() => setSelectedCustomerId(c.id)}
                       >
                         {selectedCustomerId === c.id ? (
-                          <><Check className="h-3.5 w-3.5 mr-1" /> Selected</>
-                        ) : "Select"}
+                          <>
+                            <Check className="h-3.5 w-3.5 mr-1" /> Selected
+                          </>
+                        ) : (
+                          "Select"
+                        )}
                       </Button>
                     </div>
                   ))}
                 </div>
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground">No existing customer matched by email/phone.</p>
+              <p className="text-sm text-muted-foreground">
+                No existing customer matched by email/phone.
+              </p>
             )}
 
             {/* Pet matching section */}
@@ -627,7 +792,10 @@ export default function SubmissionDetailPage({
                   </Label>
                   {petNamesFromAnswers.length > 0 && (
                     <p className="text-xs text-muted-foreground">
-                      Pet names from submission: <span className="font-medium">{petNamesFromAnswers.join(", ")}</span>
+                      Pet names from submission:{" "}
+                      <span className="font-medium">
+                        {petNamesFromAnswers.join(", ")}
+                      </span>
                     </p>
                   )}
                   <div className="space-y-1.5">
@@ -638,7 +806,9 @@ export default function SubmissionDetailPage({
                         <label
                           key={pet.id}
                           className={`flex items-center gap-3 rounded-md border p-2.5 cursor-pointer transition-colors ${
-                            isSelected ? "border-primary bg-primary/5" : "hover:bg-muted/30"
+                            isSelected
+                              ? "border-primary bg-primary/5"
+                              : "hover:bg-muted/30"
                           }`}
                         >
                           <Checkbox
@@ -647,12 +817,18 @@ export default function SubmissionDetailPage({
                           />
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
-                              <span className="text-sm font-medium">{pet.name}</span>
-                              {isLinked && <Check className="h-3.5 w-3.5 text-green-600" />}
+                              <span className="text-sm font-medium">
+                                {pet.name}
+                              </span>
+                              {isLinked && (
+                                <Check className="h-3.5 w-3.5 text-green-600" />
+                              )}
                             </div>
                             <p className="text-xs text-muted-foreground">
                               {pet.breed ?? pet.type}
-                              {pet.age != null ? ` · ${pet.age} yr${pet.age !== 1 ? "s" : ""} old` : ""}
+                              {pet.age != null
+                                ? ` · ${pet.age} yr${pet.age !== 1 ? "s" : ""} old`
+                                : ""}
                             </p>
                           </div>
                         </label>
@@ -667,12 +843,19 @@ export default function SubmissionDetailPage({
 
             <div className="space-y-2">
               <Label>Merge rule</Label>
-              <Select value={mergeRule} onValueChange={(v: "submitted_wins" | "existing_wins" | "ask") => setMergeRule(v)}>
+              <Select
+                value={mergeRule}
+                onValueChange={(
+                  v: "submitted_wins" | "existing_wins" | "ask",
+                ) => setMergeRule(v)}
+              >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="submitted_wins">Submitted overrides existing</SelectItem>
+                  <SelectItem value="submitted_wins">
+                    Submitted overrides existing
+                  </SelectItem>
                   <SelectItem value="existing_wins">Existing wins</SelectItem>
                   <SelectItem value="ask">Ask on each conflict</SelectItem>
                 </SelectContent>
@@ -684,34 +867,63 @@ export default function SubmissionDetailPage({
               <div className="space-y-2">
                 <Label className="flex items-center gap-1.5">
                   <AlertCircle className="h-3.5 w-3.5 text-amber-500" />
-                  Merge diff ({mergeDiff.filter((d) => d.existing !== "(empty)").length} conflict{mergeDiff.filter((d) => d.existing !== "(empty)").length !== 1 ? "s" : ""}, {mergeDiff.filter((d) => d.existing === "(empty)").length} new)
+                  Merge diff (
+                  {
+                    mergeDiff.filter((d) => d.existing !== "(empty)").length
+                  }{" "}
+                  conflict
+                  {mergeDiff.filter((d) => d.existing !== "(empty)").length !==
+                  1
+                    ? "s"
+                    : ""}
+                  , {mergeDiff.filter((d) => d.existing === "(empty)").length}{" "}
+                  new)
                 </Label>
                 <div className="space-y-1.5">
                   {mergeDiff.map((d) => (
-                    <div key={d.field} className="rounded-md border p-2.5 text-sm">
-                      <p className="font-medium text-xs text-muted-foreground mb-1">{d.label}</p>
+                    <div
+                      key={d.field}
+                      className="rounded-md border p-2.5 text-sm"
+                    >
+                      <p className="font-medium text-xs text-muted-foreground mb-1">
+                        {d.label}
+                      </p>
                       {d.existing === "(empty)" ? (
                         <div className="flex items-center gap-2 text-green-700">
-                          <span className="text-xs bg-green-100 text-green-800 rounded px-1.5 py-0.5">NEW</span>
+                          <span className="text-xs bg-green-100 text-green-800 rounded px-1.5 py-0.5">
+                            NEW
+                          </span>
                           <span>{d.submitted}</span>
                         </div>
                       ) : (
                         <div className="space-y-1">
                           <div className="flex items-center gap-2 text-xs">
-                            <span className={`rounded px-1.5 py-0.5 ${
-                              mergeRule === "ask"
-                                ? (conflictChoices[d.field] ?? true) ? "bg-primary/10 text-primary font-medium" : "bg-muted text-muted-foreground"
-                                : mergeRule === "submitted_wins" ? "bg-primary/10 text-primary font-medium" : "bg-muted text-muted-foreground line-through"
-                            }`}>
+                            <span
+                              className={`rounded px-1.5 py-0.5 ${
+                                mergeRule === "ask"
+                                  ? (conflictChoices[d.field] ?? true)
+                                    ? "bg-primary/10 text-primary font-medium"
+                                    : "bg-muted text-muted-foreground"
+                                  : mergeRule === "submitted_wins"
+                                    ? "bg-primary/10 text-primary font-medium"
+                                    : "bg-muted text-muted-foreground line-through"
+                              }`}
+                            >
                               Submitted: {d.submitted}
                             </span>
                           </div>
                           <div className="flex items-center gap-2 text-xs">
-                            <span className={`rounded px-1.5 py-0.5 ${
-                              mergeRule === "ask"
-                                ? !(conflictChoices[d.field] ?? true) ? "bg-primary/10 text-primary font-medium" : "bg-muted text-muted-foreground"
-                                : mergeRule === "existing_wins" ? "bg-primary/10 text-primary font-medium" : "bg-muted text-muted-foreground line-through"
-                            }`}>
+                            <span
+                              className={`rounded px-1.5 py-0.5 ${
+                                mergeRule === "ask"
+                                  ? !(conflictChoices[d.field] ?? true)
+                                    ? "bg-primary/10 text-primary font-medium"
+                                    : "bg-muted text-muted-foreground"
+                                  : mergeRule === "existing_wins"
+                                    ? "bg-primary/10 text-primary font-medium"
+                                    : "bg-muted text-muted-foreground line-through"
+                              }`}
+                            >
                               Existing: {d.existing}
                             </span>
                           </div>
@@ -719,19 +931,37 @@ export default function SubmissionDetailPage({
                             <div className="flex gap-2 mt-1.5">
                               <Button
                                 type="button"
-                                variant={(conflictChoices[d.field] ?? true) ? "default" : "outline"}
+                                variant={
+                                  (conflictChoices[d.field] ?? true)
+                                    ? "default"
+                                    : "outline"
+                                }
                                 size="sm"
                                 className="h-7 text-xs"
-                                onClick={() => setConflictChoices((prev) => ({ ...prev, [d.field]: true }))}
+                                onClick={() =>
+                                  setConflictChoices((prev) => ({
+                                    ...prev,
+                                    [d.field]: true,
+                                  }))
+                                }
                               >
                                 Use submitted
                               </Button>
                               <Button
                                 type="button"
-                                variant={!(conflictChoices[d.field] ?? true) ? "default" : "outline"}
+                                variant={
+                                  !(conflictChoices[d.field] ?? true)
+                                    ? "default"
+                                    : "outline"
+                                }
                                 size="sm"
                                 className="h-7 text-xs"
-                                onClick={() => setConflictChoices((prev) => ({ ...prev, [d.field]: false }))}
+                                onClick={() =>
+                                  setConflictChoices((prev) => ({
+                                    ...prev,
+                                    [d.field]: false,
+                                  }))
+                                }
                               >
                                 Keep existing
                               </Button>
@@ -747,16 +977,32 @@ export default function SubmissionDetailPage({
 
             <div className="flex flex-wrap gap-2 pt-2">
               {selectedCustomerId ? (
-                <Button size="sm" onClick={() => handleMatchExisting(selectedCustomerId as number)}>
+                <Button
+                  size="sm"
+                  onClick={() =>
+                    handleMatchExisting(selectedCustomerId as number)
+                  }
+                >
                   <ArrowRight className="h-4 w-4 mr-2" />
                   Merge &amp; link
                 </Button>
               ) : null}
-              <Button variant="outline" size="sm" onClick={handleCreateNew} disabled={createdProfile}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleCreateNew}
+                disabled={createdProfile}
+              >
                 <UserPlus className="h-4 w-4 mr-2" />
                 {createdProfile ? "Profile created" : "Create new profile"}
               </Button>
-              <Button size="sm" variant={selectedCustomerId || createdProfile ? "default" : "secondary"} onClick={handleMarkProcessed}>
+              <Button
+                size="sm"
+                variant={
+                  selectedCustomerId || createdProfile ? "default" : "secondary"
+                }
+                onClick={handleMarkProcessed}
+              >
                 <CheckCircle className="h-4 w-4 mr-2" />
                 Mark as processed
               </Button>
@@ -765,7 +1011,9 @@ export default function SubmissionDetailPage({
             {/* Post-processing actions */}
             <Separator />
             <div className="space-y-3">
-              <Label className="text-sm font-semibold">Post-processing actions</Label>
+              <Label className="text-sm font-semibold">
+                Post-processing actions
+              </Label>
 
               {/* Create booking request */}
               <div className="space-y-2">
@@ -783,14 +1031,22 @@ export default function SubmissionDetailPage({
                   <div className="rounded-md border bg-muted/20 p-3 space-y-3">
                     <div className="flex items-center justify-between">
                       <p className="text-sm font-medium">New booking request</p>
-                      <Button variant="ghost" size="sm" className="h-6 px-2 text-xs" onClick={() => setShowBookingForm(false)}>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-6 px-2 text-xs"
+                        onClick={() => setShowBookingForm(false)}
+                      >
                         Cancel
                       </Button>
                     </div>
                     <div className="space-y-2">
                       <div>
                         <Label className="text-xs">Service type</Label>
-                        <Select value={bookingServiceType} onValueChange={setBookingServiceType}>
+                        <Select
+                          value={bookingServiceType}
+                          onValueChange={setBookingServiceType}
+                        >
                           <SelectTrigger className="h-8 text-sm">
                             <SelectValue placeholder="Select service" />
                           </SelectTrigger>
@@ -821,7 +1077,11 @@ export default function SubmissionDetailPage({
                         />
                       </div>
                     </div>
-                    <Button size="sm" className="h-8 text-xs" onClick={handleCreateBookingRequest}>
+                    <Button
+                      size="sm"
+                      className="h-8 text-xs"
+                      onClick={handleCreateBookingRequest}
+                    >
                       Create request
                     </Button>
                   </div>
@@ -851,46 +1111,91 @@ export default function SubmissionDetailPage({
             Where answers go
           </CardTitle>
           <p className="text-xs text-muted-foreground">
-            Field mappings configured in the form builder determine where each answer is stored.
+            Field mappings configured in the form builder determine where each
+            answer is stored.
           </p>
         </CardHeader>
         <CardContent>
           {!hasMappings ? (
-            <p className="text-sm text-muted-foreground">No field mappings configured for this form.</p>
+            <p className="text-sm text-muted-foreground">
+              No field mappings configured for this form.
+            </p>
           ) : (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {Object.entries(mappingResults).map(([group, items]) => {
-                const groupConfig: Record<string, { label: string; icon: React.ReactNode; bg: string }> = {
-                  customer: { label: "Customer Profile", icon: <User className="h-4 w-4 text-blue-600" />, bg: "bg-blue-50" },
-                  pet: { label: "Pet Profile", icon: <PawPrint className="h-4 w-4 text-amber-600" />, bg: "bg-amber-50" },
-                  medical: { label: "Medical / Vaccine", icon: <Syringe className="h-4 w-4 text-red-600" />, bg: "bg-red-50" },
-                  notes: { label: "Notes", icon: <FileText className="h-4 w-4 text-slate-600" />, bg: "bg-slate-50" },
-                  tags: { label: "Tags", icon: <Tag className="h-4 w-4 text-purple-600" />, bg: "bg-purple-50" },
+                const groupConfig: Record<
+                  string,
+                  { label: string; icon: React.ReactNode; bg: string }
+                > = {
+                  customer: {
+                    label: "Customer Profile",
+                    icon: <User className="h-4 w-4 text-blue-600" />,
+                    bg: "bg-blue-50",
+                  },
+                  pet: {
+                    label: "Pet Profile",
+                    icon: <PawPrint className="h-4 w-4 text-amber-600" />,
+                    bg: "bg-amber-50",
+                  },
+                  medical: {
+                    label: "Medical / Vaccine",
+                    icon: <Syringe className="h-4 w-4 text-red-600" />,
+                    bg: "bg-red-50",
+                  },
+                  notes: {
+                    label: "Notes",
+                    icon: <FileText className="h-4 w-4 text-slate-600" />,
+                    bg: "bg-slate-50",
+                  },
+                  tags: {
+                    label: "Tags",
+                    icon: <Tag className="h-4 w-4 text-purple-600" />,
+                    bg: "bg-purple-50",
+                  },
                 };
-                const config = groupConfig[group] ?? { label: group, icon: <FileText className="h-4 w-4 text-slate-600" />, bg: "bg-slate-50" };
+                const config = groupConfig[group] ?? {
+                  label: group,
+                  icon: <FileText className="h-4 w-4 text-slate-600" />,
+                  bg: "bg-slate-50",
+                };
                 return (
-                  <div key={group} className={`rounded-lg border p-3 ${config.bg}`}>
+                  <div
+                    key={group}
+                    className={`rounded-lg border p-3 ${config.bg}`}
+                  >
                     <div className="flex items-center gap-2 mb-3">
                       {config.icon}
-                      <span className="text-sm font-semibold">{config.label}</span>
+                      <span className="text-sm font-semibold">
+                        {config.label}
+                      </span>
                     </div>
                     <div className="space-y-2">
                       {(items as MappingResult[]).map((item, idx) => (
-                        <div key={idx} className="rounded-md bg-white/80 border border-white/60 px-2.5 py-2 text-sm">
+                        <div
+                          key={idx}
+                          className="rounded-md bg-white/80 border border-white/60 px-2.5 py-2 text-sm"
+                        >
                           <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-0.5">
                             <span>{item.questionLabel}</span>
                             <ArrowRight className="h-3 w-3 shrink-0" />
-                            <span className="font-medium text-foreground">{item.label}</span>
+                            <span className="font-medium text-foreground">
+                              {item.label}
+                            </span>
                             {item.hasAttachment && (
                               <Paperclip className="h-3 w-3 text-muted-foreground shrink-0" />
                             )}
                           </div>
                           {group === "tags" ? (
-                            <Badge variant="secondary" className="mt-1 text-xs bg-purple-100 text-purple-700 border-purple-200">
+                            <Badge
+                              variant="secondary"
+                              className="mt-1 text-xs bg-purple-100 text-purple-700 border-purple-200"
+                            >
                               {formatValue(item.value)}
                             </Badge>
                           ) : (
-                            <p className="text-sm font-medium truncate">{formatValue(item.value)}</p>
+                            <p className="text-sm font-medium truncate">
+                              {formatValue(item.value)}
+                            </p>
                           )}
                         </div>
                       ))}
@@ -917,39 +1222,76 @@ export default function SubmissionDetailPage({
         <CardContent className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <Label className="text-muted-foreground text-xs">Received at</Label>
-              <p className="text-sm font-medium">{submission ? formatSubmissionDate(submission.createdAt) : "—"}</p>
+              <Label className="text-muted-foreground text-xs">
+                Received at
+              </Label>
+              <p className="text-sm font-medium">
+                {submission ? formatSubmissionDate(submission.createdAt) : "—"}
+              </p>
             </div>
             {record?.submittedAt && (
               <div>
-                <Label className="text-muted-foreground text-xs">Submitted at</Label>
-                <p className="text-sm font-medium">{formatSubmissionDate(record.submittedAt)}</p>
+                <Label className="text-muted-foreground text-xs">
+                  Submitted at
+                </Label>
+                <p className="text-sm font-medium">
+                  {formatSubmissionDate(record.submittedAt)}
+                </p>
               </div>
             )}
           </div>
-          {record?.mergeDecision && typeof record.mergeDecision === "object" && "rule" in record.mergeDecision && (
-            <div className="rounded-md border bg-muted/30 p-3 text-sm">
-              <p className="font-medium mb-1">Merge decision</p>
-              <p className="text-muted-foreground text-xs">
-                Rule: {(record.mergeDecision as { rule?: string }).rule ?? "—"} · at {(record.mergeDecision as { at?: string }).at ?? "—"}
-              </p>
-              {Array.isArray((record.mergeDecision as { overrides?: unknown[] }).overrides) &&
-                (record.mergeDecision as { overrides: { field: string; submittedValue: string; existingValue: string }[] }).overrides.length > 0 && (
-                  <ul className="mt-2 list-inside list-disc text-xs">
-                    {(record.mergeDecision as { overrides: { field: string; submittedValue: string; existingValue: string }[] }).overrides.map((o, i) => (
-                      <li key={i}>{o.field}: submitted &quot;{o.submittedValue}&quot; vs existing &quot;{o.existingValue}&quot;</li>
-                    ))}
-                  </ul>
-                )}
-            </div>
-          )}
+          {record?.mergeDecision &&
+            typeof record.mergeDecision === "object" &&
+            "rule" in record.mergeDecision && (
+              <div className="rounded-md border bg-muted/30 p-3 text-sm">
+                <p className="font-medium mb-1">Merge decision</p>
+                <p className="text-muted-foreground text-xs">
+                  Rule:{" "}
+                  {(record.mergeDecision as { rule?: string }).rule ?? "—"} · at{" "}
+                  {(record.mergeDecision as { at?: string }).at ?? "—"}
+                </p>
+                {Array.isArray(
+                  (record.mergeDecision as { overrides?: unknown[] }).overrides,
+                ) &&
+                  (
+                    record.mergeDecision as {
+                      overrides: {
+                        field: string;
+                        submittedValue: string;
+                        existingValue: string;
+                      }[];
+                    }
+                  ).overrides.length > 0 && (
+                    <ul className="mt-2 list-inside list-disc text-xs">
+                      {(
+                        record.mergeDecision as {
+                          overrides: {
+                            field: string;
+                            submittedValue: string;
+                            existingValue: string;
+                          }[];
+                        }
+                      ).overrides.map((o, i) => (
+                        <li key={i}>
+                          {o.field}: submitted &quot;{o.submittedValue}&quot; vs
+                          existing &quot;{o.existingValue}&quot;
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+              </div>
+            )}
           {submissionAuditEntries.length > 0 && (
             <div>
-              <Label className="text-muted-foreground text-xs">Audit log (this submission)</Label>
+              <Label className="text-muted-foreground text-xs">
+                Audit log (this submission)
+              </Label>
               <ul className="mt-1 space-y-1 text-xs">
                 {submissionAuditEntries.slice(0, 10).map((e) => (
                   <li key={e.id} className="flex gap-2">
-                    <span className="text-muted-foreground shrink-0">{e.timestamp.slice(0, 19).replace("T", " ")}</span>
+                    <span className="text-muted-foreground shrink-0">
+                      {e.timestamp.slice(0, 19).replace("T", " ")}
+                    </span>
                     <span>{e.action}</span>
                   </li>
                 ))}

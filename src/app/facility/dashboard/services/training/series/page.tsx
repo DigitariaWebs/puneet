@@ -61,9 +61,16 @@ import {
 } from "@/lib/training-series";
 import { toast } from "sonner";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 // Date formatting helper
-const formatDate = (date: Date | string, format: "short" | "long" = "short"): string => {
+const formatDate = (
+  date: Date | string,
+  format: "short" | "long" = "short",
+): string => {
   const d = typeof date === "string" ? new Date(date) : date;
   if (format === "long") {
     return d.toLocaleDateString("en-US", {
@@ -93,7 +100,9 @@ const TRAINING_LOCATIONS = [
 export default function TrainingSeriesPage() {
   const [series, setSeries] = useState<TrainingSeries[]>([]);
   const [isAddEditModalOpen, setIsAddEditModalOpen] = useState(false);
-  const [editingSeries, setEditingSeries] = useState<TrainingSeries | null>(null);
+  const [editingSeries, setEditingSeries] = useState<TrainingSeries | null>(
+    null,
+  );
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deletingSeriesId, setDeletingSeriesId] = useState<string | null>(null);
 
@@ -124,7 +133,7 @@ export default function TrainingSeriesPage() {
   // Get selected course type
   const selectedCourseType = useMemo(() => {
     return defaultTrainingCourseTypes.find(
-      (ct) => ct.id === formData.courseTypeId
+      (ct) => ct.id === formData.courseTypeId,
     );
   }, [formData.courseTypeId]);
 
@@ -145,13 +154,15 @@ export default function TrainingSeriesPage() {
     return calculateSessionDates(
       formData.startDate,
       formData.dayOfWeek,
-      formData.numberOfWeeks
+      formData.numberOfWeeks,
     );
   }, [formData.startDate, formData.dayOfWeek, formData.numberOfWeeks]);
 
   // Auto-fill series name when course type is selected
   const handleCourseTypeChange = (courseTypeId: string) => {
-    const courseType = defaultTrainingCourseTypes.find((ct) => ct.id === courseTypeId);
+    const courseType = defaultTrainingCourseTypes.find(
+      (ct) => ct.id === courseTypeId,
+    );
     if (courseType) {
       setFormData({
         ...formData,
@@ -237,7 +248,7 @@ export default function TrainingSeriesPage() {
     }
 
     const courseType = defaultTrainingCourseTypes.find(
-      (ct) => ct.id === formData.courseTypeId
+      (ct) => ct.id === formData.courseTypeId,
     );
     const instructor = trainers.find((t) => t.id === formData.instructorId);
 
@@ -247,7 +258,10 @@ export default function TrainingSeriesPage() {
     }
 
     // Generate sessions
-    const tempSeries: Omit<TrainingSeries, "sessions" | "id" | "createdAt" | "updatedAt"> = {
+    const tempSeries: Omit<
+      TrainingSeries,
+      "sessions" | "id" | "createdAt" | "updatedAt"
+    > = {
       courseTypeId: formData.courseTypeId,
       courseTypeName: courseType.name,
       seriesName: formData.seriesName,
@@ -286,7 +300,9 @@ export default function TrainingSeriesPage() {
     };
 
     if (editingSeries) {
-      setSeries(series.map((s) => (s.id === editingSeries.id ? seriesData : s)));
+      setSeries(
+        series.map((s) => (s.id === editingSeries.id ? seriesData : s)),
+      );
       toast.success("Series updated successfully");
     } else {
       setSeries([...series, seriesData]);
@@ -298,7 +314,13 @@ export default function TrainingSeriesPage() {
   };
 
   const getStatusBadge = (status: SeriesStatus) => {
-    const variants: Record<SeriesStatus, { variant: "default" | "secondary" | "destructive" | "outline"; label: string }> = {
+    const variants: Record<
+      SeriesStatus,
+      {
+        variant: "default" | "secondary" | "destructive" | "outline";
+        label: string;
+      }
+    > = {
       draft: { variant: "outline", label: "Draft" },
       open: { variant: "default", label: "Open" },
       closed: { variant: "secondary", label: "Closed" },
@@ -307,9 +329,7 @@ export default function TrainingSeriesPage() {
       cancelled: { variant: "destructive", label: "Cancelled" },
     };
     const config = variants[status];
-    return (
-      <Badge variant={config.variant}>{config.label}</Badge>
-    );
+    return <Badge variant={config.variant}>{config.label}</Badge>;
   };
 
   return (
@@ -352,14 +372,19 @@ export default function TrainingSeriesPage() {
             <TableBody>
               {series.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
+                  <TableCell
+                    colSpan={8}
+                    className="text-center py-8 text-muted-foreground"
+                  >
                     No series created yet. Click "Create Series" to get started.
                   </TableCell>
                 </TableRow>
               ) : (
                 series.map((s) => (
                   <TableRow key={s.id}>
-                    <TableCell className="font-medium">{s.seriesName}</TableCell>
+                    <TableCell className="font-medium">
+                      {s.seriesName}
+                    </TableCell>
                     <TableCell>{s.courseTypeName}</TableCell>
                     <TableCell>{formatDate(s.startDate)}</TableCell>
                     <TableCell>
@@ -367,7 +392,11 @@ export default function TrainingSeriesPage() {
                     </TableCell>
                     <TableCell>{s.instructorName}</TableCell>
                     <TableCell>
-                      {s.sessions.reduce((sum, sess) => sum + sess.enrolledCount, 0)} / {s.maxCapacity}
+                      {s.sessions.reduce(
+                        (sum, sess) => sum + sess.enrolledCount,
+                        0,
+                      )}{" "}
+                      / {s.maxCapacity}
                     </TableCell>
                     <TableCell>{getStatusBadge(s.status)}</TableCell>
                     <TableCell className="text-right">
@@ -404,7 +433,8 @@ export default function TrainingSeriesPage() {
               {editingSeries ? "Edit Series" : "Create New Series"}
             </DialogTitle>
             <DialogDescription>
-              Create a scheduled occurrence of a course type with auto-generated sessions
+              Create a scheduled occurrence of a course type with auto-generated
+              sessions
             </DialogDescription>
           </DialogHeader>
 
@@ -458,14 +488,19 @@ export default function TrainingSeriesPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Start Date <span className="text-destructive">*</span></Label>
-                  <Popover open={startDatePickerOpen} onOpenChange={setStartDatePickerOpen}>
+                  <Label>
+                    Start Date <span className="text-destructive">*</span>
+                  </Label>
+                  <Popover
+                    open={startDatePickerOpen}
+                    onOpenChange={setStartDatePickerOpen}
+                  >
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
                         className={cn(
                           "w-full justify-start text-left font-normal",
-                          !formData.startDate && "text-muted-foreground"
+                          !formData.startDate && "text-muted-foreground",
                         )}
                       >
                         <Calendar className="mr-2 h-4 w-4" />
@@ -479,7 +514,11 @@ export default function TrainingSeriesPage() {
                     <PopoverContent className="w-auto p-0">
                       <CalendarComponent
                         mode="single"
-                        selected={formData.startDate ? new Date(formData.startDate) : undefined}
+                        selected={
+                          formData.startDate
+                            ? new Date(formData.startDate)
+                            : undefined
+                        }
                         onSelect={(date) => {
                           if (date) {
                             setFormData({
@@ -496,7 +535,9 @@ export default function TrainingSeriesPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="dayOfWeek">Day of Week <span className="text-destructive">*</span></Label>
+                  <Label htmlFor="dayOfWeek">
+                    Day of Week <span className="text-destructive">*</span>
+                  </Label>
                   <Select
                     value={formData.dayOfWeek.toString()}
                     onValueChange={(value) =>
@@ -533,7 +574,8 @@ export default function TrainingSeriesPage() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="duration">
-                    Duration (minutes) <span className="text-destructive">*</span>
+                    Duration (minutes){" "}
+                    <span className="text-destructive">*</span>
                   </Label>
                   <Input
                     id="duration"
@@ -601,7 +643,11 @@ export default function TrainingSeriesPage() {
                     <div className="flex flex-wrap gap-2">
                       {sessionDatesPreview.map((date, index) => (
                         <Badge key={date} variant="outline">
-                          Session {index + 1}: {new Date(date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                          Session {index + 1}:{" "}
+                          {new Date(date).toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                          })}
                         </Badge>
                       ))}
                     </div>
@@ -666,14 +712,19 @@ export default function TrainingSeriesPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Booking Opens <span className="text-destructive">*</span></Label>
-                  <Popover open={bookingOpensPickerOpen} onOpenChange={setBookingOpensPickerOpen}>
+                  <Label>
+                    Booking Opens <span className="text-destructive">*</span>
+                  </Label>
+                  <Popover
+                    open={bookingOpensPickerOpen}
+                    onOpenChange={setBookingOpensPickerOpen}
+                  >
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
                         className={cn(
                           "w-full justify-start text-left font-normal",
-                          !formData.bookingOpensDate && "text-muted-foreground"
+                          !formData.bookingOpensDate && "text-muted-foreground",
                         )}
                       >
                         <Calendar className="mr-2 h-4 w-4" />
@@ -687,12 +738,18 @@ export default function TrainingSeriesPage() {
                     <PopoverContent className="w-auto p-0">
                       <CalendarComponent
                         mode="single"
-                        selected={formData.bookingOpensDate ? new Date(formData.bookingOpensDate) : undefined}
+                        selected={
+                          formData.bookingOpensDate
+                            ? new Date(formData.bookingOpensDate)
+                            : undefined
+                        }
                         onSelect={(date) => {
                           if (date) {
                             setFormData({
                               ...formData,
-                              bookingOpensDate: date.toISOString().split("T")[0],
+                              bookingOpensDate: date
+                                .toISOString()
+                                .split("T")[0],
                             });
                             setBookingOpensPickerOpen(false);
                           }
@@ -704,14 +761,20 @@ export default function TrainingSeriesPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Booking Closes <span className="text-destructive">*</span></Label>
-                  <Popover open={bookingClosesPickerOpen} onOpenChange={setBookingClosesPickerOpen}>
+                  <Label>
+                    Booking Closes <span className="text-destructive">*</span>
+                  </Label>
+                  <Popover
+                    open={bookingClosesPickerOpen}
+                    onOpenChange={setBookingClosesPickerOpen}
+                  >
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
                         className={cn(
                           "w-full justify-start text-left font-normal",
-                          !formData.bookingClosesDate && "text-muted-foreground"
+                          !formData.bookingClosesDate &&
+                            "text-muted-foreground",
                         )}
                       >
                         <Calendar className="mr-2 h-4 w-4" />
@@ -725,12 +788,18 @@ export default function TrainingSeriesPage() {
                     <PopoverContent className="w-auto p-0">
                       <CalendarComponent
                         mode="single"
-                        selected={formData.bookingClosesDate ? new Date(formData.bookingClosesDate) : undefined}
+                        selected={
+                          formData.bookingClosesDate
+                            ? new Date(formData.bookingClosesDate)
+                            : undefined
+                        }
                         onSelect={(date) => {
                           if (date) {
                             setFormData({
                               ...formData,
-                              bookingClosesDate: date.toISOString().split("T")[0],
+                              bookingClosesDate: date
+                                .toISOString()
+                                .split("T")[0],
                             });
                             setBookingClosesPickerOpen(false);
                           }
@@ -760,7 +829,9 @@ export default function TrainingSeriesPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="fullPaymentAmount">Full Payment Amount ($)</Label>
+                  <Label htmlFor="fullPaymentAmount">
+                    Full Payment Amount ($)
+                  </Label>
                   <Input
                     id="fullPaymentAmount"
                     type="number"
@@ -836,8 +907,8 @@ export default function TrainingSeriesPage() {
           <DialogHeader>
             <DialogTitle>Delete Series</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this series? This will also delete all associated sessions.
-              This action cannot be undone.
+              Are you sure you want to delete this series? This will also delete
+              all associated sessions. This action cannot be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

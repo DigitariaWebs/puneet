@@ -153,33 +153,33 @@ export function FacilityHeader({ facilityId = 11 }: FacilityHeaderProps) {
               Create
             </TooltipContent>
           </Tooltip>
-        <DropdownMenuContent align="end" className="w-56">
-          <DropdownMenuItem onClick={() => setIsCreateClientModalOpen(true)}>
-            <User className="mr-2 h-4 w-4" />
-            New Client
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() =>
-              openBookingModal({
-                clients: clients.filter((c) => c.facility === facility.name),
-                facilityId: facilityId,
-                facilityName: facility.name,
-                onCreateBooking: handleCreateBooking,
-              })
-            }
-          >
-            <Calendar className="mr-2 h-4 w-4" />
-            New Booking
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleCreateWaitlist}>
-            <List className="mr-2 h-4 w-4" />
-            New Waitlist
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleQuickDaycareCheckIn}>
-            <Zap className="mr-2 h-4 w-4" />
-            Quick Daycare Check-in
-          </DropdownMenuItem>
-        </DropdownMenuContent>
+          <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuItem onClick={() => setIsCreateClientModalOpen(true)}>
+              <User className="mr-2 h-4 w-4" />
+              New Client
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() =>
+                openBookingModal({
+                  clients: clients.filter((c) => c.facility === facility.name),
+                  facilityId: facilityId,
+                  facilityName: facility.name,
+                  onCreateBooking: handleCreateBooking,
+                })
+              }
+            >
+              <Calendar className="mr-2 h-4 w-4" />
+              New Booking
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleCreateWaitlist}>
+              <List className="mr-2 h-4 w-4" />
+              New Waitlist
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleQuickDaycareCheckIn}>
+              <Zap className="mr-2 h-4 w-4" />
+              Quick Daycare Check-in
+            </DropdownMenuItem>
+          </DropdownMenuContent>
         </DropdownMenu>
       </TooltipProvider>
 

@@ -64,7 +64,10 @@ const MOCK_TASKS: MockTask[] = [
 
 const STATUS_CONFIG: Record<
   TaskStatus,
-  { label: string; variant: "default" | "secondary" | "outline" | "destructive" }
+  {
+    label: string;
+    variant: "default" | "secondary" | "outline" | "destructive";
+  }
 > = {
   pending: { label: "Pending", variant: "secondary" },
   in_progress: { label: "In Progress", variant: "default" },

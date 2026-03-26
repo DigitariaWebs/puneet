@@ -341,7 +341,10 @@ export function DataTable<T extends object>({
                   ))}
                   {actions && (
                     <TableCell className="text-right">
-                      <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+                      <div
+                        onClick={(e) => e.stopPropagation()}
+                        onKeyDown={(e) => e.stopPropagation()}
+                      >
                         {actions(item)}
                       </div>
                     </TableCell>

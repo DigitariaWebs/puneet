@@ -1,6 +1,12 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { CheckCircle2, Loader2, AlertCircle } from "lucide-react";
@@ -60,7 +66,9 @@ export function ReviewSection({
                 ))}
               </ul>
             ) : (
-              <p className="text-sm text-muted-foreground">No belongings listed</p>
+              <p className="text-sm text-muted-foreground">
+                No belongings listed
+              </p>
             )}
           </div>
 
@@ -71,7 +79,8 @@ export function ReviewSection({
               <div>
                 <h3 className="font-semibold mb-2">Feeding Instructions</h3>
                 <p className="text-sm text-muted-foreground">
-                  {formData.feedingInstructions.foodType} - {formData.feedingInstructions.portionSize}{" "}
+                  {formData.feedingInstructions.foodType} -{" "}
+                  {formData.feedingInstructions.portionSize}{" "}
                   {formData.feedingInstructions.portionUnit}
                 </p>
               </div>
@@ -118,8 +127,9 @@ export function ReviewSection({
                     .filter((ao) => ao.selected)
                     .map((ao) => (
                       <li key={ao.id}>
-                        {ao.name} {ao.quantity && ao.quantity > 1 && `x${ao.quantity}`} - $
-                        {((ao.quantity || 1) * ao.price).toFixed(2)}
+                        {ao.name}{" "}
+                        {ao.quantity && ao.quantity > 1 && `x${ao.quantity}`} -
+                        ${((ao.quantity || 1) * ao.price).toFixed(2)}
                       </li>
                     ))}
                 </ul>
@@ -162,7 +172,10 @@ export function ReviewSection({
           <Separator />
           <div className="flex justify-between font-bold text-lg">
             <span>Total:</span>
-            <span>${((booking?.totalCost || 0) + addOnsTotal + tipAmount).toFixed(2)}</span>
+            <span>
+              $
+              {((booking?.totalCost || 0) + addOnsTotal + tipAmount).toFixed(2)}
+            </span>
           </div>
         </div>
 
@@ -170,8 +183,8 @@ export function ReviewSection({
         <Alert>
           <CheckCircle2 className="h-4 w-4" />
           <AlertDescription>
-            By submitting this form, you confirm that all information is accurate. You can edit
-            this form until the deadline.
+            By submitting this form, you confirm that all information is
+            accurate. You can edit this form until the deadline.
           </AlertDescription>
         </Alert>
 

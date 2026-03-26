@@ -24,7 +24,10 @@ import { messageTemplates } from "@/data/communications-hub";
 import { VariableInsertDropdown } from "@/components/shared/VariableInsertDropdown";
 import { TemplatePreviewPanel } from "@/components/shared/TemplatePreviewPanel";
 import { useInsertAtCursor } from "@/hooks/use-insert-at-cursor";
-import { resolveTemplate, getMockPreviewData } from "@/lib/template-variable-resolver";
+import {
+  resolveTemplate,
+  getMockPreviewData,
+} from "@/lib/template-variable-resolver";
 
 interface ComposeMessageModalProps {
   onClose: () => void;
@@ -81,7 +84,11 @@ export function ComposeMessageModal({ onClose }: ComposeMessageModalProps) {
     },
     [activeField],
   );
-  const handleInsertVariable = useInsertAtCursor(activeRef, activeValue, setActiveValue);
+  const handleInsertVariable = useInsertAtCursor(
+    activeRef,
+    activeValue,
+    setActiveValue,
+  );
 
   const availableTemplates = messageTemplates.filter(
     (t) => t.type === formData.type,
@@ -217,8 +224,13 @@ export function ComposeMessageModal({ onClose }: ComposeMessageModalProps) {
             <div className="text-xs text-muted-foreground space-y-0.5">
               <p>{formData.body.length} / 160 characters (template)</p>
               {estimatedSmsLength !== null && (
-                <p className={estimatedSmsLength > 160 ? "text-amber-600 font-medium" : ""}>
-                  ~{estimatedSmsLength} / 160 characters (estimated after variables)
+                <p
+                  className={
+                    estimatedSmsLength > 160 ? "text-amber-600 font-medium" : ""
+                  }
+                >
+                  ~{estimatedSmsLength} / 160 characters (estimated after
+                  variables)
                 </p>
               )}
             </div>

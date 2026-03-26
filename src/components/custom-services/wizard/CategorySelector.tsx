@@ -5,7 +5,10 @@ import { CUSTOM_SERVICE_CATEGORIES_META } from "@/data/custom-services";
 import type { CustomServiceCategory } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-const CATEGORY_COLOR_MAP: Record<string, { bg: string; border: string; text: string; icon: string }> = {
+const CATEGORY_COLOR_MAP: Record<
+  string,
+  { bg: string; border: string; text: string; icon: string }
+> = {
   blue: {
     bg: "bg-blue-50 dark:bg-blue-950/30",
     border: "border-blue-200 dark:border-blue-800",
@@ -49,9 +52,16 @@ interface CategorySelectorProps {
   onChange: (category: CustomServiceCategory) => void;
 }
 
-export function CategorySelector({ selected, onChange }: CategorySelectorProps) {
+export function CategorySelector({
+  selected,
+  onChange,
+}: CategorySelectorProps) {
   return (
-    <div role="radiogroup" aria-label="Service category" className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+    <div
+      role="radiogroup"
+      aria-label="Service category"
+      className="grid grid-cols-2 gap-3 sm:grid-cols-3"
+    >
       {CUSTOM_SERVICE_CATEGORIES_META.map((cat) => {
         const Icon = resolveIcon(cat.icon);
         const isSelected = selected === cat.id;

@@ -34,7 +34,10 @@ export function VariableInsertDropdown({
   disabled,
 }: VariableInsertDropdownProps) {
   const [open, setOpen] = useState(false);
-  const groups = useMemo(() => getGroupedVariablesForContext(context), [context]);
+  const groups = useMemo(
+    () => getGroupedVariablesForContext(context),
+    [context],
+  );
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

@@ -1,7 +1,13 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -25,8 +31,15 @@ import {
   CheckCircle2,
   Printer,
 } from "lucide-react";
-import { type TrainingEnrollment, type SessionAttendance } from "@/lib/training-enrollment";
-import { type TrainingSeries, calculateSessionDates, getDayName } from "@/lib/training-series";
+import {
+  type TrainingEnrollment,
+  type SessionAttendance,
+} from "@/lib/training-enrollment";
+import {
+  type TrainingSeries,
+  calculateSessionDates,
+  getDayName,
+} from "@/lib/training-series";
 import { clients } from "@/data/clients";
 
 // Mock data - In production, this would come from API
@@ -127,7 +140,9 @@ export default function TrainingCheckInPage() {
   const [enrollments] = useState<TrainingEnrollment[]>(mockEnrollments);
   const [series] = useState<TrainingSeries[]>(mockSeries);
   const [isCheckInModalOpen, setIsCheckInModalOpen] = useState(false);
-  const [selectedArrival, setSelectedArrival] = useState<TodayArrival | null>(null);
+  const [selectedArrival, setSelectedArrival] = useState<TodayArrival | null>(
+    null,
+  );
   const [handlerName, setHandlerName] = useState("");
 
   useEffect(() => {
@@ -151,7 +166,7 @@ export default function TrainingCheckInPage() {
       const sessionDates = calculateSessionDates(
         seriesItem.startDate,
         seriesItem.dayOfWeek,
-        seriesItem.numberOfWeeks
+        seriesItem.numberOfWeeks,
       );
 
       const sessionIndex = enrollment.currentSessionNumber - 1;
@@ -181,13 +196,15 @@ export default function TrainingCheckInPage() {
       (arrival) =>
         arrival.enrollment.petName.toLowerCase().includes(query) ||
         arrival.enrollment.ownerName.toLowerCase().includes(query) ||
-        arrival.series.seriesName.toLowerCase().includes(query)
+        arrival.series.seriesName.toLowerCase().includes(query),
     );
   }, [todayArrivals, searchQuery]);
 
   const handleCheckIn = (arrival: TodayArrival) => {
     setSelectedArrival(arrival);
-    setHandlerName(arrival.enrollment.handlerName || arrival.enrollment.ownerName);
+    setHandlerName(
+      arrival.enrollment.handlerName || arrival.enrollment.ownerName,
+    );
     setIsCheckInModalOpen(true);
   };
 
@@ -204,13 +221,18 @@ export default function TrainingCheckInPage() {
 
       // Send SMS (simulated)
       const smsMessage = `${selectedArrival.enrollment.petName} checked in. Class starts ${selectedArrival.series.startTime}.`;
-      console.log("Sending SMS to", selectedArrival.enrollment.ownerPhone, ":", smsMessage);
+      console.log(
+        "Sending SMS to",
+        selectedArrival.enrollment.ownerPhone,
+        ":",
+        smsMessage,
+      );
 
       // Mark attendance (simulated)
       // In production, this would create a SessionAttendance record
 
       toast.success(
-        `${selectedArrival.enrollment.petName} checked in successfully! Tag printed and SMS sent.`
+        `${selectedArrival.enrollment.petName} checked in successfully! Tag printed and SMS sent.`,
       );
 
       setIsCheckInModalOpen(false);
@@ -240,7 +262,8 @@ export default function TrainingCheckInPage() {
           Training - Arrivals Today
         </Badge>
         <span className="text-sm text-muted-foreground">
-          {filteredArrivals.length} {filteredArrivals.length === 1 ? "arrival" : "arrivals"}
+          {filteredArrivals.length}{" "}
+          {filteredArrivals.length === 1 ? "arrival" : "arrivals"}
         </span>
       </div>
 
@@ -261,7 +284,12 @@ export default function TrainingCheckInPage() {
       {filteredArrivals.length === 0 ? (
         <Card>
           <CardContent className="py-12 text-center text-muted-foreground">
-            {isMounted && new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
+            {isMounted &&
+              new Date().toLocaleDateString("en-US", {
+                weekday: "long",
+                month: "long",
+                day: "numeric",
+              })}
             <p className="mt-2">No training arrivals scheduled for today.</p>
           </CardContent>
         </Card>
@@ -283,7 +311,8 @@ export default function TrainingCheckInPage() {
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-1">
                           <h3 className="text-lg font-semibold">
-                            {arrival.enrollment.petName} ({arrival.enrollment.petBreed})
+                            {arrival.enrollment.petName} (
+                            {arrival.enrollment.petBreed})
                           </h3>
                           <Badge variant="outline">
                             {arrival.series.courseTypeName}
@@ -295,19 +324,25 @@ export default function TrainingCheckInPage() {
                         <div className="flex items-center gap-4 text-sm text-muted-foreground">
                           <div className="flex items-center gap-1">
                             <User className="h-4 w-4" />
-                            Handler: {arrival.enrollment.handlerName || arrival.enrollment.ownerName}
+                            Handler:{" "}
+                            {arrival.enrollment.handlerName ||
+                              arrival.enrollment.ownerName}
                           </div>
                           <div className="flex items-center gap-1">
                             <Clock className="h-4 w-4" />
-                            {getDayName(arrival.series.dayOfWeek)} {arrival.series.startTime}
+                            {getDayName(arrival.series.dayOfWeek)}{" "}
+                            {arrival.series.startTime}
                           </div>
                           <div className="flex items-center gap-1">
                             <Calendar className="h-4 w-4" />
                             {isMounted &&
-                              new Date(arrival.sessionDate).toLocaleDateString("en-US", {
-                                month: "short",
-                                day: "numeric",
-                              })}
+                              new Date(arrival.sessionDate).toLocaleDateString(
+                                "en-US",
+                                {
+                                  month: "short",
+                                  day: "numeric",
+                                },
+                              )}
                           </div>
                           <div className="flex items-center gap-1">
                             <GraduationCap className="h-4 w-4" />
@@ -320,7 +355,9 @@ export default function TrainingCheckInPage() {
                       {arrival.checkedIn ? (
                         <div className="flex items-center gap-2 text-green-600">
                           <CheckCircle2 className="h-5 w-5" />
-                          <span className="text-sm font-medium">Checked In</span>
+                          <span className="text-sm font-medium">
+                            Checked In
+                          </span>
                         </div>
                       ) : (
                         <Button onClick={() => handleCheckIn(arrival)}>
@@ -350,12 +387,16 @@ export default function TrainingCheckInPage() {
           {selectedArrival && (
             <div className="space-y-4 py-4">
               <div className="p-4 border rounded-lg space-y-2">
-                <div className="font-medium">{selectedArrival.enrollment.petName}</div>
-                <div className="text-sm text-muted-foreground">
-                  {selectedArrival.series.courseTypeName} - Week {selectedArrival.sessionNumber}
+                <div className="font-medium">
+                  {selectedArrival.enrollment.petName}
                 </div>
                 <div className="text-sm text-muted-foreground">
-                  Class starts at {selectedArrival.series.startTime} in {selectedArrival.series.location}
+                  {selectedArrival.series.courseTypeName} - Week{" "}
+                  {selectedArrival.sessionNumber}
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  Class starts at {selectedArrival.series.startTime} in{" "}
+                  {selectedArrival.series.location}
                 </div>
               </div>
 
@@ -372,9 +413,14 @@ export default function TrainingCheckInPage() {
               <div className="p-3 bg-muted rounded-lg text-sm">
                 <p className="font-medium mb-1">Actions that will occur:</p>
                 <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-                  <li>Print tag: TRAINING - {selectedArrival.series.location} - Week {selectedArrival.sessionNumber}</li>
+                  <li>
+                    Print tag: TRAINING - {selectedArrival.series.location} -
+                    Week {selectedArrival.sessionNumber}
+                  </li>
                   <li>Send SMS to {selectedArrival.enrollment.ownerPhone}</li>
-                  <li>Mark attendance for Week {selectedArrival.sessionNumber}</li>
+                  <li>
+                    Mark attendance for Week {selectedArrival.sessionNumber}
+                  </li>
                 </ul>
               </div>
             </div>

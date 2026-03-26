@@ -164,7 +164,9 @@ export default function GroomingPackagesPage() {
       return;
     }
 
-    const product = activeProducts.find((p) => p.id === newProductUsage.productId);
+    const product = activeProducts.find(
+      (p) => p.id === newProductUsage.productId,
+    );
     if (!product) return;
 
     const usage: ProductUsage = {
@@ -552,8 +554,8 @@ export default function GroomingPackagesPage() {
                   }
                 />
                 <p className="text-xs text-muted-foreground">
-                  This duration is automatically used when scheduling appointments.
-                  End time is calculated as start time + duration.
+                  This duration is automatically used when scheduling
+                  appointments. End time is calculated as start time + duration.
                 </p>
               </div>
             </div>
@@ -677,10 +679,7 @@ export default function GroomingPackagesPage() {
               </div>
               <div className="space-y-2 max-h-48 overflow-y-auto border rounded-lg p-3">
                 {activeStylists.map((stylist) => (
-                  <div
-                    key={stylist.id}
-                    className="flex items-center space-x-2"
-                  >
+                  <div key={stylist.id} className="flex items-center space-x-2">
                     <Checkbox
                       id={`stylist-${stylist.id}`}
                       checked={formData.assignedStylistIds.includes(stylist.id)}
@@ -696,9 +695,10 @@ export default function GroomingPackagesPage() {
                         } else {
                           setFormData({
                             ...formData,
-                            assignedStylistIds: formData.assignedStylistIds.filter(
-                              (id) => id !== stylist.id,
-                            ),
+                            assignedStylistIds:
+                              formData.assignedStylistIds.filter(
+                                (id) => id !== stylist.id,
+                              ),
                           });
                         }
                       }}
@@ -732,7 +732,10 @@ export default function GroomingPackagesPage() {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <Label htmlFor="requiresEvaluation" className="flex items-center gap-2">
+                  <Label
+                    htmlFor="requiresEvaluation"
+                    className="flex items-center gap-2"
+                  >
                     <FileCheck className="h-4 w-4" />
                     Requires Evaluation
                   </Label>
@@ -779,7 +782,9 @@ export default function GroomingPackagesPage() {
               {formData.productUsage.length > 0 && (
                 <div className="space-y-2 border rounded-lg p-3">
                   {formData.productUsage.map((usage, index) => {
-                    const product = activeProducts.find((p) => p.id === usage.productId);
+                    const product = activeProducts.find(
+                      (p) => p.id === usage.productId,
+                    );
                     return (
                       <div
                         key={index}
@@ -823,7 +828,9 @@ export default function GroomingPackagesPage() {
                     <Select
                       value={newProductUsage.productId}
                       onValueChange={(value) => {
-                        const product = activeProducts.find((p) => p.id === value);
+                        const product = activeProducts.find(
+                          (p) => p.id === value,
+                        );
                         setNewProductUsage({
                           ...newProductUsage,
                           productId: value,
@@ -837,7 +844,8 @@ export default function GroomingPackagesPage() {
                       <SelectContent>
                         {activeProducts.map((product) => (
                           <SelectItem key={product.id} value={product.id}>
-                            {product.name} ({product.brand}) - Stock: {product.currentStock} {product.unit}
+                            {product.name} ({product.brand}) - Stock:{" "}
+                            {product.currentStock} {product.unit}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -902,7 +910,9 @@ export default function GroomingPackagesPage() {
                 <Button
                   size="sm"
                   onClick={handleAddProductUsage}
-                  disabled={!newProductUsage.productId || newProductUsage.quantity <= 0}
+                  disabled={
+                    !newProductUsage.productId || newProductUsage.quantity <= 0
+                  }
                   className="w-full"
                 >
                   <Plus className="h-3 w-3 mr-1" />
@@ -912,7 +922,8 @@ export default function GroomingPackagesPage() {
 
               {formData.productUsage.length > 0 && (
                 <p className="text-xs text-muted-foreground">
-                  Products will be automatically deducted from inventory when an appointment using this package is completed.
+                  Products will be automatically deducted from inventory when an
+                  appointment using this package is completed.
                 </p>
               )}
             </div>

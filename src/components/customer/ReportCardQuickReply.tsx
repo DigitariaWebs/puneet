@@ -4,7 +4,14 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Heart, MessageCircle, Calendar } from "lucide-react";
 import { toast } from "sonner";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 
@@ -20,19 +27,22 @@ const QUICK_REPLIES = [
     id: "thank-you",
     label: "Awww thank you!",
     icon: Heart,
-    message: "Awww thank you so much! We're so happy to see {petName} had a great time! ❤️",
+    message:
+      "Awww thank you so much! We're so happy to see {petName} had a great time! ❤️",
   },
   {
     id: "concerns",
     label: "Any concerns?",
     icon: MessageCircle,
-    message: "Thank you for the update! Is there anything we should be aware of or any concerns?",
+    message:
+      "Thank you for the update! Is there anything we should be aware of or any concerns?",
   },
   {
     id: "book-again",
     label: "Can we book again?",
     icon: Calendar,
-    message: "Thank you! We'd love to book {petName} again. When would be a good time?",
+    message:
+      "Thank you! We'd love to book {petName} again. When would be a good time?",
   },
 ];
 
@@ -44,7 +54,9 @@ export function ReportCardQuickReply({
 }: ReportCardQuickReplyProps) {
   const [isCustomReplyOpen, setIsCustomReplyOpen] = useState(false);
   const [customMessage, setCustomMessage] = useState("");
-  const [selectedQuickReply, setSelectedQuickReply] = useState<string | null>(null);
+  const [selectedQuickReply, setSelectedQuickReply] = useState<string | null>(
+    null,
+  );
 
   const handleQuickReply = async (replyId: string) => {
     const reply = QUICK_REPLIES.find((r) => r.id === replyId);
@@ -52,11 +64,11 @@ export function ReportCardQuickReply({
 
     const message = reply.message.replace(/{petName}/g, petName);
     setSelectedQuickReply(replyId);
-    
+
     try {
       // TODO: API call to send reply
       await new Promise((resolve) => setTimeout(resolve, 500));
-      
+
       toast.success("Reply sent!");
       onReplySent?.(message);
       setSelectedQuickReply(null);
@@ -75,7 +87,7 @@ export function ReportCardQuickReply({
     try {
       // TODO: API call to send custom reply
       await new Promise((resolve) => setTimeout(resolve, 500));
-      
+
       toast.success("Reply sent!");
       onReplySent?.(customMessage);
       setIsCustomReplyOpen(false);
@@ -138,7 +150,10 @@ export function ReportCardQuickReply({
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsCustomReplyOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setIsCustomReplyOpen(false)}
+            >
               Cancel
             </Button>
             <Button onClick={handleCustomReply}>Send Reply</Button>

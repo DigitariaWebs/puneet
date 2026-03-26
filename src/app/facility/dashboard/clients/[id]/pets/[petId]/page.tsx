@@ -54,7 +54,11 @@ import {
   PartyPopper,
 } from "lucide-react";
 import { BookingModal } from "@/components/bookings/modals/BookingModal";
-import type { Evaluation, NewBooking as BookingData, Client } from "@/lib/types";
+import type {
+  Evaluation,
+  NewBooking as BookingData,
+  Client,
+} from "@/lib/types";
 import { StaffEvaluationFormModal } from "@/components/evaluations/StaffEvaluationFormModal";
 import { DataTable } from "@/components/ui/DataTable";
 import { useFacilityRole } from "@/hooks/use-facility-role";
@@ -223,8 +227,13 @@ export default function PetDetailPage({
   const petBookings = bookings.filter((b) => b.petId === pet.id);
   const reports = reportCards.filter((r) => r.petId === pet.id);
   const relationships = petRelationships.filter((r) => r.petId === pet.id);
-  const friends = relationships.filter((r) => r.relationshipType === "friend" || r.relationshipType === "best_friend");
-  const enemies = relationships.filter((r) => r.relationshipType === "keep_apart");
+  const friends = relationships.filter(
+    (r) =>
+      r.relationshipType === "friend" || r.relationshipType === "best_friend",
+  );
+  const enemies = relationships.filter(
+    (r) => r.relationshipType === "keep_apart",
+  );
   const totalStays = petBookings.filter((b) => b.status === "completed").length;
   const expiredVaccinations = vaccinations.filter(
     (v) => new Date(v.expiryDate) < new Date(),
@@ -264,7 +273,9 @@ export default function PetDetailPage({
 
   const hasExpiredEvaluation =
     petEvaluations?.some(
-      (e) => (e.status === "passed" && e.isExpired === true) || e.status === "outdated",
+      (e) =>
+        (e.status === "passed" && e.isExpired === true) ||
+        e.status === "outdated",
     ) ?? false;
 
   const latestEvaluation = useMemo(() => {
@@ -520,25 +531,29 @@ export default function PetDetailPage({
                       : "destructive"
                   }
                 >
-                  {hasValidEvaluation && !hasExpiredEvaluation ? "Valid" : "Expired"}
+                  {hasValidEvaluation && !hasExpiredEvaluation
+                    ? "Valid"
+                    : "Expired"}
                 </Badge>
               </div>
-                {latestEvaluation && (
-                  <div className="text-xs text-muted-foreground flex items-center gap-2">
-                    <span className="font-medium">Last outcome:</span>
-                    <Badge
-                      variant={
-                        latestEvaluation.status === "passed" ? "secondary" : "destructive"
-                      }
-                      className="capitalize"
-                    >
-                      {latestEvaluation.status}
-                    </Badge>
-                    {latestEvaluation.isExpired && (
-                      <Badge variant="destructive">Expired</Badge>
-                    )}
-                  </div>
-                )}
+              {latestEvaluation && (
+                <div className="text-xs text-muted-foreground flex items-center gap-2">
+                  <span className="font-medium">Last outcome:</span>
+                  <Badge
+                    variant={
+                      latestEvaluation.status === "passed"
+                        ? "secondary"
+                        : "destructive"
+                    }
+                    className="capitalize"
+                  >
+                    {latestEvaluation.status}
+                  </Badge>
+                  {latestEvaluation.isExpired && (
+                    <Badge variant="destructive">Expired</Badge>
+                  )}
+                </div>
+              )}
               {latestFailedEvaluation?.notes && (
                 <div className="text-sm text-muted-foreground space-y-1">
                   <p className="font-semibold">Last failure reason (staff)</p>
@@ -785,16 +800,24 @@ export default function PetDetailPage({
                       <div className="flex items-center gap-3">
                         <Badge
                           variant="outline"
-                          className={rel.relationshipType === "best_friend"
-                            ? "bg-pink-50 text-pink-700 border-pink-200"
-                            : "bg-green-50 text-green-700 border-green-200"}
+                          className={
+                            rel.relationshipType === "best_friend"
+                              ? "bg-pink-50 text-pink-700 border-pink-200"
+                              : "bg-green-50 text-green-700 border-green-200"
+                          }
                         >
-                          {rel.relationshipType === "best_friend" ? "Best Friend" : "Friend"}
+                          {rel.relationshipType === "best_friend"
+                            ? "Best Friend"
+                            : "Friend"}
                         </Badge>
                         <Badge
                           variant={rel.allowAlerts ? "default" : "secondary"}
                           className="text-xs cursor-pointer"
-                          title={rel.allowAlerts ? "Playdate alerts enabled for this friend" : "Playdate alerts disabled for this friend"}
+                          title={
+                            rel.allowAlerts
+                              ? "Playdate alerts enabled for this friend"
+                              : "Playdate alerts disabled for this friend"
+                          }
                         >
                           {rel.allowAlerts ? "Alerts On" : "Alerts Off"}
                         </Badge>
@@ -1206,10 +1229,7 @@ export default function PetDetailPage({
                                     {meal.amount}
                                   </p>
                                 </div>
-                                <Badge
-                                  variant="outline"
-                                  className="capitalize"
-                                >
+                                <Badge variant="outline" className="capitalize">
                                   {meal.consumed}
                                 </Badge>
                               </div>
@@ -1318,12 +1338,15 @@ export default function PetDetailPage({
               <CardContent className="space-y-3">
                 {(() => {
                   const evals = (
-                    ("evaluations" in (pet as unknown as Record<string, unknown>)
+                    ("evaluations" in
+                    (pet as unknown as Record<string, unknown>)
                       ? ((pet as unknown as { evaluations?: Evaluation[] })
                           .evaluations ?? [])
                       : []) as Evaluation[]
                   ).map((ev) => {
-                    const expired = (ev as any).isExpired === true || ev.status === "outdated";
+                    const expired =
+                      (ev as any).isExpired === true ||
+                      ev.status === "outdated";
                     const outcome =
                       ev.status === "passed"
                         ? "PASS"
@@ -1352,14 +1375,22 @@ export default function PetDetailPage({
                           key: "evaluatedAt",
                           label: "Date",
                           render: (row: any) =>
-                            row.evaluatedAt ? formatDateTime(row.evaluatedAt) : "Not completed",
+                            row.evaluatedAt
+                              ? formatDateTime(row.evaluatedAt)
+                              : "Not completed",
                         },
                         {
                           key: "outcome",
                           label: "Outcome",
                           render: (row: any) => (
                             <Badge
-                              variant={row.outcome === "PASS" ? "secondary" : row.outcome === "FAIL" ? "destructive" : "outline"}
+                              variant={
+                                row.outcome === "PASS"
+                                  ? "secondary"
+                                  : row.outcome === "FAIL"
+                                    ? "destructive"
+                                    : "outline"
+                              }
                             >
                               {row.outcome}
                             </Badge>
@@ -1369,8 +1400,13 @@ export default function PetDetailPage({
                           key: "validity",
                           label: "Validity",
                           render: (row: any) =>
-                            row.status === "passed" || row.status === "outdated" ? (
-                              <Badge variant={row.expired ? "destructive" : "secondary"}>
+                            row.status === "passed" ||
+                            row.status === "outdated" ? (
+                              <Badge
+                                variant={
+                                  row.expired ? "destructive" : "secondary"
+                                }
+                              >
                                 {row.validity}
                               </Badge>
                             ) : (
@@ -1396,7 +1432,10 @@ export default function PetDetailPage({
                         },
                       ]}
                       actions={(row: any) => (
-                        <Button size="sm" onClick={() => setActiveEvaluation(row)}>
+                        <Button
+                          size="sm"
+                          onClick={() => setActiveEvaluation(row)}
+                        >
                           Complete Evaluation
                         </Button>
                       )}

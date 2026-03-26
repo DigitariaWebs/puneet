@@ -42,13 +42,41 @@ const statusColors: Record<
   GroomingStatus,
   { bg: string; text: string; border: string }
 > = {
-  scheduled: { bg: "bg-blue-50", text: "text-blue-700", border: "border-blue-200" },
-  "checked-in": { bg: "bg-purple-50", text: "text-purple-700", border: "border-purple-200" },
-  "in-progress": { bg: "bg-yellow-50", text: "text-yellow-700", border: "border-yellow-200" },
-  "ready-for-pickup": { bg: "bg-green-50", text: "text-green-700", border: "border-green-200" },
-  completed: { bg: "bg-gray-50", text: "text-gray-700", border: "border-gray-200" },
-  cancelled: { bg: "bg-red-50", text: "text-red-700", border: "border-red-200" },
-  "no-show": { bg: "bg-orange-50", text: "text-orange-700", border: "border-orange-200" },
+  scheduled: {
+    bg: "bg-blue-50",
+    text: "text-blue-700",
+    border: "border-blue-200",
+  },
+  "checked-in": {
+    bg: "bg-purple-50",
+    text: "text-purple-700",
+    border: "border-purple-200",
+  },
+  "in-progress": {
+    bg: "bg-yellow-50",
+    text: "text-yellow-700",
+    border: "border-yellow-200",
+  },
+  "ready-for-pickup": {
+    bg: "bg-green-50",
+    text: "text-green-700",
+    border: "border-green-200",
+  },
+  completed: {
+    bg: "bg-gray-50",
+    text: "text-gray-700",
+    border: "border-gray-200",
+  },
+  cancelled: {
+    bg: "bg-red-50",
+    text: "text-red-700",
+    border: "border-red-200",
+  },
+  "no-show": {
+    bg: "bg-orange-50",
+    text: "text-orange-700",
+    border: "border-orange-200",
+  },
 };
 
 export default function GroomerDashboardPage() {
@@ -60,11 +88,10 @@ export default function GroomerDashboardPage() {
   const [notes, setNotes] = useState("");
   const [afterPhotos, setAfterPhotos] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   // Local state for appointments to allow updates
-  const [appointmentsData, setAppointmentsData] = useState<GroomingAppointment[]>(
-    groomingAppointments,
-  );
+  const [appointmentsData, setAppointmentsData] =
+    useState<GroomingAppointment[]>(groomingAppointments);
 
   // Redirect if not a groomer
   if (role !== "groomer") {
@@ -90,9 +117,7 @@ export default function GroomerDashboardPage() {
   const currentStylist = useMemo(() => {
     if (!userId) return null;
     // Try to match by ID first, then by email
-    return (
-      stylists.find((s) => s.id === userId || s.email === userId) || null
-    );
+    return stylists.find((s) => s.id === userId || s.email === userId) || null;
   }, [userId]);
 
   // Get today's appointments for this groomer
@@ -114,7 +139,6 @@ export default function GroomerDashboardPage() {
       return minutesA - minutesB;
     });
   }, [todayAppointments]);
-
 
   const handleStartGroom = (appointment: GroomingAppointment) => {
     // Check if check-in is required
@@ -236,11 +260,11 @@ export default function GroomerDashboardPage() {
 
     // Get existing photos that are already GroomingPhoto objects (from appointment)
     const existingPhotos = selectedAppointment.afterPhotos || [];
-    
+
     // Find which photos are new (URLs that don't exist in existing photos)
     const existingUrls = new Set(existingPhotos.map((p) => p.url));
     const newPhotoUrls = afterPhotos.filter((url) => !existingUrls.has(url));
-    
+
     // Create GroomingPhoto objects only for new photos
     const newPhotos: GroomingPhoto[] = newPhotoUrls.map((url, idx) => ({
       id: `photo-${selectedAppointment.id}-${idx}-${Date.now()}`,
@@ -282,9 +306,7 @@ export default function GroomerDashboardPage() {
   const getStatusBadge = (status: GroomingStatus) => {
     const colors = statusColors[status];
     return (
-      <Badge
-        className={`${colors.bg} ${colors.text} ${colors.border} border`}
-      >
+      <Badge className={`${colors.bg} ${colors.text} ${colors.border} border`}>
         {status.replace("-", " ")}
       </Badge>
     );
@@ -299,7 +321,8 @@ export default function GroomerDashboardPage() {
               <AlertCircle className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
               <h2 className="text-xl font-semibold mb-2">Stylist Not Found</h2>
               <p className="text-muted-foreground">
-                Unable to find your stylist profile. Please contact an administrator.
+                Unable to find your stylist profile. Please contact an
+                administrator.
               </p>
             </div>
           </CardContent>
@@ -489,7 +512,10 @@ export default function GroomerDashboardPage() {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsNotesModalOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setIsNotesModalOpen(false)}
+            >
               Cancel
             </Button>
             <Button onClick={handleSaveNotes}>Save Notes</Button>

@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { PaymentMethodsTab } from "@/components/customer/billing/PaymentMethodsTab";
 import { InvoicesTab } from "@/components/customer/billing/InvoicesTab";
 import { BalancesTab } from "@/components/customer/billing/BalancesTab";
@@ -21,9 +27,16 @@ export default function CustomerBillingPage() {
           </p>
         </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+        <Tabs
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className="space-y-4"
+        >
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="payment-methods" className="flex items-center gap-2">
+            <TabsTrigger
+              value="payment-methods"
+              className="flex items-center gap-2"
+            >
               <CreditCard className="h-4 w-4" />
               <span className="hidden sm:inline">Payment Methods</span>
               <span className="sm:hidden">Cards</span>

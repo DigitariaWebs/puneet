@@ -55,10 +55,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 export default function TrainingCourseCatalogPage() {
   const [courseTypes, setCourseTypes] = useState<TrainingCourseType[]>(
-    defaultTrainingCourseTypes
+    defaultTrainingCourseTypes,
   );
   const [isAddEditModalOpen, setIsAddEditModalOpen] = useState(false);
-  const [editingCourse, setEditingCourse] = useState<TrainingCourseType | null>(null);
+  const [editingCourse, setEditingCourse] = useState<TrainingCourseType | null>(
+    null,
+  );
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deletingCourseId, setDeletingCourseId] = useState<string | null>(null);
 
@@ -111,15 +113,15 @@ export default function TrainingCourseCatalogPage() {
 
   const confirmDelete = () => {
     if (!deletingCourseId) return;
-    
+
     // Check if any other courses depend on this one
-    const hasDependencies = courseTypes.some(
-      (course) => course.prerequisites.includes(deletingCourseId)
+    const hasDependencies = courseTypes.some((course) =>
+      course.prerequisites.includes(deletingCourseId),
     );
 
     if (hasDependencies) {
       toast.error(
-        "Cannot delete course type. Other courses depend on it as a prerequisite."
+        "Cannot delete course type. Other courses depend on it as a prerequisite.",
       );
       setIsDeleteModalOpen(false);
       setDeletingCourseId(null);
@@ -158,7 +160,7 @@ export default function TrainingCourseCatalogPage() {
 
     if (editingCourse) {
       setCourseTypes(
-        courseTypes.map((c) => (c.id === editingCourse.id ? courseData : c))
+        courseTypes.map((c) => (c.id === editingCourse.id ? courseData : c)),
       );
       toast.success("Course type updated successfully");
     } else {
@@ -173,11 +175,11 @@ export default function TrainingCourseCatalogPage() {
   // Get available courses for prerequisites (exclude self and courses that would create circular dependencies)
   const availablePrerequisites = useMemo(() => {
     if (!editingCourse) return courseTypes;
-    
+
     return courseTypes.filter(
       (course) =>
         course.id !== editingCourse.id &&
-        !course.prerequisites.includes(editingCourse.id) // Prevent circular dependencies
+        !course.prerequisites.includes(editingCourse.id), // Prevent circular dependencies
     );
   }, [courseTypes, editingCourse]);
 
@@ -208,7 +210,8 @@ export default function TrainingCourseCatalogPage() {
         <CardHeader>
           <CardTitle>Course Types</CardTitle>
           <CardDescription>
-            Manage your training course catalog. These are the class types you offer to clients.
+            Manage your training course catalog. These are the class types you
+            offer to clients.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -227,8 +230,12 @@ export default function TrainingCourseCatalogPage() {
             <TableBody>
               {courseTypes.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
-                    No course types configured. Click "Add Course Type" to get started.
+                  <TableCell
+                    colSpan={7}
+                    className="text-center py-8 text-muted-foreground"
+                  >
+                    No course types configured. Click "Add Course Type" to get
+                    started.
                   </TableCell>
                 </TableRow>
               ) : (
@@ -243,7 +250,8 @@ export default function TrainingCourseCatalogPage() {
                     <TableCell>{course.defaultWeeks} weeks</TableCell>
                     <TableCell>
                       {course.ageRange.minWeeks}+ weeks
-                      {course.ageRange.maxWeeks && ` - ${course.ageRange.maxWeeks} weeks`}
+                      {course.ageRange.maxWeeks &&
+                        ` - ${course.ageRange.maxWeeks} weeks`}
                     </TableCell>
                     <TableCell>
                       {course.prerequisites.length > 0 ? (
@@ -251,12 +259,17 @@ export default function TrainingCourseCatalogPage() {
                           {course.prerequisites.length} required
                         </Badge>
                       ) : (
-                        <span className="text-muted-foreground text-sm">None</span>
+                        <span className="text-muted-foreground text-sm">
+                          None
+                        </span>
                       )}
                     </TableCell>
                     <TableCell>
                       {course.isActive ? (
-                        <Badge variant="default" className="bg-green-100 text-green-700">
+                        <Badge
+                          variant="default"
+                          className="bg-green-100 text-green-700"
+                        >
                           <CheckCircle2 className="h-3 w-3 mr-1" />
                           Active
                         </Badge>
@@ -341,7 +354,8 @@ export default function TrainingCourseCatalogPage() {
             <div className="grid grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="defaultWeeks">
-                  Default Duration (weeks) <span className="text-destructive">*</span>
+                  Default Duration (weeks){" "}
+                  <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="defaultWeeks"
@@ -358,7 +372,8 @@ export default function TrainingCourseCatalogPage() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="minAgeWeeks">
-                  Minimum Age (weeks) <span className="text-destructive">*</span>
+                  Minimum Age (weeks){" "}
+                  <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="minAgeWeeks"
@@ -404,13 +419,16 @@ export default function TrainingCourseCatalogPage() {
                         if (checked) {
                           setFormData({
                             ...formData,
-                            requiredVaccines: [...formData.requiredVaccines, vaccine],
+                            requiredVaccines: [
+                              ...formData.requiredVaccines,
+                              vaccine,
+                            ],
                           });
                         } else {
                           setFormData({
                             ...formData,
                             requiredVaccines: formData.requiredVaccines.filter(
-                              (v) => v !== vaccine
+                              (v) => v !== vaccine,
                             ),
                           });
                         }
@@ -468,7 +486,7 @@ export default function TrainingCourseCatalogPage() {
                             setFormData({
                               ...formData,
                               prerequisites: formData.prerequisites.filter(
-                                (id) => id !== prereqId
+                                (id) => id !== prereqId,
                               ),
                             });
                           }}
@@ -482,7 +500,8 @@ export default function TrainingCourseCatalogPage() {
                 </div>
               )}
               <p className="text-xs text-muted-foreground">
-                Select courses that must be completed before enrolling in this course.
+                Select courses that must be completed before enrolling in this
+                course.
               </p>
             </div>
 
@@ -527,9 +546,10 @@ export default function TrainingCourseCatalogPage() {
           <DialogHeader>
             <DialogTitle>Delete Course Type</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this course type? This action cannot be undone.
-              Students enrolled in this course type will be preserved, but the course will no
-              longer be available for new enrollments.
+              Are you sure you want to delete this course type? This action
+              cannot be undone. Students enrolled in this course type will be
+              preserved, but the course will no longer be available for new
+              enrollments.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

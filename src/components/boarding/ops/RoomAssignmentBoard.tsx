@@ -78,7 +78,8 @@ export function RoomAssignmentBoard({
           <div>
             <CardTitle className="text-base">Room Type Assignment</CardTitle>
             <div className="text-xs text-muted-foreground mt-1">
-              Drag pets into rooms. Capacity and pet-type restrictions apply unless override is enabled.
+              Drag pets into rooms. Capacity and pet-type restrictions apply
+              unless override is enabled.
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -266,7 +267,8 @@ export function RoomAssignmentBoard({
             Manual override
           </div>
           <div>
-            When enabled, staff can place ineligible pets or exceed capacity temporarily. Use this only with manager approval.
+            When enabled, staff can place ineligible pets or exceed capacity
+            temporarily. Use this only with manager approval.
           </div>
           <div className="mt-2">
             <Input placeholder="Override reason (optional)..." />
@@ -276,4 +278,3 @@ export function RoomAssignmentBoard({
     </Card>
   );
 }
-

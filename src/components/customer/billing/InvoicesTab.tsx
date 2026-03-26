@@ -3,7 +3,13 @@
 import { useMemo, useState } from "react";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
 import { invoices, payments, paymentMethods } from "@/data/payments";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -25,13 +31,17 @@ const MOCK_CUSTOMER_ID = 15;
 export function InvoicesTab() {
   const { selectedFacility } = useCustomerFacility();
   const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState<"all" | "paid" | "pending" | "overdue">("all");
+  const [statusFilter, setStatusFilter] = useState<
+    "all" | "paid" | "pending" | "overdue"
+  >("all");
 
   const customerInvoices = useMemo(() => {
     let filtered = invoices.filter((inv) => inv.clientId === MOCK_CUSTOMER_ID);
 
     if (selectedFacility) {
-      filtered = filtered.filter((inv) => inv.facilityId === selectedFacility.id);
+      filtered = filtered.filter(
+        (inv) => inv.facilityId === selectedFacility.id,
+      );
     }
 
     if (statusFilter !== "all") {
@@ -48,19 +58,27 @@ export function InvoicesTab() {
       filtered = filtered.filter(
         (inv) =>
           inv.invoiceNumber.toLowerCase().includes(query) ||
-          inv.items.some((item) => item.description.toLowerCase().includes(query))
+          inv.items.some((item) =>
+            item.description.toLowerCase().includes(query),
+          ),
       );
     }
 
     return filtered.sort((a, b) => {
-      return new Date(b.issuedDate).getTime() - new Date(a.issuedDate).getTime();
+      return (
+        new Date(b.issuedDate).getTime() - new Date(a.issuedDate).getTime()
+      );
     });
   }, [selectedFacility, statusFilter, searchQuery]);
 
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "paid":
-        return <Badge variant="default" className="bg-green-500">Paid</Badge>;
+        return (
+          <Badge variant="default" className="bg-green-500">
+            Paid
+          </Badge>
+        );
       case "sent":
         return <Badge variant="secondary">Pending</Badge>;
       case "overdue":
@@ -91,7 +109,9 @@ export function InvoicesTab() {
     const invoice = customerInvoices.find((inv) => inv.id === invoiceId);
     if (!invoice) return;
 
-    const relatedPayments = payments.filter((p) => invoice.paymentIds?.includes(p.id));
+    const relatedPayments = payments.filter((p) =>
+      invoice.paymentIds?.includes(p.id),
+    );
 
     const title = invoice.invoiceNumber || invoice.id;
 
@@ -447,7 +467,7 @@ export function InvoicesTab() {
         <div className="space-y-4">
           {customerInvoices.map((invoice) => {
             const relatedPayments = payments.filter((p) =>
-              invoice.paymentIds?.includes(p.id)
+              invoice.paymentIds?.includes(p.id),
             );
 
             return (
@@ -492,8 +512,12 @@ export function InvoicesTab() {
                         <TableHeader>
                           <TableRow>
                             <TableHead>Description</TableHead>
-                            <TableHead className="text-right">Quantity</TableHead>
-                            <TableHead className="text-right">Unit Price</TableHead>
+                            <TableHead className="text-right">
+                              Quantity
+                            </TableHead>
+                            <TableHead className="text-right">
+                              Unit Price
+                            </TableHead>
                             <TableHead className="text-right">Total</TableHead>
                           </TableRow>
                         </TableHeader>
@@ -501,7 +525,9 @@ export function InvoicesTab() {
                           {invoice.items.map((item) => (
                             <TableRow key={item.id}>
                               <TableCell>{item.description}</TableCell>
-                              <TableCell className="text-right">{item.quantity}</TableCell>
+                              <TableCell className="text-right">
+                                {item.quantity}
+                              </TableCell>
                               <TableCell className="text-right">
                                 {formatCurrency(item.unitPrice)}
                               </TableCell>
@@ -517,12 +543,16 @@ export function InvoicesTab() {
                     <div className="flex justify-end">
                       <div className="w-64 space-y-2 text-sm">
                         <div className="flex justify-between">
-                          <span className="text-muted-foreground">Subtotal:</span>
+                          <span className="text-muted-foreground">
+                            Subtotal:
+                          </span>
                           <span>{formatCurrency(invoice.subtotal)}</span>
                         </div>
                         {invoice.tax > 0 && (
                           <div className="flex justify-between">
-                            <span className="text-muted-foreground">Tax ({invoice.taxRate}%):</span>
+                            <span className="text-muted-foreground">
+                              Tax ({invoice.taxRate}%):
+                            </span>
                             <span>{formatCurrency(invoice.tax)}</span>
                           </div>
                         )}
@@ -538,7 +568,9 @@ export function InvoicesTab() {
                         </div>
                         {invoice.amountPaid > 0 && (
                           <div className="flex justify-between text-sm">
-                            <span className="text-muted-foreground">Amount Paid:</span>
+                            <span className="text-muted-foreground">
+                              Amount Paid:
+                            </span>
                             <span className="text-green-600">
                               {formatCurrency(invoice.amountPaid)}
                             </span>
@@ -547,7 +579,9 @@ export function InvoicesTab() {
                         {invoice.amountDue > 0 && (
                           <div className="flex items-center justify-between gap-2 text-sm">
                             <div>
-                              <span className="text-muted-foreground">Amount Due:</span>{" "}
+                              <span className="text-muted-foreground">
+                                Amount Due:
+                              </span>{" "}
                               <span className="font-semibold">
                                 {formatCurrency(invoice.amountDue)}
                               </span>
@@ -567,7 +601,9 @@ export function InvoicesTab() {
 
                     {relatedPayments.length > 0 && (
                       <div className="pt-4 border-t">
-                        <h4 className="text-sm font-medium mb-2">Payment Details</h4>
+                        <h4 className="text-sm font-medium mb-2">
+                          Payment Details
+                        </h4>
                         <div className="space-y-1 text-sm">
                           {relatedPayments.map((payment) => (
                             <div
@@ -577,9 +613,12 @@ export function InvoicesTab() {
                               <span>
                                 {payment.paymentMethod === "card"
                                   ? `${payment.cardBrand?.toUpperCase()} •••• ${payment.cardLast4}`
-                                  : payment.paymentMethod.charAt(0).toUpperCase() +
+                                  : payment.paymentMethod
+                                      .charAt(0)
+                                      .toUpperCase() +
                                     payment.paymentMethod.slice(1)}
-                                {payment.tipAmount && ` + ${formatCurrency(payment.tipAmount)} tip`}
+                                {payment.tipAmount &&
+                                  ` + ${formatCurrency(payment.tipAmount)} tip`}
                               </span>
                               <span>{formatCurrency(payment.totalAmount)}</span>
                             </div>
@@ -592,7 +631,9 @@ export function InvoicesTab() {
                     <div className="pt-4 border-t">
                       <InvoiceLoyaltySection
                         loyaltyPointsEarned={
-                          invoice.status === "paid" ? Math.floor(invoice.total) : undefined
+                          invoice.status === "paid"
+                            ? Math.floor(invoice.total)
+                            : undefined
                         }
                         loyaltyPointsRedeemed={
                           (invoice as any).loyaltyPointsRedeemed

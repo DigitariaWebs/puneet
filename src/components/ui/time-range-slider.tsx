@@ -87,8 +87,7 @@ export function TimeRangeSlider({
   const durationMinutes = endMinutes - startMinutes;
   const hours = Math.floor(durationMinutes / 60);
   const minutes = durationMinutes % 60;
-  const durationText =
-    minutes > 0 ? `${hours}h ${minutes}m` : `${hours} hours`;
+  const durationText = minutes > 0 ? `${hours}h ${minutes}m` : `${hours} hours`;
   const daycareType = durationMinutes / 60 <= 5 ? "Half Day" : "Full Day";
 
   const enforceAndEmit = useCallback(
@@ -122,7 +121,10 @@ export function TimeRangeSlider({
   const handleTrackClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!trackRef.current) return;
     const rect = trackRef.current.getBoundingClientRect();
-    const percent = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+    const percent = Math.max(
+      0,
+      Math.min(100, ((e.clientX - rect.left) / rect.width) * 100),
+    );
     const clickedMinutes = percentToMinutes(percent);
     const distToStart = Math.abs(clickedMinutes - startMinutes);
     const distToEnd = Math.abs(clickedMinutes - endMinutes);
@@ -136,7 +138,10 @@ export function TimeRangeSlider({
           Math.max(clickedMinutes + step, endMinutes),
         );
     } else {
-      if (clickedMinutes >= startMinMinutes && clickedMinutes <= startMaxMinutes)
+      if (
+        clickedMinutes >= startMinMinutes &&
+        clickedMinutes <= startMaxMinutes
+      )
         enforceAndEmit(clickedMinutes, endMinutes);
       else if (clickedMinutes > endMinutes)
         enforceAndEmit(
@@ -255,7 +260,11 @@ export function TimeRangeSlider({
           />
           <div
             className="absolute h-5 w-5 -translate-x-1/2 rounded-full border-2 border-primary bg-background shadow-md transition-none hover:scale-110"
-            style={{ left: `${startPercent}%`, top: "50%", transform: "translate(-50%, -50%)" }}
+            style={{
+              left: `${startPercent}%`,
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
             onMouseDown={(e) => {
               e.stopPropagation();
               handleThumbMouseDown("start")();
@@ -263,7 +272,11 @@ export function TimeRangeSlider({
           />
           <div
             className="absolute h-5 w-5 -translate-x-1/2 rounded-full border-2 border-primary bg-background shadow-md transition-none hover:scale-110"
-            style={{ left: `${endPercent}%`, top: "50%", transform: "translate(-50%, -50%)" }}
+            style={{
+              left: `${endPercent}%`,
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
             onMouseDown={(e) => {
               e.stopPropagation();
               handleThumbMouseDown("end")();

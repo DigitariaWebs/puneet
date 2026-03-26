@@ -34,7 +34,8 @@ const TASK_OPTIONS: {
   {
     value: "setup",
     label: "Setup Task",
-    description: "Task created before the session begins (e.g. prepare equipment).",
+    description:
+      "Task created before the session begins (e.g. prepare equipment).",
   },
   {
     value: "execution",
@@ -44,7 +45,8 @@ const TASK_OPTIONS: {
   {
     value: "cleanup",
     label: "Cleanup Task",
-    description: "Task created after the session ends (e.g. clean and reset area).",
+    description:
+      "Task created after the session ends (e.g. clean and reset area).",
   },
 ];
 
@@ -53,7 +55,10 @@ interface StaffAssignmentStepProps {
   onChange: (updates: Partial<CustomServiceModule>) => void;
 }
 
-export function StaffAssignmentStep({ data, onChange }: StaffAssignmentStepProps) {
+export function StaffAssignmentStep({
+  data,
+  onChange,
+}: StaffAssignmentStepProps) {
   const sa = data.staffAssignment;
 
   const updateSa = (updates: Partial<typeof sa>) => {
@@ -75,7 +80,10 @@ export function StaffAssignmentStep({ data, onChange }: StaffAssignmentStepProps
         <div className="flex items-start gap-3">
           <Users className="h-5 w-5 text-muted-foreground mt-0.5 shrink-0" />
           <div className="space-y-0.5">
-            <Label htmlFor="auto-assign" className="text-sm font-semibold cursor-pointer">
+            <Label
+              htmlFor="auto-assign"
+              className="text-sm font-semibold cursor-pointer"
+            >
               Auto-Assign Staff
             </Label>
             <p className="text-xs text-muted-foreground">
@@ -144,10 +152,13 @@ export function StaffAssignmentStep({ data, onChange }: StaffAssignmentStepProps
       {/* Task Generation */}
       <div className="space-y-3">
         <div>
-          <Label className="text-sm font-semibold">Automatic Task Generation</Label>
+          <Label className="text-sm font-semibold">
+            Automatic Task Generation
+          </Label>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Select which tasks are automatically created in the task queue when a
-            booking is confirmed. Tasks will be assigned to the designated staff member.
+            Select which tasks are automatically created in the task queue when
+            a booking is confirmed. Tasks will be assigned to the designated
+            staff member.
           </p>
         </div>
         <div className="space-y-2">
@@ -188,7 +199,10 @@ export function StaffAssignmentStep({ data, onChange }: StaffAssignmentStepProps
         <div className="space-y-3">
           <div className="flex items-center justify-between rounded-xl border border-border bg-card p-4">
             <div className="space-y-0.5">
-              <Label htmlFor="yipyygo" className="text-sm font-medium cursor-pointer">
+              <Label
+                htmlFor="yipyygo"
+                className="text-sm font-medium cursor-pointer"
+              >
                 YipyyGo App Required
               </Label>
               <p className="text-xs text-muted-foreground">
@@ -198,31 +212,43 @@ export function StaffAssignmentStep({ data, onChange }: StaffAssignmentStepProps
             <Switch
               id="yipyygo"
               checked={data.yipyyGoRequired}
-              onCheckedChange={(yipyyGoRequired) => onChange({ yipyyGoRequired })}
+              onCheckedChange={(yipyyGoRequired) =>
+                onChange({ yipyyGoRequired })
+              }
             />
           </div>
           <div className="flex items-center justify-between rounded-xl border border-border bg-card p-4">
             <div className="space-y-0.5">
-              <Label htmlFor="requires-eval" className="text-sm font-medium cursor-pointer">
+              <Label
+                htmlFor="requires-eval"
+                className="text-sm font-medium cursor-pointer"
+              >
                 Evaluation Required
               </Label>
               <p className="text-xs text-muted-foreground">
-                Pets must pass a facility evaluation before being eligible for this service.
+                Pets must pass a facility evaluation before being eligible for
+                this service.
               </p>
             </div>
             <Switch
               id="requires-eval"
               checked={data.requiresEvaluation}
-              onCheckedChange={(requiresEvaluation) => onChange({ requiresEvaluation })}
+              onCheckedChange={(requiresEvaluation) =>
+                onChange({ requiresEvaluation })
+              }
             />
           </div>
           <div className="flex items-center justify-between rounded-xl border border-border bg-card p-4">
             <div className="space-y-0.5">
-              <Label htmlFor="show-sidebar" className="text-sm font-medium cursor-pointer">
+              <Label
+                htmlFor="show-sidebar"
+                className="text-sm font-medium cursor-pointer"
+              >
                 Show in Sidebar
               </Label>
               <p className="text-xs text-muted-foreground">
-                Display this service as a quick-access item in the facility sidebar.
+                Display this service as a quick-access item in the facility
+                sidebar.
               </p>
             </div>
             <Switch

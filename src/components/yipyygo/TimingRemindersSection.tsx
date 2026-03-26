@@ -1,6 +1,12 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -15,7 +21,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import type { YipyyGoConfig, ReminderRule, DeliveryChannel } from "@/data/yipyygo-config";
+import type {
+  YipyyGoConfig,
+  ReminderRule,
+  DeliveryChannel,
+} from "@/data/yipyygo-config";
 import { DELIVERY_CHANNEL_LABELS } from "@/data/yipyygo-config";
 
 interface TimingRemindersSectionProps {
@@ -45,7 +55,10 @@ export function TimingRemindersSection({
     }
   };
 
-  const handleDeliveryChannelToggle = (channel: DeliveryChannel, enabled: boolean) => {
+  const handleDeliveryChannelToggle = (
+    channel: DeliveryChannel,
+    enabled: boolean,
+  ) => {
     const channels = enabled
       ? [...config.timing.deliveryChannels, channel]
       : config.timing.deliveryChannels.filter((c) => c !== channel);
@@ -70,7 +83,7 @@ export function TimingRemindersSection({
 
   const handleReminderChange = (id: string, updates: Partial<ReminderRule>) => {
     const updated = config.timing.reminderRules.map((r) =>
-      r.id === id ? { ...r, ...updates } : r
+      r.id === id ? { ...r, ...updates } : r,
     );
     onConfigChange({
       timing: { ...config.timing, reminderRules: updated },
@@ -115,9 +128,7 @@ export function TimingRemindersSection({
               </p>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="deadline">
-                Deadline (hours before check-in)
-              </Label>
+              <Label htmlFor="deadline">Deadline (hours before check-in)</Label>
               <Input
                 id="deadline"
                 type="number"
@@ -145,7 +156,10 @@ export function TimingRemindersSection({
           {(["email", "sms", "push"] as DeliveryChannel[]).map((channel) => {
             const isEnabled = config.timing.deliveryChannels.includes(channel);
             return (
-              <div key={channel} className="flex items-center justify-between p-3 border rounded-lg">
+              <div
+                key={channel}
+                className="flex items-center justify-between p-3 border rounded-lg"
+              >
                 <div className="flex items-center gap-3">
                   <Checkbox
                     id={`channel-${channel}`}
@@ -154,13 +168,14 @@ export function TimingRemindersSection({
                       handleDeliveryChannelToggle(channel, checked === true)
                     }
                   />
-                  <Label htmlFor={`channel-${channel}`} className="cursor-pointer font-medium">
+                  <Label
+                    htmlFor={`channel-${channel}`}
+                    className="cursor-pointer font-medium"
+                  >
                     {DELIVERY_CHANNEL_LABELS[channel]}
                   </Label>
                 </div>
-                {isEnabled && (
-                  <Badge variant="secondary">Enabled</Badge>
-                )}
+                {isEnabled && <Badge variant="secondary">Enabled</Badge>}
               </div>
             );
           })}
@@ -190,7 +205,10 @@ export function TimingRemindersSection({
             </p>
           ) : (
             config.timing.reminderRules.map((reminder, index) => (
-              <div key={reminder.id} className="p-4 border rounded-lg space-y-3">
+              <div
+                key={reminder.id}
+                className="p-4 border rounded-lg space-y-3"
+              >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Badge variant="outline">Reminder {index + 1}</Badge>

@@ -16,13 +16,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import {
-  Camera,
-  X,
-  AlertTriangle,
-  FileText,
-  CheckCircle,
-} from "lucide-react";
+import { Camera, X, AlertTriangle, FileText, CheckCircle } from "lucide-react";
 import { toast } from "sonner";
 import type { GroomingIntake } from "@/data/grooming";
 
@@ -154,7 +148,9 @@ export function GroomingIntakeForm({
           )}
           {initialData.allergies.length > 0 && (
             <div>
-              <Label className="text-sm font-medium">Allergies / Sensitivities</Label>
+              <Label className="text-sm font-medium">
+                Allergies / Sensitivities
+              </Label>
               <div className="flex flex-wrap gap-2 mt-2">
                 {initialData.allergies.map((allergy, idx) => (
                   <Badge key={idx} variant="destructive">
@@ -166,7 +162,9 @@ export function GroomingIntakeForm({
           )}
           {initialData.specialInstructions && (
             <div>
-              <Label className="text-sm font-medium">Special Instructions</Label>
+              <Label className="text-sm font-medium">
+                Special Instructions
+              </Label>
               <p className="mt-1 text-sm whitespace-pre-wrap">
                 {initialData.specialInstructions}
               </p>
@@ -177,7 +175,10 @@ export function GroomingIntakeForm({
               <Label className="text-sm font-medium">Before Photos</Label>
               <div className="grid grid-cols-3 gap-2 mt-2">
                 {initialData.beforePhotos.map((photo, idx) => (
-                  <div key={idx} className="relative aspect-square rounded-lg overflow-hidden border">
+                  <div
+                    key={idx}
+                    className="relative aspect-square rounded-lg overflow-hidden border"
+                  >
                     <img
                       src={photo}
                       alt={`Before photo ${idx + 1}`}
@@ -212,7 +213,7 @@ export function GroomingIntakeForm({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <FileText className="h-5 w-5" />
-        Intake Form - {petName}
+          Intake Form - {petName}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -235,7 +236,8 @@ export function GroomingIntakeForm({
               <SelectItem value="severely-matted">Severely Matted</SelectItem>
             </SelectContent>
           </Select>
-          {(coatCondition === "matted" || coatCondition === "severely-matted") && (
+          {(coatCondition === "matted" ||
+            coatCondition === "severely-matted") && (
             <div className="flex items-start gap-2 p-3 rounded-lg bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 dark:border-yellow-900">
               <AlertTriangle className="h-4 w-4 text-yellow-600 mt-0.5" />
               <p className="text-sm text-yellow-800 dark:text-yellow-200">
@@ -359,7 +361,9 @@ export function GroomingIntakeForm({
                 />
                 <div className="text-center">
                   <Camera className="h-6 w-6 mx-auto text-muted-foreground mb-1" />
-                  <span className="text-xs text-muted-foreground">Add Photo</span>
+                  <span className="text-xs text-muted-foreground">
+                    Add Photo
+                  </span>
                 </div>
               </label>
             )}
@@ -393,7 +397,9 @@ export function GroomingIntakeForm({
                 min="0"
                 step="0.01"
                 value={mattingFeeAmount}
-                onChange={(e) => setMattingFeeAmount(parseFloat(e.target.value) || 0)}
+                onChange={(e) =>
+                  setMattingFeeAmount(parseFloat(e.target.value) || 0)
+                }
                 disabled={readOnly}
                 placeholder="0.00"
               />

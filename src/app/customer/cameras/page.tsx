@@ -2,9 +2,19 @@
 
 import { useMemo, useState } from "react";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
-import { petCams, type PetCam, mobileAppSettings } from "@/data/additional-features";
+import {
+  petCams,
+  type PetCam,
+  mobileAppSettings,
+} from "@/data/additional-features";
 import { bookings } from "@/data/bookings";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
   Camera,
@@ -53,7 +63,8 @@ export default function CustomerCamerasPage() {
 
     // Check if facility has any cameras accessible to customers
     const customerAccessibleCameras = petCams.filter(
-      (cam) => cam.accessLevel === "public" || cam.accessLevel === "customers_only",
+      (cam) =>
+        cam.accessLevel === "public" || cam.accessLevel === "customers_only",
     );
     return customerAccessibleCameras.length > 0;
   }, [hasCameraAccess]);
@@ -88,8 +99,9 @@ export default function CustomerCamerasPage() {
   const customerCameras = useMemo(() => {
     return petCams.filter(
       (cam) =>
-        (cam.accessLevel === "public" || cam.accessLevel === "customers_only") &&
-        cam.isOnline
+        (cam.accessLevel === "public" ||
+          cam.accessLevel === "customers_only") &&
+        cam.isOnline,
     );
   }, []);
 
@@ -101,10 +113,12 @@ export default function CustomerCamerasPage() {
           <Card>
             <CardContent className="py-12 text-center">
               <Camera className="h-16 w-16 mx-auto mb-4 text-muted-foreground opacity-50" />
-              <h2 className="text-2xl font-bold mb-2">Live Cameras Not Available</h2>
+              <h2 className="text-2xl font-bold mb-2">
+                Live Cameras Not Available
+              </h2>
               <p className="text-muted-foreground">
-                Live camera access is only available for active stays or memberships at facilities
-                that have cameras enabled.
+                Live camera access is only available for active stays or
+                memberships at facilities that have cameras enabled.
               </p>
             </CardContent>
           </Card>
@@ -140,7 +154,9 @@ export default function CustomerCamerasPage() {
           <Card>
             <CardContent className="py-12 text-center">
               <Clock className="h-16 w-16 mx-auto mb-4 text-muted-foreground opacity-50" />
-              <h2 className="text-2xl font-bold mb-2">Cameras Currently Unavailable</h2>
+              <h2 className="text-2xl font-bold mb-2">
+                Cameras Currently Unavailable
+              </h2>
               <p className="text-muted-foreground mb-4">
                 Live cameras are only available during facility operating hours.
               </p>
@@ -162,7 +178,8 @@ export default function CustomerCamerasPage() {
         <div className="space-y-2">
           <h1 className="text-3xl font-bold">Live Cameras</h1>
           <p className="text-muted-foreground">
-            Watch your pet in real-time at {selectedFacility?.name ?? "the facility"}
+            Watch your pet in real-time at{" "}
+            {selectedFacility?.name ?? "the facility"}
           </p>
         </div>
 
@@ -170,16 +187,18 @@ export default function CustomerCamerasPage() {
         <Alert>
           <AlertDescription className="text-sm space-y-1">
             <p>
-              Cameras are provided for your convenience while your pet is staying with us. Access is
-              limited to active stays and may be unavailable outside of operating hours.
+              Cameras are provided for your convenience while your pet is
+              staying with us. Access is limited to active stays and may be
+              unavailable outside of operating hours.
             </p>
             <p>
-              We do not record audio on customer-facing cameras, and live streams are only visible
-              to authorized customers and staff.
+              We do not record audio on customer-facing cameras, and live
+              streams are only visible to authorized customers and staff.
             </p>
             <p>
-              Video quality automatically adjusts based on your network connection. On slower
-              networks, the stream may appear lower resolution or pause briefly.
+              Video quality automatically adjusts based on your network
+              connection. On slower networks, the stream may appear lower
+              resolution or pause briefly.
             </p>
           </AlertDescription>
         </Alert>
@@ -296,8 +315,12 @@ export default function CustomerCamerasPage() {
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center text-white">
                   <Video className="h-24 w-24 mx-auto mb-4 text-slate-600" />
-                  <h3 className="text-xl font-semibold mb-2">{selectedCamera.name}</h3>
-                  <p className="text-sm text-slate-400 mb-4">{selectedCamera.location}</p>
+                  <h3 className="text-xl font-semibold mb-2">
+                    {selectedCamera.name}
+                  </h3>
+                  <p className="text-sm text-slate-400 mb-4">
+                    {selectedCamera.location}
+                  </p>
                   <div className="flex items-center justify-center gap-2">
                     <CircleDot className="h-3 w-3 text-green-500 animate-pulse" />
                     <span className="text-sm">Live Stream</span>

@@ -24,7 +24,7 @@ export function Calendar({
   const [currentMonth, setCurrentMonth] = React.useState(
     selected instanceof Date
       ? new Date(selected.getFullYear(), selected.getMonth(), 1)
-      : new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+      : new Date(new Date().getFullYear(), new Date().getMonth(), 1),
   );
 
   const today = new Date();
@@ -50,19 +50,19 @@ export function Calendar({
   // Add all days of the month
   for (let day = 1; day <= daysInMonth; day++) {
     days.push(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day)
+      new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day),
     );
   }
 
   const handlePreviousMonth = () => {
     setCurrentMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1)
+      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1),
     );
   };
 
   const handleNextMonth = () => {
     setCurrentMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1)
+      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1),
     );
   };
 
@@ -131,7 +131,10 @@ export function Calendar({
       </div>
       <div className="grid grid-cols-7 gap-1">
         {dayNames.map((day) => (
-          <div key={day} className="text-center text-sm font-medium text-muted-foreground p-2">
+          <div
+            key={day}
+            className="text-center text-sm font-medium text-muted-foreground p-2"
+          >
             {day}
           </div>
         ))}
@@ -149,7 +152,7 @@ export function Calendar({
                 isToday(date) && "font-bold",
                 isSelected(date) &&
                   "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground",
-                !isSelected(date) && "text-foreground"
+                !isSelected(date) && "text-foreground",
               )}
             >
               {date.getDate()}

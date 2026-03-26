@@ -2,7 +2,13 @@
 
 import { useParams, useSearchParams } from "next/navigation";
 import { useState, useCallback, useEffect, useRef } from "react";
-import { getFormBySlug, shouldShowQuestion, evaluateLogicRules, type Form, type FormQuestion } from "@/data/forms";
+import {
+  getFormBySlug,
+  shouldShowQuestion,
+  evaluateLogicRules,
+  type Form,
+  type FormQuestion,
+} from "@/data/forms";
 import { createSubmission, submissionHasFiles } from "@/data/form-submissions";
 import { notifyStaffOnFormSubmission } from "@/data/facility-notifications";
 import { triggerFormEvent } from "@/lib/form-automation-events";
@@ -11,7 +17,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, Mail, KeyRound, Shield, Edit2, Dog, Cat, ArrowLeft, Languages } from "lucide-react";
+import {
+  CheckCircle,
+  Mail,
+  KeyRound,
+  Shield,
+  Edit2,
+  Dog,
+  Cat,
+  ArrowLeft,
+  Languages,
+} from "lucide-react";
 import Link from "next/link";
 import type { SupportedFormLocale } from "@/data/forms-phase2-types";
 
@@ -40,7 +56,7 @@ export default function PublicFormPage() {
   const slug = params?.slug as string | undefined;
 
   const [form, setForm] = useState<Form | null>(() =>
-    slug ? getFormBySlug(slug) ?? null : null
+    slug ? (getFormBySlug(slug) ?? null) : null,
   );
   const [answers, setAnswers] = useState<Record<string, unknown>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -59,8 +75,13 @@ export default function PublicFormPage() {
 
   // Feature 2: Post-Submission Edit state
   const [isEditing, setIsEditing] = useState(false);
-  const [previousSubmissionId, setPreviousSubmissionId] = useState<string | null>(null);
-  const [lastSubmittedAnswers, setLastSubmittedAnswers] = useState<Record<string, unknown> | null>(null);
+  const [previousSubmissionId, setPreviousSubmissionId] = useState<
+    string | null
+  >(null);
+  const [lastSubmittedAnswers, setLastSubmittedAnswers] = useState<Record<
+    string,
+    unknown
+  > | null>(null);
 
   // Phase 2: Multi-language locale state
   const [locale, setLocale] = useState<SupportedFormLocale>("en");
@@ -74,7 +95,8 @@ export default function PublicFormPage() {
   // Check auth from sessionStorage on mount
   useEffect(() => {
     if (!form || typeof window === "undefined") return;
-    const requireAuth = (form as Form & { requireAuth?: boolean }).requireAuth ?? false;
+    const requireAuth =
+      (form as Form & { requireAuth?: boolean }).requireAuth ?? false;
     if (!requireAuth) {
       setAuthVerified(true);
       return;
@@ -94,18 +116,31 @@ export default function PublicFormPage() {
   };
   const linkPetId = searchParams?.get("petId");
   const linkCustomerId = searchParams?.get("customerId");
-  const petIds = linkPetId ? [parseInt(linkPetId, 10)].filter((n) => !Number.isNaN(n)) : undefined;
+  const petIds = linkPetId
+    ? [parseInt(linkPetId, 10)].filter((n) => !Number.isNaN(n))
+    : undefined;
   const customerId = linkCustomerId ? parseInt(linkCustomerId, 10) : undefined;
 
   // Feature 3: Look up customer pets for multi-pet support
   const repeatPerPet = form?.repeatPerPet ?? false;
-  const customerRecord = customerId ? clients.find((c) => c.id === customerId) : undefined;
-  const customerPets: Pet[] = customerRecord?.pets?.map((p) => ({ id: p.id, name: p.name, type: p.type })) ?? [];
+  const customerRecord = customerId
+    ? clients.find((c) => c.id === customerId)
+    : undefined;
+  const customerPets: Pet[] =
+    customerRecord?.pets?.map((p) => ({
+      id: p.id,
+      name: p.name,
+      type: p.type,
+    })) ?? [];
   const isMultiPet = repeatPerPet && !!customerId && customerPets.length > 0;
 
   // Auto-select single pet
   useEffect(() => {
-    if (isMultiPet && customerPets.length === 1 && selectedPetIds.length === 0) {
+    if (
+      isMultiPet &&
+      customerPets.length === 1 &&
+      selectedPetIds.length === 0
+    ) {
       setSelectedPetIds([customerPets[0].id]);
     }
   }, [isMultiPet, customerPets.length]);
@@ -129,7 +164,8 @@ export default function PublicFormPage() {
 
   // 7.2 Emit form_started for automation (once per load)
   useEffect(() => {
-    if (!form || typeof window === "undefined" || formStartedEmittedRef.current) return;
+    if (!form || typeof window === "undefined" || formStartedEmittedRef.current)
+      return;
     formStartedEmittedRef.current = true;
     triggerFormEvent("form_started", {
       facilityId: form.facilityId,
@@ -142,7 +178,8 @@ export default function PublicFormPage() {
 
   // Load draft on mount (client-only)
   useEffect(() => {
-    if (!form || typeof window === "undefined" || draftLoadedRef.current) return;
+    if (!form || typeof window === "undefined" || draftLoadedRef.current)
+      return;
     draftLoadedRef.current = true;
     const key = draftKey(form.id, petIds?.[0], customerId);
     try {
@@ -181,13 +218,17 @@ export default function PublicFormPage() {
       e.preventDefault();
       if (!form) return;
       setAttemptedSubmit(true);
-      const required = visibleQuestions.filter((q) => q.required || logicEffects?.requiredQuestionIds.has(q.id));
-      const missing = required.filter((q) => answers[q.id] === undefined || answers[q.id] === "");
+      const required = visibleQuestions.filter(
+        (q) => q.required || logicEffects?.requiredQuestionIds.has(q.id),
+      );
+      const missing = required.filter(
+        (q) => answers[q.id] === undefined || answers[q.id] === "",
+      );
       if (missing.length > 0) {
         setError(
           missing.length === 1
             ? `Almost there! Please fill in "${missing[0].label}" to continue.`
-            : `Just ${missing.length} more to go — please complete: ${missing.map((q) => `"${q.label}"`).join(", ")}.`
+            : `Just ${missing.length} more to go — please complete: ${missing.map((q) => `"${q.label}"`).join(", ")}.`,
         );
         return;
       }
@@ -270,7 +311,17 @@ export default function PublicFormPage() {
       setIsEditing(false);
       setSubmitted(true);
     },
-    [form, visibleQuestions, answers, context, customerId, petIds, isEditing, isMultiPet, selectedPetIds]
+    [
+      form,
+      visibleQuestions,
+      answers,
+      context,
+      customerId,
+      petIds,
+      isEditing,
+      isMultiPet,
+      selectedPetIds,
+    ],
   );
 
   // Feature 2: Handle "Review & Edit" — go back to form with pre-filled answers
@@ -341,7 +392,8 @@ export default function PublicFormPage() {
   }
 
   // Feature 1: Authentication Gate
-  const requireAuth = (form as Form & { requireAuth?: boolean }).requireAuth ?? false;
+  const requireAuth =
+    (form as Form & { requireAuth?: boolean }).requireAuth ?? false;
   if (requireAuth && !authVerified) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
@@ -357,7 +409,10 @@ export default function PublicFormPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             {authError && (
-              <div className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive" role="alert">
+              <div
+                className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive"
+                role="alert"
+              >
                 {authError}
               </div>
             )}
@@ -388,7 +443,10 @@ export default function PublicFormPage() {
             ) : (
               <>
                 <p className="text-sm text-muted-foreground text-center">
-                  A 6-digit code has been sent to <span className="font-medium text-foreground">{authEmail}</span>
+                  A 6-digit code has been sent to{" "}
+                  <span className="font-medium text-foreground">
+                    {authEmail}
+                  </span>
                 </p>
                 <div className="space-y-2">
                   <Label htmlFor="auth-code">Verification code</Label>
@@ -401,7 +459,11 @@ export default function PublicFormPage() {
                       maxLength={6}
                       placeholder="000000"
                       value={authCode}
-                      onChange={(e) => setAuthCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                      onChange={(e) =>
+                        setAuthCode(
+                          e.target.value.replace(/\D/g, "").slice(0, 6),
+                        )
+                      }
                       className="pl-10 min-h-12 text-base tracking-widest text-center font-mono"
                     />
                   </div>
@@ -415,7 +477,11 @@ export default function PublicFormPage() {
                 </Button>
                 <button
                   type="button"
-                  onClick={() => { setAuthCodeSent(false); setAuthCode(""); setAuthError(null); }}
+                  onClick={() => {
+                    setAuthCodeSent(false);
+                    setAuthCode("");
+                    setAuthError(null);
+                  }}
                   className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Use a different email
@@ -436,11 +502,13 @@ export default function PublicFormPage() {
             <CheckCircle className="h-12 w-12 text-green-600 mb-4" />
             <h2 className="text-xl font-semibold mb-2">Thank you</h2>
             <p className="text-muted-foreground">
-              {form?.settings?.submitMessage || "Your response has been submitted successfully."}
+              {form?.settings?.submitMessage ||
+                "Your response has been submitted successfully."}
             </p>
             {isMultiPet && multiPetSubmittedCount > 1 && (
               <p className="text-sm text-muted-foreground mt-2">
-                {multiPetSubmittedCount} submissions created (one per selected pet).
+                {multiPetSubmittedCount} submissions created (one per selected
+                pet).
               </p>
             )}
             {/* Feature 2: Review & Edit button */}
@@ -453,10 +521,7 @@ export default function PublicFormPage() {
                 <Edit2 className="h-4 w-4 mr-2" />
                 Review &amp; Edit
               </Button>
-              <Button
-                asChild
-                className="min-h-12 text-base flex-1"
-              >
+              <Button asChild className="min-h-12 text-base flex-1">
                 <Link href="/customer/documents">
                   <ArrowLeft className="h-4 w-4 mr-2" />
                   Back to Documents
@@ -475,26 +540,28 @@ export default function PublicFormPage() {
   }
 
   // Phase 2: Detect if form has any French translations
-  const hasI18n = form?.questions.some(
-    (q) => q.labelI18n?.fr
-  ) ?? false;
+  const hasI18n = form?.questions.some((q) => q.labelI18n?.fr) ?? false;
 
   const isAnonymous = !customerId && !petIds?.length;
   const total = visibleQuestions.length;
-  const answered = visibleQuestions.filter((q) => answers[q.id] !== undefined && answers[q.id] !== "").length;
+  const answered = visibleQuestions.filter(
+    (q) => answers[q.id] !== undefined && answers[q.id] !== "",
+  ).length;
   const progressPct = total > 0 ? Math.round((answered / total) * 100) : 0;
 
   // Feature 3: Determine the active pet for the header badge (multi-pet mode)
-  const activePet = isMultiPet && selectedPetIds.length > 0
-    ? customerPets.find((p) => p.id === selectedPetIds[currentPetIndex]) ?? null
-    : null;
+  const activePet =
+    isMultiPet && selectedPetIds.length > 0
+      ? (customerPets.find((p) => p.id === selectedPetIds[currentPetIndex]) ??
+        null)
+      : null;
 
   // Feature 3: Pet toggle helper
   const togglePet = (petId: number) => {
     setSelectedPetIds((prev) =>
       prev.includes(petId)
         ? prev.filter((id) => id !== petId)
-        : [...prev, petId]
+        : [...prev, petId],
     );
   };
 
@@ -507,7 +574,9 @@ export default function PublicFormPage() {
         <CardHeader className="pb-2">
           <CardTitle className="text-xl sm:text-2xl">{form.name}</CardTitle>
           {form.settings?.welcomeMessage && (
-            <p className="text-sm text-muted-foreground mt-1">{form.settings.welcomeMessage}</p>
+            <p className="text-sm text-muted-foreground mt-1">
+              {form.settings.welcomeMessage}
+            </p>
           )}
 
           {/* Phase 2: Language switcher (EN/FR) */}
@@ -570,7 +639,9 @@ export default function PublicFormPage() {
             <div className="mt-4 space-y-1.5">
               <div className="flex justify-between text-xs text-muted-foreground">
                 <span>Progress</span>
-                <span>{answered} of {total} {total === 1 ? "question" : "questions"}</span>
+                <span>
+                  {answered} of {total} {total === 1 ? "question" : "questions"}
+                </span>
               </div>
               <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
                 <div
@@ -584,14 +655,20 @@ export default function PublicFormPage() {
         <CardContent>
           {isAnonymous && (
             <p className="text-xs text-muted-foreground bg-muted/50 rounded-lg p-3 mb-4">
-              <a href="/customer/auth/login" className="underline hover:text-foreground">
+              <a
+                href="/customer/auth/login"
+                className="underline hover:text-foreground"
+              >
                 Sign in
               </a>{" "}
               to link this response to your account and save progress.
             </p>
           )}
           <div className="flex items-center justify-between text-xs text-muted-foreground mb-4">
-            <p>Your progress is saved automatically. You can leave and come back anytime.</p>
+            <p>
+              Your progress is saved automatically. You can leave and come back
+              anytime.
+            </p>
             <span
               className={`shrink-0 ml-2 text-[10px] font-medium text-emerald-600 transition-opacity duration-300 ${
                 draftSavedShow ? "opacity-100" : "opacity-0"
@@ -602,7 +679,8 @@ export default function PublicFormPage() {
           </div>
           {form.repeatPerPet && !isMultiPet && (
             <p className="text-xs text-muted-foreground mb-4">
-              This form can be completed once per pet. Use the link from your pet&apos;s Forms tab to fill for a specific pet.
+              This form can be completed once per pet. Use the link from your
+              pet&apos;s Forms tab to fill for a specific pet.
             </p>
           )}
 
@@ -636,7 +714,9 @@ export default function PublicFormPage() {
                         <Dog className="h-5 w-5 text-muted-foreground shrink-0" />
                       )}
                       <span className="text-base font-medium">{pet.name}</span>
-                      <span className="text-xs text-muted-foreground">{pet.type}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {pet.type}
+                      </span>
                     </label>
                   );
                 })}
@@ -651,27 +731,38 @@ export default function PublicFormPage() {
 
           {logicEffects?.endFormMessage ? (
             <div className="rounded-lg bg-amber-50 border border-amber-200 p-4 text-center">
-              <p className="text-sm font-medium text-amber-800">{logicEffects.endFormMessage}</p>
+              <p className="text-sm font-medium text-amber-800">
+                {logicEffects.endFormMessage}
+              </p>
             </div>
           ) : (
-            <form onSubmit={(e) => {
-              // Feature 3: Block submission if multi-pet and none selected
-              if (isMultiPet && selectedPetIds.length === 0) {
-                e.preventDefault();
-                setError("Please select at least one pet before submitting.");
-                return;
-              }
-              handleSubmit(e);
-            }} className="space-y-6">
+            <form
+              onSubmit={(e) => {
+                // Feature 3: Block submission if multi-pet and none selected
+                if (isMultiPet && selectedPetIds.length === 0) {
+                  e.preventDefault();
+                  setError("Please select at least one pet before submitting.");
+                  return;
+                }
+                handleSubmit(e);
+              }}
+              className="space-y-6"
+            >
               {error && (
-                <div className="rounded-xl bg-rose-50 border border-rose-200 p-4 text-sm text-rose-700" role="alert">
+                <div
+                  className="rounded-xl bg-rose-50 border border-rose-200 p-4 text-sm text-rose-700"
+                  role="alert"
+                >
                   <p className="font-semibold">Oops, not quite ready yet</p>
                   <p className="mt-1 text-rose-600">{error}</p>
                 </div>
               )}
               {visibleQuestions.map((q) => {
-                const isRequired = q.required || (logicEffects?.requiredQuestionIds.has(q.id) ?? false);
-                const isEmpty = answers[q.id] === undefined || answers[q.id] === "";
+                const isRequired =
+                  q.required ||
+                  (logicEffects?.requiredQuestionIds.has(q.id) ?? false);
+                const isEmpty =
+                  answers[q.id] === undefined || answers[q.id] === "";
                 const showFieldError = attemptedSubmit && isRequired && isEmpty;
                 return (
                   <QuestionInput
@@ -689,7 +780,11 @@ export default function PublicFormPage() {
                 className="w-full min-h-12 text-base touch-manipulation"
                 disabled={multiPetSubmitting}
               >
-                {isEditing ? "Resubmit" : isMultiPet && selectedPetIds.length > 1 ? `Submit for ${selectedPetIds.length} pets` : "Submit"}
+                {isEditing
+                  ? "Resubmit"
+                  : isMultiPet && selectedPetIds.length > 1
+                    ? `Submit for ${selectedPetIds.length} pets`
+                    : "Submit"}
               </Button>
             </form>
           )}
@@ -699,7 +794,19 @@ export default function PublicFormPage() {
   );
 }
 
-function QuestionLabel({ label, required, helpText, frLabel, locale }: { label: string; required: boolean; helpText?: string; frLabel?: string; locale?: SupportedFormLocale }) {
+function QuestionLabel({
+  label,
+  required,
+  helpText,
+  frLabel,
+  locale,
+}: {
+  label: string;
+  required: boolean;
+  helpText?: string;
+  frLabel?: string;
+  locale?: SupportedFormLocale;
+}) {
   const displayLabel = locale === "fr" && frLabel ? frLabel : label;
   return (
     <>
@@ -707,7 +814,9 @@ function QuestionLabel({ label, required, helpText, frLabel, locale }: { label: 
         {displayLabel}
         {required && " *"}
       </Label>
-      {helpText && <p className="text-xs text-muted-foreground -mt-1">{helpText}</p>}
+      {helpText && (
+        <p className="text-xs text-muted-foreground -mt-1">{helpText}</p>
+      )}
     </>
   );
 }
@@ -742,10 +851,21 @@ function QuestionInput({
 
   switch (question.type) {
     case "yes_no": {
-      const yesNoOpts = opts.length ? opts : [{ value: "yes", label: "Yes" }, { value: "no", label: "No" }];
+      const yesNoOpts = opts.length
+        ? opts
+        : [
+            { value: "yes", label: "Yes" },
+            { value: "no", label: "No" },
+          ];
       return wrap(
         <div className="space-y-2">
-          <QuestionLabel label={question.label} required={question.required} helpText={help} frLabel={frLabel} locale={locale} />
+          <QuestionLabel
+            label={question.label}
+            required={question.required}
+            helpText={help}
+            frLabel={frLabel}
+            locale={locale}
+          />
           <div className="flex gap-3">
             {yesNoOpts.map((o) => (
               <button
@@ -762,16 +882,25 @@ function QuestionInput({
               </button>
             ))}
           </div>
-        </div>
+        </div>,
       );
     }
     case "radio":
       return wrap(
         <div className="space-y-2">
-          <QuestionLabel label={question.label} required={question.required} helpText={help} frLabel={frLabel} locale={locale} />
+          <QuestionLabel
+            label={question.label}
+            required={question.required}
+            helpText={help}
+            frLabel={frLabel}
+            locale={locale}
+          />
           <div className="space-y-2">
             {opts.map((o) => (
-              <label key={o.value} className="flex items-center gap-3 rounded-lg border p-3 cursor-pointer touch-manipulation hover:bg-muted/50 transition-colors">
+              <label
+                key={o.value}
+                className="flex items-center gap-3 rounded-lg border p-3 cursor-pointer touch-manipulation hover:bg-muted/50 transition-colors"
+              >
                 <input
                   type="radio"
                   name={id}
@@ -784,12 +913,18 @@ function QuestionInput({
               </label>
             ))}
           </div>
-        </div>
+        </div>,
       );
     case "textarea":
       return wrap(
         <div className="space-y-2">
-          <QuestionLabel label={question.label} required={question.required} helpText={help} frLabel={frLabel} locale={locale} />
+          <QuestionLabel
+            label={question.label}
+            required={question.required}
+            helpText={help}
+            frLabel={frLabel}
+            locale={locale}
+          />
           <textarea
             id={id}
             className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-base"
@@ -798,12 +933,18 @@ function QuestionInput({
             placeholder={question.placeholder}
             required={question.required}
           />
-        </div>
+        </div>,
       );
     case "select":
       return wrap(
         <div className="space-y-2">
-          <QuestionLabel label={question.label} required={question.required} helpText={help} frLabel={frLabel} locale={locale} />
+          <QuestionLabel
+            label={question.label}
+            required={question.required}
+            helpText={help}
+            frLabel={frLabel}
+            locale={locale}
+          />
           <select
             id={id}
             className="flex min-h-12 w-full rounded-md border border-input bg-transparent px-3 py-2 text-base"
@@ -818,7 +959,7 @@ function QuestionInput({
               </option>
             ))}
           </select>
-        </div>
+        </div>,
       );
     case "multiselect": {
       const set = new Set((value as string[]) ?? []);
@@ -830,10 +971,19 @@ function QuestionInput({
       };
       return wrap(
         <div className="space-y-2">
-          <QuestionLabel label={question.label} required={question.required} helpText={help} frLabel={frLabel} locale={locale} />
+          <QuestionLabel
+            label={question.label}
+            required={question.required}
+            helpText={help}
+            frLabel={frLabel}
+            locale={locale}
+          />
           <div className="flex flex-wrap gap-2">
             {opts.map((o) => (
-              <label key={o.value} className="flex items-center gap-2 text-base min-h-12 cursor-pointer touch-manipulation">
+              <label
+                key={o.value}
+                className="flex items-center gap-2 text-base min-h-12 cursor-pointer touch-manipulation"
+              >
                 <input
                   type="checkbox"
                   className="h-5 w-5"
@@ -844,7 +994,7 @@ function QuestionInput({
               </label>
             ))}
           </div>
-        </div>
+        </div>,
       );
     }
     case "checkbox":
@@ -861,13 +1011,21 @@ function QuestionInput({
             {locale === "fr" && frLabel ? frLabel : question.label}
             {question.required && " *"}
           </Label>
-          {help && <span className="text-xs text-muted-foreground">{help}</span>}
-        </div>
+          {help && (
+            <span className="text-xs text-muted-foreground">{help}</span>
+          )}
+        </div>,
       );
     case "date":
       return wrap(
         <div className="space-y-2">
-          <QuestionLabel label={question.label} required={question.required} helpText={help} frLabel={frLabel} locale={locale} />
+          <QuestionLabel
+            label={question.label}
+            required={question.required}
+            helpText={help}
+            frLabel={frLabel}
+            locale={locale}
+          />
           <Input
             id={id}
             type="date"
@@ -876,33 +1034,49 @@ function QuestionInput({
             onChange={(e) => onChange(e.target.value)}
             required={question.required}
           />
-        </div>
+        </div>,
       );
     case "number":
       return wrap(
         <div className="space-y-2">
-          <QuestionLabel label={question.label} required={question.required} helpText={help} frLabel={frLabel} locale={locale} />
+          <QuestionLabel
+            label={question.label}
+            required={question.required}
+            helpText={help}
+            frLabel={frLabel}
+            locale={locale}
+          />
           <Input
             id={id}
             type="number"
             className="text-base min-h-12"
             value={(value as number) ?? question.defaultValue ?? ""}
-            onChange={(e) => onChange(e.target.value ? Number(e.target.value) : undefined)}
+            onChange={(e) =>
+              onChange(e.target.value ? Number(e.target.value) : undefined)
+            }
             placeholder={question.placeholder}
             required={question.required}
           />
-        </div>
+        </div>,
       );
     case "file":
       return wrap(
         <div className="space-y-2">
-          <QuestionLabel label={question.label} required={question.required} helpText={help} frLabel={frLabel} locale={locale} />
+          <QuestionLabel
+            label={question.label}
+            required={question.required}
+            helpText={help}
+            frLabel={frLabel}
+            locale={locale}
+          />
           <div className="rounded-lg border-2 border-dashed border-input p-6 text-center">
             <input
               id={id}
               type="file"
               className="hidden"
-              accept={question.validation?.allowedFileTypes?.join(",") ?? undefined}
+              accept={
+                question.validation?.allowedFileTypes?.join(",") ?? undefined
+              }
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) onChange(file.name);
@@ -911,7 +1085,9 @@ function QuestionInput({
             <label htmlFor={id} className="cursor-pointer touch-manipulation">
               <div className="text-sm text-muted-foreground">
                 {value ? (
-                  <span className="text-foreground font-medium">{String(value)}</span>
+                  <span className="text-foreground font-medium">
+                    {String(value)}
+                  </span>
                 ) : (
                   <>Click to upload a file</>
                 )}
@@ -923,18 +1099,31 @@ function QuestionInput({
               </p>
             </label>
           </div>
-        </div>
+        </div>,
       );
     case "signature": {
       const sigVal = value as string | { name: string } | undefined;
-      const sigName = typeof sigVal === "object" && sigVal !== null ? sigVal.name : (typeof sigVal === "string" ? sigVal : "");
+      const sigName =
+        typeof sigVal === "object" && sigVal !== null
+          ? sigVal.name
+          : typeof sigVal === "string"
+            ? sigVal
+            : "";
       return wrap(
         <div className="space-y-2">
-          <QuestionLabel label={question.label} required={question.required} helpText={help} frLabel={frLabel} locale={locale} />
+          <QuestionLabel
+            label={question.label}
+            required={question.required}
+            helpText={help}
+            frLabel={frLabel}
+            locale={locale}
+          />
           <div className="rounded-lg border border-input p-4 space-y-3">
             <div className="h-24 bg-muted/30 rounded flex items-center justify-center text-sm text-muted-foreground">
               {sigName ? (
-                <p className="font-medium text-foreground italic text-lg">{sigName}</p>
+                <p className="font-medium text-foreground italic text-lg">
+                  {sigName}
+                </p>
               ) : (
                 "Signature area"
               )}
@@ -949,31 +1138,42 @@ function QuestionInput({
                   name,
                   signedAt: new Date().toISOString(),
                   ipAddress: "captured-on-submit",
-                  userAgent: typeof navigator !== "undefined" ? navigator.userAgent : "",
+                  userAgent:
+                    typeof navigator !== "undefined" ? navigator.userAgent : "",
                   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                  agreementText: "By typing your name above, you agree this serves as your electronic signature.",
+                  agreementText:
+                    "By typing your name above, you agree this serves as your electronic signature.",
                 });
               }}
               required={question.required}
               className="text-base min-h-12"
             />
             <p className="text-xs text-muted-foreground">
-              By typing your name above, you agree this serves as your electronic signature.
+              By typing your name above, you agree this serves as your
+              electronic signature.
             </p>
             {sigName && (
               <div className="flex items-center gap-2 text-[10px] text-muted-foreground bg-muted/30 rounded px-2 py-1">
                 <Shield className="h-3 w-3" />
-                <span>E-signed · {Intl.DateTimeFormat().resolvedOptions().timeZone}</span>
+                <span>
+                  E-signed · {Intl.DateTimeFormat().resolvedOptions().timeZone}
+                </span>
               </div>
             )}
           </div>
-        </div>
+        </div>,
       );
     }
     case "phone":
       return wrap(
         <div className="space-y-2">
-          <QuestionLabel label={question.label} required={question.required} helpText={help} frLabel={frLabel} locale={locale} />
+          <QuestionLabel
+            label={question.label}
+            required={question.required}
+            helpText={help}
+            frLabel={frLabel}
+            locale={locale}
+          />
           <Input
             id={id}
             type="tel"
@@ -983,12 +1183,18 @@ function QuestionInput({
             placeholder={question.placeholder ?? "(555) 123-4567"}
             required={question.required}
           />
-        </div>
+        </div>,
       );
     case "email":
       return wrap(
         <div className="space-y-2">
-          <QuestionLabel label={question.label} required={question.required} helpText={help} frLabel={frLabel} locale={locale} />
+          <QuestionLabel
+            label={question.label}
+            required={question.required}
+            helpText={help}
+            frLabel={frLabel}
+            locale={locale}
+          />
           <Input
             id={id}
             type="email"
@@ -998,14 +1204,27 @@ function QuestionInput({
             placeholder={question.placeholder ?? "name@example.com"}
             required={question.required}
           />
-        </div>
+        </div>,
       );
     case "address": {
-      const addr = (value as { street?: string; city?: string; state?: string; zip?: string }) ?? {};
-      const update = (field: string, v: string) => onChange({ ...addr, [field]: v });
+      const addr =
+        (value as {
+          street?: string;
+          city?: string;
+          state?: string;
+          zip?: string;
+        }) ?? {};
+      const update = (field: string, v: string) =>
+        onChange({ ...addr, [field]: v });
       return wrap(
         <div className="space-y-2">
-          <QuestionLabel label={question.label} required={question.required} helpText={help} frLabel={frLabel} locale={locale} />
+          <QuestionLabel
+            label={question.label}
+            required={question.required}
+            helpText={help}
+            frLabel={frLabel}
+            locale={locale}
+          />
           <div className="space-y-2">
             <Input
               placeholder="Street address"
@@ -1035,14 +1254,20 @@ function QuestionInput({
               />
             </div>
           </div>
-        </div>
+        </div>,
       );
     }
     case "text":
     default:
       return wrap(
         <div className="space-y-2">
-          <QuestionLabel label={question.label} required={question.required} helpText={help} frLabel={frLabel} locale={locale} />
+          <QuestionLabel
+            label={question.label}
+            required={question.required}
+            helpText={help}
+            frLabel={frLabel}
+            locale={locale}
+          />
           <Input
             id={id}
             type="text"
@@ -1052,7 +1277,7 @@ function QuestionInput({
             required={question.required}
             className="text-base min-h-12 touch-manipulation"
           />
-        </div>
+        </div>,
       );
   }
 }

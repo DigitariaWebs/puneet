@@ -94,7 +94,9 @@ export default function CustomServiceCheckInPage() {
   };
 
   const { checkedIn, scheduled, checkedOut } = useMemo(() => {
-    let ci = 0, sc = 0, co = 0;
+    let ci = 0,
+      sc = 0,
+      co = 0;
     for (const e of entries) {
       if (e.status === "checked-in") ci++;
       else if (e.status === "scheduled") sc++;

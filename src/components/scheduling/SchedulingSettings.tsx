@@ -22,17 +22,25 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Save, RotateCcw, Users, ClipboardList, AlertTriangle } from "lucide-react";
+import {
+  Save,
+  RotateCcw,
+  Users,
+  ClipboardList,
+  AlertTriangle,
+} from "lucide-react";
 
 export default function SchedulingSettings() {
   // Check if user is admin
   const [isAdmin, setIsAdmin] = useState(false);
-  
+
   useEffect(() => {
     const checkAdmin = () => {
       if (typeof document === "undefined") return;
       const cookies = document.cookie.split("; ");
-      const roleCookie = cookies.find((cookie) => cookie.startsWith("user_role="));
+      const roleCookie = cookies.find((cookie) =>
+        cookie.startsWith("user_role="),
+      );
       if (roleCookie) {
         const role = roleCookie.split("=")[1];
         setIsAdmin(role === "super_admin" || role === "facility_admin");
@@ -60,22 +68,22 @@ export default function SchedulingSettings() {
     // Daycare
     daycareStaffPerDogs: 10, // 1 staff per X dogs
     daycareMinStaff: 1, // Minimum staff required for daycare
-    
+
     // Boarding
     boardingMinStaffPerShift: 1, // Minimum attendants per shift block
     boardingMorningMinStaff: 1, // Morning shift minimum
     boardingAfternoonMinStaff: 1, // Afternoon shift minimum
     boardingEveningMinStaff: 1, // Evening shift minimum
-    
+
     // Front Desk
     frontDeskCoverageWindows: [
       { start: "08:00", end: "10:00", minStaff: 1 },
       { start: "16:00", end: "18:00", minStaff: 1 },
     ], // Coverage windows for front desk
-    
+
     // Grooming
     showGroomingSchedule: true, // Show grooming schedule in main view
-    
+
     // Coverage Thresholds (for heatmap)
     understaffedThreshold: 0.7, // Below 70% of required staff = understaffed
     overstaffedThreshold: 1.3, // Above 130% of required staff = overstaffed
@@ -152,12 +160,15 @@ export default function SchedulingSettings() {
             {isAdmin ? "System Configuration" : "Scheduling Settings"}
           </h2>
           <p className="text-muted-foreground">
-            {isAdmin 
+            {isAdmin
               ? "System-level scheduling configuration and controls"
               : "Configure staff scheduling preferences and policies"}
           </p>
           {isAdmin && (
-            <Badge variant="secondary" className="mt-2 bg-blue-100 text-blue-800">
+            <Badge
+              variant="secondary"
+              className="mt-2 bg-blue-100 text-blue-800"
+            >
               Admin Configuration Panel
             </Badge>
           )}
@@ -998,7 +1009,8 @@ export default function SchedulingSettings() {
                     onChange={(e) =>
                       setSettings({
                         ...settings,
-                        boardingAfternoonMinStaff: parseInt(e.target.value) || 1,
+                        boardingAfternoonMinStaff:
+                          parseInt(e.target.value) || 1,
                       })
                     }
                     disabled={!isEditing}
@@ -1028,7 +1040,9 @@ export default function SchedulingSettings() {
 
             {/* Front Desk Coverage */}
             <div className="space-y-4">
-              <h4 className="font-semibold text-sm">Front Desk Coverage Windows</h4>
+              <h4 className="font-semibold text-sm">
+                Front Desk Coverage Windows
+              </h4>
               <p className="text-xs text-muted-foreground">
                 Define time windows when front desk must be staffed
               </p>
@@ -1039,9 +1053,14 @@ export default function SchedulingSettings() {
                       type="time"
                       value={window.start}
                       onChange={(e) => {
-                        const newWindows = [...settings.frontDeskCoverageWindows];
+                        const newWindows = [
+                          ...settings.frontDeskCoverageWindows,
+                        ];
                         newWindows[index].start = e.target.value;
-                        setSettings({ ...settings, frontDeskCoverageWindows: newWindows });
+                        setSettings({
+                          ...settings,
+                          frontDeskCoverageWindows: newWindows,
+                        });
                       }}
                       disabled={!isEditing}
                       className="w-32"
@@ -1051,9 +1070,14 @@ export default function SchedulingSettings() {
                       type="time"
                       value={window.end}
                       onChange={(e) => {
-                        const newWindows = [...settings.frontDeskCoverageWindows];
+                        const newWindows = [
+                          ...settings.frontDeskCoverageWindows,
+                        ];
                         newWindows[index].end = e.target.value;
-                        setSettings({ ...settings, frontDeskCoverageWindows: newWindows });
+                        setSettings({
+                          ...settings,
+                          frontDeskCoverageWindows: newWindows,
+                        });
                       }}
                       disabled={!isEditing}
                       className="w-32"
@@ -1063,9 +1087,15 @@ export default function SchedulingSettings() {
                       type="number"
                       value={window.minStaff}
                       onChange={(e) => {
-                        const newWindows = [...settings.frontDeskCoverageWindows];
-                        newWindows[index].minStaff = parseInt(e.target.value) || 1;
-                        setSettings({ ...settings, frontDeskCoverageWindows: newWindows });
+                        const newWindows = [
+                          ...settings.frontDeskCoverageWindows,
+                        ];
+                        newWindows[index].minStaff =
+                          parseInt(e.target.value) || 1;
+                        setSettings({
+                          ...settings,
+                          frontDeskCoverageWindows: newWindows,
+                        });
                       }}
                       disabled={!isEditing}
                       className="w-20"
@@ -1075,8 +1105,14 @@ export default function SchedulingSettings() {
                         variant="ghost"
                         size="sm"
                         onClick={() => {
-                          const newWindows = settings.frontDeskCoverageWindows.filter((_, i) => i !== index);
-                          setSettings({ ...settings, frontDeskCoverageWindows: newWindows });
+                          const newWindows =
+                            settings.frontDeskCoverageWindows.filter(
+                              (_, i) => i !== index,
+                            );
+                          setSettings({
+                            ...settings,
+                            frontDeskCoverageWindows: newWindows,
+                          });
                         }}
                       >
                         Remove
@@ -1093,7 +1129,10 @@ export default function SchedulingSettings() {
                         ...settings.frontDeskCoverageWindows,
                         { start: "09:00", end: "17:00", minStaff: 1 },
                       ];
-                      setSettings({ ...settings, frontDeskCoverageWindows: newWindows });
+                      setSettings({
+                        ...settings,
+                        frontDeskCoverageWindows: newWindows,
+                      });
                     }}
                   >
                     Add Coverage Window
@@ -1125,12 +1164,15 @@ export default function SchedulingSettings() {
 
             {/* Coverage Thresholds */}
             <div className="space-y-4">
-              <h4 className="font-semibold text-sm">Coverage Heatmap Thresholds</h4>
+              <h4 className="font-semibold text-sm">
+                Coverage Heatmap Thresholds
+              </h4>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Understaffed Threshold</Label>
                   <p className="text-xs text-muted-foreground">
-                    Below this percentage of required staff = understaffed (0.0-1.0)
+                    Below this percentage of required staff = understaffed
+                    (0.0-1.0)
                   </p>
                   <Input
                     type="number"
@@ -1141,7 +1183,8 @@ export default function SchedulingSettings() {
                     onChange={(e) =>
                       setSettings({
                         ...settings,
-                        understaffedThreshold: parseFloat(e.target.value) || 0.7,
+                        understaffedThreshold:
+                          parseFloat(e.target.value) || 0.7,
                       })
                     }
                     disabled={!isEditing}
@@ -1233,13 +1276,15 @@ export default function SchedulingSettings() {
               <CardContent className="space-y-4">
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
                   <p className="text-sm text-blue-900">
-                    <strong>Admin Configuration:</strong> Define roles, departments, and assign permissions to staff members.
+                    <strong>Admin Configuration:</strong> Define roles,
+                    departments, and assign permissions to staff members.
                   </p>
                 </div>
                 <div className="space-y-2">
                   <Label>Available Roles</Label>
                   <p className="text-sm text-muted-foreground">
-                    Boarding, Daycare, Grooming, Front Desk, Training, Admin, Manager
+                    Boarding, Daycare, Grooming, Front Desk, Training, Admin,
+                    Manager
                   </p>
                 </div>
                 <div className="space-y-2">
@@ -1249,15 +1294,21 @@ export default function SchedulingSettings() {
                   </p>
                   <div className="mt-2 space-y-2">
                     <div className="flex items-center justify-between p-2 border rounded">
-                      <span className="text-sm">Employee can view own schedule</span>
+                      <span className="text-sm">
+                        Employee can view own schedule
+                      </span>
                       <Switch defaultChecked disabled={!isEditing} />
                     </div>
                     <div className="flex items-center justify-between p-2 border rounded">
-                      <span className="text-sm">Manager can edit schedules</span>
+                      <span className="text-sm">
+                        Manager can edit schedules
+                      </span>
                       <Switch defaultChecked disabled={!isEditing} />
                     </div>
                     <div className="flex items-center justify-between p-2 border rounded">
-                      <span className="text-sm">Admin can override locked schedules</span>
+                      <span className="text-sm">
+                        Admin can override locked schedules
+                      </span>
                       <Switch defaultChecked disabled={!isEditing} />
                     </div>
                   </div>
@@ -1279,10 +1330,7 @@ export default function SchedulingSettings() {
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <Label>Enable Conflict Detection</Label>
-                  <Switch
-                    defaultChecked
-                    disabled={!isEditing}
-                  />
+                  <Switch defaultChecked disabled={!isEditing} />
                 </div>
                 <Separator />
                 <div className="space-y-2">
@@ -1297,7 +1345,9 @@ export default function SchedulingSettings() {
                       <Switch defaultChecked disabled={!isEditing} />
                     </div>
                     <div className="flex items-center justify-between p-2 border rounded">
-                      <span className="text-sm">Scheduling during approved time off</span>
+                      <span className="text-sm">
+                        Scheduling during approved time off
+                      </span>
                       <Switch defaultChecked disabled={!isEditing} />
                     </div>
                     <div className="flex items-center justify-between p-2 border rounded">
@@ -1305,11 +1355,15 @@ export default function SchedulingSettings() {
                       <Switch defaultChecked disabled={!isEditing} />
                     </div>
                     <div className="flex items-center justify-between p-2 border rounded">
-                      <span className="text-sm">Max hours per day exceeded</span>
+                      <span className="text-sm">
+                        Max hours per day exceeded
+                      </span>
                       <Switch defaultChecked disabled={!isEditing} />
                     </div>
                     <div className="flex items-center justify-between p-2 border rounded">
-                      <span className="text-sm">Min rest between shifts violated</span>
+                      <span className="text-sm">
+                        Min rest between shifts violated
+                      </span>
                       <Switch defaultChecked disabled={!isEditing} />
                     </div>
                   </div>
@@ -1334,19 +1388,27 @@ export default function SchedulingSettings() {
                   <div className="grid grid-cols-2 gap-2 mt-2">
                     <div className="p-2 border rounded">
                       <p className="text-sm font-medium">Opening Tasks</p>
-                      <p className="text-xs text-muted-foreground">Morning setup, feeding rounds</p>
+                      <p className="text-xs text-muted-foreground">
+                        Morning setup, feeding rounds
+                      </p>
                     </div>
                     <div className="p-2 border rounded">
                       <p className="text-sm font-medium">Closing Tasks</p>
-                      <p className="text-xs text-muted-foreground">Evening cleanup, final checks</p>
+                      <p className="text-xs text-muted-foreground">
+                        Evening cleanup, final checks
+                      </p>
                     </div>
                     <div className="p-2 border rounded">
                       <p className="text-sm font-medium">Medication Rounds</p>
-                      <p className="text-xs text-muted-foreground">Scheduled medication administration</p>
+                      <p className="text-xs text-muted-foreground">
+                        Scheduled medication administration
+                      </p>
                     </div>
                     <div className="p-2 border rounded">
                       <p className="text-sm font-medium">Cleaning Tasks</p>
-                      <p className="text-xs text-muted-foreground">Sanitization, deep cleaning</p>
+                      <p className="text-xs text-muted-foreground">
+                        Sanitization, deep cleaning
+                      </p>
                     </div>
                   </div>
                 </div>

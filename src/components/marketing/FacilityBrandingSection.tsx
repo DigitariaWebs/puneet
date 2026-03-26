@@ -17,7 +17,14 @@ import { Plus, X, Save, Palette } from "lucide-react";
 import { facilityBranding } from "@/data/marketing";
 import { getContrastTextColor } from "@/lib/color-utils";
 
-const SOCIAL_PLATFORMS = ["facebook", "instagram", "twitter", "tiktok", "youtube", "linkedin"];
+const SOCIAL_PLATFORMS = [
+  "facebook",
+  "instagram",
+  "twitter",
+  "tiktok",
+  "youtube",
+  "linkedin",
+];
 
 interface SocialLink {
   id: string;
@@ -50,22 +57,31 @@ export function FacilityBrandingSection() {
   const addSocialLink = () => {
     setFormData((prev) => ({
       ...prev,
-      socialLinks: [...prev.socialLinks, withId({ platform: "facebook", url: "" })],
+      socialLinks: [
+        ...prev.socialLinks,
+        withId({ platform: "facebook", url: "" }),
+      ],
     }));
   };
 
   const removeSocialLink = (id: string) => {
     setFormData((prev) => ({
       ...prev,
-      socialLinks: prev.socialLinks.filter((link: SocialLink) => link.id !== id),
+      socialLinks: prev.socialLinks.filter(
+        (link: SocialLink) => link.id !== id,
+      ),
     }));
   };
 
-  const updateSocialLink = (id: string, field: "platform" | "url", value: string) => {
+  const updateSocialLink = (
+    id: string,
+    field: "platform" | "url",
+    value: string,
+  ) => {
     setFormData((prev) => ({
       ...prev,
       socialLinks: prev.socialLinks.map((link: SocialLink) =>
-        link.id === id ? { ...link, [field]: value } : link
+        link.id === id ? { ...link, [field]: value } : link,
       ),
     }));
   };
@@ -174,7 +190,9 @@ export function FacilityBrandingSection() {
                   <div key={link.id} className="flex gap-2 items-center">
                     <Select
                       value={link.platform}
-                      onValueChange={(v) => updateSocialLink(link.id, "platform", v)}
+                      onValueChange={(v) =>
+                        updateSocialLink(link.id, "platform", v)
+                      }
                     >
                       <SelectTrigger className="w-32 h-8">
                         <SelectValue />
@@ -189,7 +207,9 @@ export function FacilityBrandingSection() {
                     </Select>
                     <Input
                       value={link.url}
-                      onChange={(e) => updateSocialLink(link.id, "url", e.target.value)}
+                      onChange={(e) =>
+                        updateSocialLink(link.id, "url", e.target.value)
+                      }
                       placeholder="https://..."
                       className="h-8 text-sm"
                     />
@@ -217,35 +237,51 @@ export function FacilityBrandingSection() {
 
           {/* Right: Live Preview */}
           <div className="space-y-2">
-            <Label className="text-sm text-muted-foreground">Live Preview</Label>
+            <Label className="text-sm text-muted-foreground">
+              Live Preview
+            </Label>
             <Card className="overflow-hidden">
               {/* Color bar */}
-              <div className="h-2" style={{ backgroundColor: formData.primaryColor }} />
+              <div
+                className="h-2"
+                style={{ backgroundColor: formData.primaryColor }}
+              />
               <CardContent className="pt-4 space-y-3">
                 {/* Logo + Name */}
                 <div className="flex items-center gap-2.5 pb-3 border-b">
                   <div
                     className="w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold"
-                    style={{ backgroundColor: formData.primaryColor, color: brandTextColor }}
+                    style={{
+                      backgroundColor: formData.primaryColor,
+                      color: brandTextColor,
+                    }}
                   >
                     {formData.fromName.charAt(0) || "?"}
                   </div>
                   <div>
-                    <div className="font-medium text-sm">{formData.fromName || "Your Business"}</div>
-                    <div className="text-xs text-muted-foreground">{formData.replyToEmail || "email@example.com"}</div>
+                    <div className="font-medium text-sm">
+                      {formData.fromName || "Your Business"}
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      {formData.replyToEmail || "email@example.com"}
+                    </div>
                   </div>
                 </div>
 
                 {/* Sample content */}
                 <div className="text-sm text-muted-foreground py-2">
-                  Hi Sarah, your email content will appear here with your branding applied automatically.
+                  Hi Sarah, your email content will appear here with your
+                  branding applied automatically.
                 </div>
 
                 {/* Sample CTA */}
                 <div className="text-center py-2">
                   <span
                     className="inline-block px-6 py-2.5 rounded-lg font-medium text-sm"
-                    style={{ backgroundColor: formData.primaryColor, color: brandTextColor }}
+                    style={{
+                      backgroundColor: formData.primaryColor,
+                      color: brandTextColor,
+                    }}
                   >
                     Book Now
                   </span>
@@ -258,13 +294,18 @@ export function FacilityBrandingSection() {
                   </div>
                   <div className="flex justify-center gap-3">
                     {formData.socialLinks.map((link: SocialLink) => (
-                      <span key={link.id} className="text-xs text-muted-foreground capitalize">
+                      <span
+                        key={link.id}
+                        className="text-xs text-muted-foreground capitalize"
+                      >
                         {link.platform}
                       </span>
                     ))}
                   </div>
                   <div className="text-center">
-                    <span className="text-xs text-primary underline">Unsubscribe</span>
+                    <span className="text-xs text-primary underline">
+                      Unsubscribe
+                    </span>
                   </div>
                 </div>
               </CardContent>

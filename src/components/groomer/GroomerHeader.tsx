@@ -9,7 +9,9 @@ import { useRouter } from "next/navigation";
 export function GroomerHeader() {
   const router = useRouter();
   const userId = getCurrentUserId();
-  const groomer = userId ? stylists.find((s) => s.id === userId) : stylists[0] || null;
+  const groomer = userId
+    ? stylists.find((s) => s.id === userId)
+    : stylists[0] || null;
 
   const handleLogout = () => {
     // Clear user ID

@@ -18,7 +18,8 @@ export interface EligibilityRow {
 
 function evalBadge(indicator?: EvaluationIndicator) {
   if (!indicator) return null;
-  if (indicator === "valid") return <Badge variant="success">Eval: Valid</Badge>;
+  if (indicator === "valid")
+    return <Badge variant="success">Eval: Valid</Badge>;
   if (indicator === "expired")
     return <Badge variant="destructive">Eval: Expired</Badge>;
   if (indicator === "failed")
@@ -61,9 +62,7 @@ export function PetEligibilityList({ rows }: { rows: EligibilityRow[] }) {
                 <div className="mt-1 text-xs text-muted-foreground">
                   {row.eligible ? "Eligible" : "Ineligible"}
                   {!row.eligible && row.reasons.length > 0 && (
-                    <span className="ml-2">
-                      • {row.reasons.join(" • ")}
-                    </span>
+                    <span className="ml-2">• {row.reasons.join(" • ")}</span>
                   )}
                 </div>
               </div>
@@ -83,4 +82,3 @@ export function PetEligibilityList({ rows }: { rows: EligibilityRow[] }) {
     </Card>
   );
 }
-

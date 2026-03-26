@@ -7,7 +7,13 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff, Mail, Lock, Loader2 } from "lucide-react";
 
@@ -64,10 +70,10 @@ export default function LoginPage() {
     try {
       // TODO: Replace with actual Google OAuth implementation
       const googleUser = await signInWithGoogle();
-      
+
       // Check if customer exists with same email
       const existingCustomer = await checkExistingCustomer(googleUser.email);
-      
+
       if (existingCustomer) {
         // Link Google account to existing customer if not already linked
         await linkGoogleAccount(googleUser);
@@ -77,7 +83,7 @@ export default function LoginPage() {
         await createAccountWithGoogle(googleUser);
         toast.success("Account created and signed in!");
       }
-      
+
       router.push("/customer/dashboard");
     } catch (error: any) {
       toast.error(error.message || "Failed to sign in with Google");
@@ -122,9 +128,7 @@ export default function LoginPage() {
             <img src="/yipyy-transparent.png" alt="Yipyy" className="h-12" />
           </div>
           <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
-          <CardDescription>
-            Sign in to your account to continue
-          </CardDescription>
+          <CardDescription>Sign in to your account to continue</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <Button
@@ -160,7 +164,9 @@ export default function LoginPage() {
               <Separator />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+              <span className="bg-card px-2 text-muted-foreground">
+                Or continue with
+              </span>
             </div>
           </div>
 

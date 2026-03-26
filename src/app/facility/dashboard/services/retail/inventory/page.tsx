@@ -153,7 +153,7 @@ export default function InventoryPage() {
       // Find the product/variant to get cost and max stock
       let product: Product | undefined;
       let variant: ProductVariant | undefined;
-      
+
       if (alert.variantId) {
         product = products.find((p) => p.id === alert.productId);
         variant = product?.variants.find((v) => v.id === alert.variantId);
@@ -161,13 +161,14 @@ export default function InventoryPage() {
         product = products.find((p) => p.id === alert.productId);
       }
 
-      const maxStock = variant?.maxStock || product?.maxStock || alert.minStock * 3;
+      const maxStock =
+        variant?.maxStock || product?.maxStock || alert.minStock * 3;
       const unitCost = variant?.costPrice || product?.baseCostPrice || 0;
-      
+
       // Suggested quantity: enough to reach max stock (or at least min stock * 2)
       const suggestedQuantity = Math.max(
         maxStock - alert.currentStock,
-        alert.minStock * 2 - alert.currentStock
+        alert.minStock * 2 - alert.currentStock,
       );
 
       return {
@@ -204,8 +205,8 @@ export default function InventoryPage() {
   const handleToggleReorderItem = (alertId: string) => {
     setReorderItems((prev) =>
       prev.map((item) =>
-        item.alertId === alertId ? { ...item, selected: !item.selected } : item
-      )
+        item.alertId === alertId ? { ...item, selected: !item.selected } : item,
+      ),
     );
     setSelectedAlertsForReorder((prev) => {
       const newSet = new Set(prev);
@@ -223,8 +224,8 @@ export default function InventoryPage() {
       prev.map((item) =>
         item.alertId === alertId
           ? { ...item, suggestedQuantity: Math.max(1, quantity) }
-          : item
-      )
+          : item,
+      ),
     );
   };
 
@@ -233,13 +234,14 @@ export default function InventoryPage() {
     const variant = alert.variantId
       ? product?.variants.find((v) => v.id === alert.variantId)
       : undefined;
-    const maxStock = variant?.maxStock || product?.maxStock || alert.minStock * 3;
+    const maxStock =
+      variant?.maxStock || product?.maxStock || alert.minStock * 3;
     const unitCost = variant?.costPrice || product?.baseCostPrice || 0;
     const suggestedQuantity = Math.max(
       maxStock - alert.currentStock,
-      alert.minStock * 2 - alert.currentStock
+      alert.minStock * 2 - alert.currentStock,
     );
-    
+
     const newItem = {
       alertId: alert.id,
       productId: alert.productId,
@@ -839,7 +841,9 @@ export default function InventoryPage() {
                     </DropdownMenuItem>
                   )}
                   <DropdownMenuItem
-                    onClick={() => handleAddSingleAlertToReorder(item as LowStockAlert)}
+                    onClick={() =>
+                      handleAddSingleAlertToReorder(item as LowStockAlert)
+                    }
                   >
                     <ShoppingCart className="h-4 w-4 mr-2" />
                     Add to Reorder List
@@ -985,9 +989,7 @@ export default function InventoryPage() {
                 </div>
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">Alert Created:</span>
-                  <span>
-                    {formatDate(selectedAlert.createdAt)}
-                  </span>
+                  <span>{formatDate(selectedAlert.createdAt)}</span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">Status:</span>
@@ -1008,8 +1010,8 @@ export default function InventoryPage() {
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">Acknowledged:</span>
                     <span>
-                      {formatDate(selectedAlert.acknowledgedAt)}{" "}
-                      by {selectedAlert.acknowledgedBy}
+                      {formatDate(selectedAlert.acknowledgedAt)} by{" "}
+                      {selectedAlert.acknowledgedBy}
                     </span>
                   </div>
                 )}
@@ -1071,10 +1073,10 @@ export default function InventoryPage() {
                       size="sm"
                       onClick={() => {
                         setReorderItems((prev) =>
-                          prev.map((item) => ({ ...item, selected: true }))
+                          prev.map((item) => ({ ...item, selected: true })),
                         );
                         setSelectedAlertsForReorder(
-                          new Set(reorderItems.map((item) => item.alertId))
+                          new Set(reorderItems.map((item) => item.alertId)),
                         );
                       }}
                     >
@@ -1085,7 +1087,7 @@ export default function InventoryPage() {
                       size="sm"
                       onClick={() => {
                         setReorderItems((prev) =>
-                          prev.map((item) => ({ ...item, selected: false }))
+                          prev.map((item) => ({ ...item, selected: false })),
                         );
                         setSelectedAlertsForReorder(new Set());
                       }}
@@ -1104,7 +1106,9 @@ export default function InventoryPage() {
                     <div
                       key={item.alertId}
                       className={`p-4 ${
-                        item.selected ? "bg-blue-50 border-blue-200" : "bg-background"
+                        item.selected
+                          ? "bg-blue-50 border-blue-200"
+                          : "bg-background"
                       }`}
                     >
                       <div className="flex items-start gap-4">
@@ -1112,7 +1116,9 @@ export default function InventoryPage() {
                           <input
                             type="checkbox"
                             checked={item.selected}
-                            onChange={() => handleToggleReorderItem(item.alertId)}
+                            onChange={() =>
+                              handleToggleReorderItem(item.alertId)
+                            }
                             className="rounded h-4 w-4"
                           />
                         </div>
@@ -1127,22 +1133,29 @@ export default function InventoryPage() {
                           </div>
                           <div className="grid grid-cols-4 gap-4 text-sm text-muted-foreground mb-2">
                             <div>
-                              <span className="font-medium">SKU:</span> {item.sku}
+                              <span className="font-medium">SKU:</span>{" "}
+                              {item.sku}
                             </div>
                             <div>
                               <span className="font-medium">Current:</span>{" "}
-                              <span className="text-red-600">{item.currentStock}</span>
+                              <span className="text-red-600">
+                                {item.currentStock}
+                              </span>
                             </div>
                             <div>
-                              <span className="font-medium">Min:</span> {item.minStock}
+                              <span className="font-medium">Min:</span>{" "}
+                              {item.minStock}
                             </div>
                             <div>
-                              <span className="font-medium">Max:</span> {item.maxStock}
+                              <span className="font-medium">Max:</span>{" "}
+                              {item.maxStock}
                             </div>
                           </div>
                           <div className="flex items-center gap-4">
                             <div className="flex items-center gap-2">
-                              <Label className="text-sm">Reorder Quantity:</Label>
+                              <Label className="text-sm">
+                                Reorder Quantity:
+                              </Label>
                               <Input
                                 type="number"
                                 min="1"
@@ -1150,7 +1163,7 @@ export default function InventoryPage() {
                                 onChange={(e) =>
                                   handleUpdateReorderQuantity(
                                     item.alertId,
-                                    parseInt(e.target.value) || 1
+                                    parseInt(e.target.value) || 1,
                                   )
                                 }
                                 className="w-24 h-8"
@@ -1161,16 +1174,22 @@ export default function InventoryPage() {
                               </span>
                             </div>
                             <div className="text-sm">
-                              <span className="text-muted-foreground">Unit Cost:</span>{" "}
+                              <span className="text-muted-foreground">
+                                Unit Cost:
+                              </span>{" "}
                               <span className="font-medium">
                                 ${item.unitCost.toFixed(2)}
                               </span>
                             </div>
                             <div className="text-sm">
-                              <span className="text-muted-foreground">Total:</span>{" "}
+                              <span className="text-muted-foreground">
+                                Total:
+                              </span>{" "}
                               <span className="font-medium">
                                 $
-                                {(item.suggestedQuantity * item.unitCost).toFixed(2)}
+                                {(
+                                  item.suggestedQuantity * item.unitCost
+                                ).toFixed(2)}
                               </span>
                             </div>
                           </div>
@@ -1181,7 +1200,7 @@ export default function InventoryPage() {
                           className="h-8 w-8"
                           onClick={() => {
                             setReorderItems((prev) =>
-                              prev.filter((i) => i.alertId !== item.alertId)
+                              prev.filter((i) => i.alertId !== item.alertId),
                             );
                           }}
                         >
@@ -1216,7 +1235,7 @@ export default function InventoryPage() {
                         .reduce(
                           (sum, item) =>
                             sum + item.suggestedQuantity * item.unitCost,
-                          0
+                          0,
                         )
                         .toFixed(2)}
                     </span>
@@ -1315,11 +1334,14 @@ export default function InventoryPage() {
                         </div>
                         <div className="text-right">
                           <p>
-                            {item.suggestedQuantity} × ${item.unitCost.toFixed(2)}
+                            {item.suggestedQuantity} × $
+                            {item.unitCost.toFixed(2)}
                           </p>
                           <p className="font-medium">
                             $
-                            {(item.suggestedQuantity * item.unitCost).toFixed(2)}
+                            {(item.suggestedQuantity * item.unitCost).toFixed(
+                              2,
+                            )}
                           </p>
                         </div>
                       </div>
@@ -1338,7 +1360,7 @@ export default function InventoryPage() {
                     .reduce(
                       (sum, item) =>
                         sum + item.suggestedQuantity * item.unitCost,
-                      0
+                      0,
                     )
                     .toFixed(2)}
                 </span>
@@ -1360,7 +1382,7 @@ export default function InventoryPage() {
                     .reduce(
                       (sum, item) =>
                         sum + item.suggestedQuantity * item.unitCost,
-                      0
+                      0,
                     )
                     .toFixed(2)}
                 </span>
@@ -1371,7 +1393,9 @@ export default function InventoryPage() {
               <Label>Notes (Optional)</Label>
               <Textarea
                 value={poForm.notes}
-                onChange={(e) => setPoForm({ ...poForm, notes: e.target.value })}
+                onChange={(e) =>
+                  setPoForm({ ...poForm, notes: e.target.value })
+                }
                 placeholder="Any special instructions or notes..."
                 rows={3}
               />
@@ -1393,9 +1417,11 @@ export default function InventoryPage() {
             <Button
               onClick={() => {
                 // In a real app, this would create the purchase order
-                const selectedItems = reorderItems.filter((item) => item.selected);
+                const selectedItems = reorderItems.filter(
+                  (item) => item.selected,
+                );
                 alert(
-                  `Purchase order created successfully with ${selectedItems.length} items!`
+                  `Purchase order created successfully with ${selectedItems.length} items!`,
                 );
                 setIsCreatePOModalOpen(false);
                 setReorderItems([]);

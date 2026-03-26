@@ -32,7 +32,10 @@ import {
   Target,
   Settings2,
 } from "lucide-react";
-import { BOOKABLE_SERVICE_TYPES, type PointsEarningMethod } from "@/data/facility-loyalty-config";
+import {
+  BOOKABLE_SERVICE_TYPES,
+  type PointsEarningMethod,
+} from "@/data/facility-loyalty-config";
 
 interface LoyaltyBuilderModalProps {
   onClose: () => void;
@@ -86,7 +89,11 @@ function ServicePointRulesList({
   addLabel = "Add Rule",
 }: {
   rules: ServicePointRule[];
-  onUpdate: (index: number, field: keyof ServicePointRule, value: string) => void;
+  onUpdate: (
+    index: number,
+    field: keyof ServicePointRule,
+    value: string,
+  ) => void;
   onRemove: (index: number) => void;
   onAdd: () => void;
   pointsPlaceholder?: string;
@@ -96,14 +103,35 @@ function ServicePointRulesList({
     <div className="space-y-2">
       {rules.map((rule, i) => (
         <div key={i} className="grid grid-cols-3 gap-2 items-end">
-          <Select value={rule.serviceType} onValueChange={(v) => onUpdate(i, "serviceType", v)}>
-            <SelectTrigger><SelectValue placeholder="Service" /></SelectTrigger>
+          <Select
+            value={rule.serviceType}
+            onValueChange={(v) => onUpdate(i, "serviceType", v)}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Service" />
+            </SelectTrigger>
             <SelectContent>
-              {serviceTypes.map((s) => <SelectItem key={s} value={s} className="capitalize">{s}</SelectItem>)}
+              {serviceTypes.map((s) => (
+                <SelectItem key={s} value={s} className="capitalize">
+                  {s}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
-          <Input type="number" value={rule.points} onChange={(e) => onUpdate(i, "points", e.target.value)} placeholder={pointsPlaceholder} />
-          <Button variant="ghost" size="icon" aria-label="Remove rule" onClick={() => onRemove(i)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+          <Input
+            type="number"
+            value={rule.points}
+            onChange={(e) => onUpdate(i, "points", e.target.value)}
+            placeholder={pointsPlaceholder}
+          />
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Remove rule"
+            onClick={() => onRemove(i)}
+          >
+            <Trash2 className="h-4 w-4 text-destructive" />
+          </Button>
         </div>
       ))}
       <Button variant="outline" size="sm" onClick={onAdd}>
@@ -131,14 +159,58 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
     hybridCombination: "add" as "add" | "max" | "weighted",
     // Tiers
     tiers: [
-      { id: "1", name: "Bronze", displayName: "Bronze Member", minPoints: "0", maxPoints: "500", color: "#CD7F32", earningMultiplier: "1", discountPercentage: "0", benefits: [] },
-      { id: "2", name: "Silver", displayName: "Silver Member", minPoints: "500", maxPoints: "1500", color: "#C0C0C0", earningMultiplier: "1.25", discountPercentage: "5", benefits: [] },
-      { id: "3", name: "Gold", displayName: "Gold Member", minPoints: "1500", maxPoints: "3000", color: "#FFD700", earningMultiplier: "1.5", discountPercentage: "10", benefits: [] },
-      { id: "4", name: "Platinum", displayName: "Platinum VIP", minPoints: "3000", maxPoints: "", color: "#E5E4E2", earningMultiplier: "2", discountPercentage: "15", benefits: [] },
+      {
+        id: "1",
+        name: "Bronze",
+        displayName: "Bronze Member",
+        minPoints: "0",
+        maxPoints: "500",
+        color: "#CD7F32",
+        earningMultiplier: "1",
+        discountPercentage: "0",
+        benefits: [],
+      },
+      {
+        id: "2",
+        name: "Silver",
+        displayName: "Silver Member",
+        minPoints: "500",
+        maxPoints: "1500",
+        color: "#C0C0C0",
+        earningMultiplier: "1.25",
+        discountPercentage: "5",
+        benefits: [],
+      },
+      {
+        id: "3",
+        name: "Gold",
+        displayName: "Gold Member",
+        minPoints: "1500",
+        maxPoints: "3000",
+        color: "#FFD700",
+        earningMultiplier: "1.5",
+        discountPercentage: "10",
+        benefits: [],
+      },
+      {
+        id: "4",
+        name: "Platinum",
+        displayName: "Platinum VIP",
+        minPoints: "3000",
+        maxPoints: "",
+        color: "#E5E4E2",
+        earningMultiplier: "2",
+        discountPercentage: "15",
+        benefits: [],
+      },
     ] as TierConfig[],
     // Expiration
     expirationEnabled: true,
-    expirationType: "time_based" as "none" | "time_based" | "activity_based" | "tier_based",
+    expirationType: "time_based" as
+      | "none"
+      | "time_based"
+      | "activity_based"
+      | "tier_based",
     timeBasedMonths: "12",
     timeBasedPolicy: "fifo" as "fifo" | "lifo" | "proportional",
     activityInactiveMonths: "6",
@@ -155,10 +227,17 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
     tierStackPriority: "first" as "first" | "last" | "custom",
     pointsRedemptionWithDiscounts: false,
     pointsRedemptionWithPromos: false,
-    pointsRedemptionPriority: "before_discounts" as "before_discounts" | "after_discounts",
+    pointsRedemptionPriority: "before_discounts" as
+      | "before_discounts"
+      | "after_discounts",
     // Points Scope
     scopeType: "both" as "services_only" | "retail_only" | "both",
-    eligibleServiceTypes: ["grooming", "daycare", "boarding", "training"] as string[],
+    eligibleServiceTypes: [
+      "grooming",
+      "daycare",
+      "boarding",
+      "training",
+    ] as string[],
     minServiceAmount: "",
     excludeSaleItems: false,
     minRetailPurchase: "",
@@ -176,7 +255,10 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
     allowTransfer: false,
   });
 
-  const update = <K extends keyof typeof formData>(field: K, value: (typeof formData)[K]) => {
+  const update = <K extends keyof typeof formData>(
+    field: K,
+    value: (typeof formData)[K],
+  ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -187,39 +269,57 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
 
   // Tier helpers
   const addTier = () => {
-    update("tiers", [...formData.tiers, {
-      id: Date.now().toString(),
-      name: "",
-      displayName: "",
-      minPoints: "",
-      maxPoints: "",
-      color: "#6366F1",
-      earningMultiplier: "1",
-      discountPercentage: "0",
-      benefits: [],
-    }]);
+    update("tiers", [
+      ...formData.tiers,
+      {
+        id: Date.now().toString(),
+        name: "",
+        displayName: "",
+        minPoints: "",
+        maxPoints: "",
+        color: "#6366F1",
+        earningMultiplier: "1",
+        discountPercentage: "0",
+        benefits: [],
+      },
+    ]);
   };
 
-  const updateTier = (index: number, field: keyof TierConfig, value: string) => {
+  const updateTier = (
+    index: number,
+    field: keyof TierConfig,
+    value: string,
+  ) => {
     const updated = [...formData.tiers];
     updated[index] = { ...updated[index], [field]: value };
     update("tiers", updated);
   };
 
   const removeTier = (index: number) => {
-    update("tiers", formData.tiers.filter((_, i) => i !== index));
+    update(
+      "tiers",
+      formData.tiers.filter((_, i) => i !== index),
+    );
   };
 
   const addTierBenefit = (tierIndex: number) => {
     const updated = [...formData.tiers];
     updated[tierIndex] = {
       ...updated[tierIndex],
-      benefits: [...updated[tierIndex].benefits, { type: "discount", value: "", description: "" }],
+      benefits: [
+        ...updated[tierIndex].benefits,
+        { type: "discount", value: "", description: "" },
+      ],
     };
     update("tiers", updated);
   };
 
-  const updateTierBenefit = (tierIndex: number, benefitIndex: number, field: keyof TierBenefit, value: string) => {
+  const updateTierBenefit = (
+    tierIndex: number,
+    benefitIndex: number,
+    field: keyof TierBenefit,
+    value: string,
+  ) => {
     const updated = [...formData.tiers];
     const benefits = [...updated[tierIndex].benefits];
     benefits[benefitIndex] = { ...benefits[benefitIndex], [field]: value };
@@ -231,46 +331,69 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
     const updated = [...formData.tiers];
     updated[tierIndex] = {
       ...updated[tierIndex],
-      benefits: updated[tierIndex].benefits.filter((_, i) => i !== benefitIndex),
+      benefits: updated[tierIndex].benefits.filter(
+        (_, i) => i !== benefitIndex,
+      ),
     };
     update("tiers", updated);
   };
 
   // Service point rule helpers
   const addServicePointRule = () => {
-    update("servicePointRules", [...formData.servicePointRules, { serviceType: "", points: "" }]);
+    update("servicePointRules", [
+      ...formData.servicePointRules,
+      { serviceType: "", points: "" },
+    ]);
   };
 
-  const updateServicePointRule = (index: number, field: keyof ServicePointRule, value: string) => {
+  const updateServicePointRule = (
+    index: number,
+    field: keyof ServicePointRule,
+    value: string,
+  ) => {
     const updated = [...formData.servicePointRules];
     updated[index] = { ...updated[index], [field]: value };
     update("servicePointRules", updated);
   };
 
   const removeServicePointRule = (index: number) => {
-    update("servicePointRules", formData.servicePointRules.filter((_, i) => i !== index));
+    update(
+      "servicePointRules",
+      formData.servicePointRules.filter((_, i) => i !== index),
+    );
   };
 
   // Visit milestone helpers
   const addVisitMilestone = () => {
-    update("visitMilestones", [...formData.visitMilestones, { visitCount: "", bonusPoints: "", description: "" }]);
+    update("visitMilestones", [
+      ...formData.visitMilestones,
+      { visitCount: "", bonusPoints: "", description: "" },
+    ]);
   };
 
-  const updateVisitMilestone = (index: number, field: keyof VisitMilestone, value: string) => {
+  const updateVisitMilestone = (
+    index: number,
+    field: keyof VisitMilestone,
+    value: string,
+  ) => {
     const updated = [...formData.visitMilestones];
     updated[index] = { ...updated[index], [field]: value };
     update("visitMilestones", updated);
   };
 
   const removeVisitMilestone = (index: number) => {
-    update("visitMilestones", formData.visitMilestones.filter((_, i) => i !== index));
+    update(
+      "visitMilestones",
+      formData.visitMilestones.filter((_, i) => i !== index),
+    );
   };
 
   const toggleEligibleService = (service: string) => {
-    update("eligibleServiceTypes", 
+    update(
+      "eligibleServiceTypes",
       formData.eligibleServiceTypes.includes(service)
         ? formData.eligibleServiceTypes.filter((s) => s !== service)
-        : [...formData.eligibleServiceTypes, service]
+        : [...formData.eligibleServiceTypes, service],
     );
   };
 
@@ -315,19 +438,26 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
         </TabsList>
 
         {/* Tab 1: Earning Rules */}
-        <TabsContent value="earning" className="space-y-4 max-h-[55vh] overflow-y-auto pr-2">
+        <TabsContent
+          value="earning"
+          className="space-y-4 max-h-[55vh] overflow-y-auto pr-2"
+        >
           <div className="space-y-2">
             <Label>Earning Method</Label>
             <Select
               value={formData.earningMethod}
-              onValueChange={(value: PointsEarningMethod) => update("earningMethod", value)}
+              onValueChange={(value: PointsEarningMethod) =>
+                update("earningMethod", value)
+              }
             >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 {Object.entries(earningMethodLabels).map(([key, label]) => (
-                  <SelectItem key={key} value={key}>{label}</SelectItem>
+                  <SelectItem key={key} value={key}>
+                    {label}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -340,15 +470,35 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label>Base Points per $1</Label>
-                    <Input type="number" value={formData.perDollarBasePoints} onChange={(e) => update("perDollarBasePoints", e.target.value)} />
+                    <Input
+                      type="number"
+                      value={formData.perDollarBasePoints}
+                      onChange={(e) =>
+                        update("perDollarBasePoints", e.target.value)
+                      }
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label>Minimum Purchase ($)</Label>
-                    <Input type="number" value={formData.perDollarMinPurchase} onChange={(e) => update("perDollarMinPurchase", e.target.value)} placeholder="Optional" />
+                    <Input
+                      type="number"
+                      value={formData.perDollarMinPurchase}
+                      onChange={(e) =>
+                        update("perDollarMinPurchase", e.target.value)
+                      }
+                      placeholder="Optional"
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label>Max Points per Transaction</Label>
-                    <Input type="number" value={formData.perDollarMaxPoints} onChange={(e) => update("perDollarMaxPoints", e.target.value)} placeholder="Unlimited" />
+                    <Input
+                      type="number"
+                      value={formData.perDollarMaxPoints}
+                      onChange={(e) =>
+                        update("perDollarMaxPoints", e.target.value)
+                      }
+                      placeholder="Unlimited"
+                    />
                   </div>
                 </div>
               </CardContent>
@@ -361,7 +511,13 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
                 <Label className="text-base">Per Booking Configuration</Label>
                 <div className="space-y-2">
                   <Label>Base Points per Booking</Label>
-                  <Input type="number" value={formData.perBookingBasePoints} onChange={(e) => update("perBookingBasePoints", e.target.value)} />
+                  <Input
+                    type="number"
+                    value={formData.perBookingBasePoints}
+                    onChange={(e) =>
+                      update("perBookingBasePoints", e.target.value)
+                    }
+                  />
                 </div>
 
                 <div className="space-y-2">
@@ -382,7 +538,9 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
           {formData.earningMethod === "per_service_type" && (
             <Card>
               <CardContent className="pt-6 space-y-4">
-                <Label className="text-base">Service Points Configuration</Label>
+                <Label className="text-base">
+                  Service Points Configuration
+                </Label>
                 <ServicePointRulesList
                   rules={formData.servicePointRules}
                   onUpdate={updateServicePointRule}
@@ -403,17 +561,42 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
                   <div key={i} className="grid grid-cols-4 gap-2 items-end">
                     <div className="space-y-1">
                       <Label className="text-xs">Visit #</Label>
-                      <Input type="number" value={milestone.visitCount} onChange={(e) => updateVisitMilestone(i, "visitCount", e.target.value)} />
+                      <Input
+                        type="number"
+                        value={milestone.visitCount}
+                        onChange={(e) =>
+                          updateVisitMilestone(i, "visitCount", e.target.value)
+                        }
+                      />
                     </div>
                     <div className="space-y-1">
                       <Label className="text-xs">Bonus Points</Label>
-                      <Input type="number" value={milestone.bonusPoints} onChange={(e) => updateVisitMilestone(i, "bonusPoints", e.target.value)} />
+                      <Input
+                        type="number"
+                        value={milestone.bonusPoints}
+                        onChange={(e) =>
+                          updateVisitMilestone(i, "bonusPoints", e.target.value)
+                        }
+                      />
                     </div>
                     <div className="space-y-1">
                       <Label className="text-xs">Description</Label>
-                      <Input value={milestone.description} onChange={(e) => updateVisitMilestone(i, "description", e.target.value)} placeholder="e.g., 10th Visit = Free!" />
+                      <Input
+                        value={milestone.description}
+                        onChange={(e) =>
+                          updateVisitMilestone(i, "description", e.target.value)
+                        }
+                        placeholder="e.g., 10th Visit = Free!"
+                      />
                     </div>
-                    <Button variant="ghost" size="icon" aria-label="Remove milestone" onClick={() => removeVisitMilestone(i)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      aria-label="Remove milestone"
+                      onClick={() => removeVisitMilestone(i)}
+                    >
+                      <Trash2 className="h-4 w-4 text-destructive" />
+                    </Button>
                   </div>
                 ))}
                 <Button variant="outline" size="sm" onClick={addVisitMilestone}>
@@ -432,23 +615,48 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
                 </p>
                 <div className="space-y-2">
                   <Label>Combination Method</Label>
-                  <Select value={formData.hybridCombination} onValueChange={(v: "add" | "max" | "weighted") => update("hybridCombination", v)}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
+                  <Select
+                    value={formData.hybridCombination}
+                    onValueChange={(v: "add" | "max" | "weighted") =>
+                      update("hybridCombination", v)
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="add">Add All (sum points from each method)</SelectItem>
-                      <SelectItem value="max">Best Result (use highest earning method)</SelectItem>
-                      <SelectItem value="weighted">Weighted (apply custom weights)</SelectItem>
+                      <SelectItem value="add">
+                        Add All (sum points from each method)
+                      </SelectItem>
+                      <SelectItem value="max">
+                        Best Result (use highest earning method)
+                      </SelectItem>
+                      <SelectItem value="weighted">
+                        Weighted (apply custom weights)
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label>Per Dollar: Base Points</Label>
-                    <Input type="number" value={formData.perDollarBasePoints} onChange={(e) => update("perDollarBasePoints", e.target.value)} />
+                    <Input
+                      type="number"
+                      value={formData.perDollarBasePoints}
+                      onChange={(e) =>
+                        update("perDollarBasePoints", e.target.value)
+                      }
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label>Per Booking: Base Points</Label>
-                    <Input type="number" value={formData.perBookingBasePoints} onChange={(e) => update("perBookingBasePoints", e.target.value)} />
+                    <Input
+                      type="number"
+                      value={formData.perBookingBasePoints}
+                      onChange={(e) =>
+                        update("perBookingBasePoints", e.target.value)
+                      }
+                    />
                   </div>
                 </div>
               </CardContent>
@@ -457,45 +665,92 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
         </TabsContent>
 
         {/* Tab 2: Tiers */}
-        <TabsContent value="tiers" className="space-y-4 max-h-[55vh] overflow-y-auto pr-2">
+        <TabsContent
+          value="tiers"
+          className="space-y-4 max-h-[55vh] overflow-y-auto pr-2"
+        >
           {formData.tiers.map((tier, tierIndex) => (
             <Card key={tier.id} className="relative">
               <div className="absolute top-3 right-3">
-                <Button variant="ghost" size="icon" aria-label="Remove tier" onClick={() => removeTier(tierIndex)}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label="Remove tier"
+                  onClick={() => removeTier(tierIndex)}
+                >
                   <Trash2 className="h-4 w-4 text-destructive" />
                 </Button>
               </div>
               <CardContent className="pt-6 space-y-4">
                 <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full border" style={{ backgroundColor: tier.color }} aria-hidden="true" />
+                  <div
+                    className="w-4 h-4 rounded-full border"
+                    style={{ backgroundColor: tier.color }}
+                    aria-hidden="true"
+                  />
                   <Label className="text-base">{tier.name || "New Tier"}</Label>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label>Name</Label>
-                    <Input value={tier.name} onChange={(e) => updateTier(tierIndex, "name", e.target.value)} placeholder="e.g., Gold" />
+                    <Input
+                      value={tier.name}
+                      onChange={(e) =>
+                        updateTier(tierIndex, "name", e.target.value)
+                      }
+                      placeholder="e.g., Gold"
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label>Display Name</Label>
-                    <Input value={tier.displayName} onChange={(e) => updateTier(tierIndex, "displayName", e.target.value)} placeholder="e.g., Gold Member" />
+                    <Input
+                      value={tier.displayName}
+                      onChange={(e) =>
+                        updateTier(tierIndex, "displayName", e.target.value)
+                      }
+                      placeholder="e.g., Gold Member"
+                    />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label>Min Points</Label>
-                    <Input type="number" value={tier.minPoints} onChange={(e) => updateTier(tierIndex, "minPoints", e.target.value)} />
+                    <Input
+                      type="number"
+                      value={tier.minPoints}
+                      onChange={(e) =>
+                        updateTier(tierIndex, "minPoints", e.target.value)
+                      }
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label>Max Points</Label>
-                    <Input type="number" value={tier.maxPoints} onChange={(e) => updateTier(tierIndex, "maxPoints", e.target.value)} placeholder="Unlimited" />
+                    <Input
+                      type="number"
+                      value={tier.maxPoints}
+                      onChange={(e) =>
+                        updateTier(tierIndex, "maxPoints", e.target.value)
+                      }
+                      placeholder="Unlimited"
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label>Color</Label>
                     <div className="flex gap-2">
-                      <Input value={tier.color} onChange={(e) => updateTier(tierIndex, "color", e.target.value)} className="font-mono" />
-                      <div className="w-10 h-10 rounded border shrink-0" style={{ backgroundColor: tier.color }} aria-hidden="true" />
+                      <Input
+                        value={tier.color}
+                        onChange={(e) =>
+                          updateTier(tierIndex, "color", e.target.value)
+                        }
+                        className="font-mono"
+                      />
+                      <div
+                        className="w-10 h-10 rounded border shrink-0"
+                        style={{ backgroundColor: tier.color }}
+                        aria-hidden="true"
+                      />
                     </div>
                   </div>
                 </div>
@@ -503,11 +758,32 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label>Earning Multiplier</Label>
-                    <Input type="number" step="0.25" value={tier.earningMultiplier} onChange={(e) => updateTier(tierIndex, "earningMultiplier", e.target.value)} />
+                    <Input
+                      type="number"
+                      step="0.25"
+                      value={tier.earningMultiplier}
+                      onChange={(e) =>
+                        updateTier(
+                          tierIndex,
+                          "earningMultiplier",
+                          e.target.value,
+                        )
+                      }
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label>Discount (%)</Label>
-                    <Input type="number" value={tier.discountPercentage} onChange={(e) => updateTier(tierIndex, "discountPercentage", e.target.value)} />
+                    <Input
+                      type="number"
+                      value={tier.discountPercentage}
+                      onChange={(e) =>
+                        updateTier(
+                          tierIndex,
+                          "discountPercentage",
+                          e.target.value,
+                        )
+                      }
+                    />
                   </div>
                 </div>
 
@@ -515,25 +791,74 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
                 <div className="space-y-2">
                   <Label>Benefits</Label>
                   {tier.benefits.map((benefit, benefitIndex) => (
-                    <div key={benefitIndex} className="grid grid-cols-4 gap-2 items-end">
-                      <Select value={benefit.type} onValueChange={(v) => updateTierBenefit(tierIndex, benefitIndex, "type", v)}>
-                        <SelectTrigger><SelectValue /></SelectTrigger>
+                    <div
+                      key={benefitIndex}
+                      className="grid grid-cols-4 gap-2 items-end"
+                    >
+                      <Select
+                        value={benefit.type}
+                        onValueChange={(v) =>
+                          updateTierBenefit(tierIndex, benefitIndex, "type", v)
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="discount">Discount</SelectItem>
-                          <SelectItem value="bonus_points">Bonus Points</SelectItem>
-                          <SelectItem value="free_service">Free Service</SelectItem>
-                          <SelectItem value="priority">Priority Access</SelectItem>
+                          <SelectItem value="bonus_points">
+                            Bonus Points
+                          </SelectItem>
+                          <SelectItem value="free_service">
+                            Free Service
+                          </SelectItem>
+                          <SelectItem value="priority">
+                            Priority Access
+                          </SelectItem>
                           <SelectItem value="custom">Custom</SelectItem>
                         </SelectContent>
                       </Select>
-                      <Input value={benefit.value} onChange={(e) => updateTierBenefit(tierIndex, benefitIndex, "value", e.target.value)} placeholder="Value" />
-                      <Input value={benefit.description} onChange={(e) => updateTierBenefit(tierIndex, benefitIndex, "description", e.target.value)} placeholder="Description" />
-                      <Button variant="ghost" size="icon" aria-label="Remove benefit" onClick={() => removeTierBenefit(tierIndex, benefitIndex)}>
+                      <Input
+                        value={benefit.value}
+                        onChange={(e) =>
+                          updateTierBenefit(
+                            tierIndex,
+                            benefitIndex,
+                            "value",
+                            e.target.value,
+                          )
+                        }
+                        placeholder="Value"
+                      />
+                      <Input
+                        value={benefit.description}
+                        onChange={(e) =>
+                          updateTierBenefit(
+                            tierIndex,
+                            benefitIndex,
+                            "description",
+                            e.target.value,
+                          )
+                        }
+                        placeholder="Description"
+                      />
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        aria-label="Remove benefit"
+                        onClick={() =>
+                          removeTierBenefit(tierIndex, benefitIndex)
+                        }
+                      >
                         <Trash2 className="h-4 w-4 text-destructive" />
                       </Button>
                     </div>
                   ))}
-                  <Button variant="outline" size="sm" onClick={() => addTierBenefit(tierIndex)}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => addTierBenefit(tierIndex)}
+                  >
                     <Plus className="h-4 w-4 mr-1" /> Add Benefit
                   </Button>
                 </div>
@@ -546,25 +871,45 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
         </TabsContent>
 
         {/* Tab 3: Expiration */}
-        <TabsContent value="expiration" className="space-y-4 max-h-[55vh] overflow-y-auto pr-2">
+        <TabsContent
+          value="expiration"
+          className="space-y-4 max-h-[55vh] overflow-y-auto pr-2"
+        >
           <div className="flex items-center justify-between rounded-lg border p-4">
             <div className="space-y-0.5">
               <Label className="text-base">Points Expiration</Label>
-              <p className="text-sm text-muted-foreground">Set when earned points expire</p>
+              <p className="text-sm text-muted-foreground">
+                Set when earned points expire
+              </p>
             </div>
-            <Switch id="expirationEnabled" checked={formData.expirationEnabled} onCheckedChange={(checked) => update("expirationEnabled", checked)} />
+            <Switch
+              id="expirationEnabled"
+              checked={formData.expirationEnabled}
+              onCheckedChange={(checked) =>
+                update("expirationEnabled", checked)
+              }
+            />
           </div>
 
           {formData.expirationEnabled && (
             <>
               <div className="space-y-2">
                 <Label>Expiration Type</Label>
-                <Select value={formData.expirationType} onValueChange={(v: "none" | "time_based" | "activity_based" | "tier_based") => update("expirationType", v)}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
+                <Select
+                  value={formData.expirationType}
+                  onValueChange={(
+                    v: "none" | "time_based" | "activity_based" | "tier_based",
+                  ) => update("expirationType", v)}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="none">No Expiration</SelectItem>
                     <SelectItem value="time_based">Time-Based</SelectItem>
-                    <SelectItem value="activity_based">Activity-Based</SelectItem>
+                    <SelectItem value="activity_based">
+                      Activity-Based
+                    </SelectItem>
                     <SelectItem value="tier_based">Tier-Based</SelectItem>
                   </SelectContent>
                 </Select>
@@ -577,16 +922,35 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label>Expiration (Months)</Label>
-                        <Input type="number" value={formData.timeBasedMonths} onChange={(e) => update("timeBasedMonths", e.target.value)} />
+                        <Input
+                          type="number"
+                          value={formData.timeBasedMonths}
+                          onChange={(e) =>
+                            update("timeBasedMonths", e.target.value)
+                          }
+                        />
                       </div>
                       <div className="space-y-2">
                         <Label>Expiration Policy</Label>
-                        <Select value={formData.timeBasedPolicy} onValueChange={(v: "fifo" | "lifo" | "proportional") => update("timeBasedPolicy", v)}>
-                          <SelectTrigger><SelectValue /></SelectTrigger>
+                        <Select
+                          value={formData.timeBasedPolicy}
+                          onValueChange={(
+                            v: "fifo" | "lifo" | "proportional",
+                          ) => update("timeBasedPolicy", v)}
+                        >
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="fifo">FIFO (Oldest First)</SelectItem>
-                            <SelectItem value="lifo">LIFO (Newest First)</SelectItem>
-                            <SelectItem value="proportional">Proportional</SelectItem>
+                            <SelectItem value="fifo">
+                              FIFO (Oldest First)
+                            </SelectItem>
+                            <SelectItem value="lifo">
+                              LIFO (Newest First)
+                            </SelectItem>
+                            <SelectItem value="proportional">
+                              Proportional
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -598,15 +962,31 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
               {formData.expirationType === "activity_based" && (
                 <Card>
                   <CardContent className="pt-6 space-y-4">
-                    <Label className="text-base">Activity-Based Expiration</Label>
+                    <Label className="text-base">
+                      Activity-Based Expiration
+                    </Label>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label>Expire After Inactive (Months)</Label>
-                        <Input type="number" value={formData.activityInactiveMonths} onChange={(e) => update("activityInactiveMonths", e.target.value)} />
+                        <Input
+                          type="number"
+                          value={formData.activityInactiveMonths}
+                          onChange={(e) =>
+                            update("activityInactiveMonths", e.target.value)
+                          }
+                        />
                       </div>
                       <div className="flex items-center space-x-2 self-end pb-2">
-                        <Switch id="activityResetOnActivity" checked={formData.activityResetOnActivity} onCheckedChange={(checked) => update("activityResetOnActivity", checked)} />
-                        <Label htmlFor="activityResetOnActivity">Reset Timer on Activity</Label>
+                        <Switch
+                          id="activityResetOnActivity"
+                          checked={formData.activityResetOnActivity}
+                          onCheckedChange={(checked) =>
+                            update("activityResetOnActivity", checked)
+                          }
+                        />
+                        <Label htmlFor="activityResetOnActivity">
+                          Reset Timer on Activity
+                        </Label>
                       </div>
                     </div>
                   </CardContent>
@@ -617,26 +997,57 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
                 <CardContent className="pt-6 space-y-4">
                   <div className="flex items-center justify-between">
                     <Label className="text-base">Warning Notifications</Label>
-                    <Switch checked={formData.warningsEnabled} onCheckedChange={(checked) => update("warningsEnabled", checked)} />
+                    <Switch
+                      checked={formData.warningsEnabled}
+                      onCheckedChange={(checked) =>
+                        update("warningsEnabled", checked)
+                      }
+                    />
                   </div>
                   {formData.warningsEnabled && (
                     <>
                       <div className="space-y-2">
                         <Label>Warn Days Before Expiration</Label>
-                        <Input value={formData.warnDaysBefore} onChange={(e) => update("warnDaysBefore", e.target.value)} placeholder="e.g., 30,14,7" />
-                        <p className="text-xs text-muted-foreground">Comma-separated list of days</p>
+                        <Input
+                          value={formData.warnDaysBefore}
+                          onChange={(e) =>
+                            update("warnDaysBefore", e.target.value)
+                          }
+                          placeholder="e.g., 30,14,7"
+                        />
+                        <p className="text-xs text-muted-foreground">
+                          Comma-separated list of days
+                        </p>
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="flex items-center space-x-2">
-                          <Switch id="warnEmail" checked={formData.warnEmail} onCheckedChange={(checked) => update("warnEmail", checked)} />
+                          <Switch
+                            id="warnEmail"
+                            checked={formData.warnEmail}
+                            onCheckedChange={(checked) =>
+                              update("warnEmail", checked)
+                            }
+                          />
                           <Label htmlFor="warnEmail">Email</Label>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <Switch id="warnSms" checked={formData.warnSms} onCheckedChange={(checked) => update("warnSms", checked)} />
+                          <Switch
+                            id="warnSms"
+                            checked={formData.warnSms}
+                            onCheckedChange={(checked) =>
+                              update("warnSms", checked)
+                            }
+                          />
                           <Label htmlFor="warnSms">SMS</Label>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <Switch id="warnPortal" checked={formData.warnPortal} onCheckedChange={(checked) => update("warnPortal", checked)} />
+                          <Switch
+                            id="warnPortal"
+                            checked={formData.warnPortal}
+                            onCheckedChange={(checked) =>
+                              update("warnPortal", checked)
+                            }
+                          />
                           <Label htmlFor="warnPortal">Customer Portal</Label>
                         </div>
                       </div>
@@ -649,27 +1060,49 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
         </TabsContent>
 
         {/* Tab 4: Discount Stacking */}
-        <TabsContent value="stacking" className="space-y-4 max-h-[55vh] overflow-y-auto pr-2">
+        <TabsContent
+          value="stacking"
+          className="space-y-4 max-h-[55vh] overflow-y-auto pr-2"
+        >
           <div className="flex items-center justify-between rounded-lg border p-4">
             <div className="space-y-0.5">
               <Label className="text-base">Discount Stacking Rules</Label>
-              <p className="text-sm text-muted-foreground">Control how loyalty discounts combine with other offers</p>
+              <p className="text-sm text-muted-foreground">
+                Control how loyalty discounts combine with other offers
+              </p>
             </div>
-            <Switch id="stackingEnabled" checked={formData.stackingEnabled} onCheckedChange={(checked) => update("stackingEnabled", checked)} />
+            <Switch
+              id="stackingEnabled"
+              checked={formData.stackingEnabled}
+              onCheckedChange={(checked) => update("stackingEnabled", checked)}
+            />
           </div>
 
           {formData.stackingEnabled && (
             <>
               <div className="space-y-2">
                 <Label>Stacking Behavior</Label>
-                <Select value={formData.stackingBehavior} onValueChange={(v) => update("stackingBehavior", v)}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
+                <Select
+                  value={formData.stackingBehavior}
+                  onValueChange={(v) => update("stackingBehavior", v)}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="no_stacking">No Stacking</SelectItem>
-                    <SelectItem value="stack_with_promos">Stack with Promo Codes Only</SelectItem>
-                    <SelectItem value="stack_with_member">Stack with Member Discounts Only</SelectItem>
-                    <SelectItem value="stack_all">Stack All Discounts</SelectItem>
-                    <SelectItem value="best_discount_only">Best Discount Only</SelectItem>
+                    <SelectItem value="stack_with_promos">
+                      Stack with Promo Codes Only
+                    </SelectItem>
+                    <SelectItem value="stack_with_member">
+                      Stack with Member Discounts Only
+                    </SelectItem>
+                    <SelectItem value="stack_all">
+                      Stack All Discounts
+                    </SelectItem>
+                    <SelectItem value="best_discount_only">
+                      Best Discount Only
+                    </SelectItem>
                     <SelectItem value="custom">Custom Rules</SelectItem>
                   </SelectContent>
                 </Select>
@@ -679,14 +1112,29 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
                 <CardContent className="pt-6 space-y-4">
                   <Label className="text-base">Tier Discount Stacking</Label>
                   <div className="flex items-center space-x-2">
-                    <Switch id="tierStackEnabled" checked={formData.tierStackEnabled} onCheckedChange={(checked) => update("tierStackEnabled", checked)} />
-                    <Label htmlFor="tierStackEnabled">Allow Tier Discounts to Stack with Other Discounts</Label>
+                    <Switch
+                      id="tierStackEnabled"
+                      checked={formData.tierStackEnabled}
+                      onCheckedChange={(checked) =>
+                        update("tierStackEnabled", checked)
+                      }
+                    />
+                    <Label htmlFor="tierStackEnabled">
+                      Allow Tier Discounts to Stack with Other Discounts
+                    </Label>
                   </div>
                   {formData.tierStackEnabled && (
                     <div className="space-y-2">
                       <Label>Tier Discount Priority</Label>
-                      <Select value={formData.tierStackPriority} onValueChange={(v: "first" | "last" | "custom") => update("tierStackPriority", v)}>
-                        <SelectTrigger><SelectValue /></SelectTrigger>
+                      <Select
+                        value={formData.tierStackPriority}
+                        onValueChange={(v: "first" | "last" | "custom") =>
+                          update("tierStackPriority", v)
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="first">Apply First</SelectItem>
                           <SelectItem value="last">Apply Last</SelectItem>
@@ -700,24 +1148,53 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
 
               <Card>
                 <CardContent className="pt-6 space-y-4">
-                  <Label className="text-base">Points Redemption Stacking</Label>
+                  <Label className="text-base">
+                    Points Redemption Stacking
+                  </Label>
                   <div className="space-y-3">
                     <div className="flex items-center space-x-2">
-                      <Switch id="pointsWithDiscounts" checked={formData.pointsRedemptionWithDiscounts} onCheckedChange={(checked) => update("pointsRedemptionWithDiscounts", checked)} />
-                      <Label htmlFor="pointsWithDiscounts">Can Use with Discounts</Label>
+                      <Switch
+                        id="pointsWithDiscounts"
+                        checked={formData.pointsRedemptionWithDiscounts}
+                        onCheckedChange={(checked) =>
+                          update("pointsRedemptionWithDiscounts", checked)
+                        }
+                      />
+                      <Label htmlFor="pointsWithDiscounts">
+                        Can Use with Discounts
+                      </Label>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <Switch id="pointsWithPromos" checked={formData.pointsRedemptionWithPromos} onCheckedChange={(checked) => update("pointsRedemptionWithPromos", checked)} />
-                      <Label htmlFor="pointsWithPromos">Can Use with Promo Codes</Label>
+                      <Switch
+                        id="pointsWithPromos"
+                        checked={formData.pointsRedemptionWithPromos}
+                        onCheckedChange={(checked) =>
+                          update("pointsRedemptionWithPromos", checked)
+                        }
+                      />
+                      <Label htmlFor="pointsWithPromos">
+                        Can Use with Promo Codes
+                      </Label>
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label>Redemption Priority</Label>
-                    <Select value={formData.pointsRedemptionPriority} onValueChange={(v: "before_discounts" | "after_discounts") => update("pointsRedemptionPriority", v)}>
-                      <SelectTrigger><SelectValue /></SelectTrigger>
+                    <Select
+                      value={formData.pointsRedemptionPriority}
+                      onValueChange={(
+                        v: "before_discounts" | "after_discounts",
+                      ) => update("pointsRedemptionPriority", v)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="before_discounts">Apply Before Other Discounts</SelectItem>
-                        <SelectItem value="after_discounts">Apply After Other Discounts</SelectItem>
+                        <SelectItem value="before_discounts">
+                          Apply Before Other Discounts
+                        </SelectItem>
+                        <SelectItem value="after_discounts">
+                          Apply After Other Discounts
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -728,11 +1205,21 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
         </TabsContent>
 
         {/* Tab 5: Points Scope */}
-        <TabsContent value="scope" className="space-y-4 max-h-[55vh] overflow-y-auto pr-2">
+        <TabsContent
+          value="scope"
+          className="space-y-4 max-h-[55vh] overflow-y-auto pr-2"
+        >
           <div className="space-y-2">
             <Label>Points Earning Scope</Label>
-            <Select value={formData.scopeType} onValueChange={(v: "services_only" | "retail_only" | "both") => update("scopeType", v)}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+            <Select
+              value={formData.scopeType}
+              onValueChange={(v: "services_only" | "retail_only" | "both") =>
+                update("scopeType", v)
+              }
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
                 <SelectItem value="services_only">Services Only</SelectItem>
                 <SelectItem value="retail_only">Retail Only</SelectItem>
@@ -741,7 +1228,8 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
             </Select>
           </div>
 
-          {(formData.scopeType === "services_only" || formData.scopeType === "both") && (
+          {(formData.scopeType === "services_only" ||
+            formData.scopeType === "both") && (
             <Card>
               <CardContent className="pt-6 space-y-4">
                 <Label className="text-base">Service Rules</Label>
@@ -751,12 +1239,21 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
                     {serviceTypes.map((service) => (
                       <Badge
                         key={service}
-                        variant={formData.eligibleServiceTypes.includes(service) ? "default" : "outline"}
+                        variant={
+                          formData.eligibleServiceTypes.includes(service)
+                            ? "default"
+                            : "outline"
+                        }
                         className="cursor-pointer capitalize"
                         role="button"
                         tabIndex={0}
                         onClick={() => toggleEligibleService(service)}
-                        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleEligibleService(service); } }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            toggleEligibleService(service);
+                          }
+                        }}
                       >
                         {service}
                       </Badge>
@@ -765,23 +1262,42 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
                 </div>
                 <div className="space-y-2">
                   <Label>Minimum Service Amount ($)</Label>
-                  <Input type="number" value={formData.minServiceAmount} onChange={(e) => update("minServiceAmount", e.target.value)} placeholder="Optional" />
+                  <Input
+                    type="number"
+                    value={formData.minServiceAmount}
+                    onChange={(e) => update("minServiceAmount", e.target.value)}
+                    placeholder="Optional"
+                  />
                 </div>
               </CardContent>
             </Card>
           )}
 
-          {(formData.scopeType === "retail_only" || formData.scopeType === "both") && (
+          {(formData.scopeType === "retail_only" ||
+            formData.scopeType === "both") && (
             <Card>
               <CardContent className="pt-6 space-y-4">
                 <Label className="text-base">Retail Rules</Label>
                 <div className="flex items-center space-x-2">
-                  <Switch id="excludeSaleItems" checked={formData.excludeSaleItems} onCheckedChange={(checked) => update("excludeSaleItems", checked)} />
+                  <Switch
+                    id="excludeSaleItems"
+                    checked={formData.excludeSaleItems}
+                    onCheckedChange={(checked) =>
+                      update("excludeSaleItems", checked)
+                    }
+                  />
                   <Label htmlFor="excludeSaleItems">Exclude Sale Items</Label>
                 </div>
                 <div className="space-y-2">
                   <Label>Minimum Purchase Amount ($)</Label>
-                  <Input type="number" value={formData.minRetailPurchase} onChange={(e) => update("minRetailPurchase", e.target.value)} placeholder="Optional" />
+                  <Input
+                    type="number"
+                    value={formData.minRetailPurchase}
+                    onChange={(e) =>
+                      update("minRetailPurchase", e.target.value)
+                    }
+                    placeholder="Optional"
+                  />
                 </div>
               </CardContent>
             </Card>
@@ -792,16 +1308,36 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
               <Label className="text-base">Exclusions</Label>
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center space-x-2">
-                  <Switch id="excludeGiftCards" checked={formData.excludeGiftCards} onCheckedChange={(checked) => update("excludeGiftCards", checked)} />
+                  <Switch
+                    id="excludeGiftCards"
+                    checked={formData.excludeGiftCards}
+                    onCheckedChange={(checked) =>
+                      update("excludeGiftCards", checked)
+                    }
+                  />
                   <Label htmlFor="excludeGiftCards">Exclude Gift Cards</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Switch id="excludePackages" checked={formData.excludePackages} onCheckedChange={(checked) => update("excludePackages", checked)} />
+                  <Switch
+                    id="excludePackages"
+                    checked={formData.excludePackages}
+                    onCheckedChange={(checked) =>
+                      update("excludePackages", checked)
+                    }
+                  />
                   <Label htmlFor="excludePackages">Exclude Packages</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Switch id="excludeMemberships" checked={formData.excludeMemberships} onCheckedChange={(checked) => update("excludeMemberships", checked)} />
-                  <Label htmlFor="excludeMemberships">Exclude Memberships</Label>
+                  <Switch
+                    id="excludeMemberships"
+                    checked={formData.excludeMemberships}
+                    onCheckedChange={(checked) =>
+                      update("excludeMemberships", checked)
+                    }
+                  />
+                  <Label htmlFor="excludeMemberships">
+                    Exclude Memberships
+                  </Label>
                 </div>
               </div>
             </CardContent>
@@ -809,28 +1345,48 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
         </TabsContent>
 
         {/* Tab 6: General Settings */}
-        <TabsContent value="general" className="space-y-4 max-h-[55vh] overflow-y-auto pr-2">
+        <TabsContent
+          value="general"
+          className="space-y-4 max-h-[55vh] overflow-y-auto pr-2"
+        >
           <Card>
             <CardContent className="pt-6 space-y-4">
               <Label className="text-base">Points Configuration</Label>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Points Name</Label>
-                  <Input value={formData.pointsName} onChange={(e) => update("pointsName", e.target.value)} placeholder="e.g., Points, Stars, Paw Points" />
+                  <Input
+                    value={formData.pointsName}
+                    onChange={(e) => update("pointsName", e.target.value)}
+                    placeholder="e.g., Points, Stars, Paw Points"
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label>Points Value (100 pts = $?)</Label>
-                  <Input type="number" value={formData.pointsValue} onChange={(e) => update("pointsValue", e.target.value)} />
+                  <Input
+                    type="number"
+                    value={formData.pointsValue}
+                    onChange={(e) => update("pointsValue", e.target.value)}
+                  />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Minimum Redemption Points</Label>
-                  <Input type="number" value={formData.minRedemption} onChange={(e) => update("minRedemption", e.target.value)} />
+                  <Input
+                    type="number"
+                    value={formData.minRedemption}
+                    onChange={(e) => update("minRedemption", e.target.value)}
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label>Max Redemption per Transaction</Label>
-                  <Input type="number" value={formData.maxRedemption} onChange={(e) => update("maxRedemption", e.target.value)} placeholder="Unlimited" />
+                  <Input
+                    type="number"
+                    value={formData.maxRedemption}
+                    onChange={(e) => update("maxRedemption", e.target.value)}
+                    placeholder="Unlimited"
+                  />
                 </div>
               </div>
             </CardContent>
@@ -841,19 +1397,45 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
               <Label className="text-base">Display & Behavior</Label>
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center space-x-2">
-                  <Switch id="allowPartialRedemption" checked={formData.allowPartialRedemption} onCheckedChange={(checked) => update("allowPartialRedemption", checked)} />
-                  <Label htmlFor="allowPartialRedemption">Allow Partial Redemption</Label>
+                  <Switch
+                    id="allowPartialRedemption"
+                    checked={formData.allowPartialRedemption}
+                    onCheckedChange={(checked) =>
+                      update("allowPartialRedemption", checked)
+                    }
+                  />
+                  <Label htmlFor="allowPartialRedemption">
+                    Allow Partial Redemption
+                  </Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Switch id="showOnReceipt" checked={formData.showOnReceipt} onCheckedChange={(checked) => update("showOnReceipt", checked)} />
+                  <Switch
+                    id="showOnReceipt"
+                    checked={formData.showOnReceipt}
+                    onCheckedChange={(checked) =>
+                      update("showOnReceipt", checked)
+                    }
+                  />
                   <Label htmlFor="showOnReceipt">Show Points on Receipt</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Switch id="showInPortal" checked={formData.showInPortal} onCheckedChange={(checked) => update("showInPortal", checked)} />
+                  <Switch
+                    id="showInPortal"
+                    checked={formData.showInPortal}
+                    onCheckedChange={(checked) =>
+                      update("showInPortal", checked)
+                    }
+                  />
                   <Label htmlFor="showInPortal">Show in Customer Portal</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Switch id="allowTransfer" checked={formData.allowTransfer} onCheckedChange={(checked) => update("allowTransfer", checked)} />
+                  <Switch
+                    id="allowTransfer"
+                    checked={formData.allowTransfer}
+                    onCheckedChange={(checked) =>
+                      update("allowTransfer", checked)
+                    }
+                  />
                   <Label htmlFor="allowTransfer">Allow Points Transfer</Label>
                 </div>
               </div>
@@ -864,10 +1446,35 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
             <CardContent className="pt-6">
               <Label className="text-base">Preview</Label>
               <div className="mt-2 space-y-1 text-sm">
-                <p>Earning: <span className="font-medium">{formData.earningMethod === "per_dollar" ? `${formData.perDollarBasePoints} ${formData.pointsName.toLowerCase()} per $1 spent` : formData.earningMethod === "per_booking" ? `${formData.perBookingBasePoints} ${formData.pointsName.toLowerCase()} per booking` : earningMethodLabels[formData.earningMethod]}</span></p>
-                <p>Value: <span className="font-medium">100 {formData.pointsName.toLowerCase()} = ${formData.pointsValue}</span></p>
-                <p>Min Redemption: <span className="font-medium">{formData.minRedemption} {formData.pointsName.toLowerCase()}</span></p>
-                <p>Tiers: <span className="font-medium">{formData.tiers.length} configured</span></p>
+                <p>
+                  Earning:{" "}
+                  <span className="font-medium">
+                    {formData.earningMethod === "per_dollar"
+                      ? `${formData.perDollarBasePoints} ${formData.pointsName.toLowerCase()} per $1 spent`
+                      : formData.earningMethod === "per_booking"
+                        ? `${formData.perBookingBasePoints} ${formData.pointsName.toLowerCase()} per booking`
+                        : earningMethodLabels[formData.earningMethod]}
+                  </span>
+                </p>
+                <p>
+                  Value:{" "}
+                  <span className="font-medium">
+                    100 {formData.pointsName.toLowerCase()} = $
+                    {formData.pointsValue}
+                  </span>
+                </p>
+                <p>
+                  Min Redemption:{" "}
+                  <span className="font-medium">
+                    {formData.minRedemption} {formData.pointsName.toLowerCase()}
+                  </span>
+                </p>
+                <p>
+                  Tiers:{" "}
+                  <span className="font-medium">
+                    {formData.tiers.length} configured
+                  </span>
+                </p>
               </div>
             </CardContent>
           </Card>

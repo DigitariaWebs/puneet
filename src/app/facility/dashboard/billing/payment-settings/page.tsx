@@ -13,7 +13,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
-import { Save, RotateCcw, CreditCard, Settings, AlertCircle, Banknote } from "lucide-react";
+import {
+  Save,
+  RotateCcw,
+  CreditCard,
+  Settings,
+  AlertCircle,
+  Banknote,
+} from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -35,10 +42,22 @@ import {
   type CloverTerminalConfig,
   type YipyyPayDevice,
 } from "@/data/fiserv-payments";
-import { Printer, Wifi, EthernetPort, Bluetooth, Smartphone, CheckCircle2, Info } from "lucide-react";
+import {
+  Printer,
+  Wifi,
+  EthernetPort,
+  Bluetooth,
+  Smartphone,
+  CheckCircle2,
+  Info,
+} from "lucide-react";
 import { locations } from "@/data/settings";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 export default function PaymentSettingsPage() {
   const facilityId = 11; // TODO: Get from auth context
@@ -202,9 +221,11 @@ export default function PaymentSettingsPage() {
     try {
       // TODO: Save to backend
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      
+
       // Update local mock data
-      const index = mockFiservConfigs.findIndex((c) => c.facilityId === facilityId);
+      const index = mockFiservConfigs.findIndex(
+        (c) => c.facilityId === facilityId,
+      );
       if (index >= 0) {
         mockFiservConfigs[index] = {
           ...config,
@@ -251,7 +272,9 @@ export default function PaymentSettingsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Payment Settings</h2>
+          <h2 className="text-2xl font-bold tracking-tight">
+            Payment Settings
+          </h2>
           <p className="text-muted-foreground">
             Configure Fiserv payment processing and payment methods
           </p>
@@ -259,7 +282,11 @@ export default function PaymentSettingsPage() {
         <div className="flex gap-2">
           {isEditing ? (
             <>
-              <Button variant="outline" onClick={handleReset} disabled={isSaving}>
+              <Button
+                variant="outline"
+                onClick={handleReset}
+                disabled={isSaving}
+              >
                 <RotateCcw className="mr-2 h-4 w-4" />
                 Cancel
               </Button>
@@ -283,13 +310,20 @@ export default function PaymentSettingsPage() {
         <AlertDescription>
           {config.apiKey && config.merchantId ? (
             <div className="flex items-center gap-2">
-              <Badge variant={config.environment === "production" ? "default" : "secondary"}>
+              <Badge
+                variant={
+                  config.environment === "production" ? "default" : "secondary"
+                }
+              >
                 {config.environment === "production" ? "Production" : "Sandbox"}
               </Badge>
               <span>Fiserv payment processing is configured</span>
             </div>
           ) : (
-            <span>Please configure Fiserv API credentials to enable payment processing</span>
+            <span>
+              Please configure Fiserv API credentials to enable payment
+              processing
+            </span>
           )}
         </AlertDescription>
       </Alert>
@@ -367,7 +401,8 @@ export default function PaymentSettingsPage() {
         <CardHeader>
           <CardTitle>In-Person Payment Methods</CardTitle>
           <CardDescription>
-            Configure payment methods available for in-person transactions at your facility
+            Configure payment methods available for in-person transactions at
+            your facility
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -389,13 +424,16 @@ export default function PaymentSettingsPage() {
                   updateConfig({
                     inPersonMethods: {
                       cloverTerminal: checked,
-                      payWithiPhone: config.inPersonMethods?.payWithiPhone ?? false,
-                      manualCardEntry: config.inPersonMethods?.manualCardEntry ?? false,
+                      payWithiPhone:
+                        config.inPersonMethods?.payWithiPhone ?? false,
+                      manualCardEntry:
+                        config.inPersonMethods?.manualCardEntry ?? false,
                       cash: config.inPersonMethods?.cash ?? true,
                       storeCredit: config.inPersonMethods?.storeCredit ?? true,
                       giftCard: config.inPersonMethods?.giftCard ?? true,
                       iphoneSettings: config.inPersonMethods?.iphoneSettings,
-                      manualCardEntrySettings: config.inPersonMethods?.manualCardEntrySettings,
+                      manualCardEntrySettings:
+                        config.inPersonMethods?.manualCardEntrySettings,
                     },
                   })
                 }
@@ -420,15 +458,20 @@ export default function PaymentSettingsPage() {
                   onCheckedChange={(checked) =>
                     updateConfig({
                       inPersonMethods: {
-                        cloverTerminal: config.inPersonMethods?.cloverTerminal ?? false,
+                        cloverTerminal:
+                          config.inPersonMethods?.cloverTerminal ?? false,
                         payWithiPhone: checked,
-                        manualCardEntry: config.inPersonMethods?.manualCardEntry ?? false,
+                        manualCardEntry:
+                          config.inPersonMethods?.manualCardEntry ?? false,
                         cash: config.inPersonMethods?.cash ?? true,
-                        storeCredit: config.inPersonMethods?.storeCredit ?? true,
+                        storeCredit:
+                          config.inPersonMethods?.storeCredit ?? true,
                         giftCard: config.inPersonMethods?.giftCard ?? true,
                         iphoneSettings: checked
                           ? config.inPersonMethods?.iphoneSettings || {
-                              enabledLocations: facilityLocations.map((loc) => loc.id),
+                              enabledLocations: facilityLocations.map(
+                                (loc) => loc.id,
+                              ),
                               restrictedRoles: [],
                               deviceRequirements: {
                                 minIOSVersion: "16.0",
@@ -436,7 +479,8 @@ export default function PaymentSettingsPage() {
                               },
                             }
                           : config.inPersonMethods?.iphoneSettings,
-                        manualCardEntrySettings: config.inPersonMethods?.manualCardEntrySettings,
+                        manualCardEntrySettings:
+                          config.inPersonMethods?.manualCardEntrySettings,
                       },
                     })
                   }
@@ -448,8 +492,14 @@ export default function PaymentSettingsPage() {
               {config.inPersonMethods?.payWithiPhone && (
                 <Collapsible defaultOpen={false}>
                   <CollapsibleTrigger asChild>
-                    <Button variant="ghost" size="sm" className="w-full justify-between">
-                      <span className="text-sm">iPhone Setup & Configuration</span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-full justify-between"
+                    >
+                      <span className="text-sm">
+                        iPhone Setup & Configuration
+                      </span>
                       <Settings className="h-4 w-4" />
                     </Button>
                   </CollapsibleTrigger>
@@ -459,18 +509,33 @@ export default function PaymentSettingsPage() {
                       <div className="flex items-start gap-2">
                         <Info className="h-4 w-4 text-blue-500 mt-0.5" />
                         <div className="flex-1 space-y-2">
-                          <Label className="text-sm font-semibold">Device Eligibility Requirements</Label>
+                          <Label className="text-sm font-semibold">
+                            Device Eligibility Requirements
+                          </Label>
                           <div className="text-xs text-muted-foreground space-y-1">
-                            <p><strong>Minimum iOS Version:</strong> {config.inPersonMethods?.iphoneSettings?.deviceRequirements.minIOSVersion || "16.0"}</p>
-                            <p><strong>Supported iPhone Models:</strong></p>
+                            <p>
+                              <strong>Minimum iOS Version:</strong>{" "}
+                              {config.inPersonMethods?.iphoneSettings
+                                ?.deviceRequirements.minIOSVersion || "16.0"}
+                            </p>
+                            <p>
+                              <strong>Supported iPhone Models:</strong>
+                            </p>
                             <ul className="list-disc list-inside ml-2 space-y-1">
                               <li>iPhone XS and newer</li>
                               <li>Requires NFC capability</li>
-                              <li>Must have iOS {config.inPersonMethods?.iphoneSettings?.deviceRequirements.minIOSVersion || "16.0"} or later</li>
+                              <li>
+                                Must have iOS{" "}
+                                {config.inPersonMethods?.iphoneSettings
+                                  ?.deviceRequirements.minIOSVersion ||
+                                  "16.0"}{" "}
+                                or later
+                              </li>
                             </ul>
                             <p className="mt-2 text-blue-600">
-                              <strong>Note:</strong> Tap to Pay requires iPhone XS or newer with iOS 16.0+. 
-                              The device must be authorized in Yipyy Pay settings.
+                              <strong>Note:</strong> Tap to Pay requires iPhone
+                              XS or newer with iOS 16.0+. The device must be
+                              authorized in Yipyy Pay settings.
                             </p>
                           </div>
                         </div>
@@ -485,38 +550,55 @@ export default function PaymentSettingsPage() {
                       </p>
                       <div className="space-y-2">
                         {facilityLocations.map((location) => (
-                          <div key={location.id} className="flex items-center space-x-2">
+                          <div
+                            key={location.id}
+                            className="flex items-center space-x-2"
+                          >
                             <Checkbox
                               id={`iphone-loc-${location.id}`}
                               checked={
                                 config.inPersonMethods?.iphoneSettings?.enabledLocations.includes(
-                                  location.id
+                                  location.id,
                                 ) ?? false
                               }
                               onCheckedChange={(checked) => {
                                 const currentLocations =
-                                  config.inPersonMethods?.iphoneSettings?.enabledLocations || [];
+                                  config.inPersonMethods?.iphoneSettings
+                                    ?.enabledLocations || [];
                                 const newLocations = checked
                                   ? [...currentLocations, location.id]
-                                  : currentLocations.filter((id) => id !== location.id);
+                                  : currentLocations.filter(
+                                      (id) => id !== location.id,
+                                    );
                                 updateConfig({
                                   inPersonMethods: {
-                                    cloverTerminal: config.inPersonMethods?.cloverTerminal ?? false,
-                                    payWithiPhone: config.inPersonMethods?.payWithiPhone ?? false,
-                                    manualCardEntry: config.inPersonMethods?.manualCardEntry ?? false,
+                                    cloverTerminal:
+                                      config.inPersonMethods?.cloverTerminal ??
+                                      false,
+                                    payWithiPhone:
+                                      config.inPersonMethods?.payWithiPhone ??
+                                      false,
+                                    manualCardEntry:
+                                      config.inPersonMethods?.manualCardEntry ??
+                                      false,
                                     cash: config.inPersonMethods?.cash ?? true,
-                                    storeCredit: config.inPersonMethods?.storeCredit ?? true,
-                                    giftCard: config.inPersonMethods?.giftCard ?? true,
+                                    storeCredit:
+                                      config.inPersonMethods?.storeCredit ??
+                                      true,
+                                    giftCard:
+                                      config.inPersonMethods?.giftCard ?? true,
                                     iphoneSettings: {
                                       ...config.inPersonMethods?.iphoneSettings,
                                       enabledLocations: newLocations,
                                       restrictedRoles:
-                                        config.inPersonMethods?.iphoneSettings?.restrictedRoles || [],
-                                      deviceRequirements:
-                                        config.inPersonMethods?.iphoneSettings?.deviceRequirements || {
-                                          minIOSVersion: "16.0",
-                                          supportedModels: [],
-                                        },
+                                        config.inPersonMethods?.iphoneSettings
+                                          ?.restrictedRoles || [],
+                                      deviceRequirements: config.inPersonMethods
+                                        ?.iphoneSettings
+                                        ?.deviceRequirements || {
+                                        minIOSVersion: "16.0",
+                                        supportedModels: [],
+                                      },
                                     },
                                   },
                                 });
@@ -538,59 +620,82 @@ export default function PaymentSettingsPage() {
                     <div className="space-y-2">
                       <Label>Restrict to Roles (Optional)</Label>
                       <p className="text-xs text-muted-foreground">
-                        Leave empty to allow all roles. Select specific roles to restrict access.
+                        Leave empty to allow all roles. Select specific roles to
+                        restrict access.
                       </p>
                       <div className="space-y-2">
-                        {["Admin", "Manager", "Front Desk", "Staff"].map((role) => (
-                          <div key={role} className="flex items-center space-x-2">
-                            <Checkbox
-                              id={`iphone-role-${role}`}
-                              checked={
-                                config.inPersonMethods?.iphoneSettings?.restrictedRoles?.includes(
-                                  role
-                                ) ?? false
-                              }
-                              onCheckedChange={(checked) => {
-                                const currentRoles =
-                                  config.inPersonMethods?.iphoneSettings?.restrictedRoles || [];
-                                const newRoles = checked
-                                  ? [...currentRoles, role]
-                                  : currentRoles.filter((r) => r !== role);
-                                updateConfig({
-                                  inPersonMethods: {
-                                    cloverTerminal: config.inPersonMethods?.cloverTerminal ?? false,
-                                    payWithiPhone: config.inPersonMethods?.payWithiPhone ?? false,
-                                    manualCardEntry: config.inPersonMethods?.manualCardEntry ?? false,
-                                    cash: config.inPersonMethods?.cash ?? true,
-                                    storeCredit: config.inPersonMethods?.storeCredit ?? true,
-                                    giftCard: config.inPersonMethods?.giftCard ?? true,
-                                    iphoneSettings: {
-                                      ...config.inPersonMethods?.iphoneSettings,
-                                      restrictedRoles: newRoles,
-                                      enabledLocations:
-                                        config.inPersonMethods?.iphoneSettings?.enabledLocations || [],
-                                      deviceRequirements:
-                                        config.inPersonMethods?.iphoneSettings?.deviceRequirements || {
+                        {["Admin", "Manager", "Front Desk", "Staff"].map(
+                          (role) => (
+                            <div
+                              key={role}
+                              className="flex items-center space-x-2"
+                            >
+                              <Checkbox
+                                id={`iphone-role-${role}`}
+                                checked={
+                                  config.inPersonMethods?.iphoneSettings?.restrictedRoles?.includes(
+                                    role,
+                                  ) ?? false
+                                }
+                                onCheckedChange={(checked) => {
+                                  const currentRoles =
+                                    config.inPersonMethods?.iphoneSettings
+                                      ?.restrictedRoles || [];
+                                  const newRoles = checked
+                                    ? [...currentRoles, role]
+                                    : currentRoles.filter((r) => r !== role);
+                                  updateConfig({
+                                    inPersonMethods: {
+                                      cloverTerminal:
+                                        config.inPersonMethods
+                                          ?.cloverTerminal ?? false,
+                                      payWithiPhone:
+                                        config.inPersonMethods?.payWithiPhone ??
+                                        false,
+                                      manualCardEntry:
+                                        config.inPersonMethods
+                                          ?.manualCardEntry ?? false,
+                                      cash:
+                                        config.inPersonMethods?.cash ?? true,
+                                      storeCredit:
+                                        config.inPersonMethods?.storeCredit ??
+                                        true,
+                                      giftCard:
+                                        config.inPersonMethods?.giftCard ??
+                                        true,
+                                      iphoneSettings: {
+                                        ...config.inPersonMethods
+                                          ?.iphoneSettings,
+                                        restrictedRoles: newRoles,
+                                        enabledLocations:
+                                          config.inPersonMethods?.iphoneSettings
+                                            ?.enabledLocations || [],
+                                        deviceRequirements: config
+                                          .inPersonMethods?.iphoneSettings
+                                          ?.deviceRequirements || {
                                           minIOSVersion: "16.0",
                                           supportedModels: [],
                                         },
+                                      },
                                     },
-                                  },
-                                });
-                              }}
-                              disabled={!isEditing}
-                            />
-                            <Label
-                              htmlFor={`iphone-role-${role}`}
-                              className="text-sm font-normal cursor-pointer"
-                            >
-                              {role}
-                            </Label>
-                          </div>
-                        ))}
+                                  });
+                                }}
+                                disabled={!isEditing}
+                              />
+                              <Label
+                                htmlFor={`iphone-role-${role}`}
+                                className="text-sm font-normal cursor-pointer"
+                              >
+                                {role}
+                              </Label>
+                            </div>
+                          ),
+                        )}
                       </div>
-                      {(!config.inPersonMethods?.iphoneSettings?.restrictedRoles ||
-                        config.inPersonMethods.iphoneSettings.restrictedRoles.length === 0) && (
+                      {(!config.inPersonMethods?.iphoneSettings
+                        ?.restrictedRoles ||
+                        config.inPersonMethods.iphoneSettings.restrictedRoles
+                          .length === 0) && (
                         <p className="text-xs text-muted-foreground italic">
                           All roles can use iPhone payments
                         </p>
@@ -618,11 +723,14 @@ export default function PaymentSettingsPage() {
                   onCheckedChange={(checked) =>
                     updateConfig({
                       inPersonMethods: {
-                        cloverTerminal: config.inPersonMethods?.cloverTerminal ?? false,
-                        payWithiPhone: config.inPersonMethods?.payWithiPhone ?? false,
+                        cloverTerminal:
+                          config.inPersonMethods?.cloverTerminal ?? false,
+                        payWithiPhone:
+                          config.inPersonMethods?.payWithiPhone ?? false,
                         manualCardEntry: checked,
                         cash: config.inPersonMethods?.cash ?? true,
-                        storeCredit: config.inPersonMethods?.storeCredit ?? true,
+                        storeCredit:
+                          config.inPersonMethods?.storeCredit ?? true,
                         giftCard: config.inPersonMethods?.giftCard ?? true,
                         iphoneSettings: config.inPersonMethods?.iphoneSettings,
                         manualCardEntrySettings: checked
@@ -643,7 +751,11 @@ export default function PaymentSettingsPage() {
               {config.inPersonMethods?.manualCardEntry && (
                 <Collapsible defaultOpen={false}>
                   <CollapsibleTrigger asChild>
-                    <Button variant="ghost" size="sm" className="w-full justify-between">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-full justify-between"
+                    >
                       <span className="text-sm">Manual Entry Settings</span>
                       <Settings className="h-4 w-4" />
                     </Button>
@@ -657,24 +769,38 @@ export default function PaymentSettingsPage() {
                         </p>
                       </div>
                       <Switch
-                        checked={config.inPersonMethods?.manualCardEntrySettings?.adminOnly ?? true}
+                        checked={
+                          config.inPersonMethods?.manualCardEntrySettings
+                            ?.adminOnly ?? true
+                        }
                         onCheckedChange={(checked) =>
                           updateConfig({
                             inPersonMethods: {
-                              cloverTerminal: config.inPersonMethods?.cloverTerminal ?? false,
-                              payWithiPhone: config.inPersonMethods?.payWithiPhone ?? false,
-                              manualCardEntry: config.inPersonMethods?.manualCardEntry ?? false,
+                              cloverTerminal:
+                                config.inPersonMethods?.cloverTerminal ?? false,
+                              payWithiPhone:
+                                config.inPersonMethods?.payWithiPhone ?? false,
+                              manualCardEntry:
+                                config.inPersonMethods?.manualCardEntry ??
+                                false,
                               cash: config.inPersonMethods?.cash ?? true,
-                              storeCredit: config.inPersonMethods?.storeCredit ?? true,
-                              giftCard: config.inPersonMethods?.giftCard ?? true,
-                              iphoneSettings: config.inPersonMethods?.iphoneSettings,
+                              storeCredit:
+                                config.inPersonMethods?.storeCredit ?? true,
+                              giftCard:
+                                config.inPersonMethods?.giftCard ?? true,
+                              iphoneSettings:
+                                config.inPersonMethods?.iphoneSettings,
                               manualCardEntrySettings: {
-                                ...config.inPersonMethods?.manualCardEntrySettings,
+                                ...config.inPersonMethods
+                                  ?.manualCardEntrySettings,
                                 adminOnly: checked,
                                 requireCvv:
-                                  config.inPersonMethods?.manualCardEntrySettings?.requireCvv ?? true,
+                                  config.inPersonMethods
+                                    ?.manualCardEntrySettings?.requireCvv ??
+                                  true,
                                 requireZipCode:
-                                  config.inPersonMethods?.manualCardEntrySettings?.requireZipCode ??
+                                  config.inPersonMethods
+                                    ?.manualCardEntrySettings?.requireZipCode ??
                                   true,
                               },
                             },
@@ -692,24 +818,38 @@ export default function PaymentSettingsPage() {
                         </p>
                       </div>
                       <Switch
-                        checked={config.inPersonMethods?.manualCardEntrySettings?.requireCvv ?? true}
+                        checked={
+                          config.inPersonMethods?.manualCardEntrySettings
+                            ?.requireCvv ?? true
+                        }
                         onCheckedChange={(checked) =>
                           updateConfig({
                             inPersonMethods: {
-                              cloverTerminal: config.inPersonMethods?.cloverTerminal ?? false,
-                              payWithiPhone: config.inPersonMethods?.payWithiPhone ?? false,
-                              manualCardEntry: config.inPersonMethods?.manualCardEntry ?? false,
+                              cloverTerminal:
+                                config.inPersonMethods?.cloverTerminal ?? false,
+                              payWithiPhone:
+                                config.inPersonMethods?.payWithiPhone ?? false,
+                              manualCardEntry:
+                                config.inPersonMethods?.manualCardEntry ??
+                                false,
                               cash: config.inPersonMethods?.cash ?? true,
-                              storeCredit: config.inPersonMethods?.storeCredit ?? true,
-                              giftCard: config.inPersonMethods?.giftCard ?? true,
-                              iphoneSettings: config.inPersonMethods?.iphoneSettings,
+                              storeCredit:
+                                config.inPersonMethods?.storeCredit ?? true,
+                              giftCard:
+                                config.inPersonMethods?.giftCard ?? true,
+                              iphoneSettings:
+                                config.inPersonMethods?.iphoneSettings,
                               manualCardEntrySettings: {
-                                ...config.inPersonMethods?.manualCardEntrySettings,
+                                ...config.inPersonMethods
+                                  ?.manualCardEntrySettings,
                                 requireCvv: checked,
                                 adminOnly:
-                                  config.inPersonMethods?.manualCardEntrySettings?.adminOnly ?? true,
+                                  config.inPersonMethods
+                                    ?.manualCardEntrySettings?.adminOnly ??
+                                  true,
                                 requireZipCode:
-                                  config.inPersonMethods?.manualCardEntrySettings?.requireZipCode ??
+                                  config.inPersonMethods
+                                    ?.manualCardEntrySettings?.requireZipCode ??
                                   true,
                               },
                             },
@@ -728,25 +868,38 @@ export default function PaymentSettingsPage() {
                       </div>
                       <Switch
                         checked={
-                          config.inPersonMethods?.manualCardEntrySettings?.requireZipCode ?? true
+                          config.inPersonMethods?.manualCardEntrySettings
+                            ?.requireZipCode ?? true
                         }
                         onCheckedChange={(checked) =>
                           updateConfig({
                             inPersonMethods: {
-                              cloverTerminal: config.inPersonMethods?.cloverTerminal ?? false,
-                              payWithiPhone: config.inPersonMethods?.payWithiPhone ?? false,
-                              manualCardEntry: config.inPersonMethods?.manualCardEntry ?? false,
+                              cloverTerminal:
+                                config.inPersonMethods?.cloverTerminal ?? false,
+                              payWithiPhone:
+                                config.inPersonMethods?.payWithiPhone ?? false,
+                              manualCardEntry:
+                                config.inPersonMethods?.manualCardEntry ??
+                                false,
                               cash: config.inPersonMethods?.cash ?? true,
-                              storeCredit: config.inPersonMethods?.storeCredit ?? true,
-                              giftCard: config.inPersonMethods?.giftCard ?? true,
-                              iphoneSettings: config.inPersonMethods?.iphoneSettings,
+                              storeCredit:
+                                config.inPersonMethods?.storeCredit ?? true,
+                              giftCard:
+                                config.inPersonMethods?.giftCard ?? true,
+                              iphoneSettings:
+                                config.inPersonMethods?.iphoneSettings,
                               manualCardEntrySettings: {
-                                ...config.inPersonMethods?.manualCardEntrySettings,
+                                ...config.inPersonMethods
+                                  ?.manualCardEntrySettings,
                                 requireZipCode: checked,
                                 adminOnly:
-                                  config.inPersonMethods?.manualCardEntrySettings?.adminOnly ?? true,
+                                  config.inPersonMethods
+                                    ?.manualCardEntrySettings?.adminOnly ??
+                                  true,
                                 requireCvv:
-                                  config.inPersonMethods?.manualCardEntrySettings?.requireCvv ?? true,
+                                  config.inPersonMethods
+                                    ?.manualCardEntrySettings?.requireCvv ??
+                                  true,
                               },
                             },
                           })
@@ -777,14 +930,18 @@ export default function PaymentSettingsPage() {
                 onCheckedChange={(checked) =>
                   updateConfig({
                     inPersonMethods: {
-                      cloverTerminal: config.inPersonMethods?.cloverTerminal ?? false,
-                      payWithiPhone: config.inPersonMethods?.payWithiPhone ?? false,
-                      manualCardEntry: config.inPersonMethods?.manualCardEntry ?? false,
+                      cloverTerminal:
+                        config.inPersonMethods?.cloverTerminal ?? false,
+                      payWithiPhone:
+                        config.inPersonMethods?.payWithiPhone ?? false,
+                      manualCardEntry:
+                        config.inPersonMethods?.manualCardEntry ?? false,
                       cash: checked,
                       storeCredit: config.inPersonMethods?.storeCredit ?? true,
                       giftCard: config.inPersonMethods?.giftCard ?? true,
                       iphoneSettings: config.inPersonMethods?.iphoneSettings,
-                      manualCardEntrySettings: config.inPersonMethods?.manualCardEntrySettings,
+                      manualCardEntrySettings:
+                        config.inPersonMethods?.manualCardEntrySettings,
                     },
                   })
                 }
@@ -808,14 +965,18 @@ export default function PaymentSettingsPage() {
                 onCheckedChange={(checked) =>
                   updateConfig({
                     inPersonMethods: {
-                      cloverTerminal: config.inPersonMethods?.cloverTerminal ?? false,
-                      payWithiPhone: config.inPersonMethods?.payWithiPhone ?? false,
-                      manualCardEntry: config.inPersonMethods?.manualCardEntry ?? false,
+                      cloverTerminal:
+                        config.inPersonMethods?.cloverTerminal ?? false,
+                      payWithiPhone:
+                        config.inPersonMethods?.payWithiPhone ?? false,
+                      manualCardEntry:
+                        config.inPersonMethods?.manualCardEntry ?? false,
                       cash: config.inPersonMethods?.cash ?? true,
                       storeCredit: checked,
                       giftCard: config.inPersonMethods?.giftCard ?? true,
                       iphoneSettings: config.inPersonMethods?.iphoneSettings,
-                      manualCardEntrySettings: config.inPersonMethods?.manualCardEntrySettings,
+                      manualCardEntrySettings:
+                        config.inPersonMethods?.manualCardEntrySettings,
                     },
                   })
                 }
@@ -839,14 +1000,18 @@ export default function PaymentSettingsPage() {
                 onCheckedChange={(checked) =>
                   updateConfig({
                     inPersonMethods: {
-                      cloverTerminal: config.inPersonMethods?.cloverTerminal ?? false,
-                      payWithiPhone: config.inPersonMethods?.payWithiPhone ?? false,
-                      manualCardEntry: config.inPersonMethods?.manualCardEntry ?? false,
+                      cloverTerminal:
+                        config.inPersonMethods?.cloverTerminal ?? false,
+                      payWithiPhone:
+                        config.inPersonMethods?.payWithiPhone ?? false,
+                      manualCardEntry:
+                        config.inPersonMethods?.manualCardEntry ?? false,
                       cash: config.inPersonMethods?.cash ?? true,
                       storeCredit: config.inPersonMethods?.storeCredit ?? true,
                       giftCard: checked,
                       iphoneSettings: config.inPersonMethods?.iphoneSettings,
-                      manualCardEntrySettings: config.inPersonMethods?.manualCardEntrySettings,
+                      manualCardEntrySettings:
+                        config.inPersonMethods?.manualCardEntrySettings,
                     },
                   })
                 }
@@ -926,7 +1091,9 @@ export default function PaymentSettingsPage() {
                     },
                   })
                 }
-                disabled={!isEditing || !config.enabledPaymentMethods.cardOnFile}
+                disabled={
+                  !isEditing || !config.enabledPaymentMethods.cardOnFile
+                }
               />
             </div>
             <Separator />
@@ -1082,18 +1249,24 @@ export default function PaymentSettingsPage() {
                       "daycare",
                       "training",
                     ].map((service) => (
-                      <div key={service} className="flex items-center space-x-2">
+                      <div
+                        key={service}
+                        className="flex items-center space-x-2"
+                      >
                         <input
                           type="checkbox"
                           id={`autopay-${service}`}
                           checked={config.autoPaySettings.allowedServices.includes(
-                            service as any
+                            service as any,
                           )}
                           onChange={(e) => {
                             const allowedServices = e.target.checked
-                              ? [...config.autoPaySettings.allowedServices, service as any]
+                              ? [
+                                  ...config.autoPaySettings.allowedServices,
+                                  service as any,
+                                ]
                               : config.autoPaySettings.allowedServices.filter(
-                                  (s) => s !== service
+                                  (s) => s !== service,
                                 );
                             updateConfig({
                               autoPaySettings: {
@@ -1177,7 +1350,12 @@ export default function PaymentSettingsPage() {
               <Label>Default Card Behavior</Label>
               <Select
                 value={config.cardOnFileSettings.defaultCardBehavior}
-                onValueChange={(value: "use_default" | "prompt_selection" | "require_selection") =>
+                onValueChange={(
+                  value:
+                    | "use_default"
+                    | "prompt_selection"
+                    | "require_selection",
+                ) =>
                   updateConfig({
                     cardOnFileSettings: {
                       ...config.cardOnFileSettings,
@@ -1394,7 +1572,9 @@ export default function PaymentSettingsPage() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="automatic">Automatic (Charge Immediately)</SelectItem>
+                <SelectItem value="automatic">
+                  Automatic (Charge Immediately)
+                </SelectItem>
                 <SelectItem value="manual">Manual (Authorize Only)</SelectItem>
               </SelectContent>
             </Select>
@@ -1404,7 +1584,9 @@ export default function PaymentSettingsPage() {
             <Label>Refund Policy</Label>
             <Select
               value={config.processingSettings.refundPolicy}
-              onValueChange={(value: "full_refund" | "partial_refund" | "store_credit_only") =>
+              onValueChange={(
+                value: "full_refund" | "partial_refund" | "store_credit_only",
+              ) =>
                 updateConfig({
                   processingSettings: {
                     ...config.processingSettings,
@@ -1419,8 +1601,12 @@ export default function PaymentSettingsPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="full_refund">Full Refund Allowed</SelectItem>
-                <SelectItem value="partial_refund">Partial Refund Only</SelectItem>
-                <SelectItem value="store_credit_only">Store Credit Only</SelectItem>
+                <SelectItem value="partial_refund">
+                  Partial Refund Only
+                </SelectItem>
+                <SelectItem value="store_credit_only">
+                  Store Credit Only
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -1453,8 +1639,10 @@ export default function PaymentSettingsPage() {
                   cloverTerminal: {
                     ...config.cloverTerminal,
                     enabled: checked,
-                    autoPrintReceipts: config.cloverTerminal?.autoPrintReceipts ?? true,
-                    defaultPaymentMethod: config.cloverTerminal?.defaultPaymentMethod ?? "terminal",
+                    autoPrintReceipts:
+                      config.cloverTerminal?.autoPrintReceipts ?? true,
+                    defaultPaymentMethod:
+                      config.cloverTerminal?.defaultPaymentMethod ?? "terminal",
                   },
                 })
               }
@@ -1475,8 +1663,11 @@ export default function PaymentSettingsPage() {
                         ...config.cloverTerminal,
                         terminalId: value,
                         enabled: true,
-                        autoPrintReceipts: config.cloverTerminal?.autoPrintReceipts ?? true,
-                        defaultPaymentMethod: config.cloverTerminal?.defaultPaymentMethod ?? "terminal",
+                        autoPrintReceipts:
+                          config.cloverTerminal?.autoPrintReceipts ?? true,
+                        defaultPaymentMethod:
+                          config.cloverTerminal?.defaultPaymentMethod ??
+                          "terminal",
                       },
                     })
                   }
@@ -1487,16 +1678,29 @@ export default function PaymentSettingsPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {cloverTerminals.map((terminal) => (
-                      <SelectItem key={terminal.terminalId} value={terminal.terminalId}>
+                      <SelectItem
+                        key={terminal.terminalId}
+                        value={terminal.terminalId}
+                      >
                         <div className="flex items-center gap-2">
-                          {terminal.connectionType === "wifi" && <Wifi className="h-4 w-4" />}
-                          {terminal.connectionType === "ethernet" && <EthernetPort className="h-4 w-4" />}
-                          {terminal.connectionType === "bluetooth" && <Bluetooth className="h-4 w-4" />}
+                          {terminal.connectionType === "wifi" && (
+                            <Wifi className="h-4 w-4" />
+                          )}
+                          {terminal.connectionType === "ethernet" && (
+                            <EthernetPort className="h-4 w-4" />
+                          )}
+                          {terminal.connectionType === "bluetooth" && (
+                            <Bluetooth className="h-4 w-4" />
+                          )}
                           <span>{terminal.terminalName}</span>
                           {terminal.isOnline ? (
-                            <Badge variant="default" className="ml-2">Online</Badge>
+                            <Badge variant="default" className="ml-2">
+                              Online
+                            </Badge>
                           ) : (
-                            <Badge variant="secondary" className="ml-2">Offline</Badge>
+                            <Badge variant="secondary" className="ml-2">
+                              Offline
+                            </Badge>
                           )}
                         </div>
                       </SelectItem>
@@ -1526,7 +1730,9 @@ export default function PaymentSettingsPage() {
                         ...config.cloverTerminal,
                         autoPrintReceipts: checked,
                         enabled: true,
-                        defaultPaymentMethod: config.cloverTerminal?.defaultPaymentMethod ?? "terminal",
+                        defaultPaymentMethod:
+                          config.cloverTerminal?.defaultPaymentMethod ??
+                          "terminal",
                       },
                     })
                   }
@@ -1538,14 +1744,17 @@ export default function PaymentSettingsPage() {
               <div className="space-y-2">
                 <Label>Default Payment Method</Label>
                 <Select
-                  value={config.cloverTerminal?.defaultPaymentMethod || "terminal"}
+                  value={
+                    config.cloverTerminal?.defaultPaymentMethod || "terminal"
+                  }
                   onValueChange={(value: "terminal" | "web" | "both") =>
                     updateConfig({
                       cloverTerminal: {
                         ...config.cloverTerminal,
                         defaultPaymentMethod: value,
                         enabled: true,
-                        autoPrintReceipts: config.cloverTerminal?.autoPrintReceipts ?? true,
+                        autoPrintReceipts:
+                          config.cloverTerminal?.autoPrintReceipts ?? true,
                       },
                     })
                   }
@@ -1555,13 +1764,18 @@ export default function PaymentSettingsPage() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="terminal">Terminal Only (Tap/Chip/Swipe)</SelectItem>
+                    <SelectItem value="terminal">
+                      Terminal Only (Tap/Chip/Swipe)
+                    </SelectItem>
                     <SelectItem value="web">Web App Only</SelectItem>
-                    <SelectItem value="both">Both (Prompt for Choice)</SelectItem>
+                    <SelectItem value="both">
+                      Both (Prompt for Choice)
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 <p className="text-xs text-muted-foreground">
-                  When "Both" is selected, cashier will be prompted to choose between terminal or web payment
+                  When "Both" is selected, cashier will be prompted to choose
+                  between terminal or web payment
                 </p>
               </div>
 
@@ -1569,9 +1783,14 @@ export default function PaymentSettingsPage() {
                 <>
                   <Separator />
                   <div className="p-4 bg-muted rounded-lg space-y-2">
-                    <Label className="text-sm font-semibold">Terminal Information</Label>
+                    <Label className="text-sm font-semibold">
+                      Terminal Information
+                    </Label>
                     {(() => {
-                      const terminal = getCloverTerminal(facilityId, config.cloverTerminal?.terminalId);
+                      const terminal = getCloverTerminal(
+                        facilityId,
+                        config.cloverTerminal?.terminalId,
+                      );
                       if (!terminal) return null;
                       return (
                         <div className="text-sm space-y-1">
@@ -1580,22 +1799,34 @@ export default function PaymentSettingsPage() {
                             <span>{terminal.terminalName}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="text-muted-foreground">Serial:</span>
+                            <span className="text-muted-foreground">
+                              Serial:
+                            </span>
                             <span>{terminal.terminalSerialNumber}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="text-muted-foreground">Location:</span>
+                            <span className="text-muted-foreground">
+                              Location:
+                            </span>
                             <span>{terminal.location || "Not specified"}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="text-muted-foreground">Connection:</span>
-                            <span className="capitalize">{terminal.connectionType}</span>
+                            <span className="text-muted-foreground">
+                              Connection:
+                            </span>
+                            <span className="capitalize">
+                              {terminal.connectionType}
+                            </span>
                             {terminal.ipAddress && (
-                              <span className="text-muted-foreground">({terminal.ipAddress})</span>
+                              <span className="text-muted-foreground">
+                                ({terminal.ipAddress})
+                              </span>
                             )}
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="text-muted-foreground">Status:</span>
+                            <span className="text-muted-foreground">
+                              Status:
+                            </span>
                             {terminal.isOnline ? (
                               <Badge variant="default">Online</Badge>
                             ) : (
@@ -1603,11 +1834,19 @@ export default function PaymentSettingsPage() {
                             )}
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="text-muted-foreground">Supports:</span>
+                            <span className="text-muted-foreground">
+                              Supports:
+                            </span>
                             <div className="flex gap-1">
-                              {terminal.supportsTap && <Badge variant="outline">Tap</Badge>}
-                              {terminal.supportsChip && <Badge variant="outline">Chip</Badge>}
-                              {terminal.supportsSwipe && <Badge variant="outline">Swipe</Badge>}
+                              {terminal.supportsTap && (
+                                <Badge variant="outline">Tap</Badge>
+                              )}
+                              {terminal.supportsChip && (
+                                <Badge variant="outline">Chip</Badge>
+                              )}
+                              {terminal.supportsSwipe && (
+                                <Badge variant="outline">Swipe</Badge>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -1629,7 +1868,8 @@ export default function PaymentSettingsPage() {
             Yipyy Pay / Tap to Pay Configuration
           </CardTitle>
           <CardDescription>
-            Configure iPhone Tap to Pay for contactless payments (no terminal needed)
+            Configure iPhone Tap to Pay for contactless payments (no terminal
+            needed)
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -1675,12 +1915,22 @@ export default function PaymentSettingsPage() {
                             <p className="text-xs text-muted-foreground">
                               Device ID: {device.deviceId}
                               {device.lastUsedAt && (
-                                <span> • Last used: {new Date(device.lastUsedAt).toLocaleDateString()}</span>
+                                <span>
+                                  {" "}
+                                  • Last used:{" "}
+                                  {new Date(
+                                    device.lastUsedAt,
+                                  ).toLocaleDateString()}
+                                </span>
                               )}
                             </p>
                           </div>
                         </div>
-                        <Badge variant={device.isAuthorized ? "default" : "secondary"}>
+                        <Badge
+                          variant={
+                            device.isAuthorized ? "default" : "secondary"
+                          }
+                        >
                           {device.isAuthorized ? "Authorized" : "Pending"}
                         </Badge>
                       </div>
@@ -1713,7 +1963,8 @@ export default function PaymentSettingsPage() {
                         ...config.yipyyPay,
                         requireReceipt: checked,
                         enabled: true,
-                        autoSendReceipt: config.yipyyPay?.autoSendReceipt ?? true,
+                        autoSendReceipt:
+                          config.yipyyPay?.autoSendReceipt ?? true,
                       },
                     })
                   }
@@ -1749,18 +2000,28 @@ export default function PaymentSettingsPage() {
                 <>
                   <Separator />
                   <div className="p-4 bg-muted rounded-lg space-y-2">
-                    <Label className="text-sm font-semibold">Transaction Limits</Label>
+                    <Label className="text-sm font-semibold">
+                      Transaction Limits
+                    </Label>
                     <div className="text-sm space-y-1">
                       {yipyyPayConfig.minTransactionAmount && (
                         <div className="flex items-center gap-2">
-                          <span className="text-muted-foreground">Minimum:</span>
-                          <span>${yipyyPayConfig.minTransactionAmount.toFixed(2)}</span>
+                          <span className="text-muted-foreground">
+                            Minimum:
+                          </span>
+                          <span>
+                            ${yipyyPayConfig.minTransactionAmount.toFixed(2)}
+                          </span>
                         </div>
                       )}
                       {yipyyPayConfig.maxTransactionAmount && (
                         <div className="flex items-center gap-2">
-                          <span className="text-muted-foreground">Maximum:</span>
-                          <span>${yipyyPayConfig.maxTransactionAmount.toFixed(2)}</span>
+                          <span className="text-muted-foreground">
+                            Maximum:
+                          </span>
+                          <span>
+                            ${yipyyPayConfig.maxTransactionAmount.toFixed(2)}
+                          </span>
                         </div>
                       )}
                     </div>

@@ -115,7 +115,12 @@ function TagInput({
             }
           }}
         />
-        <Button type="button" variant="outline" onClick={add} disabled={disabled}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={add}
+          disabled={disabled}
+        >
           Add
         </Button>
       </div>
@@ -160,7 +165,10 @@ export function StaffEvaluationFormModal({
     try {
       const raw = localStorage.getItem(key);
       if (raw) {
-        setForm({ ...defaultState, ...(JSON.parse(raw) as Partial<FormState>) });
+        setForm({
+          ...defaultState,
+          ...(JSON.parse(raw) as Partial<FormState>),
+        });
       } else {
         setForm(defaultState);
       }
@@ -274,7 +282,10 @@ export function StaffEvaluationFormModal({
             <Select
               value={form.energyLevel}
               onValueChange={(v) =>
-                setForm((p) => ({ ...p, energyLevel: v as FormState["energyLevel"] }))
+                setForm((p) => ({
+                  ...p,
+                  energyLevel: v as FormState["energyLevel"],
+                }))
               }
             >
               <SelectTrigger className="w-full">
@@ -293,7 +304,10 @@ export function StaffEvaluationFormModal({
             <Select
               value={form.anxietyLevel}
               onValueChange={(v) =>
-                setForm((p) => ({ ...p, anxietyLevel: v as FormState["anxietyLevel"] }))
+                setForm((p) => ({
+                  ...p,
+                  anxietyLevel: v as FormState["anxietyLevel"],
+                }))
               }
             >
               <SelectTrigger className="w-full">
@@ -312,7 +326,10 @@ export function StaffEvaluationFormModal({
             <Select
               value={form.reactivity}
               onValueChange={(v) =>
-                setForm((p) => ({ ...p, reactivity: v as FormState["reactivity"] }))
+                setForm((p) => ({
+                  ...p,
+                  reactivity: v as FormState["reactivity"],
+                }))
               }
             >
               <SelectTrigger className="w-full">
@@ -333,7 +350,10 @@ export function StaffEvaluationFormModal({
             <Select
               value={form.playStyle}
               onValueChange={(v) =>
-                setForm((p) => ({ ...p, playStyle: v as FormState["playStyle"] }))
+                setForm((p) => ({
+                  ...p,
+                  playStyle: v as FormState["playStyle"],
+                }))
               }
             >
               <SelectTrigger className="w-full">
@@ -354,7 +374,10 @@ export function StaffEvaluationFormModal({
             <Select
               value={form.playGroup}
               onValueChange={(v) =>
-                setForm((p) => ({ ...p, playGroup: v as FormState["playGroup"] }))
+                setForm((p) => ({
+                  ...p,
+                  playGroup: v as FormState["playGroup"],
+                }))
               }
             >
               <SelectTrigger className="w-full">
@@ -382,7 +405,9 @@ export function StaffEvaluationFormModal({
         <TagInput
           label="Internal Warnings / Notes"
           value={form.internalWarnings}
-          onChange={(next) => setForm((p) => ({ ...p, internalWarnings: next }))}
+          onChange={(next) =>
+            setForm((p) => ({ ...p, internalWarnings: next }))
+          }
           placeholder="e.g. resource-guarding"
         />
 
@@ -497,7 +522,8 @@ export function StaffEvaluationFormModal({
                 <label className="flex items-center gap-2 rounded-md border p-3">
                   <Checkbox
                     checked={
-                      form.approvedServices.daycare && form.approvedServices.boarding
+                      form.approvedServices.daycare &&
+                      form.approvedServices.boarding
                     }
                     disabled={form.evaluationResult !== "pass"}
                     onCheckedChange={(checked) =>
@@ -566,4 +592,3 @@ export function StaffEvaluationFormModal({
     </Modal>
   );
 }
-

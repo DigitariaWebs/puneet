@@ -82,7 +82,19 @@ export function CustomServiceDetails({
   const Icon = resolveIcon(module.icon);
 
   if (currentSubStep === 0) {
-    return <ScheduleStep module={module} startDate={startDate} setStartDate={setStartDate} checkInTime={checkInTime} setCheckInTime={setCheckInTime} checkOutTime={checkOutTime} setCheckOutTime={setCheckOutTime} selectedPets={selectedPets} Icon={Icon} />;
+    return (
+      <ScheduleStep
+        module={module}
+        startDate={startDate}
+        setStartDate={setStartDate}
+        checkInTime={checkInTime}
+        setCheckInTime={setCheckInTime}
+        checkOutTime={checkOutTime}
+        setCheckOutTime={setCheckOutTime}
+        selectedPets={selectedPets}
+        Icon={Icon}
+      />
+    );
   }
 
   return null;
@@ -138,7 +150,9 @@ function ScheduleStep({
           </div>
           <div className="flex-1">
             <p className="text-sm font-medium">{module.name}</p>
-            <p className="text-xs text-muted-foreground">{module.description}</p>
+            <p className="text-xs text-muted-foreground">
+              {module.description}
+            </p>
           </div>
           {selectedPets.length > 0 && (
             <Badge variant="secondary" className="gap-1">
@@ -199,10 +213,15 @@ function ScheduleStep({
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label className="text-sm font-medium">Start Time</Label>
-              <Select value={checkInTime} onValueChange={(val) => {
-                setCheckInTime(val);
-                setCheckOutTime(calcCheckoutTime(val, parseInt(selectedDuration)));
-              }}>
+              <Select
+                value={checkInTime}
+                onValueChange={(val) => {
+                  setCheckInTime(val);
+                  setCheckOutTime(
+                    calcCheckoutTime(val, parseInt(selectedDuration)),
+                  );
+                }}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select time" />
                 </SelectTrigger>
@@ -228,10 +247,7 @@ function ScheduleStep({
                 <MapPin className="h-4 w-4" />
                 Pickup Address
               </Label>
-              <Textarea
-                placeholder="Enter pickup address..."
-                rows={2}
-              />
+              <Textarea placeholder="Enter pickup address..." rows={2} />
             </div>
           )}
 
@@ -257,11 +273,14 @@ function ScheduleStep({
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground">Date</span>
                 <span className="font-medium">
-                  {new Date(startDate + "T12:00:00").toLocaleDateString("en-US", {
-                    weekday: "short",
-                    month: "short",
-                    day: "numeric",
-                  })}
+                  {new Date(startDate + "T12:00:00").toLocaleDateString(
+                    "en-US",
+                    {
+                      weekday: "short",
+                      month: "short",
+                      day: "numeric",
+                    },
+                  )}
                 </span>
               </div>
               <div className="flex items-center justify-between text-sm mt-1">

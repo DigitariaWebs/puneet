@@ -68,7 +68,7 @@ export interface SalesLinkedToServices {
 export function getSalesByPeriod(
   period: "day" | "week" | "month",
   startDate?: Date,
-  endDate?: Date
+  endDate?: Date,
 ): SalesByPeriod[] {
   const transactions = getAllTransactions();
   const now = new Date();
@@ -111,7 +111,7 @@ export function getSalesByPeriod(
   });
 
   return Array.from(grouped.values()).sort((a, b) =>
-    a.date.localeCompare(b.date)
+    a.date.localeCompare(b.date),
   );
 }
 
@@ -122,7 +122,7 @@ export function getTopProducts(
   limit: number = 10,
   sortBy: "revenue" | "quantity" = "revenue",
   startDate?: Date,
-  endDate?: Date
+  endDate?: Date,
 ): TopProduct[] {
   const transactions = getAllTransactions();
   const now = new Date();
@@ -189,9 +189,7 @@ export function getTopProducts(
       existing.cost += cost;
       existing.profit = existing.revenue - existing.cost;
       existing.profitMargin =
-        existing.revenue > 0
-          ? (existing.profit / existing.revenue) * 100
-          : 0;
+        existing.revenue > 0 ? (existing.profit / existing.revenue) * 100 : 0;
 
       productMap.set(key, existing);
     });
@@ -213,7 +211,7 @@ export function getTopProducts(
 export function getProfitMarginReport(
   period: "day" | "week" | "month",
   startDate?: Date,
-  endDate?: Date
+  endDate?: Date,
 ): ProfitMarginReport[] {
   const salesData = getSalesByPeriod(period, startDate, endDate);
   const transactions = getAllTransactions();
@@ -290,7 +288,7 @@ export function getProfitMarginReport(
   });
 
   return Array.from(periodMap.values()).sort((a, b) =>
-    a.period.localeCompare(b.period)
+    a.period.localeCompare(b.period),
   );
 }
 
@@ -299,7 +297,7 @@ export function getProfitMarginReport(
  */
 export function getSalesByStaff(
   startDate?: Date,
-  endDate?: Date
+  endDate?: Date,
 ): SalesByStaff[] {
   const transactions = getAllTransactions();
   const now = new Date();
@@ -328,7 +326,10 @@ export function getSalesByStaff(
 
     existing.transactions += 1;
     existing.revenue += txn.total || 0;
-    existing.itemsSold += txn.items.reduce((sum, item) => sum + item.quantity, 0);
+    existing.itemsSold += txn.items.reduce(
+      (sum, item) => sum + item.quantity,
+      0,
+    );
 
     staffMap.set(staffId, existing);
   });
@@ -347,7 +348,7 @@ export function getSalesByStaff(
  */
 export function getSalesByCategory(
   startDate?: Date,
-  endDate?: Date
+  endDate?: Date,
 ): SalesByCategory[] {
   const transactions = getAllTransactions();
   const now = new Date();
@@ -421,7 +422,7 @@ export function getSalesByCategory(
  */
 export function getSalesLinkedToServices(
   startDate?: Date,
-  endDate?: Date
+  endDate?: Date,
 ): SalesLinkedToServices[] {
   const transactions = getAllTransactions();
   const now = new Date();
@@ -451,14 +452,12 @@ export function getSalesLinkedToServices(
       existing.transactions += 1;
       existing.itemsSold += txn.items.reduce(
         (sum, item) => sum + item.quantity,
-        0
+        0,
       );
 
       serviceMap.set(serviceType, existing);
     }
   });
 
-  return Array.from(serviceMap.values()).sort(
-    (a, b) => b.revenue - a.revenue
-  );
+  return Array.from(serviceMap.values()).sort((a, b) => b.revenue - a.revenue);
 }

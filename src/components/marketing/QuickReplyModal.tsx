@@ -120,9 +120,7 @@ export function QuickReplyModal({ onClose }: QuickReplyModalProps) {
           </p>
         </div>
 
-        {hasVariables && (
-          <TemplatePreviewPanel template={formData.body} />
-        )}
+        {hasVariables && <TemplatePreviewPanel template={formData.body} />}
       </div>
 
       <DialogFooter>

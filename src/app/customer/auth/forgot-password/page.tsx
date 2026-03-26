@@ -7,7 +7,13 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Mail, Loader2, ArrowLeft } from "lucide-react";
 
 export default function ForgotPasswordPage() {
@@ -45,7 +51,9 @@ export default function ForgotPasswordPage() {
       setIsSubmitted(true);
       toast.success("Password reset email sent!");
     } catch (error: any) {
-      toast.error(error.message || "Failed to send reset email. Please try again.");
+      toast.error(
+        error.message || "Failed to send reset email. Please try again.",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -65,7 +73,9 @@ export default function ForgotPasswordPage() {
             <div className="flex justify-center mb-4">
               <img src="/yipyy-transparent.png" alt="Yipyy" className="h-12" />
             </div>
-            <CardTitle className="text-2xl font-bold">Check your email</CardTitle>
+            <CardTitle className="text-2xl font-bold">
+              Check your email
+            </CardTitle>
             <CardDescription>
               We've sent a password reset link to {email}
             </CardDescription>
@@ -73,7 +83,8 @@ export default function ForgotPasswordPage() {
           <CardContent className="space-y-4">
             <div className="rounded-lg bg-muted p-4 text-sm text-muted-foreground">
               <p className="mb-2">
-                If an account exists with this email, you'll receive instructions to reset your password.
+                If an account exists with this email, you'll receive
+                instructions to reset your password.
               </p>
               <p>
                 Didn't receive the email? Check your spam folder or try again.
@@ -115,7 +126,8 @@ export default function ForgotPasswordPage() {
           </div>
           <CardTitle className="text-2xl font-bold">Forgot password?</CardTitle>
           <CardDescription>
-            Enter your email address and we'll send you a link to reset your password
+            Enter your email address and we'll send you a link to reset your
+            password
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">

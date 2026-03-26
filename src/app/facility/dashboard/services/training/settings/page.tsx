@@ -1,6 +1,12 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -44,7 +50,8 @@ export default function TrainingSettingsPage() {
             <div className="space-y-0.5">
               <Label htmlFor="module-enabled">Training Module Enabled</Label>
               <p className="text-sm text-muted-foreground">
-                When enabled, clients can book training classes and enroll in courses
+                When enabled, clients can book training classes and enroll in
+                courses
               </p>
             </div>
             <Switch
@@ -66,16 +73,17 @@ export default function TrainingSettingsPage() {
             Course Catalog Configuration
           </CardTitle>
           <CardDescription>
-            Manage your training course types (class definitions). These are the courses
-            you offer to clients.
+            Manage your training course types (class definitions). These are the
+            courses you offer to clients.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <p className="text-sm text-muted-foreground">
-              Configure course types with custom names, descriptions, duration, age
-              requirements, vaccine requirements, and prerequisites. Each course type
-              defines a class that can be scheduled and offered to clients.
+              Configure course types with custom names, descriptions, duration,
+              age requirements, vaccine requirements, and prerequisites. Each
+              course type defines a class that can be scheduled and offered to
+              clients.
             </p>
             <Button asChild>
               <Link href="/facility/dashboard/services/training/courses">

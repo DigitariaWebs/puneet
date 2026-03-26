@@ -5,7 +5,13 @@ import { useCustomerFacility } from "@/hooks/use-customer-facility";
 import { clientDocuments } from "@/data/documents";
 import { getFormsByFacility } from "@/data/forms";
 import Link from "next/link";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -28,10 +34,14 @@ const MOCK_CUSTOMER_ID = 15;
 export default function CustomerDocumentsPage() {
   const { selectedFacility } = useCustomerFacility();
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeTab, setActiveTab] = useState<"agreements" | "documents" | "forms">("agreements");
+  const [activeTab, setActiveTab] = useState<
+    "agreements" | "documents" | "forms"
+  >("agreements");
 
   const customerDocs = useMemo(() => {
-    let filtered = clientDocuments.filter((d) => d.clientId === MOCK_CUSTOMER_ID);
+    let filtered = clientDocuments.filter(
+      (d) => d.clientId === MOCK_CUSTOMER_ID,
+    );
     if (selectedFacility) {
       filtered = filtered.filter((d) => d.facilityId === selectedFacility.id);
     }
@@ -48,11 +58,13 @@ export default function CustomerDocumentsPage() {
   }, [selectedFacility, searchQuery]);
 
   const agreementDocs = useMemo(
-    () => customerDocs.filter((d) => d.type === "agreement" || d.type === "waiver"),
+    () =>
+      customerDocs.filter((d) => d.type === "agreement" || d.type === "waiver"),
     [customerDocs],
   );
   const otherDocs = useMemo(
-    () => customerDocs.filter((d) => d.type !== "agreement" && d.type !== "waiver"),
+    () =>
+      customerDocs.filter((d) => d.type !== "agreement" && d.type !== "waiver"),
     [customerDocs],
   );
 
@@ -88,7 +100,8 @@ export default function CustomerDocumentsPage() {
           <div>
             <h1 className="text-3xl font-bold">Documents & Agreements</h1>
             <p className="text-muted-foreground mt-1">
-              View and manage your signed agreements, waivers, and uploaded documents.
+              View and manage your signed agreements, waivers, and uploaded
+              documents.
             </p>
           </div>
         </div>
@@ -131,8 +144,9 @@ export default function CustomerDocumentsPage() {
                   Agreements & Waivers
                 </CardTitle>
                 <CardDescription>
-                  These agreements are required by your facility for services like daycare and
-                  boarding. You can review what you’ve signed at any time.
+                  These agreements are required by your facility for services
+                  like daycare and boarding. You can review what you’ve signed
+                  at any time.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -141,8 +155,8 @@ export default function CustomerDocumentsPage() {
                     <AlertCircle className="h-10 w-10 text-muted-foreground mb-2" />
                     <p className="font-semibold">No agreements on file yet</p>
                     <p className="text-sm text-muted-foreground">
-                      Your facility may ask you to sign agreements or waivers before your next
-                      booking.
+                      Your facility may ask you to sign agreements or waivers
+                      before your next booking.
                     </p>
                   </div>
                 ) : (
@@ -171,13 +185,17 @@ export default function CustomerDocumentsPage() {
                         </div>
                         <div className="flex items-center gap-2">
                           <Badge variant="outline" className="text-xs">
-                            {doc.signatureType === "digital" ? "Signed Online" : "On File"}
+                            {doc.signatureType === "digital"
+                              ? "Signed Online"
+                              : "On File"}
                           </Badge>
                           {doc.fileUrl && (
                             <Button
                               size="sm"
                               variant="outline"
-                              onClick={() => handleDownload(doc.fileUrl, doc.name)}
+                              onClick={() =>
+                                handleDownload(doc.fileUrl, doc.name)
+                              }
                             >
                               <Download className="h-4 w-4 mr-1" />
                               Download
@@ -193,9 +211,10 @@ export default function CustomerDocumentsPage() {
 
             <Card className="border-primary/20 bg-primary/5">
               <CardContent className="py-4 text-sm text-muted-foreground">
-                Facilities can require certain agreements to be signed before new bookings are
-                approved. If you’re blocked from booking, check here to see if any agreements are
-                missing or contact the facility for help.
+                Facilities can require certain agreements to be signed before
+                new bookings are approved. If you’re blocked from booking, check
+                here to see if any agreements are missing or contact the
+                facility for help.
               </CardContent>
             </Card>
           </TabsContent>
@@ -209,7 +228,8 @@ export default function CustomerDocumentsPage() {
                   Available Forms
                 </CardTitle>
                 <CardDescription>
-                  Fill out required and optional forms for your facility. Your progress is saved automatically.
+                  Fill out required and optional forms for your facility. Your
+                  progress is saved automatically.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -221,7 +241,7 @@ export default function CustomerDocumentsPage() {
                     ...(primaryId !== 11 ? getFormsByFacility(11) : []),
                   ];
                   const forms = allForms.filter(
-                    (f) => f.status === "published" && f.audience !== "staff"
+                    (f) => f.status === "published" && f.audience !== "staff",
                   );
                   if (forms.length === 0) {
                     return (
@@ -229,7 +249,8 @@ export default function CustomerDocumentsPage() {
                         <AlertCircle className="h-10 w-10 text-muted-foreground mb-2" />
                         <p className="font-semibold">No forms available</p>
                         <p className="text-sm text-muted-foreground">
-                          Your facility hasn&apos;t published any forms yet. Check back later.
+                          Your facility hasn&apos;t published any forms yet.
+                          Check back later.
                         </p>
                       </div>
                     );
@@ -245,8 +266,14 @@ export default function CustomerDocumentsPage() {
                           {form.name}
                         </p>
                         <p className="text-xs text-muted-foreground">
-                          {form.questions.length} question{form.questions.length !== 1 ? "s" : ""}
-                          {form.type && <> · <span className="capitalize">{form.type}</span></>}
+                          {form.questions.length} question
+                          {form.questions.length !== 1 ? "s" : ""}
+                          {form.type && (
+                            <>
+                              {" "}
+                              · <span className="capitalize">{form.type}</span>
+                            </>
+                          )}
                         </p>
                       </div>
                       <Button size="sm" asChild>
@@ -271,8 +298,8 @@ export default function CustomerDocumentsPage() {
                   Documents Vault
                 </CardTitle>
                 <CardDescription>
-                  All documents your facility has shared with you: vaccine records, medical notes,
-                  and more.
+                  All documents your facility has shared with you: vaccine
+                  records, medical notes, and more.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -281,8 +308,8 @@ export default function CustomerDocumentsPage() {
                     <AlertCircle className="h-10 w-10 text-muted-foreground mb-2" />
                     <p className="font-semibold">No documents yet</p>
                     <p className="text-sm text-muted-foreground">
-                      When your facility uploads vaccine records, medical notes, or other files,
-                      they will appear here.
+                      When your facility uploads vaccine records, medical notes,
+                      or other files, they will appear here.
                     </p>
                   </div>
                 ) : (
@@ -309,17 +336,22 @@ export default function CustomerDocumentsPage() {
                           </p>
                           <p className="text-xs text-muted-foreground">
                             Uploaded: {formatDateTime(doc.uploadedAt)}
-                            {doc.expiryDate && ` · Expires: ${formatDateTime(doc.expiryDate)}`}
+                            {doc.expiryDate &&
+                              ` · Expires: ${formatDateTime(doc.expiryDate)}`}
                           </p>
                           {doc.notes && (
-                            <p className="text-xs text-muted-foreground">{doc.notes}</p>
+                            <p className="text-xs text-muted-foreground">
+                              {doc.notes}
+                            </p>
                           )}
                         </div>
                         {doc.fileUrl && (
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => handleDownload(doc.fileUrl, doc.name)}
+                            onClick={() =>
+                              handleDownload(doc.fileUrl, doc.name)
+                            }
                           >
                             <Download className="h-4 w-4 mr-1" />
                             Download
@@ -337,4 +369,3 @@ export default function CustomerDocumentsPage() {
     </div>
   );
 }
-

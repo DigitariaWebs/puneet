@@ -74,28 +74,38 @@ function formatFilterValue(filter: SegmentFilter): string {
 }
 
 // Pre-built segments for quick-apply
-const SUGGESTED_SEGMENTS = customerSegments.filter((s) => s.isBuiltIn).slice(0, 8);
+const SUGGESTED_SEGMENTS = customerSegments
+  .filter((s) => s.isBuiltIn)
+  .slice(0, 8);
 
-export function SegmentBuilderModal({ segment, onClose }: SegmentBuilderModalProps) {
+export function SegmentBuilderModal({
+  segment,
+  onClose,
+}: SegmentBuilderModalProps) {
   const isEditing = !!segment;
 
   const [name, setName] = useState(segment?.name || "");
   const [description, setDescription] = useState(segment?.description || "");
   const [isFavorite, setIsFavorite] = useState(segment?.isFavorite || false);
   const [filterGroups, setFilterGroups] = useState<FilterGroup[]>(
-    segment?.filterGroups || [{ id: genId("fg"), filters: [] }]
+    segment?.filterGroups || [{ id: genId("fg"), filters: [] }],
   );
   const [groupLogicOperator, setGroupLogicOperator] = useState<"AND" | "OR">(
-    segment?.groupLogicOperator || "AND"
+    segment?.groupLogicOperator || "AND",
   );
 
   // New filter state per group
   const [activeGroupId, setActiveGroupId] = useState<string | null>(null);
-  const [newFilterCategory, setNewFilterCategory] = useState<SegmentFilterCategory | "">("");
+  const [newFilterCategory, setNewFilterCategory] = useState<
+    SegmentFilterCategory | ""
+  >("");
   const [newFilterField, setNewFilterField] = useState("");
-  const [newFilterOperator, setNewFilterOperator] = useState<SegmentFilterOperator>("equals");
+  const [newFilterOperator, setNewFilterOperator] =
+    useState<SegmentFilterOperator>("equals");
   const [newFilterValue, setNewFilterValue] = useState<string>("");
-  const [newFilterMultiValues, setNewFilterMultiValues] = useState<string[]>([]);
+  const [newFilterMultiValues, setNewFilterMultiValues] = useState<string[]>(
+    [],
+  );
 
   const fieldsForCategory = newFilterCategory
     ? SEGMENT_FILTER_FIELDS.filter((f) => f.category === newFilterCategory)
@@ -122,8 +132,15 @@ export function SegmentBuilderModal({ segment, onClose }: SegmentBuilderModalPro
     let value: SegmentFilter["value"];
     if (newFilterOperator === "is_true") value = true;
     else if (newFilterOperator === "is_false") value = false;
-    else if (def.valueType === "multi_select" || newFilterOperator === "in" || newFilterOperator === "not_in") {
-      value = newFilterMultiValues.length > 0 ? newFilterMultiValues : [newFilterValue];
+    else if (
+      def.valueType === "multi_select" ||
+      newFilterOperator === "in" ||
+      newFilterOperator === "not_in"
+    ) {
+      value =
+        newFilterMultiValues.length > 0
+          ? newFilterMultiValues
+          : [newFilterValue];
     } else if (def.valueType === "number") {
       value = Number(newFilterValue) || 0;
     } else {
@@ -140,8 +157,8 @@ export function SegmentBuilderModal({ segment, onClose }: SegmentBuilderModalPro
 
     setFilterGroups((prev: FilterGroup[]) =>
       prev.map((g: FilterGroup) =>
-        g.id === groupId ? { ...g, filters: [...g.filters, filter] } : g
-      )
+        g.id === groupId ? { ...g, filters: [...g.filters, filter] } : g,
+      ),
     );
     resetNewFilter();
   };
@@ -150,31 +167,53 @@ export function SegmentBuilderModal({ segment, onClose }: SegmentBuilderModalPro
     setFilterGroups((prev: FilterGroup[]) =>
       prev.map((g: FilterGroup) =>
         g.id === groupId
-          ? { ...g, filters: g.filters.filter((f: SegmentFilter) => f.id !== filterId) }
-          : g
-      )
+          ? {
+              ...g,
+              filters: g.filters.filter(
+                (f: SegmentFilter) => f.id !== filterId,
+              ),
+            }
+          : g,
+      ),
     );
   };
 
   const handleAddGroup = () => {
-    setFilterGroups((prev: FilterGroup[]) => [...prev, { id: genId("fg"), filters: [] }]);
+    setFilterGroups((prev: FilterGroup[]) => [
+      ...prev,
+      { id: genId("fg"), filters: [] },
+    ]);
   };
 
   const handleRemoveGroup = (groupId: string) => {
     if (filterGroups.length <= 1) return;
-    setFilterGroups((prev: FilterGroup[]) => prev.filter((g: FilterGroup) => g.id !== groupId));
+    setFilterGroups((prev: FilterGroup[]) =>
+      prev.filter((g: FilterGroup) => g.id !== groupId),
+    );
   };
 
   const handleApplySuggestion = (seg: CustomerSegment) => {
     setName(seg.name);
     setDescription(seg.description);
-    setFilterGroups(seg.filterGroups.map((g) => ({ ...g, id: genId("fg"), filters: g.filters.map((f) => ({ ...f, id: genId("f") })) })));
+    setFilterGroups(
+      seg.filterGroups.map((g) => ({
+        ...g,
+        id: genId("fg"),
+        filters: g.filters.map((f) => ({ ...f, id: genId("f") })),
+      })),
+    );
     setGroupLogicOperator(seg.groupLogicOperator);
   };
 
-  const totalFilters = filterGroups.reduce((sum, g) => sum + g.filters.length, 0);
+  const totalFilters = filterGroups.reduce(
+    (sum, g) => sum + g.filters.length,
+    0,
+  );
   // More realistic mock: randomize within a range based on filter count
-  const estimatedCount = Math.max(3, Math.round(150 * Math.pow(0.7, totalFilters) + (totalFilters * 2)));
+  const estimatedCount = Math.max(
+    3,
+    Math.round(150 * Math.pow(0.7, totalFilters) + totalFilters * 2),
+  );
 
   const handleSave = () => {
     console.log("Saving segment:", {
@@ -190,14 +229,16 @@ export function SegmentBuilderModal({ segment, onClose }: SegmentBuilderModalPro
 
   const toggleMultiValue = (val: string) => {
     setNewFilterMultiValues((prev) =>
-      prev.includes(val) ? prev.filter((v) => v !== val) : [...prev, val]
+      prev.includes(val) ? prev.filter((v) => v !== val) : [...prev, val],
     );
   };
 
   return (
     <>
       <DialogHeader>
-        <DialogTitle>{isEditing ? "Edit" : "Create"} Customer Segment</DialogTitle>
+        <DialogTitle>
+          {isEditing ? "Edit" : "Create"} Customer Segment
+        </DialogTitle>
         <DialogDescription>
           Build targeted customer groups using AND/OR filter logic
         </DialogDescription>
@@ -220,7 +261,9 @@ export function SegmentBuilderModal({ segment, onClose }: SegmentBuilderModalPro
               variant={isFavorite ? "default" : "outline"}
               size="icon"
               onClick={() => setIsFavorite(!isFavorite)}
-              aria-label={isFavorite ? "Remove from favorites" : "Mark as favorite"}
+              aria-label={
+                isFavorite ? "Remove from favorites" : "Mark as favorite"
+              }
             >
               <Star className={`h-4 w-4 ${isFavorite ? "fill-current" : ""}`} />
             </Button>
@@ -245,7 +288,11 @@ export function SegmentBuilderModal({ segment, onClose }: SegmentBuilderModalPro
                 <Zap className="h-3.5 w-3.5" />
                 Quick Start from Pre-Built Segment
               </Label>
-              <div className="flex gap-2 flex-wrap" role="group" aria-label="Pre-built segment suggestions">
+              <div
+                className="flex gap-2 flex-wrap"
+                role="group"
+                aria-label="Pre-built segment suggestions"
+              >
                 {SUGGESTED_SEGMENTS.map((seg) => (
                   <Button
                     key={seg.id}
@@ -269,10 +316,16 @@ export function SegmentBuilderModal({ segment, onClose }: SegmentBuilderModalPro
                 Filter Groups
               </Label>
               {filterGroups.length > 1 && (
-                <div className="flex items-center gap-2 text-sm" role="radiogroup" aria-label="Group logic operator">
+                <div
+                  className="flex items-center gap-2 text-sm"
+                  role="radiogroup"
+                  aria-label="Group logic operator"
+                >
                   <span className="text-muted-foreground">Between groups:</span>
                   <Button
-                    variant={groupLogicOperator === "AND" ? "default" : "outline"}
+                    variant={
+                      groupLogicOperator === "AND" ? "default" : "outline"
+                    }
                     size="sm"
                     className="h-7 px-2.5 text-xs"
                     onClick={() => setGroupLogicOperator("AND")}
@@ -281,7 +334,9 @@ export function SegmentBuilderModal({ segment, onClose }: SegmentBuilderModalPro
                     AND
                   </Button>
                   <Button
-                    variant={groupLogicOperator === "OR" ? "default" : "outline"}
+                    variant={
+                      groupLogicOperator === "OR" ? "default" : "outline"
+                    }
                     size="sm"
                     className="h-7 px-2.5 text-xs"
                     onClick={() => setGroupLogicOperator("OR")}
@@ -297,7 +352,10 @@ export function SegmentBuilderModal({ segment, onClose }: SegmentBuilderModalPro
               <div key={group.id}>
                 {/* AND/OR divider between groups */}
                 {groupIdx > 0 && (
-                  <div className="flex items-center justify-center py-2" aria-hidden="true">
+                  <div
+                    className="flex items-center justify-center py-2"
+                    aria-hidden="true"
+                  >
                     <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold bg-secondary text-secondary-foreground">
                       {groupLogicOperator}
                     </span>
@@ -339,17 +397,23 @@ export function SegmentBuilderModal({ segment, onClose }: SegmentBuilderModalPro
                             <span className="inline-flex items-center rounded-full border px-2 py-0.5 text-xs">
                               {SEGMENT_CATEGORY_LABELS[filter.category]}
                             </span>
-                            <span className="font-medium">{def?.label || filter.field}</span>
+                            <span className="font-medium">
+                              {def?.label || filter.field}
+                            </span>
                             <span className="text-muted-foreground">
                               {OPERATOR_LABELS[filter.operator]}
                             </span>
-                            <span className="font-medium">{formatFilterValue(filter)}</span>
+                            <span className="font-medium">
+                              {formatFilterValue(filter)}
+                            </span>
                           </div>
                           <Button
                             variant="ghost"
                             size="sm"
                             className="h-6 w-6 p-0"
-                            onClick={() => handleRemoveFilter(group.id, filter.id)}
+                            onClick={() =>
+                              handleRemoveFilter(group.id, filter.id)
+                            }
                             aria-label={`Remove filter: ${def?.label || filter.field}`}
                           >
                             <X className="h-3.5 w-3.5" />
@@ -368,7 +432,9 @@ export function SegmentBuilderModal({ segment, onClose }: SegmentBuilderModalPro
                             <Select
                               value={newFilterCategory}
                               onValueChange={(val) => {
-                                setNewFilterCategory(val as SegmentFilterCategory);
+                                setNewFilterCategory(
+                                  val as SegmentFilterCategory,
+                                );
                                 setNewFilterField("");
                                 setNewFilterOperator("equals");
                                 setNewFilterValue("");
@@ -379,7 +445,11 @@ export function SegmentBuilderModal({ segment, onClose }: SegmentBuilderModalPro
                                 <SelectValue placeholder="Select category..." />
                               </SelectTrigger>
                               <SelectContent>
-                                {(Object.keys(SEGMENT_CATEGORY_LABELS) as SegmentFilterCategory[]).map((cat) => (
+                                {(
+                                  Object.keys(
+                                    SEGMENT_CATEGORY_LABELS,
+                                  ) as SegmentFilterCategory[]
+                                ).map((cat) => (
                                   <SelectItem key={cat} value={cat}>
                                     {SEGMENT_CATEGORY_LABELS[cat]}
                                   </SelectItem>
@@ -393,7 +463,9 @@ export function SegmentBuilderModal({ segment, onClose }: SegmentBuilderModalPro
                               value={newFilterField}
                               onValueChange={(val) => {
                                 setNewFilterField(val);
-                                const fieldDef = SEGMENT_FILTER_FIELDS.find((f) => f.field === val);
+                                const fieldDef = SEGMENT_FILTER_FIELDS.find(
+                                  (f) => f.field === val,
+                                );
                                 if (fieldDef && fieldDef.operators.length > 0) {
                                   setNewFilterOperator(fieldDef.operators[0]);
                                 }
@@ -423,7 +495,11 @@ export function SegmentBuilderModal({ segment, onClose }: SegmentBuilderModalPro
                               <Label className="text-xs">Condition</Label>
                               <Select
                                 value={newFilterOperator}
-                                onValueChange={(val) => setNewFilterOperator(val as SegmentFilterOperator)}
+                                onValueChange={(val) =>
+                                  setNewFilterOperator(
+                                    val as SegmentFilterOperator,
+                                  )
+                                }
                               >
                                 <SelectTrigger className="h-9">
                                   <SelectValue />
@@ -440,28 +516,44 @@ export function SegmentBuilderModal({ segment, onClose }: SegmentBuilderModalPro
                             <div className="space-y-1">
                               <Label className="text-xs">Value</Label>
                               {/* Boolean fields */}
-                              {selectedFieldDef.valueType === "boolean" || newFilterOperator === "is_true" || newFilterOperator === "is_false" ? (
+                              {selectedFieldDef.valueType === "boolean" ||
+                              newFilterOperator === "is_true" ||
+                              newFilterOperator === "is_false" ? (
                                 <div className="flex items-center h-9 px-3 border rounded-md bg-muted/30 text-sm">
-                                  {newFilterOperator === "is_true" ? "Yes" : newFilterOperator === "is_false" ? "No" : "Auto"}
+                                  {newFilterOperator === "is_true"
+                                    ? "Yes"
+                                    : newFilterOperator === "is_false"
+                                      ? "No"
+                                      : "Auto"}
                                 </div>
-                              ) : selectedFieldDef.valueType === "select" && selectedFieldDef.options ? (
-                                <Select value={newFilterValue} onValueChange={setNewFilterValue}>
+                              ) : selectedFieldDef.valueType === "select" &&
+                                selectedFieldDef.options ? (
+                                <Select
+                                  value={newFilterValue}
+                                  onValueChange={setNewFilterValue}
+                                >
                                   <SelectTrigger className="h-9">
                                     <SelectValue placeholder="Select..." />
                                   </SelectTrigger>
                                   <SelectContent>
                                     {selectedFieldDef.options.map((opt) => (
-                                      <SelectItem key={opt.value} value={opt.value}>
+                                      <SelectItem
+                                        key={opt.value}
+                                        value={opt.value}
+                                      >
                                         {opt.label}
                                       </SelectItem>
                                     ))}
                                   </SelectContent>
                                 </Select>
-                              ) : selectedFieldDef.valueType === "multi_select" && selectedFieldDef.options ? (
+                              ) : selectedFieldDef.valueType ===
+                                  "multi_select" && selectedFieldDef.options ? (
                                 <div className="space-y-1.5">
                                   <div className="flex flex-wrap gap-1 max-h-20 overflow-y-auto p-1.5 border rounded-md">
                                     {newFilterMultiValues.length === 0 && (
-                                      <span className="text-xs text-muted-foreground">Click to select...</span>
+                                      <span className="text-xs text-muted-foreground">
+                                        Click to select...
+                                      </span>
                                     )}
                                     {newFilterMultiValues.map((v) => (
                                       <Button
@@ -478,7 +570,12 @@ export function SegmentBuilderModal({ segment, onClose }: SegmentBuilderModalPro
                                   </div>
                                   <div className="flex flex-wrap gap-1">
                                     {selectedFieldDef.options
-                                      .filter((opt) => !newFilterMultiValues.includes(opt.value))
+                                      .filter(
+                                        (opt) =>
+                                          !newFilterMultiValues.includes(
+                                            opt.value,
+                                          ),
+                                      )
                                       .slice(0, 12)
                                       .map((opt) => (
                                         <Button
@@ -486,30 +583,52 @@ export function SegmentBuilderModal({ segment, onClose }: SegmentBuilderModalPro
                                           variant="outline"
                                           size="sm"
                                           className="h-auto py-0.5 px-2 text-xs font-normal"
-                                          onClick={() => toggleMultiValue(opt.value)}
+                                          onClick={() =>
+                                            toggleMultiValue(opt.value)
+                                          }
                                         >
                                           {opt.label}
                                         </Button>
                                       ))}
-                                    {(selectedFieldDef.options.length - newFilterMultiValues.length) > 12 && (
-                                      <span className="text-xs text-muted-foreground self-center">+{selectedFieldDef.options.length - 12 - newFilterMultiValues.length} more</span>
+                                    {selectedFieldDef.options.length -
+                                      newFilterMultiValues.length >
+                                      12 && (
+                                      <span className="text-xs text-muted-foreground self-center">
+                                        +
+                                        {selectedFieldDef.options.length -
+                                          12 -
+                                          newFilterMultiValues.length}{" "}
+                                        more
+                                      </span>
                                     )}
                                   </div>
                                 </div>
-                              ) : selectedFieldDef.valueType === "pet_select" ? (
+                              ) : selectedFieldDef.valueType ===
+                                "pet_select" ? (
                                 <Input
                                   className="h-9"
                                   value={newFilterValue}
-                                  onChange={(e) => setNewFilterValue(e.target.value)}
+                                  onChange={(e) =>
+                                    setNewFilterValue(e.target.value)
+                                  }
                                   placeholder="Enter pet name or ID..."
                                 />
                               ) : (
                                 <Input
                                   className="h-9"
-                                  type={selectedFieldDef.valueType === "number" ? "number" : "text"}
+                                  type={
+                                    selectedFieldDef.valueType === "number"
+                                      ? "number"
+                                      : "text"
+                                  }
                                   value={newFilterValue}
-                                  onChange={(e) => setNewFilterValue(e.target.value)}
-                                  placeholder={selectedFieldDef.placeholder || `Enter ${selectedFieldDef.unit || "value"}...`}
+                                  onChange={(e) =>
+                                    setNewFilterValue(e.target.value)
+                                  }
+                                  placeholder={
+                                    selectedFieldDef.placeholder ||
+                                    `Enter ${selectedFieldDef.unit || "value"}...`
+                                  }
                                 />
                               )}
                             </div>
@@ -518,13 +637,24 @@ export function SegmentBuilderModal({ segment, onClose }: SegmentBuilderModalPro
 
                         {/* Action buttons */}
                         <div className="flex justify-end gap-2">
-                          <Button variant="ghost" size="sm" onClick={resetNewFilter}>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={resetNewFilter}
+                          >
                             Cancel
                           </Button>
                           <Button
                             size="sm"
                             onClick={() => handleAddFilter(group.id)}
-                            disabled={!newFilterField || (selectedFieldDef?.valueType !== "boolean" && newFilterOperator !== "is_true" && newFilterOperator !== "is_false" && !newFilterValue && newFilterMultiValues.length === 0)}
+                            disabled={
+                              !newFilterField ||
+                              (selectedFieldDef?.valueType !== "boolean" &&
+                                newFilterOperator !== "is_true" &&
+                                newFilterOperator !== "is_false" &&
+                                !newFilterValue &&
+                                newFilterMultiValues.length === 0)
+                            }
                           >
                             <Plus className="h-3.5 w-3.5 mr-1" />
                             Add Filter
@@ -575,7 +705,10 @@ export function SegmentBuilderModal({ segment, onClose }: SegmentBuilderModalPro
                       ~{estimatedCount}
                     </div>
                   </div>
-                  <Users className="h-10 w-10 text-primary/20" aria-hidden="true" />
+                  <Users
+                    className="h-10 w-10 text-primary/20"
+                    aria-hidden="true"
+                  />
                 </div>
               </CardContent>
             </Card>
@@ -587,10 +720,7 @@ export function SegmentBuilderModal({ segment, onClose }: SegmentBuilderModalPro
         <Button variant="ghost" onClick={onClose}>
           Cancel
         </Button>
-        <Button
-          onClick={handleSave}
-          disabled={!name || totalFilters === 0}
-        >
+        <Button onClick={handleSave} disabled={!name || totalFilters === 0}>
           <Users className="h-4 w-4 mr-2" />
           {isEditing ? "Update" : "Create"} Segment
         </Button>

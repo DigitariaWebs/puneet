@@ -4,7 +4,14 @@ import { useState, useEffect } from "react";
 import { useGroomingValidation } from "@/hooks/use-grooming-validation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, XCircle, Calendar, CreditCard, Users, Package } from "lucide-react";
+import {
+  CheckCircle2,
+  XCircle,
+  Calendar,
+  CreditCard,
+  Users,
+  Package,
+} from "lucide-react";
 
 export default function TestGroomingValidationPage() {
   const [isMounted, setIsMounted] = useState(false);
@@ -27,9 +34,12 @@ export default function TestGroomingValidationPage() {
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-6">
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold">Test: Grooming Pre-Booking Validation</h1>
+          <h1 className="text-3xl font-bold">
+            Test: Grooming Pre-Booking Validation
+          </h1>
           <p className="text-muted-foreground">
-            Phase 1: Validation invisible au client (avant affichage des options)
+            Phase 1: Validation invisible au client (avant affichage des
+            options)
           </p>
         </div>
 
@@ -46,7 +56,10 @@ export default function TestGroomingValidationPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <Badge variant={isAvailable ? "default" : "destructive"} className="text-lg px-4 py-2">
+            <Badge
+              variant={isAvailable ? "default" : "destructive"}
+              className="text-lg px-4 py-2"
+            >
               {isAvailable ? "Service Disponible" : "Service Non Disponible"}
             </Badge>
             {!isAvailable && validation.validationErrors.length > 0 && (
@@ -54,7 +67,9 @@ export default function TestGroomingValidationPage() {
                 <p className="font-semibold text-destructive mb-2">Erreurs:</p>
                 <ul className="list-disc list-inside space-y-1">
                   {validation.validationErrors.map((error, i) => (
-                    <li key={i} className="text-sm">{error}</li>
+                    <li key={i} className="text-sm">
+                      {error}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -93,7 +108,9 @@ export default function TestGroomingValidationPage() {
                     </p>
                   </div>
                 ) : (
-                  <p className="text-muted-foreground">Aucun créneau disponible</p>
+                  <p className="text-muted-foreground">
+                    Aucun créneau disponible
+                  </p>
                 )}
               </CardContent>
             </Card>
@@ -127,7 +144,9 @@ export default function TestGroomingValidationPage() {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-muted-foreground">Aucune catégorie disponible</p>
+                  <p className="text-muted-foreground">
+                    Aucune catégorie disponible
+                  </p>
                 )}
               </CardContent>
             </Card>
@@ -144,22 +163,28 @@ export default function TestGroomingValidationPage() {
                 <div className="flex items-center gap-4">
                   <span className="font-medium">Mode:</span>
                   <Badge variant="outline" className="text-base px-3 py-1">
-                    {groomerSelectionMode === "stealth" && "Furtif (Système assigne)"}
+                    {groomerSelectionMode === "stealth" &&
+                      "Furtif (Système assigne)"}
                     {groomerSelectionMode === "optional" && "Optionnel"}
-                    {groomerSelectionMode === "tier-only" && "Niveau uniquement"}
+                    {groomerSelectionMode === "tier-only" &&
+                      "Niveau uniquement"}
                     {groomerSelectionMode === "full-choice" && "Choix complet"}
                   </Badge>
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="p-3 rounded-lg border bg-muted/50">
-                    <p className="text-sm font-medium mb-1">Sélection de Toilettage</p>
+                    <p className="text-sm font-medium mb-1">
+                      Sélection de Toilettage
+                    </p>
                     <p className="text-sm text-muted-foreground">
                       {canSelectGroomer ? "✓ Permis" : "✗ Non permis"}
                     </p>
                   </div>
                   <div className="p-3 rounded-lg border bg-muted/50">
-                    <p className="text-sm font-medium mb-1">Afficher les Noms</p>
+                    <p className="text-sm font-medium mb-1">
+                      Afficher les Noms
+                    </p>
                     <p className="text-sm text-muted-foreground">
                       {validation.groomerSelectionOptions.showGroomerNames
                         ? "✓ Oui"
@@ -173,11 +198,13 @@ export default function TestGroomingValidationPage() {
                     <div className="mt-4">
                       <p className="font-medium mb-2">Niveaux Disponibles:</p>
                       <div className="flex flex-wrap gap-2">
-                        {validation.groomerSelectionOptions.tiers.map((tier) => (
-                          <Badge key={tier.id} variant="secondary">
-                            {tier.name}
-                          </Badge>
-                        ))}
+                        {validation.groomerSelectionOptions.tiers.map(
+                          (tier) => (
+                            <Badge key={tier.id} variant="secondary">
+                              {tier.name}
+                            </Badge>
+                          ),
+                        )}
                       </div>
                     </div>
                   )}
@@ -205,8 +232,10 @@ export default function TestGroomingValidationPage() {
                     <div>
                       <p className="text-sm font-medium mb-1">Type:</p>
                       <Badge variant="outline">
-                        {validation.depositInfo.type === "fixed" && "Montant Fixe"}
-                        {validation.depositInfo.type === "percentage" && "Pourcentage"}
+                        {validation.depositInfo.type === "fixed" &&
+                          "Montant Fixe"}
+                        {validation.depositInfo.type === "percentage" &&
+                          "Pourcentage"}
                         {validation.depositInfo.type === "none" && "Aucun"}
                       </Badge>
                     </div>
@@ -214,19 +243,25 @@ export default function TestGroomingValidationPage() {
                     {validation.depositInfo.amount && (
                       <div>
                         <p className="text-sm font-medium mb-1">Montant:</p>
-                        <p className="text-lg font-bold">${validation.depositInfo.amount.toFixed(2)}</p>
+                        <p className="text-lg font-bold">
+                          ${validation.depositInfo.amount.toFixed(2)}
+                        </p>
                       </div>
                     )}
 
                     {validation.depositInfo.percentage && (
                       <div>
                         <p className="text-sm font-medium mb-1">Pourcentage:</p>
-                        <p className="text-lg font-bold">{validation.depositInfo.percentage}%</p>
+                        <p className="text-lg font-bold">
+                          {validation.depositInfo.percentage}%
+                        </p>
                       </div>
                     )}
 
                     <div>
-                      <p className="text-sm font-medium mb-1">Message Client:</p>
+                      <p className="text-sm font-medium mb-1">
+                        Message Client:
+                      </p>
                       <p className="text-sm text-muted-foreground italic">
                         {depositMessage || "Aucun message"}
                       </p>

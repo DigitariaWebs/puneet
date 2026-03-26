@@ -31,7 +31,10 @@ import {
 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { MessageAttachmentUpload, type Attachment } from "@/components/customer/MessageAttachmentUpload";
+import {
+  MessageAttachmentUpload,
+  type Attachment,
+} from "@/components/customer/MessageAttachmentUpload";
 import { facilityConfig } from "@/data/facility-config";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -42,7 +45,12 @@ const MOCK_CUSTOMER_ID = 15;
 
 interface UnifiedMessage {
   id: string;
-  type: "message" | "booking_confirmation" | "reminder" | "report_card" | "notification";
+  type:
+    | "message"
+    | "booking_confirmation"
+    | "reminder"
+    | "report_card"
+    | "notification";
   channel?: "email" | "sms" | "in-app";
   facilityId: number;
   facilityName: string;
@@ -85,12 +93,15 @@ export default function CustomerMessagesPage() {
           // Map underlying communication type to a customer-facing channel.
           // Only allow \"email\", \"sms\", or \"in-app\"; everything else becomes undefined.
           channel:
-            comm.type === "email" || comm.type === "sms" || comm.type === "in-app"
+            comm.type === "email" ||
+            comm.type === "sms" ||
+            comm.type === "in-app"
               ? comm.type
               : undefined,
           facilityId: comm.facilityId,
           facilityName:
-            facilities.find((f) => f.id === comm.facilityId)?.name || "Facility",
+            facilities.find((f) => f.id === comm.facilityId)?.name ||
+            "Facility",
           subject: comm.subject,
           content: comm.content,
           timestamp: comm.timestamp,
@@ -98,13 +109,16 @@ export default function CustomerMessagesPage() {
           direction: comm.direction,
           staffName: comm.staffName,
           deliveryStatus: comm.status,
-          senderLabel: comm.direction === "inbound" ? comm.staffName || "Facility" : "You",
+          senderLabel:
+            comm.direction === "inbound" ? comm.staffName || "Facility" : "You",
         });
       });
 
     // Add booking confirmations
     bookings
-      .filter((b) => b.clientId === MOCK_CUSTOMER_ID && b.status === "confirmed")
+      .filter(
+        (b) => b.clientId === MOCK_CUSTOMER_ID && b.status === "confirmed",
+      )
       .forEach((booking) => {
         if (!facilityMessages[booking.facilityId]) {
           facilityMessages[booking.facilityId] = [];
@@ -113,7 +127,9 @@ export default function CustomerMessagesPage() {
           id: `booking-${booking.id}`,
           type: "booking_confirmation",
           facilityId: booking.facilityId,
-          facilityName: facilities.find((f) => f.id === booking.facilityId)?.name || "Facility",
+          facilityName:
+            facilities.find((f) => f.id === booking.facilityId)?.name ||
+            "Facility",
           subject: `Booking Confirmed - ${booking.service}`,
           content: `Your ${booking.service} booking for ${new Date(booking.startDate).toLocaleDateString("en-US")} has been confirmed.`,
           timestamp: booking.startDate,
@@ -125,12 +141,14 @@ export default function CustomerMessagesPage() {
 
     // Add reminders (mock - would come from notifications)
     bookings
-      .filter((b) => b.clientId === MOCK_CUSTOMER_ID && b.status === "confirmed")
+      .filter(
+        (b) => b.clientId === MOCK_CUSTOMER_ID && b.status === "confirmed",
+      )
       .forEach((booking) => {
         const bookingDate = new Date(booking.startDate);
         const reminderDate = new Date(bookingDate);
         reminderDate.setDate(reminderDate.getDate() - 1);
-        
+
         if (reminderDate <= new Date()) {
           if (!facilityMessages[booking.facilityId]) {
             facilityMessages[booking.facilityId] = [];
@@ -184,7 +202,8 @@ export default function CustomerMessagesPage() {
     // Sort messages by timestamp within each facility
     Object.keys(facilityMessages).forEach((facilityId) => {
       facilityMessages[parseInt(facilityId)].sort(
-        (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+        (a, b) =>
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
       );
     });
 
@@ -215,10 +234,11 @@ export default function CustomerMessagesPage() {
       (thread) =>
         thread.facilityName.toLowerCase().includes(query) ||
         thread.latestMessage.toLowerCase().includes(query) ||
-        thread.messages.some((m) =>
-          m.content.toLowerCase().includes(query) ||
-          m.subject.toLowerCase().includes(query)
-        )
+        thread.messages.some(
+          (m) =>
+            m.content.toLowerCase().includes(query) ||
+            m.subject.toLowerCase().includes(query),
+        ),
     );
   }, [threads, searchQuery]);
 
@@ -258,7 +278,10 @@ export default function CustomerMessagesPage() {
     return Object.values(messagesByFacility)
       .flat()
       .filter((m) => m.type === "reminder")
-      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+      .sort(
+        (a, b) =>
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+      );
   }, [messagesByFacility]);
 
   // Check if facility is currently in office hours
@@ -266,11 +289,21 @@ export default function CustomerMessagesPage() {
     const now = new Date();
     const dayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
     const currentTime = now.toTimeString().slice(0, 5); // HH:mm format
-    
-    const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-    const dayName = dayNames[dayOfWeek] as keyof typeof facilityConfig.checkInOutTimes.operatingHours;
+
+    const dayNames = [
+      "sunday",
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday",
+    ];
+    const dayName = dayNames[
+      dayOfWeek
+    ] as keyof typeof facilityConfig.checkInOutTimes.operatingHours;
     const hours = facilityConfig.checkInOutTimes.operatingHours[dayName];
-    
+
     if (!hours) return false;
     return currentTime >= hours.open && currentTime <= hours.close;
   }, []);
@@ -289,7 +322,8 @@ export default function CustomerMessagesPage() {
         return <Bell className="h-4 w-4" />;
       default:
         if (message.channel === "email") return <Mail className="h-4 w-4" />;
-        if (message.channel === "sms") return <MessageSquare className="h-4 w-4" />;
+        if (message.channel === "sms")
+          return <MessageSquare className="h-4 w-4" />;
         return <MessageSquare className="h-4 w-4" />;
     }
   };
@@ -301,13 +335,19 @@ export default function CustomerMessagesPage() {
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
 
     if (days === 0) {
-      return date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+      return date.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
     } else if (days === 1) {
       return "Yesterday";
     } else if (days < 7) {
       return date.toLocaleDateString("en-US", { weekday: "short" });
     } else {
-      return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+      return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      });
     }
   };
 
@@ -392,13 +432,18 @@ export default function CustomerMessagesPage() {
                     </h2>
                     <p className="text-sm text-muted-foreground">
                       {chatMessages.length} messages
-                      {reminderMessages.length > 0 && ` • ${reminderMessages.length} reminders`}
+                      {reminderMessages.length > 0 &&
+                        ` • ${reminderMessages.length} reminders`}
                     </p>
                   </div>
                 </div>
               </div>
 
-              <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "chat" | "reminders")} className="flex-1 flex flex-col">
+              <Tabs
+                value={activeTab}
+                onValueChange={(v) => setActiveTab(v as "chat" | "reminders")}
+                className="flex-1 flex flex-col"
+              >
                 <div className="px-4 pt-2 border-b">
                   <TabsList>
                     <TabsTrigger value="chat">Chat</TabsTrigger>
@@ -422,9 +467,16 @@ export default function CustomerMessagesPage() {
                         <ClockIcon className="h-4 w-4" />
                         <AlertDescription>
                           {isInOfficeHours ? (
-                            <span>{messagingConfig.officeHours.responseTimeExpectation}</span>
+                            <span>
+                              {
+                                messagingConfig.officeHours
+                                  .responseTimeExpectation
+                              }
+                            </span>
                           ) : (
-                            <span>{messagingConfig.officeHours.awayMessage}</span>
+                            <span>
+                              {messagingConfig.officeHours.awayMessage}
+                            </span>
                           )}
                         </AlertDescription>
                       </Alert>
@@ -433,235 +485,291 @@ export default function CustomerMessagesPage() {
 
                   {/* Messages */}
                   <ScrollArea className="flex-1 p-4">
-                <div className="space-y-4 max-w-3xl mx-auto">
-                  {chatMessages.map((message) => (
-                    <div
-                      key={message.id}
-                      className={`flex gap-3 ${
-                        message.direction === "inbound" ? "justify-start" : "justify-end"
-                      }`}
-                    >
-                      {message.direction === "inbound" && (
-                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                          {getMessageIcon(message)}
-                        </div>
-                      )}
-                      <div
-                        className={`flex-1 max-w-[70%] ${
-                          message.direction === "inbound" ? "" : "flex flex-col items-end"
-                        }`}
-                      >
+                    <div className="space-y-4 max-w-3xl mx-auto">
+                      {chatMessages.map((message) => (
                         <div
-                          className={`rounded-lg p-3 ${
+                          key={message.id}
+                          className={`flex gap-3 ${
                             message.direction === "inbound"
-                              ? "bg-muted"
-                              : "bg-primary text-primary-foreground"
+                              ? "justify-start"
+                              : "justify-end"
                           }`}
                         >
-                          {/* Channel, Sender, and Delivery Status */}
-                          <div className="flex items-center gap-2 mb-2 flex-wrap">
-                            {/* Channel Icon */}
-                            <Badge
-                              variant="outline"
-                              className={`text-xs ${
+                          {message.direction === "inbound" && (
+                            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                              {getMessageIcon(message)}
+                            </div>
+                          )}
+                          <div
+                            className={`flex-1 max-w-[70%] ${
+                              message.direction === "inbound"
+                                ? ""
+                                : "flex flex-col items-end"
+                            }`}
+                          >
+                            <div
+                              className={`rounded-lg p-3 ${
                                 message.direction === "inbound"
-                                  ? "bg-background"
-                                  : "bg-primary-foreground/20 border-primary-foreground/30"
+                                  ? "bg-muted"
+                                  : "bg-primary text-primary-foreground"
                               }`}
                             >
-                              {message.channel === "email" && <Mail className="h-3 w-3 mr-1" />}
-                              {message.channel === "sms" && <MessageSquare className="h-3 w-3 mr-1" />}
-                              {message.channel === "in-app" && <MessageSquare className="h-3 w-3 mr-1" />}
-                              {message.type === "booking_confirmation" && <Calendar className="h-3 w-3 mr-1" />}
-                              {message.type === "report_card" && <FileText className="h-3 w-3 mr-1" />}
-                              {message.channel || (message.type === "booking_confirmation" ? "Booking" : message.type === "report_card" ? "Report Card" : "Message")}
-                            </Badge>
-                            
-                            {/* Sender Label */}
-                            <span className="text-xs opacity-80">
-                              {message.senderLabel || (message.direction === "inbound" ? message.staffName || "Facility" : "You")}
-                            </span>
-
-                            {/* Delivery Status (for SMS/Email) */}
-                            {message.deliveryStatus && message.direction === "outbound" && (
-                              <div className="flex items-center gap-1 text-xs opacity-70">
-                                {message.deliveryStatus === "delivered" && (
-                                  <>
-                                    <CheckCircle2 className="h-3 w-3" />
-                                    <span>Delivered</span>
-                                  </>
-                                )}
-                                {message.deliveryStatus === "read" && (
-                                  <>
-                                    <CheckCircle2 className="h-3 w-3" />
-                                    <span>Read</span>
-                                  </>
-                                )}
-                                {message.deliveryStatus === "sent" && (
-                                  <>
-                                    <Clock className="h-3 w-3" />
-                                    <span>Sent</span>
-                                  </>
-                                )}
-                                {message.deliveryStatus === "failed" && (
-                                  <>
-                                    <XCircle className="h-3 w-3" />
-                                    <span>Failed</span>
-                                  </>
-                                )}
-                              </div>
-                            )}
-                          </div>
-
-                          {/* Timestamp */}
-                          <div className="text-xs opacity-70 mb-2">
-                            {formatTimestamp(message.timestamp)}
-                          </div>
-
-                          {/* Booking Context Link */}
-                          {message.bookingId && (
-                            <div className="mb-2">
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                className="text-xs"
-                                onClick={() => router.push(`/customer/bookings?booking=${message.bookingId}`)}
-                              >
-                                <Calendar className="h-3 w-3 mr-1" />
-                                Booking: {bookings.find((b) => b.id === message.bookingId)?.service || "View Details"}
-                              </Button>
-                            </div>
-                          )}
-
-                          <h4 className="font-semibold mb-1">{message.subject}</h4>
-                          <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                          {message.attachments && message.attachments.length > 0 && (
-                            <div className="mt-2 flex flex-wrap gap-2">
-                              {message.attachments.map((att, idx) => (
-                                <div
-                                  key={idx}
-                                  className="flex items-center gap-2 p-2 rounded bg-background/20"
+                              {/* Channel, Sender, and Delivery Status */}
+                              <div className="flex items-center gap-2 mb-2 flex-wrap">
+                                {/* Channel Icon */}
+                                <Badge
+                                  variant="outline"
+                                  className={`text-xs ${
+                                    message.direction === "inbound"
+                                      ? "bg-background"
+                                      : "bg-primary-foreground/20 border-primary-foreground/30"
+                                  }`}
                                 >
-                                  <ImageIcon className="h-4 w-4" />
-                                  <span className="text-xs">Photo {idx + 1}</span>
+                                  {message.channel === "email" && (
+                                    <Mail className="h-3 w-3 mr-1" />
+                                  )}
+                                  {message.channel === "sms" && (
+                                    <MessageSquare className="h-3 w-3 mr-1" />
+                                  )}
+                                  {message.channel === "in-app" && (
+                                    <MessageSquare className="h-3 w-3 mr-1" />
+                                  )}
+                                  {message.type === "booking_confirmation" && (
+                                    <Calendar className="h-3 w-3 mr-1" />
+                                  )}
+                                  {message.type === "report_card" && (
+                                    <FileText className="h-3 w-3 mr-1" />
+                                  )}
+                                  {message.channel ||
+                                    (message.type === "booking_confirmation"
+                                      ? "Booking"
+                                      : message.type === "report_card"
+                                        ? "Report Card"
+                                        : "Message")}
+                                </Badge>
+
+                                {/* Sender Label */}
+                                <span className="text-xs opacity-80">
+                                  {message.senderLabel ||
+                                    (message.direction === "inbound"
+                                      ? message.staffName || "Facility"
+                                      : "You")}
+                                </span>
+
+                                {/* Delivery Status (for SMS/Email) */}
+                                {message.deliveryStatus &&
+                                  message.direction === "outbound" && (
+                                    <div className="flex items-center gap-1 text-xs opacity-70">
+                                      {message.deliveryStatus ===
+                                        "delivered" && (
+                                        <>
+                                          <CheckCircle2 className="h-3 w-3" />
+                                          <span>Delivered</span>
+                                        </>
+                                      )}
+                                      {message.deliveryStatus === "read" && (
+                                        <>
+                                          <CheckCircle2 className="h-3 w-3" />
+                                          <span>Read</span>
+                                        </>
+                                      )}
+                                      {message.deliveryStatus === "sent" && (
+                                        <>
+                                          <Clock className="h-3 w-3" />
+                                          <span>Sent</span>
+                                        </>
+                                      )}
+                                      {message.deliveryStatus === "failed" && (
+                                        <>
+                                          <XCircle className="h-3 w-3" />
+                                          <span>Failed</span>
+                                        </>
+                                      )}
+                                    </div>
+                                  )}
+                              </div>
+
+                              {/* Timestamp */}
+                              <div className="text-xs opacity-70 mb-2">
+                                {formatTimestamp(message.timestamp)}
+                              </div>
+
+                              {/* Booking Context Link */}
+                              {message.bookingId && (
+                                <div className="mb-2">
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="text-xs"
+                                    onClick={() =>
+                                      router.push(
+                                        `/customer/bookings?booking=${message.bookingId}`,
+                                      )
+                                    }
+                                  >
+                                    <Calendar className="h-3 w-3 mr-1" />
+                                    Booking:{" "}
+                                    {bookings.find(
+                                      (b) => b.id === message.bookingId,
+                                    )?.service || "View Details"}
+                                  </Button>
                                 </div>
-                              ))}
+                              )}
+
+                              <h4 className="font-semibold mb-1">
+                                {message.subject}
+                              </h4>
+                              <p className="text-sm whitespace-pre-wrap">
+                                {message.content}
+                              </p>
+                              {message.attachments &&
+                                message.attachments.length > 0 && (
+                                  <div className="mt-2 flex flex-wrap gap-2">
+                                    {message.attachments.map((att, idx) => (
+                                      <div
+                                        key={idx}
+                                        className="flex items-center gap-2 p-2 rounded bg-background/20"
+                                      >
+                                        <ImageIcon className="h-4 w-4" />
+                                        <span className="text-xs">
+                                          Photo {idx + 1}
+                                        </span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                            </div>
+                          </div>
+                          {message.direction === "outbound" && (
+                            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0">
+                              <MessageSquare className="h-4 w-4 text-primary-foreground" />
                             </div>
                           )}
                         </div>
-                      </div>
-                      {message.direction === "outbound" && (
-                        <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0">
-                          <MessageSquare className="h-4 w-4 text-primary-foreground" />
+                      ))}
+                    </div>
+                  </ScrollArea>
+
+                  {/* Message Input */}
+                  <div className="p-4 border-t bg-background">
+                    <div className="max-w-3xl mx-auto space-y-2">
+                      {/* Attachments Preview */}
+                      {attachments.length > 0 && (
+                        <div className="flex flex-wrap gap-2 pb-2">
+                          {attachments.map((att) => (
+                            <div
+                              key={att.id}
+                              className="flex items-center gap-2 px-2 py-1 bg-muted rounded text-xs"
+                            >
+                              <Paperclip className="h-3 w-3" />
+                              <span className="max-w-[150px] truncate">
+                                {att.name}
+                              </span>
+                              <span className="text-muted-foreground">
+                                ({(att.size / 1024).toFixed(1)} KB)
+                              </span>
+                            </div>
+                          ))}
                         </div>
                       )}
-                    </div>
-                  ))}
-                  </div>
-                </ScrollArea>
 
-                {/* Message Input */}
-                <div className="p-4 border-t bg-background">
-                  <div className="max-w-3xl mx-auto space-y-2">
-                    {/* Attachments Preview */}
-                    {attachments.length > 0 && (
-                      <div className="flex flex-wrap gap-2 pb-2">
-                        {attachments.map((att) => (
-                          <div
-                            key={att.id}
-                            className="flex items-center gap-2 px-2 py-1 bg-muted rounded text-xs"
-                          >
-                            <Paperclip className="h-3 w-3" />
-                            <span className="max-w-[150px] truncate">{att.name}</span>
-                            <span className="text-muted-foreground">
-                              ({(att.size / 1024).toFixed(1)} KB)
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    
-                    <div className="flex gap-2">
-                      <div className="flex-1">
-                        <Textarea
-                          placeholder="Type your message..."
-                          value={newMessage}
-                          onChange={(e) => setNewMessage(e.target.value)}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter" && !e.shiftKey) {
-                              e.preventDefault();
-                              handleSendMessage();
+                      <div className="flex gap-2">
+                        <div className="flex-1">
+                          <Textarea
+                            placeholder="Type your message..."
+                            value={newMessage}
+                            onChange={(e) => setNewMessage(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter" && !e.shiftKey) {
+                                e.preventDefault();
+                                handleSendMessage();
+                              }
+                            }}
+                            rows={3}
+                            className="resize-none"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <MessageAttachmentUpload
+                            attachments={attachments}
+                            onAttachmentsChange={setAttachments}
+                          />
+                          <Button
+                            onClick={handleSendMessage}
+                            disabled={
+                              !newMessage.trim() && attachments.length === 0
                             }
-                          }}
-                          rows={3}
-                          className="resize-none"
-                        />
-                      </div>
-                      <div className="flex flex-col gap-2">
-                        <MessageAttachmentUpload
-                          attachments={attachments}
-                          onAttachmentsChange={setAttachments}
-                        />
-                        <Button onClick={handleSendMessage} disabled={!newMessage.trim() && attachments.length === 0}>
-                          <Send className="h-4 w-4" />
-                        </Button>
+                          >
+                            <Send className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
                 </TabsContent>
 
                 {/* Reminders Tab */}
                 <TabsContent value="reminders" className="flex-1 m-0">
-                <ScrollArea className="flex-1 p-4">
-                  {reminderMessages.length === 0 ? (
-                    <div className="text-center py-12">
-                      <Bell className="h-12 w-12 mx-auto text-muted-foreground mb-4 opacity-50" />
-                      <p className="font-semibold">No reminders</p>
-                      <p className="text-sm text-muted-foreground">
-                        Booking reminders will appear here
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="space-y-4 max-w-3xl mx-auto">
-                      {reminderMessages.map((message) => (
-                        <Card key={message.id}>
-                          <CardContent className="p-4">
-                            <div className="flex items-start gap-3">
-                              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                                <Bell className="h-5 w-5 text-primary" />
-                              </div>
-                              <div className="flex-1">
-                                <div className="flex items-center gap-2 mb-1">
-                                  <Badge variant="outline" className="text-xs">
-                                    <Bell className="h-3 w-3 mr-1" />
-                                    Reminder
-                                  </Badge>
-                                  {message.bookingId && (
-                                    <Button
-                                      variant="ghost"
-                                      size="sm"
-                                      className="text-xs h-6"
-                                      onClick={() => router.push(`/customer/bookings?booking=${message.bookingId}`)}
-                                    >
-                                      <Calendar className="h-3 w-3 mr-1" />
-                                      View Booking
-                                    </Button>
-                                  )}
+                  <ScrollArea className="flex-1 p-4">
+                    {reminderMessages.length === 0 ? (
+                      <div className="text-center py-12">
+                        <Bell className="h-12 w-12 mx-auto text-muted-foreground mb-4 opacity-50" />
+                        <p className="font-semibold">No reminders</p>
+                        <p className="text-sm text-muted-foreground">
+                          Booking reminders will appear here
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="space-y-4 max-w-3xl mx-auto">
+                        {reminderMessages.map((message) => (
+                          <Card key={message.id}>
+                            <CardContent className="p-4">
+                              <div className="flex items-start gap-3">
+                                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                                  <Bell className="h-5 w-5 text-primary" />
                                 </div>
-                                <h4 className="font-semibold mb-1">{message.subject}</h4>
-                                <p className="text-sm text-muted-foreground mb-2">{message.content}</p>
-                                <p className="text-xs text-muted-foreground">
-                                  {formatTimestamp(message.timestamp)}
-                                </p>
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <Badge
+                                      variant="outline"
+                                      className="text-xs"
+                                    >
+                                      <Bell className="h-3 w-3 mr-1" />
+                                      Reminder
+                                    </Badge>
+                                    {message.bookingId && (
+                                      <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="text-xs h-6"
+                                        onClick={() =>
+                                          router.push(
+                                            `/customer/bookings?booking=${message.bookingId}`,
+                                          )
+                                        }
+                                      >
+                                        <Calendar className="h-3 w-3 mr-1" />
+                                        View Booking
+                                      </Button>
+                                    )}
+                                  </div>
+                                  <h4 className="font-semibold mb-1">
+                                    {message.subject}
+                                  </h4>
+                                  <p className="text-sm text-muted-foreground mb-2">
+                                    {message.content}
+                                  </p>
+                                  <p className="text-xs text-muted-foreground">
+                                    {formatTimestamp(message.timestamp)}
+                                  </p>
+                                </div>
                               </div>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  )}
-                </ScrollArea>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
+                    )}
+                  </ScrollArea>
                 </TabsContent>
               </Tabs>
             </>
@@ -669,7 +777,9 @@ export default function CustomerMessagesPage() {
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center">
                 <MessageSquare className="h-16 w-16 mx-auto text-muted-foreground mb-4 opacity-50" />
-                <h3 className="text-lg font-semibold mb-2">Select a conversation</h3>
+                <h3 className="text-lg font-semibold mb-2">
+                  Select a conversation
+                </h3>
                 <p className="text-muted-foreground">
                   Choose a facility from the sidebar to view messages
                 </p>

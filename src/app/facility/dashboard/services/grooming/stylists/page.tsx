@@ -47,7 +47,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { stylists, stylistAvailability, type Stylist, groomingAppointments } from "@/data/grooming";
+import {
+  stylists,
+  stylistAvailability,
+  type Stylist,
+  groomingAppointments,
+} from "@/data/grooming";
 import { toast } from "sonner";
 import { calculateStylistPerformance } from "@/lib/stylist-performance";
 
@@ -90,11 +95,16 @@ export default function StylistsPage() {
   });
 
   // State for groomer visibility (separate from form data for quick toggles)
-  const [groomerVisibility, setGroomerVisibility] = useState<Record<string, boolean>>(
-    stylists.reduce((acc, s) => {
-      acc[s.id] = (s as any).visibleOnline !== false; // Default to true if not set
-      return acc;
-    }, {} as Record<string, boolean>)
+  const [groomerVisibility, setGroomerVisibility] = useState<
+    Record<string, boolean>
+  >(
+    stylists.reduce(
+      (acc, s) => {
+        acc[s.id] = (s as any).visibleOnline !== false; // Default to true if not set
+        return acc;
+      },
+      {} as Record<string, boolean>,
+    ),
   );
 
   const [availabilityData, setAvailabilityData] = useState<
@@ -111,9 +121,15 @@ export default function StylistsPage() {
 
   // Calculate performance metrics for all stylists
   const stylistMetrics = useMemo(() => {
-    const metricsMap = new Map<string, ReturnType<typeof calculateStylistPerformance>>();
+    const metricsMap = new Map<
+      string,
+      ReturnType<typeof calculateStylistPerformance>
+    >();
     stylists.forEach((stylist) => {
-      const metrics = calculateStylistPerformance(stylist.id, groomingAppointments);
+      const metrics = calculateStylistPerformance(
+        stylist.id,
+        groomingAppointments,
+      );
       metricsMap.set(stylist.id, metrics);
     });
     return metricsMap;
@@ -129,18 +145,19 @@ export default function StylistsPage() {
     stylists.reduce((sum, s) => sum + s.rating, 0) / stylists.length;
   const avgExperience =
     stylists.reduce((sum, s) => sum + s.yearsExperience, 0) / stylists.length;
-  
+
   // Performance stats
   const totalRevenue = Array.from(stylistMetrics.values()).reduce(
     (sum, m) => sum + m.totalRevenue,
     0,
   );
-  const avgCancellationRate = stylists.length > 0
-    ? Array.from(stylistMetrics.values()).reduce(
-        (sum, m) => sum + m.cancellationRate,
-        0,
-      ) / stylists.length
-    : 0;
+  const avgCancellationRate =
+    stylists.length > 0
+      ? Array.from(stylistMetrics.values()).reduce(
+          (sum, m) => sum + m.cancellationRate,
+          0,
+        ) / stylists.length
+      : 0;
 
   const handleAddNew = () => {
     setEditingStylist(null);
@@ -181,7 +198,7 @@ export default function StylistsPage() {
     }));
     // TODO: Save to backend
     toast.success(
-      `Groomer ${groomerVisibility[stylistId] ? "hidden from" : "shown on"} online booking`
+      `Groomer ${groomerVisibility[stylistId] ? "hidden from" : "shown on"} online booking`,
     );
   };
 
@@ -358,7 +375,15 @@ export default function StylistsPage() {
         const rate = metrics?.cancellationRate || 0;
         return (
           <div className="flex items-center gap-2">
-            <span className={rate > 15 ? "text-red-600 font-medium" : rate > 10 ? "text-orange-600" : "text-green-600"}>
+            <span
+              className={
+                rate > 15
+                  ? "text-red-600 font-medium"
+                  : rate > 10
+                    ? "text-orange-600"
+                    : "text-green-600"
+              }
+            >
               {rate}%
             </span>
             {metrics && (
@@ -511,16 +536,14 @@ export default function StylistsPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Total Revenue
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              ${totalRevenue.toFixed(2)}
-            </div>
-            <p className="text-xs text-muted-foreground">From completed appointments</p>
+            <div className="text-2xl font-bold">${totalRevenue.toFixed(2)}</div>
+            <p className="text-xs text-muted-foreground">
+              From completed appointments
+            </p>
           </CardContent>
         </Card>
         <Card>
@@ -685,7 +708,8 @@ export default function StylistsPage() {
               <div className="space-y-0.5">
                 <Label htmlFor="visibleOnline">Visible in Online Booking</Label>
                 <p className="text-sm text-muted-foreground">
-                  Toggle to show/hide this groomer from customer booking options. New hires can be hidden until trained.
+                  Toggle to show/hide this groomer from customer booking
+                  options. New hires can be hidden until trained.
                 </p>
               </div>
               <Switch

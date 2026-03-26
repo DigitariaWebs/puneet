@@ -90,15 +90,15 @@ import {
   type PaymentMethod,
 } from "@/data/retail";
 import { processFiservRefund } from "@/lib/fiserv-payment-service";
-import { 
-  getYipyyPayTransactionByTransactionId, 
+import {
+  getYipyyPayTransactionByTransactionId,
   getCloverTerminalTransactionByTransactionId,
   getFiservConfig,
 } from "@/data/fiserv-payments";
 import { useFacilityRole } from "@/hooks/use-facility-role";
 import { hasPermission, getCurrentUserId } from "@/lib/role-utils";
-import { 
-  getPaymentMethodLabel, 
+import {
+  getPaymentMethodLabel,
   formatTransactionTimestamp,
   getLocationName,
 } from "@/lib/payment-method-utils";
@@ -112,11 +112,12 @@ export default function OrdersPage() {
   const currentUserId = getCurrentUserId() || "staff-001";
   const isManager = facilityRole === "manager" || facilityRole === "owner";
   const canOverrideRefund =
-    hasPermission(facilityRole, "process_refund", currentUserId || undefined) && isManager;
-  
-  const [selectedTab, setSelectedTab] = useState<"orders" | "suppliers" | "transactions">(
-    "orders",
-  );
+    hasPermission(facilityRole, "process_refund", currentUserId || undefined) &&
+    isManager;
+
+  const [selectedTab, setSelectedTab] = useState<
+    "orders" | "suppliers" | "transactions"
+  >("orders");
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [isSupplierModalOpen, setIsSupplierModalOpen] = useState(false);
   const [isViewOrderModalOpen, setIsViewOrderModalOpen] = useState(false);
@@ -125,7 +126,8 @@ export default function OrdersPage() {
   const [selectedOrder, setSelectedOrder] = useState<PurchaseOrder | null>(
     null,
   );
-  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<Transaction | null>(null);
   const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
   const [receivingForm, setReceivingForm] = useState<{
     items: Array<{
@@ -137,7 +139,7 @@ export default function OrdersPage() {
       newReceivedQuantity: number;
     }>;
   }>({ items: [] });
-  
+
   // Return form state
   const [returnForm, setReturnForm] = useState<{
     items: ReturnItem[];
@@ -251,33 +253,50 @@ export default function OrdersPage() {
 
     // Check if refund method is enabled
     if (refundMethods) {
-      if (returnForm.refundMethod === "original_payment" && !refundMethods.originalPayment) {
-        alert("Original payment refunds are disabled. Please select another refund method.");
+      if (
+        returnForm.refundMethod === "original_payment" &&
+        !refundMethods.originalPayment
+      ) {
+        alert(
+          "Original payment refunds are disabled. Please select another refund method.",
+        );
         return;
       }
       if (returnForm.refundMethod === "cash" && !refundMethods.cash) {
-        alert("Cash refunds are disabled. Please select another refund method.");
+        alert(
+          "Cash refunds are disabled. Please select another refund method.",
+        );
         return;
       }
-      if (returnForm.refundMethod === "store_credit" && !refundMethods.storeCredit) {
-        alert("Store credit refunds are disabled. Please select another refund method.");
+      if (
+        returnForm.refundMethod === "store_credit" &&
+        !refundMethods.storeCredit
+      ) {
+        alert(
+          "Store credit refunds are disabled. Please select another refund method.",
+        );
         return;
       }
       if (returnForm.refundMethod === "gift_card" && !refundMethods.giftCard) {
-        alert("Gift card refunds are disabled. Please select another refund method.");
+        alert(
+          "Gift card refunds are disabled. Please select another refund method.",
+        );
         return;
       }
       if (returnForm.refundMethod === "custom" && !refundMethods.custom) {
-        alert("Custom payment method refunds are disabled. Please select another refund method.");
+        alert(
+          "Custom payment method refunds are disabled. Please select another refund method.",
+        );
         return;
       }
     }
 
     const refundTotal = returnForm.items.reduce((sum, item) => {
       const subtotal = item.unitPrice * item.quantity;
-      const discountAmount = item.discountType === "percent"
-        ? (subtotal * item.discount) / 100
-        : item.discount;
+      const discountAmount =
+        item.discountType === "percent"
+          ? (subtotal * item.discount) / 100
+          : item.discount;
       return sum + subtotal - discountAmount;
     }, 0);
 
@@ -285,24 +304,34 @@ export default function OrdersPage() {
     if (refundRules?.managerApprovalRequired) {
       const threshold = refundRules.managerApprovalThreshold || 0;
       if (refundTotal > threshold && !canOverrideRefund) {
-        alert(`Manager approval required for refunds over $${threshold.toFixed(2)}. Current refund amount: $${refundTotal.toFixed(2)}. Please contact a manager.`);
+        alert(
+          `Manager approval required for refunds over $${threshold.toFixed(2)}. Current refund amount: $${refundTotal.toFixed(2)}. Please contact a manager.`,
+        );
         return;
       }
     }
 
     // Validate that at least one item has a reason (if required)
     if (refundRules?.requireReason) {
-      const itemsWithoutReason = returnForm.items.filter(item => !item.reason || item.reason === "other" && !item.reasonNotes);
+      const itemsWithoutReason = returnForm.items.filter(
+        (item) =>
+          !item.reason || (item.reason === "other" && !item.reasonNotes),
+      );
       if (itemsWithoutReason.length > 0) {
-        alert("Return reason is required for all items. Please select a reason for each item.");
+        alert(
+          "Return reason is required for all items. Please select a reason for each item.",
+        );
         return;
       }
     } else {
       // Recommended but not required
-      const itemsWithoutReason = returnForm.items.filter(item => !item.reason || item.reason === "other" && !item.reasonNotes);
+      const itemsWithoutReason = returnForm.items.filter(
+        (item) =>
+          !item.reason || (item.reason === "other" && !item.reasonNotes),
+      );
       if (itemsWithoutReason.length > 0) {
         const proceed = confirm(
-          "Warning: Some items don't have a return reason specified. It's recommended to provide a reason for audit purposes. Do you want to continue anyway?"
+          "Warning: Some items don't have a return reason specified. It's recommended to provide a reason for audit purposes. Do you want to continue anyway?",
         );
         if (!proceed) return;
       }
@@ -310,12 +339,18 @@ export default function OrdersPage() {
 
     // Validate that notes are provided (if required)
     if (refundRules?.requireNotes && !returnForm.notes) {
-      alert("Notes are required for all refunds. Please provide notes explaining the refund.");
+      alert(
+        "Notes are required for all refunds. Please provide notes explaining the refund.",
+      );
       return;
-    } else if (!refundRules?.requireNotes && returnForm.refundMethod !== "original_payment" && !returnForm.notes) {
+    } else if (
+      !refundRules?.requireNotes &&
+      returnForm.refundMethod !== "original_payment" &&
+      !returnForm.notes
+    ) {
       // Recommended but not required for overrides
       const proceed = confirm(
-        "Warning: No notes provided for this refund override. It's recommended to document why the refund method was changed. Do you want to continue anyway?"
+        "Warning: No notes provided for this refund override. It's recommended to document why the refund method was changed. Do you want to continue anyway?",
       );
       if (!proceed) return;
     }
@@ -326,40 +361,62 @@ export default function OrdersPage() {
     // Process refund via original payment method if applicable
     if (returnForm.refundMethod === "original_payment") {
       // Handle split payments - refund proportionally or last payment first
-      if (selectedTransaction.paymentMethod === "split" && selectedTransaction.payments && selectedTransaction.payments.length > 1) {
+      if (
+        selectedTransaction.paymentMethod === "split" &&
+        selectedTransaction.payments &&
+        selectedTransaction.payments.length > 1
+      ) {
         // Get refund policy from facility settings
         const fiservConfig = getFiservConfig(facilityId);
-        const refundPolicy = fiservConfig?.processingSettings?.splitPaymentRefundPolicy || "last_payment_first";
-        
+        const refundPolicy =
+          fiservConfig?.processingSettings?.splitPaymentRefundPolicy ||
+          "last_payment_first";
+
         if (refundPolicy === "last_payment_first") {
           // Refund from last payment first, then work backwards
           let remainingRefund = refundTotal;
-          const refunds: Array<{ method: PaymentMethod; amount: number; transactionId?: string }> = [];
-          
-          for (let i = selectedTransaction.payments.length - 1; i >= 0 && remainingRefund > 0; i--) {
+          const refunds: Array<{
+            method: PaymentMethod;
+            amount: number;
+            transactionId?: string;
+          }> = [];
+
+          for (
+            let i = selectedTransaction.payments.length - 1;
+            i >= 0 && remainingRefund > 0;
+            i--
+          ) {
             const payment = selectedTransaction.payments[i];
             const refundAmount = Math.min(remainingRefund, payment.amount);
-            
+
             // Process refund based on payment method
-            if ((payment.method === "credit" || payment.method === "debit") && selectedTransaction.yipyyPayTransactionId) {
+            if (
+              (payment.method === "credit" || payment.method === "debit") &&
+              selectedTransaction.yipyyPayTransactionId
+            ) {
               // Refund via Yipyy Pay (iPhone)
-              const yipyyPayTxn = getYipyyPayTransactionByTransactionId(selectedTransaction.yipyyPayTransactionId);
+              const yipyyPayTxn = getYipyyPayTransactionByTransactionId(
+                selectedTransaction.yipyyPayTransactionId,
+              );
               if (yipyyPayTxn) {
                 const fiservRefundRequest = {
                   facilityId,
                   originalTransactionId: selectedTransaction.id,
                   fiservTransactionId: yipyyPayTxn.yipyyTransactionId,
                   amount: refundAmount,
-                  reason: returnForm.notes || "Refund for return (split payment)",
+                  reason:
+                    returnForm.notes || "Refund for return (split payment)",
                   metadata: {
-                    returnReason: returnForm.items[0]?.reason || "customer_request",
+                    returnReason:
+                      returnForm.items[0]?.reason || "customer_request",
                     splitPaymentIndex: i,
                     refundPolicy: "last_payment_first",
                   },
                 };
-                
+
                 try {
-                  const fiservRefundResponse = await processFiservRefund(fiservRefundRequest);
+                  const fiservRefundResponse =
+                    await processFiservRefund(fiservRefundRequest);
                   if (fiservRefundResponse.success) {
                     refunds.push({
                       method: payment.method,
@@ -371,37 +428,49 @@ export default function OrdersPage() {
                   } else {
                     refundError = `Payment ${i + 1} refund failed: ${fiservRefundResponse.error?.message || "Unknown error"}`;
                     if (!canOverrideRefund) {
-                      alert(`Refund failed: ${refundError}. Please contact a manager for override options.`);
+                      alert(
+                        `Refund failed: ${refundError}. Please contact a manager for override options.`,
+                      );
                       return;
                     }
                   }
                 } catch (error) {
                   refundError = `Payment ${i + 1} refund error: ${error instanceof Error ? error.message : "Unknown error"}`;
                   if (!canOverrideRefund) {
-                    alert(`Refund failed: ${refundError}. Please contact a manager for override options.`);
+                    alert(
+                      `Refund failed: ${refundError}. Please contact a manager for override options.`,
+                    );
                     return;
                   }
                 }
               }
-            } else if ((payment.method === "credit" || payment.method === "debit") && selectedTransaction.cloverTransactionId) {
+            } else if (
+              (payment.method === "credit" || payment.method === "debit") &&
+              selectedTransaction.cloverTransactionId
+            ) {
               // Refund via Clover Terminal
-              const cloverTxn = getCloverTerminalTransactionByTransactionId(selectedTransaction.cloverTransactionId);
+              const cloverTxn = getCloverTerminalTransactionByTransactionId(
+                selectedTransaction.cloverTransactionId,
+              );
               if (cloverTxn) {
                 const fiservRefundRequest = {
                   facilityId,
                   originalTransactionId: selectedTransaction.id,
                   fiservTransactionId: cloverTxn.cloverTransactionId, // Clover transaction ID is used as Fiserv transaction ID
                   amount: refundAmount,
-                  reason: returnForm.notes || "Refund for return (split payment)",
+                  reason:
+                    returnForm.notes || "Refund for return (split payment)",
                   metadata: {
-                    returnReason: returnForm.items[0]?.reason || "customer_request",
+                    returnReason:
+                      returnForm.items[0]?.reason || "customer_request",
                     splitPaymentIndex: i,
                     refundPolicy: "last_payment_first",
                   },
                 };
-                
+
                 try {
-                  const fiservRefundResponse = await processFiservRefund(fiservRefundRequest);
+                  const fiservRefundResponse =
+                    await processFiservRefund(fiservRefundRequest);
                   if (fiservRefundResponse.success) {
                     refunds.push({
                       method: payment.method,
@@ -413,19 +482,26 @@ export default function OrdersPage() {
                   } else {
                     refundError = `Payment ${i + 1} refund failed: ${fiservRefundResponse.error?.message || "Unknown error"}`;
                     if (!canOverrideRefund) {
-                      alert(`Refund failed: ${refundError}. Please contact a manager for override options.`);
+                      alert(
+                        `Refund failed: ${refundError}. Please contact a manager for override options.`,
+                      );
                       return;
                     }
                   }
                 } catch (error) {
                   refundError = `Payment ${i + 1} refund error: ${error instanceof Error ? error.message : "Unknown error"}`;
                   if (!canOverrideRefund) {
-                    alert(`Refund failed: ${refundError}. Please contact a manager for override options.`);
+                    alert(
+                      `Refund failed: ${refundError}. Please contact a manager for override options.`,
+                    );
                     return;
                   }
                 }
               }
-            } else if ((payment.method === "credit" || payment.method === "debit") && selectedTransaction.fiservTransactionId) {
+            } else if (
+              (payment.method === "credit" || payment.method === "debit") &&
+              selectedTransaction.fiservTransactionId
+            ) {
               // Refund via Fiserv
               const fiservRefundRequest = {
                 facilityId,
@@ -434,14 +510,16 @@ export default function OrdersPage() {
                 amount: refundAmount,
                 reason: returnForm.notes || "Refund for return (split payment)",
                 metadata: {
-                  returnReason: returnForm.items[0]?.reason || "customer_request",
+                  returnReason:
+                    returnForm.items[0]?.reason || "customer_request",
                   splitPaymentIndex: i,
                   refundPolicy: "last_payment_first",
                 },
               };
-              
+
               try {
-                const fiservRefundResponse = await processFiservRefund(fiservRefundRequest);
+                const fiservRefundResponse =
+                  await processFiservRefund(fiservRefundRequest);
                 if (fiservRefundResponse.success) {
                   refunds.push({
                     method: payment.method,
@@ -453,18 +531,26 @@ export default function OrdersPage() {
                 } else {
                   refundError = `Payment ${i + 1} refund failed: ${fiservRefundResponse.error?.message || "Unknown error"}`;
                   if (!canOverrideRefund) {
-                    alert(`Refund failed: ${refundError}. Please contact a manager for override options.`);
+                    alert(
+                      `Refund failed: ${refundError}. Please contact a manager for override options.`,
+                    );
                     return;
                   }
                 }
               } catch (error) {
                 refundError = `Payment ${i + 1} refund error: ${error instanceof Error ? error.message : "Unknown error"}`;
                 if (!canOverrideRefund) {
-                  alert(`Refund failed: ${refundError}. Please contact a manager for override options.`);
+                  alert(
+                    `Refund failed: ${refundError}. Please contact a manager for override options.`,
+                  );
                   return;
                 }
               }
-            } else if (payment.method === "cash" || payment.method === "store_credit" || payment.method === "gift_card") {
+            } else if (
+              payment.method === "cash" ||
+              payment.method === "store_credit" ||
+              payment.method === "gift_card"
+            ) {
               // Cash/store credit/gift card - no processing needed
               refunds.push({
                 method: payment.method,
@@ -474,20 +560,31 @@ export default function OrdersPage() {
               refundProcessed = true;
             }
           }
-          
+
           // Update audit notes with split payment refund details
           if (refunds.length > 0) {
-            fiservRefundId = refunds.map(r => r.transactionId).filter(Boolean).join(", ");
+            fiservRefundId = refunds
+              .map((r) => r.transactionId)
+              .filter(Boolean)
+              .join(", ");
           }
         } else {
           // Proportional refund - refund each payment method proportionally
-          const totalOriginal = selectedTransaction.payments.reduce((sum, p) => sum + p.amount, 0);
-          const refunds: Array<{ method: PaymentMethod; amount: number; transactionId?: string }> = [];
-          
+          const totalOriginal = selectedTransaction.payments.reduce(
+            (sum, p) => sum + p.amount,
+            0,
+          );
+          const refunds: Array<{
+            method: PaymentMethod;
+            amount: number;
+            transactionId?: string;
+          }> = [];
+
           for (let i = 0; i < selectedTransaction.payments.length; i++) {
             const payment = selectedTransaction.payments[i];
-            const proportionalRefund = (payment.amount / totalOriginal) * refundTotal;
-            
+            const proportionalRefund =
+              (payment.amount / totalOriginal) * refundTotal;
+
             // Process refund based on payment method (similar logic as above)
             // ... (similar to last_payment_first logic but proportional)
             // For brevity, using same logic structure
@@ -497,15 +594,20 @@ export default function OrdersPage() {
             });
             refundProcessed = true;
           }
-          
+
           if (refunds.length > 0) {
-            fiservRefundId = refunds.map(r => r.transactionId).filter(Boolean).join(", ");
+            fiservRefundId = refunds
+              .map((r) => r.transactionId)
+              .filter(Boolean)
+              .join(", ");
           }
         }
       }
       // Check if original payment was via Yipyy Pay (iPhone) - single payment
       else if (selectedTransaction.yipyyPayTransactionId) {
-        const yipyyPayTxn = getYipyyPayTransactionByTransactionId(selectedTransaction.yipyyPayTransactionId);
+        const yipyyPayTxn = getYipyyPayTransactionByTransactionId(
+          selectedTransaction.yipyyPayTransactionId,
+        );
         if (yipyyPayTxn) {
           // Process refund through Fiserv (Yipyy Pay uses Fiserv backend)
           const fiservRefundRequest = {
@@ -519,24 +621,30 @@ export default function OrdersPage() {
               yipyyPayTransactionId: selectedTransaction.yipyyPayTransactionId,
             },
           };
-          
+
           try {
-            const fiservRefundResponse = await processFiservRefund(fiservRefundRequest);
+            const fiservRefundResponse =
+              await processFiservRefund(fiservRefundRequest);
             if (fiservRefundResponse.success) {
               fiservRefundId = fiservRefundResponse.fiservRefundId;
               refundProcessed = true;
             } else {
-              refundError = fiservRefundResponse.error?.message || "Fiserv refund failed";
+              refundError =
+                fiservRefundResponse.error?.message || "Fiserv refund failed";
               // If refund fails and user is manager, allow override
               if (!canOverrideRefund) {
-                alert(`Refund failed: ${refundError}. Please contact a manager for override options.`);
+                alert(
+                  `Refund failed: ${refundError}. Please contact a manager for override options.`,
+                );
                 return;
               }
             }
           } catch (error) {
             refundError = "Error processing Fiserv refund";
             if (!canOverrideRefund) {
-              alert(`Refund failed: ${refundError}. Please contact a manager for override options.`);
+              alert(
+                `Refund failed: ${refundError}. Please contact a manager for override options.`,
+              );
               return;
             }
           }
@@ -544,7 +652,9 @@ export default function OrdersPage() {
       }
       // Check if original payment was via Clover Terminal
       else if (selectedTransaction.cloverTransactionId) {
-        const cloverTxn = getCloverTerminalTransactionByTransactionId(selectedTransaction.cloverTransactionId);
+        const cloverTxn = getCloverTerminalTransactionByTransactionId(
+          selectedTransaction.cloverTransactionId,
+        );
         if (cloverTxn) {
           // Process refund through Fiserv
           const fiservRefundRequest = {
@@ -558,23 +668,29 @@ export default function OrdersPage() {
               cloverTransactionId: selectedTransaction.cloverTransactionId,
             },
           };
-          
+
           try {
-            const fiservRefundResponse = await processFiservRefund(fiservRefundRequest);
+            const fiservRefundResponse =
+              await processFiservRefund(fiservRefundRequest);
             if (fiservRefundResponse.success) {
               fiservRefundId = fiservRefundResponse.fiservRefundId;
               refundProcessed = true;
             } else {
-              refundError = fiservRefundResponse.error?.message || "Fiserv refund failed";
+              refundError =
+                fiservRefundResponse.error?.message || "Fiserv refund failed";
               if (!canOverrideRefund) {
-                alert(`Refund failed: ${refundError}. Please contact a manager for override options.`);
+                alert(
+                  `Refund failed: ${refundError}. Please contact a manager for override options.`,
+                );
                 return;
               }
             }
           } catch (error) {
             refundError = "Error processing Fiserv refund";
             if (!canOverrideRefund) {
-              alert(`Refund failed: ${refundError}. Please contact a manager for override options.`);
+              alert(
+                `Refund failed: ${refundError}. Please contact a manager for override options.`,
+              );
               return;
             }
           }
@@ -593,23 +709,29 @@ export default function OrdersPage() {
             tokenizedCardId: selectedTransaction.tokenizedCardId,
           },
         };
-        
+
         try {
-          const fiservRefundResponse = await processFiservRefund(fiservRefundRequest);
+          const fiservRefundResponse =
+            await processFiservRefund(fiservRefundRequest);
           if (fiservRefundResponse.success) {
             fiservRefundId = fiservRefundResponse.fiservRefundId;
             refundProcessed = true;
           } else {
-            refundError = fiservRefundResponse.error?.message || "Fiserv refund failed";
+            refundError =
+              fiservRefundResponse.error?.message || "Fiserv refund failed";
             if (!canOverrideRefund) {
-              alert(`Refund failed: ${refundError}. Please contact a manager for override options.`);
+              alert(
+                `Refund failed: ${refundError}. Please contact a manager for override options.`,
+              );
               return;
             }
           }
         } catch (error) {
           refundError = "Error processing Fiserv refund";
           if (!canOverrideRefund) {
-            alert(`Refund failed: ${refundError}. Please contact a manager for override options.`);
+            alert(
+              `Refund failed: ${refundError}. Please contact a manager for override options.`,
+            );
             return;
           }
         }
@@ -619,13 +741,13 @@ export default function OrdersPage() {
         refundProcessed = true;
       }
     }
-    
+
     // Handle cash refund override (when refund method is explicitly set to cash)
     if (returnForm.refundMethod === "cash") {
       refundProcessed = true;
       // Cash refunds are immediate - no processing needed
     }
-    
+
     // Log method override if not original payment
     if (returnForm.refundMethod !== "original_payment" && canOverrideRefund) {
       logPaymentAction("method_override", {
@@ -675,7 +797,9 @@ export default function OrdersPage() {
     // Create return with audit trail
     const auditNotes = [
       `Refund Method: ${returnForm.refundMethod}`,
-      returnForm.refundMethod === "original_payment" && refundProcessed && fiservRefundId
+      returnForm.refundMethod === "original_payment" &&
+      refundProcessed &&
+      fiservRefundId
         ? `Fiserv Refund ID: ${fiservRefundId}`
         : null,
       returnForm.refundMethod === "original_payment" && refundError
@@ -685,12 +809,14 @@ export default function OrdersPage() {
         ? `Manager Override: ${returnForm.refundMethod}`
         : null,
       returnForm.notes ? `Notes: ${returnForm.notes}` : null,
-    ].filter(Boolean).join(" | ");
+    ]
+      .filter(Boolean)
+      .join(" | ");
 
     const newReturn = createReturn({
       transactionId: selectedTransaction.id,
       transactionNumber: selectedTransaction.transactionNumber,
-      items: returnForm.items.map(item => ({
+      items: returnForm.items.map((item) => ({
         ...item,
         reasonNotes: item.reasonNotes,
       })),
@@ -698,22 +824,33 @@ export default function OrdersPage() {
       refundTotal,
       refundMethod: returnForm.refundMethod,
       customRefundMethodName: returnForm.customRefundMethodName,
-      storeCreditAmount: returnForm.refundMethod === "store_credit" ? refundTotal : undefined,
-      giftCardNumber: returnForm.refundMethod === "gift_card" ? returnForm.giftCardNumber : undefined,
-      status: refundProcessed || returnForm.refundMethod !== "original_payment" ? "completed" : "pending",
+      storeCreditAmount:
+        returnForm.refundMethod === "store_credit" ? refundTotal : undefined,
+      giftCardNumber:
+        returnForm.refundMethod === "gift_card"
+          ? returnForm.giftCardNumber
+          : undefined,
+      status:
+        refundProcessed || returnForm.refundMethod !== "original_payment"
+          ? "completed"
+          : "pending",
       customerId: selectedTransaction.customerId,
       customerName: selectedTransaction.customerName,
       customerEmail: selectedTransaction.customerEmail,
       processedBy: "current-user-id", // TODO: Get from auth
       processedByName: "Current User", // TODO: Get from auth
       notes: auditNotes,
-      completedAt: refundProcessed || returnForm.refundMethod !== "original_payment" 
-        ? new Date().toISOString().slice(0, 19)
-        : undefined,
+      completedAt:
+        refundProcessed || returnForm.refundMethod !== "original_payment"
+          ? new Date().toISOString().slice(0, 19)
+          : undefined,
     });
 
     // Create store credit if applicable
-    if (returnForm.refundMethod === "store_credit" && selectedTransaction.customerId) {
+    if (
+      returnForm.refundMethod === "store_credit" &&
+      selectedTransaction.customerId
+    ) {
       createStoreCredit({
         customerId: selectedTransaction.customerId,
         customerName: selectedTransaction.customerName || "Customer",
@@ -740,14 +877,22 @@ export default function OrdersPage() {
     // Update transaction status and add return to transaction history
     if (selectedTransaction) {
       // Add return to transaction's returns array
-      const updatedReturns = [...(selectedTransaction.returns || []), newReturn];
+      const updatedReturns = [
+        ...(selectedTransaction.returns || []),
+        newReturn,
+      ];
       // Update transaction status if fully refunded
-      const totalRefunded = updatedReturns.reduce((sum, r) => sum + r.refundTotal, 0);
+      const totalRefunded = updatedReturns.reduce(
+        (sum, r) => sum + r.refundTotal,
+        0,
+      );
       if (totalRefunded >= selectedTransaction.total) {
         // Transaction is fully refunded
         // Note: In a real app, this would update the transaction in the database
         // For now, we just log it
-        console.log(`Transaction ${selectedTransaction.transactionNumber} fully refunded`);
+        console.log(
+          `Transaction ${selectedTransaction.transactionNumber} fully refunded`,
+        );
       }
     }
 
@@ -760,9 +905,10 @@ export default function OrdersPage() {
     setReturnForm({ items: [], refundMethod: "original_payment" });
 
     // Show success message
-    const successMessage = refundProcessed || returnForm.refundMethod !== "original_payment"
-      ? `Return processed successfully: ${newReturn.returnNumber}`
-      : `Return created but refund pending: ${newReturn.returnNumber}. ${refundError || "Please process refund manually."}`;
+    const successMessage =
+      refundProcessed || returnForm.refundMethod !== "original_payment"
+        ? `Return processed successfully: ${newReturn.returnNumber}`
+        : `Return created but refund pending: ${newReturn.returnNumber}. ${refundError || "Please process refund manually."}`;
     alert(successMessage);
   };
 
@@ -792,10 +938,7 @@ export default function OrdersPage() {
     setIsReceiveOrderModalOpen(true);
   };
 
-  const handleUpdateReceivingQuantity = (
-    sku: string,
-    quantity: number
-  ) => {
+  const handleUpdateReceivingQuantity = (sku: string, quantity: number) => {
     setReceivingForm((prev) => ({
       items: prev.items.map((item) =>
         item.sku === sku
@@ -803,10 +946,10 @@ export default function OrdersPage() {
               ...item,
               newReceivedQuantity: Math.max(
                 0,
-                Math.min(quantity, item.orderedQuantity)
+                Math.min(quantity, item.orderedQuantity),
               ),
             }
-          : item
+          : item,
       ),
     }));
   };
@@ -815,22 +958,25 @@ export default function OrdersPage() {
     if (!selectedOrder) return;
 
     const itemsToReceive = receivingForm.items.filter(
-      (item) => item.newReceivedQuantity > item.receivedQuantity
+      (item) => item.newReceivedQuantity > item.receivedQuantity,
     );
 
     if (itemsToReceive.length === 0) {
-      alert("No items to receive. Please increase quantities for at least one item.");
+      alert(
+        "No items to receive. Please increase quantities for at least one item.",
+      );
       return;
     }
 
     // Update stock levels and create inventory movements
     itemsToReceive.forEach((item) => {
-      const quantityToReceive = item.newReceivedQuantity - item.receivedQuantity;
-      
+      const quantityToReceive =
+        item.newReceivedQuantity - item.receivedQuantity;
+
       // Find product/variant
       let product: Product | undefined;
       let variant: ProductVariant | undefined;
-      
+
       if (item.variantId) {
         product = products.find((p) => p.id === item.productId);
         variant = product?.variants.find((v) => v.id === item.variantId);
@@ -878,7 +1024,7 @@ export default function OrdersPage() {
     // Update order items with new received quantities
     selectedOrder.items = selectedOrder.items.map((orderItem) => {
       const receivingItem = receivingForm.items.find(
-        (item) => item.sku === orderItem.sku
+        (item) => item.sku === orderItem.sku,
       );
       if (receivingItem) {
         return {
@@ -891,10 +1037,10 @@ export default function OrdersPage() {
 
     // Update order status based on received quantities
     const allItemsReceived = selectedOrder.items.every(
-      (item) => item.receivedQuantity >= item.quantity
+      (item) => item.receivedQuantity >= item.quantity,
     );
     const someItemsReceived = selectedOrder.items.some(
-      (item) => item.receivedQuantity > 0
+      (item) => item.receivedQuantity > 0,
     );
 
     if (allItemsReceived) {
@@ -911,7 +1057,7 @@ export default function OrdersPage() {
 
     // Show success message
     alert(
-      `Order ${selectedOrder.orderNumber} received successfully. Stock levels updated.`
+      `Order ${selectedOrder.orderNumber} received successfully. Stock levels updated.`,
     );
   };
 
@@ -1173,10 +1319,12 @@ export default function OrdersPage() {
       defaultVisible: false,
       render: (item) => {
         const txn = item as Transaction;
-        const transactionId = txn.yipyyPayTransactionId || 
-                             txn.cloverTransactionId || 
-                             txn.fiservTransactionId;
-        if (!transactionId) return <span className="text-muted-foreground">—</span>;
+        const transactionId =
+          txn.yipyyPayTransactionId ||
+          txn.cloverTransactionId ||
+          txn.fiservTransactionId;
+        if (!transactionId)
+          return <span className="text-muted-foreground">—</span>;
         return (
           <div className="flex flex-col">
             <span className="font-mono text-xs">{transactionId}</span>
@@ -1186,9 +1334,11 @@ export default function OrdersPage() {
             {txn.cloverTransactionId && (
               <span className="text-xs text-muted-foreground">Clover</span>
             )}
-            {txn.fiservTransactionId && !txn.yipyyPayTransactionId && !txn.cloverTransactionId && (
-              <span className="text-xs text-muted-foreground">Fiserv</span>
-            )}
+            {txn.fiservTransactionId &&
+              !txn.yipyyPayTransactionId &&
+              !txn.cloverTransactionId && (
+                <span className="text-xs text-muted-foreground">Fiserv</span>
+              )}
           </div>
         );
       },
@@ -1204,7 +1354,9 @@ export default function OrdersPage() {
           <div className="flex flex-col">
             <span className="font-medium">{txn.cashierName || "Unknown"}</span>
             {txn.cashierId && (
-              <span className="text-xs text-muted-foreground">ID: {txn.cashierId}</span>
+              <span className="text-xs text-muted-foreground">
+                ID: {txn.cashierId}
+              </span>
             )}
           </div>
         );
@@ -1298,8 +1450,8 @@ export default function OrdersPage() {
                 status === "completed"
                   ? "default"
                   : status === "refunded"
-                  ? "secondary"
-                  : "destructive"
+                    ? "secondary"
+                    : "destructive"
               }
             >
               {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -1449,7 +1601,9 @@ export default function OrdersPage() {
                     item.status === "ordered" ||
                     item.status === "partially_received") && (
                     <DropdownMenuItem
-                      onClick={() => handleOpenReceiveOrder(item as PurchaseOrder)}
+                      onClick={() =>
+                        handleOpenReceiveOrder(item as PurchaseOrder)
+                      }
                     >
                       <PackageCheck className="h-4 w-4 mr-2" />
                       Receive Order
@@ -1978,7 +2132,8 @@ export default function OrdersPage() {
           <DialogHeader>
             <DialogTitle>Return / Refund</DialogTitle>
             <DialogDescription>
-              Process a return and refund for transaction {selectedTransaction?.transactionNumber}
+              Process a return and refund for transaction{" "}
+              {selectedTransaction?.transactionNumber}
             </DialogDescription>
           </DialogHeader>
 
@@ -1989,23 +2144,33 @@ export default function OrdersPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm text-muted-foreground">Transaction</p>
-                    <p className="font-medium font-mono">{selectedTransaction.transactionNumber}</p>
+                    <p className="font-medium font-mono">
+                      {selectedTransaction.transactionNumber}
+                    </p>
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Date</p>
                     <p className="font-medium">
-                      {new Date(selectedTransaction.createdAt).toLocaleDateString()}
+                      {new Date(
+                        selectedTransaction.createdAt,
+                      ).toLocaleDateString()}
                     </p>
                   </div>
                   {selectedTransaction.customerName && (
                     <div>
                       <p className="text-sm text-muted-foreground">Customer</p>
-                      <p className="font-medium">{selectedTransaction.customerName}</p>
+                      <p className="font-medium">
+                        {selectedTransaction.customerName}
+                      </p>
                     </div>
                   )}
                   <div>
-                    <p className="text-sm text-muted-foreground">Original Total</p>
-                    <p className="font-medium">${selectedTransaction.total.toFixed(2)}</p>
+                    <p className="text-sm text-muted-foreground">
+                      Original Total
+                    </p>
+                    <p className="font-medium">
+                      ${selectedTransaction.total.toFixed(2)}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -2018,7 +2183,9 @@ export default function OrdersPage() {
                 <div className="space-y-2 border rounded-lg p-4">
                   {selectedTransaction.items.map((item, index) => {
                     const returnItem = returnForm.items.find(
-                      (ri) => ri.transactionItemId === `${selectedTransaction.id}-${index}`
+                      (ri) =>
+                        ri.transactionItemId ===
+                        `${selectedTransaction.id}-${index}`,
                     );
                     const isSelected = !!returnItem;
                     const maxQuantity = item.quantity;
@@ -2027,7 +2194,9 @@ export default function OrdersPage() {
                       <div
                         key={index}
                         className={`p-3 rounded-lg border ${
-                          isSelected ? "bg-blue-50 border-blue-200" : "bg-background"
+                          isSelected
+                            ? "bg-blue-50 border-blue-200"
+                            : "bg-background"
                         }`}
                       >
                         <div className="flex items-start justify-between gap-4">
@@ -2049,20 +2218,27 @@ export default function OrdersPage() {
                                       originalQuantity: item.quantity,
                                       unitPrice: item.unitPrice,
                                       discount: item.discount,
-                                      discountType: item.discountType || "fixed",
+                                      discountType:
+                                        item.discountType || "fixed",
                                       total: item.total,
-                                      reason: "customer_request" as ReturnReason,
+                                      reason:
+                                        "customer_request" as ReturnReason,
                                       restocked: true,
                                     };
                                     setReturnForm({
                                       ...returnForm,
-                                      items: [...returnForm.items, newReturnItem],
+                                      items: [
+                                        ...returnForm.items,
+                                        newReturnItem,
+                                      ],
                                     });
                                   } else {
                                     setReturnForm({
                                       ...returnForm,
                                       items: returnForm.items.filter(
-                                        (ri) => ri.transactionItemId !== `${selectedTransaction.id}-${index}`
+                                        (ri) =>
+                                          ri.transactionItemId !==
+                                          `${selectedTransaction.id}-${index}`,
                                       ),
                                     });
                                   }
@@ -2070,14 +2246,17 @@ export default function OrdersPage() {
                                 className="rounded"
                               />
                               <div className="flex-1">
-                                <p className="font-medium">{item.productName}</p>
+                                <p className="font-medium">
+                                  {item.productName}
+                                </p>
                                 {item.variantName && (
                                   <p className="text-sm text-muted-foreground">
                                     {item.variantName}
                                   </p>
                                 )}
                                 <p className="text-sm text-muted-foreground">
-                                  ${item.unitPrice.toFixed(2)} each × {item.quantity}
+                                  ${item.unitPrice.toFixed(2)} each ×{" "}
+                                  {item.quantity}
                                 </p>
                               </div>
                             </div>
@@ -2090,11 +2269,21 @@ export default function OrdersPage() {
                                 className="h-7 w-7"
                                 onClick={() => {
                                   const updated = returnForm.items.map((ri) =>
-                                    ri.transactionItemId === `${selectedTransaction.id}-${index}`
-                                      ? { ...ri, quantity: Math.max(1, ri.quantity - 1) }
-                                      : ri
+                                    ri.transactionItemId ===
+                                    `${selectedTransaction.id}-${index}`
+                                      ? {
+                                          ...ri,
+                                          quantity: Math.max(
+                                            1,
+                                            ri.quantity - 1,
+                                          ),
+                                        }
+                                      : ri,
                                   );
-                                  setReturnForm({ ...returnForm, items: updated });
+                                  setReturnForm({
+                                    ...returnForm,
+                                    items: updated,
+                                  });
                                 }}
                                 disabled={returnItem.quantity <= 1}
                               >
@@ -2109,11 +2298,21 @@ export default function OrdersPage() {
                                 className="h-7 w-7"
                                 onClick={() => {
                                   const updated = returnForm.items.map((ri) =>
-                                    ri.transactionItemId === `${selectedTransaction.id}-${index}`
-                                      ? { ...ri, quantity: Math.min(maxQuantity, ri.quantity + 1) }
-                                      : ri
+                                    ri.transactionItemId ===
+                                    `${selectedTransaction.id}-${index}`
+                                      ? {
+                                          ...ri,
+                                          quantity: Math.min(
+                                            maxQuantity,
+                                            ri.quantity + 1,
+                                          ),
+                                        }
+                                      : ri,
                                   );
-                                  setReturnForm({ ...returnForm, items: updated });
+                                  setReturnForm({
+                                    ...returnForm,
+                                    items: updated,
+                                  });
                                 }}
                                 disabled={returnItem.quantity >= maxQuantity}
                               >
@@ -2123,31 +2322,47 @@ export default function OrdersPage() {
                                 value={returnItem.reason}
                                 onValueChange={(value: ReturnReason) => {
                                   const updated = returnForm.items.map((ri) =>
-                                    ri.transactionItemId === `${selectedTransaction.id}-${index}`
+                                    ri.transactionItemId ===
+                                    `${selectedTransaction.id}-${index}`
                                       ? { ...ri, reason: value }
-                                      : ri
+                                      : ri,
                                   );
-                                  setReturnForm({ ...returnForm, items: updated });
+                                  setReturnForm({
+                                    ...returnForm,
+                                    items: updated,
+                                  });
                                 }}
                               >
                                 <SelectTrigger className="w-40 h-8 text-xs">
                                   <SelectValue placeholder="Select reason" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  <SelectItem value="defective">Defective</SelectItem>
-                                  <SelectItem value="wrong_item">Wrong Item</SelectItem>
-                                  <SelectItem value="not_as_described">Not as Described</SelectItem>
-                                  <SelectItem value="customer_request">Customer Request</SelectItem>
+                                  <SelectItem value="defective">
+                                    Defective
+                                  </SelectItem>
+                                  <SelectItem value="wrong_item">
+                                    Wrong Item
+                                  </SelectItem>
+                                  <SelectItem value="not_as_described">
+                                    Not as Described
+                                  </SelectItem>
+                                  <SelectItem value="customer_request">
+                                    Customer Request
+                                  </SelectItem>
                                   <SelectItem value="other">Other</SelectItem>
                                 </SelectContent>
                               </Select>
                             </div>
                           )}
-                          {isSelected && returnItem && (!returnItem.reason || (returnItem.reason === "other" && !returnItem.reasonNotes)) && (
-                            <p className="text-xs text-orange-600 mt-1 ml-2">
-                              ⚠️ Return reason recommended for audit purposes
-                            </p>
-                          )}
+                          {isSelected &&
+                            returnItem &&
+                            (!returnItem.reason ||
+                              (returnItem.reason === "other" &&
+                                !returnItem.reasonNotes)) && (
+                              <p className="text-xs text-orange-600 mt-1 ml-2">
+                                ⚠️ Return reason recommended for audit purposes
+                              </p>
+                            )}
                         </div>
                       </div>
                     );
@@ -2162,12 +2377,16 @@ export default function OrdersPage() {
                   <div className="space-y-1">
                     {returnForm.items.map((item, index) => {
                       const subtotal = item.unitPrice * item.quantity;
-                      const discountAmount = item.discountType === "percent"
-                        ? (subtotal * item.discount) / 100
-                        : item.discount;
+                      const discountAmount =
+                        item.discountType === "percent"
+                          ? (subtotal * item.discount) / 100
+                          : item.discount;
                       const total = subtotal - discountAmount;
                       return (
-                        <div key={index} className="flex justify-between text-sm">
+                        <div
+                          key={index}
+                          className="flex justify-between text-sm"
+                        >
                           <span>
                             {item.productName} × {item.quantity}
                           </span>
@@ -2182,9 +2401,10 @@ export default function OrdersPage() {
                         {returnForm.items
                           .reduce((sum, item) => {
                             const subtotal = item.unitPrice * item.quantity;
-                            const discountAmount = item.discountType === "percent"
-                              ? (subtotal * item.discount) / 100
-                              : item.discount;
+                            const discountAmount =
+                              item.discountType === "percent"
+                                ? (subtotal * item.discount) / 100
+                                : item.discount;
                             return sum + subtotal - discountAmount;
                           }, 0)
                           .toFixed(2)}
@@ -2200,11 +2420,13 @@ export default function OrdersPage() {
                   <Label className="text-base font-medium mb-3 block">
                     Refund Method
                   </Label>
-                  
+
                   {/* Show original payment method info */}
                   {selectedTransaction && (
                     <div className="mb-3 p-3 rounded-lg bg-muted">
-                      <p className="text-sm font-medium mb-1">Original Payment Method:</p>
+                      <p className="text-sm font-medium mb-1">
+                        Original Payment Method:
+                      </p>
                       <div className="flex items-center gap-2">
                         {selectedTransaction.yipyyPayTransactionId && (
                           <Badge variant="default" className="gap-1">
@@ -2218,39 +2440,63 @@ export default function OrdersPage() {
                             Clover Terminal
                           </Badge>
                         )}
-                        {selectedTransaction.fiservTransactionId && !selectedTransaction.yipyyPayTransactionId && !selectedTransaction.cloverTransactionId && (
-                          <Badge variant="default" className="gap-1">
-                            <CreditCard className="h-3 w-3" />
-                            Card Payment (Fiserv)
-                          </Badge>
-                        )}
-                        {!selectedTransaction.yipyyPayTransactionId && !selectedTransaction.cloverTransactionId && !selectedTransaction.fiservTransactionId && (
-                          <Badge variant="outline" className="gap-1">
-                            {selectedTransaction.paymentMethod === "cash" && <Banknote className="h-3 w-3" />}
-                            {selectedTransaction.paymentMethod === "store_credit" && <Wallet className="h-3 w-3" />}
-                            {selectedTransaction.paymentMethod === "gift_card" && <Gift className="h-3 w-3" />}
-                            {selectedTransaction.paymentMethod.charAt(0).toUpperCase() + selectedTransaction.paymentMethod.slice(1).replace(/_/g, " ")}
-                          </Badge>
-                        )}
+                        {selectedTransaction.fiservTransactionId &&
+                          !selectedTransaction.yipyyPayTransactionId &&
+                          !selectedTransaction.cloverTransactionId && (
+                            <Badge variant="default" className="gap-1">
+                              <CreditCard className="h-3 w-3" />
+                              Card Payment (Fiserv)
+                            </Badge>
+                          )}
+                        {!selectedTransaction.yipyyPayTransactionId &&
+                          !selectedTransaction.cloverTransactionId &&
+                          !selectedTransaction.fiservTransactionId && (
+                            <Badge variant="outline" className="gap-1">
+                              {selectedTransaction.paymentMethod === "cash" && (
+                                <Banknote className="h-3 w-3" />
+                              )}
+                              {selectedTransaction.paymentMethod ===
+                                "store_credit" && (
+                                <Wallet className="h-3 w-3" />
+                              )}
+                              {selectedTransaction.paymentMethod ===
+                                "gift_card" && <Gift className="h-3 w-3" />}
+                              {selectedTransaction.paymentMethod
+                                .charAt(0)
+                                .toUpperCase() +
+                                selectedTransaction.paymentMethod
+                                  .slice(1)
+                                  .replace(/_/g, " ")}
+                            </Badge>
+                          )}
                       </div>
                       <p className="text-xs text-muted-foreground mt-1">
                         Refund will default to original payment method
                       </p>
                     </div>
                   )}
-                  
+
                   {(() => {
                     const facilityId = 11; // TODO: Get from context
                     const fiservConfig = getFiservConfig(facilityId);
                     const refundMethods = fiservConfig?.refundMethods;
-                    
+
                     return (
                       <div className="grid grid-cols-2 gap-3">
                         {refundMethods?.originalPayment !== false && (
                           <Button
-                            variant={returnForm.refundMethod === "original_payment" ? "default" : "outline"}
+                            variant={
+                              returnForm.refundMethod === "original_payment"
+                                ? "default"
+                                : "outline"
+                            }
                             className="h-auto p-4 flex flex-col items-start gap-2"
-                            onClick={() => setReturnForm({ ...returnForm, refundMethod: "original_payment" })}
+                            onClick={() =>
+                              setReturnForm({
+                                ...returnForm,
+                                refundMethod: "original_payment",
+                              })
+                            }
                           >
                             <ArrowLeft className="h-5 w-5" />
                             <div className="text-left">
@@ -2263,47 +2509,88 @@ export default function OrdersPage() {
                         )}
                         {refundMethods?.storeCredit !== false && (
                           <Button
-                            variant={returnForm.refundMethod === "store_credit" ? "default" : "outline"}
+                            variant={
+                              returnForm.refundMethod === "store_credit"
+                                ? "default"
+                                : "outline"
+                            }
                             className="h-auto p-4 flex flex-col items-start gap-2"
-                            onClick={() => setReturnForm({ ...returnForm, refundMethod: "store_credit" })}
-                            disabled={!canOverrideRefund && returnForm.refundMethod === "original_payment"}
+                            onClick={() =>
+                              setReturnForm({
+                                ...returnForm,
+                                refundMethod: "store_credit",
+                              })
+                            }
+                            disabled={
+                              !canOverrideRefund &&
+                              returnForm.refundMethod === "original_payment"
+                            }
                           >
                             <Wallet className="h-5 w-5" />
                             <div className="text-left">
                               <p className="font-medium">Store Credit</p>
                               <p className="text-xs text-muted-foreground">
                                 Issue store credit to customer
-                                {!canOverrideRefund && returnForm.refundMethod === "original_payment" && (
-                                  <span className="block text-orange-600 mt-1">Manager only</span>
-                                )}
+                                {!canOverrideRefund &&
+                                  returnForm.refundMethod ===
+                                    "original_payment" && (
+                                    <span className="block text-orange-600 mt-1">
+                                      Manager only
+                                    </span>
+                                  )}
                               </p>
                             </div>
                           </Button>
                         )}
                         {refundMethods?.giftCard !== false && (
                           <Button
-                            variant={returnForm.refundMethod === "gift_card" ? "default" : "outline"}
+                            variant={
+                              returnForm.refundMethod === "gift_card"
+                                ? "default"
+                                : "outline"
+                            }
                             className="h-auto p-4 flex flex-col items-start gap-2"
-                            onClick={() => setReturnForm({ ...returnForm, refundMethod: "gift_card" })}
-                            disabled={!canOverrideRefund && returnForm.refundMethod === "original_payment"}
+                            onClick={() =>
+                              setReturnForm({
+                                ...returnForm,
+                                refundMethod: "gift_card",
+                              })
+                            }
+                            disabled={
+                              !canOverrideRefund &&
+                              returnForm.refundMethod === "original_payment"
+                            }
                           >
                             <Gift className="h-5 w-5" />
                             <div className="text-left">
                               <p className="font-medium">Gift Card</p>
                               <p className="text-xs text-muted-foreground">
                                 Issue gift card to customer
-                                {!canOverrideRefund && returnForm.refundMethod === "original_payment" && (
-                                  <span className="block text-orange-600 mt-1">Manager only</span>
-                                )}
+                                {!canOverrideRefund &&
+                                  returnForm.refundMethod ===
+                                    "original_payment" && (
+                                    <span className="block text-orange-600 mt-1">
+                                      Manager only
+                                    </span>
+                                  )}
                               </p>
                             </div>
                           </Button>
                         )}
                         {canOverrideRefund && refundMethods?.cash !== false && (
                           <Button
-                            variant={returnForm.refundMethod === "cash" ? "default" : "outline"}
+                            variant={
+                              returnForm.refundMethod === "cash"
+                                ? "default"
+                                : "outline"
+                            }
                             className="h-auto p-4 flex flex-col items-start gap-2"
-                            onClick={() => setReturnForm({ ...returnForm, refundMethod: "cash" })}
+                            onClick={() =>
+                              setReturnForm({
+                                ...returnForm,
+                                refundMethod: "cash",
+                              })
+                            }
                           >
                             <Banknote className="h-5 w-5" />
                             <div className="text-left">
@@ -2314,24 +2601,38 @@ export default function OrdersPage() {
                             </div>
                           </Button>
                         )}
-                        {refundMethods?.custom !== false && customPaymentMethods
-                          .filter((m) => m.isActive && m.canBeUsedForRefunds)
-                          .map((method) => (
-                            <Button
-                              key={method.id}
-                              variant={returnForm.refundMethod === "custom" && returnForm.customRefundMethodName === method.name ? "default" : "outline"}
-                              className="h-auto p-4 flex flex-col items-start gap-2"
-                              onClick={() => setReturnForm({ ...returnForm, refundMethod: "custom", customRefundMethodName: method.name })}
-                            >
-                              <CreditCard className="h-5 w-5" />
-                              <div className="text-left">
-                                <p className="font-medium">{method.name}</p>
-                                <p className="text-xs text-muted-foreground">
-                                  {method.description || "Custom payment method"}
-                                </p>
-                              </div>
-                            </Button>
-                          ))}
+                        {refundMethods?.custom !== false &&
+                          customPaymentMethods
+                            .filter((m) => m.isActive && m.canBeUsedForRefunds)
+                            .map((method) => (
+                              <Button
+                                key={method.id}
+                                variant={
+                                  returnForm.refundMethod === "custom" &&
+                                  returnForm.customRefundMethodName ===
+                                    method.name
+                                    ? "default"
+                                    : "outline"
+                                }
+                                className="h-auto p-4 flex flex-col items-start gap-2"
+                                onClick={() =>
+                                  setReturnForm({
+                                    ...returnForm,
+                                    refundMethod: "custom",
+                                    customRefundMethodName: method.name,
+                                  })
+                                }
+                              >
+                                <CreditCard className="h-5 w-5" />
+                                <div className="text-left">
+                                  <p className="font-medium">{method.name}</p>
+                                  <p className="text-xs text-muted-foreground">
+                                    {method.description ||
+                                      "Custom payment method"}
+                                  </p>
+                                </div>
+                              </Button>
+                            ))}
                       </div>
                     );
                   })()}
@@ -2339,46 +2640,53 @@ export default function OrdersPage() {
               )}
 
               {/* Additional Fields based on Refund Method */}
-              {returnForm.items.length > 0 && returnForm.refundMethod === "store_credit" && (
-                <div className="grid gap-2">
-                  <Label>Store Credit Amount</Label>
-                  <Input
-                    type="number"
-                    min={0}
-                    step="0.01"
-                    value={returnForm.storeCreditAmount || ""}
-                    onChange={(e) =>
-                      setReturnForm({
-                        ...returnForm,
-                        storeCreditAmount: parseFloat(e.target.value) || 0,
-                      })
-                    }
-                    placeholder="Enter amount"
-                  />
-                </div>
-              )}
+              {returnForm.items.length > 0 &&
+                returnForm.refundMethod === "store_credit" && (
+                  <div className="grid gap-2">
+                    <Label>Store Credit Amount</Label>
+                    <Input
+                      type="number"
+                      min={0}
+                      step="0.01"
+                      value={returnForm.storeCreditAmount || ""}
+                      onChange={(e) =>
+                        setReturnForm({
+                          ...returnForm,
+                          storeCreditAmount: parseFloat(e.target.value) || 0,
+                        })
+                      }
+                      placeholder="Enter amount"
+                    />
+                  </div>
+                )}
 
-              {returnForm.items.length > 0 && returnForm.refundMethod === "gift_card" && (
-                <div className="grid gap-2">
-                  <Label>Gift Card Number (optional - will be generated if empty)</Label>
-                  <Input
-                    type="text"
-                    value={returnForm.giftCardNumber || ""}
-                    onChange={(e) =>
-                      setReturnForm({
-                        ...returnForm,
-                        giftCardNumber: e.target.value,
-                      })
-                    }
-                    placeholder="Leave empty to generate new card"
-                  />
-                </div>
-              )}
+              {returnForm.items.length > 0 &&
+                returnForm.refundMethod === "gift_card" && (
+                  <div className="grid gap-2">
+                    <Label>
+                      Gift Card Number (optional - will be generated if empty)
+                    </Label>
+                    <Input
+                      type="text"
+                      value={returnForm.giftCardNumber || ""}
+                      onChange={(e) =>
+                        setReturnForm({
+                          ...returnForm,
+                          giftCardNumber: e.target.value,
+                        })
+                      }
+                      placeholder="Leave empty to generate new card"
+                    />
+                  </div>
+                )}
 
               {/* Notes */}
               <div className="grid gap-2">
                 <Label>
-                  Notes {returnForm.refundMethod !== "original_payment" && <span className="text-orange-600">(Recommended)</span>}
+                  Notes{" "}
+                  {returnForm.refundMethod !== "original_payment" && (
+                    <span className="text-orange-600">(Recommended)</span>
+                  )}
                 </Label>
                 <Textarea
                   value={returnForm.notes || ""}
@@ -2392,11 +2700,13 @@ export default function OrdersPage() {
                   }
                   rows={3}
                 />
-                {returnForm.refundMethod !== "original_payment" && !returnForm.notes && (
-                  <p className="text-xs text-orange-600">
-                    ⚠️ It's recommended to provide notes when using an override refund method for audit purposes.
-                  </p>
-                )}
+                {returnForm.refundMethod !== "original_payment" &&
+                  !returnForm.notes && (
+                    <p className="text-xs text-orange-600">
+                      ⚠️ It's recommended to provide notes when using an
+                      override refund method for audit purposes.
+                    </p>
+                  )}
               </div>
             </div>
           )}
@@ -2431,7 +2741,8 @@ export default function OrdersPage() {
           <DialogHeader>
             <DialogTitle>Receive Purchase Order</DialogTitle>
             <DialogDescription>
-              Enter the quantities received for each item. Stock levels will be updated automatically.
+              Enter the quantities received for each item. Stock levels will be
+              updated automatically.
             </DialogDescription>
           </DialogHeader>
 
@@ -2440,7 +2751,9 @@ export default function OrdersPage() {
               <div className="p-4 rounded-lg bg-muted">
                 <div className="flex items-center justify-between mb-2">
                   <div>
-                    <p className="font-semibold font-mono">{selectedOrder.orderNumber}</p>
+                    <p className="font-semibold font-mono">
+                      {selectedOrder.orderNumber}
+                    </p>
                     <p className="text-sm text-muted-foreground">
                       {selectedOrder.supplierName}
                     </p>
@@ -2474,7 +2787,7 @@ export default function OrdersPage() {
 
                 {receivingForm.items.map((item, index) => {
                   const orderItem = selectedOrder.items.find(
-                    (oi) => oi.sku === item.sku
+                    (oi) => oi.sku === item.sku,
                   );
                   const quantityToReceive =
                     item.newReceivedQuantity - item.receivedQuantity;
@@ -2520,7 +2833,8 @@ export default function OrdersPage() {
                               onChange={(e) =>
                                 handleUpdateReceivingQuantity(
                                   item.sku,
-                                  parseInt(e.target.value) || item.receivedQuantity
+                                  parseInt(e.target.value) ||
+                                    item.receivedQuantity,
                                 )
                               }
                               className="text-center"
@@ -2566,12 +2880,14 @@ export default function OrdersPage() {
                   <span className="font-medium">
                     {receivingForm.items
                       .filter(
-                        (item) => item.newReceivedQuantity > item.receivedQuantity
+                        (item) =>
+                          item.newReceivedQuantity > item.receivedQuantity,
                       )
                       .reduce(
                         (sum, item) =>
-                          sum + (item.newReceivedQuantity - item.receivedQuantity),
-                        0
+                          sum +
+                          (item.newReceivedQuantity - item.receivedQuantity),
+                        0,
                       )}
                   </span>
                 </div>
@@ -2580,7 +2896,8 @@ export default function OrdersPage() {
                   <span className="font-medium">
                     {
                       receivingForm.items.filter(
-                        (item) => item.newReceivedQuantity >= item.orderedQuantity
+                        (item) =>
+                          item.newReceivedQuantity >= item.orderedQuantity,
                       ).length
                     }{" "}
                     / {receivingForm.items.length}
@@ -2605,7 +2922,7 @@ export default function OrdersPage() {
               onClick={handleProcessReceiving}
               disabled={
                 receivingForm.items.filter(
-                  (item) => item.newReceivedQuantity > item.receivedQuantity
+                  (item) => item.newReceivedQuantity > item.receivedQuantity,
                 ).length === 0
               }
             >

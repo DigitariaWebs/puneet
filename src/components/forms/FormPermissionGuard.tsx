@@ -39,7 +39,9 @@ export function FormPermissionGuard({
   const { role, userId } = useFacilityRole();
 
   const permissions = Array.isArray(requires) ? requires : [requires];
-  const allGranted = permissions.every((p) => hasFormPermission(role, p, userId ?? undefined));
+  const allGranted = permissions.every((p) =>
+    hasFormPermission(role, p, userId ?? undefined),
+  );
 
   if (allGranted) {
     return <>{children}</>;
@@ -53,10 +55,12 @@ export function FormPermissionGuard({
     <Card>
       <CardContent className="py-12 text-center">
         <Shield className="h-10 w-10 mx-auto mb-3 text-muted-foreground/50" />
-        <h3 className="text-sm font-semibold text-muted-foreground">Access Restricted</h3>
+        <h3 className="text-sm font-semibold text-muted-foreground">
+          Access Restricted
+        </h3>
         <p className="text-xs text-muted-foreground mt-1">
-          You don&apos;t have permission to access this feature.
-          Contact your facility administrator.
+          You don&apos;t have permission to access this feature. Contact your
+          facility administrator.
         </p>
       </CardContent>
     </Card>

@@ -71,7 +71,6 @@ export function BookingModal({ booking }: BookingModalProps) {
       (evaluation) => evaluation.status === "passed",
     );
 
-
   const tasks: Array<{
     id: string;
     type: string;
@@ -115,7 +114,9 @@ export function BookingModal({ booking }: BookingModalProps) {
       // Handle both string[] (grooming) and ExtraService[] (daycare/boarding) types
       if (typeof service === "string") {
         // For string type (grooming), use the string as service name
-        const petId = Array.isArray(booking.petId) ? booking.petId[0] : booking.petId;
+        const petId = Array.isArray(booking.petId)
+          ? booking.petId[0]
+          : booking.petId;
         tasks.push({
           id: `service-${service}-${petId}-${index}`,
           type: "service",
@@ -148,8 +149,6 @@ export function BookingModal({ booking }: BookingModalProps) {
       icon: Clock,
     });
   }
-
-
 
   return (
     <DetailsModal
@@ -265,11 +264,20 @@ export function BookingModal({ booking }: BookingModalProps) {
           {/* YipyyGo Pre-Check-In (when enabled for this service) */}
           {(() => {
             const yipyyGoConfig = getYipyyGoConfig(booking.facilityId);
-            const serviceType = booking.service?.toLowerCase() as "daycare" | "boarding" | "grooming" | "training";
-            const enabled = yipyyGoConfig?.enabled && yipyyGoConfig?.serviceConfigs?.find((s) => s.serviceType === serviceType)?.enabled;
+            const serviceType = booking.service?.toLowerCase() as
+              | "daycare"
+              | "boarding"
+              | "grooming"
+              | "training";
+            const enabled =
+              yipyyGoConfig?.enabled &&
+              yipyyGoConfig?.serviceConfigs?.find(
+                (s) => s.serviceType === serviceType,
+              )?.enabled;
             if (!enabled) return null;
             const yipyyGoStatus = getYipyyGoDisplayStatus(booking.id);
-            const canReview = yipyyGoStatus === "submitted" || yipyyGoStatus === "needs_review";
+            const canReview =
+              yipyyGoStatus === "submitted" || yipyyGoStatus === "needs_review";
             return (
               <Card>
                 <CardHeader className="pb-2">
@@ -282,7 +290,9 @@ export function BookingModal({ booking }: BookingModalProps) {
                   <YipyyGoStatusBadge status={yipyyGoStatus} showIcon />
                   {canReview && (
                     <Button variant="outline" size="sm" asChild>
-                      <Link href={`/facility/dashboard/bookings/${booking.id}#yipyygo`}>
+                      <Link
+                        href={`/facility/dashboard/bookings/${booking.id}#yipyygo`}
+                      >
                         Review
                       </Link>
                     </Button>
@@ -456,35 +466,35 @@ export function BookingModal({ booking }: BookingModalProps) {
                     </div>
                     {(pet.allergies !== "None" ||
                       pet.specialNeeds !== "None") && (
-                        <div className="space-y-2">
-                          {pet.allergies !== "None" && (
-                            <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 rounded-lg">
-                              <AlertCircle className="h-4 w-4 text-red-500 mt-0.5" />
-                              <div>
-                                <p className="text-sm font-medium text-red-900">
-                                  Allergies
-                                </p>
-                                <p className="text-sm text-red-700">
-                                  {pet.allergies}
-                                </p>
-                              </div>
+                      <div className="space-y-2">
+                        {pet.allergies !== "None" && (
+                          <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 rounded-lg">
+                            <AlertCircle className="h-4 w-4 text-red-500 mt-0.5" />
+                            <div>
+                              <p className="text-sm font-medium text-red-900">
+                                Allergies
+                              </p>
+                              <p className="text-sm text-red-700">
+                                {pet.allergies}
+                              </p>
                             </div>
-                          )}
-                          {pet.specialNeeds !== "None" && (
-                            <div className="flex items-start gap-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                              <FileText className="h-4 w-4 text-yellow-500 mt-0.5" />
-                              <div>
-                                <p className="text-sm font-medium text-yellow-900">
-                                  Special Needs
-                                </p>
-                                <p className="text-sm text-yellow-700">
-                                  {pet.specialNeeds}
-                                </p>
-                              </div>
+                          </div>
+                        )}
+                        {pet.specialNeeds !== "None" && (
+                          <div className="flex items-start gap-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                            <FileText className="h-4 w-4 text-yellow-500 mt-0.5" />
+                            <div>
+                              <p className="text-sm font-medium text-yellow-900">
+                                Special Needs
+                              </p>
+                              <p className="text-sm text-yellow-700">
+                                {pet.specialNeeds}
+                              </p>
                             </div>
-                          )}
-                        </div>
-                      )}
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className="text-center py-8">
@@ -501,73 +511,73 @@ export function BookingModal({ booking }: BookingModalProps) {
           {/* Service-Specific Details */}
           {(booking.service === "boarding" ||
             booking.service === "daycare") && (
-              <Card className="overflow-hidden">
-                <CardHeader className="bg-linear-to-r from-indigo-50 to-indigo-100">
-                  <CardTitle className="flex items-center gap-2">
-                    <Settings className="h-5 w-5 text-indigo-600" />
-                    Service Configuration
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  {booking.service === "boarding" && (
-                    <div className="space-y-6">
-                      {booking.kennel && (
-                        <div className="flex items-center gap-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                          <div className="p-2 bg-blue-500 rounded-lg">
-                            <Home className="h-5 w-5 text-white" />
-                          </div>
-                          <div>
-                            <p className="text-sm font-medium text-blue-900">
-                              Assigned Kennel
-                            </p>
-                            <p className="text-lg font-bold text-blue-700">
-                              {booking.kennel}
-                            </p>
-                          </div>
+            <Card className="overflow-hidden">
+              <CardHeader className="bg-linear-to-r from-indigo-50 to-indigo-100">
+                <CardTitle className="flex items-center gap-2">
+                  <Settings className="h-5 w-5 text-indigo-600" />
+                  Service Configuration
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                {booking.service === "boarding" && (
+                  <div className="space-y-6">
+                    {booking.kennel && (
+                      <div className="flex items-center gap-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                        <div className="p-2 bg-blue-500 rounded-lg">
+                          <Home className="h-5 w-5 text-white" />
                         </div>
-                      )}
-                      {booking.walkSchedule && (
-                        <div className="flex items-center gap-4 p-4 bg-green-50 rounded-lg border border-green-200">
-                          <div className="p-2 bg-green-500 rounded-lg">
-                            <Clock className="h-5 w-5 text-white" />
-                          </div>
-                          <div>
-                            <p className="text-sm font-medium text-green-900">
-                              Walk Schedule
-                            </p>
-                            <p className="text-lg font-bold text-green-700">
-                              {booking.walkSchedule}
-                            </p>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {booking.service === "daycare" &&
-                    booking.daycareSelectedDates && (
-                      <div className="space-y-4">
                         <div>
-                          <h4 className="text-lg font-semibold mb-3">
-                            Scheduled Dates
-                          </h4>
-                          <div className="flex flex-wrap gap-2">
-                            {booking.daycareSelectedDates.map((date) => (
-                              <div
-                                key={date}
-                                className="flex items-center gap-2 px-3 py-2 bg-primary/10 border border-primary/20 rounded-lg"
-                              >
-                                <Calendar className="h-4 w-4 text-primary" />
-                                <span className="font-medium">{date}</span>
-                              </div>
-                            ))}
-                          </div>
+                          <p className="text-sm font-medium text-blue-900">
+                            Assigned Kennel
+                          </p>
+                          <p className="text-lg font-bold text-blue-700">
+                            {booking.kennel}
+                          </p>
                         </div>
                       </div>
                     )}
-                </CardContent>
-              </Card>
-            )}
+                    {booking.walkSchedule && (
+                      <div className="flex items-center gap-4 p-4 bg-green-50 rounded-lg border border-green-200">
+                        <div className="p-2 bg-green-500 rounded-lg">
+                          <Clock className="h-5 w-5 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-green-900">
+                            Walk Schedule
+                          </p>
+                          <p className="text-lg font-bold text-green-700">
+                            {booking.walkSchedule}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {booking.service === "daycare" &&
+                  booking.daycareSelectedDates && (
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="text-lg font-semibold mb-3">
+                          Scheduled Dates
+                        </h4>
+                        <div className="flex flex-wrap gap-2">
+                          {booking.daycareSelectedDates.map((date) => (
+                            <div
+                              key={date}
+                              className="flex items-center gap-2 px-3 py-2 bg-primary/10 border border-primary/20 rounded-lg"
+                            >
+                              <Calendar className="h-4 w-4 text-primary" />
+                              <span className="font-medium">{date}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+              </CardContent>
+            </Card>
+          )}
 
           {/* Special Requests */}
           {booking.specialRequests && (
@@ -630,7 +640,6 @@ export function BookingModal({ booking }: BookingModalProps) {
               )}
             </CardContent>
           </Card>
-
         </TabsContent>
 
         <TabsContent value="tasks" className="mt-4">
@@ -683,7 +692,8 @@ export function BookingModal({ booking }: BookingModalProps) {
       <EvaluationModal
         isOpen={showEvaluationModal}
         onClose={() => setShowEvaluationModal(false)}
-        bookingId={booking.id} />
+        bookingId={booking.id}
+      />
     </DetailsModal>
   );
 }

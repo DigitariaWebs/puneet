@@ -21,9 +21,29 @@ import {
 } from "@/components/ui/dialog";
 import { CreateFormModal } from "@/components/forms/CreateFormModal";
 import { FormPermissionsPanel } from "@/components/forms/FormPermissionsPanel";
-import { getFormsByFacility, duplicateForm, archiveForm, deleteForm, type Form, type FormType } from "@/data/forms";
+import {
+  getFormsByFacility,
+  duplicateForm,
+  archiveForm,
+  deleteForm,
+  type Form,
+  type FormType,
+} from "@/data/forms";
 import { triggerFormEvent } from "@/lib/form-automation-events";
-import { Plus, Lock, Pencil, Copy, ExternalLink, Share2, Code, PenLine, Archive, Trash2, MoreVertical, Shield } from "lucide-react";
+import {
+  Plus,
+  Lock,
+  Pencil,
+  Copy,
+  ExternalLink,
+  Share2,
+  Code,
+  PenLine,
+  Archive,
+  Trash2,
+  MoreVertical,
+  Shield,
+} from "lucide-react";
 import { toast } from "sonner";
 
 const FORM_CATEGORIES: { value: FormType; label: string }[] = [
@@ -61,10 +81,14 @@ export default function IntakeFormsPage() {
             Create New
           </Button>
           <Button variant="outline" asChild>
-            <Link href="/facility/dashboard/forms/builder?new=1">New from scratch</Link>
+            <Link href="/facility/dashboard/forms/builder?new=1">
+              New from scratch
+            </Link>
           </Button>
           <Button variant="outline" asChild>
-            <Link href="/facility/dashboard/forms/templates">From template</Link>
+            <Link href="/facility/dashboard/forms/templates">
+              From template
+            </Link>
           </Button>
           <Button variant="outline" asChild>
             <Link href="/facility/dashboard/forms/audit">
@@ -93,7 +117,10 @@ export default function IntakeFormsPage() {
             ))}
           </TabsList>
           <Button variant="outline" size="sm" asChild className="shrink-0">
-            <Link href="/facility/dashboard/forms/builder?new=1" className="gap-2">
+            <Link
+              href="/facility/dashboard/forms/builder?new=1"
+              className="gap-2"
+            >
               <PenLine className="h-4 w-4" />
               Form Builder
             </Link>
@@ -104,7 +131,11 @@ export default function IntakeFormsPage() {
             <Card>
               <CardContent className="flex flex-col items-center justify-center py-12 text-center">
                 <p className="text-muted-foreground mb-4">
-                  No {FORM_CATEGORIES.find((c) => c.value === category)?.label.toLowerCase()} yet.
+                  No{" "}
+                  {FORM_CATEGORIES.find(
+                    (c) => c.value === category,
+                  )?.label.toLowerCase()}{" "}
+                  yet.
                 </p>
                 <Button onClick={() => setCreateModalOpen(true)}>
                   <Plus className="mr-2 h-4 w-4" />
@@ -115,7 +146,13 @@ export default function IntakeFormsPage() {
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {formsInCategory.map((form) => (
-                <FormCard key={form.id} form={form} facilityId={FACILITY_ID} router={router} onRefresh={() => setRefreshKey((k) => k + 1)} />
+                <FormCard
+                  key={form.id}
+                  form={form}
+                  facilityId={FACILITY_ID}
+                  router={router}
+                  onRefresh={() => setRefreshKey((k) => k + 1)}
+                />
               ))}
             </div>
           )}
@@ -128,11 +165,23 @@ export default function IntakeFormsPage() {
 function statusBadge(status?: string) {
   switch (status) {
     case "published":
-      return <Badge className="text-xs bg-green-100 text-green-800 hover:bg-green-100 border-0">Published</Badge>;
+      return (
+        <Badge className="text-xs bg-green-100 text-green-800 hover:bg-green-100 border-0">
+          Published
+        </Badge>
+      );
     case "archived":
-      return <Badge variant="outline" className="text-xs text-muted-foreground">Archived</Badge>;
+      return (
+        <Badge variant="outline" className="text-xs text-muted-foreground">
+          Archived
+        </Badge>
+      );
     default:
-      return <Badge variant="secondary" className="text-xs">Draft</Badge>;
+      return (
+        <Badge variant="secondary" className="text-xs">
+          Draft
+        </Badge>
+      );
   }
 }
 
@@ -151,7 +200,10 @@ function FormCard({
   const [embedOpen, setEmbedOpen] = useState(false);
 
   const copyLink = () => {
-    const url = typeof window !== "undefined" ? `${window.location.origin}${sharePath}` : sharePath;
+    const url =
+      typeof window !== "undefined"
+        ? `${window.location.origin}${sharePath}`
+        : sharePath;
     navigator.clipboard.writeText(url);
     triggerFormEvent("form_link_sent", {
       facilityId: form.facilityId,
@@ -200,7 +252,9 @@ function FormCard({
                 </Badge>
               )}
               {form.audience === "both" && (
-                <Badge variant="secondary" className="text-xs">Both</Badge>
+                <Badge variant="secondary" className="text-xs">
+                  Both
+                </Badge>
               )}
             </div>
           </div>
@@ -211,14 +265,23 @@ function FormCard({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => router.push(`/facility/dashboard/forms/builder?id=${form.id}`)}>
+              <DropdownMenuItem
+                onClick={() =>
+                  router.push(`/facility/dashboard/forms/builder?id=${form.id}`)
+                }
+              >
                 <Pencil className="h-3.5 w-3.5 mr-2" />
                 Edit
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => {
-                const copy = duplicateForm(form.id, facilityId);
-                if (copy) router.push(`/facility/dashboard/forms/builder?id=${copy.id}`);
-              }}>
+              <DropdownMenuItem
+                onClick={() => {
+                  const copy = duplicateForm(form.id, facilityId);
+                  if (copy)
+                    router.push(
+                      `/facility/dashboard/forms/builder?id=${copy.id}`,
+                    );
+                }}
+              >
                 <Copy className="h-3.5 w-3.5 mr-2" />
                 Duplicate
               </DropdownMenuItem>
@@ -228,7 +291,10 @@ function FormCard({
                   Archive
                 </DropdownMenuItem>
               )}
-              <DropdownMenuItem onClick={handleDelete} className="text-destructive focus:text-destructive">
+              <DropdownMenuItem
+                onClick={handleDelete}
+                className="text-destructive focus:text-destructive"
+              >
                 <Trash2 className="h-3.5 w-3.5 mr-2" />
                 Delete
               </DropdownMenuItem>
@@ -237,15 +303,20 @@ function FormCard({
         </CardHeader>
         <CardContent className="space-y-3">
           <p className="text-xs text-muted-foreground">
-            {form.questions.length} question{form.questions.length !== 1 ? "s" : ""}
+            {form.questions.length} question
+            {form.questions.length !== 1 ? "s" : ""}
             {form.serviceType && ` · ${form.serviceType}`}
-            {form.appliesTo?.petTypes?.length ? ` · ${form.appliesTo.petTypes.join(", ")}` : ""}
+            {form.appliesTo?.petTypes?.length
+              ? ` · ${form.appliesTo.petTypes.join(", ")}`
+              : ""}
           </p>
           <div className="flex flex-wrap gap-2">
             <Button
               size="sm"
               variant="outline"
-              onClick={() => router.push(`/facility/dashboard/forms/builder?id=${form.id}`)}
+              onClick={() =>
+                router.push(`/facility/dashboard/forms/builder?id=${form.id}`)
+              }
             >
               <Pencil className="h-3.5 w-3.5 mr-1" />
               Edit

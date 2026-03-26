@@ -69,9 +69,7 @@ export function POSLoyaltyDisplay({
                 <TrendingUp className="h-4 w-4 text-green-600 dark:text-green-400" />
                 <span className="text-sm font-medium">Points Earned</span>
               </div>
-              <Badge className="bg-green-500">
-                +{pointsEarned} pts
-              </Badge>
+              <Badge className="bg-green-500">+{pointsEarned} pts</Badge>
             </div>
           )}
 
@@ -90,7 +88,10 @@ export function POSLoyaltyDisplay({
                 )}
                 {rewardApplied.type === "credit" && (
                   <Badge className="bg-blue-500">
-                    ${typeof rewardApplied.value === "number" ? rewardApplied.value.toFixed(2) : rewardApplied.value}
+                    $
+                    {typeof rewardApplied.value === "number"
+                      ? rewardApplied.value.toFixed(2)
+                      : rewardApplied.value}
                   </Badge>
                 )}
               </div>
@@ -98,17 +99,21 @@ export function POSLoyaltyDisplay({
           )}
 
           {/* Tier Discount */}
-          {customerTier?.discountPercentage && customerTier.discountPercentage > 0 && (
-            <div className="flex items-center justify-between p-2 rounded-lg bg-purple-500/10 border border-purple-500/20">
-              <div className="flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-purple-600 dark:text-purple-400" />
-                <span className="text-sm font-medium">Tier Discount</span>
+          {customerTier?.discountPercentage &&
+            customerTier.discountPercentage > 0 && (
+              <div className="flex items-center justify-between p-2 rounded-lg bg-purple-500/10 border border-purple-500/20">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+                  <span className="text-sm font-medium">Tier Discount</span>
+                </div>
+                <Badge
+                  variant="outline"
+                  className="border-purple-500 text-purple-600 dark:text-purple-400"
+                >
+                  {customerTier.discountPercentage}% off
+                </Badge>
               </div>
-              <Badge variant="outline" className="border-purple-500 text-purple-600 dark:text-purple-400">
-                {customerTier.discountPercentage}% off
-              </Badge>
-            </div>
-          )}
+            )}
 
           {/* Redeem Reward Button */}
           {onRedeemReward && customerPoints && customerPoints > 0 && (

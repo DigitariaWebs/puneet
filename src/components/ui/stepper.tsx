@@ -75,7 +75,10 @@ function Stepper({ steps, currentStep, className }: StepperProps) {
       {/* Step titles row - below circles */}
       <div className="flex items-start justify-between">
         {steps.map((step, index) => (
-          <div key={step.id} className="flex flex-col items-center flex-1 text-center">
+          <div
+            key={step.id}
+            className="flex flex-col items-center flex-1 text-center"
+          >
             <div
               className={cn(
                 "text-sm font-medium",

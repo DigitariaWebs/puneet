@@ -65,9 +65,13 @@ export function ServiceCard({
         "relative flex flex-col min-h-[340px] border-2 rounded-xl transition-all overflow-hidden text-left",
         disabled && "opacity-50 cursor-not-allowed",
         !disabled && "cursor-pointer",
-        selected && !disabled && "border-primary bg-primary/5 ring-2 ring-primary shadow-md",
-        !selected && !disabled && "hover:border-primary/50 hover:shadow border-border",
-        className
+        selected &&
+          !disabled &&
+          "border-primary bg-primary/5 ring-2 ring-primary shadow-md",
+        !selected &&
+          !disabled &&
+          "hover:border-primary/50 hover:shadow border-border",
+        className,
       )}
     >
       {badge && (
@@ -89,7 +93,9 @@ export function ServiceCard({
           <div
             className={cn(
               "w-full h-full flex items-center justify-center",
-              selected && !disabled ? "bg-primary text-primary-foreground" : "bg-muted"
+              selected && !disabled
+                ? "bg-primary text-primary-foreground"
+                : "bg-muted",
             )}
           >
             <Icon className="h-14 w-14" />
@@ -104,7 +110,9 @@ export function ServiceCard({
           )}
         </div>
         {description && (
-          <p className="text-sm text-muted-foreground line-clamp-2">{description}</p>
+          <p className="text-sm text-muted-foreground line-clamp-2">
+            {description}
+          </p>
         )}
         {included.length > 0 && (
           <ul className="text-xs text-muted-foreground space-y-1 mt-1">

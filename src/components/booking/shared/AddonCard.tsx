@@ -93,7 +93,7 @@ function AddonCardToggle({
         selected
           ? "ring-2 ring-primary border-primary bg-primary/5"
           : "border-border hover:border-primary/50",
-        className
+        className,
       )}
     >
       <div className="h-32 shrink-0 bg-muted relative">
@@ -152,7 +152,7 @@ function AddonCardQuantity({
       className={cn(
         "flex flex-col min-h-[320px] overflow-hidden",
         selected && "ring-2 ring-primary",
-        className
+        className,
       )}
     >
       <div className="h-40 w-full shrink-0 bg-muted">
@@ -191,10 +191,7 @@ function AddonCardQuantity({
             <Select
               value={isAll ? "all" : String(applyTo)}
               onValueChange={(v) => {
-                onApplyToChange(
-                  addon.id,
-                  v === "all" ? "all" : Number(v)
-                );
+                onApplyToChange(addon.id, v === "all" ? "all" : Number(v));
               }}
             >
               <SelectTrigger className="h-8 w-[140px]">

@@ -14,7 +14,11 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useCustomServices } from "@/hooks/use-custom-services";
 import { resolveIcon } from "@/lib/service-registry";
-import { getCategoryMeta, getGradientStyle, PRICING_MODEL_LABELS } from "@/data/custom-services";
+import {
+  getCategoryMeta,
+  getGradientStyle,
+  PRICING_MODEL_LABELS,
+} from "@/data/custom-services";
 import {
   Edit,
   Info,
@@ -27,14 +31,7 @@ import {
   UserCheck,
 } from "lucide-react";
 
-
-function StatusRow({
-  label,
-  enabled,
-}: {
-  label: string;
-  enabled: boolean;
-}) {
+function StatusRow({ label, enabled }: { label: string; enabled: boolean }) {
   return (
     <div className="flex items-center justify-between py-1.5">
       <span className="text-sm text-muted-foreground">{label}</span>
@@ -181,9 +178,7 @@ export default function CustomServiceSettingsPage() {
                   <DollarSign className="h-4 w-4" />
                   Pricing
                 </CardTitle>
-                <CardDescription>
-                  Pricing model and base rate
-                </CardDescription>
+                <CardDescription>Pricing model and base rate</CardDescription>
               </div>
               <Link href={editHref}>
                 <Button variant="outline" size="sm">
@@ -209,7 +204,10 @@ export default function CustomServiceSettingsPage() {
             </div>
             <Separator />
             <StatusRow label="Taxable" enabled={module.pricing.taxable} />
-            <StatusRow label="Tips Allowed" enabled={module.pricing.tipAllowed} />
+            <StatusRow
+              label="Tips Allowed"
+              enabled={module.pricing.tipAllowed}
+            />
             <StatusRow
               label="Membership Discounts"
               enabled={module.pricing.membershipDiscountEligible}
@@ -267,9 +265,7 @@ export default function CustomServiceSettingsPage() {
                       </span>
                     </div>
                     <div className="flex justify-between py-1.5">
-                      <span className="text-muted-foreground">
-                        Buffer Time
-                      </span>
+                      <span className="text-muted-foreground">Buffer Time</span>
                       <span className="font-medium">
                         {module.calendar.bufferTimeMinutes} min
                       </span>
@@ -305,7 +301,9 @@ export default function CustomServiceSettingsPage() {
                 {module.checkInOut.enabled && (
                   <>
                     <div className="flex justify-between py-1.5">
-                      <span className="text-muted-foreground">Check-In Type</span>
+                      <span className="text-muted-foreground">
+                        Check-In Type
+                      </span>
                       <span className="capitalize font-medium">
                         {module.checkInOut.checkInType}
                       </span>
@@ -345,7 +343,10 @@ export default function CustomServiceSettingsPage() {
                         Eligible Clients
                       </span>
                       <span className="capitalize font-medium">
-                        {module.onlineBooking.eligibleClients.replace(/_/g, " ")}
+                        {module.onlineBooking.eligibleClients.replace(
+                          /_/g,
+                          " ",
+                        )}
                       </span>
                     </div>
                     <StatusRow
@@ -400,7 +401,11 @@ export default function CustomServiceSettingsPage() {
               {module.staffAssignment.taskGeneration.length > 0 ? (
                 <div className="flex flex-wrap gap-1.5">
                   {module.staffAssignment.taskGeneration.map((phase) => (
-                    <Badge key={phase} variant="secondary" className="capitalize">
+                    <Badge
+                      key={phase}
+                      variant="secondary"
+                      className="capitalize"
+                    >
                       {phase}
                     </Badge>
                   ))}
@@ -416,10 +421,7 @@ export default function CustomServiceSettingsPage() {
               label="Requires Evaluation"
               enabled={module.requiresEvaluation}
             />
-            <StatusRow
-              label="Show in Sidebar"
-              enabled={module.showInSidebar}
-            />
+            <StatusRow label="Show in Sidebar" enabled={module.showInSidebar} />
           </CardContent>
         </Card>
       </div>

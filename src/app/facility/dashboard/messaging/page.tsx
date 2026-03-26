@@ -43,9 +43,12 @@ interface Conversation {
 export default function MessagingPage() {
   const [showComposeModal, setShowComposeModal] = useState(false);
   const [showPetUpdateModal, setShowPetUpdateModal] = useState(false);
-  const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
+  const [selectedConversation, setSelectedConversation] =
+    useState<Conversation | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterType, setFilterType] = useState<"all" | "email" | "sms" | "in-app">("all");
+  const [filterType, setFilterType] = useState<
+    "all" | "email" | "sms" | "in-app"
+  >("all");
 
   // Group messages by customer into conversations
   const conversations = useMemo(() => {
@@ -57,10 +60,14 @@ export default function MessagingPage() {
       if (!conversationMap.has(msg.clientId)) {
         // Get client name from the message 'from' field
         const clientName = msg.from.includes("@")
-          ? msg.from.split("@")[0].replace(/\./g, " ").replace(/\b\w/g, (l) => l.toUpperCase())
+          ? msg.from
+              .split("@")[0]
+              .replace(/\./g, " ")
+              .replace(/\b\w/g, (l) => l.toUpperCase())
           : msg.from.includes("+")
             ? msg.from // Phone number
-            : msg.from.replace(/Client Portal - /, "") || `Client ${msg.clientId}`;
+            : msg.from.replace(/Client Portal - /, "") ||
+              `Client ${msg.clientId}`;
 
         conversationMap.set(msg.clientId, {
           clientId: msg.clientId,
@@ -74,7 +81,7 @@ export default function MessagingPage() {
 
       const conv = conversationMap.get(msg.clientId)!;
       conv.messages.push(msg);
-      
+
       // Update last message if this is newer
       if (new Date(msg.timestamp) > new Date(conv.lastMessage.timestamp)) {
         conv.lastMessage = msg;
@@ -95,7 +102,7 @@ export default function MessagingPage() {
     return Array.from(conversationMap.values()).sort(
       (a, b) =>
         new Date(b.lastMessage.timestamp).getTime() -
-        new Date(a.lastMessage.timestamp).getTime()
+        new Date(a.lastMessage.timestamp).getTime(),
     );
   }, []);
 
@@ -115,7 +122,7 @@ export default function MessagingPage() {
         (conv) =>
           conv.clientName.toLowerCase().includes(query) ||
           conv.lastMessage.body.toLowerCase().includes(query) ||
-          conv.lastMessage.from.toLowerCase().includes(query)
+          conv.lastMessage.from.toLowerCase().includes(query),
       );
     }
 
@@ -126,7 +133,8 @@ export default function MessagingPage() {
   const conversationMessages = useMemo(() => {
     if (!selectedConversation) return [];
     return [...selectedConversation.messages].sort(
-      (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+      (a, b) =>
+        new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
     );
   }, [selectedConversation]);
 
@@ -135,11 +143,19 @@ export default function MessagingPage() {
     const date = new Date(timestamp);
     const now = new Date();
     const isToday = date.toDateString() === now.toDateString();
-    
+
     if (isToday) {
-      return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      return date.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
     }
-    return date.toLocaleDateString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
+    return date.toLocaleDateString([], {
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
 
   // Get channel icon
@@ -279,14 +295,20 @@ export default function MessagingPage() {
                                   {conv.clientName}
                                 </span>
                                 {conv.unreadCount > 0 && (
-                                  <Badge variant="destructive" className="text-xs">
+                                  <Badge
+                                    variant="destructive"
+                                    className="text-xs"
+                                  >
                                     {conv.unreadCount}
                                   </Badge>
                                 )}
                               </div>
                               <div className="flex items-center gap-2 mb-1">
                                 {conv.channels.map((channel) => (
-                                  <span key={channel} className="text-muted-foreground">
+                                  <span
+                                    key={channel}
+                                    className="text-muted-foreground"
+                                  >
                                     {getChannelIcon(channel)}
                                   </span>
                                 ))}
@@ -324,9 +346,15 @@ export default function MessagingPage() {
                         </CardTitle>
                         <div className="flex items-center gap-2 mt-1">
                           {selectedConversation.channels.map((channel) => (
-                            <Badge key={channel} variant="outline" className="capitalize">
+                            <Badge
+                              key={channel}
+                              variant="outline"
+                              className="capitalize"
+                            >
                               {getChannelIcon(channel)}
-                              <span className="ml-1">{channel === "in-app" ? "Chat" : channel}</span>
+                              <span className="ml-1">
+                                {channel === "in-app" ? "Chat" : channel}
+                              </span>
                             </Badge>
                           ))}
                         </div>
@@ -348,7 +376,9 @@ export default function MessagingPage() {
                           <div
                             key={msg.id}
                             className={`flex gap-3 ${
-                              msg.direction === "outbound" ? "justify-end" : "justify-start"
+                              msg.direction === "outbound"
+                                ? "justify-end"
+                                : "justify-start"
                             }`}
                           >
                             {msg.direction === "inbound" && (
@@ -366,7 +396,9 @@ export default function MessagingPage() {
                               <div className="flex items-center gap-2 mb-1">
                                 <Badge
                                   variant={
-                                    msg.direction === "outbound" ? "secondary" : "outline"
+                                    msg.direction === "outbound"
+                                      ? "secondary"
+                                      : "outline"
                                   }
                                   className="text-xs"
                                 >
@@ -375,36 +407,49 @@ export default function MessagingPage() {
                                     {msg.type === "in-app" ? "Chat" : msg.type}
                                   </span>
                                 </Badge>
-                                {!msg.hasRead && msg.direction === "inbound" && (
-                                  <Badge variant="destructive" className="text-xs">
-                                    Unread
-                                  </Badge>
-                                )}
+                                {!msg.hasRead &&
+                                  msg.direction === "inbound" && (
+                                    <Badge
+                                      variant="destructive"
+                                      className="text-xs"
+                                    >
+                                      Unread
+                                    </Badge>
+                                  )}
                               </div>
                               {msg.subject && (
-                                <div className="font-semibold mb-1">{msg.subject}</div>
-                              )}
-                              <div className="text-sm whitespace-pre-wrap">{msg.body}</div>
-                              {msg.attachments && msg.attachments.length > 0 && (
-                                <div className="mt-2 space-y-1">
-                                  {msg.attachments.map((att) => (
-                                    <div
-                                      key={att.id}
-                                      className="flex items-center gap-2 p-2 bg-background/50 rounded text-xs"
-                                    >
-                                      <Paperclip className="h-3 w-3" />
-                                      <span className="truncate">{att.name}</span>
-                                      <span className="text-muted-foreground">
-                                        ({(att.size / 1024).toFixed(1)} KB)
-                                      </span>
-                                    </div>
-                                  ))}
+                                <div className="font-semibold mb-1">
+                                  {msg.subject}
                                 </div>
                               )}
+                              <div className="text-sm whitespace-pre-wrap">
+                                {msg.body}
+                              </div>
+                              {msg.attachments &&
+                                msg.attachments.length > 0 && (
+                                  <div className="mt-2 space-y-1">
+                                    {msg.attachments.map((att) => (
+                                      <div
+                                        key={att.id}
+                                        className="flex items-center gap-2 p-2 bg-background/50 rounded text-xs"
+                                      >
+                                        <Paperclip className="h-3 w-3" />
+                                        <span className="truncate">
+                                          {att.name}
+                                        </span>
+                                        <span className="text-muted-foreground">
+                                          ({(att.size / 1024).toFixed(1)} KB)
+                                        </span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
                               <div className="text-xs opacity-70 mt-2">
                                 {formatTimestamp(msg.timestamp)}
                                 {msg.status && (
-                                  <span className="ml-2 capitalize">• {msg.status}</span>
+                                  <span className="ml-2 capitalize">
+                                    • {msg.status}
+                                  </span>
                                 )}
                               </div>
                             </div>
@@ -434,7 +479,6 @@ export default function MessagingPage() {
           </div>
         </TabsContent>
 
-
         {/* Pet Updates Tab */}
         <TabsContent value="pet-updates" className="space-y-4">
           <Card>
@@ -459,18 +503,23 @@ export default function MessagingPage() {
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
-                          <span className="font-semibold">{update.petName}</span>
+                          <span className="font-semibold">
+                            {update.petName}
+                          </span>
                           <Badge variant="outline" className="capitalize">
                             {update.updateType}
                           </Badge>
                         </div>
                         <p className="text-sm">{update.message}</p>
                         <p className="text-xs text-muted-foreground mt-1">
-                          By {update.staffName} • {formatTimestamp(update.timestamp)}
+                          By {update.staffName} •{" "}
+                          {formatTimestamp(update.timestamp)}
                         </p>
                       </div>
                       <Badge
-                        variant={update.notificationSent ? "default" : "secondary"}
+                        variant={
+                          update.notificationSent ? "default" : "secondary"
+                        }
                       >
                         {update.notificationSent ? "Sent" : "Pending"}
                       </Badge>
@@ -500,14 +549,17 @@ export default function MessagingPage() {
                   <p className="text-sm font-semibold text-orange-900 dark:text-orange-100">
                     Internal Team Communication Only
                   </p>
-                  <Badge variant="outline" className="border-orange-500 text-orange-700 dark:text-orange-300">
+                  <Badge
+                    variant="outline"
+                    className="border-orange-500 text-orange-700 dark:text-orange-300"
+                  >
                     Staff Only
                   </Badge>
                 </div>
                 <p className="text-xs text-orange-800 dark:text-orange-200">
-                  This section is completely separate from customer messaging. 
-                  No customer data is visible or accessible here. 
-                  Staff-to-staff communication only.
+                  This section is completely separate from customer messaging.
+                  No customer data is visible or accessible here. Staff-to-staff
+                  communication only.
                 </p>
               </div>
             </div>
@@ -525,8 +577,11 @@ export default function MessagingPage() {
                     </Badge>
                   </CardTitle>
                   <p className="text-sm text-muted-foreground mt-1">
-                    Team messages with @mentions, channels, and read receipts. 
-                    <span className="font-medium text-foreground"> No customer data.</span>
+                    Team messages with @mentions, channels, and read receipts.
+                    <span className="font-medium text-foreground">
+                      {" "}
+                      No customer data.
+                    </span>
                   </p>
                 </div>
                 <Button onClick={() => setShowComposeModal(true)}>
@@ -601,8 +656,9 @@ export default function MessagingPage() {
           {/* Optional: Note about moving to separate section */}
           <div className="rounded-lg border border-muted bg-muted/30 p-3">
             <p className="text-xs text-muted-foreground text-center">
-              💡 <span className="font-medium">Note:</span> This internal messaging feature can be moved to a 
-              dedicated Staff/Operations section if preferred for better separation.
+              💡 <span className="font-medium">Note:</span> This internal
+              messaging feature can be moved to a dedicated Staff/Operations
+              section if preferred for better separation.
             </p>
           </div>
         </TabsContent>

@@ -43,7 +43,9 @@ export function RequirementsGateStep({
   return (
     <div className="space-y-4">
       <div>
-        <h3 className="font-semibold text-base mb-1">Complete Required Forms</h3>
+        <h3 className="font-semibold text-base mb-1">
+          Complete Required Forms
+        </h3>
         <p className="text-sm text-muted-foreground">
           {allComplete ? allCompleteMessage : missingMessage}
         </p>

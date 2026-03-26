@@ -771,12 +771,20 @@ export function DaycareDetails({
                   <FeedingScheduleForm
                     feedingSchedule={feedingSchedule}
                     setFeedingSchedule={setFeedingSchedule}
-                    selectedPets={selectedPets.map((p) => ({ id: p.id, name: p.name, type: p.type }))}
+                    selectedPets={selectedPets.map((p) => ({
+                      id: p.id,
+                      name: p.name,
+                      type: p.type,
+                    }))}
                   />
                   <MedicationForm
                     medications={medications}
                     setMedications={setMedications}
-                    selectedPets={selectedPets.map((p) => ({ id: p.id, name: p.name, type: p.type }))}
+                    selectedPets={selectedPets.map((p) => ({
+                      id: p.id,
+                      name: p.name,
+                      type: p.type,
+                    }))}
                   />
                 </div>
               </>

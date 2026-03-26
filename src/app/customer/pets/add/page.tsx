@@ -3,7 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -125,7 +131,10 @@ export default function AddPetPage() {
 
   // Placeholder function - replace with actual API call. Return { id } to redirect to pet Forms tab.
   const createPet = async (
-    petData: Omit<PetFormData, "age" | "weight"> & { age: number; weight: number }
+    petData: Omit<PetFormData, "age" | "weight"> & {
+      age: number;
+      weight: number;
+    },
   ): Promise<{ id: number } | void> => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     // When API returns new pet: return { id: newPet.id };
@@ -141,19 +150,29 @@ export default function AddPetPage() {
       <div className="min-h-screen bg-background p-4 md:p-6">
         <div className="max-w-2xl mx-auto space-y-6">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => router.push(`/customer/pets/${newPetId}?tab=forms`)}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() =>
+                router.push(`/customer/pets/${newPetId}?tab=forms`)
+              }
+            >
               <ArrowLeft className="h-4 w-4" />
             </Button>
             <div>
               <h1 className="text-2xl font-bold">Required Forms</h1>
-              <p className="text-muted-foreground text-sm">Complete these forms for {formData.name}</p>
+              <p className="text-muted-foreground text-sm">
+                Complete these forms for {formData.name}
+              </p>
             </div>
           </div>
           <FormWizard
             petId={newPetId}
             customerId={MOCK_CUSTOMER_ID}
             facilityId={facilityId}
-            onComplete={() => router.push(`/customer/pets/${newPetId}?tab=forms`)}
+            onComplete={() =>
+              router.push(`/customer/pets/${newPetId}?tab=forms`)
+            }
           />
         </div>
       </div>
@@ -218,7 +237,9 @@ export default function AddPetPage() {
           {/* Basic Information */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm font-semibold">Basic Information</CardTitle>
+              <CardTitle className="text-sm font-semibold">
+                Basic Information
+              </CardTitle>
               <CardDescription>
                 Essential details about your pet
               </CardDescription>
@@ -315,7 +336,8 @@ export default function AddPetPage() {
                     max="30"
                     value={formData.age}
                     onChange={(e) => {
-                      const value = e.target.value === "" ? "" : parseInt(e.target.value);
+                      const value =
+                        e.target.value === "" ? "" : parseInt(e.target.value);
                       setFormData({ ...formData, age: value });
                       if (errors.age) setErrors({ ...errors, age: "" });
                     }}
@@ -338,7 +360,8 @@ export default function AddPetPage() {
                     step="0.1"
                     value={formData.weight}
                     onChange={(e) => {
-                      const value = e.target.value === "" ? "" : parseFloat(e.target.value);
+                      const value =
+                        e.target.value === "" ? "" : parseFloat(e.target.value);
                       setFormData({ ...formData, weight: value });
                       if (errors.weight) setErrors({ ...errors, weight: "" });
                     }}
@@ -392,7 +415,8 @@ export default function AddPetPage() {
                   rows={3}
                 />
                 <p className="text-xs text-muted-foreground">
-                  List any known allergies. Enter "None" if your pet has no allergies.
+                  List any known allergies. Enter "None" if your pet has no
+                  allergies.
                 </p>
               </div>
 
@@ -408,7 +432,8 @@ export default function AddPetPage() {
                   rows={3}
                 />
                 <p className="text-xs text-muted-foreground">
-                  Include any special care requirements, medications, or health conditions.
+                  Include any special care requirements, medications, or health
+                  conditions.
                 </p>
               </div>
             </CardContent>

@@ -1,7 +1,13 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,7 +17,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Calendar, Image as ImageIcon, ChevronLeft, ChevronRight, X } from "lucide-react";
+import {
+  Calendar,
+  Image as ImageIcon,
+  ChevronLeft,
+  ChevronRight,
+  X,
+} from "lucide-react";
 import type { PetPhoto, ReportCard } from "@/data/pet-data";
 import type { Booking } from "@/lib/types";
 
@@ -43,7 +55,12 @@ interface PhotoAlbum {
   title: string;
 }
 
-export function PhotoAlbums({ photos, bookings, reportCards, formatDate }: PhotoAlbumsProps) {
+export function PhotoAlbums({
+  photos,
+  bookings,
+  reportCards,
+  formatDate,
+}: PhotoAlbumsProps) {
   const [selectedPhoto, setSelectedPhoto] = useState<UnifiedPhoto | null>(null);
   const [viewMode, setViewMode] = useState<"albums" | "grid">("albums");
 
@@ -69,7 +86,7 @@ export function PhotoAlbums({ photos, bookings, reportCards, formatDate }: Photo
       report.photos.forEach((photoUrl, index) => {
         // Try to find matching booking for this report card
         const matchingBooking = bookings.find((b) => b.id === report.bookingId);
-        
+
         unified.push({
           id: `report-${report.id}-photo-${index}`,
           url: photoUrl,
@@ -102,8 +119,11 @@ export function PhotoAlbums({ photos, bookings, reportCards, formatDate }: Photo
         }
         const bookingDate = new Date(booking.startDate);
         const bookingDateKey = bookingDate.toISOString().split("T")[0];
-        return bookingDateKey === dateKey || 
-               (booking.endDate && new Date(booking.endDate).toISOString().split("T")[0] === dateKey);
+        return (
+          bookingDateKey === dateKey ||
+          (booking.endDate &&
+            new Date(booking.endDate).toISOString().split("T")[0] === dateKey)
+        );
       });
 
       // If photo has bookingId, use that booking
@@ -136,7 +156,9 @@ export function PhotoAlbums({ photos, bookings, reportCards, formatDate }: Photo
   // All photos for grid view (sorted by date)
   const allPhotos = useMemo(() => {
     return [...allUnifiedPhotos].sort((a, b) => {
-      return new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime();
+      return (
+        new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
+      );
     });
   }, [allUnifiedPhotos]);
 
@@ -199,7 +221,10 @@ export function PhotoAlbums({ photos, bookings, reportCards, formatDate }: Photo
 
         {/* Photo Viewer Dialog */}
         {selectedPhoto && (
-          <Dialog open={!!selectedPhoto} onOpenChange={() => setSelectedPhoto(null)}>
+          <Dialog
+            open={!!selectedPhoto}
+            onOpenChange={() => setSelectedPhoto(null)}
+          >
             <DialogContent className="max-w-4xl max-h-[90vh] p-0">
               <div className="relative">
                 <Button
@@ -243,7 +268,9 @@ export function PhotoAlbums({ photos, bookings, reportCards, formatDate }: Photo
                   )}
                   <div className="flex items-center justify-between text-sm text-muted-foreground">
                     <span>{formatDate(selectedPhoto.uploadedAt)}</span>
-                    <span>Photo {currentPhotoIndex + 1} of {allPhotos.length}</span>
+                    <span>
+                      Photo {currentPhotoIndex + 1} of {allPhotos.length}
+                    </span>
                   </div>
                   {selectedPhoto.uploadedBy && (
                     <p className="text-xs text-muted-foreground mt-1">
@@ -272,7 +299,9 @@ export function PhotoAlbums({ photos, bookings, reportCards, formatDate }: Photo
             View All
           </Button>
           <span className="text-sm text-muted-foreground">
-            {albums.length} album{albums.length !== 1 ? "s" : ""} • {allUnifiedPhotos.length} photo{allUnifiedPhotos.length !== 1 ? "s" : ""}
+            {albums.length} album{albums.length !== 1 ? "s" : ""} •{" "}
+            {allUnifiedPhotos.length} photo
+            {allUnifiedPhotos.length !== 1 ? "s" : ""}
           </span>
         </div>
       </div>
@@ -285,7 +314,8 @@ export function PhotoAlbums({ photos, bookings, reportCards, formatDate }: Photo
                 <div>
                   <CardTitle className="text-base">{album.title}</CardTitle>
                   <CardDescription>
-                    {formatDate(album.date)} • {album.photos.length} photo{album.photos.length !== 1 ? "s" : ""}
+                    {formatDate(album.date)} • {album.photos.length} photo
+                    {album.photos.length !== 1 ? "s" : ""}
                   </CardDescription>
                 </div>
                 {album.service && (
@@ -325,7 +355,10 @@ export function PhotoAlbums({ photos, bookings, reportCards, formatDate }: Photo
 
       {/* Photo Viewer Dialog */}
       {selectedPhoto && (
-        <Dialog open={!!selectedPhoto} onOpenChange={() => setSelectedPhoto(null)}>
+        <Dialog
+          open={!!selectedPhoto}
+          onOpenChange={() => setSelectedPhoto(null)}
+        >
           <DialogContent className="max-w-4xl max-h-[90vh] p-0">
             <div className="relative">
               <Button
@@ -369,7 +402,9 @@ export function PhotoAlbums({ photos, bookings, reportCards, formatDate }: Photo
                 )}
                 <div className="flex items-center justify-between text-sm text-muted-foreground">
                   <span>{formatDate(selectedPhoto.uploadedAt)}</span>
-                  <span>Photo {currentPhotoIndex + 1} of {allPhotos.length}</span>
+                  <span>
+                    Photo {currentPhotoIndex + 1} of {allPhotos.length}
+                  </span>
                 </div>
                 {selectedPhoto.uploadedBy && (
                   <p className="text-xs text-muted-foreground mt-1">

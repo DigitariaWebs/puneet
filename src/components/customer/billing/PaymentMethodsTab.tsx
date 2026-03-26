@@ -3,7 +3,13 @@
 import { useState, useMemo } from "react";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
 import { paymentMethods } from "@/data/payments";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -90,7 +96,10 @@ export function PaymentMethodsTab() {
       const month = parseInt(formData.expiryMonth);
       const year = parseInt(`20${formData.expiryYear}`);
       const now = new Date();
-      if (year < now.getFullYear() || (year === now.getFullYear() && month < now.getMonth() + 1)) {
+      if (
+        year < now.getFullYear() ||
+        (year === now.getFullYear() && month < now.getMonth() + 1)
+      ) {
         newErrors.expiry = "Card has expired";
       }
     }
@@ -189,7 +198,9 @@ export function PaymentMethodsTab() {
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="text-2xl">{getCardIcon(method.cardBrand)}</div>
+                      <div className="text-2xl">
+                        {getCardIcon(method.cardBrand)}
+                      </div>
                       <div>
                         <CardTitle className="text-base">
                           {method.cardBrand
@@ -208,7 +219,10 @@ export function PaymentMethodsTab() {
                               : "No expiry date"}
                           </span>
                           {isCardExpired(method) && (
-                            <Badge variant="destructive" className="text-[10px]">
+                            <Badge
+                              variant="destructive"
+                              className="text-[10px]"
+                            >
                               Expired
                             </Badge>
                           )}
@@ -264,8 +278,8 @@ export function PaymentMethodsTab() {
                     </div>
                     {disableRemove && (
                       <p className="text-xs text-muted-foreground">
-                        You can’t remove your only card while an auto-pay membership is
-                        active. Please add another card first.
+                        You can’t remove your only card while an auto-pay
+                        membership is active. Please add another card first.
                       </p>
                     )}
                   </div>
@@ -295,7 +309,8 @@ export function PaymentMethodsTab() {
                 onChange={(e) => {
                   const formatted = formatCardNumber(e.target.value);
                   setFormData({ ...formData, cardNumber: formatted });
-                  if (errors.cardNumber) setErrors({ ...errors, cardNumber: "" });
+                  if (errors.cardNumber)
+                    setErrors({ ...errors, cardNumber: "" });
                 }}
                 maxLength={19}
                 aria-invalid={!!errors.cardNumber}
@@ -375,7 +390,8 @@ export function PaymentMethodsTab() {
                 value={formData.cardholderName}
                 onChange={(e) => {
                   setFormData({ ...formData, cardholderName: e.target.value });
-                  if (errors.cardholderName) setErrors({ ...errors, cardholderName: "" });
+                  if (errors.cardholderName)
+                    setErrors({ ...errors, cardholderName: "" });
                 }}
                 aria-invalid={!!errors.cardholderName}
               />

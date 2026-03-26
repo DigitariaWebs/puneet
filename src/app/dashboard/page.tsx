@@ -3,7 +3,13 @@
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { facilities } from "@/data/facilities";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -300,7 +306,7 @@ function ReservationsCard({
   }, []);
 
   // Format number only on client to avoid hydration issues
-  const formattedNumber = isMounted 
+  const formattedNumber = isMounted
     ? totalReservations.toLocaleString("en-US")
     : totalReservations.toString();
 
@@ -348,7 +354,7 @@ function ReservationsCard({
               </span>
               <div className="flex items-center gap-2">
                 <span className="text-[10px] font-medium">
-                  {isMounted 
+                  {isMounted
                     ? facility.reservations.toLocaleString("en-US")
                     : facility.reservations.toString()}
                 </span>
@@ -730,7 +736,7 @@ export default function DashboardPage() {
                         "0 4px 16px -2px rgba(0, 0, 0, 0.1), 0 8px 32px -4px rgba(0, 0, 0, 0.1)",
                     }}
                     formatter={(value: unknown) => [
-                      `$${typeof value === 'number' ? (value || 0).toLocaleString() : '0'}`,
+                      `$${typeof value === "number" ? (value || 0).toLocaleString() : "0"}`,
                     ]}
                   />
                   <Legend

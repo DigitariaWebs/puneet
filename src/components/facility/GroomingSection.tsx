@@ -130,7 +130,8 @@ export function GroomingSection() {
       if (apt.status === "scheduled" && !showScheduled) return false;
       if (apt.status === "checked-in" && !showCheckedIn) return false;
       if (apt.status === "in-progress" && !showInProgress) return false;
-      if (apt.status === "ready-for-pickup" && !showReadyForPickup) return false;
+      if (apt.status === "ready-for-pickup" && !showReadyForPickup)
+        return false;
       if (apt.status === "completed" && !showCompleted) return false;
       return true;
     });
@@ -205,9 +206,7 @@ export function GroomingSection() {
     };
 
     setAppointmentsData((prev) =>
-      prev.map((apt) =>
-        apt.id === appointment.id ? updatedAppointment : apt,
-      ),
+      prev.map((apt) => (apt.id === appointment.id ? updatedAppointment : apt)),
     );
 
     // Send notifications when status changes to "ready-for-pickup"
@@ -226,7 +225,7 @@ export function GroomingSection() {
           const notificationMessages: string[] = [];
           if (results.smsSent) notificationMessages.push("SMS sent");
           if (results.emailSent) notificationMessages.push("Email sent");
-          
+
           if (notificationMessages.length > 0) {
             toast.success("Customer notified", {
               description: `${notificationMessages.join(" and ")}: ${appointment.petName} is ready for pickup.`,
@@ -242,38 +241,50 @@ export function GroomingSection() {
 
     // If status changed to completed, automatically deduct products
     if (newStatus === "completed" && previousStatus !== "completed") {
-      import("@/lib/grooming-inventory-deduction").then(({ deductProductsForAppointment }) => {
-        const deductionResult = deductProductsForAppointment(
-          appointment,
-          appointment.stylistName,
-        );
+      import("@/lib/grooming-inventory-deduction").then(
+        ({ deductProductsForAppointment }) => {
+          const deductionResult = deductProductsForAppointment(
+            appointment,
+            appointment.stylistName,
+          );
 
-        if (deductionResult.success && deductionResult.deductions.length > 0) {
-          const productsDeducted = deductionResult.deductions
-            .map((d) => `${d.productName} (${d.quantityDeducted} ${d.productName.includes("ml") ? "ml" : "units"})`)
-            .join(", ");
+          if (
+            deductionResult.success &&
+            deductionResult.deductions.length > 0
+          ) {
+            const productsDeducted = deductionResult.deductions
+              .map(
+                (d) =>
+                  `${d.productName} (${d.quantityDeducted} ${d.productName.includes("ml") ? "ml" : "units"})`,
+              )
+              .join(", ");
 
-          // Check for low stock alerts
-          const lowStockProducts = deductionResult.deductions.filter((d) => d.isNowLowStock);
-          if (lowStockProducts.length > 0) {
-            toast.warning("Products deducted - Low stock alert", {
-              description: `${productsDeducted}. ${lowStockProducts.length} product(s) are now low in stock.`,
+            // Check for low stock alerts
+            const lowStockProducts = deductionResult.deductions.filter(
+              (d) => d.isNowLowStock,
+            );
+            if (lowStockProducts.length > 0) {
+              toast.warning("Products deducted - Low stock alert", {
+                description: `${productsDeducted}. ${lowStockProducts.length} product(s) are now low in stock.`,
+                duration: 8000,
+              });
+            } else {
+              toast.success("Products deducted from inventory", {
+                description: productsDeducted,
+                duration: 5000,
+              });
+            }
+          } else if (deductionResult.errors.length > 0) {
+            const errorMessages = deductionResult.errors
+              .map((e) => e.reason)
+              .join(", ");
+            toast.error("Inventory deduction failed", {
+              description: errorMessages,
               duration: 8000,
             });
-          } else {
-            toast.success("Products deducted from inventory", {
-              description: productsDeducted,
-              duration: 5000,
-            });
           }
-        } else if (deductionResult.errors.length > 0) {
-          const errorMessages = deductionResult.errors.map((e) => e.reason).join(", ");
-          toast.error("Inventory deduction failed", {
-            description: errorMessages,
-            duration: 8000,
-          });
-        }
-      });
+        },
+      );
     }
 
     // Clear any existing undo timeout
@@ -501,17 +512,9 @@ export function GroomingSection() {
           </Badge>
         );
       case "cancelled":
-        return (
-          <Badge variant="destructive">
-            Cancelled
-          </Badge>
-        );
+        return <Badge variant="destructive">Cancelled</Badge>;
       case "no-show":
-        return (
-          <Badge variant="destructive">
-            No Show
-          </Badge>
-        );
+        return <Badge variant="destructive">No Show</Badge>;
       default:
         return <Badge variant="secondary">{status}</Badge>;
     }
@@ -929,11 +932,17 @@ export function GroomingSection() {
                       setAppointmentsData((prev) =>
                         prev.map((apt) =>
                           apt.id === selectedAppointment.id
-                            ? { ...apt, status: "scheduled" as const, checkInTime: null }
+                            ? {
+                                ...apt,
+                                status: "scheduled" as const,
+                                checkInTime: null,
+                              }
                             : apt,
                         ),
                       );
-                      toast.success(`${selectedAppointment.petName} - Reverted to Scheduled`);
+                      toast.success(
+                        `${selectedAppointment.petName} - Reverted to Scheduled`,
+                      );
                     }}
                   >
                     Revert to Scheduled
@@ -1116,20 +1125,24 @@ export function GroomingSection() {
                 <div>
                   <p className="text-muted-foreground">Base Price</p>
                   <p className="font-medium">
-                    ${(selectedAppointment.basePrice || selectedAppointment.totalPrice).toFixed(2)}
+                    $
+                    {(
+                      selectedAppointment.basePrice ||
+                      selectedAppointment.totalPrice
+                    ).toFixed(2)}
                   </p>
                 </div>
                 <div>
                   <p className="text-muted-foreground">Total Price</p>
                   <p className="font-medium text-lg">
                     ${selectedAppointment.totalPrice.toFixed(2)}
-                    {(selectedAppointment.priceAdjustments?.length || 0) > 0 && (
+                    {(selectedAppointment.priceAdjustments?.length || 0) >
+                      0 && (
                       <span className="text-sm text-muted-foreground ml-2">
                         (+
-                        {selectedAppointment.priceAdjustments?.reduce(
-                          (sum, adj) => sum + adj.amount,
-                          0,
-                        ).toFixed(2)}
+                        {selectedAppointment.priceAdjustments
+                          ?.reduce((sum, adj) => sum + adj.amount, 0)
+                          .toFixed(2)}
                         )
                       </span>
                     )}
@@ -1189,7 +1202,10 @@ export function GroomingSection() {
                   <PriceAdjustmentForm
                     appointmentId={selectedAppointment.id}
                     petName={selectedAppointment.petName}
-                    basePrice={selectedAppointment.basePrice || selectedAppointment.totalPrice}
+                    basePrice={
+                      selectedAppointment.basePrice ||
+                      selectedAppointment.totalPrice
+                    }
                     currentTotal={selectedAppointment.totalPrice}
                     adjustments={selectedAppointment.priceAdjustments || []}
                     onAddAdjustment={(adjustment) => {
@@ -1211,8 +1227,8 @@ export function GroomingSection() {
                         0,
                       );
                       const newTotal =
-                        (selectedAppointment.basePrice || selectedAppointment.totalPrice) +
-                        totalAdjustments;
+                        (selectedAppointment.basePrice ||
+                          selectedAppointment.totalPrice) + totalAdjustments;
 
                       setAppointmentsData((prev) =>
                         prev.map((apt) =>
@@ -1222,7 +1238,8 @@ export function GroomingSection() {
                                 priceAdjustments: adjustments,
                                 totalPrice: newTotal,
                                 basePrice:
-                                  apt.basePrice || apt.totalPrice - totalAdjustments,
+                                  apt.basePrice ||
+                                  apt.totalPrice - totalAdjustments,
                               }
                             : apt,
                         ),
@@ -1236,16 +1253,16 @@ export function GroomingSection() {
                       }
                     }}
                     onRemoveAdjustment={(adjustmentId) => {
-                      const adjustments = (selectedAppointment.priceAdjustments || []).filter(
-                        (adj) => adj.id !== adjustmentId,
-                      );
+                      const adjustments = (
+                        selectedAppointment.priceAdjustments || []
+                      ).filter((adj) => adj.id !== adjustmentId);
                       const totalAdjustments = adjustments.reduce(
                         (sum, adj) => sum + adj.amount,
                         0,
                       );
                       const newTotal =
-                        (selectedAppointment.basePrice || selectedAppointment.totalPrice) +
-                        totalAdjustments;
+                        (selectedAppointment.basePrice ||
+                          selectedAppointment.totalPrice) + totalAdjustments;
 
                       setAppointmentsData((prev) =>
                         prev.map((apt) =>

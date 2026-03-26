@@ -49,8 +49,7 @@ export default function CustomServiceRatesPage() {
   if (!module) return null;
 
   const { pricing } = module;
-  const modelLabel =
-    PRICING_MODEL_LABELS[pricing.model] ?? pricing.model;
+  const modelLabel = PRICING_MODEL_LABELS[pricing.model] ?? pricing.model;
 
   return (
     <div className="space-y-6">
@@ -153,29 +152,30 @@ export default function CustomServiceRatesPage() {
             )}
 
             {/* Peak pricing rules */}
-            {pricing.peakPricingRules && pricing.peakPricingRules.length > 0 && (
-              <div className="space-y-2 pt-2 border-t">
-                <p className="text-sm font-medium flex items-center gap-1.5">
-                  <TrendingUp className="h-4 w-4" />
-                  Peak Pricing Rules
-                </p>
-                <div className="space-y-1">
-                  {pricing.peakPricingRules.map((rule) => (
-                    <div
-                      key={rule.id}
-                      className="flex items-center justify-between text-sm p-2 rounded bg-muted/40"
-                    >
-                      <span>{rule.name}</span>
-                      <Badge variant="warning">
-                        {rule.adjustmentType === "percentage"
-                          ? `+${rule.adjustment}%`
-                          : `+$${rule.adjustment}`}
-                      </Badge>
-                    </div>
-                  ))}
+            {pricing.peakPricingRules &&
+              pricing.peakPricingRules.length > 0 && (
+                <div className="space-y-2 pt-2 border-t">
+                  <p className="text-sm font-medium flex items-center gap-1.5">
+                    <TrendingUp className="h-4 w-4" />
+                    Peak Pricing Rules
+                  </p>
+                  <div className="space-y-1">
+                    {pricing.peakPricingRules.map((rule) => (
+                      <div
+                        key={rule.id}
+                        className="flex items-center justify-between text-sm p-2 rounded bg-muted/40"
+                      >
+                        <span>{rule.name}</span>
+                        <Badge variant="warning">
+                          {rule.adjustmentType === "percentage"
+                            ? `+${rule.adjustment}%`
+                            : `+$${rule.adjustment}`}
+                        </Badge>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </CardContent>
         </Card>
 
@@ -187,10 +187,7 @@ export default function CustomServiceRatesPage() {
             </CardTitle>
           </CardHeader>
           <CardContent className="divide-y">
-            <StatusIndicator
-              enabled={pricing.taxable}
-              label="Tax Applied"
-            />
+            <StatusIndicator enabled={pricing.taxable} label="Tax Applied" />
             <StatusIndicator
               enabled={pricing.tipAllowed}
               label="Tips Allowed"

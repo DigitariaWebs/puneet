@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -88,15 +94,21 @@ export function BelongingsSection({
 
   const handleRemoveItem = (id: string) => {
     const item = formData.belongings.find((b) => b.id === id);
-    const otherCount = formData.belongings.filter((b) => b.type === "other").length;
-    updateFormData({ belongings: formData.belongings.filter((b) => b.id !== id) });
+    const otherCount = formData.belongings.filter(
+      (b) => b.type === "other",
+    ).length;
+    updateFormData({
+      belongings: formData.belongings.filter((b) => b.id !== id),
+    });
     if (item?.type === "other" && otherCount <= 1) setShowOtherInput(false);
   };
 
   const handleUpdateQuantity = (id: string, quantity: number | undefined) => {
     updateFormData({
       belongings: formData.belongings.map((b) =>
-        b.id === id ? { ...b, quantity: quantity && quantity > 0 ? quantity : undefined } : b
+        b.id === id
+          ? { ...b, quantity: quantity && quantity > 0 ? quantity : undefined }
+          : b,
       ),
     });
   };
@@ -115,7 +127,8 @@ export function BelongingsSection({
           {BELONGING_TYPES.map(({ value, label }) => {
             const isSelected =
               value === "other"
-                ? showOtherInput || formData.belongings.some((b) => b.type === "other")
+                ? showOtherInput ||
+                  formData.belongings.some((b) => b.type === "other")
                 : formData.belongings.some((b) => b.type === value);
             return (
               <button
@@ -126,22 +139,27 @@ export function BelongingsSection({
                   "inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-colors",
                   isSelected
                     ? "border-primary bg-primary text-primary-foreground"
-                    : "border-input bg-background hover:bg-accent hover:text-accent-foreground"
+                    : "border-input bg-background hover:bg-accent hover:text-accent-foreground",
                 )}
               >
                 {label}
-                {value === "other" && formData.belongings.some((b) => b.type === "other") && (
-                  <span className="bg-background/20 rounded-full px-1.5 text-xs">
-                    {formData.belongings.filter((b) => b.type === "other").length}
-                  </span>
-                )}
+                {value === "other" &&
+                  formData.belongings.some((b) => b.type === "other") && (
+                    <span className="bg-background/20 rounded-full px-1.5 text-xs">
+                      {
+                        formData.belongings.filter((b) => b.type === "other")
+                          .length
+                      }
+                    </span>
+                  )}
               </button>
             );
           })}
         </div>
 
         {/* Other – optional short note */}
-        {(showOtherInput || formData.belongings.some((b) => b.type === "other")) && (
+        {(showOtherInput ||
+          formData.belongings.some((b) => b.type === "other")) && (
           <div className="space-y-2">
             <Label className="text-muted-foreground">Other (describe)</Label>
             <div className="flex gap-2">
@@ -149,9 +167,16 @@ export function BelongingsSection({
                 value={otherNote}
                 onChange={(e) => setOtherNote(e.target.value)}
                 placeholder="e.g., Blanket, special toy"
-                onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), handleAddOther())}
+                onKeyDown={(e) =>
+                  e.key === "Enter" && (e.preventDefault(), handleAddOther())
+                }
               />
-              <Button type="button" variant="outline" onClick={handleAddOther} disabled={!otherNote.trim()}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleAddOther}
+                disabled={!otherNote.trim()}
+              >
                 Add
               </Button>
             </div>
@@ -170,10 +195,13 @@ export function BelongingsSection({
                 >
                   <div className="flex items-center gap-2 min-w-0">
                     <span className="font-medium">
-                      {BELONGING_TYPES.find((t) => t.value === item.type)?.label ?? item.type}
+                      {BELONGING_TYPES.find((t) => t.value === item.type)
+                        ?.label ?? item.type}
                     </span>
                     {item.notes && item.type === "other" && (
-                      <span className="text-muted-foreground truncate">— {item.notes}</span>
+                      <span className="text-muted-foreground truncate">
+                        — {item.notes}
+                      </span>
                     )}
                     <input
                       type="number"
@@ -181,7 +209,12 @@ export function BelongingsSection({
                       max={99}
                       value={item.quantity ?? ""}
                       onChange={(e) =>
-                        handleUpdateQuantity(item.id, e.target.value ? parseInt(e.target.value, 10) : undefined)
+                        handleUpdateQuantity(
+                          item.id,
+                          e.target.value
+                            ? parseInt(e.target.value, 10)
+                            : undefined,
+                        )
                       }
                       placeholder="Qty"
                       className="w-14 rounded border bg-background px-2 py-1 text-sm"
@@ -203,13 +236,18 @@ export function BelongingsSection({
 
         {config?.formTemplate.features.photoUploads && (
           <div className="space-y-2">
-            <Label className="text-muted-foreground">Photo of labeled bags (optional)</Label>
+            <Label className="text-muted-foreground">
+              Photo of labeled bags (optional)
+            </Label>
             <Input
               type="file"
               accept="image/*"
               onChange={(e) => {
                 const file = e.target.files?.[0];
-                if (file) updateFormData({ belongingsPhotoUrl: URL.createObjectURL(file) });
+                if (file)
+                  updateFormData({
+                    belongingsPhotoUrl: URL.createObjectURL(file),
+                  });
               }}
             />
             {formData.belongingsPhotoUrl && (
@@ -223,7 +261,9 @@ export function BelongingsSection({
                   variant="secondary"
                   size="icon"
                   className="absolute top-1 right-1 h-6 w-6"
-                  onClick={() => updateFormData({ belongingsPhotoUrl: undefined })}
+                  onClick={() =>
+                    updateFormData({ belongingsPhotoUrl: undefined })
+                  }
                 >
                   <X className="h-3 w-3" />
                 </Button>
@@ -236,9 +276,7 @@ export function BelongingsSection({
           <Button variant="outline" onClick={onBack}>
             Back
           </Button>
-          <Button onClick={onNext}>
-            {isLastSection ? "Review" : "Next"}
-          </Button>
+          <Button onClick={onNext}>{isLastSection ? "Review" : "Next"}</Button>
         </div>
       </CardContent>
     </Card>

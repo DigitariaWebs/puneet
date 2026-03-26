@@ -17,7 +17,13 @@ import {
 import { notifyFacilityStaffYipyyGoSubmitted } from "@/data/facility-notifications";
 import { getOrCreateCheckInToken } from "@/lib/qr-checkin";
 import { logCustomerSubmission } from "@/lib/checkin-audit";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -72,7 +78,9 @@ export default function YipyyGoFormPage({
 
   const pet = useMemo(() => {
     if (!customer || !booking) return null;
-    const petId = Array.isArray(booking.petId) ? booking.petId[0] : booking.petId;
+    const petId = Array.isArray(booking.petId)
+      ? booking.petId[0]
+      : booking.petId;
     return customer.pets?.find((p) => p.id === petId);
   }, [customer, booking]);
 
@@ -88,19 +96,19 @@ export default function YipyyGoFormPage({
   // Check deadline
   // For development/testing: always allow editing (bypass deadline check)
   const DEV_MODE = process.env.NODE_ENV === "development";
-  
+
   const deadlineInfo = useMemo(() => {
     if (!booking || !yipyyGoConfig) return null;
-    
+
     const checkInDate = new Date(booking.startDate);
     if (booking.checkInTime) {
       const [hours, minutes] = booking.checkInTime.split(":").map(Number);
       checkInDate.setHours(hours, minutes, 0, 0);
     }
-    
+
     const deadline = new Date(checkInDate);
     deadline.setHours(deadline.getHours() - yipyyGoConfig.timing.deadline);
-    
+
     // In development mode, always allow editing
     if (DEV_MODE) {
       return {
@@ -109,7 +117,7 @@ export default function YipyyGoFormPage({
         timeRemaining: "Unlimited (Dev Mode)",
       };
     }
-    
+
     return checkFormDeadline(deadline.toISOString());
   }, [booking, yipyyGoConfig]);
 
@@ -119,10 +127,10 @@ export default function YipyyGoFormPage({
 
     // Check if user is logged in (mock - in production, check auth context)
     const isLoggedIn = true; // TODO: Get from auth context
-    
+
     if (isLoggedIn) {
       setAuthState("authenticated");
-      
+
       // Load existing form or create new one
       const existingForm = getYipyyGoForm(booking.id);
       if (existingForm) {
@@ -135,12 +143,16 @@ export default function YipyyGoFormPage({
           checkInDate.setHours(hours, minutes, 0, 0);
         }
         const deadline = new Date(checkInDate);
-        deadline.setHours(deadline.getHours() - (yipyyGoConfig?.timing.deadline || 12));
+        deadline.setHours(
+          deadline.getHours() - (yipyyGoConfig?.timing.deadline || 12),
+        );
 
         const newForm: YipyyGoFormData = {
           bookingId: booking.id,
           clientId: booking.clientId,
-          petId: Array.isArray(booking.petId) ? booking.petId[0] : booking.petId,
+          petId: Array.isArray(booking.petId)
+            ? booking.petId[0]
+            : booking.petId,
           petName: pet.name,
           facilityId: booking.facilityId,
           belongings: [],
@@ -148,9 +160,9 @@ export default function YipyyGoFormPage({
           noMedications: false,
           addOns: [],
           // In development mode, always allow editing
-          isLocked: DEV_MODE ? false : (deadlineInfo?.isPastDeadline || false),
+          isLocked: DEV_MODE ? false : deadlineInfo?.isPastDeadline || false,
           deadline: deadline.toISOString(),
-          canEdit: DEV_MODE ? true : (deadlineInfo?.canEdit || false),
+          canEdit: DEV_MODE ? true : deadlineInfo?.canEdit || false,
         };
         setFormData(newForm);
       }
@@ -162,8 +174,12 @@ export default function YipyyGoFormPage({
   // Handle verification code request
   const handleRequestCode = async () => {
     if (!booking || !customer) return;
-    
-    const code = generateVerificationCode(booking.id, customer.email, customer.phone);
+
+    const code = generateVerificationCode(
+      booking.id,
+      customer.email,
+      customer.phone,
+    );
     setCodeSent(true);
     toast.success("Verification code sent to your email/SMS");
   };
@@ -171,12 +187,12 @@ export default function YipyyGoFormPage({
   // Handle verification code submission
   const handleVerifyCode = () => {
     if (!booking || !verificationCode) return;
-    
+
     const result = verifyCode(verificationCode, booking.id);
     if (result.valid) {
       setAuthState("authenticated");
       toast.success("Verified successfully!");
-      
+
       // Initialize form data
       const existingForm = getYipyyGoForm(booking.id);
       if (existingForm) {
@@ -203,9 +219,15 @@ export default function YipyyGoFormPage({
       });
 
       // Generate QR check-in token (booking_id + pet_id + token, no PII)
-      const petId = Array.isArray(booking.petId) ? booking.petId[0] : booking.petId;
+      const petId = Array.isArray(booking.petId)
+        ? booking.petId[0]
+        : booking.petId;
       if (!saved.qrCheckInToken) {
-        const token = getOrCreateCheckInToken(booking.id, petId, booking.facilityId);
+        const token = getOrCreateCheckInToken(
+          booking.id,
+          petId,
+          booking.facilityId,
+        );
         saved = saveYipyyGoForm({ ...saved, qrCheckInToken: token });
       }
 
@@ -232,7 +254,9 @@ export default function YipyyGoFormPage({
         sendEmail: yipyyGoConfig?.notifyStaffEmailOnSubmit ?? false,
       });
 
-      toast.success("YipyyGo form submitted successfully! You're check-in ready!");
+      toast.success(
+        "YipyyGo form submitted successfully! You're check-in ready!",
+      );
       router.push(`/customer/bookings/${booking.id}/check-in-qr`);
     } catch (error) {
       toast.error("Failed to submit form. Please try again.");
@@ -251,19 +275,36 @@ export default function YipyyGoFormPage({
   // Last stay form for "Use same as last time" (plane check-in style, under 2–4 min)
   const lastStayForm = useMemo(() => {
     if (!booking || !pet) return null;
-    const petId = Array.isArray(booking.petId) ? booking.petId[0] : booking.petId;
-    return getLastStayFormForPet(booking.clientId, petId, booking.facilityId, booking.id);
+    const petId = Array.isArray(booking.petId)
+      ? booking.petId[0]
+      : booking.petId;
+    return getLastStayFormForPet(
+      booking.clientId,
+      petId,
+      booking.facilityId,
+      booking.id,
+    );
   }, [booking, pet]);
 
   const applyLastStayPreferences = () => {
     if (!formData || !lastStayForm) return;
     setFormData({
       ...formData,
-      belongings: lastStayForm.belongings?.length ? lastStayForm.belongings.map((b) => ({ ...b, id: `item-${Date.now()}-${Math.random().toString(36).slice(2)}` })) : formData.belongings,
-      belongingsPhotoUrl: lastStayForm.belongingsPhotoUrl ?? formData.belongingsPhotoUrl,
-      feedingInstructions: lastStayForm.feedingInstructions ?? formData.feedingInstructions,
+      belongings: lastStayForm.belongings?.length
+        ? lastStayForm.belongings.map((b) => ({
+            ...b,
+            id: `item-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+          }))
+        : formData.belongings,
+      belongingsPhotoUrl:
+        lastStayForm.belongingsPhotoUrl ?? formData.belongingsPhotoUrl,
+      feedingInstructions:
+        lastStayForm.feedingInstructions ?? formData.feedingInstructions,
       medications: lastStayForm.medications?.length
-        ? lastStayForm.medications.map((m) => ({ ...m, id: `med-${Date.now()}-${Math.random().toString(36).slice(2)}` }))
+        ? lastStayForm.medications.map((m) => ({
+            ...m,
+            id: `med-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+          }))
         : formData.medications,
       noMedications: lastStayForm.noMedications ?? formData.noMedications,
       behaviorNotes: lastStayForm.behaviorNotes ?? formData.behaviorNotes,
@@ -308,20 +349,27 @@ export default function YipyyGoFormPage({
           <CardHeader>
             <CardTitle>Access YipyyGo Form</CardTitle>
             <CardDescription>
-              Please log in or verify with a code to access the pre-check-in form
+              Please log in or verify with a code to access the pre-check-in
+              form
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <Button
               className="w-full"
-              onClick={() => router.push(`/customer/auth/login?redirect=/customer/bookings/${id}/yipyygo-form`)}
+              onClick={() =>
+                router.push(
+                  `/customer/auth/login?redirect=/customer/bookings/${id}/yipyygo-form`,
+                )
+              }
             >
               Log In to Portal
             </Button>
             <div className="relative">
               <Separator />
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="bg-background px-2 text-sm text-muted-foreground">OR</span>
+                <span className="bg-background px-2 text-sm text-muted-foreground">
+                  OR
+                </span>
               </div>
             </div>
             {!codeSent ? (
@@ -417,7 +465,8 @@ export default function YipyyGoFormPage({
             <Alert>
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>
-                Please contact the facility directly to provide this information.
+                Please contact the facility directly to provide this
+                information.
               </AlertDescription>
             </Alert>
             <Button
@@ -446,7 +495,11 @@ export default function YipyyGoFormPage({
     { id: "belongings", label: "Belongings", component: BelongingsSection },
     { id: "feeding", label: "Feeding Instructions", component: FeedingSection },
     { id: "medication", label: "Medications", component: MedicationSection },
-    { id: "behavior", label: "Behavior & Special Notes", component: BehaviorSection },
+    {
+      id: "behavior",
+      label: "Behavior & Special Notes",
+      component: BehaviorSection,
+    },
     ...(yipyyGoConfig?.formTemplate.features.addOnsSection
       ? [{ id: "addons", label: "Add-ons", component: AddOnsSection }]
       : []),
@@ -459,7 +512,10 @@ export default function YipyyGoFormPage({
   const CurrentSectionComponent = sections[currentSection]?.component;
 
   const totalSections = sections.length;
-  const stepLabel = currentSection === totalSections - 1 ? "Review" : `Step ${currentSection + 1} of ${totalSections - 1}`;
+  const stepLabel =
+    currentSection === totalSections - 1
+      ? "Review"
+      : `Step ${currentSection + 1} of ${totalSections - 1}`;
 
   return (
     <div className="min-h-screen bg-background p-4">
@@ -506,7 +562,8 @@ export default function YipyyGoFormPage({
                   <div>
                     <p className="font-medium">Use same as last time</p>
                     <p className="text-sm text-muted-foreground">
-                      Copy belongings, feeding, meds & behavior from your last stay
+                      Copy belongings, feeding, meds & behavior from your last
+                      stay
                     </p>
                   </div>
                 </div>
@@ -596,7 +653,11 @@ export default function YipyyGoFormPage({
               Back
             </Button>
             <Button
-              onClick={() => setCurrentSection(Math.min(sections.length - 1, currentSection + 1))}
+              onClick={() =>
+                setCurrentSection(
+                  Math.min(sections.length - 1, currentSection + 1),
+                )
+              }
             >
               Next: {sections[currentSection + 1]?.label}
             </Button>

@@ -2,7 +2,13 @@
 
 import { useMemo, useState, useEffect } from "react";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -50,14 +56,18 @@ export default function CustomerDashboardPage() {
   }, []);
 
   // Get customer data
-  const customer = useMemo(() => clients.find((c) => c.id === MOCK_CUSTOMER_ID), []);
+  const customer = useMemo(
+    () => clients.find((c) => c.id === MOCK_CUSTOMER_ID),
+    [],
+  );
   const customerPets = useMemo(() => customer?.pets || [], [customer]);
 
   // Get customer bookings for selected facility
   const customerBookings = useMemo(() => {
     if (!selectedFacility) return [];
     return bookings.filter(
-      (b) => b.clientId === MOCK_CUSTOMER_ID && b.facilityId === selectedFacility.id
+      (b) =>
+        b.clientId === MOCK_CUSTOMER_ID && b.facilityId === selectedFacility.id,
     );
   }, [selectedFacility]);
 
@@ -70,7 +80,10 @@ export default function CustomerDashboardPage() {
         const bookingDate = new Date(b.startDate);
         return bookingDate >= now && b.status !== "cancelled";
       })
-      .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+      .sort(
+        (a, b) =>
+          new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
+      );
   }, [customerBookings, isMounted]);
 
   // Get past bookings
@@ -82,7 +95,10 @@ export default function CustomerDashboardPage() {
         const bookingDate = new Date(b.endDate || b.startDate);
         return bookingDate < now || b.status === "completed";
       })
-      .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
+      .sort(
+        (a, b) =>
+          new Date(b.startDate).getTime() - new Date(a.startDate).getTime(),
+      );
   }, [customerBookings, isMounted]);
 
   // Get next booking
@@ -99,23 +115,38 @@ export default function CustomerDashboardPage() {
   // Get messages count
   const messagesData = useMemo(() => {
     const customerMessages = clientCommunications.filter(
-      (m) => m.clientId === MOCK_CUSTOMER_ID && m.facilityId === selectedFacility?.id
+      (m) =>
+        m.clientId === MOCK_CUSTOMER_ID &&
+        m.facilityId === selectedFacility?.id,
     );
-    const unreadCount = customerMessages.filter((m) => m.status !== "read").length;
+    const unreadCount = customerMessages.filter(
+      (m) => m.status !== "read",
+    ).length;
     const recentMessages = customerMessages
-      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+      .sort(
+        (a, b) =>
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+      )
       .slice(0, 3);
-    return { total: customerMessages.length, unread: unreadCount, recent: recentMessages };
+    return {
+      total: customerMessages.length,
+      unread: unreadCount,
+      recent: recentMessages,
+    };
   }, [selectedFacility]);
 
   // Get report cards count
   const reportCardsData = useMemo(() => {
     const customerReportCards = reportCards.filter((rc) => {
       const booking = bookings.find((b) => b.id === rc.bookingId);
-      return booking?.clientId === MOCK_CUSTOMER_ID && booking?.facilityId === selectedFacility?.id;
+      return (
+        booking?.clientId === MOCK_CUSTOMER_ID &&
+        booking?.facilityId === selectedFacility?.id
+      );
     });
-    const latestReportCard = customerReportCards
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+    const latestReportCard = customerReportCards.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+    )[0];
     return {
       total: customerReportCards.length,
       latest: latestReportCard ? new Date(latestReportCard.date) : null,
@@ -124,19 +155,26 @@ export default function CustomerDashboardPage() {
 
   // Get loyalty data
   const loyaltyData = useMemo(() => {
-    const customerLoyalty = customerLoyaltyData.find((l) => l.clientId === MOCK_CUSTOMER_ID);
+    const customerLoyalty = customerLoyaltyData.find(
+      (l) => l.clientId === MOCK_CUSTOMER_ID,
+    );
     if (!customerLoyalty) return null;
 
-    const currentTier = loyaltySettings.tiers.find((t) => t.id === customerLoyalty.tier);
-    const nextTier = loyaltySettings.tiers.find(
-      (t) => t.minPoints > customerLoyalty.points
+    const currentTier = loyaltySettings.tiers.find(
+      (t) => t.id === customerLoyalty.tier,
     );
-    const pointsToNextTier = nextTier ? nextTier.minPoints - customerLoyalty.points : 0;
+    const nextTier = loyaltySettings.tiers.find(
+      (t) => t.minPoints > customerLoyalty.points,
+    );
+    const pointsToNextTier = nextTier
+      ? nextTier.minPoints - customerLoyalty.points
+      : 0;
     const currentTierMaxPoints = nextTier ? nextTier.minPoints : Infinity;
     const currentTierMinPoints = currentTier?.minPoints || 0;
     const progressInTier = customerLoyalty.points - currentTierMinPoints;
     const tierRange = currentTierMaxPoints - currentTierMinPoints;
-    const progressPercentage = tierRange > 0 ? (progressInTier / tierRange) * 100 : 0;
+    const progressPercentage =
+      tierRange > 0 ? (progressInTier / tierRange) * 100 : 0;
 
     return {
       ...customerLoyalty,
@@ -150,7 +188,13 @@ export default function CustomerDashboardPage() {
   // Check for urgent actions
   const urgentActions = useMemo(() => {
     const actions: Array<{
-      type: "vaccination_expired" | "vaccination_expiring" | "booking_pending" | "payment_failed" | "waiver_expiring" | "yipyygo_needed";
+      type:
+        | "vaccination_expired"
+        | "vaccination_expiring"
+        | "booking_pending"
+        | "payment_failed"
+        | "waiver_expiring"
+        | "yipyygo_needed";
       priority: "high" | "medium";
       title: string;
       message: string;
@@ -162,12 +206,20 @@ export default function CustomerDashboardPage() {
     if (!customer) return actions;
 
     // Check for YipyyGo forms needed (upcoming bookings with form not submitted/approved)
-    const yipyyGoConfig = selectedFacility ? getYipyyGoConfig(selectedFacility.id) : null;
+    const yipyyGoConfig = selectedFacility
+      ? getYipyyGoConfig(selectedFacility.id)
+      : null;
     if (yipyyGoConfig?.enabled) {
       const now = new Date();
       const upcomingNeedingForm = upcomingBookings.filter((b) => {
-        const svc = b.service?.toLowerCase() as "daycare" | "boarding" | "grooming" | "training";
-        const serviceConfig = yipyyGoConfig.serviceConfigs.find((s) => s.serviceType === svc);
+        const svc = b.service?.toLowerCase() as
+          | "daycare"
+          | "boarding"
+          | "grooming"
+          | "training";
+        const serviceConfig = yipyyGoConfig.serviceConfigs.find(
+          (s) => s.serviceType === svc,
+        );
         if (!serviceConfig?.enabled) return false;
         const status = getYipyyGoDisplayStatus(b.id);
         return status !== "approved" && status !== "submitted";
@@ -190,16 +242,19 @@ export default function CustomerDashboardPage() {
 
     // Check for expired vaccinations
     customerPets.forEach((pet) => {
-      const petVaccinations = vaccinationRecords.filter((v) => v.petId === pet.id);
-      const requiredVaccines = facilityConfig.vaccinationRequirements.requiredVaccinations.filter(
-        (v) => v.required
+      const petVaccinations = vaccinationRecords.filter(
+        (v) => v.petId === pet.id,
       );
+      const requiredVaccines =
+        facilityConfig.vaccinationRequirements.requiredVaccinations.filter(
+          (v) => v.required,
+        );
 
       requiredVaccines.forEach((req) => {
         const vaccination = petVaccinations.find(
           (v) =>
             v.vaccineName.toLowerCase().includes(req.name.toLowerCase()) ||
-            req.name.toLowerCase().includes(v.vaccineName.toLowerCase())
+            req.name.toLowerCase().includes(v.vaccineName.toLowerCase()),
         );
 
         if (!vaccination) {
@@ -216,7 +271,7 @@ export default function CustomerDashboardPage() {
           const expiryDate = new Date(vaccination.expiryDate);
           const now = new Date();
           const daysUntilExpiry = Math.floor(
-            (expiryDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+            (expiryDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24),
           );
 
           if (daysUntilExpiry < 0) {
@@ -245,7 +300,9 @@ export default function CustomerDashboardPage() {
     });
 
     // Check for pending booking requests
-    const pendingBookings = customerBookings.filter((b) => b.status === "pending" || b.status === "request_submitted");
+    const pendingBookings = customerBookings.filter(
+      (b) => b.status === "pending" || b.status === "request_submitted",
+    );
     if (pendingBookings.length > 0) {
       actions.push({
         type: "booking_pending",
@@ -259,9 +316,13 @@ export default function CustomerDashboardPage() {
 
     // Check for failed payments
     const customerPayments = payments.filter(
-      (p) => p.clientId === MOCK_CUSTOMER_ID && p.facilityId === selectedFacility?.id
+      (p) =>
+        p.clientId === MOCK_CUSTOMER_ID &&
+        p.facilityId === selectedFacility?.id,
     );
-    const failedPayments = customerPayments.filter((p) => p.status === "failed");
+    const failedPayments = customerPayments.filter(
+      (p) => p.status === "failed",
+    );
     if (failedPayments.length > 0) {
       actions.push({
         type: "payment_failed",
@@ -275,9 +336,13 @@ export default function CustomerDashboardPage() {
 
     // Check for overdue invoices
     const customerInvoices = invoices.filter(
-      (inv) => inv.clientId === MOCK_CUSTOMER_ID && inv.facilityId === selectedFacility?.id
+      (inv) =>
+        inv.clientId === MOCK_CUSTOMER_ID &&
+        inv.facilityId === selectedFacility?.id,
     );
-    const overdueInvoices = customerInvoices.filter((inv) => inv.status === "overdue");
+    const overdueInvoices = customerInvoices.filter(
+      (inv) => inv.status === "overdue",
+    );
     if (overdueInvoices.length > 0) {
       actions.push({
         type: "payment_failed",
@@ -294,7 +359,13 @@ export default function CustomerDashboardPage() {
       if (a.priority !== "high" && b.priority === "high") return 1;
       return 0;
     });
-  }, [customer, customerPets, customerBookings, upcomingBookings, selectedFacility]);
+  }, [
+    customer,
+    customerPets,
+    customerBookings,
+    upcomingBookings,
+    selectedFacility,
+  ]);
 
   // Format date/time helper
   const formatDateTime = (dateString: string, timeString?: string) => {
@@ -372,7 +443,9 @@ export default function CustomerDashboardPage() {
             />
           )}
           <div className="space-y-1">
-            <h1 className="text-3xl font-bold">Welcome back{customer ? `, ${customer.name.split(" ")[0]}` : ""}!</h1>
+            <h1 className="text-3xl font-bold">
+              Welcome back{customer ? `, ${customer.name.split(" ")[0]}` : ""}!
+            </h1>
             <p className="text-muted-foreground">
               {isMounted && selectedFacility
                 ? `Manage your pets and book services at ${selectedFacility.name}`
@@ -399,28 +472,42 @@ export default function CustomerDashboardPage() {
                   <div>
                     <h3 className="font-semibold text-lg capitalize">
                       {nextBooking.service}
-                      {nextBookingPet && ` – ${nextBookingPet.name} (${nextBookingPet.breed})`}
+                      {nextBookingPet &&
+                        ` – ${nextBookingPet.name} (${nextBookingPet.breed})`}
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                      {formatDateTime(nextBooking.startDate, nextBooking.checkInTime || undefined)}
+                      {formatDateTime(
+                        nextBooking.startDate,
+                        nextBooking.checkInTime || undefined,
+                      )}
                     </p>
                     {nextBooking.groomingStyle && (
                       <p className="text-sm text-muted-foreground mt-1">
                         {nextBooking.groomingStyle}
-                        {nextBooking.groomingAddOns && nextBooking.groomingAddOns.length > 0 && (
-                          <span> + {nextBooking.groomingAddOns.join(", ")}</span>
-                        )}
+                        {nextBooking.groomingAddOns &&
+                          nextBooking.groomingAddOns.length > 0 && (
+                            <span>
+                              {" "}
+                              + {nextBooking.groomingAddOns.join(", ")}
+                            </span>
+                          )}
                       </p>
                     )}
-                    <p className="text-lg font-semibold mt-2">${nextBooking.totalCost}</p>
+                    <p className="text-lg font-semibold mt-2">
+                      ${nextBooking.totalCost}
+                    </p>
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
                   <Button variant="outline" size="sm" asChild>
-                    <Link href={`/customer/bookings/${nextBooking.id}`}>Reschedule</Link>
+                    <Link href={`/customer/bookings/${nextBooking.id}`}>
+                      Reschedule
+                    </Link>
                   </Button>
                   <Button size="sm" asChild>
-                    <Link href={`/customer/bookings/${nextBooking.id}`}>View Details</Link>
+                    <Link href={`/customer/bookings/${nextBooking.id}`}>
+                      View Details
+                    </Link>
                   </Button>
                 </div>
               </div>
@@ -430,7 +517,10 @@ export default function CustomerDashboardPage() {
 
         {/* Dashboard Summary Tiles */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card className="cursor-pointer hover:bg-accent/50 transition-colors" onClick={() => window.location.href = "/customer/pets"}>
+          <Card
+            className="cursor-pointer hover:bg-accent/50 transition-colors"
+            onClick={() => (window.location.href = "/customer/pets")}
+          >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">My Pets</CardTitle>
               <PawPrint className="h-4 w-4 text-muted-foreground" />
@@ -445,13 +535,18 @@ export default function CustomerDashboardPage() {
             </CardContent>
           </Card>
 
-          <Card className="cursor-pointer hover:bg-accent/50 transition-colors" onClick={() => window.location.href = "/customer/bookings"}>
+          <Card
+            className="cursor-pointer hover:bg-accent/50 transition-colors"
+            onClick={() => (window.location.href = "/customer/bookings")}
+          >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Upcoming</CardTitle>
               <Calendar className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{upcomingBookings.length}</div>
+              <div className="text-2xl font-bold">
+                {upcomingBookings.length}
+              </div>
               <p className="text-xs text-muted-foreground">
                 {upcomingBookings.length > 0 && nextBooking
                   ? `Next: ${formatDateShort(new Date(nextBooking.startDate))}`
@@ -460,7 +555,10 @@ export default function CustomerDashboardPage() {
             </CardContent>
           </Card>
 
-          <Card className="cursor-pointer hover:bg-accent/50 transition-colors" onClick={() => window.location.href = "/customer/messages"}>
+          <Card
+            className="cursor-pointer hover:bg-accent/50 transition-colors"
+            onClick={() => (window.location.href = "/customer/messages")}
+          >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Messages</CardTitle>
               <MessageSquare className="h-4 w-4 text-muted-foreground" />
@@ -469,7 +567,9 @@ export default function CustomerDashboardPage() {
               <div className="text-2xl font-bold">{messagesData.total}</div>
               <p className="text-xs text-muted-foreground">
                 {messagesData.unread > 0 ? (
-                  <span className="text-orange-600 font-medium">{messagesData.unread} new messages</span>
+                  <span className="text-orange-600 font-medium">
+                    {messagesData.unread} new messages
+                  </span>
                 ) : (
                   "No new messages"
                 )}
@@ -477,9 +577,14 @@ export default function CustomerDashboardPage() {
             </CardContent>
           </Card>
 
-          <Card className="cursor-pointer hover:bg-accent/50 transition-colors" onClick={() => window.location.href = "/customer/report-cards"}>
+          <Card
+            className="cursor-pointer hover:bg-accent/50 transition-colors"
+            onClick={() => (window.location.href = "/customer/report-cards")}
+          >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Report Cards</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Report Cards
+              </CardTitle>
               <FileText className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -499,24 +604,38 @@ export default function CustomerDashboardPage() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between gap-6 flex-wrap">
                 <div className="flex items-center gap-4">
-                  <div className="text-4xl font-bold text-white drop-shadow-md">{loyaltyData.points} pts</div>
+                  <div className="text-4xl font-bold text-white drop-shadow-md">
+                    {loyaltyData.points} pts
+                  </div>
                 </div>
                 <div className="flex-1 min-w-[200px]">
-                  <div className="text-xs uppercase tracking-wide mb-1 text-white drop-shadow-sm">LOYALTY REWARDS</div>
+                  <div className="text-xs uppercase tracking-wide mb-1 text-white drop-shadow-sm">
+                    LOYALTY REWARDS
+                  </div>
                   <div className="text-sm mb-2 text-slate-900 font-medium">
                     {loyaltyData.currentTier?.name || "Bronze"}
-                    {loyaltyData.nextTier && ` - ${loyaltyData.pointsToNextTier} pts to ${loyaltyData.nextTier.name}`}
+                    {loyaltyData.nextTier &&
+                      ` - ${loyaltyData.pointsToNextTier} pts to ${loyaltyData.nextTier.name}`}
                   </div>
                   {loyaltyData.nextTier && (
                     <>
-                      <Progress value={loyaltyData.progressPercentage} className="h-2 mb-1" />
+                      <Progress
+                        value={loyaltyData.progressPercentage}
+                        className="h-2 mb-1"
+                      />
                       <div className="text-xs text-slate-700">
-                        {loyaltyData.points}/{loyaltyData.nextTier.minPoints} pts to {loyaltyData.nextTier.name}
+                        {loyaltyData.points}/{loyaltyData.nextTier.minPoints}{" "}
+                        pts to {loyaltyData.nextTier.name}
                       </div>
                     </>
                   )}
                 </div>
-                <Button variant="secondary" size="sm" className="bg-white text-primary hover:bg-white/90" asChild>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="bg-white text-primary hover:bg-white/90"
+                  asChild
+                >
                   <Link href="/customer/rewards">Redeem Points</Link>
                 </Button>
               </div>
@@ -530,7 +649,10 @@ export default function CustomerDashboardPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>My Pets</CardTitle>
-                <Link href="/customer/pets" className="text-sm text-muted-foreground hover:text-foreground">
+                <Link
+                  href="/customer/pets"
+                  className="text-sm text-muted-foreground hover:text-foreground"
+                >
                   Manage all →
                 </Link>
               </div>
@@ -549,7 +671,10 @@ export default function CustomerDashboardPage() {
                   {customerPets.map((pet) => {
                     const petServices = getPetServices(pet.id);
                     return (
-                      <div key={pet.id} className="flex items-center gap-3 p-3 rounded-lg border bg-background/60">
+                      <div
+                        key={pet.id}
+                        className="flex items-center gap-3 p-3 rounded-lg border bg-background/60"
+                      >
                         <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
                           <Dog className="h-6 w-6 text-primary" />
                         </div>
@@ -558,15 +683,22 @@ export default function CustomerDashboardPage() {
                             <p className="font-medium text-sm">{pet.name}</p>
                             <div className="flex items-center gap-1">
                               <div className="h-2 w-2 rounded-full bg-green-500" />
-                              <span className="text-xs text-muted-foreground">Healthy</span>
+                              <span className="text-xs text-muted-foreground">
+                                Healthy
+                              </span>
                             </div>
                           </div>
                           <p className="text-xs text-muted-foreground">
-                            {pet.breed} - {pet.age} {pet.age === 1 ? "yr" : "yrs"}
+                            {pet.breed} - {pet.age}{" "}
+                            {pet.age === 1 ? "yr" : "yrs"}
                           </p>
                           <div className="flex flex-wrap gap-1 mt-1">
                             {petServices.map((service) => (
-                              <Badge key={service} variant="secondary" className="text-xs capitalize">
+                              <Badge
+                                key={service}
+                                variant="secondary"
+                                className="text-xs capitalize"
+                              >
                                 {service}
                               </Badge>
                             ))}
@@ -591,7 +723,10 @@ export default function CustomerDashboardPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>Messages</CardTitle>
-                <Link href="/customer/messages" className="text-sm text-muted-foreground hover:text-foreground">
+                <Link
+                  href="/customer/messages"
+                  className="text-sm text-muted-foreground hover:text-foreground"
+                >
                   View all →
                 </Link>
               </div>
@@ -606,8 +741,10 @@ export default function CustomerDashboardPage() {
                 messagesData.recent.map((message) => {
                   const isUnread = message.status !== "read";
                   const getIcon = () => {
-                    if (message.staffName?.toLowerCase().includes("groomer")) return PawPrint;
-                    if (message.staffName?.toLowerCase().includes("trainer")) return GraduationCap;
+                    if (message.staffName?.toLowerCase().includes("groomer"))
+                      return PawPrint;
+                    if (message.staffName?.toLowerCase().includes("trainer"))
+                      return GraduationCap;
                     return Building2;
                   };
                   const Icon = getIcon();
@@ -615,18 +752,28 @@ export default function CustomerDashboardPage() {
                     <div
                       key={message.id}
                       className="flex items-start gap-3 p-3 rounded-lg border bg-background/60 cursor-pointer hover:bg-accent/50 transition-colors"
-                      onClick={() => window.location.href = "/customer/messages"}
+                      onClick={() =>
+                        (window.location.href = "/customer/messages")
+                      }
                     >
                       <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                         <Icon className="h-5 w-5 text-primary" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2">
-                          <p className="font-medium text-sm">{message.staffName || "Facility Team"}</p>
-                          {isUnread && <div className="h-2 w-2 rounded-full bg-orange-500 flex-shrink-0" />}
+                          <p className="font-medium text-sm">
+                            {message.staffName || "Facility Team"}
+                          </p>
+                          {isUnread && (
+                            <div className="h-2 w-2 rounded-full bg-orange-500 flex-shrink-0" />
+                          )}
                         </div>
-                        <p className="text-xs text-muted-foreground truncate">{message.subject}</p>
-                        <p className="text-xs text-muted-foreground mt-1">{formatTimeAgo(message.timestamp)}</p>
+                        <p className="text-xs text-muted-foreground truncate">
+                          {message.subject}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          {formatTimeAgo(message.timestamp)}
+                        </p>
                       </div>
                     </div>
                   );
@@ -670,7 +817,9 @@ export default function CustomerDashboardPage() {
               urgentActions.slice(0, 3).map((action, index) => (
                 <Alert
                   key={index}
-                  variant={action.priority === "high" ? "destructive" : "default"}
+                  variant={
+                    action.priority === "high" ? "destructive" : "default"
+                  }
                   className="border-l-4"
                 >
                   <AlertCircle className="h-4 w-4" />
@@ -678,9 +827,16 @@ export default function CustomerDashboardPage() {
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex-1">
                         <p className="font-semibold text-sm">{action.title}</p>
-                        <p className="text-xs text-muted-foreground mt-1">{action.message}</p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          {action.message}
+                        </p>
                       </div>
-                      <Button variant="outline" size="sm" className="h-7 text-xs" asChild>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-7 text-xs"
+                        asChild
+                      >
                         <Link href={action.actionLink}>
                           {action.actionLabel}
                           <ExternalLink className="ml-1 h-3 w-3" />
@@ -700,7 +856,10 @@ export default function CustomerDashboardPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>Upcoming Bookings</CardTitle>
-                <Link href="/customer/bookings" className="text-sm text-muted-foreground hover:text-foreground">
+                <Link
+                  href="/customer/bookings"
+                  className="text-sm text-muted-foreground hover:text-foreground"
+                >
                   View all →
                 </Link>
               </div>
@@ -713,14 +872,18 @@ export default function CustomerDashboardPage() {
                   <div
                     key={booking.id}
                     className="flex items-center gap-3 p-3 rounded-lg border bg-background/60 cursor-pointer hover:bg-accent/50 transition-colors"
-                    onClick={() => window.location.href = `/customer/bookings/${booking.id}`}
+                    onClick={() =>
+                      (window.location.href = `/customer/bookings/${booking.id}`)
+                    }
                   >
                     <div className="p-2 rounded-lg bg-primary/10">
                       <ServiceIcon className="h-4 w-4 text-primary" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <p className="font-medium text-sm uppercase">{booking.service}</p>
+                        <p className="font-medium text-sm uppercase">
+                          {booking.service}
+                        </p>
                         <Badge variant="outline" className="text-xs">
                           {booking.status}
                         </Badge>
@@ -728,15 +891,21 @@ export default function CustomerDashboardPage() {
                       <p className="text-xs text-muted-foreground">
                         {pet?.name}
                         {booking.groomingStyle && ` - ${booking.groomingStyle}`}
-                        {booking.groomingAddOns && booking.groomingAddOns.length > 0 && (
-                          <span> + {booking.groomingAddOns.join(", ")}</span>
-                        )}
+                        {booking.groomingAddOns &&
+                          booking.groomingAddOns.length > 0 && (
+                            <span> + {booking.groomingAddOns.join(", ")}</span>
+                          )}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        {formatDateTime(booking.startDate, booking.checkInTime || undefined)}
+                        {formatDateTime(
+                          booking.startDate,
+                          booking.checkInTime || undefined,
+                        )}
                       </p>
                     </div>
-                    <div className="text-sm font-semibold text-primary">${booking.totalCost}</div>
+                    <div className="text-sm font-semibold text-primary">
+                      ${booking.totalCost}
+                    </div>
                   </div>
                 );
               })}

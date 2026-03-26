@@ -44,13 +44,41 @@ const statusColors: Record<
   GroomingStatus,
   { bg: string; text: string; border: string }
 > = {
-  scheduled: { bg: "bg-blue-50", text: "text-blue-700", border: "border-blue-200" },
-  "checked-in": { bg: "bg-purple-50", text: "text-purple-700", border: "border-purple-200" },
-  "in-progress": { bg: "bg-yellow-50", text: "text-yellow-700", border: "border-yellow-200" },
-  "ready-for-pickup": { bg: "bg-green-50", text: "text-green-700", border: "border-green-200" },
-  completed: { bg: "bg-gray-50", text: "text-gray-700", border: "border-gray-200" },
-  cancelled: { bg: "bg-red-50", text: "text-red-700", border: "border-red-200" },
-  "no-show": { bg: "bg-orange-50", text: "text-orange-700", border: "border-orange-200" },
+  scheduled: {
+    bg: "bg-blue-50",
+    text: "text-blue-700",
+    border: "border-blue-200",
+  },
+  "checked-in": {
+    bg: "bg-purple-50",
+    text: "text-purple-700",
+    border: "border-purple-200",
+  },
+  "in-progress": {
+    bg: "bg-yellow-50",
+    text: "text-yellow-700",
+    border: "border-yellow-200",
+  },
+  "ready-for-pickup": {
+    bg: "bg-green-50",
+    text: "text-green-700",
+    border: "border-green-200",
+  },
+  completed: {
+    bg: "bg-gray-50",
+    text: "text-gray-700",
+    border: "border-gray-200",
+  },
+  cancelled: {
+    bg: "bg-red-50",
+    text: "text-red-700",
+    border: "border-red-200",
+  },
+  "no-show": {
+    bg: "bg-orange-50",
+    text: "text-orange-700",
+    border: "border-orange-200",
+  },
 };
 
 export default function GroomerDashboardPage() {
@@ -63,11 +91,10 @@ export default function GroomerDashboardPage() {
   const [afterPhotos, setAfterPhotos] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [userId, setUserId] = useState<string | null>(null);
-  
+
   // Local state for appointments to allow updates
-  const [appointmentsData, setAppointmentsData] = useState<GroomingAppointment[]>(
-    groomingAppointments,
-  );
+  const [appointmentsData, setAppointmentsData] =
+    useState<GroomingAppointment[]>(groomingAppointments);
 
   useEffect(() => {
     // Get user ID on mount
@@ -148,9 +175,7 @@ export default function GroomerDashboardPage() {
     };
 
     setAppointmentsData((prev) =>
-      prev.map((apt) =>
-        apt.id === appointment.id ? updatedAppointment : apt,
-      ),
+      prev.map((apt) => (apt.id === appointment.id ? updatedAppointment : apt)),
     );
 
     // Send pickup notifications (SMS and/or Email) if enabled
@@ -161,12 +186,15 @@ export default function GroomerDashboardPage() {
     };
 
     try {
-      const results = await sendPickupNotifications(updatedAppointment, settings);
-      
+      const results = await sendPickupNotifications(
+        updatedAppointment,
+        settings,
+      );
+
       const notificationMessages: string[] = [];
       if (results.smsSent) notificationMessages.push("SMS sent");
       if (results.emailSent) notificationMessages.push("Email sent");
-      
+
       if (notificationMessages.length > 0) {
         toast.success("Marked as ready", {
           description: `${appointment.petName} is ready for pickup! ${notificationMessages.join(" and ")}.`,
@@ -254,11 +282,11 @@ export default function GroomerDashboardPage() {
 
     // Get existing photos that are already GroomingPhoto objects (from appointment)
     const existingPhotos = selectedAppointment.afterPhotos || [];
-    
+
     // Find which photos are new (URLs that don't exist in existing photos)
     const existingUrls = new Set(existingPhotos.map((p) => p.url));
     const newPhotoUrls = afterPhotos.filter((url) => !existingUrls.has(url));
-    
+
     // Create GroomingPhoto objects only for new photos
     const newPhotos: GroomingPhoto[] = newPhotoUrls.map((url, idx) => ({
       id: `photo-${selectedAppointment.id}-${idx}-${Date.now()}`,
@@ -300,14 +328,11 @@ export default function GroomerDashboardPage() {
   const getStatusBadge = (status: GroomingStatus) => {
     const colors = statusColors[status];
     return (
-      <Badge
-        className={`${colors.bg} ${colors.text} ${colors.border} border`}
-      >
+      <Badge className={`${colors.bg} ${colors.text} ${colors.border} border`}>
         {status.replace("-", " ")}
       </Badge>
     );
   };
-
 
   return (
     <div className="p-6 space-y-6">
@@ -490,7 +515,10 @@ export default function GroomerDashboardPage() {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsNotesModalOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setIsNotesModalOpen(false)}
+            >
               Cancel
             </Button>
             <Button onClick={handleSaveNotes}>Save Notes</Button>

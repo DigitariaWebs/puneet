@@ -5,7 +5,11 @@ import { Search, Loader2, Plus, ArrowRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import { Popover, PopoverAnchor, PopoverContent } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverAnchor,
+  PopoverContent,
+} from "@/components/ui/popover";
 import {
   Command,
   CommandEmpty,
@@ -59,7 +63,8 @@ function useDebouncedValue<T>(value: T, delayMs: number) {
 }
 
 function groupLabel(entityType: GlobalSearchEntityType) {
-  if (entityType === "pet" || entityType === "customer") return "Pets / Customers";
+  if (entityType === "pet" || entityType === "customer")
+    return "Pets / Customers";
   if (entityType === "booking") return "Bookings";
   return "Invoices";
 }
@@ -198,10 +203,9 @@ export function ResultsDropdown({
                 </CommandGroup>
               )}
 
-              {(grouped["Pets / Customers"].length > 0 &&
-                (grouped.Bookings.length > 0 || grouped.Invoices.length > 0)) && (
-                <CommandSeparator />
-              )}
+              {grouped["Pets / Customers"].length > 0 &&
+                (grouped.Bookings.length > 0 ||
+                  grouped.Invoices.length > 0) && <CommandSeparator />}
 
               {grouped.Bookings.length > 0 && (
                 <CommandGroup heading="Bookings">
@@ -215,7 +219,7 @@ export function ResultsDropdown({
                 </CommandGroup>
               )}
 
-              {(grouped.Bookings.length > 0 && grouped.Invoices.length > 0) && (
+              {grouped.Bookings.length > 0 && grouped.Invoices.length > 0 && (
                 <CommandSeparator />
               )}
 
@@ -252,7 +256,10 @@ export function ResultsDropdown({
                 <>
                   <CommandSeparator />
                   <CommandGroup heading="Actions">
-                    <CommandItem value="View all results" onSelect={() => onNavigate(viewAllHref)}>
+                    <CommandItem
+                      value="View all results"
+                      onSelect={() => onNavigate(viewAllHref)}
+                    >
                       <ArrowRight className="size-4" />
                       View all results
                     </CommandItem>
@@ -339,7 +346,9 @@ export function GlobalSearch({
         if (!res.ok) throw new Error(`Search failed: ${res.status}`);
         const json = (await res.json()) as GlobalSearchResponse;
         setData({
-          results: Array.isArray(json.results) ? json.results.slice(0, limit) : [],
+          results: Array.isArray(json.results)
+            ? json.results.slice(0, limit)
+            : [],
           hasMore: Boolean(json.hasMore),
         });
       } catch (err) {
@@ -396,4 +405,3 @@ export function GlobalSearch({
     </Popover>
   );
 }
-

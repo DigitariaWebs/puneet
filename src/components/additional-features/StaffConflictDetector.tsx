@@ -52,7 +52,13 @@ interface Conflict {
   shiftId: number;
   staffId: number;
   staffName: string;
-  conflictType: "double_booking" | "overlapping" | "time_off" | "role_mismatch" | "max_hours" | "min_rest";
+  conflictType:
+    | "double_booking"
+    | "overlapping"
+    | "time_off"
+    | "role_mismatch"
+    | "max_hours"
+    | "min_rest";
   severity: "critical" | "warning" | "info";
   date: string;
   timeSlot: string;
@@ -75,7 +81,9 @@ export function StaffConflictDetector({
   const [isReassignModalOpen, setIsReassignModalOpen] = useState(false);
   const [isEditShiftModalOpen, setIsEditShiftModalOpen] = useState(false);
   const [isIgnoreModalOpen, setIsIgnoreModalOpen] = useState(false);
-  const [selectedConflict, setSelectedConflict] = useState<Conflict | null>(null);
+  const [selectedConflict, setSelectedConflict] = useState<Conflict | null>(
+    null,
+  );
   const [selectedNewStaffId, setSelectedNewStaffId] = useState<string>("");
   const [ignoreReason, setIgnoreReason] = useState("");
 
@@ -88,7 +96,8 @@ export function StaffConflictDetector({
       .forEach((shift) => {
         // 1. Check for double-booking and overlapping
         const overlapping = schedules.filter((s) => {
-          if (s.staffId !== shift.staffId || s.date !== shift.date) return false;
+          if (s.staffId !== shift.staffId || s.date !== shift.date)
+            return false;
           if (s.id === shift.id || s.status !== "scheduled") return false;
 
           const [startHour, startMin] = shift.startTime.split(":").map(Number);
@@ -105,7 +114,8 @@ export function StaffConflictDetector({
 
         if (overlapping.length > 0) {
           const isDoubleBooking = overlapping.some(
-            (s) => s.startTime === shift.startTime && s.endTime === shift.endTime
+            (s) =>
+              s.startTime === shift.startTime && s.endTime === shift.endTime,
           );
 
           const staffMember = staff.find((s) => s.id === shift.staffId);
@@ -129,7 +139,8 @@ export function StaffConflictDetector({
 
         // 2. Check for time off overlap
         const approvedTimeOff = timeOffRequests.find((to) => {
-          if (to.staffId !== shift.staffId || to.status !== "approved") return false;
+          if (to.staffId !== shift.staffId || to.status !== "approved")
+            return false;
           const startDate = new Date(to.startDate);
           const endDate = new Date(to.endDate);
           const shiftDate = new Date(shift.date);
@@ -155,7 +166,11 @@ export function StaffConflictDetector({
 
         // 3. Check for role mismatch
         const staffMember = staff.find((s) => s.id === shift.staffId);
-        if (shift.role && staffMember?.role && shift.role !== staffMember.role) {
+        if (
+          shift.role &&
+          staffMember?.role &&
+          shift.role !== staffMember.role
+        ) {
           allConflicts.push({
             id: `conflict-${shift.id}-role`,
             shiftId: shift.id,
@@ -172,19 +187,22 @@ export function StaffConflictDetector({
 
         // 4. Check max hours per day
         const sameDayShifts = schedules.filter((s) => {
-          if (s.staffId !== shift.staffId || s.date !== shift.date) return false;
+          if (s.staffId !== shift.staffId || s.date !== shift.date)
+            return false;
           if (s.id === shift.id || s.status !== "scheduled") return false;
           return true;
         });
 
         const [startHour, startMin] = shift.startTime.split(":").map(Number);
         const [endHour, endMin] = shift.endTime.split(":").map(Number);
-        const shiftDuration = (endHour * 60 + endMin - (startHour * 60 + startMin)) / 60;
+        const shiftDuration =
+          (endHour * 60 + endMin - (startHour * 60 + startMin)) / 60;
 
         const dailyHours = sameDayShifts.reduce((total, s) => {
           const [sStartHour, sStartMin] = s.startTime.split(":").map(Number);
           const [sEndHour, sEndMin] = s.endTime.split(":").map(Number);
-          const hours = (sEndHour * 60 + sEndMin - (sStartHour * 60 + sStartMin)) / 60;
+          const hours =
+            (sEndHour * 60 + sEndMin - (sStartHour * 60 + sStartMin)) / 60;
           return total + hours;
         }, shiftDuration);
 
@@ -214,7 +232,8 @@ export function StaffConflictDetector({
         const nextDayStr = nextDay.toISOString().split("T")[0];
 
         const previousDayShifts = schedules.filter((s) => {
-          if (s.staffId !== shift.staffId || s.date !== previousDayStr) return false;
+          if (s.staffId !== shift.staffId || s.date !== previousDayStr)
+            return false;
           return s.status === "scheduled";
         });
 
@@ -227,14 +246,18 @@ export function StaffConflictDetector({
           const lastShift = previousDayShifts.reduce((latest, s) => {
             const [sEndHour, sEndMin] = s.endTime.split(":").map(Number);
             const sEndMinutes = sEndHour * 60 + sEndMin;
-            const [latestEndHour, latestEndMin] = latest.endTime.split(":").map(Number);
+            const [latestEndHour, latestEndMin] = latest.endTime
+              .split(":")
+              .map(Number);
             const latestEndMinutes = latestEndHour * 60 + latestEndMin;
             return sEndMinutes > latestEndMinutes ? s : latest;
           }, previousDayShifts[0]);
 
-          const [lastEndHour, lastEndMin] = lastShift.endTime.split(":").map(Number);
+          const [lastEndHour, lastEndMin] = lastShift.endTime
+            .split(":")
+            .map(Number);
           const lastEndMinutes = lastEndHour * 60 + lastEndMin;
-          const restMinutes = (24 * 60 - lastEndMinutes) + shiftStart;
+          const restMinutes = 24 * 60 - lastEndMinutes + shiftStart;
 
           if (restMinutes < minRestMinutes) {
             allConflicts.push({
@@ -256,19 +279,27 @@ export function StaffConflictDetector({
       });
 
     // Remove duplicates
-    const uniqueConflicts = allConflicts.filter((conflict, index, self) =>
-      index === self.findIndex((c) =>
-        c.shiftId === conflict.shiftId &&
-        c.conflictType === conflict.conflictType &&
-        c.conflictingShiftId === conflict.conflictingShiftId
-      )
+    const uniqueConflicts = allConflicts.filter(
+      (conflict, index, self) =>
+        index ===
+        self.findIndex(
+          (c) =>
+            c.shiftId === conflict.shiftId &&
+            c.conflictType === conflict.conflictType &&
+            c.conflictingShiftId === conflict.conflictingShiftId,
+        ),
     );
 
     return uniqueConflicts;
   };
 
-  const allConflicts = useMemo(() => detectAllConflicts(), [schedules, staff, timeOffRequests]);
-  const activeConflicts = allConflicts.filter((conflict) => !resolvedIds.has(conflict.id));
+  const allConflicts = useMemo(
+    () => detectAllConflicts(),
+    [schedules, staff, timeOffRequests],
+  );
+  const activeConflicts = allConflicts.filter(
+    (conflict) => !resolvedIds.has(conflict.id),
+  );
 
   const getSeverityIcon = (severity: string) => {
     switch (severity) {
@@ -308,8 +339,12 @@ export function StaffConflictDetector({
     return labels[type] || type;
   };
 
-  const criticalCount = activeConflicts.filter((c) => c.severity === "critical").length;
-  const warningCount = activeConflicts.filter((c) => c.severity === "warning").length;
+  const criticalCount = activeConflicts.filter(
+    (c) => c.severity === "critical",
+  ).length;
+  const warningCount = activeConflicts.filter(
+    (c) => c.severity === "warning",
+  ).length;
 
   // Get available staff for reassignment (same role preferred)
   const getAvailableStaffForReassign = (conflict: Conflict) => {
@@ -323,7 +358,12 @@ export function StaffConflictDetector({
 
         // Check if they have availability (simplified - would check actual availability)
         const hasConflict = schedules.some((sch) => {
-          if (sch.staffId !== s.id || sch.date !== shift.date || sch.status !== "scheduled") return false;
+          if (
+            sch.staffId !== s.id ||
+            sch.date !== shift.date ||
+            sch.status !== "scheduled"
+          )
+            return false;
           const [startHour, startMin] = shift.startTime.split(":").map(Number);
           const [endHour, endMin] = shift.endTime.split(":").map(Number);
           const [sStartHour, sStartMin] = sch.startTime.split(":").map(Number);
@@ -339,8 +379,10 @@ export function StaffConflictDetector({
       })
       .sort((a, b) => {
         // Prefer same role
-        if (shift.role && a.role === shift.role && b.role !== shift.role) return -1;
-        if (shift.role && b.role === shift.role && a.role !== shift.role) return 1;
+        if (shift.role && a.role === shift.role && b.role !== shift.role)
+          return -1;
+        if (shift.role && b.role === shift.role && a.role !== shift.role)
+          return 1;
         return 0;
       });
   };
@@ -439,7 +481,9 @@ export function StaffConflictDetector({
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => setResolvedIds((prev) => new Set(prev).add(conflict.id))}
+                    onClick={() =>
+                      setResolvedIds((prev) => new Set(prev).add(conflict.id))
+                    }
                   >
                     <X className="h-4 w-4" />
                   </Button>
@@ -469,7 +513,9 @@ export function StaffConflictDetector({
                         </Badge>
                       </div>
                       <p className="text-xs text-muted-foreground mt-1">
-                        {conflict.conflictingShift.date} ({conflict.conflictingShift.startTime} - {conflict.conflictingShift.endTime})
+                        {conflict.conflictingShift.date} (
+                        {conflict.conflictingShift.startTime} -{" "}
+                        {conflict.conflictingShift.endTime})
                       </p>
                     </div>
                   </div>
@@ -533,7 +579,8 @@ export function StaffConflictDetector({
               Reassign Shift
             </DialogTitle>
             <DialogDescription>
-              Reassign this shift to another staff member to resolve the conflict.
+              Reassign this shift to another staff member to resolve the
+              conflict.
             </DialogDescription>
           </DialogHeader>
 
@@ -542,7 +589,8 @@ export function StaffConflictDetector({
               <div className="p-3 bg-muted/50 rounded-lg">
                 <p className="text-sm font-medium mb-1">Current Shift</p>
                 <p className="text-sm text-muted-foreground">
-                  {selectedConflict.staffName} - {selectedConflict.date} ({selectedConflict.timeSlot})
+                  {selectedConflict.staffName} - {selectedConflict.date} (
+                  {selectedConflict.timeSlot})
                 </p>
               </div>
 
@@ -563,7 +611,8 @@ export function StaffConflictDetector({
                     ))}
                   </SelectContent>
                 </Select>
-                {getAvailableStaffForReassign(selectedConflict).length === 0 && (
+                {getAvailableStaffForReassign(selectedConflict).length ===
+                  0 && (
                   <p className="text-sm text-muted-foreground">
                     No available staff found for this shift
                   </p>
@@ -591,11 +640,16 @@ export function StaffConflictDetector({
                 }
 
                 if (onReassign) {
-                  onReassign(selectedConflict.shiftId, parseInt(selectedNewStaffId));
+                  onReassign(
+                    selectedConflict.shiftId,
+                    parseInt(selectedNewStaffId),
+                  );
                 }
 
                 toast.success("Shift reassigned successfully");
-                setResolvedIds((prev) => new Set(prev).add(selectedConflict.id));
+                setResolvedIds((prev) =>
+                  new Set(prev).add(selectedConflict.id),
+                );
                 setIsReassignModalOpen(false);
                 setSelectedConflict(null);
                 setSelectedNewStaffId("");
@@ -626,7 +680,8 @@ export function StaffConflictDetector({
               <div className="p-3 bg-muted/50 rounded-lg">
                 <p className="text-sm font-medium mb-1">Conflict Details</p>
                 <p className="text-sm text-muted-foreground">
-                  {selectedConflict.staffName} - {selectedConflict.date} ({selectedConflict.timeSlot})
+                  {selectedConflict.staffName} - {selectedConflict.date} (
+                  {selectedConflict.timeSlot})
                 </p>
                 <p className="text-xs text-muted-foreground mt-1">
                   {selectedConflict.message}
@@ -669,7 +724,9 @@ export function StaffConflictDetector({
                 }
 
                 toast.success("Conflict ignored");
-                setResolvedIds((prev) => new Set(prev).add(selectedConflict!.id));
+                setResolvedIds((prev) =>
+                  new Set(prev).add(selectedConflict!.id),
+                );
                 setIsIgnoreModalOpen(false);
                 setSelectedConflict(null);
                 setIgnoreReason("");

@@ -22,8 +22,7 @@ export function BookingLoyaltyBadge({
     <div className="flex items-center gap-2 flex-wrap">
       {pointsEarned && pointsEarned > 0 && showPoints && (
         <Badge className="bg-green-500 hover:bg-green-600">
-          <TrendingUp className="h-3 w-3 mr-1" />
-          +{pointsEarned} pts
+          <TrendingUp className="h-3 w-3 mr-1" />+{pointsEarned} pts
         </Badge>
       )}
       {tierDiscount && tierDiscount > 0 && (

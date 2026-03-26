@@ -54,13 +54,21 @@ function formatBadge(count: number) {
 }
 
 async function defaultGetCounts(): Promise<TopBarCounts> {
-  if (typeof window === "undefined") return { unreadMessages: 0, unreadAlerts: 0 };
-  const msg = clampCount(Number(localStorage.getItem("unread_messages_count") ?? 0));
-  const al = clampCount(Number(localStorage.getItem("unread_alerts_count") ?? 0));
+  if (typeof window === "undefined")
+    return { unreadMessages: 0, unreadAlerts: 0 };
+  const msg = clampCount(
+    Number(localStorage.getItem("unread_messages_count") ?? 0),
+  );
+  const al = clampCount(
+    Number(localStorage.getItem("unread_alerts_count") ?? 0),
+  );
   return { unreadMessages: msg, unreadAlerts: al };
 }
 
-function usePollingCounts(getCounts: () => Promise<TopBarCounts>, pollIntervalMs: number) {
+function usePollingCounts(
+  getCounts: () => Promise<TopBarCounts>,
+  pollIntervalMs: number,
+) {
   const [counts, setCounts] = React.useState<TopBarCounts>({
     unreadMessages: 0,
     unreadAlerts: 0,
@@ -94,7 +102,10 @@ function usePollingCounts(getCounts: () => Promise<TopBarCounts>, pollIntervalMs
   React.useEffect(() => {
     const onStorage = (e: StorageEvent) => {
       if (!e.key) return;
-      if (e.key === "unread_messages_count" || e.key === "unread_alerts_count") {
+      if (
+        e.key === "unread_messages_count" ||
+        e.key === "unread_alerts_count"
+      ) {
         void refresh();
       }
     };
@@ -170,7 +181,10 @@ export function TopBarIcons({
     [navigate],
   );
 
-  const counts = usePollingCounts(getCounts ?? defaultGetCounts, pollIntervalMs);
+  const counts = usePollingCounts(
+    getCounts ?? defaultGetCounts,
+    pollIntervalMs,
+  );
   const msgBadge = formatBadge(counts.unreadMessages);
   const alertBadge = formatBadge(counts.unreadAlerts);
 
@@ -211,4 +225,3 @@ export function TopBarIcons({
     </TooltipProvider>
   );
 }
-

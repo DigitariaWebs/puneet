@@ -110,9 +110,15 @@ function ChangesTable({
       <table className="w-full text-xs">
         <thead>
           <tr className="bg-muted/40">
-            <th className="text-left p-2 font-medium text-muted-foreground">Field</th>
-            <th className="text-left p-2 font-medium text-muted-foreground">Before</th>
-            <th className="text-left p-2 font-medium text-muted-foreground">After</th>
+            <th className="text-left p-2 font-medium text-muted-foreground">
+              Field
+            </th>
+            <th className="text-left p-2 font-medium text-muted-foreground">
+              Before
+            </th>
+            <th className="text-left p-2 font-medium text-muted-foreground">
+              After
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -120,7 +126,9 @@ function ChangesTable({
             <tr key={i} className="border-t">
               <td className="p-2 font-medium">{c.field}</td>
               <td className="p-2 text-muted-foreground">
-                {c.oldValue || <span className="italic text-muted-foreground/50">empty</span>}
+                {c.oldValue || (
+                  <span className="italic text-muted-foreground/50">empty</span>
+                )}
               </td>
               <td className="p-2 font-medium text-foreground">{c.newValue}</td>
             </tr>
@@ -153,18 +161,30 @@ function OverridesTable({
           <table className="w-full text-xs">
             <thead>
               <tr className="bg-muted/40">
-                <th className="text-left p-2 font-medium text-muted-foreground">Field</th>
-                <th className="text-left p-2 font-medium text-muted-foreground">Submitted</th>
-                <th className="text-left p-2 font-medium text-muted-foreground">Existing</th>
+                <th className="text-left p-2 font-medium text-muted-foreground">
+                  Field
+                </th>
+                <th className="text-left p-2 font-medium text-muted-foreground">
+                  Submitted
+                </th>
+                <th className="text-left p-2 font-medium text-muted-foreground">
+                  Existing
+                </th>
               </tr>
             </thead>
             <tbody>
               {overrides.map((o, i) => (
                 <tr key={i} className="border-t">
                   <td className="p-2 font-medium">{o.field}</td>
-                  <td className="p-2 font-medium text-foreground">{o.submittedValue}</td>
+                  <td className="p-2 font-medium text-foreground">
+                    {o.submittedValue}
+                  </td>
                   <td className="p-2 text-muted-foreground">
-                    {o.existingValue || <span className="italic text-muted-foreground/50">empty</span>}
+                    {o.existingValue || (
+                      <span className="italic text-muted-foreground/50">
+                        empty
+                      </span>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -172,7 +192,9 @@ function OverridesTable({
           </table>
         </div>
       ) : (
-        <p className="text-xs text-muted-foreground italic">No field overrides — clean merge</p>
+        <p className="text-xs text-muted-foreground italic">
+          No field overrides — clean merge
+        </p>
       )}
     </div>
   );
@@ -185,11 +207,13 @@ function AuditRow({ entry }: { entry: FormAuditEntry }) {
   const meta = ACTION_META[entry.action];
   const hasDetail =
     (entry.changes && entry.changes.length > 0) ||
-    (entry.overrides !== undefined) ||
+    entry.overrides !== undefined ||
     entry.versionNumber !== undefined;
 
   return (
-    <div className={`rounded-lg border transition-all ${expanded ? meta.bg : "bg-background hover:bg-muted/30"}`}>
+    <div
+      className={`rounded-lg border transition-all ${expanded ? meta.bg : "bg-background hover:bg-muted/30"}`}
+    >
       <button
         type="button"
         onClick={() => hasDetail && setExpanded(!expanded)}
@@ -203,13 +227,22 @@ function AuditRow({ entry }: { entry: FormAuditEntry }) {
         {/* content */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <Badge variant="outline" className={`text-[10px] ${meta.color} border-current/20`}>
+            <Badge
+              variant="outline"
+              className={`text-[10px] ${meta.color} border-current/20`}
+            >
               {meta.label}
             </Badge>
-            <span className="text-xs text-muted-foreground">{formatRelative(entry.timestamp)}</span>
+            <span className="text-xs text-muted-foreground">
+              {formatRelative(entry.timestamp)}
+            </span>
           </div>
-          <p className="text-sm font-medium mt-1">{entry.formName ?? entry.formId}</p>
-          <p className="text-xs text-muted-foreground mt-0.5">{getDescription(entry)}</p>
+          <p className="text-sm font-medium mt-1">
+            {entry.formName ?? entry.formId}
+          </p>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            {getDescription(entry)}
+          </p>
         </div>
 
         {/* actor chip */}
@@ -221,13 +254,19 @@ function AuditRow({ entry }: { entry: FormAuditEntry }) {
           ) : (
             <Shield className="h-3 w-3" />
           )}
-          <span className="hidden sm:inline">{entry.actorName ?? String(entry.actorId ?? "System")}</span>
+          <span className="hidden sm:inline">
+            {entry.actorName ?? String(entry.actorId ?? "System")}
+          </span>
         </div>
 
         {/* expand chevron */}
         {hasDetail && (
           <div className="shrink-0 mt-1 text-muted-foreground">
-            {expanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+            {expanded ? (
+              <ChevronDown className="h-4 w-4" />
+            ) : (
+              <ChevronRight className="h-4 w-4" />
+            )}
           </div>
         )}
       </button>
@@ -238,23 +277,37 @@ function AuditRow({ entry }: { entry: FormAuditEntry }) {
           {/* Publish detail */}
           {entry.action === "form_version_published" && entry.versionNumber && (
             <div className="flex items-center gap-2 text-xs">
-              <Badge variant="secondary" className="text-[10px]">v{entry.versionNumber}</Badge>
+              <Badge variant="secondary" className="text-[10px]">
+                v{entry.versionNumber}
+              </Badge>
               <span className="text-muted-foreground">
-                Published on {formatDate(entry.timestamp)} at {formatTime(entry.timestamp)}
+                Published on {formatDate(entry.timestamp)} at{" "}
+                {formatTime(entry.timestamp)}
               </span>
             </div>
           )}
           {/* Staff edit detail */}
-          {entry.action === "staff_profile_edit" && entry.changes && entry.changes.length > 0 && (
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <span>Target: <span className="font-medium text-foreground capitalize">{entry.targetType}</span> #{entry.targetId}</span>
-                <span>·</span>
-                <span>{entry.changes.length} field{entry.changes.length > 1 ? "s" : ""} changed</span>
+          {entry.action === "staff_profile_edit" &&
+            entry.changes &&
+            entry.changes.length > 0 && (
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <span>
+                    Target:{" "}
+                    <span className="font-medium text-foreground capitalize">
+                      {entry.targetType}
+                    </span>{" "}
+                    #{entry.targetId}
+                  </span>
+                  <span>·</span>
+                  <span>
+                    {entry.changes.length} field
+                    {entry.changes.length > 1 ? "s" : ""} changed
+                  </span>
+                </div>
+                <ChangesTable changes={entry.changes} />
               </div>
-              <ChangesTable changes={entry.changes} />
-            </div>
-          )}
+            )}
           {/* Merge detail */}
           {entry.action === "merge_decision" && (
             <div className="space-y-2">
@@ -264,17 +317,35 @@ function AuditRow({ entry }: { entry: FormAuditEntry }) {
                   {entry.relatedPetId ? ` · Pet #${entry.relatedPetId}` : ""}
                 </p>
               )}
-              <OverridesTable overrides={entry.overrides ?? []} mergeRule={entry.mergeRule} />
+              <OverridesTable
+                overrides={entry.overrides ?? []}
+                mergeRule={entry.mergeRule}
+              />
             </div>
           )}
           {/* Submission detail */}
           {entry.action === "submission_received" && entry.metadata && (
             <div className="text-xs text-muted-foreground space-y-1">
-              <p>Submission ID: <span className="font-mono font-medium text-foreground">{entry.submissionId}</span></p>
-              {Boolean((entry.metadata as Record<string, unknown>).customerId) && (
-                <p>Customer #{String((entry.metadata as Record<string, unknown>).customerId)}</p>
+              <p>
+                Submission ID:{" "}
+                <span className="font-mono font-medium text-foreground">
+                  {entry.submissionId}
+                </span>
+              </p>
+              {Boolean(
+                (entry.metadata as Record<string, unknown>).customerId,
+              ) && (
+                <p>
+                  Customer #
+                  {String(
+                    (entry.metadata as Record<string, unknown>).customerId,
+                  )}
+                </p>
               )}
-              <p>Received: {formatDate(entry.timestamp)} at {formatTime(entry.timestamp)}</p>
+              <p>
+                Received: {formatDate(entry.timestamp)} at{" "}
+                {formatTime(entry.timestamp)}
+              </p>
             </div>
           )}
         </div>
@@ -310,7 +381,7 @@ export function FormAuditTrail({ facilityId = 11 }: FormAuditTrailProps) {
 
   const allEntries = useMemo(
     () => getFormAuditLog({ facilityId }),
-    [facilityId]
+    [facilityId],
   );
 
   const uniqueForms = useMemo(() => {
@@ -323,22 +394,52 @@ export function FormAuditTrail({ facilityId = 11 }: FormAuditTrailProps) {
 
   const filtered = useMemo(() => {
     let list = allEntries;
-    if (actionFilter !== "all") list = list.filter((e) => e.action === actionFilter);
-    if (formFilter !== "all") list = list.filter((e) => e.formId === formFilter);
+    if (actionFilter !== "all")
+      list = list.filter((e) => e.action === actionFilter);
+    if (formFilter !== "all")
+      list = list.filter((e) => e.formId === formFilter);
     return list;
   }, [allEntries, actionFilter, formFilter]);
 
   // Stats
-  const publishCount = allEntries.filter((e) => e.action === "form_version_published").length;
-  const submissionCount = allEntries.filter((e) => e.action === "submission_received").length;
-  const editCount = allEntries.filter((e) => e.action === "staff_profile_edit").length;
-  const mergeCount = allEntries.filter((e) => e.action === "merge_decision").length;
+  const publishCount = allEntries.filter(
+    (e) => e.action === "form_version_published",
+  ).length;
+  const submissionCount = allEntries.filter(
+    (e) => e.action === "submission_received",
+  ).length;
+  const editCount = allEntries.filter(
+    (e) => e.action === "staff_profile_edit",
+  ).length;
+  const mergeCount = allEntries.filter(
+    (e) => e.action === "merge_decision",
+  ).length;
 
   const stats = [
-    { label: "Published", count: publishCount, icon: <BookOpen className="h-4 w-4 text-indigo-500" />, bg: "bg-indigo-50" },
-    { label: "Submissions", count: submissionCount, icon: <FileText className="h-4 w-4 text-emerald-500" />, bg: "bg-emerald-50" },
-    { label: "Profile Edits", count: editCount, icon: <UserPen className="h-4 w-4 text-amber-500" />, bg: "bg-amber-50" },
-    { label: "Merges", count: mergeCount, icon: <GitMerge className="h-4 w-4 text-violet-500" />, bg: "bg-violet-50" },
+    {
+      label: "Published",
+      count: publishCount,
+      icon: <BookOpen className="h-4 w-4 text-indigo-500" />,
+      bg: "bg-indigo-50",
+    },
+    {
+      label: "Submissions",
+      count: submissionCount,
+      icon: <FileText className="h-4 w-4 text-emerald-500" />,
+      bg: "bg-emerald-50",
+    },
+    {
+      label: "Profile Edits",
+      count: editCount,
+      icon: <UserPen className="h-4 w-4 text-amber-500" />,
+      bg: "bg-amber-50",
+    },
+    {
+      label: "Merges",
+      count: mergeCount,
+      icon: <GitMerge className="h-4 w-4 text-violet-500" />,
+      bg: "bg-violet-50",
+    },
   ];
 
   // Group by date for timeline effect
@@ -365,7 +466,8 @@ export function FormAuditTrail({ facilityId = 11 }: FormAuditTrailProps) {
           <h2 className="text-2xl font-bold">Form Audit Trail</h2>
         </div>
         <p className="text-sm text-muted-foreground mt-1">
-          Complete compliance log — every form publish, submission, profile edit, and merge decision.
+          Complete compliance log — every form publish, submission, profile
+          edit, and merge decision.
         </p>
       </div>
 
@@ -398,8 +500,12 @@ export function FormAuditTrail({ facilityId = 11 }: FormAuditTrailProps) {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All actions</SelectItem>
-                <SelectItem value="form_version_published">Version Published</SelectItem>
-                <SelectItem value="submission_received">Submission Received</SelectItem>
+                <SelectItem value="form_version_published">
+                  Version Published
+                </SelectItem>
+                <SelectItem value="submission_received">
+                  Submission Received
+                </SelectItem>
                 <SelectItem value="staff_profile_edit">Profile Edit</SelectItem>
                 <SelectItem value="merge_decision">Merge Decision</SelectItem>
               </SelectContent>
@@ -411,7 +517,9 @@ export function FormAuditTrail({ facilityId = 11 }: FormAuditTrailProps) {
               <SelectContent>
                 <SelectItem value="all">All forms</SelectItem>
                 {uniqueForms.map(([id, name]) => (
-                  <SelectItem key={id} value={id}>{name}</SelectItem>
+                  <SelectItem key={id} value={id}>
+                    {name}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -420,7 +528,10 @@ export function FormAuditTrail({ facilityId = 11 }: FormAuditTrailProps) {
                 variant="ghost"
                 size="sm"
                 className="h-8 text-xs"
-                onClick={() => { setActionFilter("all"); setFormFilter("all"); }}
+                onClick={() => {
+                  setActionFilter("all");
+                  setFormFilter("all");
+                }}
               >
                 Clear filters
               </Button>
@@ -451,7 +562,9 @@ export function FormAuditTrail({ facilityId = 11 }: FormAuditTrailProps) {
             <div key={group.date}>
               <div className="flex items-center gap-3 mb-3">
                 <div className="h-px flex-1 bg-border" />
-                <span className="text-xs font-medium text-muted-foreground shrink-0">{group.date}</span>
+                <span className="text-xs font-medium text-muted-foreground shrink-0">
+                  {group.date}
+                </span>
                 <div className="h-px flex-1 bg-border" />
               </div>
               <div className="space-y-2">

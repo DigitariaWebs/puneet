@@ -4,7 +4,13 @@ import { useState, useMemo } from "react";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
 import { clients } from "@/data/clients";
 import { bookings } from "@/data/bookings";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -45,7 +51,7 @@ export default function CustomerSettingsPage() {
   // Get customer data
   const customer = useMemo(
     () => clients.find((c) => c.id === MOCK_CUSTOMER_ID),
-    []
+    [],
   );
 
   const [profileData, setProfileData] = useState({
@@ -108,7 +114,6 @@ export default function CustomerSettingsPage() {
     return customer?.pets || [];
   }, [customer]);
 
-
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
@@ -151,7 +156,9 @@ export default function CustomerSettingsPage() {
       // This should update the customer profile and sync to all facilities
       await updateCustomerProfile(profileData, notificationPreferences);
       setIsEditing(false);
-      toast.success("Profile updated successfully! Changes will reflect on the facility side.");
+      toast.success(
+        "Profile updated successfully! Changes will reflect on the facility side.",
+      );
     } catch (error: any) {
       toast.error(error.message || "Failed to update profile");
     } finally {
@@ -190,7 +197,7 @@ export default function CustomerSettingsPage() {
   // Placeholder function - replace with actual API call
   const updateCustomerProfile = async (
     data: typeof profileData,
-    notifications: typeof notificationPreferences
+    notifications: typeof notificationPreferences,
   ) => {
     // TODO: API call to update customer profile
     // This should sync to all facilities automatically
@@ -215,7 +222,11 @@ export default function CustomerSettingsPage() {
             </Button>
           ) : (
             <div className="flex gap-2">
-              <Button variant="outline" onClick={handleCancel} disabled={isSaving}>
+              <Button
+                variant="outline"
+                onClick={handleCancel}
+                disabled={isSaving}
+              >
                 Cancel
               </Button>
               <Button onClick={handleSave} disabled={isSaving}>
@@ -243,7 +254,8 @@ export default function CustomerSettingsPage() {
               Profile Information
             </CardTitle>
             <CardDescription>
-              Your personal information. Updates will reflect on the facility side automatically.
+              Your personal information. Updates will reflect on the facility
+              side automatically.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -329,7 +341,10 @@ export default function CustomerSettingsPage() {
                     onChange={(e) =>
                       setProfileData({
                         ...profileData,
-                        address: { ...profileData.address, street: e.target.value },
+                        address: {
+                          ...profileData.address,
+                          street: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}
@@ -345,7 +360,10 @@ export default function CustomerSettingsPage() {
                     onChange={(e) =>
                       setProfileData({
                         ...profileData,
-                        address: { ...profileData.address, city: e.target.value },
+                        address: {
+                          ...profileData.address,
+                          city: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}
@@ -361,7 +379,10 @@ export default function CustomerSettingsPage() {
                     onChange={(e) =>
                       setProfileData({
                         ...profileData,
-                        address: { ...profileData.address, state: e.target.value },
+                        address: {
+                          ...profileData.address,
+                          state: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}
@@ -377,7 +398,10 @@ export default function CustomerSettingsPage() {
                     onChange={(e) =>
                       setProfileData({
                         ...profileData,
-                        address: { ...profileData.address, zip: e.target.value },
+                        address: {
+                          ...profileData.address,
+                          zip: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}
@@ -417,7 +441,9 @@ export default function CustomerSettingsPage() {
             <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <UserCircle className="h-5 w-5 text-muted-foreground" />
-                <Label className="text-base font-semibold">Emergency Contact</Label>
+                <Label className="text-base font-semibold">
+                  Emergency Contact
+                </Label>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -437,7 +463,9 @@ export default function CustomerSettingsPage() {
                       })
                     }
                     disabled={!isEditing}
-                    aria-invalid={errors.emergencyContactName ? "true" : "false"}
+                    aria-invalid={
+                      errors.emergencyContactName ? "true" : "false"
+                    }
                   />
                   {errors.emergencyContactName && (
                     <p className="text-sm text-destructive">
@@ -497,7 +525,9 @@ export default function CustomerSettingsPage() {
                       disabled={!isEditing}
                       className="pl-9"
                       placeholder="(555) 123-4567"
-                      aria-invalid={errors.emergencyContactPhone ? "true" : "false"}
+                      aria-invalid={
+                        errors.emergencyContactPhone ? "true" : "false"
+                      }
                     />
                   </div>
                   {errors.emergencyContactPhone && (
@@ -543,8 +573,8 @@ export default function CustomerSettingsPage() {
               Pick-up & Drop-off Instructions
             </CardTitle>
             <CardDescription>
-              Let the facility know who is allowed to pick up your pets and any special
-              instructions for boarding or daycare.
+              Let the facility know who is allowed to pick up your pets and any
+              special instructions for boarding or daycare.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -574,7 +604,9 @@ export default function CustomerSettingsPage() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="pickupNotes">Additional instructions (optional)</Label>
+                <Label htmlFor="pickupNotes">
+                  Additional instructions (optional)
+                </Label>
                 <Textarea
                   id="pickupNotes"
                   placeholder="Gate code, parking details, which door to use, special handling notes..."
@@ -594,8 +626,8 @@ export default function CustomerSettingsPage() {
               </div>
             </div>
             <p className="text-xs text-muted-foreground">
-              Staff will use this information at check-in and pick-up. Make sure the people you
-              list bring a valid ID when picking up your pet.
+              Staff will use this information at check-in and pick-up. Make sure
+              the people you list bring a valid ID when picking up your pet.
             </p>
           </CardContent>
         </Card>
@@ -659,7 +691,9 @@ export default function CustomerSettingsPage() {
 
                 <div className="flex items-center justify-between p-4 rounded-lg border hover:bg-muted/30 transition-colors">
                   <div className="space-y-0.5">
-                    <Label className="text-base">Check-In/Out Notifications</Label>
+                    <Label className="text-base">
+                      Check-In/Out Notifications
+                    </Label>
                     <p className="text-sm text-muted-foreground">
                       Notify when your pet is checked in or out
                     </p>
@@ -743,11 +777,13 @@ export default function CustomerSettingsPage() {
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 mb-2">
                     <UserCircle className="h-5 w-5 text-muted-foreground" />
-                    <h3 className="text-lg font-semibold">Per-Pet Report Cards</h3>
+                    <h3 className="text-lg font-semibold">
+                      Per-Pet Report Cards
+                    </h3>
                   </div>
                   <p className="text-sm text-muted-foreground mb-2">
-                    Choose which pets should receive report cards and photo updates. This is
-                    optional and can be different for each pet.
+                    Choose which pets should receive report cards and photo
+                    updates. This is optional and can be different for each pet.
                   </p>
                   <div className="grid gap-3 md:grid-cols-2">
                     {customerPets.map((pet) => (
@@ -757,18 +793,26 @@ export default function CustomerSettingsPage() {
                       >
                         <div className="space-y-0.5">
                           <p className="text-sm font-medium flex items-center gap-2">
-                            {pet.type === "Dog" ? "🐶" : pet.type === "Cat" ? "🐱" : "🐾"} {pet.name}
+                            {pet.type === "Dog"
+                              ? "🐶"
+                              : pet.type === "Cat"
+                                ? "🐱"
+                                : "🐾"}{" "}
+                            {pet.name}
                           </p>
                           <p className="text-xs text-muted-foreground">
                             {pet.breed} • Report cards{" "}
-                            {notificationPreferences.perPetReportCards[pet.id] ?? true
+                            {(notificationPreferences.perPetReportCards[
+                              pet.id
+                            ] ?? true)
                               ? "enabled"
                               : "disabled"}
                           </p>
                         </div>
                         <Switch
                           checked={
-                            notificationPreferences.perPetReportCards[pet.id] ?? true
+                            notificationPreferences.perPetReportCards[pet.id] ??
+                            true
                           }
                           onCheckedChange={(checked) =>
                             setNotificationPreferences({
@@ -839,7 +883,8 @@ export default function CustomerSettingsPage() {
                   <div className="space-y-0.5">
                     <Label className="text-base">Marketing SMS</Label>
                     <p className="text-sm text-muted-foreground">
-                      Occasional offers and updates by text. Standard message and data rates may apply.
+                      Occasional offers and updates by text. Standard message
+                      and data rates may apply.
                     </p>
                   </div>
                   <Switch
@@ -970,11 +1015,14 @@ export default function CustomerSettingsPage() {
               <div className="space-y-4">
                 <div className="flex items-center gap-2 mb-1">
                   <Bell className="h-5 w-5 text-muted-foreground" />
-                  <h3 className="text-lg font-semibold">Quiet Hours (SMS & Push)</h3>
+                  <h3 className="text-lg font-semibold">
+                    Quiet Hours (SMS & Push)
+                  </h3>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  During quiet hours, non‑urgent SMS and push notifications will be held and sent
-                  after your quiet period ends. Emergency alerts may still be delivered.
+                  During quiet hours, non‑urgent SMS and push notifications will
+                  be held and sent after your quiet period ends. Emergency
+                  alerts may still be delivered.
                 </p>
                 <div className="flex items-center justify-between p-3 rounded-lg border">
                   <div className="space-y-0.5">
@@ -1037,8 +1085,9 @@ export default function CustomerSettingsPage() {
                   <h3 className="text-lg font-semibold">Language Preference</h3>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Choose the language you prefer for emails, SMS (where supported), and in‑app
-                  communications for facilities that support multiple languages.
+                  Choose the language you prefer for emails, SMS (where
+                  supported), and in‑app communications for facilities that
+                  support multiple languages.
                 </p>
                 <div className="space-y-2 max-w-xs">
                   <Label htmlFor="language">Language</Label>
@@ -1079,8 +1128,9 @@ export default function CustomerSettingsPage() {
                     Changes sync automatically
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    Any updates you make will automatically reflect on the facility side.
-                    The facility staff will see your updated information immediately.
+                    Any updates you make will automatically reflect on the
+                    facility side. The facility staff will see your updated
+                    information immediately.
                   </p>
                 </div>
               </div>

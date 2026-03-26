@@ -49,26 +49,26 @@ export default function CallingPage() {
       (call) =>
         call.clientName?.toLowerCase().includes(query) ||
         call.from.toLowerCase().includes(query) ||
-        call.to.toLowerCase().includes(query)
+        call.to.toLowerCase().includes(query),
     );
   }, [searchQuery]);
 
   // Get voicemails from call logs
   const voicemails = useMemo(
     () => callLogs.filter((c) => c.status === "voicemail"),
-    []
+    [],
   );
 
   // Get missed calls
   const missedCalls = useMemo(
     () => callLogs.filter((c) => c.status === "missed"),
-    []
+    [],
   );
 
   // Get calls with recordings
   const callsWithRecordings = useMemo(
     () => callLogs.filter((c) => c.recordingUrl),
-    []
+    [],
   );
 
   // Call Log Columns
@@ -109,7 +109,8 @@ export default function CallingPage() {
       accessorKey: "duration",
       header: "Duration",
       cell: ({ row }) => {
-        if (row.original.duration === 0) return <span className="text-muted-foreground">—</span>;
+        if (row.original.duration === 0)
+          return <span className="text-muted-foreground">—</span>;
         const minutes = Math.floor(row.original.duration / 60);
         const seconds = row.original.duration % 60;
         return `${minutes}:${seconds.toString().padStart(2, "0")}`;
@@ -127,8 +128,12 @@ export default function CallingPage() {
         };
         return (
           <Badge variant={variants[row.original.status]}>
-            {row.original.status === "missed" && <PhoneOff className="h-3 w-3 mr-1 inline" />}
-            {row.original.status === "voicemail" && <Voicemail className="h-3 w-3 mr-1 inline" />}
+            {row.original.status === "missed" && (
+              <PhoneOff className="h-3 w-3 mr-1 inline" />
+            )}
+            {row.original.status === "voicemail" && (
+              <Voicemail className="h-3 w-3 mr-1 inline" />
+            )}
             {row.original.status}
           </Badge>
         );
@@ -163,7 +168,10 @@ export default function CallingPage() {
               <>
                 <div className="font-medium">Today</div>
                 <div className="text-muted-foreground">
-                  {date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                  {date.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </div>
               </>
             ) : (
@@ -341,17 +349,27 @@ export default function CallingPage() {
           <CardHeader className="pb-2">
             <div className="flex items-center gap-2">
               <Radio className="h-4 w-4 text-green-600 animate-pulse" />
-              <CardTitle className="text-sm font-medium">System Status</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                System Status
+              </CardTitle>
             </div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-600">Online</div>
-            <p className="text-xs text-muted-foreground mt-1">All systems operational</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              All systems operational
+            </p>
           </CardContent>
         </Card>
 
         {/* Missed Calls */}
-        <Card className={missedCalls.length > 0 ? "border-2 border-red-500/20 bg-red-50/50" : ""}>
+        <Card
+          className={
+            missedCalls.length > 0
+              ? "border-2 border-red-500/20 bg-red-50/50"
+              : ""
+          }
+        >
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
               <PhoneOff className="h-4 w-4" />
@@ -359,15 +377,25 @@ export default function CallingPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className={`text-2xl font-bold ${missedCalls.length > 0 ? "text-red-600" : ""}`}>
+            <div
+              className={`text-2xl font-bold ${missedCalls.length > 0 ? "text-red-600" : ""}`}
+            >
               {missedCalls.length}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">Require attention</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              Require attention
+            </p>
           </CardContent>
         </Card>
 
         {/* New Voicemails */}
-        <Card className={voicemails.length > 0 ? "border-2 border-orange-500/20 bg-orange-50/50" : ""}>
+        <Card
+          className={
+            voicemails.length > 0
+              ? "border-2 border-orange-500/20 bg-orange-50/50"
+              : ""
+          }
+        >
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
               <Voicemail className="h-4 w-4" />
@@ -375,10 +403,14 @@ export default function CallingPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className={`text-2xl font-bold ${voicemails.length > 0 ? "text-orange-600" : ""}`}>
+            <div
+              className={`text-2xl font-bold ${voicemails.length > 0 ? "text-orange-600" : ""}`}
+            >
               {voicemails.length}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">Unread messages</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              Unread messages
+            </p>
           </CardContent>
         </Card>
 
@@ -392,13 +424,17 @@ export default function CallingPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {callLogs.filter((c) => {
-                const callDate = new Date(c.timestamp);
-                const today = new Date();
-                return callDate.toDateString() === today.toDateString();
-              }).length}
+              {
+                callLogs.filter((c) => {
+                  const callDate = new Date(c.timestamp);
+                  const today = new Date();
+                  return callDate.toDateString() === today.toDateString();
+                }).length
+              }
             </div>
-            <p className="text-xs text-muted-foreground mt-1">Inbound & outbound</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              Inbound & outbound
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -617,7 +653,8 @@ export default function CallingPage() {
             <CardHeader>
               <CardTitle>Call History</CardTitle>
               <p className="text-sm text-muted-foreground mt-1">
-                All inbound and outbound calls with search by customer name or phone number
+                All inbound and outbound calls with search by customer name or
+                phone number
               </p>
             </CardHeader>
             <CardContent>

@@ -13,7 +13,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus, X, Utensils, ChevronDown, ChevronUp, AlertTriangle } from "lucide-react";
+import {
+  Plus,
+  X,
+  Utensils,
+  ChevronDown,
+  ChevronUp,
+  AlertTriangle,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import type {
   FeedingScheduleItem,
@@ -90,7 +97,12 @@ const REFUSAL_OPTIONS: { value: RefusalAction; label: string }[] = [
   { value: "add_toppers", label: "Add toppers" },
 ];
 
-const ALLERGY_PRESETS = ["Chicken", "Grain-free", "No beef", "Sensitive stomach"];
+const ALLERGY_PRESETS = [
+  "Chicken",
+  "Grain-free",
+  "No beef",
+  "Sensitive stomach",
+];
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
@@ -132,7 +144,7 @@ export function FeedingScheduleForm({
   selectedPets,
 }: FeedingScheduleFormProps) {
   const [expandedItem, setExpandedItem] = useState<string | null>(
-    feedingSchedule.length > 0 ? feedingSchedule[0].id : null
+    feedingSchedule.length > 0 ? feedingSchedule[0].id : null,
   );
   const [expandedOcc, setExpandedOcc] = useState<string | null>(null);
 
@@ -143,7 +155,9 @@ export function FeedingScheduleForm({
   };
 
   const add = () => {
-    const item = createEmptyItem(selectedPets.length === 1 ? selectedPets[0].id : undefined);
+    const item = createEmptyItem(
+      selectedPets.length === 1 ? selectedPets[0].id : undefined,
+    );
     setFeedingSchedule([...feedingSchedule, item]);
     setExpandedItem(item.id);
   };
@@ -156,7 +170,10 @@ export function FeedingScheduleForm({
 
   // ── Occasion CRUD ──
 
-  const addOccasion = (itemIndex: number, preset?: { label: string; time: string }) => {
+  const addOccasion = (
+    itemIndex: number,
+    preset?: { label: string; time: string },
+  ) => {
     const item = feedingSchedule[itemIndex];
     const occ: FeedingOccasion = {
       id: makeId("occ"),
@@ -170,13 +187,21 @@ export function FeedingScheduleForm({
 
   const removeOccasion = (itemIndex: number, occId: string) => {
     const item = feedingSchedule[itemIndex];
-    update(itemIndex, { occasions: item.occasions.filter((o) => o.id !== occId) });
+    update(itemIndex, {
+      occasions: item.occasions.filter((o) => o.id !== occId),
+    });
   };
 
-  const updateOccasion = (itemIndex: number, occId: string, patch: Partial<FeedingOccasion>) => {
+  const updateOccasion = (
+    itemIndex: number,
+    occId: string,
+    patch: Partial<FeedingOccasion>,
+  ) => {
     const item = feedingSchedule[itemIndex];
     update(itemIndex, {
-      occasions: item.occasions.map((o) => (o.id === occId ? { ...o, ...patch } : o)),
+      occasions: item.occasions.map((o) =>
+        o.id === occId ? { ...o, ...patch } : o,
+      ),
     });
   };
 
@@ -196,16 +221,27 @@ export function FeedingScheduleForm({
     updateOccasion(itemIndex, occId, { components: [...occ.components, comp] });
   };
 
-  const updateComponent = (itemIndex: number, occId: string, compId: string, patch: Partial<MealComponent>) => {
+  const updateComponent = (
+    itemIndex: number,
+    occId: string,
+    compId: string,
+    patch: Partial<MealComponent>,
+  ) => {
     const item = feedingSchedule[itemIndex];
     const occ = item.occasions.find((o) => o.id === occId);
     if (!occ) return;
     updateOccasion(itemIndex, occId, {
-      components: occ.components.map((c) => (c.id === compId ? { ...c, ...patch } : c)),
+      components: occ.components.map((c) =>
+        c.id === compId ? { ...c, ...patch } : c,
+      ),
     });
   };
 
-  const removeComponent = (itemIndex: number, occId: string, compId: string) => {
+  const removeComponent = (
+    itemIndex: number,
+    occId: string,
+    compId: string,
+  ) => {
     const item = feedingSchedule[itemIndex];
     const occ = item.occasions.find((o) => o.id === occId);
     if (!occ) return;
@@ -216,10 +252,16 @@ export function FeedingScheduleForm({
 
   // ── Multi-select toggles ──
 
-  const toggleChip = <T extends string>(itemIndex: number, field: "prepInstructions" | "ifRefuses" | "allergies", val: T) => {
+  const toggleChip = <T extends string>(
+    itemIndex: number,
+    field: "prepInstructions" | "ifRefuses" | "allergies",
+    val: T,
+  ) => {
     const item = feedingSchedule[itemIndex];
     const current = (item[field] || []) as T[];
-    const updated = current.includes(val) ? current.filter((v) => v !== val) : [...current, val];
+    const updated = current.includes(val)
+      ? current.filter((v) => v !== val)
+      : [...current, val];
     update(itemIndex, { [field]: updated });
   };
 
@@ -250,7 +292,13 @@ export function FeedingScheduleForm({
                           : "Feeding Schedule"}
                       </h4>
                       <p className="text-xs text-muted-foreground">
-                        {item.occasions.length} {item.occasions.length === 1 ? "meal" : "meals"} &middot; {SOURCE_OPTIONS.find((s) => s.value === item.source)?.label}
+                        {item.occasions.length}{" "}
+                        {item.occasions.length === 1 ? "meal" : "meals"}{" "}
+                        &middot;{" "}
+                        {
+                          SOURCE_OPTIONS.find((s) => s.value === item.source)
+                            ?.label
+                        }
                       </p>
                     </div>
                   </div>
@@ -259,12 +307,19 @@ export function FeedingScheduleForm({
                       type="button"
                       variant="ghost"
                       size="sm"
-                      onClick={(e) => { e.stopPropagation(); remove(index); }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        remove(index);
+                      }}
                       className="text-destructive hover:text-destructive text-xs"
                     >
                       Remove
                     </Button>
-                    {isExpanded ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
+                    {isExpanded ? (
+                      <ChevronUp className="h-4 w-4 text-muted-foreground" />
+                    ) : (
+                      <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                    )}
                   </div>
                 </div>
 
@@ -276,14 +331,19 @@ export function FeedingScheduleForm({
                         <Label className="text-xs font-medium">Pet</Label>
                         <Select
                           value={item.petId?.toString() ?? ""}
-                          onValueChange={(v) => update(index, { petId: parseInt(v, 10) })}
+                          onValueChange={(v) =>
+                            update(index, { petId: parseInt(v, 10) })
+                          }
                         >
                           <SelectTrigger className="h-9">
                             <SelectValue placeholder="Select pet" />
                           </SelectTrigger>
                           <SelectContent>
                             {selectedPets.map((pet) => (
-                              <SelectItem key={pet.id} value={pet.id.toString()}>
+                              <SelectItem
+                                key={pet.id}
+                                value={pet.id.toString()}
+                              >
                                 {pet.name} {pet.type ? `(${pet.type})` : ""}
                               </SelectItem>
                             ))}
@@ -305,7 +365,7 @@ export function FeedingScheduleForm({
                               "rounded-md border px-3 py-1.5 text-xs font-medium transition-colors",
                               item.source === opt.value
                                 ? "border-orange-300 bg-orange-50 text-orange-700"
-                                : "border-input hover:bg-muted/50"
+                                : "border-input hover:bg-muted/50",
                             )}
                           >
                             {opt.label}
@@ -327,10 +387,14 @@ export function FeedingScheduleForm({
                               onClick={() => toggleChip(index, "allergies", a)}
                               className={cn(
                                 "rounded-full border px-2.5 py-0.5 text-[11px] font-medium transition-colors",
-                                active ? "border-red-300 bg-red-50 text-red-700" : "border-input hover:bg-muted/50"
+                                active
+                                  ? "border-red-300 bg-red-50 text-red-700"
+                                  : "border-input hover:bg-muted/50",
                               )}
                             >
-                              {active && <AlertTriangle className="h-2.5 w-2.5 inline mr-0.5" />}
+                              {active && (
+                                <AlertTriangle className="h-2.5 w-2.5 inline mr-0.5" />
+                              )}
                               {a}
                             </button>
                           );
@@ -348,7 +412,9 @@ export function FeedingScheduleForm({
                       </div>
 
                       <div className="flex flex-wrap gap-1.5">
-                        {OCCASION_PRESETS.filter((p) => !usedPresets.has(p.label)).map((preset) => (
+                        {OCCASION_PRESETS.filter(
+                          (p) => !usedPresets.has(p.label),
+                        ).map((preset) => (
                           <button
                             key={preset.label}
                             type="button"
@@ -372,20 +438,43 @@ export function FeedingScheduleForm({
                       {item.occasions.map((occ) => {
                         const occExpanded = expandedOcc === occ.id;
                         return (
-                          <div key={occ.id} className={cn("rounded-md border", occExpanded ? "border-orange-200" : "border-input")}>
+                          <div
+                            key={occ.id}
+                            className={cn(
+                              "rounded-md border",
+                              occExpanded
+                                ? "border-orange-200"
+                                : "border-input",
+                            )}
+                          >
                             <div
                               className="flex items-center justify-between px-3 py-2 cursor-pointer"
-                              onClick={() => setExpandedOcc(occExpanded ? null : occ.id)}
+                              onClick={() =>
+                                setExpandedOcc(occExpanded ? null : occ.id)
+                              }
                             >
-                              <span className="text-xs font-medium">{occ.label} — {formatTime(occ.time)} ({occ.components.length} items)</span>
+                              <span className="text-xs font-medium">
+                                {occ.label} — {formatTime(occ.time)} (
+                                {occ.components.length} items)
+                              </span>
                               <div className="flex items-center gap-1">
                                 <Button
-                                  type="button" variant="ghost" size="icon" className="h-6 w-6"
-                                  onClick={(e) => { e.stopPropagation(); removeOccasion(index, occ.id); }}
+                                  type="button"
+                                  variant="ghost"
+                                  size="icon"
+                                  className="h-6 w-6"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    removeOccasion(index, occ.id);
+                                  }}
                                 >
                                   <X className="h-3 w-3" />
                                 </Button>
-                                {occExpanded ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
+                                {occExpanded ? (
+                                  <ChevronUp className="h-3 w-3" />
+                                ) : (
+                                  <ChevronDown className="h-3 w-3" />
+                                )}
                               </div>
                             </div>
                             {occExpanded && (
@@ -393,35 +482,131 @@ export function FeedingScheduleForm({
                                 <div className="grid grid-cols-2 gap-2 pt-2">
                                   <div className="space-y-1">
                                     <Label className="text-[11px]">Name</Label>
-                                    <Input value={occ.label} onChange={(e) => updateOccasion(index, occ.id, { label: e.target.value })} className="h-8 text-xs" />
+                                    <Input
+                                      value={occ.label}
+                                      onChange={(e) =>
+                                        updateOccasion(index, occ.id, {
+                                          label: e.target.value,
+                                        })
+                                      }
+                                      className="h-8 text-xs"
+                                    />
                                   </div>
                                   <div className="space-y-1">
                                     <Label className="text-[11px]">Time</Label>
-                                    <Input type="time" value={occ.time} onChange={(e) => updateOccasion(index, occ.id, { time: e.target.value })} className="h-8 text-xs" />
+                                    <Input
+                                      type="time"
+                                      value={occ.time}
+                                      onChange={(e) =>
+                                        updateOccasion(index, occ.id, {
+                                          time: e.target.value,
+                                        })
+                                      }
+                                      className="h-8 text-xs"
+                                    />
                                   </div>
                                 </div>
                                 {occ.components.map((comp) => (
-                                  <div key={comp.id} className="grid grid-cols-5 gap-1.5 items-end">
-                                    <Select value={comp.type} onValueChange={(v) => updateComponent(index, occ.id, comp.id, { type: v as FoodComponentType })}>
-                                      <SelectTrigger className="h-7 text-[11px]"><SelectValue /></SelectTrigger>
+                                  <div
+                                    key={comp.id}
+                                    className="grid grid-cols-5 gap-1.5 items-end"
+                                  >
+                                    <Select
+                                      value={comp.type}
+                                      onValueChange={(v) =>
+                                        updateComponent(
+                                          index,
+                                          occ.id,
+                                          comp.id,
+                                          { type: v as FoodComponentType },
+                                        )
+                                      }
+                                    >
+                                      <SelectTrigger className="h-7 text-[11px]">
+                                        <SelectValue />
+                                      </SelectTrigger>
                                       <SelectContent>
-                                        {FOOD_TYPES.map((t) => <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>)}
+                                        {FOOD_TYPES.map((t) => (
+                                          <SelectItem
+                                            key={t.value}
+                                            value={t.value}
+                                          >
+                                            {t.label}
+                                          </SelectItem>
+                                        ))}
                                       </SelectContent>
                                     </Select>
-                                    <Input value={comp.name} onChange={(e) => updateComponent(index, occ.id, comp.id, { name: e.target.value })} placeholder="Brand" className="h-7 text-[11px]" />
-                                    <Input value={comp.amount} onChange={(e) => updateComponent(index, occ.id, comp.id, { amount: e.target.value })} placeholder="Amt" className="h-7 text-[11px]" />
-                                    <Select value={comp.unit} onValueChange={(v) => updateComponent(index, occ.id, comp.id, { unit: v as FoodUnit })}>
-                                      <SelectTrigger className="h-7 text-[11px]"><SelectValue /></SelectTrigger>
+                                    <Input
+                                      value={comp.name}
+                                      onChange={(e) =>
+                                        updateComponent(
+                                          index,
+                                          occ.id,
+                                          comp.id,
+                                          { name: e.target.value },
+                                        )
+                                      }
+                                      placeholder="Brand"
+                                      className="h-7 text-[11px]"
+                                    />
+                                    <Input
+                                      value={comp.amount}
+                                      onChange={(e) =>
+                                        updateComponent(
+                                          index,
+                                          occ.id,
+                                          comp.id,
+                                          { amount: e.target.value },
+                                        )
+                                      }
+                                      placeholder="Amt"
+                                      className="h-7 text-[11px]"
+                                    />
+                                    <Select
+                                      value={comp.unit}
+                                      onValueChange={(v) =>
+                                        updateComponent(
+                                          index,
+                                          occ.id,
+                                          comp.id,
+                                          { unit: v as FoodUnit },
+                                        )
+                                      }
+                                    >
+                                      <SelectTrigger className="h-7 text-[11px]">
+                                        <SelectValue />
+                                      </SelectTrigger>
                                       <SelectContent>
-                                        {FOOD_UNITS.map((u) => <SelectItem key={u.value} value={u.value}>{u.label}</SelectItem>)}
+                                        {FOOD_UNITS.map((u) => (
+                                          <SelectItem
+                                            key={u.value}
+                                            value={u.value}
+                                          >
+                                            {u.label}
+                                          </SelectItem>
+                                        ))}
                                       </SelectContent>
                                     </Select>
-                                    <Button type="button" variant="ghost" size="icon" className="h-7 w-7" onClick={() => removeComponent(index, occ.id, comp.id)}>
+                                    <Button
+                                      type="button"
+                                      variant="ghost"
+                                      size="icon"
+                                      className="h-7 w-7"
+                                      onClick={() =>
+                                        removeComponent(index, occ.id, comp.id)
+                                      }
+                                    >
                                       <X className="h-3 w-3" />
                                     </Button>
                                   </div>
                                 ))}
-                                <Button type="button" variant="outline" size="sm" className="w-full text-[11px] h-7" onClick={() => addComponent(index, occ.id)}>
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  className="w-full text-[11px] h-7"
+                                  onClick={() => addComponent(index, occ.id)}
+                                >
                                   <Plus className="h-3 w-3 mr-1" />
                                   Add Component
                                 </Button>
@@ -434,18 +619,26 @@ export function FeedingScheduleForm({
 
                     {/* Prep + Refusal chips */}
                     <div className="bg-muted/30 rounded-lg p-3 space-y-3">
-                      <h5 className="text-xs font-medium text-muted-foreground">Prep Instructions</h5>
+                      <h5 className="text-xs font-medium text-muted-foreground">
+                        Prep Instructions
+                      </h5>
                       <div className="flex flex-wrap gap-1">
                         {PREP_OPTIONS.map((opt) => {
-                          const active = (item.prepInstructions || []).includes(opt.value);
+                          const active = (item.prepInstructions || []).includes(
+                            opt.value,
+                          );
                           return (
                             <button
                               key={opt.value}
                               type="button"
-                              onClick={() => toggleChip(index, "prepInstructions", opt.value)}
+                              onClick={() =>
+                                toggleChip(index, "prepInstructions", opt.value)
+                              }
                               className={cn(
                                 "rounded-full border px-2.5 py-0.5 text-[11px] font-medium transition-colors",
-                                active ? "border-orange-300 bg-orange-50 text-orange-700" : "border-input hover:bg-muted/50"
+                                active
+                                  ? "border-orange-300 bg-orange-50 text-orange-700"
+                                  : "border-input hover:bg-muted/50",
                               )}
                             >
                               {opt.label}
@@ -453,18 +646,26 @@ export function FeedingScheduleForm({
                           );
                         })}
                       </div>
-                      <h5 className="text-xs font-medium text-muted-foreground pt-1">If Refuses Food</h5>
+                      <h5 className="text-xs font-medium text-muted-foreground pt-1">
+                        If Refuses Food
+                      </h5>
                       <div className="flex flex-wrap gap-1">
                         {REFUSAL_OPTIONS.map((opt) => {
-                          const active = (item.ifRefuses || []).includes(opt.value);
+                          const active = (item.ifRefuses || []).includes(
+                            opt.value,
+                          );
                           return (
                             <button
                               key={opt.value}
                               type="button"
-                              onClick={() => toggleChip(index, "ifRefuses", opt.value)}
+                              onClick={() =>
+                                toggleChip(index, "ifRefuses", opt.value)
+                              }
                               className={cn(
                                 "rounded-full border px-2.5 py-0.5 text-[11px] font-medium transition-colors",
-                                active ? "border-amber-300 bg-amber-50 text-amber-700" : "border-input hover:bg-muted/50"
+                                active
+                                  ? "border-amber-300 bg-amber-50 text-amber-700"
+                                  : "border-input hover:bg-muted/50",
                               )}
                             >
                               {opt.label}
@@ -479,7 +680,9 @@ export function FeedingScheduleForm({
                       <Label className="text-xs font-medium">Notes</Label>
                       <Input
                         value={item.notes}
-                        onChange={(e) => update(index, { notes: e.target.value })}
+                        onChange={(e) =>
+                          update(index, { notes: e.target.value })
+                        }
                         placeholder="Additional feeding notes..."
                         className="h-9"
                       />
@@ -490,7 +693,12 @@ export function FeedingScheduleForm({
             </Card>
           );
         })}
-        <Button type="button" variant="outline" onClick={add} className="w-full">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={add}
+          className="w-full"
+        >
           <Plus className="h-4 w-4 mr-2" />
           Add Feeding Schedule
         </Button>

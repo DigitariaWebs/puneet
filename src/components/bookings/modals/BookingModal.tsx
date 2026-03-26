@@ -273,7 +273,9 @@ export function BookingModal({
   const petHasExpiredEvaluation = useCallback((pet: Pet) => {
     const evals: Evaluation[] = pet.evaluations ?? [];
     return evals.some(
-      (e) => (e.status === "passed" && e.isExpired === true) || e.status === "outdated",
+      (e) =>
+        (e.status === "passed" && e.isExpired === true) ||
+        e.status === "outdated",
     );
   }, []);
 
@@ -323,10 +325,10 @@ export function BookingModal({
     (serviceId: string) => {
       if (serviceId === "evaluation") return false;
       if (bookingFlow.evaluationRequired) return true;
-      if (bookingFlow.servicesRequiringEvaluation.includes(serviceId)) return true;
-      const config = configs[
-        serviceId as "daycare" | "boarding" | "grooming" | "training"
-      ];
+      if (bookingFlow.servicesRequiringEvaluation.includes(serviceId))
+        return true;
+      const config =
+        configs[serviceId as "daycare" | "boarding" | "grooming" | "training"];
       return config?.settings.evaluation.enabled ?? false;
     },
     [bookingFlow, configs],
@@ -335,10 +337,10 @@ export function BookingModal({
   const isEvaluationOptionalForService = useCallback(
     (serviceId: string) => {
       if (bookingFlow.evaluationRequired) return false;
-      if (bookingFlow.servicesRequiringEvaluation.includes(serviceId)) return false;
-      const config = configs[
-        serviceId as "daycare" | "boarding" | "grooming" | "training"
-      ];
+      if (bookingFlow.servicesRequiringEvaluation.includes(serviceId))
+        return false;
+      const config =
+        configs[serviceId as "daycare" | "boarding" | "grooming" | "training"];
       return config?.settings.evaluation.optional ?? false;
     },
     [bookingFlow, configs],
@@ -406,8 +408,12 @@ export function BookingModal({
           return false;
         // If any selected pet has an expired or failed evaluation, lock services (except booking a new evaluation)
         if (selectedService !== "evaluation") {
-          const hasExpired = selectedPets.some((pet) => petHasExpiredEvaluation(pet));
-          const hasFailed = selectedPets.some((pet) => petHasFailedEvaluation(pet));
+          const hasExpired = selectedPets.some((pet) =>
+            petHasExpiredEvaluation(pet),
+          );
+          const hasFailed = selectedPets.some((pet) =>
+            petHasFailedEvaluation(pet),
+          );
           if (hasExpired || hasFailed) return false;
         }
         if (serviceRequiresEvaluation && !isEvaluationOptional) {
@@ -424,8 +430,12 @@ export function BookingModal({
           selectedService === "evaluation"
         ) {
           if (selectedService !== "evaluation") {
-            const hasExpired = selectedPets.some((pet) => petHasExpiredEvaluation(pet));
-            const hasFailed = selectedPets.some((pet) => petHasFailedEvaluation(pet));
+            const hasExpired = selectedPets.some((pet) =>
+              petHasExpiredEvaluation(pet),
+            );
+            const hasFailed = selectedPets.some((pet) =>
+              petHasFailedEvaluation(pet),
+            );
             if (hasExpired || hasFailed) return false;
           }
           return isSubStepComplete(currentSubStep);
@@ -434,8 +444,12 @@ export function BookingModal({
         return !!startDate;
       case "confirm":
         if (selectedService !== "evaluation") {
-          const hasExpired = selectedPets.some((pet) => petHasExpiredEvaluation(pet));
-          const hasFailed = selectedPets.some((pet) => petHasFailedEvaluation(pet));
+          const hasExpired = selectedPets.some((pet) =>
+            petHasExpiredEvaluation(pet),
+          );
+          const hasFailed = selectedPets.some((pet) =>
+            petHasFailedEvaluation(pet),
+          );
           if (hasExpired || hasFailed) return false;
         }
         return true;
@@ -522,9 +536,7 @@ export function BookingModal({
       const petsNeedingEvaluation = selectedPets.filter((pet) => {
         const hasValidEval =
           pet.evaluations?.some(
-            (e) =>
-              e.status === "passed" &&
-              e.isExpired !== true,
+            (e) => e.status === "passed" && e.isExpired !== true,
           ) ?? false;
         return !hasValidEval;
       });
@@ -720,7 +732,9 @@ export function BookingModal({
         // Handle both string[] (grooming) and ExtraService[] (daycare/boarding) types
         if (typeof service === "string") {
           // For string type (grooming), use the string as service name
-          const petId = Array.isArray(booking.petId) ? booking.petId[0] : booking.petId;
+          const petId = Array.isArray(booking.petId)
+            ? booking.petId[0]
+            : booking.petId;
           taskList.push({
             id: `service-${service}-${petId}-${index}`,
             bookingId: booking.id,
@@ -748,8 +762,9 @@ export function BookingModal({
             time: null,
             details: `Quantity: ${service.quantity}`,
             assignedStaff:
-              taskAssignments[`service-${service.serviceId}-${service.petId}`] ||
-              undefined,
+              taskAssignments[
+                `service-${service.serviceId}-${service.petId}`
+              ] || undefined,
             completionStatus: "pending",
             assignable:
               isFutureBooking &&
@@ -790,7 +805,8 @@ export function BookingModal({
     );
 
     const latestEvaluation = (() => {
-      const evals = (pet as unknown as { evaluations?: any[] })?.evaluations ?? [];
+      const evals =
+        (pet as unknown as { evaluations?: any[] })?.evaluations ?? [];
       if (evals.length === 0) return null;
       return [...evals].sort((a, b) => {
         const da = a?.evaluatedAt ? new Date(a.evaluatedAt).getTime() : 0;
@@ -800,7 +816,8 @@ export function BookingModal({
     })();
 
     const evalExpired =
-      latestEvaluation?.isExpired === true || latestEvaluation?.status === "outdated";
+      latestEvaluation?.isExpired === true ||
+      latestEvaluation?.status === "outdated";
     const evalOutcome =
       latestEvaluation?.status === "passed"
         ? "PASS"
@@ -815,7 +832,8 @@ export function BookingModal({
       !isEvaluationOptionalForService(booking.service);
 
     const evalCompleted =
-      latestEvaluation?.status === "passed" || latestEvaluation?.status === "failed";
+      latestEvaluation?.status === "passed" ||
+      latestEvaluation?.status === "failed";
 
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
@@ -935,7 +953,8 @@ export function BookingModal({
                 </Card>
 
                 {/* Evaluation (staff) */}
-                {(requiresEvalForBooking || booking.service === "evaluation") && (
+                {(requiresEvalForBooking ||
+                  booking.service === "evaluation") && (
                   <Card>
                     <CardHeader>
                       <CardTitle>Evaluation</CardTitle>
@@ -968,21 +987,30 @@ export function BookingModal({
                               </Badge>
                               {(latestEvaluation.status === "passed" ||
                                 latestEvaluation.status === "outdated") && (
-                                <Badge variant={evalExpired ? "destructive" : "secondary"}>
+                                <Badge
+                                  variant={
+                                    evalExpired ? "destructive" : "secondary"
+                                  }
+                                >
                                   {evalExpired ? "Expired" : "Valid"}
                                 </Badge>
                               )}
                             </div>
                           </div>
 
-                          {(latestEvaluation.evaluatedAt || latestEvaluation.evaluatedBy) && (
+                          {(latestEvaluation.evaluatedAt ||
+                            latestEvaluation.evaluatedBy) && (
                             <div className="grid grid-cols-2 gap-4 text-sm">
                               <div>
-                                <div className="text-muted-foreground">Evaluated at</div>
+                                <div className="text-muted-foreground">
+                                  Evaluated at
+                                </div>
                                 <div>{latestEvaluation.evaluatedAt || "—"}</div>
                               </div>
                               <div>
-                                <div className="text-muted-foreground">Evaluator</div>
+                                <div className="text-muted-foreground">
+                                  Evaluator
+                                </div>
                                 <div>{latestEvaluation.evaluatedBy || "—"}</div>
                               </div>
                             </div>
@@ -991,7 +1019,9 @@ export function BookingModal({
                           {/* Staff-only notes / failure reason */}
                           {latestEvaluation.notes && (
                             <div className="text-sm">
-                              <div className="text-muted-foreground">Notes (staff)</div>
+                              <div className="text-muted-foreground">
+                                Notes (staff)
+                              </div>
                               <div>{latestEvaluation.notes}</div>
                             </div>
                           )}
@@ -999,20 +1029,26 @@ export function BookingModal({
                       )}
 
                       {/* Staff reminders */}
-                      {requiresEvalForBooking && booking.status === "completed" && !evalCompleted && (
-                        <Alert variant="destructive">
-                          <AlertTitle>Evaluation result missing</AlertTitle>
-                          <AlertDescription>
-                            Evaluation is required but has not been completed before checkout.
-                          </AlertDescription>
-                        </Alert>
-                      )}
                       {requiresEvalForBooking &&
-                        (evalOutcome === "FAIL" || evalExpired || evalOutcome === "MISSING") && (
+                        booking.status === "completed" &&
+                        !evalCompleted && (
+                          <Alert variant="destructive">
+                            <AlertTitle>Evaluation result missing</AlertTitle>
+                            <AlertDescription>
+                              Evaluation is required but has not been completed
+                              before checkout.
+                            </AlertDescription>
+                          </Alert>
+                        )}
+                      {requiresEvalForBooking &&
+                        (evalOutcome === "FAIL" ||
+                          evalExpired ||
+                          evalOutcome === "MISSING") && (
                           <Alert variant="destructive">
                             <AlertTitle>Services locked</AlertTitle>
                             <AlertDescription>
-                              Customer must book a new evaluation to unlock services.
+                              Customer must book a new evaluation to unlock
+                              services.
                             </AlertDescription>
                           </Alert>
                         )}

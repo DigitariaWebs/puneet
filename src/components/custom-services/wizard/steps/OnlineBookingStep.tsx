@@ -40,11 +40,15 @@ export function OnlineBookingStep({ data, onChange }: OnlineBookingStepProps) {
         <div className="flex items-start gap-3">
           <Globe className="h-5 w-5 text-muted-foreground mt-0.5 shrink-0" />
           <div className="space-y-0.5">
-            <Label htmlFor="ob-enabled" className="text-sm font-semibold cursor-pointer">
+            <Label
+              htmlFor="ob-enabled"
+              className="text-sm font-semibold cursor-pointer"
+            >
               Enable Online Booking
             </Label>
             <p className="text-xs text-muted-foreground">
-              Clients can discover and book this service from your public booking portal.
+              Clients can discover and book this service from your public
+              booking portal.
             </p>
           </div>
         </div>
@@ -59,13 +63,20 @@ export function OnlineBookingStep({ data, onChange }: OnlineBookingStepProps) {
         <div className="flex items-start gap-2 rounded-lg bg-muted/50 p-3 text-xs text-muted-foreground">
           <Info className="h-3.5 w-3.5 shrink-0 mt-0.5" />
           <span>
-            Online booking is off. This service can only be booked internally by staff.
-            {data.category === "addon_only" && " Add-on services are typically booked alongside a primary service."}
+            Online booking is off. This service can only be booked internally by
+            staff.
+            {data.category === "addon_only" &&
+              " Add-on services are typically booked alongside a primary service."}
           </span>
         </div>
       )}
 
-      <div className={cn("space-y-6", !ob.enabled && "opacity-50 pointer-events-none")}>
+      <div
+        className={cn(
+          "space-y-6",
+          !ob.enabled && "opacity-50 pointer-events-none",
+        )}
+      >
         {/* Eligible Clients */}
         <div className="space-y-1.5">
           <Label className="text-sm font-semibold">Client Eligibility</Label>
@@ -83,8 +94,12 @@ export function OnlineBookingStep({ data, onChange }: OnlineBookingStepProps) {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Clients</SelectItem>
-              <SelectItem value="approved_only">Approved Clients Only</SelectItem>
-              <SelectItem value="active_members_only">Active Members Only</SelectItem>
+              <SelectItem value="approved_only">
+                Approved Clients Only
+              </SelectItem>
+              <SelectItem value="active_members_only">
+                Active Members Only
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -92,18 +107,24 @@ export function OnlineBookingStep({ data, onChange }: OnlineBookingStepProps) {
         {/* Approval Required */}
         <div className="flex items-center justify-between rounded-xl border border-border bg-card p-4">
           <div className="space-y-0.5">
-            <Label htmlFor="ob-approval" className="text-sm font-medium cursor-pointer">
+            <Label
+              htmlFor="ob-approval"
+              className="text-sm font-medium cursor-pointer"
+            >
               Require Staff Approval
             </Label>
             <p className="text-xs text-muted-foreground">
-              Online bookings are held as &quot;Pending&quot; until a staff member approves them.
-              Great for services with limited capacity or prerequisites.
+              Online bookings are held as &quot;Pending&quot; until a staff
+              member approves them. Great for services with limited capacity or
+              prerequisites.
             </p>
           </div>
           <Switch
             id="ob-approval"
             checked={ob.approvalRequired}
-            onCheckedChange={(approvalRequired) => updateOb({ approvalRequired })}
+            onCheckedChange={(approvalRequired) =>
+              updateOb({ approvalRequired })
+            }
           />
         </div>
 
@@ -180,7 +201,10 @@ export function OnlineBookingStep({ data, onChange }: OnlineBookingStepProps) {
         <div className="space-y-3">
           <div className="flex items-center justify-between rounded-xl border border-border bg-card p-4">
             <div className="space-y-0.5">
-              <Label htmlFor="deposit-required" className="text-sm font-medium cursor-pointer">
+              <Label
+                htmlFor="deposit-required"
+                className="text-sm font-medium cursor-pointer"
+              >
                 Require Deposit
               </Label>
               <p className="text-xs text-muted-foreground">
@@ -190,7 +214,9 @@ export function OnlineBookingStep({ data, onChange }: OnlineBookingStepProps) {
             <Switch
               id="deposit-required"
               checked={ob.depositRequired}
-              onCheckedChange={(depositRequired) => updateOb({ depositRequired })}
+              onCheckedChange={(depositRequired) =>
+                updateOb({ depositRequired })
+              }
             />
           </div>
 

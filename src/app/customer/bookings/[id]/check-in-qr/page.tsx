@@ -4,7 +4,13 @@ import { use, useMemo } from "react";
 import Link from "next/link";
 import { ArrowLeft, Smartphone, Mail, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { bookings } from "@/data/bookings";
 import { clients } from "@/data/clients";
 import { getYipyyGoForm } from "@/data/yipyygo-forms";
@@ -19,10 +25,16 @@ export default function CheckInQRPage({
 }) {
   const { id } = use(params);
   const booking = useMemo(
-    () => bookings.find((b) => String(b.id) === id && b.clientId === MOCK_CUSTOMER_ID),
-    [id]
+    () =>
+      bookings.find(
+        (b) => String(b.id) === id && b.clientId === MOCK_CUSTOMER_ID,
+      ),
+    [id],
   );
-  const form = useMemo(() => (booking ? getYipyyGoForm(booking.id) : null), [booking]);
+  const form = useMemo(
+    () => (booking ? getYipyyGoForm(booking.id) : null),
+    [booking],
+  );
   const hasToken = Boolean(form?.qrCheckInToken);
 
   if (!booking) {
@@ -30,7 +42,9 @@ export default function CheckInQRPage({
       <div className="min-h-screen flex items-center justify-center p-4">
         <Card className="max-w-md w-full">
           <CardContent className="pt-6">
-            <p className="text-muted-foreground text-center">Booking not found.</p>
+            <p className="text-muted-foreground text-center">
+              Booking not found.
+            </p>
             <Button variant="outline" className="w-full mt-4" asChild>
               <Link href="/customer/bookings">Back to Bookings</Link>
             </Button>
@@ -58,7 +72,8 @@ export default function CheckInQRPage({
           <CardHeader className="text-center pb-2">
             <CardTitle className="text-xl">Show QR at drop-off</CardTitle>
             <CardDescription>
-              Staff will scan this code to open your reservation and complete check-in quickly.
+              Staff will scan this code to open your reservation and complete
+              check-in quickly.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col items-center pt-4">
@@ -97,7 +112,9 @@ export default function CheckInQRPage({
         </Card>
 
         <Button variant="outline" className="w-full" asChild>
-          <Link href={`/customer/bookings/${booking.id}`}>View booking details</Link>
+          <Link href={`/customer/bookings/${booking.id}`}>
+            View booking details
+          </Link>
         </Button>
       </div>
     </div>

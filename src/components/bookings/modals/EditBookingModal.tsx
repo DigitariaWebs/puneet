@@ -83,7 +83,8 @@ export function EditBookingModal({
     formData.startDate === formData.endDate;
   // For daycare/grooming (typically same-day), we enforce checkout > checkin.
   // For boarding across multiple days, times are "time-of-day" on different dates, so ordering isn't required.
-  const requiresCheckoutAfterCheckin = formData.service !== "boarding" || isSameDay;
+  const requiresCheckoutAfterCheckin =
+    formData.service !== "boarding" || isSameDay;
 
   const checkInMinutes = timeToMinutes(formData.checkInTime);
   const checkOutMinutes = timeToMinutes(formData.checkOutTime);
@@ -237,7 +238,9 @@ export function EditBookingModal({
                         ...prev,
                         startDate: next,
                         endDate:
-                          prev.endDate && prev.endDate < next ? next : prev.endDate,
+                          prev.endDate && prev.endDate < next
+                            ? next
+                            : prev.endDate,
                       };
                     });
                     setErrors((prev) => ({
@@ -261,7 +264,8 @@ export function EditBookingModal({
                   disabled={!formData.startDate}
                   onValueChange={(next) => {
                     // Guard: never allow end date before start date
-                    if (formData.startDate && next && next < formData.startDate) return;
+                    if (formData.startDate && next && next < formData.startDate)
+                      return;
                     setFormData((prev) => ({ ...prev, endDate: next }));
                     setErrors((prev) => ({ ...prev, endDate: "" }));
                   }}
@@ -286,20 +290,25 @@ export function EditBookingModal({
                         return { ...prev, checkInTime: nextCheckIn };
                       }
                       const nextCheckInMinutes = timeToMinutes(nextCheckIn);
-                      const prevCheckOutMinutes = timeToMinutes(prev.checkOutTime);
+                      const prevCheckOutMinutes = timeToMinutes(
+                        prev.checkOutTime,
+                      );
 
                       // If checkout is missing/invalid or now before checkin, auto-bump it by step.
                       const shouldAutoBump =
                         nextCheckInMinutes !== null &&
                         (prevCheckOutMinutes === null ||
-                          prevCheckOutMinutes - nextCheckInMinutes < TIME_STEP_MINUTES);
+                          prevCheckOutMinutes - nextCheckInMinutes <
+                            TIME_STEP_MINUTES);
 
                       return {
                         ...prev,
                         checkInTime: nextCheckIn,
                         checkOutTime:
                           shouldAutoBump && nextCheckInMinutes !== null
-                            ? minutesToTime(nextCheckInMinutes + TIME_STEP_MINUTES)
+                            ? minutesToTime(
+                                nextCheckInMinutes + TIME_STEP_MINUTES,
+                              )
                             : prev.checkOutTime,
                       };
                     });
@@ -316,7 +325,9 @@ export function EditBookingModal({
                   className={errors.checkInTime ? "border-destructive" : ""}
                 />
                 {errors.checkInTime && (
-                  <p className="text-sm text-destructive">{errors.checkInTime}</p>
+                  <p className="text-sm text-destructive">
+                    {errors.checkInTime}
+                  </p>
                 )}
                 {requiresCheckoutAfterCheckin && (
                   <p className="text-xs text-muted-foreground">
@@ -329,7 +340,10 @@ export function EditBookingModal({
                 <TimePicker
                   value={formData.checkOutTime || undefined}
                   onValueChange={(nextCheckOut) => {
-                    setFormData((prev) => ({ ...prev, checkOutTime: nextCheckOut }));
+                    setFormData((prev) => ({
+                      ...prev,
+                      checkOutTime: nextCheckOut,
+                    }));
                     if (errors.checkOutTime) {
                       setErrors((prev) => ({ ...prev, checkOutTime: "" }));
                     }
@@ -339,13 +353,16 @@ export function EditBookingModal({
                   className={errors.checkOutTime ? "border-destructive" : ""}
                 />
                 {errors.checkOutTime && (
-                  <p className="text-sm text-destructive">{errors.checkOutTime}</p>
-                )}
-                {requiresCheckoutAfterCheckin && sameDayDurationMinutes !== null && (
-                  <p className="text-xs text-muted-foreground">
-                    Duration: {(sameDayDurationMinutes / 60).toFixed(1)} hours
+                  <p className="text-sm text-destructive">
+                    {errors.checkOutTime}
                   </p>
                 )}
+                {requiresCheckoutAfterCheckin &&
+                  sameDayDurationMinutes !== null && (
+                    <p className="text-xs text-muted-foreground">
+                      Duration: {(sameDayDurationMinutes / 60).toFixed(1)} hours
+                    </p>
+                  )}
               </div>
             </div>
 

@@ -49,7 +49,11 @@ interface Phase2SettingsProps {
   onScoringChange: (config: FormScoringConfig) => void;
   i18nEnabled: boolean;
   onI18nEnabledChange: (enabled: boolean) => void;
-  onQuestionI18nChange: (questionId: string, locale: SupportedFormLocale, label: string) => void;
+  onQuestionI18nChange: (
+    questionId: string,
+    locale: SupportedFormLocale,
+    label: string,
+  ) => void;
   esignEnabled: boolean;
   onEsignEnabledChange: (enabled: boolean) => void;
   paymentBlockEnabled: boolean;
@@ -98,7 +102,7 @@ export function FormPhase2Settings({
   const updateRule = (id: string, patch: Partial<FormScoringRule>) => {
     updateScoring({
       rules: (scoring.rules ?? []).map((r) =>
-        r.id === id ? { ...r, ...patch } : r
+        r.id === id ? { ...r, ...patch } : r,
       ),
     });
   };
@@ -132,7 +136,9 @@ export function FormPhase2Settings({
             </div>
             <div>
               <p className="text-sm font-medium">Scoring & Intake Decisions</p>
-              <p className="text-xs text-muted-foreground">Approve / deny / needs review based on answers</p>
+              <p className="text-xs text-muted-foreground">
+                Approve / deny / needs review based on answers
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -194,16 +200,26 @@ export function FormPhase2Settings({
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label className="text-xs font-medium">Scoring Rules</Label>
-                <Button variant="outline" size="sm" className="h-7 text-xs" onClick={addRule}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-7 text-xs"
+                  onClick={addRule}
+                >
                   <Plus className="h-3 w-3 mr-1" />
                   Add rule
                 </Button>
               </div>
               {(scoring.rules ?? []).length === 0 && (
-                <p className="text-xs text-muted-foreground">No scoring rules yet. Add one to start scoring submissions.</p>
+                <p className="text-xs text-muted-foreground">
+                  No scoring rules yet. Add one to start scoring submissions.
+                </p>
               )}
               {(scoring.rules ?? []).map((rule) => (
-                <div key={rule.id} className="rounded-lg border p-3 space-y-2 text-xs">
+                <div
+                  key={rule.id}
+                  className="rounded-lg border p-3 space-y-2 text-xs"
+                >
                   <div className="flex items-center justify-between">
                     <span className="text-muted-foreground font-medium">
                       When answer matches → award points
@@ -219,21 +235,30 @@ export function FormPhase2Settings({
                   </div>
                   <Select
                     value={rule.sourceFieldId ?? ""}
-                    onValueChange={(v) => updateRule(rule.id, { sourceFieldId: v })}
+                    onValueChange={(v) =>
+                      updateRule(rule.id, { sourceFieldId: v })
+                    }
                   >
                     <SelectTrigger className="h-7 text-xs">
                       <SelectValue placeholder="Select question" />
                     </SelectTrigger>
                     <SelectContent>
                       {questions.map((q) => (
-                        <SelectItem key={q.id} value={q.id}>{q.label}</SelectItem>
+                        <SelectItem key={q.id} value={q.id}>
+                          {q.label}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                   <div className="grid grid-cols-3 gap-2">
                     <Select
                       value={rule.conditionOperator ?? "eq"}
-                      onValueChange={(v) => updateRule(rule.id, { conditionOperator: v as FormScoringRule["conditionOperator"] })}
+                      onValueChange={(v) =>
+                        updateRule(rule.id, {
+                          conditionOperator:
+                            v as FormScoringRule["conditionOperator"],
+                        })
+                      }
                     >
                       <SelectTrigger className="h-7 text-xs">
                         <SelectValue />
@@ -249,16 +274,24 @@ export function FormPhase2Settings({
                       className="h-7 text-xs"
                       placeholder="Value"
                       value={String(rule.conditionValue ?? "")}
-                      onChange={(e) => updateRule(rule.id, { conditionValue: e.target.value })}
+                      onChange={(e) =>
+                        updateRule(rule.id, { conditionValue: e.target.value })
+                      }
                     />
                     <div className="flex items-center gap-1">
                       <Input
                         type="number"
                         className="h-7 text-xs"
                         value={rule.points}
-                        onChange={(e) => updateRule(rule.id, { points: Number(e.target.value) })}
+                        onChange={(e) =>
+                          updateRule(rule.id, {
+                            points: Number(e.target.value),
+                          })
+                        }
                       />
-                      <span className="text-muted-foreground shrink-0">pts</span>
+                      <span className="text-muted-foreground shrink-0">
+                        pts
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -282,7 +315,9 @@ export function FormPhase2Settings({
             </div>
             <div>
               <p className="text-sm font-medium">Multi-Language (EN / FR)</p>
-              <p className="text-xs text-muted-foreground">Add French translations per question</p>
+              <p className="text-xs text-muted-foreground">
+                Add French translations per question
+              </p>
             </div>
           </div>
           <Switch
@@ -295,22 +330,29 @@ export function FormPhase2Settings({
         {expandedSection === "i18n" && i18nEnabled && (
           <div className="ml-12 space-y-3 pb-4">
             <p className="text-xs text-muted-foreground">
-              Customers can switch between English and French when filling out the form. Add French labels below.
+              Customers can switch between English and French when filling out
+              the form. Add French labels below.
             </p>
             {questions.length === 0 ? (
-              <p className="text-xs text-muted-foreground italic">Add questions first.</p>
+              <p className="text-xs text-muted-foreground italic">
+                Add questions first.
+              </p>
             ) : (
               <div className="space-y-2">
                 {questions.map((q) => (
                   <div key={q.id} className="rounded-lg border p-3 space-y-1.5">
                     <p className="text-xs font-medium">{q.label}</p>
                     <div className="flex items-center gap-2">
-                      <Badge variant="outline" className="text-[10px] shrink-0">FR</Badge>
+                      <Badge variant="outline" className="text-[10px] shrink-0">
+                        FR
+                      </Badge>
                       <Input
                         className="h-7 text-xs"
                         placeholder={`French: ${q.label}`}
                         value={q.labelI18n?.fr ?? ""}
-                        onChange={(e) => onQuestionI18nChange(q.id, "fr", e.target.value)}
+                        onChange={(e) =>
+                          onQuestionI18nChange(q.id, "fr", e.target.value)
+                        }
                       />
                     </div>
                   </div>
@@ -335,7 +377,9 @@ export function FormPhase2Settings({
             </div>
             <div>
               <p className="text-sm font-medium">E-Signatures</p>
-              <p className="text-xs text-muted-foreground">Capture timestamp, IP, device on signature fields</p>
+              <p className="text-xs text-muted-foreground">
+                Capture timestamp, IP, device on signature fields
+              </p>
             </div>
           </div>
           <Switch
@@ -348,7 +392,8 @@ export function FormPhase2Settings({
         {expandedSection === "esign" && esignEnabled && (
           <div className="ml-12 space-y-2 pb-4">
             <p className="text-xs text-muted-foreground">
-              When enabled, every signature field on this form will automatically capture:
+              When enabled, every signature field on this form will
+              automatically capture:
             </p>
             <div className="grid grid-cols-2 gap-2">
               {[
@@ -359,12 +404,15 @@ export function FormPhase2Settings({
               ].map((item) => (
                 <div key={item.label} className="rounded-lg border p-2.5">
                   <p className="text-xs font-medium">{item.label}</p>
-                  <p className="text-[10px] text-muted-foreground">{item.desc}</p>
+                  <p className="text-[10px] text-muted-foreground">
+                    {item.desc}
+                  </p>
                 </div>
               ))}
             </div>
             <p className="text-[11px] text-muted-foreground mt-2">
-              Agreement text shown to the signer is snapshotted with each signature for compliance audit.
+              Agreement text shown to the signer is snapshotted with each
+              signature for compliance audit.
             </p>
           </div>
         )}
@@ -384,7 +432,9 @@ export function FormPhase2Settings({
             </div>
             <div>
               <p className="text-sm font-medium">Payment Block</p>
-              <p className="text-xs text-muted-foreground">Capture card details within the form</p>
+              <p className="text-xs text-muted-foreground">
+                Capture card details within the form
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -409,14 +459,18 @@ export function FormPhase2Settings({
             ) : (
               <>
                 <p className="text-xs text-muted-foreground">
-                  Payment capture will be available once the payments module supports tokenization.
-                  Configuration is saved for when it goes live.
+                  Payment capture will be available once the payments module
+                  supports tokenization. Configuration is saved for when it goes
+                  live.
                 </p>
                 <div className="rounded-lg border border-dashed border-violet-200 bg-violet-50/50 p-4 text-center">
                   <CreditCard className="h-6 w-6 text-violet-400 mx-auto mb-2" />
-                  <p className="text-xs font-medium text-violet-700">Tokenized card capture</p>
+                  <p className="text-xs font-medium text-violet-700">
+                    Tokenized card capture
+                  </p>
                   <p className="text-[10px] text-violet-500 mt-1">
-                    PCI-compliant • Authorize-only or full capture • Amount configurable per form
+                    PCI-compliant • Authorize-only or full capture • Amount
+                    configurable per form
                   </p>
                 </div>
               </>

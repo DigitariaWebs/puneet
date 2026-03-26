@@ -6,7 +6,13 @@ import { clients } from "@/data/clients";
 import { reportCards, type ReportCard } from "@/data/pet-data";
 import { bookings } from "@/data/bookings";
 import { facilities } from "@/data/facilities";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
@@ -43,16 +49,99 @@ import { ReportCardPhotoGallery } from "@/components/customer/ReportCardPhotoGal
 import { ReportCardQuickReply } from "@/components/customer/ReportCardQuickReply";
 
 /* ── Report-card theme visuals ────────────────────────────────────── */
-const themeStyles: Record<string, { label: string; emoji: string; cardBg: string; accentBg: string; accentText: string; DecorativeIcon: React.ComponentType<{ className?: string }>; iconPos: string }> = {
-  everyday:     { label: "Everyday",     emoji: "✨", cardBg: "bg-slate-50",  accentBg: "bg-slate-600",  accentText: "text-white", DecorativeIcon: Star,        iconPos: "-top-1 -right-1" },
-  christmas:    { label: "Christmas",    emoji: "🎄", cardBg: "bg-red-50",    accentBg: "bg-red-600",    accentText: "text-white", DecorativeIcon: Bell,        iconPos: "-top-1 -right-1" },
-  halloween:    { label: "Halloween",    emoji: "🎃", cardBg: "bg-orange-50",  accentBg: "bg-violet-700", accentText: "text-white", DecorativeIcon: Ghost,       iconPos: "-top-1 -right-1" },
-  easter:       { label: "Easter",       emoji: "🐣", cardBg: "bg-pink-50",   accentBg: "bg-pink-500",   accentText: "text-white", DecorativeIcon: Egg,         iconPos: "-bottom-1 -right-1" },
-  thanksgiving: { label: "Thanksgiving", emoji: "🦃", cardBg: "bg-amber-50",  accentBg: "bg-amber-600",  accentText: "text-white", DecorativeIcon: Star,        iconPos: "-top-1 -right-1" },
-  new_year:     { label: "New Year",     emoji: "🎉", cardBg: "bg-indigo-50", accentBg: "bg-indigo-600", accentText: "text-white", DecorativeIcon: PartyPopper, iconPos: "-top-1 -right-1" },
-  valentines:   { label: "Valentine's",  emoji: "💘", cardBg: "bg-rose-50",   accentBg: "bg-rose-500",   accentText: "text-white", DecorativeIcon: Heart,       iconPos: "-top-1 -right-1" },
-  summer:       { label: "Summer",       emoji: "☀️", cardBg: "bg-sky-50",    accentBg: "bg-sky-500",    accentText: "text-white", DecorativeIcon: Star,        iconPos: "-top-1 -right-1" },
-  winter:       { label: "Winter",       emoji: "❄️", cardBg: "bg-blue-50",   accentBg: "bg-blue-600",   accentText: "text-white", DecorativeIcon: Star,        iconPos: "-top-1 -right-1" },
+const themeStyles: Record<
+  string,
+  {
+    label: string;
+    emoji: string;
+    cardBg: string;
+    accentBg: string;
+    accentText: string;
+    DecorativeIcon: React.ComponentType<{ className?: string }>;
+    iconPos: string;
+  }
+> = {
+  everyday: {
+    label: "Everyday",
+    emoji: "✨",
+    cardBg: "bg-slate-50",
+    accentBg: "bg-slate-600",
+    accentText: "text-white",
+    DecorativeIcon: Star,
+    iconPos: "-top-1 -right-1",
+  },
+  christmas: {
+    label: "Christmas",
+    emoji: "🎄",
+    cardBg: "bg-red-50",
+    accentBg: "bg-red-600",
+    accentText: "text-white",
+    DecorativeIcon: Bell,
+    iconPos: "-top-1 -right-1",
+  },
+  halloween: {
+    label: "Halloween",
+    emoji: "🎃",
+    cardBg: "bg-orange-50",
+    accentBg: "bg-violet-700",
+    accentText: "text-white",
+    DecorativeIcon: Ghost,
+    iconPos: "-top-1 -right-1",
+  },
+  easter: {
+    label: "Easter",
+    emoji: "🐣",
+    cardBg: "bg-pink-50",
+    accentBg: "bg-pink-500",
+    accentText: "text-white",
+    DecorativeIcon: Egg,
+    iconPos: "-bottom-1 -right-1",
+  },
+  thanksgiving: {
+    label: "Thanksgiving",
+    emoji: "🦃",
+    cardBg: "bg-amber-50",
+    accentBg: "bg-amber-600",
+    accentText: "text-white",
+    DecorativeIcon: Star,
+    iconPos: "-top-1 -right-1",
+  },
+  new_year: {
+    label: "New Year",
+    emoji: "🎉",
+    cardBg: "bg-indigo-50",
+    accentBg: "bg-indigo-600",
+    accentText: "text-white",
+    DecorativeIcon: PartyPopper,
+    iconPos: "-top-1 -right-1",
+  },
+  valentines: {
+    label: "Valentine's",
+    emoji: "💘",
+    cardBg: "bg-rose-50",
+    accentBg: "bg-rose-500",
+    accentText: "text-white",
+    DecorativeIcon: Heart,
+    iconPos: "-top-1 -right-1",
+  },
+  summer: {
+    label: "Summer",
+    emoji: "☀️",
+    cardBg: "bg-sky-50",
+    accentBg: "bg-sky-500",
+    accentText: "text-white",
+    DecorativeIcon: Star,
+    iconPos: "-top-1 -right-1",
+  },
+  winter: {
+    label: "Winter",
+    emoji: "❄️",
+    cardBg: "bg-blue-50",
+    accentBg: "bg-blue-600",
+    accentText: "text-white",
+    DecorativeIcon: Star,
+    iconPos: "-top-1 -right-1",
+  },
 };
 
 // Mock customer ID - TODO: Get from auth context
@@ -71,10 +160,13 @@ export default function CustomerReportCardsPage() {
 
   const customer = useMemo(
     () => clients.find((c) => c.id === MOCK_CUSTOMER_ID),
-    []
+    [],
   );
 
-  const customerPetIds = useMemo(() => customer?.pets.map((p) => p.id) ?? [], [customer]);
+  const customerPetIds = useMemo(
+    () => customer?.pets.map((p) => p.id) ?? [],
+    [customer],
+  );
 
   const customerReportCards = useMemo(() => {
     if (!customer) return [] as typeof reportCards;
@@ -86,7 +178,7 @@ export default function CustomerReportCardsPage() {
 
   const facilityName = selectedFacility
     ? selectedFacility.name
-    : customer?.facility ?? "Your Facility";
+    : (customer?.facility ?? "Your Facility");
 
   const petById = useMemo(() => {
     const map = new Map<number, Client["pets"][number]>();
@@ -100,12 +192,16 @@ export default function CustomerReportCardsPage() {
 
     // Filter by pet
     if (selectedPetId !== "all") {
-      filtered = filtered.filter((card) => card.petId === parseInt(selectedPetId));
+      filtered = filtered.filter(
+        (card) => card.petId === parseInt(selectedPetId),
+      );
     }
 
     // Filter by service type
     if (selectedServiceType !== "all") {
-      filtered = filtered.filter((card) => card.serviceType === selectedServiceType);
+      filtered = filtered.filter(
+        (card) => card.serviceType === selectedServiceType,
+      );
     }
 
     // Filter by date range
@@ -125,7 +221,7 @@ export default function CustomerReportCardsPage() {
         const staffNotes = card.staffNotes?.toLowerCase() || "";
         const activities = card.activities.join(" ").toLowerCase();
         const serviceType = card.serviceType.toLowerCase();
-        
+
         return (
           petName.includes(query) ||
           staffNotes.includes(query) ||
@@ -143,7 +239,16 @@ export default function CustomerReportCardsPage() {
     });
 
     return filtered;
-  }, [customerReportCards, selectedPetId, selectedServiceType, dateRangeStart, dateRangeEnd, searchQuery, sortBy, petById]);
+  }, [
+    customerReportCards,
+    selectedPetId,
+    selectedServiceType,
+    dateRangeStart,
+    dateRangeEnd,
+    searchQuery,
+    sortBy,
+    petById,
+  ]);
 
   const timelineItems = useMemo(() => {
     return filteredAndSortedCards.map((card) => {
@@ -185,12 +290,15 @@ export default function CustomerReportCardsPage() {
 
   const formatTime = (dateString: string) => {
     const d = new Date(dateString);
-    return d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+    return d.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
 
   const getThemeBadge = (theme?: string) => {
     if (!theme || theme === "everyday") return null;
-    
+
     const themeLabels: Record<string, string> = {
       halloween: "🎃 Halloween",
       christmas: "🎄 Christmas",
@@ -208,7 +316,12 @@ export default function CustomerReportCardsPage() {
     );
   };
 
-  const hasActiveFilters = selectedPetId !== "all" || selectedServiceType !== "all" || dateRangeStart || dateRangeEnd || searchQuery;
+  const hasActiveFilters =
+    selectedPetId !== "all" ||
+    selectedServiceType !== "all" ||
+    dateRangeStart ||
+    dateRangeEnd ||
+    searchQuery;
 
   const clearFilters = () => {
     setSelectedPetId("all");
@@ -275,7 +388,10 @@ export default function CustomerReportCardsPage() {
               </Select>
 
               {/* Service Type Filter */}
-              <Select value={selectedServiceType} onValueChange={setSelectedServiceType}>
+              <Select
+                value={selectedServiceType}
+                onValueChange={setSelectedServiceType}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="All services" />
                 </SelectTrigger>
@@ -292,7 +408,9 @@ export default function CustomerReportCardsPage() {
             {/* Date Range */}
             <div className="grid gap-4 md:grid-cols-3 mt-4">
               <div>
-                <label className="text-sm font-medium mb-1 block">Start Date</label>
+                <label className="text-sm font-medium mb-1 block">
+                  Start Date
+                </label>
                 <Input
                   type="date"
                   value={dateRangeStart}
@@ -300,7 +418,9 @@ export default function CustomerReportCardsPage() {
                 />
               </div>
               <div>
-                <label className="text-sm font-medium mb-1 block">End Date</label>
+                <label className="text-sm font-medium mb-1 block">
+                  End Date
+                </label>
                 <Input
                   type="date"
                   value={dateRangeEnd}
@@ -308,8 +428,15 @@ export default function CustomerReportCardsPage() {
                 />
               </div>
               <div>
-                <label className="text-sm font-medium mb-1 block">Sort By</label>
-                <Select value={sortBy} onValueChange={(value) => setSortBy(value as "date-desc" | "date-asc")}>
+                <label className="text-sm font-medium mb-1 block">
+                  Sort By
+                </label>
+                <Select
+                  value={sortBy}
+                  onValueChange={(value) =>
+                    setSortBy(value as "date-desc" | "date-asc")
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -328,7 +455,9 @@ export default function CustomerReportCardsPage() {
             <CardContent className="py-12 text-center space-y-3">
               <FileText className="h-12 w-12 mx-auto text-muted-foreground opacity-50" />
               <p className="font-semibold">
-                {hasActiveFilters ? "No report cards match your filters" : "No report cards yet"}
+                {hasActiveFilters
+                  ? "No report cards match your filters"
+                  : "No report cards yet"}
               </p>
               <p className="text-sm text-muted-foreground">
                 {hasActiveFilters
@@ -336,7 +465,11 @@ export default function CustomerReportCardsPage() {
                   : "Once your pet visits the facility, their report cards will appear here as a memory timeline."}
               </p>
               {hasActiveFilters && (
-                <Button variant="outline" onClick={clearFilters} className="mt-4">
+                <Button
+                  variant="outline"
+                  onClick={clearFilters}
+                  className="mt-4"
+                >
                   Clear filters
                 </Button>
               )}
@@ -346,7 +479,10 @@ export default function CustomerReportCardsPage() {
           <ScrollArea className="h-[calc(100vh-9rem)] pr-4">
             <div className="relative pl-4">
               {/* Vertical timeline line */}
-              <div className="absolute left-4 top-0 bottom-0 w-px bg-border/60" aria-hidden="true" />
+              <div
+                className="absolute left-4 top-0 bottom-0 w-px bg-border/60"
+                aria-hidden="true"
+              />
 
               <div className="space-y-6">
                 {timelineItems.map((item, index) => (
@@ -361,17 +497,23 @@ export default function CustomerReportCardsPage() {
 
                     {/* Themed Card */}
                     {(() => {
-                      const ts = themeStyles[item.theme || "everyday"] ?? themeStyles.everyday;
+                      const ts =
+                        themeStyles[item.theme || "everyday"] ??
+                        themeStyles.everyday;
                       const { DecorativeIcon } = ts;
                       return (
-                        <div className={`flex-1 relative overflow-hidden rounded-xl border ${ts.cardBg}`}>
+                        <div
+                          className={`flex-1 relative overflow-hidden rounded-xl border ${ts.cardBg}`}
+                        >
                           {/* Decorative corner icon */}
                           <DecorativeIcon
                             className={`absolute h-20 w-20 opacity-[0.06] text-gray-900 ${ts.iconPos}`}
                           />
 
                           {/* Themed accent header */}
-                          <div className={`relative px-5 py-3 ${ts.accentBg} ${ts.accentText} flex items-start justify-between gap-4`}>
+                          <div
+                            className={`relative px-5 py-3 ${ts.accentBg} ${ts.accentText} flex items-start justify-between gap-4`}
+                          >
                             <div className="space-y-1 min-w-0">
                               <div className="flex items-center gap-2 flex-wrap">
                                 <span className="text-lg">{ts.emoji}</span>
@@ -384,13 +526,16 @@ export default function CustomerReportCardsPage() {
                               </div>
                               <div className="flex flex-wrap items-center gap-3 text-xs opacity-80">
                                 <span className="inline-flex items-center gap-1">
-                                  <Calendar className="h-3 w-3" /> {formatDate(item.date)}
+                                  <Calendar className="h-3 w-3" />{" "}
+                                  {formatDate(item.date)}
                                 </span>
                                 <span className="inline-flex items-center gap-1">
-                                  <Clock className="h-3 w-3" /> {formatTime(item.timeLabel)}
+                                  <Clock className="h-3 w-3" />{" "}
+                                  {formatTime(item.timeLabel)}
                                 </span>
                                 <span className="inline-flex items-center gap-1">
-                                  <Dog className="h-3 w-3" /> {item.facilityName}
+                                  <Dog className="h-3 w-3" />{" "}
+                                  {item.facilityName}
                                 </span>
                               </div>
                             </div>
@@ -429,7 +574,9 @@ export default function CustomerReportCardsPage() {
                                       key={`${item.id}-meal-${idx}`}
                                       className="flex flex-wrap items-center gap-2 justify-between"
                                     >
-                                      <span className="font-medium">{meal.time}</span>
+                                      <span className="font-medium">
+                                        {meal.time}
+                                      </span>
                                       <span className="flex-1 min-w-[140px]">
                                         {meal.food}
                                       </span>
@@ -443,32 +590,45 @@ export default function CustomerReportCardsPage() {
                               </div>
                             )}
 
-                            {item.pottyBreaks && item.pottyBreaks.length > 0 && (
-                              <div className="space-y-2">
-                                <p className="text-sm font-medium flex items-center gap-2">
-                                  <Droplets className="h-4 w-4" /> Potty breaks
-                                </p>
-                                <div className="flex flex-wrap gap-2">
-                                  {item.pottyBreaks.map((pb, idx) => (
-                                    <Badge
-                                      key={`${item.id}-potty-${idx}`}
-                                      variant={pb.type === "accident" ? "destructive" : "secondary"}
-                                      className="text-xs"
-                                    >
-                                      {pb.time} •{" "}
-                                      {pb.type === "success" ? "Success" : "Accident"}
-                                    </Badge>
-                                  ))}
+                            {item.pottyBreaks &&
+                              item.pottyBreaks.length > 0 && (
+                                <div className="space-y-2">
+                                  <p className="text-sm font-medium flex items-center gap-2">
+                                    <Droplets className="h-4 w-4" /> Potty
+                                    breaks
+                                  </p>
+                                  <div className="flex flex-wrap gap-2">
+                                    {item.pottyBreaks.map((pb, idx) => (
+                                      <Badge
+                                        key={`${item.id}-potty-${idx}`}
+                                        variant={
+                                          pb.type === "accident"
+                                            ? "destructive"
+                                            : "secondary"
+                                        }
+                                        className="text-xs"
+                                      >
+                                        {pb.time} •{" "}
+                                        {pb.type === "success"
+                                          ? "Success"
+                                          : "Accident"}
+                                      </Badge>
+                                    ))}
+                                  </div>
                                 </div>
-                              </div>
-                            )}
+                              )}
 
                             {item.activities.length > 0 && (
                               <div className="space-y-2">
-                                <p className="text-sm font-medium">Highlights from the day</p>
+                                <p className="text-sm font-medium">
+                                  Highlights from the day
+                                </p>
                                 <div className="flex flex-wrap gap-2">
                                   {item.activities.map((activity, idx) => (
-                                    <Badge key={`${item.id}-activity-${idx}`} variant="secondary">
+                                    <Badge
+                                      key={`${item.id}-activity-${idx}`}
+                                      variant="secondary"
+                                    >
                                       {activity}
                                     </Badge>
                                   ))}
@@ -479,7 +639,8 @@ export default function CustomerReportCardsPage() {
                             {item.overallFeedback && (
                               <div className="space-y-2">
                                 <p className="text-sm font-medium flex items-center gap-2">
-                                  <ClipboardCheck className="h-4 w-4" /> Overall Feedback
+                                  <ClipboardCheck className="h-4 w-4" /> Overall
+                                  Feedback
                                 </p>
                                 <Badge variant="outline" className="text-xs">
                                   {item.overallFeedback}
@@ -487,21 +648,32 @@ export default function CustomerReportCardsPage() {
                               </div>
                             )}
 
-                            {item.petConditions && Object.keys(item.petConditions).length > 0 && (
-                              <div className="space-y-2">
-                                <p className="text-sm font-medium flex items-center gap-2">
-                                  <Stethoscope className="h-4 w-4" /> Pet Condition
-                                </p>
-                                <div className="grid grid-cols-2 gap-2 text-xs">
-                                  {Object.entries(item.petConditions).map(([category, value]) => (
-                                    <div key={`${item.id}-condition-${category}`} className="flex items-center justify-between rounded-md bg-white/60 px-2 py-1.5">
-                                      <span className="text-muted-foreground capitalize">{category}</span>
-                                      <span className="font-medium">{value}</span>
-                                    </div>
-                                  ))}
+                            {item.petConditions &&
+                              Object.keys(item.petConditions).length > 0 && (
+                                <div className="space-y-2">
+                                  <p className="text-sm font-medium flex items-center gap-2">
+                                    <Stethoscope className="h-4 w-4" /> Pet
+                                    Condition
+                                  </p>
+                                  <div className="grid grid-cols-2 gap-2 text-xs">
+                                    {Object.entries(item.petConditions).map(
+                                      ([category, value]) => (
+                                        <div
+                                          key={`${item.id}-condition-${category}`}
+                                          className="flex items-center justify-between rounded-md bg-white/60 px-2 py-1.5"
+                                        >
+                                          <span className="text-muted-foreground capitalize">
+                                            {category}
+                                          </span>
+                                          <span className="font-medium">
+                                            {value}
+                                          </span>
+                                        </div>
+                                      ),
+                                    )}
+                                  </div>
                                 </div>
-                              </div>
-                            )}
+                              )}
 
                             {/* Quick Reply */}
                             <ReportCardQuickReply

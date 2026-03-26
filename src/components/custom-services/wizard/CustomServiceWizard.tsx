@@ -8,7 +8,13 @@ import {
   StepperNavigation,
   type Step,
 } from "@/components/ui/stepper";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { BasicInfoStep } from "./steps/BasicInfoStep";
 import { CalendarAvailabilityStep } from "./steps/CalendarAvailabilityStep";
 import { CheckInOutStep } from "./steps/CheckInOutStep";
@@ -198,7 +204,10 @@ export function CustomServiceWizard({
         </CardHeader>
         <CardContent className="px-4 sm:px-6">
           <StepperContent>
-            <div key={currentStep} className="animate-in fade-in slide-in-from-right-2 duration-200">
+            <div
+              key={currentStep}
+              className="animate-in fade-in slide-in-from-right-2 duration-200"
+            >
               {currentStep === 0 && (
                 <BasicInfoStep data={formData} onChange={handleChange} />
               )}
@@ -225,7 +234,10 @@ export function CustomServiceWizard({
                 <StaffAssignmentStep data={formData} onChange={handleChange} />
               )}
               {currentStep === 7 && (
-                <WizardReviewPanel data={formData} onEditStep={handleEditStep} />
+                <WizardReviewPanel
+                  data={formData}
+                  onEditStep={handleEditStep}
+                />
               )}
             </div>
 
@@ -237,7 +249,13 @@ export function CustomServiceWizard({
               onComplete={handleSave}
               nextLabel="Next Step"
               previousLabel="Back"
-              completeLabel={isSaving ? "Saving..." : isEditMode ? "Update Module" : "Save Module"}
+              completeLabel={
+                isSaving
+                  ? "Saving..."
+                  : isEditMode
+                    ? "Update Module"
+                    : "Save Module"
+              }
               canProceed={canProceedFromStep(currentStep) && !isSaving}
             />
           </StepperContent>

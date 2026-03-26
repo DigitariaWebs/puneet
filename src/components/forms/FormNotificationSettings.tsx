@@ -45,14 +45,16 @@ export function FormNotificationSettings() {
     {
       key: "redFlagAnswers",
       label: "Red-flag answers detected",
-      description: "Alert when a submission triggers a logic rule alert flag (e.g. aggression, health concern)",
+      description:
+        "Alert when a submission triggers a logic rule alert flag (e.g. aggression, health concern)",
       icon: <ShieldAlert className="h-4 w-4 text-red-600" />,
       enabled: initial?.staff?.redFlagAnswers ?? true,
     },
     {
       key: "hasFileUpload",
       label: "Submission includes file upload",
-      description: "Alert when a submission contains file attachments (vaccine records, documents)",
+      description:
+        "Alert when a submission contains file attachments (vaccine records, documents)",
       icon: <Paperclip className="h-4 w-4 text-amber-600" />,
       enabled: initial?.staff?.hasFileUpload ?? true,
     },
@@ -62,21 +64,24 @@ export function FormNotificationSettings() {
     {
       key: "submissionConfirmed",
       label: "Submission confirmed",
-      description: "Notify customer when staff marks their submission as processed/confirmed",
+      description:
+        "Notify customer when staff marks their submission as processed/confirmed",
       icon: <CheckCircle className="h-4 w-4 text-green-600" />,
       enabled: initial?.customer?.submissionConfirmed ?? true,
     },
     {
       key: "missingRequiredFormsReminder",
       label: "Missing required forms reminder",
-      description: "Send reminder when customer has outstanding required forms before a booking",
+      description:
+        "Send reminder when customer has outstanding required forms before a booking",
       icon: <Clock className="h-4 w-4 text-amber-600" />,
       enabled: initial?.customer?.missingRequiredFormsReminder ?? true,
     },
     {
       key: "formRejectedNeedsCorrection",
       label: "Form rejected / needs correction",
-      description: "Notify customer when their submission is rejected and needs changes",
+      description:
+        "Notify customer when their submission is rejected and needs changes",
       icon: <AlertTriangle className="h-4 w-4 text-red-600" />,
       enabled: initial?.customer?.formRejectedNeedsCorrection ?? true,
     },
@@ -84,13 +89,13 @@ export function FormNotificationSettings() {
 
   const toggleStaff = (key: string) => {
     setStaffToggles((prev) =>
-      prev.map((t) => (t.key === key ? { ...t, enabled: !t.enabled } : t))
+      prev.map((t) => (t.key === key ? { ...t, enabled: !t.enabled } : t)),
     );
   };
 
   const toggleCustomer = (key: string) => {
     setCustomerToggles((prev) =>
-      prev.map((t) => (t.key === key ? { ...t, enabled: !t.enabled } : t))
+      prev.map((t) => (t.key === key ? { ...t, enabled: !t.enabled } : t)),
     );
   };
 
@@ -127,7 +132,10 @@ export function FormNotificationSettings() {
               <Badge variant="secondary" className="text-xs">
                 {activeStaffCount}/{staffToggles.length} active
               </Badge>
-              <Badge variant="outline" className="text-[10px] h-5 gap-1 ml-auto">
+              <Badge
+                variant="outline"
+                className="text-[10px] h-5 gap-1 ml-auto"
+              >
                 <Bell className="h-3 w-3" />
                 In-app
               </Badge>
@@ -143,11 +151,16 @@ export function FormNotificationSettings() {
                   <div className="mt-0.5 shrink-0">{toggle.icon}</div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <Label className="text-sm font-medium cursor-pointer" htmlFor={`staff-${toggle.key}`}>
+                      <Label
+                        className="text-sm font-medium cursor-pointer"
+                        htmlFor={`staff-${toggle.key}`}
+                      >
                         {toggle.label}
                       </Label>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-0.5">{toggle.description}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      {toggle.description}
+                    </p>
                   </div>
                   <Switch
                     id={`staff-${toggle.key}`}
@@ -191,11 +204,16 @@ export function FormNotificationSettings() {
                   <div className="mt-0.5 shrink-0">{toggle.icon}</div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <Label className="text-sm font-medium cursor-pointer" htmlFor={`cust-${toggle.key}`}>
+                      <Label
+                        className="text-sm font-medium cursor-pointer"
+                        htmlFor={`cust-${toggle.key}`}
+                      >
                         {toggle.label}
                       </Label>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-0.5">{toggle.description}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      {toggle.description}
+                    </p>
                   </div>
                   <Switch
                     id={`cust-${toggle.key}`}

@@ -80,10 +80,7 @@ export function TipStep({
 
   const handlePercent = (pct: number) => {
     onTipPercentageSelect(pct);
-    const amount = Math.min(
-      (subtotal * pct) / 100,
-      (subtotal * maxPct) / 100
-    );
+    const amount = Math.min((subtotal * pct) / 100, (subtotal * maxPct) / 100);
     onTipAmountChange(Math.round(amount * 100) / 100);
   };
 
@@ -105,9 +102,7 @@ export function TipStep({
     <div className="space-y-6 py-4">
       <div className="text-center space-y-2">
         <h3 className="text-2xl font-semibold">{title}</h3>
-        <p className="text-muted-foreground max-w-md mx-auto">
-          {description}
-        </p>
+        <p className="text-muted-foreground max-w-md mx-auto">{description}</p>
       </div>
       <Card className="max-w-lg mx-auto">
         <CardContent className="p-6 space-y-6">
@@ -167,8 +162,8 @@ export function TipStep({
           </div>
           {tipAmount > 0 && (
             <p className="text-sm text-green-600 font-medium text-center">
-              Thank you! Your ${tipAmount.toFixed(2)} tip will go directly to the
-              team.
+              Thank you! Your ${tipAmount.toFixed(2)} tip will go directly to
+              the team.
             </p>
           )}
           {onNoTip && (

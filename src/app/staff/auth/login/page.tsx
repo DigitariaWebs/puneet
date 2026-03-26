@@ -5,7 +5,13 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Calendar } from "lucide-react";
 import { setCurrentUserId } from "@/lib/role-utils";
 import { users } from "@/data/users";
@@ -23,7 +29,7 @@ export default function StaffLoginPage() {
 
     // Simple demo login - in production, this would authenticate with backend
     const staffMember = users.find(
-      (u) => u.email === email && u.role === "Staff"
+      (u) => u.email === email && u.role === "Staff",
     );
 
     if (staffMember) {
@@ -105,7 +111,9 @@ export default function StaffLoginPage() {
                   onClick={() => handleQuickLogin(staff.id.toString())}
                 >
                   <span className="font-medium">{staff.name}</span>
-                  <span className="text-muted-foreground ml-2">({staff.email})</span>
+                  <span className="text-muted-foreground ml-2">
+                    ({staff.email})
+                  </span>
                 </Button>
               ))}
             </div>

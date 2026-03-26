@@ -6,7 +6,13 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Eye, EyeOff, Lock, Loader2 } from "lucide-react";
 
 export default function ChangePasswordPage() {
@@ -34,7 +40,8 @@ export default function ChangePasswordPage() {
     } else if (formData.newPassword.length < 8) {
       newErrors.newPassword = "Password must be at least 8 characters";
     } else if (formData.currentPassword === formData.newPassword) {
-      newErrors.newPassword = "New password must be different from current password";
+      newErrors.newPassword =
+        "New password must be different from current password";
     }
 
     if (!formData.confirmPassword) {
@@ -58,21 +65,23 @@ export default function ChangePasswordPage() {
 
     try {
       // TODO: Replace with actual API call
-      await changePassword(
-        formData.currentPassword,
-        formData.newPassword
-      );
+      await changePassword(formData.currentPassword, formData.newPassword);
       toast.success("Password changed successfully!");
       router.push("/customer/dashboard");
     } catch (error: any) {
-      toast.error(error.message || "Failed to change password. Please try again.");
+      toast.error(
+        error.message || "Failed to change password. Please try again.",
+      );
     } finally {
       setIsLoading(false);
     }
   };
 
   // Placeholder function - replace with actual API call
-  const changePassword = async (currentPassword: string, newPassword: string) => {
+  const changePassword = async (
+    currentPassword: string,
+    newPassword: string,
+  ) => {
     // TODO: API call to change password
     await new Promise((resolve) => setTimeout(resolve, 1000));
   };
@@ -85,9 +94,7 @@ export default function ChangePasswordPage() {
             <img src="/yipyy-transparent.png" alt="Yipyy" className="h-12" />
           </div>
           <CardTitle className="text-2xl font-bold">Change password</CardTitle>
-          <CardDescription>
-            Update your account password
-          </CardDescription>
+          <CardDescription>Update your account password</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -101,7 +108,10 @@ export default function ChangePasswordPage() {
                   placeholder="••••••••"
                   value={formData.currentPassword}
                   onChange={(e) =>
-                    setFormData({ ...formData, currentPassword: e.target.value })
+                    setFormData({
+                      ...formData,
+                      currentPassword: e.target.value,
+                    })
                   }
                   className="pl-9 pr-9"
                   aria-invalid={errors.currentPassword ? "true" : "false"}
@@ -167,7 +177,10 @@ export default function ChangePasswordPage() {
                   placeholder="••••••••"
                   value={formData.confirmPassword}
                   onChange={(e) =>
-                    setFormData({ ...formData, confirmPassword: e.target.value })
+                    setFormData({
+                      ...formData,
+                      confirmPassword: e.target.value,
+                    })
                   }
                   className="pl-9 pr-9"
                   aria-invalid={errors.confirmPassword ? "true" : "false"}

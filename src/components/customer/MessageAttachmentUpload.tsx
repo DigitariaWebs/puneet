@@ -2,11 +2,31 @@
 
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Paperclip, X, FileText, Image as ImageIcon, FileCheck, Upload } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Paperclip,
+  X,
+  FileText,
+  Image as ImageIcon,
+  FileCheck,
+  Upload,
+} from "lucide-react";
 import { toast } from "sonner";
 
 export interface Attachment {
@@ -28,7 +48,9 @@ export function MessageAttachmentUpload({
 }: MessageAttachmentUploadProps) {
   const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [attachmentType, setAttachmentType] = useState<Attachment["type"] | "">("");
+  const [attachmentType, setAttachmentType] = useState<Attachment["type"] | "">(
+    "",
+  );
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -157,7 +179,9 @@ export function MessageAttachmentUpload({
               <div className="p-3 bg-muted rounded-lg">
                 <div className="flex items-center gap-2">
                   <Upload className="h-4 w-4" />
-                  <span className="text-sm font-medium">{selectedFile.name}</span>
+                  <span className="text-sm font-medium">
+                    {selectedFile.name}
+                  </span>
                   <span className="text-xs text-muted-foreground">
                     ({(selectedFile.size / 1024).toFixed(1)} KB)
                   </span>
@@ -166,7 +190,12 @@ export function MessageAttachmentUpload({
             )}
             <div className="space-y-2">
               <Label htmlFor="attachment-type">Attachment Type</Label>
-              <Select value={attachmentType} onValueChange={(value) => setAttachmentType(value as Attachment["type"])}>
+              <Select
+                value={attachmentType}
+                onValueChange={(value) =>
+                  setAttachmentType(value as Attachment["type"])
+                }
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select attachment type" />
                 </SelectTrigger>
@@ -180,10 +209,16 @@ export function MessageAttachmentUpload({
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsUploadDialogOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setIsUploadDialogOpen(false)}
+            >
               Cancel
             </Button>
-            <Button onClick={handleAddAttachment} disabled={!selectedFile || !attachmentType}>
+            <Button
+              onClick={handleAddAttachment}
+              disabled={!selectedFile || !attachmentType}
+            >
               Add Attachment
             </Button>
           </DialogFooter>

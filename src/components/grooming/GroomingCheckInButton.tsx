@@ -30,7 +30,8 @@ export function GroomingCheckInButton({
       });
     } catch (error) {
       toast.error("Check-in failed", {
-        description: "There was an error checking in. Please contact the front desk.",
+        description:
+          "There was an error checking in. Please contact the front desk.",
       });
     } finally {
       setIsCheckingIn(false);

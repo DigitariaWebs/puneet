@@ -8,7 +8,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Calendar, Scissors, Dog, Home, GraduationCap, ChevronDown } from "lucide-react";
+import {
+  Calendar,
+  Scissors,
+  Dog,
+  Home,
+  GraduationCap,
+  ChevronDown,
+} from "lucide-react";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
 import { facilityConfig } from "@/data/facility-config";
 import Link from "next/link";
@@ -33,7 +40,10 @@ export function QuickBookButton() {
     return null;
   }
 
-  const serviceLinks: Record<string, { href: string; icon: typeof Calendar; label: string }> = {
+  const serviceLinks: Record<
+    string,
+    { href: string; icon: typeof Calendar; label: string }
+  > = {
     grooming: {
       href: "/customer/bookings?service=grooming",
       icon: Scissors,

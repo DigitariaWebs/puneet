@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 import { facilities } from "@/data/facilities";
 
 export interface FacilityBranding {
@@ -25,10 +31,18 @@ interface CustomerFacilityContextValue {
   isLoading: boolean;
 }
 
-const CustomerFacilityContext = createContext<CustomerFacilityContextValue | undefined>(undefined);
+const CustomerFacilityContext = createContext<
+  CustomerFacilityContextValue | undefined
+>(undefined);
 
-export function CustomerFacilityProvider({ children }: { children: ReactNode }) {
-  const [selectedFacilityId, setSelectedFacilityId] = useState<number | null>(null);
+export function CustomerFacilityProvider({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const [selectedFacilityId, setSelectedFacilityId] = useState<number | null>(
+    null,
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   // Get available facilities for the customer
@@ -71,7 +85,7 @@ export function CustomerFacilityProvider({ children }: { children: ReactNode }) 
 
   const selectedFacility =
     selectedFacilityId !== null
-      ? availableFacilities.find((f) => f.id === selectedFacilityId) ?? null
+      ? (availableFacilities.find((f) => f.id === selectedFacilityId) ?? null)
       : null;
 
   return (

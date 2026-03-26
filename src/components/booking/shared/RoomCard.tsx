@@ -58,10 +58,7 @@ export function RoomCard({
   const content = (
     <>
       <div
-        className={cn(
-          "bg-muted relative shrink-0",
-          compact ? "h-36" : "h-44"
-        )}
+        className={cn("bg-muted relative shrink-0", compact ? "h-36" : "h-44")}
       >
         {room.image ? (
           /* eslint-disable-next-line @next/next/no-img-element */
@@ -91,7 +88,7 @@ export function RoomCard({
         <p
           className={cn(
             "text-muted-foreground line-clamp-2 mt-1",
-            compact ? "text-xs" : "text-sm"
+            compact ? "text-xs" : "text-sm",
           )}
         >
           {room.description}
@@ -99,7 +96,7 @@ export function RoomCard({
         <ul
           className={cn(
             "text-muted-foreground mt-2 space-y-1",
-            compact ? "text-xs space-y-0.5" : "text-xs"
+            compact ? "text-xs space-y-0.5" : "text-xs",
           )}
         >
           {(compact ? room.included.slice(0, 3) : room.included).map(
@@ -108,7 +105,7 @@ export function RoomCard({
                 <CheckCircle className="h-3.5 w-3.5 text-primary shrink-0" />
                 {item}
               </li>
-            )
+            ),
           )}
         </ul>
         {room.allowedPetTypes && room.allowedPetTypes.length > 0 && (
@@ -122,15 +119,12 @@ export function RoomCard({
             {(room.minWeightLbs != null || room.maxWeightLbs != null) && (
               <span>
                 {room.minWeightLbs != null && `≥${room.minWeightLbs} lbs`}
-                {room.maxWeightLbs != null &&
-                  ` ≤${room.maxWeightLbs} lbs`}
+                {room.maxWeightLbs != null && ` ≤${room.maxWeightLbs} lbs`}
               </span>
             )}
           </div>
         )}
-        {label && (
-          <p className="text-xs text-muted-foreground mt-1">{label}</p>
-        )}
+        {label && <p className="text-xs text-muted-foreground mt-1">{label}</p>}
         {onViewDetails && (
           <Button
             type="button"
@@ -157,7 +151,7 @@ export function RoomCard({
     !disabled && "cursor-pointer",
     selected && !disabled && "ring-2 ring-primary border-primary bg-primary/5",
     !selected && !disabled && "border-border hover:border-primary/50",
-    className
+    className,
   );
 
   if (onClick && !disabled) {

@@ -7,7 +7,13 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff, Mail, Lock, Loader2, Scissors } from "lucide-react";
 import { setCurrentUserId } from "@/lib/role-utils";
@@ -52,7 +58,7 @@ export default function GroomerLoginPage() {
     try {
       // Find groomer by email
       const groomer = stylists.find(
-        (s) => s.email.toLowerCase() === formData.email.toLowerCase()
+        (s) => s.email.toLowerCase() === formData.email.toLowerCase(),
       );
 
       if (!groomer) {
@@ -172,9 +178,7 @@ export default function GroomerLoginPage() {
             <Separator />
             <div className="mt-4 text-center text-sm text-muted-foreground">
               <p>Demo: Use any groomer email from the system</p>
-              <p className="mt-2 text-xs">
-                Example: jessica@pawsplay.com
-              </p>
+              <p className="mt-2 text-xs">Example: jessica@pawsplay.com</p>
             </div>
           </div>
         </CardContent>

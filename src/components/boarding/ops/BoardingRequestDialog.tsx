@@ -70,9 +70,8 @@ export function BoardingRequestDialog({
 }) {
   const [allowOverride, setAllowOverride] = useState(false);
   const [assignments, setAssignments] = useState<RoomAssignments>({});
-  const [workingPreCheck, setWorkingPreCheck] = useState<YipyyGoPreCheckForm | null>(
-    null,
-  );
+  const [workingPreCheck, setWorkingPreCheck] =
+    useState<YipyyGoPreCheckForm | null>(null);
   const [staffPaymentNote, setStaffPaymentNote] = useState("");
 
   const eligibilityRows: EligibilityRow[] = useMemo(() => {
@@ -134,8 +133,22 @@ export function BoardingRequestDialog({
 
   const auditColumns: ColumnDef<PreCheckAuditEvent>[] = useMemo(
     () => [
-      { key: "at", label: "At", sortable: true, render: (e) => new Date(e.at).toLocaleString() },
-      { key: "actorType", label: "Type", sortable: true, render: (e) => <Badge variant="outline" className="capitalize">{e.actorType}</Badge> },
+      {
+        key: "at",
+        label: "At",
+        sortable: true,
+        render: (e) => new Date(e.at).toLocaleString(),
+      },
+      {
+        key: "actorType",
+        label: "Type",
+        sortable: true,
+        render: (e) => (
+          <Badge variant="outline" className="capitalize">
+            {e.actorType}
+          </Badge>
+        ),
+      },
       { key: "actorName", label: "Actor", sortable: true },
       { key: "action", label: "Action", sortable: true },
     ],
@@ -162,12 +175,15 @@ export function BoardingRequestDialog({
             {request ? paymentBadge(request.paymentStatus) : null}
           </DialogTitle>
           <DialogDescription>
-            Staff review: eligibility, schedule, room assignment, add-ons, payment, and PreCheck.
+            Staff review: eligibility, schedule, room assignment, add-ons,
+            payment, and PreCheck.
           </DialogDescription>
         </DialogHeader>
 
         {!request ? (
-          <div className="text-sm text-muted-foreground">No request selected.</div>
+          <div className="text-sm text-muted-foreground">
+            No request selected.
+          </div>
         ) : (
           <div className="space-y-4">
             <div className="grid gap-4 lg:grid-cols-3">
@@ -189,8 +205,12 @@ export function BoardingRequestDialog({
                     </div>
                   </div>
                   <div className="rounded-md border p-3">
-                    <div className="text-xs text-muted-foreground">PreCheck</div>
-                    <div className="font-medium capitalize">{request.preCheck.status.replace("-", " ")}</div>
+                    <div className="text-xs text-muted-foreground">
+                      PreCheck
+                    </div>
+                    <div className="font-medium capitalize">
+                      {request.preCheck.status.replace("-", " ")}
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -234,7 +254,9 @@ export function BoardingRequestDialog({
               <TabsList className="flex flex-wrap">
                 <TabsTrigger value="eligibility">Eligibility</TabsTrigger>
                 <TabsTrigger value="rooms">Rooms</TabsTrigger>
-                <TabsTrigger value="add-ons">Add-ons & Instructions</TabsTrigger>
+                <TabsTrigger value="add-ons">
+                  Add-ons & Instructions
+                </TabsTrigger>
                 <TabsTrigger value="payment">Payment</TabsTrigger>
                 <TabsTrigger value="precheck">PreCheck</TabsTrigger>
               </TabsList>
@@ -255,7 +277,9 @@ export function BoardingRequestDialog({
                       const next: RoomAssignments = {};
                       // remove from any room
                       Object.keys(prev).forEach((rid) => {
-                        next[rid] = (prev[rid] ?? []).filter((id) => id !== petId);
+                        next[rid] = (prev[rid] ?? []).filter(
+                          (id) => id !== petId,
+                        );
                       });
                       // add to target
                       next[roomId] = [...(next[roomId] ?? []), petId];
@@ -266,7 +290,9 @@ export function BoardingRequestDialog({
                     setAssignments((prev) => {
                       const next: RoomAssignments = {};
                       Object.keys(prev).forEach((rid) => {
-                        next[rid] = (prev[rid] ?? []).filter((id) => id !== petId);
+                        next[rid] = (prev[rid] ?? []).filter(
+                          (id) => id !== petId,
+                        );
                       });
                       return next;
                     });
@@ -277,7 +303,9 @@ export function BoardingRequestDialog({
               <TabsContent value="add-ons" className="space-y-4">
                 <Card>
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-base">Add-ons (per pet)</CardTitle>
+                    <CardTitle className="text-base">
+                      Add-ons (per pet)
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
                     {request.pets.map((p) => {
@@ -291,7 +319,9 @@ export function BoardingRequestDialog({
                                 ({p.breed})
                               </span>
                             </div>
-                            <Badge variant="outline">{addOns.length} add-ons</Badge>
+                            <Badge variant="outline">
+                              {addOns.length} add-ons
+                            </Badge>
                           </div>
                           <div className="mt-2 grid gap-2">
                             {addOns.length === 0 ? (
@@ -326,7 +356,9 @@ export function BoardingRequestDialog({
 
                 <Card>
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-base">Staff-editable instructions</CardTitle>
+                    <CardTitle className="text-base">
+                      Staff-editable instructions
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="grid gap-4 md:grid-cols-2">
                     <div className="space-y-2">
@@ -338,7 +370,9 @@ export function BoardingRequestDialog({
                       <Textarea placeholder="Staff edits override customer notes..." />
                     </div>
                     <div className="space-y-2 md:col-span-2">
-                      <div className="text-sm font-medium">Internal staff notes</div>
+                      <div className="text-sm font-medium">
+                        Internal staff notes
+                      </div>
                       <Textarea placeholder="Internal notes..." />
                     </div>
                   </CardContent>
@@ -352,17 +386,27 @@ export function BoardingRequestDialog({
                   </CardHeader>
                   <CardContent className="grid gap-4 md:grid-cols-2">
                     <div className="rounded-md border p-3">
-                      <div className="text-xs text-muted-foreground">Status</div>
-                      <div className="mt-1">{paymentBadge(request.paymentStatus)}</div>
+                      <div className="text-xs text-muted-foreground">
+                        Status
+                      </div>
+                      <div className="mt-1">
+                        {paymentBadge(request.paymentStatus)}
+                      </div>
                       <div className="mt-2 text-xs text-muted-foreground">
-                        Estimate: <span className="font-medium text-foreground">${request.totalEstimate}</span>
+                        Estimate:{" "}
+                        <span className="font-medium text-foreground">
+                          ${request.totalEstimate}
+                        </span>
                       </div>
                     </div>
                     <div className="rounded-md border p-3">
                       <div className="text-xs text-muted-foreground">Tip</div>
                       <div className="mt-2 flex items-center gap-2">
                         <div className="text-sm font-medium">$</div>
-                        <Input defaultValue={String(request.tipAmount)} className="max-w-[160px]" />
+                        <Input
+                          defaultValue={String(request.tipAmount)}
+                          className="max-w-[160px]"
+                        />
                       </div>
                       <div className="mt-2 text-xs text-muted-foreground">
                         Staff can adjust tip for in-person checkout.
@@ -376,7 +420,11 @@ export function BoardingRequestDialog({
                         placeholder="Internal payment note..."
                       />
                       <div className="flex gap-2">
-                        <Button type="button" variant="outline" className="flex-1">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="flex-1"
+                        >
                           <DollarSign className="h-4 w-4 mr-2" />
                           Process in-person
                         </Button>
@@ -456,7 +504,9 @@ export function BoardingRequestDialog({
                 <Button
                   type="button"
                   className="flex-1"
-                  disabled={!allowOverride && eligibilityRows.some((r) => !r.eligible)}
+                  disabled={
+                    !allowOverride && eligibilityRows.some((r) => !r.eligible)
+                  }
                   onClick={() => {
                     const preCheck = workingPreCheck ?? request.preCheck;
                     onUpdateRequest({
@@ -473,7 +523,8 @@ export function BoardingRequestDialog({
               </CardContent>
               {!allowOverride && eligibilityRows.some((r) => !r.eligible) && (
                 <div className="px-6 pb-6 text-xs text-muted-foreground">
-                  Accept is disabled until eligibility issues are resolved (or override is enabled).
+                  Accept is disabled until eligibility issues are resolved (or
+                  override is enabled).
                 </div>
               )}
             </Card>
@@ -491,4 +542,3 @@ export function BoardingRequestDialog({
     </Dialog>
   );
 }
-

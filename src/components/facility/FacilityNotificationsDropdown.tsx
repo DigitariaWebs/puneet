@@ -2,7 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Bell, FileText, Info, AlertCircle, AlertTriangle, Paperclip } from "lucide-react";
+import {
+  Bell,
+  FileText,
+  Info,
+  AlertCircle,
+  AlertTriangle,
+  Paperclip,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -50,8 +57,12 @@ function IconForType(type: FacilityNotificationType) {
   }
 }
 
-export function FacilityNotificationsDropdown({ facilityId = 11 }: FacilityNotificationsDropdownProps) {
-  const [notifications, setNotifications] = useState<FacilityNotification[]>([]);
+export function FacilityNotificationsDropdown({
+  facilityId = 11,
+}: FacilityNotificationsDropdownProps) {
+  const [notifications, setNotifications] = useState<FacilityNotification[]>(
+    [],
+  );
   const [open, setOpen] = useState(false);
 
   const refresh = () => setNotifications(getFacilityNotifications(facilityId));
@@ -86,7 +97,10 @@ export function FacilityNotificationsDropdown({ facilityId = 11 }: FacilityNotif
           )}
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-80 max-h-[360px] overflow-y-auto">
+      <DropdownMenuContent
+        align="end"
+        className="w-80 max-h-[360px] overflow-y-auto"
+      >
         <div className="flex items-center justify-between px-2 py-1.5 border-b">
           <span className="font-medium text-sm">Notifications</span>
           {unreadCount > 0 && (
@@ -115,18 +129,21 @@ export function FacilityNotificationsDropdown({ facilityId = 11 }: FacilityNotif
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium">{n.title}</p>
                   <p className="text-xs text-muted-foreground">{n.message}</p>
-                  {(n.type === "form_submission_new" || n.type === "form_submission_red_flag" || n.type === "form_submission_has_files") && n.submissionId && (
-                    <Link
-                      href={`/facility/dashboard/forms/submissions/${n.submissionId}`}
-                      className="text-xs text-primary hover:underline mt-1 inline-block"
-                      onClick={() => {
-                        markRead(n.id);
-                        setOpen(false);
-                      }}
-                    >
-                      View submission →
-                    </Link>
-                  )}
+                  {(n.type === "form_submission_new" ||
+                    n.type === "form_submission_red_flag" ||
+                    n.type === "form_submission_has_files") &&
+                    n.submissionId && (
+                      <Link
+                        href={`/facility/dashboard/forms/submissions/${n.submissionId}`}
+                        className="text-xs text-primary hover:underline mt-1 inline-block"
+                        onClick={() => {
+                          markRead(n.id);
+                          setOpen(false);
+                        }}
+                      >
+                        View submission →
+                      </Link>
+                    )}
                   {n.type === "yipyygo_submitted" && n.bookingId != null && (
                     <Link
                       href={`/facility/dashboard/bookings/${n.bookingId}#yipyygo`}
@@ -139,7 +156,9 @@ export function FacilityNotificationsDropdown({ facilityId = 11 }: FacilityNotif
                       Review form →
                     </Link>
                   )}
-                  <p className="text-[10px] text-muted-foreground mt-1">{formatTime(n.timestamp)}</p>
+                  <p className="text-[10px] text-muted-foreground mt-1">
+                    {formatTime(n.timestamp)}
+                  </p>
                 </div>
                 {!n.read && (
                   <Button

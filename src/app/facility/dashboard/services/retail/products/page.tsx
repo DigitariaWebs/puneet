@@ -91,7 +91,9 @@ export default function ProductsPage() {
 
   const [newTag, setNewTag] = useState("");
   const [variants, setVariants] = useState<ProductVariant[]>([]);
-  const [editingVariant, setEditingVariant] = useState<ProductVariant | null>(null);
+  const [editingVariant, setEditingVariant] = useState<ProductVariant | null>(
+    null,
+  );
   const [isVariantModalOpen, setIsVariantModalOpen] = useState(false);
   const [variantForm, setVariantForm] = useState({
     name: "",
@@ -217,8 +219,8 @@ export default function ProductsPage() {
                     ? variantForm.customVariantType
                     : undefined,
               }
-            : v
-        )
+            : v,
+        ),
       );
     } else {
       // Add new variant
@@ -973,7 +975,9 @@ export default function ProductsPage() {
             {formData.hasVariants && (
               <div className="space-y-4 pt-4 border-t">
                 <div className="flex items-center justify-between">
-                  <Label className="text-base font-medium">Product Variants</Label>
+                  <Label className="text-base font-medium">
+                    Product Variants
+                  </Label>
                   <Button
                     type="button"
                     variant="outline"
@@ -984,7 +988,7 @@ export default function ProductsPage() {
                     Add Variant
                   </Button>
                 </div>
-                
+
                 {variants.length > 0 ? (
                   <div className="space-y-2">
                     {variants.map((variant) => (
@@ -998,7 +1002,8 @@ export default function ProductsPage() {
                             <Badge variant="outline" className="text-xs">
                               {variant.variantType === "custom"
                                 ? variant.customVariantType
-                                : variant.variantType}: {variant.variantValue}
+                                : variant.variantType}
+                              : {variant.variantValue}
                             </Badge>
                           </div>
                           <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
@@ -1051,7 +1056,9 @@ export default function ProductsPage() {
                     }
                   }}
                 />
-                <Label htmlFor="hasVariants">Does this product come in variations?</Label>
+                <Label htmlFor="hasVariants">
+                  Does this product come in variations?
+                </Label>
               </div>
 
               <div className="flex items-center gap-2">
@@ -1144,12 +1151,17 @@ export default function ProductsPage() {
 
             {variantForm.variantType === "custom" && (
               <div className="grid gap-2">
-                <Label htmlFor="customVariantType">Custom Variant Type Name</Label>
+                <Label htmlFor="customVariantType">
+                  Custom Variant Type Name
+                </Label>
                 <Input
                   id="customVariantType"
                   value={variantForm.customVariantType}
                   onChange={(e) =>
-                    setVariantForm({ ...variantForm, customVariantType: e.target.value })
+                    setVariantForm({
+                      ...variantForm,
+                      customVariantType: e.target.value,
+                    })
                   }
                   placeholder="e.g., Material, Pattern, Style"
                 />
@@ -1162,7 +1174,10 @@ export default function ProductsPage() {
                 id="variantValue"
                 value={variantForm.variantValue}
                 onChange={(e) =>
-                  setVariantForm({ ...variantForm, variantValue: e.target.value })
+                  setVariantForm({
+                    ...variantForm,
+                    variantValue: e.target.value,
+                  })
                 }
                 placeholder="e.g., Large, Red, 500g"
               />
@@ -1360,7 +1375,8 @@ export default function ProductsPage() {
                 !variantForm.sku ||
                 !variantForm.barcode ||
                 !variantForm.variantValue ||
-                (variantForm.variantType === "custom" && !variantForm.customVariantType)
+                (variantForm.variantType === "custom" &&
+                  !variantForm.customVariantType)
               }
             >
               {editingVariant ? "Save Changes" : "Add Variant"}

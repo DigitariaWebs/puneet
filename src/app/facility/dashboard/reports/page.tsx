@@ -662,8 +662,8 @@ export default function ReportsPage() {
             <CardHeader>
               <CardTitle>Retail / POS Reports</CardTitle>
               <p className="text-sm text-muted-foreground">
-                Comprehensive retail performance, sales, and inventory analytics.
-                For detailed reports, visit the{" "}
+                Comprehensive retail performance, sales, and inventory
+                analytics. For detailed reports, visit the{" "}
                 <a
                   href="/facility/dashboard/services/retail/reports"
                   className="text-primary hover:underline"

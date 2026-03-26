@@ -2,7 +2,13 @@
 
 import { ReactNode } from "react";
 import { useLoyaltyConfig } from "@/hooks/use-loyalty-config";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Settings, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -146,7 +152,8 @@ export function LoyaltyModuleGuard({
             <CardHeader>
               <CardTitle>Feature Not Available</CardTitle>
               <CardDescription>
-                The {requireFeature} feature is not enabled in your loyalty program configuration.
+                The {requireFeature} feature is not enabled in your loyalty
+                program configuration.
               </CardDescription>
             </CardHeader>
           </Card>

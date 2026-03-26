@@ -2,7 +2,12 @@ import { PawPrint, Mail, MessageSquare, Receipt } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import type { Pet, Client, FeedingScheduleItem, MedicationItem } from "@/lib/types";
+import type {
+  Pet,
+  Client,
+  FeedingScheduleItem,
+  MedicationItem,
+} from "@/lib/types";
 import { SERVICE_CATEGORIES } from "../constants";
 
 interface ConfirmStepProps {
@@ -306,18 +311,20 @@ export function ConfirmStep({
                         className="text-xs bg-muted/50 p-2 rounded"
                       >
                         <div className="flex justify-between">
-                          <span className="font-medium">
-                            Feeding {idx + 1}
-                          </span>
+                          <span className="font-medium">Feeding {idx + 1}</span>
                           <span>
-                            {item.source.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())}
+                            {item.source
+                              .replace(/_/g, " ")
+                              .replace(/\b\w/g, (l) => l.toUpperCase())}
                           </span>
                         </div>
                         {item.occasions.length > 0 && (
                           <div className="mt-1 space-y-0.5">
                             {item.occasions.map((occ) => (
                               <p key={occ.id} className="text-muted-foreground">
-                                {occ.label} ({occ.time}) — {occ.components.length} {occ.components.length === 1 ? "item" : "items"}
+                                {occ.label} ({occ.time}) —{" "}
+                                {occ.components.length}{" "}
+                                {occ.components.length === 1 ? "item" : "items"}
                               </p>
                             ))}
                           </div>
@@ -351,14 +358,23 @@ export function ConfirmStep({
                             {item.times
                               .map((t) => {
                                 try {
-                                  return new Date(`2000-01-01T${t}`).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
-                                } catch { return t; }
+                                  return new Date(
+                                    `2000-01-01T${t}`,
+                                  ).toLocaleTimeString("en-US", {
+                                    hour: "numeric",
+                                    minute: "2-digit",
+                                    hour12: true,
+                                  });
+                                } catch {
+                                  return t;
+                                }
                               })
                               .join(", ")}
                           </span>
                         </div>
                         <p className="text-muted-foreground mt-1">
-                          {item.amount}{item.strength ? ` (${item.strength})` : ""} •{" "}
+                          {item.amount}
+                          {item.strength ? ` (${item.strength})` : ""} •{" "}
                           {item.form.replace(/_/g, " ")}
                           {item.purpose && ` • ${item.purpose}`}
                         </p>

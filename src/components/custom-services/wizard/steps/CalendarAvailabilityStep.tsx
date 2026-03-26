@@ -71,7 +71,10 @@ export function CalendarAvailabilityStep({
       {/* Enable toggle */}
       <div className="flex items-center justify-between rounded-xl border border-border bg-card p-4">
         <div className="space-y-0.5">
-          <Label htmlFor="cal-enabled" className="text-sm font-semibold cursor-pointer">
+          <Label
+            htmlFor="cal-enabled"
+            className="text-sm font-semibold cursor-pointer"
+          >
             Enable Calendar & Availability
           </Label>
           <p className="text-xs text-muted-foreground">
@@ -89,22 +92,33 @@ export function CalendarAvailabilityStep({
         <div className="flex items-start gap-2 rounded-lg bg-muted/50 p-3 text-xs text-muted-foreground">
           <Info className="h-3.5 w-3.5 shrink-0 mt-0.5" />
           <span>
-            Calendar is disabled. This service won&apos;t appear on the scheduling calendar.
-            You can still enable online booking and manual staff assignment.
+            Calendar is disabled. This service won&apos;t appear on the
+            scheduling calendar. You can still enable online booking and manual
+            staff assignment.
           </span>
         </div>
       )}
 
-      <div className={cn("space-y-6", !cal.enabled && "opacity-50 pointer-events-none")}>
+      <div
+        className={cn(
+          "space-y-6",
+          !cal.enabled && "opacity-50 pointer-events-none",
+        )}
+      >
         {/* Duration Mode */}
         <div className="space-y-3">
           <div>
             <Label className="text-sm font-semibold">Duration Mode</Label>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Fixed: all sessions are the same length. Variable: clients choose from multiple options.
+              Fixed: all sessions are the same length. Variable: clients choose
+              from multiple options.
             </p>
           </div>
-          <div role="radiogroup" aria-label="Duration mode" className="flex gap-3">
+          <div
+            role="radiogroup"
+            aria-label="Duration mode"
+            className="flex gap-3"
+          >
             {(["fixed", "variable"] as const).map((mode) => (
               <button
                 key={mode}
@@ -151,16 +165,22 @@ export function CalendarAvailabilityStep({
                 className="w-24"
                 placeholder="60"
               />
-              <span className="text-xs text-muted-foreground shrink-0">min</span>
+              <span className="text-xs text-muted-foreground shrink-0">
+                min
+              </span>
               <Input
                 value={opt.label}
-                onChange={(e) => updateDurationOption(i, { label: e.target.value })}
+                onChange={(e) =>
+                  updateDurationOption(i, { label: e.target.value })
+                }
                 className="flex-1"
                 placeholder="Label (e.g. 60 min)"
               />
               {cal.durationMode === "variable" && (
                 <>
-                  <span className="text-xs text-muted-foreground shrink-0">$</span>
+                  <span className="text-xs text-muted-foreground shrink-0">
+                    $
+                  </span>
                   <Input
                     type="number"
                     min={0}
@@ -262,9 +282,13 @@ export function CalendarAvailabilityStep({
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="staff">Staff Member</SelectItem>
-              <SelectItem value="resource">Facility Resource (room, pool, van…)</SelectItem>
+              <SelectItem value="resource">
+                Facility Resource (room, pool, van…)
+              </SelectItem>
               <SelectItem value="room">Room / Kennel</SelectItem>
-              <SelectItem value="combination">Combination (staff + resource)</SelectItem>
+              <SelectItem value="combination">
+                Combination (staff + resource)
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -275,11 +299,14 @@ export function CalendarAvailabilityStep({
             <div className="space-y-2">
               <Label className="text-sm font-semibold">Assign Resources</Label>
               <p className="text-xs text-muted-foreground">
-                Select which resources this service can use. Availability is tracked per resource.
+                Select which resources this service can use. Availability is
+                tracked per resource.
               </p>
               <div className="grid gap-2 sm:grid-cols-2">
                 {resources.map((res) => {
-                  const isChecked = (cal.assignedResourceIds ?? []).includes(res.id);
+                  const isChecked = (cal.assignedResourceIds ?? []).includes(
+                    res.id,
+                  );
                   return (
                     <label
                       key={res.id}

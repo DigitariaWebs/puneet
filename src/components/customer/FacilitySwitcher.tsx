@@ -13,7 +13,8 @@ import { Building2, Check, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function FacilitySwitcher() {
-  const { selectedFacility, availableFacilities, setSelectedFacility } = useCustomerFacility();
+  const { selectedFacility, availableFacilities, setSelectedFacility } =
+    useCustomerFacility();
   const [isOpen, setIsOpen] = useState(false);
 
   if (availableFacilities.length <= 1) {
@@ -44,7 +45,7 @@ export function FacilitySwitcher() {
             }}
             className={cn(
               "flex items-center justify-between cursor-pointer",
-              selectedFacility?.id === facility.id && "bg-accent"
+              selectedFacility?.id === facility.id && "bg-accent",
             )}
           >
             <div className="flex items-center gap-2 flex-1 min-w-0">

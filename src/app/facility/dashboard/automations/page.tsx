@@ -43,13 +43,25 @@ export default function AutomationsPage() {
   };
 
   // Categorize automations
-  const formTriggers = ["form_link_sent", "form_started", "form_submitted", "form_incomplete_by_deadline", "form_red_flag_answer"];
+  const formTriggers = [
+    "form_link_sent",
+    "form_started",
+    "form_submitted",
+    "form_incomplete_by_deadline",
+    "form_red_flag_answer",
+  ];
   const categorizedAutomations = {
     booking: automationRules.filter(
-      (r) => r.trigger === "booking_created" || r.trigger === "check_in" || r.trigger === "check_out"
+      (r) =>
+        r.trigger === "booking_created" ||
+        r.trigger === "check_in" ||
+        r.trigger === "check_out",
     ),
     reminder: automationRules.filter(
-      (r) => r.trigger === "24h_before" || r.trigger === "appointment_reminder" || r.trigger === "vaccination_expiry"
+      (r) =>
+        r.trigger === "24h_before" ||
+        r.trigger === "appointment_reminder" ||
+        r.trigger === "vaccination_expiry",
     ),
     payment: automationRules.filter((r) => r.trigger === "payment_received"),
     forms: automationRules.filter((r) => formTriggers.includes(r.trigger)),
@@ -64,10 +76,18 @@ export default function AutomationsPage() {
 
   // Get automation category icon
   const getCategoryIcon = (trigger: string) => {
-    if (trigger === "booking_created" || trigger === "check_in" || trigger === "check_out") {
+    if (
+      trigger === "booking_created" ||
+      trigger === "check_in" ||
+      trigger === "check_out"
+    ) {
       return <Calendar className="h-4 w-4" />;
     }
-    if (trigger === "24h_before" || trigger === "appointment_reminder" || trigger === "vaccination_expiry") {
+    if (
+      trigger === "24h_before" ||
+      trigger === "appointment_reminder" ||
+      trigger === "vaccination_expiry"
+    ) {
       return <Clock className="h-4 w-4" />;
     }
     if (trigger === "payment_received") {
@@ -81,10 +101,18 @@ export default function AutomationsPage() {
 
   // Get automation category name
   const getCategoryName = (trigger: string) => {
-    if (trigger === "booking_created" || trigger === "check_in" || trigger === "check_out") {
+    if (
+      trigger === "booking_created" ||
+      trigger === "check_in" ||
+      trigger === "check_out"
+    ) {
       return "Booking";
     }
-    if (trigger === "24h_before" || trigger === "appointment_reminder" || trigger === "vaccination_expiry") {
+    if (
+      trigger === "24h_before" ||
+      trigger === "appointment_reminder" ||
+      trigger === "vaccination_expiry"
+    ) {
       return "Reminder";
     }
     if (trigger === "payment_received") {
@@ -103,7 +131,8 @@ export default function AutomationsPage() {
         <div>
           <h1 className="text-3xl font-bold">Automations</h1>
           <p className="text-muted-foreground mt-1">
-            System rules and automated messages configuration (Managers & Admins only)
+            System rules and automated messages configuration (Managers & Admins
+            only)
           </p>
         </div>
         <Button onClick={() => setShowAutomationModal(true)}>
@@ -132,16 +161,11 @@ export default function AutomationsPage() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">
-              Total Sent
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Total Sent</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {automationRules.reduce(
-                (sum, r) => sum + r.stats.totalSent,
-                0,
-              )}
+              {automationRules.reduce((sum, r) => sum + r.stats.totalSent, 0)}
             </div>
             <p className="text-xs text-muted-foreground mt-1">All time</p>
           </CardContent>
@@ -149,41 +173,33 @@ export default function AutomationsPage() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">
-              Email Rules
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Email Rules</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
               {
                 automationRules.filter(
-                  (r) => r.messageType === "email" || r.messageType === "both"
+                  (r) => r.messageType === "email" || r.messageType === "both",
                 ).length
               }
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Active rules
-            </p>
+            <p className="text-xs text-muted-foreground mt-1">Active rules</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">
-              SMS Rules
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">SMS Rules</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
               {
                 automationRules.filter(
-                  (r) => r.messageType === "sms" || r.messageType === "both"
+                  (r) => r.messageType === "sms" || r.messageType === "both",
                 ).length
               }
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Active rules
-            </p>
+            <p className="text-xs text-muted-foreground mt-1">Active rules</p>
           </CardContent>
         </Card>
       </div>
@@ -194,15 +210,24 @@ export default function AutomationsPage() {
           <TabsTrigger value="all" onClick={() => setFilterCategory("all")}>
             All Rules
           </TabsTrigger>
-          <TabsTrigger value="booking" onClick={() => setFilterCategory("booking")}>
+          <TabsTrigger
+            value="booking"
+            onClick={() => setFilterCategory("booking")}
+          >
             <Calendar className="h-4 w-4 mr-2" />
             Booking & Check-ins
           </TabsTrigger>
-          <TabsTrigger value="reminder" onClick={() => setFilterCategory("reminder")}>
+          <TabsTrigger
+            value="reminder"
+            onClick={() => setFilterCategory("reminder")}
+          >
             <Clock className="h-4 w-4 mr-2" />
             Reminders
           </TabsTrigger>
-          <TabsTrigger value="payment" onClick={() => setFilterCategory("payment")}>
+          <TabsTrigger
+            value="payment"
+            onClick={() => setFilterCategory("payment")}
+          >
             <DollarSign className="h-4 w-4 mr-2" />
             Payment
           </TabsTrigger>
@@ -210,7 +235,10 @@ export default function AutomationsPage() {
             <FileText className="h-4 w-4 mr-2" />
             Forms
           </TabsTrigger>
-          <TabsTrigger value="campaign" onClick={() => setFilterCategory("campaign")}>
+          <TabsTrigger
+            value="campaign"
+            onClick={() => setFilterCategory("campaign")}
+          >
             <Megaphone className="h-4 w-4 mr-2" />
             Campaigns
           </TabsTrigger>
@@ -237,7 +265,9 @@ export default function AutomationsPage() {
                         <div className="flex items-center gap-2 mb-2">
                           {getCategoryIcon(rule.trigger)}
                           <span className="font-semibold">{rule.name}</span>
-                          <Badge variant={rule.enabled ? "default" : "secondary"}>
+                          <Badge
+                            variant={rule.enabled ? "default" : "secondary"}
+                          >
                             {rule.enabled ? (
                               <>
                                 <CheckCircle2 className="h-3 w-3 mr-1 inline" />
@@ -271,11 +301,17 @@ export default function AutomationsPage() {
                           </Badge>
                         </div>
                         <p className="text-sm text-muted-foreground mb-2">
-                          Trigger: <span className="font-medium">{rule.trigger.replace(/_/g, " ")}</span>
+                          Trigger:{" "}
+                          <span className="font-medium">
+                            {rule.trigger.replace(/_/g, " ")}
+                          </span>
                         </p>
                         <div className="flex items-center gap-4 text-xs text-muted-foreground">
                           <span>
-                            Total sent: <span className="font-medium">{rule.stats.totalSent}</span>
+                            Total sent:{" "}
+                            <span className="font-medium">
+                              {rule.stats.totalSent}
+                            </span>
                           </span>
                           <span>•</span>
                           <span>
@@ -315,7 +351,8 @@ export default function AutomationsPage() {
                 Booking & Check-in Automations
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-1">
-                Automated messages for booking confirmations, check-ins, and check-outs
+                Automated messages for booking confirmations, check-ins, and
+                check-outs
               </p>
             </CardHeader>
             <CardContent>
@@ -335,7 +372,9 @@ export default function AutomationsPage() {
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-2">
                             <span className="font-semibold">{rule.name}</span>
-                            <Badge variant={rule.enabled ? "default" : "secondary"}>
+                            <Badge
+                              variant={rule.enabled ? "default" : "secondary"}
+                            >
                               {rule.enabled ? "Active" : "Inactive"}
                             </Badge>
                           </div>
@@ -374,7 +413,8 @@ export default function AutomationsPage() {
                 Reminder Automations
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-1">
-                Automated reminders for appointments, evaluations, and important dates
+                Automated reminders for appointments, evaluations, and important
+                dates
               </p>
             </CardHeader>
             <CardContent>
@@ -394,7 +434,9 @@ export default function AutomationsPage() {
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-2">
                             <span className="font-semibold">{rule.name}</span>
-                            <Badge variant={rule.enabled ? "default" : "secondary"}>
+                            <Badge
+                              variant={rule.enabled ? "default" : "secondary"}
+                            >
                               {rule.enabled ? "Active" : "Inactive"}
                             </Badge>
                             {rule.schedule && (
@@ -462,7 +504,9 @@ export default function AutomationsPage() {
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-2">
                             <span className="font-semibold">{rule.name}</span>
-                            <Badge variant={rule.enabled ? "default" : "secondary"}>
+                            <Badge
+                              variant={rule.enabled ? "default" : "secondary"}
+                            >
                               {rule.enabled ? "Active" : "Inactive"}
                             </Badge>
                           </div>
@@ -501,7 +545,8 @@ export default function AutomationsPage() {
                 Form Automations
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-1">
-                Automated messages triggered by form lifecycle events — link sent, started, submitted, deadline missed, or red-flag answers
+                Automated messages triggered by form lifecycle events — link
+                sent, started, submitted, deadline missed, or red-flag answers
               </p>
             </CardHeader>
             <CardContent>
@@ -522,7 +567,9 @@ export default function AutomationsPage() {
                           <div className="flex items-center gap-2 mb-2">
                             <FileText className="h-4 w-4" />
                             <span className="font-semibold">{rule.name}</span>
-                            <Badge variant={rule.enabled ? "default" : "secondary"}>
+                            <Badge
+                              variant={rule.enabled ? "default" : "secondary"}
+                            >
                               {rule.enabled ? (
                                 <>
                                   <CheckCircle2 className="h-3 w-3 mr-1 inline" />
@@ -556,11 +603,17 @@ export default function AutomationsPage() {
                             </Badge>
                           </div>
                           <p className="text-sm text-muted-foreground mb-2">
-                            Trigger: <span className="font-medium">{rule.trigger.replace(/_/g, " ")}</span>
+                            Trigger:{" "}
+                            <span className="font-medium">
+                              {rule.trigger.replace(/_/g, " ")}
+                            </span>
                           </p>
                           <div className="flex items-center gap-4 text-xs text-muted-foreground">
                             <span>
-                              Total sent: <span className="font-medium">{rule.stats.totalSent}</span>
+                              Total sent:{" "}
+                              <span className="font-medium">
+                                {rule.stats.totalSent}
+                              </span>
                             </span>
                             <span>•</span>
                             <span>

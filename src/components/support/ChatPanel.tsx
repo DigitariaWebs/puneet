@@ -40,7 +40,11 @@ export function ChatPanel({
   const [searchQuery, setSearchQuery] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatInputRef = useRef<HTMLInputElement>(null);
-  const insertVariable = useInsertAtCursor(chatInputRef, newMessage, setNewMessage);
+  const insertVariable = useInsertAtCursor(
+    chatInputRef,
+    newMessage,
+    setNewMessage,
+  );
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -339,10 +343,7 @@ export function ChatPanel({
               className="pr-10 bg-muted/50 border-0 focus-visible:ring-1 focus-visible:ring-primary"
             />
           </div>
-          <VariableInsertDropdown
-            context="general"
-            onInsert={insertVariable}
-          />
+          <VariableInsertDropdown context="general" onInsert={insertVariable} />
           <Button
             variant="ghost"
             size="icon"

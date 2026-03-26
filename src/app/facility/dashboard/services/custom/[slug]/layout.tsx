@@ -164,11 +164,18 @@ export default function CustomServiceLayout({
               <div className="min-w-0">
                 <h1 className="text-xl sm:text-2xl font-bold tracking-tight flex items-center gap-2 truncate">
                   {module.name}
-                  <Badge variant={statusVariant} className="shrink-0">{statusLabel}</Badge>
+                  <Badge variant={statusVariant} className="shrink-0">
+                    {statusLabel}
+                  </Badge>
                 </h1>
                 <p className="text-sm text-muted-foreground truncate flex items-center">
                   {catMeta && (
-                    <Badge className={cn("text-[10px] mr-2 shrink-0", catMeta.badgeClass)}>
+                    <Badge
+                      className={cn(
+                        "text-[10px] mr-2 shrink-0",
+                        catMeta.badgeClass,
+                      )}
+                    >
                       {catMeta.name}
                     </Badge>
                   )}
@@ -186,7 +193,10 @@ export default function CustomServiceLayout({
           </div>
         </div>
 
-        <nav aria-label="Service navigation" className="px-4 sm:px-6 flex gap-1 overflow-x-auto scrollbar-none">
+        <nav
+          aria-label="Service navigation"
+          className="px-4 sm:px-6 flex gap-1 overflow-x-auto scrollbar-none"
+        >
           {tabs.map((tab) => {
             const isActive =
               pathname === tab.href ||
@@ -201,7 +211,10 @@ export default function CustomServiceLayout({
                   "flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-t-lg transition-colors whitespace-nowrap",
                   "hover:bg-muted/50",
                   isActive
-                    ? cn("bg-background border-b-2 border-primary", catMeta?.textClass ?? "text-primary")
+                    ? cn(
+                        "bg-background border-b-2 border-primary",
+                        catMeta?.textClass ?? "text-primary",
+                      )
                     : "text-muted-foreground",
                 )}
               >
@@ -220,9 +233,7 @@ export default function CustomServiceLayout({
         onOpenChange={setModalOpen}
         type={pendingEnabled ? "confirmation" : "warning"}
         title={
-          pendingEnabled
-            ? `Enable ${module.name}`
-            : `Disable ${module.name}`
+          pendingEnabled ? `Enable ${module.name}` : `Disable ${module.name}`
         }
         description={
           pendingEnabled

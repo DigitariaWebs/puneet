@@ -1,6 +1,12 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, TrendingDown, Gift, Users } from "lucide-react";
 
@@ -39,7 +45,8 @@ export function RevenueReportLoyaltySection({
           Loyalty & Referral Impact
         </CardTitle>
         <CardDescription>
-          Impact of loyalty program and referrals on revenue for the selected period
+          Impact of loyalty program and referrals on revenue for the selected
+          period
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -52,8 +59,12 @@ export function RevenueReportLoyaltySection({
                 Points Earned
               </span>
             </div>
-            <div className="text-2xl font-bold">{loyaltyPointsEarned.toLocaleString()}</div>
-            <div className="text-xs text-muted-foreground mt-1">Total points issued</div>
+            <div className="text-2xl font-bold">
+              {loyaltyPointsEarned.toLocaleString()}
+            </div>
+            <div className="text-xs text-muted-foreground mt-1">
+              Total points issued
+            </div>
           </div>
 
           {/* Rewards Redeemed */}
@@ -65,7 +76,9 @@ export function RevenueReportLoyaltySection({
               </span>
             </div>
             <div className="text-2xl font-bold">{rewardsRedeemed}</div>
-            <div className="text-xs text-muted-foreground mt-1">Total redemptions</div>
+            <div className="text-xs text-muted-foreground mt-1">
+              Total redemptions
+            </div>
           </div>
 
           {/* Rewards Value */}
@@ -79,7 +92,9 @@ export function RevenueReportLoyaltySection({
             <div className="text-2xl font-bold text-red-600 dark:text-red-400">
               {formatCurrency(rewardsValue)}
             </div>
-            <div className="text-xs text-muted-foreground mt-1">Total value redeemed</div>
+            <div className="text-xs text-muted-foreground mt-1">
+              Total value redeemed
+            </div>
           </div>
 
           {/* Referral Rewards Issued */}
@@ -91,7 +106,9 @@ export function RevenueReportLoyaltySection({
               </span>
             </div>
             <div className="text-2xl font-bold">{referralRewardsIssued}</div>
-            <div className="text-xs text-muted-foreground mt-1">Rewards issued</div>
+            <div className="text-xs text-muted-foreground mt-1">
+              Rewards issued
+            </div>
           </div>
 
           {/* Referral Rewards Value */}
@@ -105,7 +122,9 @@ export function RevenueReportLoyaltySection({
             <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
               {formatCurrency(referralRewardsValue)}
             </div>
-            <div className="text-xs text-muted-foreground mt-1">Total referral value</div>
+            <div className="text-xs text-muted-foreground mt-1">
+              Total referral value
+            </div>
           </div>
         </div>
 

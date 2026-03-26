@@ -48,10 +48,13 @@ export function BasicInfoStep({ data, onChange }: BasicInfoStepProps) {
       {!data.name && (
         <div className="rounded-lg border border-primary/20 bg-primary/5 p-4 dark:bg-primary/10">
           <p className="text-sm font-medium text-foreground">
-            Name it, categorize it, and the wizard will configure everything else.
+            Name it, categorize it, and the wizard will configure everything
+            else.
           </p>
           <p className="text-xs text-muted-foreground mt-1">
-            Pick a category first — it sets smart defaults for scheduling, check-in, pricing, and staffing so you can skip what doesn&apos;t apply.
+            Pick a category first — it sets smart defaults for scheduling,
+            check-in, pricing, and staffing so you can skip what doesn&apos;t
+            apply.
           </p>
         </div>
       )}
@@ -60,8 +63,8 @@ export function BasicInfoStep({ data, onChange }: BasicInfoStepProps) {
       <div className="space-y-2">
         <Label className="text-sm font-semibold">Service Category</Label>
         <p className="text-xs text-muted-foreground">
-          The category determines default settings and how the service integrates
-          with your workflows.
+          The category determines default settings and how the service
+          integrates with your workflows.
         </p>
         <CategorySelector
           selected={data.category}
@@ -79,7 +82,7 @@ export function BasicInfoStep({ data, onChange }: BasicInfoStepProps) {
           </Label>
           <Input
             id="service-name"
-            placeholder="e.g. Yoda&apos;s Splash"
+            placeholder="e.g. Yoda's Splash"
             value={data.name}
             onChange={(e) => handleNameChange(e.target.value)}
           />
@@ -90,7 +93,9 @@ export function BasicInfoStep({ data, onChange }: BasicInfoStepProps) {
         <div className="space-y-1.5">
           <Label htmlFor="service-slug">URL Slug</Label>
           <div className="flex items-center gap-1.5">
-            <span className="text-sm text-muted-foreground shrink-0">/services/</span>
+            <span className="text-sm text-muted-foreground shrink-0">
+              /services/
+            </span>
             <Input
               id="service-slug"
               placeholder="yodas-splash"

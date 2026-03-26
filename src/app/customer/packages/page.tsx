@@ -9,7 +9,8 @@ export default function CustomerPackagesPage() {
         <div className="space-y-2">
           <h1 className="text-3xl font-bold">Packages & Memberships</h1>
           <p className="text-muted-foreground">
-            View and manage your active memberships, packages, and prepaid credits
+            View and manage your active memberships, packages, and prepaid
+            credits
           </p>
         </div>
 

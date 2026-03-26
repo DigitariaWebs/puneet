@@ -346,9 +346,7 @@ export function FacilitySidebar() {
           <h2 className="text-lg font-semibold">
             {facility?.name || "Facility Dashboard"}
           </h2>
-          <p className="text-xs text-muted-foreground mt-1">
-            {dateLabel}
-          </p>
+          <p className="text-xs text-muted-foreground mt-1">{dateLabel}</p>
         </div>
       }
       menuSections={filteredMenuSections}

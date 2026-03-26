@@ -12,7 +12,8 @@ import { Check, QrCode, X, Plus, Clock } from "lucide-react";
 
 function statusBadge(status: YipyyGoPreCheckForm["status"]) {
   if (status === "approved") return <Badge variant="success">Approved</Badge>;
-  if (status === "submitted") return <Badge variant="secondary">Submitted</Badge>;
+  if (status === "submitted")
+    return <Badge variant="secondary">Submitted</Badge>;
   if (status === "corrections-requested")
     return <Badge variant="destructive">Corrections requested</Badge>;
   return <Badge variant="warning">Not submitted</Badge>;
@@ -89,7 +90,9 @@ export function PreCheckReviewPanel({
               <div className="text-sm font-medium">Belongings</div>
               <div className="grid gap-2">
                 {form.belongings.length === 0 ? (
-                  <div className="text-xs text-muted-foreground">None listed.</div>
+                  <div className="text-xs text-muted-foreground">
+                    None listed.
+                  </div>
                 ) : (
                   form.belongings.map((item, idx) => (
                     <div
@@ -103,7 +106,9 @@ export function PreCheckReviewPanel({
                         variant="ghost"
                         className="h-7 w-7"
                         onClick={() => {
-                          const next = form.belongings.filter((_, i) => i !== idx);
+                          const next = form.belongings.filter(
+                            (_, i) => i !== idx,
+                          );
                           onChange({ ...form, belongings: next });
                         }}
                       >
@@ -125,7 +130,10 @@ export function PreCheckReviewPanel({
                   onClick={() => {
                     const trimmed = newBelonging.trim();
                     if (!trimmed) return;
-                    onChange({ ...form, belongings: [...form.belongings, trimmed] });
+                    onChange({
+                      ...form,
+                      belongings: [...form.belongings, trimmed],
+                    });
                     setNewBelonging("");
                   }}
                 >
@@ -139,7 +147,9 @@ export function PreCheckReviewPanel({
               <div className="text-sm font-medium">Staff Notes</div>
               <Textarea
                 value={form.staffNotes}
-                onChange={(e) => onChange({ ...form, staffNotes: e.target.value })}
+                onChange={(e) =>
+                  onChange({ ...form, staffNotes: e.target.value })
+                }
                 placeholder="Internal notes (not visible to customers)..."
                 rows={6}
               />
@@ -175,7 +185,9 @@ export function PreCheckReviewPanel({
             <div className="text-sm font-medium">Behavior notes</div>
             <Textarea
               value={form.behaviorNotes}
-              onChange={(e) => onChange({ ...form, behaviorNotes: e.target.value })}
+              onChange={(e) =>
+                onChange({ ...form, behaviorNotes: e.target.value })
+              }
               placeholder="Behavior flags, triggers, handling guidance..."
               rows={4}
             />
@@ -221,4 +233,3 @@ export function PreCheckReviewPanel({
     </div>
   );
 }
-

@@ -55,9 +55,10 @@ export function AddVaccinationModal({
   });
 
   // Get vaccines from facility config
-  const facilityVaccines = facilityConfig.vaccinationRequirements.requiredVaccinations.map(
-    (v) => v.name
-  );
+  const facilityVaccines =
+    facilityConfig.vaccinationRequirements.requiredVaccinations.map(
+      (v) => v.name,
+    );
 
   const commonVaccines = [
     ...facilityVaccines,
@@ -74,7 +75,10 @@ export function AddVaccinationModal({
     if (!formData.vaccineName.trim()) {
       newErrors.vaccineName = "Vaccine name is required";
     }
-    if (formData.vaccineName === "Other" && !formData.customVaccineName.trim()) {
+    if (
+      formData.vaccineName === "Other" &&
+      !formData.customVaccineName.trim()
+    ) {
       newErrors.vaccineName = "Please enter the vaccine name";
     }
 
@@ -110,11 +114,16 @@ export function AddVaccinationModal({
 
     try {
       // TODO: Handle file upload
-      const documentUrl = uploadedFile ? await uploadFile(uploadedFile) : undefined;
+      const documentUrl = uploadedFile
+        ? await uploadFile(uploadedFile)
+        : undefined;
 
       const vaccination: Omit<VaccinationRecord, "id"> = {
         petId,
-        vaccineName: formData.vaccineName === "Other" ? formData.customVaccineName : formData.vaccineName,
+        vaccineName:
+          formData.vaccineName === "Other"
+            ? formData.customVaccineName
+            : formData.vaccineName,
         administeredDate: formData.administeredDate,
         expiryDate: formData.expiryDate,
         veterinarianName: formData.veterinarianName || undefined,
@@ -126,7 +135,7 @@ export function AddVaccinationModal({
 
       await onSave(vaccination);
       toast.success("Vaccination record added successfully!");
-      
+
       // Reset form
       setFormData({
         vaccineName: "",
@@ -151,7 +160,12 @@ export function AddVaccinationModal({
     const file = e.target.files?.[0];
     if (file) {
       // Validate file type
-      const validTypes = ["image/jpeg", "image/png", "image/jpg", "application/pdf"];
+      const validTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+        "application/pdf",
+      ];
       if (!validTypes.includes(file.type)) {
         toast.error("Please upload a PDF or image file");
         return;
@@ -175,10 +189,11 @@ export function AddVaccinationModal({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
+        <DialogHeader>
           <DialogTitle>Upload Vaccination Record</DialogTitle>
           <DialogDescription>
-            Upload a vaccination record for {petName}. This will be reviewed by the facility before approval.
+            Upload a vaccination record for {petName}. This will be reviewed by
+            the facility before approval.
           </DialogDescription>
         </DialogHeader>
 
@@ -191,8 +206,13 @@ export function AddVaccinationModal({
               <Select
                 value={formData.vaccineName}
                 onValueChange={(value) => {
-                  setFormData({ ...formData, vaccineName: value, customVaccineName: "" });
-                  if (errors.vaccineName) setErrors({ ...errors, vaccineName: "" });
+                  setFormData({
+                    ...formData,
+                    vaccineName: value,
+                    customVaccineName: "",
+                  });
+                  if (errors.vaccineName)
+                    setErrors({ ...errors, vaccineName: "" });
                 }}
               >
                 <SelectTrigger id="vaccineName">
@@ -211,8 +231,12 @@ export function AddVaccinationModal({
                   placeholder="Enter vaccine name"
                   value={formData.customVaccineName}
                   onChange={(e) => {
-                    setFormData({ ...formData, customVaccineName: e.target.value });
-                    if (errors.vaccineName) setErrors({ ...errors, vaccineName: "" });
+                    setFormData({
+                      ...formData,
+                      customVaccineName: e.target.value,
+                    });
+                    if (errors.vaccineName)
+                      setErrors({ ...errors, vaccineName: "" });
                   }}
                 />
               )}
@@ -230,14 +254,20 @@ export function AddVaccinationModal({
                 type="date"
                 value={formData.administeredDate}
                 onChange={(e) => {
-                  setFormData({ ...formData, administeredDate: e.target.value });
-                  if (errors.administeredDate) setErrors({ ...errors, administeredDate: "" });
+                  setFormData({
+                    ...formData,
+                    administeredDate: e.target.value,
+                  });
+                  if (errors.administeredDate)
+                    setErrors({ ...errors, administeredDate: "" });
                 }}
                 max={new Date().toISOString().split("T")[0]}
                 aria-invalid={errors.administeredDate ? "true" : "false"}
               />
               {errors.administeredDate && (
-                <p className="text-sm text-destructive">{errors.administeredDate}</p>
+                <p className="text-sm text-destructive">
+                  {errors.administeredDate}
+                </p>
               )}
             </div>
           </div>
@@ -253,7 +283,8 @@ export function AddVaccinationModal({
                 value={formData.expiryDate}
                 onChange={(e) => {
                   setFormData({ ...formData, expiryDate: e.target.value });
-                  if (errors.expiryDate) setErrors({ ...errors, expiryDate: "" });
+                  if (errors.expiryDate)
+                    setErrors({ ...errors, expiryDate: "" });
                 }}
                 min={formData.administeredDate || undefined}
                 aria-invalid={errors.expiryDate ? "true" : "false"}
@@ -322,7 +353,9 @@ export function AddVaccinationModal({
             <Textarea
               id="notes"
               value={formData.notes}
-              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, notes: e.target.value })
+              }
               placeholder="Any additional notes about this vaccination"
               rows={3}
             />

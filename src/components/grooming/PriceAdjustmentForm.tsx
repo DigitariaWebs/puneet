@@ -16,13 +16,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import {
-  Plus,
-  DollarSign,
-  X,
-  Bell,
-  AlertCircle,
-} from "lucide-react";
+import { Plus, DollarSign, X, Bell, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import type { PriceAdjustment, PriceAdjustmentReason } from "@/data/grooming";
 
@@ -32,7 +26,9 @@ interface PriceAdjustmentFormProps {
   basePrice: number;
   currentTotal: number;
   adjustments: PriceAdjustment[];
-  onAddAdjustment: (adjustment: Omit<PriceAdjustment, "id" | "addedAt">) => void;
+  onAddAdjustment: (
+    adjustment: Omit<PriceAdjustment, "id" | "addedAt">,
+  ) => void;
   onRemoveAdjustment: (adjustmentId: string) => void;
   readOnly?: boolean;
 }
@@ -164,7 +160,10 @@ export function PriceAdjustmentForm({
     });
   };
 
-  const totalAdjustments = adjustments.reduce((sum, adj) => sum + adj.amount, 0);
+  const totalAdjustments = adjustments.reduce(
+    (sum, adj) => sum + adj.amount,
+    0,
+  );
   const newTotal = basePrice + totalAdjustments;
 
   return (
@@ -213,9 +212,7 @@ export function PriceAdjustmentForm({
             <div className="col-span-2 pt-2 border-t">
               <div className="flex items-center justify-between">
                 <p className="text-muted-foreground font-medium">Total Price</p>
-                <p className="font-bold text-xl">
-                  ${newTotal.toFixed(2)}
-                </p>
+                <p className="font-bold text-xl">${newTotal.toFixed(2)}</p>
               </div>
             </div>
           </div>
@@ -288,7 +285,10 @@ export function PriceAdjustmentForm({
 
             <div className="flex items-center justify-between p-3 rounded-lg bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900">
               <div className="space-y-0.5">
-                <Label htmlFor="notify-customer" className="flex items-center gap-2">
+                <Label
+                  htmlFor="notify-customer"
+                  className="flex items-center gap-2"
+                >
                   <Bell className="h-4 w-4" />
                   Notify Customer
                 </Label>

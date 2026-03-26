@@ -7,7 +7,17 @@ import { QuickBookButton } from "./QuickBookButton";
 import { ContactFacilityButton } from "./ContactFacilityButton";
 import { CustomerNotifications } from "./CustomerNotifications";
 import { Button } from "@/components/ui/button";
-import { User, LogOut, Settings, MessageSquare, Dog, FileText, CreditCard, Building2, Shield } from "lucide-react";
+import {
+  User,
+  LogOut,
+  Settings,
+  MessageSquare,
+  Dog,
+  FileText,
+  CreditCard,
+  Building2,
+  Shield,
+} from "lucide-react";
 import { useTransition } from "react";
 import { setUserRole } from "@/lib/role-utils";
 import {
@@ -42,7 +52,7 @@ export function CustomerHeader() {
     if (selectedFacility?.primaryColor) {
       document.documentElement.style.setProperty(
         "--primary",
-        selectedFacility.primaryColor
+        selectedFacility.primaryColor,
       );
       // Calculate appropriate foreground color (white or black based on brightness)
       const rgb = parseInt(selectedFacility.primaryColor.slice(1), 16);
@@ -52,13 +62,13 @@ export function CustomerHeader() {
       const brightness = (r * 299 + g * 587 + b * 114) / 1000;
       document.documentElement.style.setProperty(
         "--primary-foreground",
-        brightness > 128 ? "#000000" : "#ffffff"
+        brightness > 128 ? "#000000" : "#ffffff",
       );
     }
     if (selectedFacility?.secondaryColor) {
       document.documentElement.style.setProperty(
         "--secondary",
-        selectedFacility.secondaryColor
+        selectedFacility.secondaryColor,
       );
       const rgb = parseInt(selectedFacility.secondaryColor.slice(1), 16);
       const r = (rgb >> 16) & 0xff;
@@ -67,7 +77,7 @@ export function CustomerHeader() {
       const brightness = (r * 299 + g * 587 + b * 114) / 1000;
       document.documentElement.style.setProperty(
         "--secondary-foreground",
-        brightness > 128 ? "#000000" : "#ffffff"
+        brightness > 128 ? "#000000" : "#ffffff",
       );
     }
   }, [selectedFacility]);

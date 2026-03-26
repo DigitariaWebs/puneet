@@ -31,7 +31,10 @@ export function CheckInOutStep({ data, onChange }: CheckInOutStepProps) {
       {/* Enable toggle */}
       <div className="flex items-center justify-between rounded-xl border border-border bg-card p-4">
         <div className="space-y-0.5">
-          <Label htmlFor="cio-enabled" className="text-sm font-semibold cursor-pointer">
+          <Label
+            htmlFor="cio-enabled"
+            className="text-sm font-semibold cursor-pointer"
+          >
             Enable Check-In / Check-Out
           </Label>
           <p className="text-xs text-muted-foreground">
@@ -49,13 +52,18 @@ export function CheckInOutStep({ data, onChange }: CheckInOutStepProps) {
         <div className="flex items-start gap-2 rounded-lg bg-muted/50 p-3 text-xs text-muted-foreground">
           <Info className="h-3.5 w-3.5 shrink-0 mt-0.5" />
           <span>
-            Check-in/out is disabled. Staff will not be prompted to log arrival or
-            departure for this service.
+            Check-in/out is disabled. Staff will not be prompted to log arrival
+            or departure for this service.
           </span>
         </div>
       )}
 
-      <div className={cn("space-y-6", !cio.enabled && "opacity-50 pointer-events-none")}>
+      <div
+        className={cn(
+          "space-y-6",
+          !cio.enabled && "opacity-50 pointer-events-none",
+        )}
+      >
         {/* Check-In Type */}
         <div className="space-y-3">
           <div>
@@ -64,7 +72,11 @@ export function CheckInOutStep({ data, onChange }: CheckInOutStepProps) {
               How pets are marked as arrived.
             </p>
           </div>
-          <div role="radiogroup" aria-label="Check-in type" className="flex gap-3">
+          <div
+            role="radiogroup"
+            aria-label="Check-in type"
+            className="flex gap-3"
+          >
             {(["manual", "auto"] as const).map((type) => (
               <button
                 key={type}
@@ -95,11 +107,15 @@ export function CheckInOutStep({ data, onChange }: CheckInOutStepProps) {
         {/* Checkout Tracking */}
         <div className="flex items-center justify-between rounded-xl border border-border bg-card p-4">
           <div className="space-y-0.5">
-            <Label htmlFor="checkout-tracking" className="text-sm font-medium cursor-pointer">
+            <Label
+              htmlFor="checkout-tracking"
+              className="text-sm font-medium cursor-pointer"
+            >
               Checkout Time Tracking
             </Label>
             <p className="text-xs text-muted-foreground">
-              Log the exact time each pet departs. Useful for billing duration-based services.
+              Log the exact time each pet departs. Useful for billing
+              duration-based services.
             </p>
           </div>
           <Switch
@@ -116,12 +132,15 @@ export function CheckInOutStep({ data, onChange }: CheckInOutStepProps) {
           <div className="flex items-start gap-3">
             <QrCode className="h-5 w-5 text-muted-foreground mt-0.5 shrink-0" />
             <div className="space-y-0.5">
-              <Label htmlFor="qr-support" className="text-sm font-medium cursor-pointer">
+              <Label
+                htmlFor="qr-support"
+                className="text-sm font-medium cursor-pointer"
+              >
                 QR Code Check-In Support
               </Label>
               <p className="text-xs text-muted-foreground">
-                Generate a scannable QR code for this service. Clients can scan to trigger
-                check-in or check-out from their phone.
+                Generate a scannable QR code for this service. Clients can scan
+                to trigger check-in or check-out from their phone.
               </p>
             </div>
           </div>

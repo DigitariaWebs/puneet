@@ -30,7 +30,10 @@ import {
 import { useCustomServices } from "@/hooks/use-custom-services";
 import type { FacilityResource } from "@/lib/types";
 
-const RESOURCE_TYPE_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+const RESOURCE_TYPE_ICONS: Record<
+  string,
+  React.ComponentType<{ className?: string }>
+> = {
   room: DoorOpen,
   pool: Droplets,
   van: Car,
@@ -144,7 +147,9 @@ export default function ResourcesPage() {
             </div>
             <h3 className="text-lg font-semibold">No resources yet</h3>
             <p className="text-sm text-muted-foreground mt-1 max-w-sm leading-relaxed">
-              Resources are rooms, pools, vans, or equipment that get assigned to custom services. When a service is booked, its resource is automatically blocked.
+              Resources are rooms, pools, vans, or equipment that get assigned
+              to custom services. When a service is booked, its resource is
+              automatically blocked.
             </p>
             <div className="flex flex-wrap justify-center gap-2 mt-4">
               <span className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs text-muted-foreground">
@@ -169,8 +174,7 @@ export default function ResourcesPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {resources.map((resource) => {
-            const Icon =
-              RESOURCE_TYPE_ICONS[resource.type] ?? Box;
+            const Icon = RESOURCE_TYPE_ICONS[resource.type] ?? Box;
             return (
               <Card key={resource.id}>
                 <CardHeader className="pb-3">
@@ -275,9 +279,7 @@ export default function ResourcesPage() {
             <Label>Type</Label>
             <Select
               value={formType}
-              onValueChange={(v) =>
-                setFormType(v as FacilityResource["type"])
-              }
+              onValueChange={(v) => setFormType(v as FacilityResource["type"])}
             >
               <SelectTrigger>
                 <SelectValue />

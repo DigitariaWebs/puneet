@@ -183,7 +183,9 @@ export function DateSelectionCalendar({
   className,
   initialMonth,
 }: DateSelectionCalendarProps) {
-  const [currentMonth, setCurrentMonth] = useState(() => initialMonth ?? new Date());
+  const [currentMonth, setCurrentMonth] = useState(
+    () => initialMonth ?? new Date(),
+  );
   const [hoverDate, setHoverDate] = useState<Date | null>(null);
 
   // Compute effective default times
@@ -265,15 +267,9 @@ export function DateSelectionCalendar({
   const effectiveDisabledDates = useMemo(() => {
     if (mode === "range") {
       if (rangeStart && !rangeEnd) {
-        return [
-          ...(disabledDates ?? []),
-          ...(disabledEndDates ?? []),
-        ];
+        return [...(disabledDates ?? []), ...(disabledEndDates ?? [])];
       }
-      return [
-        ...(disabledDates ?? []),
-        ...(disabledStartDates ?? []),
-      ];
+      return [...(disabledDates ?? []), ...(disabledStartDates ?? [])];
     }
     return disabledDates ?? [];
   }, [
@@ -389,8 +385,14 @@ export function DateSelectionCalendar({
         onDateTimesChange?.([
           {
             date: dateStr,
-            checkInTime: dropOffPickUp?.dropOffStart ?? facilityHoursForDate?.openTime ?? effectiveDefaultCheckInTime,
-            checkOutTime: dropOffPickUp?.pickUpStart ?? facilityHoursForDate?.closeTime ?? effectiveDefaultCheckOutTime,
+            checkInTime:
+              dropOffPickUp?.dropOffStart ??
+              facilityHoursForDate?.openTime ??
+              effectiveDefaultCheckInTime,
+            checkOutTime:
+              dropOffPickUp?.pickUpStart ??
+              facilityHoursForDate?.closeTime ??
+              effectiveDefaultCheckOutTime,
           },
         ]);
       } else if (showTimeSelection && isSelected) {
@@ -460,8 +462,14 @@ export function DateSelectionCalendar({
             const facilityHoursForDate = getFacilityHoursForDate(current);
             times.push({
               date: formatDateString(current),
-              checkInTime: dropOffPickUp?.dropOffStart ?? facilityHoursForDate?.openTime ?? effectiveDefaultCheckInTime,
-              checkOutTime: dropOffPickUp?.pickUpStart ?? facilityHoursForDate?.closeTime ?? effectiveDefaultCheckOutTime,
+              checkInTime:
+                dropOffPickUp?.dropOffStart ??
+                facilityHoursForDate?.openTime ??
+                effectiveDefaultCheckInTime,
+              checkOutTime:
+                dropOffPickUp?.pickUpStart ??
+                facilityHoursForDate?.closeTime ??
+                effectiveDefaultCheckOutTime,
             });
             current.setDate(current.getDate() + 1);
           }
@@ -737,220 +745,244 @@ export function DateSelectionCalendar({
         {/* Time Selection Column */}
         {showTimeSelection && (
           <div className="border rounded-lg p-4 min-h-[200px]">
-            {((mode === "single" && selectedDates.length > 0) ||
-              (mode === "multi" && selectedDates.length > 0) ||
-              (mode === "range" && rangeStart && rangeEnd)) ? (
+            {(mode === "single" && selectedDates.length > 0) ||
+            (mode === "multi" && selectedDates.length > 0) ||
+            (mode === "range" && rangeStart && rangeEnd) ? (
               <div className="space-y-2">
-                <Label className="text-xs font-medium">Check-in/out Times</Label>
+                <Label className="text-xs font-medium">
+                  Check-in/out Times
+                </Label>
 
-              {mode === "range" && dateTimes.length > 0 && rangeStart && rangeEnd && (
-                <div className="p-3 border rounded-lg space-y-2">
-                  <p className="text-xs font-semibold">
-                    {rangeStart.toLocaleDateString("en-US", {
-                      weekday: "short",
-                      month: "short",
-                      day: "numeric",
-                    })}{" "}
-                    –{" "}
-                    {rangeEnd.toLocaleDateString("en-US", {
-                      weekday: "short",
-                      month: "short",
-                      day: "numeric",
-                    })}
-                  </p>
-                  <TimeRangeSlider
-                    minTime={
-                      getFacilityHoursForDate(rangeStart)?.openTime || "06:00"
-                    }
-                    maxTime={
-                      getFacilityHoursForDate(rangeEnd)?.closeTime || "22:00"
-                    }
-                    dropOffWindow={
-                      getDropOffPickUpForDate(rangeStart)
-                        ? {
-                            min: getDropOffPickUpForDate(rangeStart)!.dropOffStart,
-                            max: getDropOffPickUpForDate(rangeStart)!.dropOffEnd,
-                          }
-                        : undefined
-                    }
-                    pickUpWindow={
-                      getDropOffPickUpForDate(rangeEnd)
-                        ? {
-                            min: getDropOffPickUpForDate(rangeEnd)!.pickUpStart,
-                            max: getDropOffPickUpForDate(rangeEnd)!.pickUpEnd,
-                          }
-                        : undefined
-                    }
-                    startTime={
-                      dateTimes[0]?.checkInTime || effectiveDefaultCheckInTime
-                    }
-                    endTime={
-                      dateTimes[0]?.checkOutTime ||
-                      effectiveDefaultCheckOutTime
-                    }
-                    onTimeChange={(start, end) => {
-                      const newTimes = dateTimes.map((dt) => ({
-                        ...dt,
-                        checkInTime: start,
-                        checkOutTime: end,
-                      }));
-                      onDateTimesChange?.(newTimes);
-                    }}
-                    onApply={() => {}}
-                    step={30}
-                  />
-                  <p className="text-[10px] text-muted-foreground">
-                    Same times for all days in range
-                  </p>
-                </div>
-              )}
+                {mode === "range" &&
+                  dateTimes.length > 0 &&
+                  rangeStart &&
+                  rangeEnd && (
+                    <div className="p-3 border rounded-lg space-y-2">
+                      <p className="text-xs font-semibold">
+                        {rangeStart.toLocaleDateString("en-US", {
+                          weekday: "short",
+                          month: "short",
+                          day: "numeric",
+                        })}{" "}
+                        –{" "}
+                        {rangeEnd.toLocaleDateString("en-US", {
+                          weekday: "short",
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </p>
+                      <TimeRangeSlider
+                        minTime={
+                          getFacilityHoursForDate(rangeStart)?.openTime ||
+                          "06:00"
+                        }
+                        maxTime={
+                          getFacilityHoursForDate(rangeEnd)?.closeTime ||
+                          "22:00"
+                        }
+                        dropOffWindow={
+                          getDropOffPickUpForDate(rangeStart)
+                            ? {
+                                min: getDropOffPickUpForDate(rangeStart)!
+                                  .dropOffStart,
+                                max: getDropOffPickUpForDate(rangeStart)!
+                                  .dropOffEnd,
+                              }
+                            : undefined
+                        }
+                        pickUpWindow={
+                          getDropOffPickUpForDate(rangeEnd)
+                            ? {
+                                min: getDropOffPickUpForDate(rangeEnd)!
+                                  .pickUpStart,
+                                max: getDropOffPickUpForDate(rangeEnd)!
+                                  .pickUpEnd,
+                              }
+                            : undefined
+                        }
+                        startTime={
+                          dateTimes[0]?.checkInTime ||
+                          effectiveDefaultCheckInTime
+                        }
+                        endTime={
+                          dateTimes[0]?.checkOutTime ||
+                          effectiveDefaultCheckOutTime
+                        }
+                        onTimeChange={(start, end) => {
+                          const newTimes = dateTimes.map((dt) => ({
+                            ...dt,
+                            checkInTime: start,
+                            checkOutTime: end,
+                          }));
+                          onDateTimesChange?.(newTimes);
+                        }}
+                        onApply={() => {}}
+                        step={30}
+                      />
+                      <p className="text-[10px] text-muted-foreground">
+                        Same times for all days in range
+                      </p>
+                    </div>
+                  )}
 
-              {mode === "single" &&
-                dateTimes.length > 0 &&
-                selectedDates[0] && (
-                  <div className="p-3 border rounded-lg space-y-2">
-                    <p className="text-xs font-semibold">
-                      {selectedDates[0].toLocaleDateString("en-US", {
-                        weekday: "short",
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </p>
-                    <TimeRangeSlider
-                      minTime={
-                        getFacilityHoursForDate(selectedDates[0])?.openTime ||
-                        "06:00"
-                      }
-                      maxTime={
-                        getFacilityHoursForDate(selectedDates[0])?.closeTime ||
-                        "22:00"
-                      }
-                      dropOffWindow={
-                        getDropOffPickUpForDate(selectedDates[0])
-                          ? {
-                              min: getDropOffPickUpForDate(selectedDates[0])!.dropOffStart,
-                              max: getDropOffPickUpForDate(selectedDates[0])!.dropOffEnd,
-                            }
-                          : undefined
-                      }
-                      pickUpWindow={
-                        getDropOffPickUpForDate(selectedDates[0])
-                          ? {
-                              min: getDropOffPickUpForDate(selectedDates[0])!.pickUpStart,
-                              max: getDropOffPickUpForDate(selectedDates[0])!.pickUpEnd,
-                            }
-                          : undefined
-                      }
-                      startTime={
-                        dateTimes[0]?.checkInTime || effectiveDefaultCheckInTime
-                      }
-                      endTime={
-                        dateTimes[0]?.checkOutTime ||
-                        effectiveDefaultCheckOutTime
-                      }
-                      onTimeChange={(start, end) => {
-                        const newTimes = dateTimes.map((dt) => ({
-                          ...dt,
-                          checkInTime: start,
-                          checkOutTime: end,
-                        }));
-                        onDateTimesChange?.(newTimes);
-                      }}
-                      onApply={() => {}}
-                      step={30}
-                    />
-                  </div>
-                )}
+                {mode === "single" &&
+                  dateTimes.length > 0 &&
+                  selectedDates[0] && (
+                    <div className="p-3 border rounded-lg space-y-2">
+                      <p className="text-xs font-semibold">
+                        {selectedDates[0].toLocaleDateString("en-US", {
+                          weekday: "short",
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </p>
+                      <TimeRangeSlider
+                        minTime={
+                          getFacilityHoursForDate(selectedDates[0])?.openTime ||
+                          "06:00"
+                        }
+                        maxTime={
+                          getFacilityHoursForDate(selectedDates[0])
+                            ?.closeTime || "22:00"
+                        }
+                        dropOffWindow={
+                          getDropOffPickUpForDate(selectedDates[0])
+                            ? {
+                                min: getDropOffPickUpForDate(selectedDates[0])!
+                                  .dropOffStart,
+                                max: getDropOffPickUpForDate(selectedDates[0])!
+                                  .dropOffEnd,
+                              }
+                            : undefined
+                        }
+                        pickUpWindow={
+                          getDropOffPickUpForDate(selectedDates[0])
+                            ? {
+                                min: getDropOffPickUpForDate(selectedDates[0])!
+                                  .pickUpStart,
+                                max: getDropOffPickUpForDate(selectedDates[0])!
+                                  .pickUpEnd,
+                              }
+                            : undefined
+                        }
+                        startTime={
+                          dateTimes[0]?.checkInTime ||
+                          effectiveDefaultCheckInTime
+                        }
+                        endTime={
+                          dateTimes[0]?.checkOutTime ||
+                          effectiveDefaultCheckOutTime
+                        }
+                        onTimeChange={(start, end) => {
+                          const newTimes = dateTimes.map((dt) => ({
+                            ...dt,
+                            checkInTime: start,
+                            checkOutTime: end,
+                          }));
+                          onDateTimesChange?.(newTimes);
+                        }}
+                        onApply={() => {}}
+                        step={30}
+                      />
+                    </div>
+                  )}
 
-              {mode === "multi" && (
-                <div className="space-y-3">
-                  {[...selectedDates]
-                    .sort((a, b) => a.getTime() - b.getTime())
-                    .map((date, index) => {
-                      const dateStr = formatDateString(date);
-                      const timeInfo = getTimeForDate(dateStr);
+                {mode === "multi" && (
+                  <div className="space-y-3">
+                    {[...selectedDates]
+                      .sort((a, b) => a.getTime() - b.getTime())
+                      .map((date, index) => {
+                        const dateStr = formatDateString(date);
+                        const timeInfo = getTimeForDate(dateStr);
 
-                      return (
-                        <div
-                          key={index}
-                          className="p-3 border rounded-lg space-y-2"
-                        >
-                          <p className="text-xs font-semibold">
-                            {date.toLocaleDateString("en-US", {
-                              weekday: "short",
-                              month: "short",
-                              day: "numeric",
-                            })}
-                          </p>
-                          {timeInfo && (
-                            <>
-                              <TimeRangeSlider
-                                minTime={
-                                  getFacilityHoursForDate(date)?.openTime ||
-                                  "06:00"
-                                }
-                                maxTime={
-                                  getFacilityHoursForDate(date)?.closeTime ||
-                                  "22:00"
-                                }
-                                dropOffWindow={
-                                  getDropOffPickUpForDate(date)
-                                    ? {
-                                        min: getDropOffPickUpForDate(date)!.dropOffStart,
-                                        max: getDropOffPickUpForDate(date)!.dropOffEnd,
-                                      }
-                                    : undefined
-                                }
-                                pickUpWindow={
-                                  getDropOffPickUpForDate(date)
-                                    ? {
-                                        min: getDropOffPickUpForDate(date)!.pickUpStart,
-                                        max: getDropOffPickUpForDate(date)!.pickUpEnd,
-                                      }
-                                    : undefined
-                                }
-                                startTime={timeInfo.checkInTime}
-                                endTime={timeInfo.checkOutTime}
-                                onTimeChange={(start, end) => {
-                                  const updatedTimes = dateTimes.map((dt) =>
-                                    dt.date === dateStr
+                        return (
+                          <div
+                            key={index}
+                            className="p-3 border rounded-lg space-y-2"
+                          >
+                            <p className="text-xs font-semibold">
+                              {date.toLocaleDateString("en-US", {
+                                weekday: "short",
+                                month: "short",
+                                day: "numeric",
+                              })}
+                            </p>
+                            {timeInfo && (
+                              <>
+                                <TimeRangeSlider
+                                  minTime={
+                                    getFacilityHoursForDate(date)?.openTime ||
+                                    "06:00"
+                                  }
+                                  maxTime={
+                                    getFacilityHoursForDate(date)?.closeTime ||
+                                    "22:00"
+                                  }
+                                  dropOffWindow={
+                                    getDropOffPickUpForDate(date)
                                       ? {
-                                          ...dt,
-                                          checkInTime: start,
-                                          checkOutTime: end,
+                                          min: getDropOffPickUpForDate(date)!
+                                            .dropOffStart,
+                                          max: getDropOffPickUpForDate(date)!
+                                            .dropOffEnd,
                                         }
-                                      : dt,
-                                  );
-                                  onDateTimesChange?.(updatedTimes);
-                                }}
-                                onApply={() => {}}
-                                onApplyToAll={() => {
-                                  const currentTime = getTimeForDate(dateStr);
-                                  if (currentTime) {
-                                    const updatedTimes = dateTimes.map(
-                                      (dt) => ({
-                                        ...dt,
-                                        checkInTime: currentTime.checkInTime,
-                                        checkOutTime: currentTime.checkOutTime,
-                                      }),
+                                      : undefined
+                                  }
+                                  pickUpWindow={
+                                    getDropOffPickUpForDate(date)
+                                      ? {
+                                          min: getDropOffPickUpForDate(date)!
+                                            .pickUpStart,
+                                          max: getDropOffPickUpForDate(date)!
+                                            .pickUpEnd,
+                                        }
+                                      : undefined
+                                  }
+                                  startTime={timeInfo.checkInTime}
+                                  endTime={timeInfo.checkOutTime}
+                                  onTimeChange={(start, end) => {
+                                    const updatedTimes = dateTimes.map((dt) =>
+                                      dt.date === dateStr
+                                        ? {
+                                            ...dt,
+                                            checkInTime: start,
+                                            checkOutTime: end,
+                                          }
+                                        : dt,
                                     );
                                     onDateTimesChange?.(updatedTimes);
-                                  }
-                                }}
-                                step={30}
-                              />
-                            </>
-                          )}
-                        </div>
-                      );
-                    })}
-                </div>
-              )}
-            </div>
+                                  }}
+                                  onApply={() => {}}
+                                  onApplyToAll={() => {
+                                    const currentTime = getTimeForDate(dateStr);
+                                    if (currentTime) {
+                                      const updatedTimes = dateTimes.map(
+                                        (dt) => ({
+                                          ...dt,
+                                          checkInTime: currentTime.checkInTime,
+                                          checkOutTime:
+                                            currentTime.checkOutTime,
+                                        }),
+                                      );
+                                      onDateTimesChange?.(updatedTimes);
+                                    }
+                                  }}
+                                  step={30}
+                                />
+                              </>
+                            )}
+                          </div>
+                        );
+                      })}
+                  </div>
+                )}
+              </div>
             ) : (
               <div className="text-center text-muted-foreground">
                 <Clock className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                <p className="text-sm">Select dates to set check-in/out times</p>
+                <p className="text-sm">
+                  Select dates to set check-in/out times
+                </p>
               </div>
             )}
           </div>

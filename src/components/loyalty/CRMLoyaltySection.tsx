@@ -1,6 +1,12 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Star, TrendingUp, Gift, Award, Users } from "lucide-react";
@@ -42,7 +48,8 @@ export function CRMLoyaltySection({
   const currentTierMaxPoints = nextTier ? nextTier.minPoints : Infinity;
   const progressInTier = currentPoints - currentTierMinPoints;
   const tierRange = currentTierMaxPoints - currentTierMinPoints;
-  const progressPercentage = tierRange > 0 ? (progressInTier / tierRange) * 100 : 100;
+  const progressPercentage =
+    tierRange > 0 ? (progressInTier / tierRange) * 100 : 100;
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -77,7 +84,9 @@ export function CRMLoyaltySection({
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm font-medium text-muted-foreground">Current Tier</div>
+              <div className="text-sm font-medium text-muted-foreground">
+                Current Tier
+              </div>
               {currentTier ? (
                 <div className="flex items-center gap-2 mt-1">
                   <Badge
@@ -93,8 +102,12 @@ export function CRMLoyaltySection({
               )}
             </div>
             <div className="text-right">
-              <div className="text-sm font-medium text-muted-foreground">Points Balance</div>
-              <div className="text-2xl font-bold">{currentPoints.toLocaleString()}</div>
+              <div className="text-sm font-medium text-muted-foreground">
+                Points Balance
+              </div>
+              <div className="text-2xl font-bold">
+                {currentPoints.toLocaleString()}
+              </div>
             </div>
           </div>
 
@@ -106,10 +119,15 @@ export function CRMLoyaltySection({
                   Progress to {nextTier.name}
                 </span>
                 <span className="font-medium">
-                  {pointsToNextTier > 0 ? `${pointsToNextTier.toLocaleString()} points needed` : "Max tier reached"}
+                  {pointsToNextTier > 0
+                    ? `${pointsToNextTier.toLocaleString()} points needed`
+                    : "Max tier reached"}
                 </span>
               </div>
-              <Progress value={Math.min(100, Math.max(0, progressPercentage))} className="h-2" />
+              <Progress
+                value={Math.min(100, Math.max(0, progressPercentage))}
+                className="h-2"
+              />
             </div>
           )}
         </div>
@@ -123,7 +141,9 @@ export function CRMLoyaltySection({
                 Lifetime Points
               </span>
             </div>
-            <div className="text-xl font-bold">{lifetimePoints.toLocaleString()}</div>
+            <div className="text-xl font-bold">
+              {lifetimePoints.toLocaleString()}
+            </div>
           </div>
 
           <div>
@@ -153,7 +173,9 @@ export function CRMLoyaltySection({
                 Last Activity
               </span>
             </div>
-            <div className="text-sm font-semibold">{formatDate(lastActivityDate)}</div>
+            <div className="text-sm font-semibold">
+              {formatDate(lastActivityDate)}
+            </div>
           </div>
         </div>
       </CardContent>

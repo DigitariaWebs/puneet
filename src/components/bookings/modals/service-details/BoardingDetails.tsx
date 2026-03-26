@@ -458,7 +458,9 @@ export function BoardingDetails({
                           );
                           const petToAssign =
                             selectedPet ??
-                            (selectedPets.length === 1 ? selectedPets[0] : null) ??
+                            (selectedPets.length === 1
+                              ? selectedPets[0]
+                              : null) ??
                             (unassigned.length === 1 ? unassigned[0] : null);
 
                           if (
@@ -828,14 +830,22 @@ export function BoardingDetails({
                   <FeedingScheduleForm
                     feedingSchedule={feedingSchedule}
                     setFeedingSchedule={setFeedingSchedule}
-                    selectedPets={selectedPets.map((p) => ({ id: p.id, name: p.name, type: p.type }))}
+                    selectedPets={selectedPets.map((p) => ({
+                      id: p.id,
+                      name: p.name,
+                      type: p.type,
+                    }))}
                   />
 
                   {/* Medication Section */}
                   <MedicationForm
                     medications={medications}
                     setMedications={setMedications}
-                    selectedPets={selectedPets.map((p) => ({ id: p.id, name: p.name, type: p.type }))}
+                    selectedPets={selectedPets.map((p) => ({
+                      id: p.id,
+                      name: p.name,
+                      type: p.type,
+                    }))}
                   />
                 </div>
               </>

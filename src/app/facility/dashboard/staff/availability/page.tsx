@@ -183,7 +183,10 @@ export default function StaffAvailabilityPage() {
       label: "Type",
       defaultVisible: true,
       render: (request) => (
-        <Badge className={typeColors[request.type] || typeColors.other} variant="secondary">
+        <Badge
+          className={typeColors[request.type] || typeColors.other}
+          variant="secondary"
+        >
           {request.type}
         </Badge>
       ),
@@ -214,7 +217,10 @@ export default function StaffAvailabilityPage() {
       label: "Status",
       defaultVisible: true,
       render: (request) => (
-        <Badge className={statusColors[request.status] || statusColors.pending} variant="secondary">
+        <Badge
+          className={statusColors[request.status] || statusColors.pending}
+          variant="secondary"
+        >
           {request.status}
         </Badge>
       ),
@@ -655,7 +661,9 @@ export default function StaffAvailabilityPage() {
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Type:</span>
                   <Badge
-                    className={typeColors[reviewingRequest.type] || typeColors.other}
+                    className={
+                      typeColors[reviewingRequest.type] || typeColors.other
+                    }
                     variant="secondary"
                   >
                     {reviewingRequest.type}

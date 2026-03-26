@@ -38,7 +38,11 @@ const evaluatorOptions = [
   { value: "Admin User", label: "Admin User" },
 ];
 
-export function EvaluationModal({ isOpen, onClose, bookingId }: EvaluationModalProps) {
+export function EvaluationModal({
+  isOpen,
+  onClose,
+  bookingId,
+}: EvaluationModalProps) {
   const [evaluator, setEvaluator] = useState("");
   const [startDate, setStartDate] = useState("");
   const [checkInTime, setCheckInTime] = useState("");
@@ -49,9 +53,8 @@ export function EvaluationModal({ isOpen, onClose, bookingId }: EvaluationModalP
   const durationOptions = evaluation.schedule.durationOptionsMinutes;
   const defaultDuration =
     evaluation.schedule.defaultDurationMinutes ?? durationOptions[0] ?? 60;
-  const [selectedDuration, setSelectedDuration] = useState<number>(
-    defaultDuration,
-  );
+  const [selectedDuration, setSelectedDuration] =
+    useState<number>(defaultDuration);
 
   const selectedDates = useMemo(() => {
     if (!startDate) return [];
@@ -92,7 +95,14 @@ export function EvaluationModal({ isOpen, onClose, bookingId }: EvaluationModalP
   const timeWindows =
     evaluation.schedule.timeWindows.length > 0
       ? evaluation.schedule.timeWindows
-      : [{ id: "all-day", label: "All day", startTime: "00:00", endTime: "23:59" }];
+      : [
+          {
+            id: "all-day",
+            label: "All day",
+            startTime: "00:00",
+            endTime: "23:59",
+          },
+        ];
 
   const slots = useMemo(() => {
     const duration = selectedDuration || defaultDuration;
@@ -114,10 +124,18 @@ export function EvaluationModal({ isOpen, onClose, bookingId }: EvaluationModalP
             duration,
           };
         })
-        .filter(Boolean) as Array<{ startTime: string; endTime: string; duration: number }>;
+        .filter(Boolean) as Array<{
+        startTime: string;
+        endTime: string;
+        duration: number;
+      }>;
     }
 
-    const generated: Array<{ startTime: string; endTime: string; duration: number }> = [];
+    const generated: Array<{
+      startTime: string;
+      endTime: string;
+      duration: number;
+    }> = [];
     windows.forEach((window) => {
       const start = timeToMinutes(window.startTime);
       const end = timeToMinutes(window.endTime);
@@ -259,16 +277,11 @@ export function EvaluationModal({ isOpen, onClose, bookingId }: EvaluationModalP
                     <p className="text-sm font-medium text-primary">
                       Selected:{" "}
                       {
-                        slots.find(
-                          (s) => s.startTime === selectedSlot,
-                        )?.startTime
+                        slots.find((s) => s.startTime === selectedSlot)
+                          ?.startTime
                       }{" "}
                       -{" "}
-                      {
-                        slots.find(
-                          (s) => s.startTime === selectedSlot,
-                        )?.endTime
-                      }
+                      {slots.find((s) => s.startTime === selectedSlot)?.endTime}
                     </p>
                   </div>
                 )}
@@ -278,7 +291,9 @@ export function EvaluationModal({ isOpen, onClose, bookingId }: EvaluationModalP
         )}
 
         <div>
-          <label className="block text-sm font-medium mb-1">Assign Evaluator</label>
+          <label className="block text-sm font-medium mb-1">
+            Assign Evaluator
+          </label>
           <Select value={evaluator} onValueChange={setEvaluator}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select staff member" />
@@ -294,15 +309,12 @@ export function EvaluationModal({ isOpen, onClose, bookingId }: EvaluationModalP
         </div>
 
         <div className="flex justify-end gap-2 mt-4">
-          <Button variant="outline" onClick={onClose}>Cancel</Button>
+          <Button variant="outline" onClick={onClose}>
+            Cancel
+          </Button>
           <Button
             onClick={handleSave}
-            disabled={
-              !evaluator ||
-              !startDate ||
-              !checkInTime ||
-              !checkOutTime
-            }
+            disabled={!evaluator || !startDate || !checkInTime || !checkOutTime}
           >
             Save
           </Button>

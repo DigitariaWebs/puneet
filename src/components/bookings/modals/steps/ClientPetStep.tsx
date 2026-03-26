@@ -66,7 +66,9 @@ export function ClientPetStep({
 
   const hasExpiredEvaluation = (pet: Pet) => {
     return pet.evaluations?.some(
-      (e) => (e.status === "passed" && e.isExpired === true) || e.status === "outdated",
+      (e) =>
+        (e.status === "passed" && e.isExpired === true) ||
+        e.status === "outdated",
     );
   };
 
@@ -108,46 +110,50 @@ export function ClientPetStep({
   return (
     <div className="space-y-6">
       {/* Expired Evaluation Warning (customer-facing) */}
-      {selectedService !== "evaluation" && petsWithExpiredEvaluation.length > 0 && (
-        <Alert variant="destructive">
-          <FileWarning className="h-4 w-4" />
-          <AlertTitle>Evaluation expired</AlertTitle>
-          <AlertDescription>
-            <p>
-              Evaluation expired — please book a new evaluation to unlock services.
-            </p>
-            <ul className="mt-2 space-y-1">
-              {petsWithExpiredEvaluation.map((pet) => (
-                <li key={pet.id} className="flex items-center gap-2">
-                  <PawPrint className="h-4 w-4" />
-                  {pet.name} ({pet.type})
-                </li>
-              ))}
-            </ul>
-          </AlertDescription>
-        </Alert>
-      )}
+      {selectedService !== "evaluation" &&
+        petsWithExpiredEvaluation.length > 0 && (
+          <Alert variant="destructive">
+            <FileWarning className="h-4 w-4" />
+            <AlertTitle>Evaluation expired</AlertTitle>
+            <AlertDescription>
+              <p>
+                Evaluation expired — please book a new evaluation to unlock
+                services.
+              </p>
+              <ul className="mt-2 space-y-1">
+                {petsWithExpiredEvaluation.map((pet) => (
+                  <li key={pet.id} className="flex items-center gap-2">
+                    <PawPrint className="h-4 w-4" />
+                    {pet.name} ({pet.type})
+                  </li>
+                ))}
+              </ul>
+            </AlertDescription>
+          </Alert>
+        )}
 
       {/* Failed Evaluation Warning (customer-facing, no reason shown) */}
-      {selectedService !== "evaluation" && petsWithFailedEvaluation.length > 0 && (
-        <Alert variant="destructive">
-          <FileWarning className="h-4 w-4" />
-          <AlertTitle>Evaluation required</AlertTitle>
-          <AlertDescription>
-            <p>
-              Evaluation not passed — please book a new evaluation to unlock services.
-            </p>
-            <ul className="mt-2 space-y-1">
-              {petsWithFailedEvaluation.map((pet) => (
-                <li key={pet.id} className="flex items-center gap-2">
-                  <PawPrint className="h-4 w-4" />
-                  {pet.name} ({pet.type})
-                </li>
-              ))}
-            </ul>
-          </AlertDescription>
-        </Alert>
-      )}
+      {selectedService !== "evaluation" &&
+        petsWithFailedEvaluation.length > 0 && (
+          <Alert variant="destructive">
+            <FileWarning className="h-4 w-4" />
+            <AlertTitle>Evaluation required</AlertTitle>
+            <AlertDescription>
+              <p>
+                Evaluation not passed — please book a new evaluation to unlock
+                services.
+              </p>
+              <ul className="mt-2 space-y-1">
+                {petsWithFailedEvaluation.map((pet) => (
+                  <li key={pet.id} className="flex items-center gap-2">
+                    <PawPrint className="h-4 w-4" />
+                    {pet.name} ({pet.type})
+                  </li>
+                ))}
+              </ul>
+            </AlertDescription>
+          </Alert>
+        )}
 
       {/* Evaluation Warning */}
       {petsNeedingEvaluation.length > 0 && (

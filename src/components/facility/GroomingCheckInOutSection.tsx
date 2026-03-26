@@ -93,7 +93,8 @@ const petImages: Record<number, string> = {
   5: "/api/placeholder/40/40",
 };
 
-const getPetImage = (petId: number) => petImages[petId] || "/api/placeholder/40/40";
+const getPetImage = (petId: number) =>
+  petImages[petId] || "/api/placeholder/40/40";
 
 export function GroomingCheckInOutSection() {
   const [isMounted, setIsMounted] = useState(false);
@@ -120,9 +121,8 @@ export function GroomingCheckInOutSection() {
   const [showCheckedOut, setShowCheckedOut] = useState(true);
 
   // Local state for data
-  const [appointmentsData, setAppointmentsData] = useState<GroomingAppointment[]>(
-    groomingAppointments,
-  );
+  const [appointmentsData, setAppointmentsData] =
+    useState<GroomingAppointment[]>(groomingAppointments);
 
   const unifiedData = useMemo(
     () => normalizeToUnified(appointmentsData),
@@ -182,7 +182,13 @@ export function GroomingCheckInOutSection() {
         apt.ownerPhone.includes(query) ||
         apt.stylistName.toLowerCase().includes(query),
     );
-  }, [searchQuery, scheduledArrivals, checkedInPets, readyForPickup, checkedOutToday]);
+  }, [
+    searchQuery,
+    scheduledArrivals,
+    checkedInPets,
+    readyForPickup,
+    checkedOutToday,
+  ]);
 
   const handleCheckIn = (apt: UnifiedGroomingAppointment) => {
     setSelectedAppointment(apt);
@@ -206,7 +212,9 @@ export function GroomingCheckInOutSection() {
 
     const now = new Date().toISOString();
     const previousStatus = selectedAppointment.status;
-    const previousData = appointmentsData.find((a) => a.id === selectedAppointment.id);
+    const previousData = appointmentsData.find(
+      (a) => a.id === selectedAppointment.id,
+    );
 
     if (!previousData) return;
 
@@ -232,7 +240,9 @@ export function GroomingCheckInOutSection() {
           onClick: () => {
             if (previousData) {
               setAppointmentsData((prev) =>
-                prev.map((apt) => (apt.id === selectedAppointment.id ? previousData : apt)),
+                prev.map((apt) =>
+                  apt.id === selectedAppointment.id ? previousData : apt,
+                ),
               );
               toast.info("Action undone");
             }
@@ -256,49 +266,63 @@ export function GroomingCheckInOutSection() {
       );
 
       // Automatically deduct products from inventory
-      import("@/lib/grooming-inventory-deduction").then(({ deductProductsForAppointment }) => {
-        import("@/data/grooming").then(({ groomingAppointments }) => {
-          const originalAppointment = groomingAppointments.find(
-            (apt) => apt.id === selectedAppointment.id
-          );
-          
-          if (!originalAppointment) {
-            console.warn("Could not find original appointment for product deduction");
-            return;
-          }
-          
-          const deductionResult = deductProductsForAppointment(
-            originalAppointment,
-            selectedAppointment.stylistName,
-          );
+      import("@/lib/grooming-inventory-deduction").then(
+        ({ deductProductsForAppointment }) => {
+          import("@/data/grooming").then(({ groomingAppointments }) => {
+            const originalAppointment = groomingAppointments.find(
+              (apt) => apt.id === selectedAppointment.id,
+            );
 
-          if (deductionResult.success && deductionResult.deductions.length > 0) {
-            const productsDeducted = deductionResult.deductions
-              .map((d) => `${d.productName} (${d.quantityDeducted} ${d.productName.includes("ml") ? "ml" : "units"})`)
-              .join(", ");
+            if (!originalAppointment) {
+              console.warn(
+                "Could not find original appointment for product deduction",
+              );
+              return;
+            }
 
-            // Check for low stock alerts
-            const lowStockProducts = deductionResult.deductions.filter((d) => d.isNowLowStock);
-            if (lowStockProducts.length > 0) {
-              toast.warning("Products deducted - Low stock alert", {
-                description: `${productsDeducted}. ${lowStockProducts.length} product(s) are now low in stock.`,
+            const deductionResult = deductProductsForAppointment(
+              originalAppointment,
+              selectedAppointment.stylistName,
+            );
+
+            if (
+              deductionResult.success &&
+              deductionResult.deductions.length > 0
+            ) {
+              const productsDeducted = deductionResult.deductions
+                .map(
+                  (d) =>
+                    `${d.productName} (${d.quantityDeducted} ${d.productName.includes("ml") ? "ml" : "units"})`,
+                )
+                .join(", ");
+
+              // Check for low stock alerts
+              const lowStockProducts = deductionResult.deductions.filter(
+                (d) => d.isNowLowStock,
+              );
+              if (lowStockProducts.length > 0) {
+                toast.warning("Products deducted - Low stock alert", {
+                  description: `${productsDeducted}. ${lowStockProducts.length} product(s) are now low in stock.`,
+                  duration: 8000,
+                });
+              } else {
+                toast.success("Products deducted from inventory", {
+                  description: productsDeducted,
+                  duration: 5000,
+                });
+              }
+            } else if (deductionResult.errors.length > 0) {
+              const errorMessages = deductionResult.errors
+                .map((e) => e.reason)
+                .join(", ");
+              toast.error("Inventory deduction failed", {
+                description: errorMessages,
                 duration: 8000,
               });
-            } else {
-              toast.success("Products deducted from inventory", {
-                description: productsDeducted,
-              duration: 5000,
-            });
-          }
-        } else if (deductionResult.errors.length > 0) {
-          const errorMessages = deductionResult.errors.map((e) => e.reason).join(", ");
-          toast.error("Inventory deduction failed", {
-            description: errorMessages,
-            duration: 8000,
+            }
           });
-        }
-        });
-      });
+        },
+      );
 
       toast.success(`${selectedAppointment.petName} - Checked Out`, {
         description: "Grooming appointment completed",
@@ -307,7 +331,9 @@ export function GroomingCheckInOutSection() {
           onClick: () => {
             if (previousData) {
               setAppointmentsData((prev) =>
-                prev.map((apt) => (apt.id === selectedAppointment.id ? previousData : apt)),
+                prev.map((apt) =>
+                  apt.id === selectedAppointment.id ? previousData : apt,
+                ),
               );
               toast.info("Action undone");
             }
@@ -375,7 +401,9 @@ export function GroomingCheckInOutSection() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-3xl font-bold tracking-tight">Grooming Check-In / Check-Out</h2>
+        <h2 className="text-3xl font-bold tracking-tight">
+          Grooming Check-In / Check-Out
+        </h2>
         <p className="text-muted-foreground">
           Manage grooming appointments check-in and check-out
         </p>
@@ -609,17 +637,19 @@ export function GroomingCheckInOutSection() {
                         onClick={async () => {
                           // Move to ready-for-pickup
                           // Find the full appointment in appointmentsData
-                          const fullAppointment = appointmentsData.find((a) => a.id === apt.id);
+                          const fullAppointment = appointmentsData.find(
+                            (a) => a.id === apt.id,
+                          );
                           if (!fullAppointment) {
                             toast.error("Appointment not found");
                             return;
                           }
-                          
+
                           const updatedAppointment: GroomingAppointment = {
                             ...fullAppointment,
                             status: "ready-for-pickup" as const,
                           };
-                          
+
                           setAppointmentsData((prev) =>
                             prev.map((a) =>
                               a.id === apt.id ? updatedAppointment : a,
@@ -627,14 +657,21 @@ export function GroomingCheckInOutSection() {
                           );
 
                           // Send pickup notifications
-                          const { sendPickupNotifications } = await import("@/lib/grooming-pickup-notifications");
+                          const { sendPickupNotifications } =
+                            await import("@/lib/grooming-pickup-notifications");
                           const settings = {
                             autoReadyForPickupSMS: true, // TODO: Get from settings
                             autoReadyForPickupEmail: true, // TODO: Get from settings
                           };
 
-                          sendPickupNotifications(updatedAppointment, settings).catch((error) => {
-                            console.error("Failed to send pickup notifications:", error);
+                          sendPickupNotifications(
+                            updatedAppointment,
+                            settings,
+                          ).catch((error) => {
+                            console.error(
+                              "Failed to send pickup notifications:",
+                              error,
+                            );
                           });
 
                           toast.success(`${apt.petName} - Ready for pickup`);
@@ -872,7 +909,9 @@ export function GroomingCheckInOutSection() {
                   )}
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg">{selectedAppointment.petName}</h3>
+                  <h3 className="font-semibold text-lg">
+                    {selectedAppointment.petName}
+                  </h3>
                   <p className="text-sm text-muted-foreground">
                     {selectedAppointment.petBreed}
                   </p>
@@ -885,39 +924,58 @@ export function GroomingCheckInOutSection() {
                 </div>
                 <div>
                   <span className="text-muted-foreground">Phone:</span>
-                  <p className="font-medium">{selectedAppointment.ownerPhone}</p>
+                  <p className="font-medium">
+                    {selectedAppointment.ownerPhone}
+                  </p>
                 </div>
                 <div>
                   <span className="text-muted-foreground">Stylist:</span>
-                  <p className="font-medium">{selectedAppointment.stylistName}</p>
+                  <p className="font-medium">
+                    {selectedAppointment.stylistName}
+                  </p>
                 </div>
                 <div>
                   <span className="text-muted-foreground">Package:</span>
-                  <p className="font-medium">{selectedAppointment.packageName}</p>
+                  <p className="font-medium">
+                    {selectedAppointment.packageName}
+                  </p>
                 </div>
                 <div>
                   <span className="text-muted-foreground">Time:</span>
                   <p className="font-medium">
-                    {selectedAppointment.startTime} - {selectedAppointment.endTime}
+                    {selectedAppointment.startTime} -{" "}
+                    {selectedAppointment.endTime}
                   </p>
                 </div>
                 <div>
                   <span className="text-muted-foreground">Price:</span>
-                  <p className="font-medium">${selectedAppointment.totalPrice.toFixed(2)}</p>
+                  <p className="font-medium">
+                    ${selectedAppointment.totalPrice.toFixed(2)}
+                  </p>
                 </div>
               </div>
               {selectedAppointment.specialInstructions && (
                 <div>
-                  <span className="text-sm text-muted-foreground">Special Instructions:</span>
-                  <p className="text-sm mt-1">{selectedAppointment.specialInstructions}</p>
+                  <span className="text-sm text-muted-foreground">
+                    Special Instructions:
+                  </span>
+                  <p className="text-sm mt-1">
+                    {selectedAppointment.specialInstructions}
+                  </p>
                 </div>
               )}
               {selectedAppointment.allergies.length > 0 && (
                 <div>
-                  <span className="text-sm text-muted-foreground">Allergies:</span>
+                  <span className="text-sm text-muted-foreground">
+                    Allergies:
+                  </span>
                   <div className="flex gap-2 mt-1">
                     {selectedAppointment.allergies.map((allergy, idx) => (
-                      <Badge key={idx} variant="destructive" className="text-xs">
+                      <Badge
+                        key={idx}
+                        variant="destructive"
+                        className="text-xs"
+                      >
                         {allergy}
                       </Badge>
                     ))}
@@ -949,95 +1007,142 @@ export function GroomingCheckInOutSection() {
 
               {/* Price Adjustments - Show for checked-in or in-progress appointments */}
               {(checkInOutMode === "check-in" || checkInOutMode === "view") && (
-                  <div className="pt-4 border-t">
-                    <PriceAdjustmentForm
+                <div className="pt-4 border-t">
+                  <PriceAdjustmentForm
+                    appointmentId={selectedAppointment.id}
+                    petName={selectedAppointment.petName}
+                    basePrice={
+                      appointmentsData.find(
+                        (a) => a.id === selectedAppointment.id,
+                      )?.basePrice || selectedAppointment.totalPrice
+                    }
+                    currentTotal={selectedAppointment.totalPrice}
+                    adjustments={
+                      appointmentsData.find(
+                        (a) => a.id === selectedAppointment.id,
+                      )?.priceAdjustments || []
+                    }
+                    onAddAdjustment={(adjustment) => {
+                      const appointment = appointmentsData.find(
+                        (a) => a.id === selectedAppointment.id,
+                      );
+                      if (!appointment) return;
+
+                      const newAdjustment: PriceAdjustment = {
+                        ...adjustment,
+                        id: `adj-${Date.now()}`,
+                        addedAt: new Date().toISOString(),
+                        notifiedAt: adjustment.customerNotified
+                          ? new Date().toISOString()
+                          : undefined,
+                      };
+
+                      const adjustments = [
+                        ...(appointment.priceAdjustments || []),
+                        newAdjustment,
+                      ];
+                      const totalAdjustments = adjustments.reduce(
+                        (sum, adj) => sum + adj.amount,
+                        0,
+                      );
+                      const newTotal =
+                        (appointment.basePrice || appointment.totalPrice) +
+                        totalAdjustments;
+
+                      setAppointmentsData((prev) =>
+                        prev.map((apt) =>
+                          apt.id === selectedAppointment.id
+                            ? {
+                                ...apt,
+                                priceAdjustments: adjustments,
+                                totalPrice: newTotal,
+                                basePrice:
+                                  apt.basePrice ||
+                                  apt.totalPrice - totalAdjustments,
+                              }
+                            : apt,
+                        ),
+                      );
+
+                      if (adjustment.customerNotified) {
+                        console.log(
+                          `Sending notification to ${appointment.ownerEmail} about $${adjustment.amount} charge`,
+                        );
+                      }
+                    }}
+                    onRemoveAdjustment={(adjustmentId) => {
+                      const appointment = appointmentsData.find(
+                        (a) => a.id === selectedAppointment.id,
+                      );
+                      if (!appointment) return;
+
+                      const adjustments = (
+                        appointment.priceAdjustments || []
+                      ).filter((adj) => adj.id !== adjustmentId);
+                      const totalAdjustments = adjustments.reduce(
+                        (sum, adj) => sum + adj.amount,
+                        0,
+                      );
+                      const newTotal =
+                        (appointment.basePrice || appointment.totalPrice) +
+                        totalAdjustments;
+
+                      setAppointmentsData((prev) =>
+                        prev.map((apt) =>
+                          apt.id === selectedAppointment.id
+                            ? {
+                                ...apt,
+                                priceAdjustments: adjustments,
+                                totalPrice: newTotal,
+                              }
+                            : apt,
+                        ),
+                      );
+                      toast.success("Price adjustment removed");
+                    }}
+                    readOnly={
+                      selectedAppointment.status === "completed" ||
+                      selectedAppointment.status === "cancelled" ||
+                      selectedAppointment.status === "no-show"
+                    }
+                  />
+                </div>
+              )}
+
+              {/* Intake Form - Show for checked-in or in-progress appointments */}
+              {(checkInOutMode === "check-in" || checkInOutMode === "view") && (
+                <div className="pt-4 border-t">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-semibold">Intake Form</h3>
+                    {checkInOutMode === "check-in" && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setShowIntakeForm(!showIntakeForm)}
+                      >
+                        {showIntakeForm ? "Hide" : "Show"} Intake Form
+                      </Button>
+                    )}
+                  </div>
+                  {(showIntakeForm || checkInOutMode === "view") && (
+                    <GroomingIntakeForm
                       appointmentId={selectedAppointment.id}
                       petName={selectedAppointment.petName}
-                      basePrice={
-                        appointmentsData.find((a) => a.id === selectedAppointment.id)
-                          ?.basePrice || selectedAppointment.totalPrice
-                      }
-                      currentTotal={selectedAppointment.totalPrice}
-                      adjustments={
-                        appointmentsData.find((a) => a.id === selectedAppointment.id)
-                          ?.priceAdjustments || []
-                      }
-                      onAddAdjustment={(adjustment) => {
-                        const appointment = appointmentsData.find(
+                      initialData={
+                        appointmentsData.find(
                           (a) => a.id === selectedAppointment.id,
-                        );
-                        if (!appointment) return;
-
-                        const newAdjustment: PriceAdjustment = {
-                          ...adjustment,
-                          id: `adj-${Date.now()}`,
-                          addedAt: new Date().toISOString(),
-                          notifiedAt: adjustment.customerNotified
-                            ? new Date().toISOString()
-                            : undefined,
-                        };
-
-                        const adjustments = [
-                          ...(appointment.priceAdjustments || []),
-                          newAdjustment,
-                        ];
-                        const totalAdjustments = adjustments.reduce(
-                          (sum, adj) => sum + adj.amount,
-                          0,
-                        );
-                        const newTotal =
-                          (appointment.basePrice || appointment.totalPrice) +
-                          totalAdjustments;
-
+                        )?.intake
+                      }
+                      onSave={(intake: GroomingIntake) => {
+                        // Update appointment data with intake
                         setAppointmentsData((prev) =>
                           prev.map((apt) =>
                             apt.id === selectedAppointment.id
-                              ? {
-                                  ...apt,
-                                  priceAdjustments: adjustments,
-                                  totalPrice: newTotal,
-                                  basePrice:
-                                    apt.basePrice || apt.totalPrice - totalAdjustments,
-                                }
+                              ? { ...apt, intake }
                               : apt,
                           ),
                         );
-
-                        if (adjustment.customerNotified) {
-                          console.log(
-                            `Sending notification to ${appointment.ownerEmail} about $${adjustment.amount} charge`,
-                          );
-                        }
-                      }}
-                      onRemoveAdjustment={(adjustmentId) => {
-                        const appointment = appointmentsData.find(
-                          (a) => a.id === selectedAppointment.id,
-                        );
-                        if (!appointment) return;
-
-                        const adjustments = (appointment.priceAdjustments || []).filter(
-                          (adj) => adj.id !== adjustmentId,
-                        );
-                        const totalAdjustments = adjustments.reduce(
-                          (sum, adj) => sum + adj.amount,
-                          0,
-                        );
-                        const newTotal =
-                          (appointment.basePrice || appointment.totalPrice) +
-                          totalAdjustments;
-
-                        setAppointmentsData((prev) =>
-                          prev.map((apt) =>
-                            apt.id === selectedAppointment.id
-                              ? {
-                                  ...apt,
-                                  priceAdjustments: adjustments,
-                                  totalPrice: newTotal,
-                                }
-                              : apt,
-                          ),
-                        );
-                        toast.success("Price adjustment removed");
+                        toast.success("Intake form saved");
                       }}
                       readOnly={
                         selectedAppointment.status === "completed" ||
@@ -1045,52 +1150,9 @@ export function GroomingCheckInOutSection() {
                         selectedAppointment.status === "no-show"
                       }
                     />
-                  </div>
-                )}
-
-              {/* Intake Form - Show for checked-in or in-progress appointments */}
-              {(checkInOutMode === "check-in" || checkInOutMode === "view") && (
-                  <div className="pt-4 border-t">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-lg font-semibold">Intake Form</h3>
-                      {checkInOutMode === "check-in" && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => setShowIntakeForm(!showIntakeForm)}
-                        >
-                          {showIntakeForm ? "Hide" : "Show"} Intake Form
-                        </Button>
-                      )}
-                    </div>
-                    {(showIntakeForm || checkInOutMode === "view") && (
-                      <GroomingIntakeForm
-                        appointmentId={selectedAppointment.id}
-                        petName={selectedAppointment.petName}
-                        initialData={
-                          appointmentsData.find((a) => a.id === selectedAppointment.id)
-                            ?.intake
-                        }
-                        onSave={(intake: GroomingIntake) => {
-                          // Update appointment data with intake
-                          setAppointmentsData((prev) =>
-                            prev.map((apt) =>
-                              apt.id === selectedAppointment.id
-                                ? { ...apt, intake }
-                                : apt,
-                            ),
-                          );
-                          toast.success("Intake form saved");
-                        }}
-                        readOnly={
-                          selectedAppointment.status === "completed" ||
-                          selectedAppointment.status === "cancelled" ||
-                          selectedAppointment.status === "no-show"
-                        }
-                      />
-                    )}
-                  </div>
-                )}
+                  )}
+                </div>
+              )}
             </div>
           )}
           <DialogFooter>
@@ -1105,7 +1167,8 @@ export function GroomingCheckInOutSection() {
             >
               Cancel
             </Button>
-            {(checkInOutMode === "check-in" || checkInOutMode === "check-out") && (
+            {(checkInOutMode === "check-in" ||
+              checkInOutMode === "check-out") && (
               <Button onClick={confirmCheckInOut}>
                 {checkInOutMode === "check-in" ? "Check In" : "Check Out"}
               </Button>

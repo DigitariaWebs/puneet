@@ -21,7 +21,13 @@ export function InvoiceLoyaltySection({
   creditApplied,
   tierDiscount,
 }: InvoiceLoyaltySectionProps) {
-  if (!loyaltyPointsEarned && !loyaltyPointsRedeemed && !creditApplied && !discountCode && !tierDiscount) {
+  if (
+    !loyaltyPointsEarned &&
+    !loyaltyPointsRedeemed &&
+    !creditApplied &&
+    !discountCode &&
+    !tierDiscount
+  ) {
     return null;
   }
 
@@ -40,9 +46,7 @@ export function InvoiceLoyaltySection({
               <TrendingUp className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
               <span className="text-muted-foreground">Points Earned</span>
             </div>
-            <Badge className="bg-green-500">
-              +{loyaltyPointsEarned} pts
-            </Badge>
+            <Badge className="bg-green-500">+{loyaltyPointsEarned} pts</Badge>
           </div>
         )}
 
@@ -52,9 +56,7 @@ export function InvoiceLoyaltySection({
               <Gift className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
               <span className="text-muted-foreground">Points Redeemed</span>
             </div>
-            <Badge className="bg-blue-500">
-              -{loyaltyPointsRedeemed} pts
-            </Badge>
+            <Badge className="bg-blue-500">-{loyaltyPointsRedeemed} pts</Badge>
           </div>
         )}
 
@@ -88,9 +90,7 @@ export function InvoiceLoyaltySection({
               <Gift className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
               <span className="text-muted-foreground">Credit Applied</span>
             </div>
-            <Badge className="bg-green-500">
-              ${creditApplied.toFixed(2)}
-            </Badge>
+            <Badge className="bg-green-500">${creditApplied.toFixed(2)}</Badge>
           </div>
         )}
 

@@ -19,7 +19,9 @@ export default function FacilityNotificationsPage() {
           onClick={() => {
             // Frontend-only testing helper:
             // increment unread alerts so the badge updates on next poll/focus.
-            const current = Number(localStorage.getItem("unread_alerts_count") ?? "0");
+            const current = Number(
+              localStorage.getItem("unread_alerts_count") ?? "0",
+            );
             localStorage.setItem("unread_alerts_count", String(current + 1));
             window.dispatchEvent(
               new StorageEvent("storage", { key: "unread_alerts_count" }),
@@ -33,4 +35,3 @@ export default function FacilityNotificationsPage() {
     </div>
   );
 }
-
