@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -60,7 +61,7 @@ export default function ForgotPasswordPage() {
   };
 
   // Placeholder function - replace with actual API call
-  const sendPasswordResetEmail = async (email: string) => {
+  const sendPasswordResetEmail = async (_email: string) => {
     // TODO: API call to send password reset email
     await new Promise((resolve) => setTimeout(resolve, 1000));
   };
@@ -71,7 +72,13 @@ export default function ForgotPasswordPage() {
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-1 text-center">
             <div className="flex justify-center mb-4">
-              <img src="/yipyy-transparent.png" alt="Yipyy" className="h-12" />
+              <Image
+                src="/yipyy-transparent.png"
+                alt="Yipyy"
+                width={120}
+                height={48}
+                className="h-12 w-auto"
+              />
             </div>
             <CardTitle className="text-2xl font-bold">
               Check your email
@@ -122,7 +129,13 @@ export default function ForgotPasswordPage() {
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
           <div className="flex justify-center mb-4">
-            <img src="/yipyy-transparent.png" alt="Yipyy" className="h-12" />
+            <Image
+              src="/yipyy-transparent.png"
+              alt="Yipyy"
+              width={120}
+              height={48}
+              className="h-12 w-auto"
+            />
           </div>
           <CardTitle className="text-2xl font-bold">Forgot password?</CardTitle>
           <CardDescription>

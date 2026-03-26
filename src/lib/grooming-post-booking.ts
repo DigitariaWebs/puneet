@@ -130,7 +130,7 @@ async function sendClientConfirmation(
   // 2. Send SMS with confirmation and link
   // 3. Generate .ics calendar file
 
-  const confirmationEmail = {
+  const _confirmationEmail = {
     to: bookingData.clientEmail,
     subject: `Booking Confirmed - ${bookingData.petName}'s ${bookingData.serviceCategory}`,
     body: `
@@ -166,7 +166,7 @@ ${bookingData.serviceLocation === "salon" ? "The Grooming Team" : "Mobile Groomi
     ],
   };
 
-  const confirmationSMS = {
+  const _confirmationSMS = {
     to: bookingData.clientPhone,
     message: `Hi ${bookingData.clientName}! Your grooming appointment for ${bookingData.petName} is confirmed for ${bookingData.appointmentDate.toLocaleDateString("en-US", { month: "short", day: "numeric" })} at ${bookingData.appointmentTime}. Manage booking: ${manageBookingLink}`,
   };

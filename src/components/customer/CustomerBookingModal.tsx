@@ -7,6 +7,7 @@ import {
   useEffect,
   type ReactNode,
 } from "react";
+import Image from "next/image";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
 import { useSettings } from "@/hooks/use-settings";
 import { clients } from "@/data/clients";
@@ -45,12 +46,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Stepper } from "@/components/ui/stepper";
 import {
-  Calendar,
-  Clock,
   AlertCircle,
   CheckCircle,
   Loader2,
-  X,
   Dog,
   Cat,
   Scissors,
@@ -71,7 +69,7 @@ import { vaccinationRecords } from "@/data/pet-data";
 import { facilityConfig } from "@/data/facility-config";
 import { clientDocuments } from "@/data/documents";
 import { vaccinationRules, evaluationConfig } from "@/data/settings";
-import { getFormById, getFormsByFacility } from "@/data/forms";
+import { getFormById } from "@/data/forms";
 import { getSubmissionsForPet } from "@/data/form-submissions";
 import { Syringe } from "lucide-react";
 
@@ -139,7 +137,7 @@ export function CustomerBookingModal({
   open = true,
   onOpenChange,
   asPage = false,
-  onCancel,
+  onCancel: _onCancel,
   existingBooking,
   onBookingCreated,
 }: CustomerBookingModalProps) {
@@ -156,7 +154,10 @@ export function CustomerBookingModal({
     dropOffPickUpOverrides,
     serviceDateBlocks,
   } = useSettings();
-  const configs = { daycare, boarding, grooming, training };
+  const configs = useMemo(
+    () => ({ daycare, boarding, grooming, training }),
+    [daycare, boarding, grooming, training],
+  );
   const { activeModules } = useCustomServices();
   const allServices = useMemo(
     () => getAllServiceCategories(SERVICE_CATEGORIES, activeModules),
@@ -191,19 +192,19 @@ export function CustomerBookingModal({
     "weekly" | "biweekly" | "monthly"
   >("monthly");
   const [recurringEndDate, setRecurringEndDate] = useState("");
-  const [recurringPreferredDays, setRecurringPreferredDays] = useState<
+  const [_recurringPreferredDays, _setRecurringPreferredDays] = useState<
     string[]
   >([]);
-  const [recurringPreferredTimeWindow, setRecurringPreferredTimeWindow] =
+  const [_recurringPreferredTimeWindow, _setRecurringPreferredTimeWindow] =
     useState({ start: "09:00", end: "17:00" });
-  const [recurringAutoPay, setRecurringAutoPay] = useState(false);
+  const [_recurringAutoPay, _setRecurringAutoPay] = useState(false);
   const [specialRequests, setSpecialRequests] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [tipAmount, setTipAmount] = useState(0);
   const [customTipAmount, setCustomTipAmount] = useState("");
   const [tipPercentage, setTipPercentage] = useState<number | null>(null);
-  const [depositRequired, setDepositRequired] = useState(false);
-  const [depositAmount, setDepositAmount] = useState(0);
+  const [_depositRequired, _setDepositRequired] = useState(false);
+  const [_depositAmount, _setDepositAmount] = useState(0);
   // Details sub-step (0 = Schedule; daycare/boarding may add Room, Add-ons, Feeding later)
   const [currentDetailsSubStep, setCurrentDetailsSubStep] = useState(0);
   // Daycare: multi-date + time slider
@@ -319,7 +320,14 @@ export function CustomerBookingModal({
 
       return true;
     });
-  }, [bookingFlow, selectedPetIds, customerPets, hasValidEvaluation, configs]);
+  }, [
+    bookingFlow,
+    selectedPetIds,
+    customerPets,
+    hasValidEvaluation,
+    configs,
+    allServices,
+  ]);
 
   // Check if service requires evaluation
   const serviceRequiresEvaluation = useCallback(
@@ -842,9 +850,9 @@ export function CustomerBookingModal({
       setIsRecurring(false);
       setRecurringFrequency("monthly");
       setRecurringEndDate("");
-      setRecurringPreferredDays([]);
-      setRecurringPreferredTimeWindow({ start: "09:00", end: "17:00" });
-      setRecurringAutoPay(false);
+      _setRecurringPreferredDays([]);
+      _setRecurringPreferredTimeWindow({ start: "09:00", end: "17:00" });
+      _setRecurringAutoPay(false);
       setTipAmount(0);
       setCustomTipAmount("");
       setTipPercentage(null);
@@ -968,6 +976,7 @@ export function CustomerBookingModal({
     effectiveStartDate,
     effectiveEndDate,
     extraServicesTotal,
+    allServices,
   ]);
 
   const totalPrice = useMemo(() => {
@@ -1035,14 +1044,14 @@ export function CustomerBookingModal({
       setIsRecurring(false);
       setRecurringFrequency("monthly");
       setRecurringEndDate("");
-      setRecurringPreferredDays([]);
-      setRecurringPreferredTimeWindow({ start: "09:00", end: "17:00" });
-      setRecurringAutoPay(false);
+      _setRecurringPreferredDays([]);
+      _setRecurringPreferredTimeWindow({ start: "09:00", end: "17:00" });
+      _setRecurringAutoPay(false);
       setTipAmount(0);
       setCustomTipAmount("");
       setTipPercentage(null);
-      setDepositRequired(false);
-      setDepositAmount(0);
+      _setDepositRequired(false);
+      _setDepositAmount(0);
     }
   }, [open]);
 
@@ -1388,20 +1397,22 @@ export function CustomerBookingModal({
                               </Badge>
                             </div>
                           )}
-                          <div className="w-full h-28 shrink-0 bg-muted">
+                          <div className="w-full h-28 shrink-0 bg-muted relative">
                             {config?.bannerImage ? (
-                              /* eslint-disable-next-line @next/next/no-img-element */
-                              <img
+                              <Image
                                 src={config.bannerImage}
                                 alt={displayName}
-                                className="w-full h-full object-cover"
+                                fill
+                                className="object-cover"
+                                unoptimized
                               />
                             ) : service.image ? (
-                              /* eslint-disable-next-line @next/next/no-img-element */
-                              <img
+                              <Image
                                 src={service.image}
                                 alt={displayName}
-                                className="w-full h-full object-cover"
+                                fill
+                                className="object-cover"
+                                unoptimized
                               />
                             ) : (
                               <div
@@ -1709,12 +1720,13 @@ export function CustomerBookingModal({
                                 key={addon.id}
                                 className={`flex flex-col min-h-[240px] overflow-hidden ${totalQty > 0 ? "ring-2 ring-primary" : ""}`}
                               >
-                                <div className="h-28 w-full shrink-0 bg-muted">
-                                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                                  <img
+                                <div className="h-28 w-full shrink-0 bg-muted relative">
+                                  <Image
                                     src={addon.image}
                                     alt={addon.name}
-                                    className="w-full h-full object-cover"
+                                    fill
+                                    className="object-cover"
+                                    unoptimized
                                   />
                                 </div>
                                 <CardContent className="p-3 flex flex-col flex-1 space-y-2">
@@ -1991,11 +2003,12 @@ export function CustomerBookingModal({
                                           >
                                             <div className="h-28 bg-muted relative shrink-0">
                                               {room.image ? (
-                                                /* eslint-disable-next-line @next/next/no-img-element */
-                                                <img
+                                                <Image
                                                   src={room.image}
                                                   alt={room.name}
-                                                  className="w-full h-full object-cover"
+                                                  fill
+                                                  className="object-cover"
+                                                  unoptimized
                                                 />
                                               ) : (
                                                 <div className="w-full h-full flex items-center justify-center">
@@ -2119,11 +2132,12 @@ export function CustomerBookingModal({
                                 >
                                   <div className="h-32 bg-muted relative shrink-0">
                                     {room.image ? (
-                                      /* eslint-disable-next-line @next/next/no-img-element */
-                                      <img
+                                      <Image
                                         src={room.image}
                                         alt={room.name}
-                                        className="w-full h-full object-cover"
+                                        fill
+                                        className="object-cover"
+                                        unoptimized
                                       />
                                     ) : (
                                       <div className="w-full h-full flex items-center justify-center bg-muted">
@@ -2242,12 +2256,13 @@ export function CustomerBookingModal({
                                 key={addon.id}
                                 className={`flex flex-col min-h-[240px] overflow-hidden ${totalQty > 0 ? "ring-2 ring-primary" : ""}`}
                               >
-                                <div className="h-28 w-full shrink-0 bg-muted">
-                                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                                  <img
+                                <div className="h-28 w-full shrink-0 bg-muted relative">
+                                  <Image
                                     src={addon.image}
                                     alt={addon.name}
-                                    className="w-full h-full object-cover"
+                                    fill
+                                    className="object-cover"
+                                    unoptimized
                                   />
                                 </div>
                                 <CardContent className="p-3 flex flex-col flex-1 space-y-2">
@@ -2492,11 +2507,12 @@ export function CustomerBookingModal({
                               >
                                 <div className="h-32 bg-muted relative shrink-0">
                                   {pkg.image ? (
-                                    /* eslint-disable-next-line @next/next/no-img-element */
-                                    <img
+                                    <Image
                                       src={pkg.image}
                                       alt={pkg.name}
-                                      className="w-full h-full object-cover"
+                                      fill
+                                      className="object-cover"
+                                      unoptimized
                                     />
                                   ) : (
                                     <div className="w-full h-full flex items-center justify-center bg-muted">
@@ -2597,11 +2613,12 @@ export function CustomerBookingModal({
                               >
                                 <div className="h-24 shrink-0 bg-muted relative">
                                   {addonWithExtras.image ? (
-                                    /* eslint-disable-next-line @next/next/no-img-element */
-                                    <img
+                                    <Image
                                       src={addonWithExtras.image}
                                       alt={addon.name}
-                                      className="w-full h-full object-cover"
+                                      fill
+                                      className="object-cover"
+                                      unoptimized
                                     />
                                   ) : (
                                     <div className="w-full h-full flex items-center justify-center">
@@ -3192,13 +3209,14 @@ export function CustomerBookingModal({
                       {photos.map((src, i) => (
                         <div
                           key={i}
-                          className="aspect-video rounded-lg overflow-hidden bg-muted"
+                          className="aspect-video rounded-lg overflow-hidden bg-muted relative"
                         >
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
+                          <Image
                             src={src}
                             alt={`${room.name} ${i + 1}`}
-                            className="w-full h-full object-cover"
+                            fill
+                            className="object-cover"
+                            unoptimized
                           />
                         </div>
                       ))}
@@ -3237,13 +3255,14 @@ export function CustomerBookingModal({
                       {photos.map((src, i) => (
                         <div
                           key={i}
-                          className="aspect-video rounded-lg overflow-hidden bg-muted"
+                          className="aspect-video rounded-lg overflow-hidden bg-muted relative"
                         >
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
+                          <Image
                             src={src}
                             alt={`${pkg.name} ${i + 1}`}
-                            className="w-full h-full object-cover"
+                            fill
+                            className="object-cover"
+                            unoptimized
                           />
                         </div>
                       ))}

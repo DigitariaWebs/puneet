@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useRef, useEffect } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,7 +27,6 @@ import {
   User,
   Phone,
   PawPrint,
-  AlertCircle,
   Upload,
   X,
 } from "lucide-react";
@@ -82,7 +82,7 @@ const statusColors: Record<
 };
 
 export default function GroomerDashboardPage() {
-  const router = useRouter();
+  const _router = useRouter();
   const [selectedAppointment, setSelectedAppointment] =
     useState<GroomingAppointment | null>(null);
   const [isNotesModalOpen, setIsNotesModalOpen] = useState(false);
@@ -546,10 +546,11 @@ export default function GroomerDashboardPage() {
                       key={idx}
                       className="relative aspect-square rounded-lg overflow-hidden border group"
                     >
-                      <img
+                      <Image
                         src={photo}
                         alt={`After photo ${idx + 1}`}
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
                       />
                       <button
                         type="button"

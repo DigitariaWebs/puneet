@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -352,11 +353,13 @@ export function ClientPetStep({
                       >
                         <div className="flex gap-3">
                           {pet.imageUrl ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
+                            <Image
                               src={pet.imageUrl}
                               alt={pet.name}
+                              width={64}
+                              height={64}
                               className="w-16 h-16 rounded-lg object-cover"
+                              unoptimized
                             />
                           ) : (
                             <div className="w-16 h-16 rounded-lg bg-muted flex items-center justify-center">

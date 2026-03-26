@@ -750,9 +750,6 @@ export function createForm(
       qq.sectionId && sectionIdToRecord.has(qq.sectionId)
         ? sectionIdToRecord.get(qq.sectionId)!
         : firstSectionId;
-    const sectionOrder = formSections.findIndex(
-      (s) => s.id === resolvedSectionId,
-    );
     const fieldsInSection = input.questions.filter((oq) => {
       const osid = (oq as FormQuestion & { sectionId?: string }).sectionId;
       const orid =

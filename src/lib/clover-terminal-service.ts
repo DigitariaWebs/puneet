@@ -233,7 +233,7 @@ export async function processCloverPayment(
 async function printReceiptOnTerminal(
   terminal: CloverTerminalConfig,
   receiptData: string,
-  options: {
+  _options: {
     printCustomerCopy: boolean;
     printMerchantCopy: boolean;
   },
@@ -273,7 +273,7 @@ function generateReceiptData(data: {
     minute: "2-digit",
   });
 
-  let receipt = `
+  const receipt = `
 ================================
         RECEIPT
 ================================

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { CheckCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -81,13 +82,14 @@ export function ServiceCard({
           </Badge>
         </div>
       )}
-      <div className="w-full h-44 shrink-0 bg-muted">
+      <div className="w-full h-44 shrink-0 bg-muted relative">
         {service.image ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
+          <Image
             src={service.image}
             alt={name}
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
+            unoptimized
           />
         ) : Icon ? (
           <div

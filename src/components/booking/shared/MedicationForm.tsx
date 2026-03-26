@@ -18,7 +18,6 @@ import {
   Plus,
   X,
   Pill,
-  Trash2,
   ChevronDown,
   ChevronUp,
   Clock,

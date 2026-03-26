@@ -14,7 +14,6 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import Link from "next/link";
 import Image from "next/image";
 import {
   PawPrint,
@@ -22,7 +21,6 @@ import {
   LogIn,
   LogOut,
   CheckCircle,
-  AlertTriangle,
   Phone,
   Scissors,
   Eye,
@@ -36,7 +34,6 @@ import {
   type GroomingIntake,
   type PriceAdjustment,
 } from "@/data/grooming";
-import { clients } from "@/data/clients";
 import { GroomingIntakeForm } from "@/components/grooming/GroomingIntakeForm";
 import { PriceAdjustmentForm } from "@/components/grooming/PriceAdjustmentForm";
 
@@ -93,7 +90,7 @@ const petImages: Record<number, string> = {
   5: "/api/placeholder/40/40",
 };
 
-const getPetImage = (petId: number) =>
+const _getPetImage = (petId: number) =>
   petImages[petId] || "/api/placeholder/40/40";
 
 export function GroomingCheckInOutSection() {
@@ -108,7 +105,7 @@ export function GroomingCheckInOutSection() {
   const [showIntakeForm, setShowIntakeForm] = useState(false);
 
   // For undo functionality
-  const undoTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const _undoTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setIsMounted(true);
@@ -211,7 +208,7 @@ export function GroomingCheckInOutSection() {
     if (!selectedAppointment) return;
 
     const now = new Date().toISOString();
-    const previousStatus = selectedAppointment.status;
+    const _previousStatus = selectedAppointment.status;
     const previousData = appointmentsData.find(
       (a) => a.id === selectedAppointment.id,
     );

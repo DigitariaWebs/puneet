@@ -66,13 +66,9 @@ import {
   Smartphone,
   History,
 } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { FormPhase2Settings } from "@/components/forms/FormPhase2Settings";
-import type {
-  FormScoringConfig,
-  SupportedFormLocale,
-} from "@/data/forms-phase2-types";
+import type { FormScoringConfig } from "@/data/forms-phase2-types";
 
 const FORM_TYPES: { value: FormType; label: string }[] = [
   { value: "intake", label: "Intake (new clients)" },

@@ -1,13 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -31,16 +25,12 @@ import {
   CheckCircle2,
   Printer,
 } from "lucide-react";
-import {
-  type TrainingEnrollment,
-  type SessionAttendance,
-} from "@/lib/training-enrollment";
+import { type TrainingEnrollment } from "@/lib/training-enrollment";
 import {
   type TrainingSeries,
   calculateSessionDates,
   getDayName,
 } from "@/lib/training-series";
-import { clients } from "@/data/clients";
 
 // Mock data - In production, this would come from API
 const mockEnrollments: TrainingEnrollment[] = [
@@ -243,7 +233,7 @@ export default function TrainingCheckInPage() {
     }
   };
 
-  const formatTime = (time: string) => {
+  const _formatTime = (time: string) => {
     return time || "N/A";
   };
 
@@ -296,10 +286,6 @@ export default function TrainingCheckInPage() {
       ) : (
         <div className="grid gap-4">
           {filteredArrivals.map((arrival) => {
-            const pet = clients
-              .flatMap((c) => c.pets)
-              .find((p) => p.id === arrival.enrollment.petId);
-
             return (
               <Card key={arrival.enrollment.id}>
                 <CardContent className="p-6">

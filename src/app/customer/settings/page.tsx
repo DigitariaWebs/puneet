@@ -3,7 +3,6 @@
 import { useState, useMemo } from "react";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
 import { clients } from "@/data/clients";
-import { bookings } from "@/data/bookings";
 import {
   Card,
   CardContent,
@@ -17,7 +16,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
@@ -34,7 +32,6 @@ import {
   Bell,
   Save,
   Edit,
-  CheckCircle2,
   AlertCircle,
   Loader2,
 } from "lucide-react";
@@ -44,7 +41,7 @@ import { toast } from "sonner";
 const MOCK_CUSTOMER_ID = 15;
 
 export default function CustomerSettingsPage() {
-  const { selectedFacility } = useCustomerFacility();
+  const { selectedFacility: _selectedFacility } = useCustomerFacility();
   const [isSaving, setIsSaving] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -196,8 +193,8 @@ export default function CustomerSettingsPage() {
 
   // Placeholder function - replace with actual API call
   const updateCustomerProfile = async (
-    data: typeof profileData,
-    notifications: typeof notificationPreferences,
+    _data: typeof profileData,
+    _notifications: typeof notificationPreferences,
   ) => {
     // TODO: API call to update customer profile
     // This should sync to all facilities automatically

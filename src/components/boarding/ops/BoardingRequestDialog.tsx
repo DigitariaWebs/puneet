@@ -15,7 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DataTable, ColumnDef } from "@/components/ui/DataTable";
+import { ColumnDef } from "@/components/ui/DataTable";
 import { clients } from "@/data/clients";
 import { clientDocuments } from "@/data/documents";
 import {
@@ -131,7 +131,7 @@ export function BoardingRequestDialog({
     }));
   }, [eligibilityRows]);
 
-  const auditColumns: ColumnDef<PreCheckAuditEvent>[] = useMemo(
+  const _auditColumns: ColumnDef<PreCheckAuditEvent>[] = useMemo(
     () => [
       {
         key: "at",

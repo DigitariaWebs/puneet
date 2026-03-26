@@ -6,12 +6,10 @@
  */
 
 import {
-  FiservPaymentConfig,
   FiservPaymentRequest,
   FiservPaymentResponse,
   FiservRefundRequest,
   FiservRefundResponse,
-  TokenizedCard,
   getFiservConfig,
   addTokenizedCard,
 } from "@/data/fiserv-payments";

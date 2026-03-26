@@ -38,7 +38,7 @@ export interface PaymentAuditLog {
 }
 
 // In-memory storage for audit logs (in production, this would be a database)
-let auditLogs: PaymentAuditLog[] = [];
+const auditLogs: PaymentAuditLog[] = [];
 
 /**
  * Create an audit log entry

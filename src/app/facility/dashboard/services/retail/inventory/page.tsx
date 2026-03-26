@@ -17,7 +17,6 @@ import {
   Eye,
   ShoppingCart,
   FileText,
-  CheckSquare,
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -55,13 +54,11 @@ import {
   lowStockAlerts,
   getLowStockProducts,
   getInventoryValue,
-  suppliers,
   getActiveSuppliers,
   type InventoryMovement,
   type LowStockAlert,
   type Product,
   type ProductVariant,
-  type PurchaseOrderItem,
 } from "@/data/retail";
 
 type InventoryMovementWithRecord = InventoryMovement & Record<string, unknown>;
@@ -78,7 +75,7 @@ export default function InventoryPage() {
   const [selectedAlert, setSelectedAlert] = useState<LowStockAlert | null>(
     null,
   );
-  const [selectedAlertsForReorder, setSelectedAlertsForReorder] = useState<
+  const [_selectedAlertsForReorder, setSelectedAlertsForReorder] = useState<
     Set<string>
   >(new Set());
   const [reorderItems, setReorderItems] = useState<

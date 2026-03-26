@@ -39,7 +39,7 @@ export interface FacilityNotification {
 }
 
 // Seed example notifications so staff see YipyyGo submissions on the dashboard
-let notifications: FacilityNotification[] = [
+const notifications: FacilityNotification[] = [
   {
     id: "fn-yipyygo-3",
     type: "yipyygo_submitted",

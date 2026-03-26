@@ -35,13 +35,9 @@ import {
   MapPin,
   User,
   Users,
-  AlertTriangle,
   CheckCircle2,
   XCircle,
-  GraduationCap,
   Info,
-  Download,
-  Calendar as CalendarIcon,
 } from "lucide-react";
 import {
   type TrainingSeries,
@@ -363,7 +359,7 @@ export default function CustomerTrainingPage() {
     series: TrainingSeries,
     sessionDates: string[],
     petName: string,
-    facilityName: string,
+    _facilityName: string,
   ): string => {
     const formatICSDate = (date: Date) => {
       return date.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";

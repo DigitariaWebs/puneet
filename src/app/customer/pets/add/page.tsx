@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
 import {
   Card,
@@ -21,17 +22,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  ArrowLeft,
-  Save,
-  Loader2,
-  Dog,
-  Cat,
-  Upload,
-  Image as ImageIcon,
-} from "lucide-react";
+import { ArrowLeft, Save, Loader2, Dog, Cat, Upload } from "lucide-react";
 import { toast } from "sonner";
-import { Separator } from "@/components/ui/separator";
 import { FormWizard } from "@/components/forms/FormWizard";
 
 interface PetFormData {
@@ -131,7 +123,7 @@ export default function AddPetPage() {
 
   // Placeholder function - replace with actual API call. Return { id } to redirect to pet Forms tab.
   const createPet = async (
-    petData: Omit<PetFormData, "age" | "weight"> & {
+    _petData: Omit<PetFormData, "age" | "weight"> & {
       age: number;
       weight: number;
     },
@@ -210,12 +202,13 @@ export default function AddPetPage() {
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-6">
-                <div className="w-32 h-32 rounded-lg bg-muted flex items-center justify-center overflow-hidden">
+                <div className="relative w-32 h-32 rounded-lg bg-muted flex items-center justify-center overflow-hidden">
                   {formData.imageUrl ? (
-                    <img
+                    <Image
                       src={formData.imageUrl}
                       alt="Pet preview"
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                     />
                   ) : (
                     <PetIcon className="h-16 w-16 text-muted-foreground" />

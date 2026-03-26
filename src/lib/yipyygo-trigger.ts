@@ -5,12 +5,10 @@
  * based on booking confirmation and facility configuration.
  */
 
-import type { Booking } from "@/lib/types";
 import type {
   YipyyGoConfig,
   ServiceType,
   DeliveryChannel,
-  TimingConfig,
 } from "@/data/yipyygo-config";
 import { getYipyyGoConfig } from "@/data/yipyygo-config";
 

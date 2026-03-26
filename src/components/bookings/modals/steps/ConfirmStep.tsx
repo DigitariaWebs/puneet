@@ -1,4 +1,4 @@
-import { PawPrint, Mail, MessageSquare, Receipt } from "lucide-react";
+import { PawPrint, Receipt } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";

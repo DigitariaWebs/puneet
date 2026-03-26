@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -37,19 +38,20 @@ function ResetPasswordForm() {
       setIsValidToken(false);
       return;
     }
+
+    const validateToken = async (t: string) => {
+      try {
+        // TODO: Replace with actual API call to validate token
+        await checkResetToken(t);
+        setIsValidToken(true);
+      } catch {
+        setIsValidToken(false);
+        toast.error("Invalid or expired reset link");
+      }
+    };
+
     validateToken(token);
   }, [token]);
-
-  const validateToken = async (token: string) => {
-    try {
-      // TODO: Replace with actual API call to validate token
-      await checkResetToken(token);
-      setIsValidToken(true);
-    } catch (error) {
-      setIsValidToken(false);
-      toast.error("Invalid or expired reset link");
-    }
-  };
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -94,12 +96,12 @@ function ResetPasswordForm() {
   };
 
   // Placeholder functions - replace with actual API calls
-  const checkResetToken = async (token: string) => {
+  const checkResetToken = async (_token: string) => {
     // TODO: API call to validate reset token
     await new Promise((resolve) => setTimeout(resolve, 500));
   };
 
-  const resetPassword = async (token: string, password: string) => {
+  const resetPassword = async (_token: string, _password: string) => {
     // TODO: API call to reset password
     await new Promise((resolve) => setTimeout(resolve, 1000));
   };
@@ -124,7 +126,13 @@ function ResetPasswordForm() {
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-1 text-center">
             <div className="flex justify-center mb-4">
-              <img src="/yipyy-transparent.png" alt="Yipyy" className="h-12" />
+              <Image
+                src="/yipyy-transparent.png"
+                alt="Yipyy"
+                width={120}
+                height={48}
+                className="h-12 w-auto"
+              />
             </div>
             <CardTitle className="text-2xl font-bold">
               Invalid reset link
@@ -164,7 +172,13 @@ function ResetPasswordForm() {
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
           <div className="flex justify-center mb-4">
-            <img src="/yipyy-transparent.png" alt="Yipyy" className="h-12" />
+            <Image
+              src="/yipyy-transparent.png"
+              alt="Yipyy"
+              width={120}
+              height={48}
+              className="h-12 w-auto"
+            />
           </div>
           <CardTitle className="text-2xl font-bold">
             Reset your password

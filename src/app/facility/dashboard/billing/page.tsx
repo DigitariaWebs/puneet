@@ -25,7 +25,6 @@ import { ProcessRefundModal } from "@/components/billing/ProcessRefundModal";
 import { CreateInvoiceModal } from "@/components/billing/CreateInvoiceModal";
 import { IssueGiftCardModal } from "@/components/billing/IssueGiftCardModal";
 import { AddCustomerCreditModal } from "@/components/billing/AddCustomerCreditModal";
-import { PermissionGuard } from "@/components/facility/PermissionGuard";
 import {
   Download,
   DollarSign,

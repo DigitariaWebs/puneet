@@ -27,6 +27,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Image from "next/image";
 import Link from "next/link";
 
 export function CustomerHeader() {
@@ -88,15 +89,19 @@ export function CustomerHeader() {
         {/* Facility Logo and Name */}
         <Link href="/customer/dashboard" className="flex items-center gap-3">
           {selectedFacility?.logo ? (
-            <img
+            <Image
               src={selectedFacility.logo}
               alt={selectedFacility.name}
+              width={32}
+              height={32}
               className="h-8 w-auto"
             />
           ) : (
-            <img
+            <Image
               src="/yipyy-transparent.png"
               alt="Yipyy"
+              width={32}
+              height={32}
               className="h-8 w-auto"
             />
           )}

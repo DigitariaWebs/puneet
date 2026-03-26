@@ -32,7 +32,7 @@ export function RequirementsGateStep({
   missing,
   completedCount,
   totalCount,
-  allowProceedWithoutComplete = false,
+  allowProceedWithoutComplete: _allowProceedWithoutComplete = false,
   primaryActionUrl,
   primaryActionLabel = "Go to Documents",
   allCompleteMessage = "All requirements are complete. You can proceed to confirm your booking.",

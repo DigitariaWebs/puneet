@@ -2,8 +2,6 @@
 
 import { useMemo, useState, useEffect } from "react";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
-import { LoyaltyModuleGuard } from "@/components/loyalty/LoyaltyModuleGuard";
-import { useCustomerLoyaltyAccess } from "@/hooks/use-loyalty-config";
 import {
   Card,
   CardContent,
@@ -15,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Gift,
@@ -28,10 +25,8 @@ import {
   Award,
   GiftIcon,
   Sparkles,
-  ArrowRight,
   ExternalLink,
   Info,
-  X,
   Loader2,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -53,7 +48,6 @@ import {
   type LoyaltyReward,
   type PointsEarningRule,
 } from "@/data/marketing";
-import { clients } from "@/data/clients";
 import { bookings } from "@/data/bookings";
 import { payments } from "@/data/payments";
 
@@ -73,12 +67,6 @@ export default function CustomerRewardsPage() {
   useEffect(() => {
     setIsMounted(true);
   }, []);
-
-  // Get customer data
-  const customer = useMemo(
-    () => clients.find((c) => c.id === MOCK_CUSTOMER_ID),
-    [],
-  );
 
   // Get loyalty data
   const loyaltyData = useMemo(() => {
@@ -184,17 +172,6 @@ export default function CustomerRewardsPage() {
     return new Date(dateString).toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
-    });
-  };
-
-  const formatDateTime = (dateString: string) => {
-    if (!isMounted) return "";
-    return new Date(dateString).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
     });
   };
 

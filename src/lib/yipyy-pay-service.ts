@@ -6,8 +6,6 @@
  */
 
 import {
-  YipyyPayConfig,
-  YipyyPayDevice,
   YipyyPayTransaction,
   getYipyyPayConfig,
   getYipyyPayDevice,
@@ -318,7 +316,7 @@ function generateReceiptData(data: {
     minute: "2-digit",
   });
 
-  let receipt = `
+  const receipt = `
 ================================
         RECEIPT
 ================================

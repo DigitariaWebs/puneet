@@ -11,30 +11,18 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Star,
   TrendingUp,
-  TrendingDown,
   Users,
   Gift,
-  Award,
   Download,
   Calendar,
-  BarChart3,
-  PieChart,
   ArrowUpRight,
-  ArrowDownRight,
 } from "lucide-react";
-import {
-  getReferralRelationshipsByReferrer,
-  getReferralStats,
-  referralRelationships,
-} from "@/data/referral-tracking";
+import { referralRelationships } from "@/data/referral-tracking";
 import { customerLoyaltyData } from "@/data/marketing";
 import { clients } from "@/data/clients";
-import { invoices, payments } from "@/data/payments";
 import {
   BarChart,
   Bar,
@@ -61,7 +49,7 @@ const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"];
 
 export default function LoyaltyReportsPage() {
   const { isEnabled, canViewReports } = useLoyaltyConfig();
-  const [dateRange, setDateRange] = useState({
+  const [dateRange, _setDateRange] = useState({
     startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1)
       .toISOString()
       .split("T")[0],

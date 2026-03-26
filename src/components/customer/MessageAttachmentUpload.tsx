@@ -11,7 +11,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -104,19 +103,6 @@ export function MessageAttachmentUpload({
         return <ImageIcon className="h-4 w-4" />;
       case "signed_form":
         return <FileCheck className="h-4 w-4" />;
-    }
-  };
-
-  const getAttachmentTypeLabel = (type: Attachment["type"]) => {
-    switch (type) {
-      case "vaccine_record":
-        return "Vaccine Record";
-      case "document":
-        return "Document";
-      case "photo":
-        return "Photo";
-      case "signed_form":
-        return "Signed Form";
     }
   };
 

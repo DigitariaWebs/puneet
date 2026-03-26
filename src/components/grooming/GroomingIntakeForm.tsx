@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -30,7 +31,7 @@ interface GroomingIntakeFormProps {
 }
 
 export function GroomingIntakeForm({
-  appointmentId,
+  appointmentId: _appointmentId,
   petName,
   initialData,
   onSave,
@@ -179,10 +180,11 @@ export function GroomingIntakeForm({
                     key={idx}
                     className="relative aspect-square rounded-lg overflow-hidden border"
                   >
-                    <img
+                    <Image
                       src={photo}
                       alt={`Before photo ${idx + 1}`}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                     />
                   </div>
                 ))}
@@ -334,10 +336,11 @@ export function GroomingIntakeForm({
                 key={idx}
                 className="relative aspect-square rounded-lg overflow-hidden border group"
               >
-                <img
+                <Image
                   src={photo}
                   alt={`Before photo ${idx + 1}`}
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                 />
                 {!readOnly && (
                   <button

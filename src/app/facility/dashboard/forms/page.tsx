@@ -63,7 +63,7 @@ export default function IntakeFormsPage() {
   const router = useRouter();
   const allForms = getFormsByFacility(FACILITY_ID);
   const formsInCategory = allForms.filter((f) => f.type === category);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   const _refresh = refreshKey; // force re-render on state change
 
   return (

@@ -63,7 +63,7 @@ export function CreateFormModal({
   const [themeColor, setThemeColor] = useState("");
   const [petTypes, setPetTypes] = useState<string[]>([]);
   const [serviceTypes, setServiceTypes] = useState<string[]>([]);
-  const [locationIds, setLocationIds] = useState<string[]>([]);
+  const [locationIds, _setLocationIds] = useState<string[]>([]);
 
   const togglePetType = (p: string) => {
     setPetTypes((prev) =>

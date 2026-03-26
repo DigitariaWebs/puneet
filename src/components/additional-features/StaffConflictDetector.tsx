@@ -10,9 +10,6 @@ import {
   Info,
   CheckCircle,
   X,
-  UserX,
-  Clock,
-  Users,
   Ban,
   Edit,
   ArrowRightLeft,
@@ -79,7 +76,7 @@ export function StaffConflictDetector({
 }: StaffConflictDetectorProps) {
   const [resolvedIds, setResolvedIds] = useState<Set<string>>(new Set());
   const [isReassignModalOpen, setIsReassignModalOpen] = useState(false);
-  const [isEditShiftModalOpen, setIsEditShiftModalOpen] = useState(false);
+  const [_isEditShiftModalOpen, _setIsEditShiftModalOpen] = useState(false);
   const [isIgnoreModalOpen, setIsIgnoreModalOpen] = useState(false);
   const [selectedConflict, setSelectedConflict] = useState<Conflict | null>(
     null,
@@ -88,8 +85,8 @@ export function StaffConflictDetector({
   const [ignoreReason, setIgnoreReason] = useState("");
 
   // Detect all conflicts
-  const detectAllConflicts = (): Conflict[] => {
-    const allConflicts: Conflict[] = [];
+  const allConflicts = useMemo((): Conflict[] => {
+    const conflicts: Conflict[] = [];
 
     schedules
       .filter((s) => s.status === "scheduled")
@@ -119,7 +116,7 @@ export function StaffConflictDetector({
           );
 
           const staffMember = staff.find((s) => s.id === shift.staffId);
-          allConflicts.push({
+          conflicts.push({
             id: `conflict-${shift.id}-${isDoubleBooking ? "double" : "overlap"}`,
             shiftId: shift.id,
             staffId: shift.staffId,
@@ -149,7 +146,7 @@ export function StaffConflictDetector({
 
         if (approvedTimeOff) {
           const staffMember = staff.find((s) => s.id === shift.staffId);
-          allConflicts.push({
+          conflicts.push({
             id: `conflict-${shift.id}-timeoff`,
             shiftId: shift.id,
             staffId: shift.staffId,
@@ -171,7 +168,7 @@ export function StaffConflictDetector({
           staffMember?.role &&
           shift.role !== staffMember.role
         ) {
-          allConflicts.push({
+          conflicts.push({
             id: `conflict-${shift.id}-role`,
             shiftId: shift.id,
             staffId: shift.staffId,
@@ -208,7 +205,7 @@ export function StaffConflictDetector({
 
         const maxHoursPerDay = 12;
         if (dailyHours > maxHoursPerDay) {
-          allConflicts.push({
+          conflicts.push({
             id: `conflict-${shift.id}-maxhours`,
             shiftId: shift.id,
             staffId: shift.staffId,
@@ -229,7 +226,7 @@ export function StaffConflictDetector({
 
         const nextDay = new Date(shift.date);
         nextDay.setDate(nextDay.getDate() + 1);
-        const nextDayStr = nextDay.toISOString().split("T")[0];
+        // nextDayStr reserved for future next-day conflict detection
 
         const previousDayShifts = schedules.filter((s) => {
           if (s.staffId !== shift.staffId || s.date !== previousDayStr)
@@ -240,7 +237,6 @@ export function StaffConflictDetector({
         const minRestHours = 8;
         const minRestMinutes = minRestHours * 60;
         const shiftStart = startHour * 60 + startMin;
-        const shiftEnd = endHour * 60 + endMin;
 
         if (previousDayShifts.length > 0) {
           const lastShift = previousDayShifts.reduce((latest, s) => {
@@ -260,7 +256,7 @@ export function StaffConflictDetector({
           const restMinutes = 24 * 60 - lastEndMinutes + shiftStart;
 
           if (restMinutes < minRestMinutes) {
-            allConflicts.push({
+            conflicts.push({
               id: `conflict-${shift.id}-minrest`,
               shiftId: shift.id,
               staffId: shift.staffId,
@@ -279,7 +275,7 @@ export function StaffConflictDetector({
       });
 
     // Remove duplicates
-    const uniqueConflicts = allConflicts.filter(
+    const uniqueConflicts = conflicts.filter(
       (conflict, index, self) =>
         index ===
         self.findIndex(
@@ -291,12 +287,7 @@ export function StaffConflictDetector({
     );
 
     return uniqueConflicts;
-  };
-
-  const allConflicts = useMemo(
-    () => detectAllConflicts(),
-    [schedules, staff, timeOffRequests],
-  );
+  }, [schedules, staff, timeOffRequests]);
   const activeConflicts = allConflicts.filter(
     (conflict) => !resolvedIds.has(conflict.id),
   );

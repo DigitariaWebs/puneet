@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -79,8 +80,8 @@ export default function ChangePasswordPage() {
 
   // Placeholder function - replace with actual API call
   const changePassword = async (
-    currentPassword: string,
-    newPassword: string,
+    _currentPassword: string,
+    _newPassword: string,
   ) => {
     // TODO: API call to change password
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -91,7 +92,13 @@ export default function ChangePasswordPage() {
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
           <div className="flex justify-center mb-4">
-            <img src="/yipyy-transparent.png" alt="Yipyy" className="h-12" />
+            <Image
+              src="/yipyy-transparent.png"
+              alt="Yipyy"
+              width={120}
+              height={48}
+              className="h-12 w-auto"
+            />
           </div>
           <CardTitle className="text-2xl font-bold">Change password</CardTitle>
           <CardDescription>Update your account password</CardDescription>

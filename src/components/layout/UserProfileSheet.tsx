@@ -29,7 +29,6 @@ import {
   X,
   User,
   Settings,
-  ArrowRightLeft,
   Building2,
   Shield,
 } from "lucide-react";

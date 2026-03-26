@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState, useEffect } from "react";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
 import {
@@ -22,27 +23,20 @@ import {
   Gift,
   TrendingUp,
   Clock,
-  CheckCircle,
   UserPlus,
-  ExternalLink,
   Info,
   Mail,
   MessageSquare,
   X,
 } from "lucide-react";
 import { toast } from "sonner";
-import { referralCodes, type ReferralCode } from "@/data/marketing";
+import { referralCodes } from "@/data/marketing";
 import { getFacilityLoyaltyConfig } from "@/data/facility-loyalty-config";
 import { clients } from "@/data/clients";
-import { bookings } from "@/data/bookings";
-import { payments } from "@/data/payments";
 import {
   getReferralRelationshipsByReferrer,
   getReferralStats,
-  type ReferralRelationship,
 } from "@/data/referral-tracking";
-import { LoyaltyModuleGuard } from "@/components/loyalty/LoyaltyModuleGuard";
-import { ConditionalLoyaltyFeature } from "@/components/loyalty/ConditionalLoyaltyFeature";
 import { useCustomerLoyaltyAccess } from "@/hooks/use-loyalty-config";
 // QR Code will be generated using an external service or canvas
 
@@ -73,12 +67,6 @@ export default function CustomerReferPage() {
   useEffect(() => {
     setIsMounted(true);
   }, []);
-
-  // Get customer data
-  const customer = useMemo(
-    () => clients.find((c) => c.id === MOCK_CUSTOMER_ID),
-    [],
-  );
 
   // Get facility loyalty config
   const loyaltyConfig = useMemo(() => {
@@ -181,7 +169,7 @@ export default function CustomerReferPage() {
       setCopiedLink(true);
       toast.success("Referral link copied to clipboard!");
       setTimeout(() => setCopiedLink(false), 2000);
-    } catch (err) {
+    } catch {
       toast.error("Failed to copy link");
     }
   };
@@ -207,7 +195,7 @@ export default function CustomerReferPage() {
       try {
         await navigator.share(shareData);
         toast.success("Shared successfully!");
-      } catch (err) {
+      } catch {
         // User cancelled or error occurred
         handleCopyLink();
       }
@@ -512,10 +500,13 @@ export default function CustomerReferPage() {
                 {showQRCode && referralUrl && (
                   <div className="flex flex-col items-center p-4 bg-muted rounded-lg">
                     <div className="w-[200px] h-[200px] bg-white p-4 rounded-lg border-2 border-border flex items-center justify-center">
-                      <img
+                      <Image
                         src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(referralUrl)}`}
                         alt="QR Code"
+                        width={200}
+                        height={200}
                         className="w-full h-full"
+                        unoptimized
                       />
                     </div>
                     <p className="text-sm text-muted-foreground mt-2">

@@ -205,7 +205,7 @@ export function EnablementScopeSection({
                   Custom Services
                 </Label>
               </div>
-              {customServices.map((serviceConfig, index) => {
+              {customServices.map((serviceConfig, _index) => {
                 const actualIndex = config.serviceConfigs.findIndex(
                   (sc) => sc === serviceConfig,
                 );

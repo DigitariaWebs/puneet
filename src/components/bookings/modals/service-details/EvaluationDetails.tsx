@@ -143,17 +143,20 @@ export function EvaluationDetails({
     return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
   };
 
-  const timeWindows =
-    evaluation.schedule.timeWindows.length > 0
-      ? evaluation.schedule.timeWindows
-      : [
-          {
-            id: "all-day",
-            label: "All day",
-            startTime: "00:00",
-            endTime: "23:59",
-          },
-        ];
+  const timeWindows = React.useMemo(
+    () =>
+      evaluation.schedule.timeWindows.length > 0
+        ? evaluation.schedule.timeWindows
+        : [
+            {
+              id: "all-day",
+              label: "All day",
+              startTime: "00:00",
+              endTime: "23:59",
+            },
+          ],
+    [evaluation.schedule.timeWindows],
+  );
 
   const slots = React.useMemo(() => {
     const duration = selectedDuration || defaultDuration;

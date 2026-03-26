@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -119,18 +120,18 @@ export default function SignUpPage() {
   };
 
   // Placeholder functions - replace with actual API calls
-  const checkExistingCustomer = async (email: string) => {
+  const checkExistingCustomer = async (_email: string) => {
     // TODO: API call to check if customer exists
     await new Promise((resolve) => setTimeout(resolve, 500));
     return false; // Mock: no existing customer
   };
 
-  const linkAccount = async (email: string, password: string) => {
+  const linkAccount = async (_email: string, _password: string) => {
     // TODO: API call to link account
     await new Promise((resolve) => setTimeout(resolve, 1000));
   };
 
-  const createAccount = async (data: typeof formData) => {
+  const createAccount = async (_data: typeof formData) => {
     // TODO: API call to create account
     await new Promise((resolve) => setTimeout(resolve, 1000));
   };
@@ -141,12 +142,12 @@ export default function SignUpPage() {
     return { email: "user@example.com", name: "User Name" };
   };
 
-  const linkGoogleAccount = async (googleUser: any) => {
+  const linkGoogleAccount = async (_googleUser: any) => {
     // TODO: API call to link Google account
     await new Promise((resolve) => setTimeout(resolve, 1000));
   };
 
-  const createAccountWithGoogle = async (googleUser: any) => {
+  const createAccountWithGoogle = async (_googleUser: any) => {
     // TODO: API call to create account with Google
     await new Promise((resolve) => setTimeout(resolve, 1000));
   };
@@ -156,7 +157,13 @@ export default function SignUpPage() {
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
           <div className="flex justify-center mb-4">
-            <img src="/yipyy-transparent.png" alt="Yipyy" className="h-12" />
+            <Image
+              src="/yipyy-transparent.png"
+              alt="Yipyy"
+              width={120}
+              height={48}
+              className="h-12 w-auto"
+            />
           </div>
           <CardTitle className="text-2xl font-bold">
             Create your account

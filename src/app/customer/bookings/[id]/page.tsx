@@ -42,7 +42,7 @@ export default function BookingDetailPage({
 }) {
   const { id } = use(params);
   const router = useRouter();
-  const { selectedFacility } = useCustomerFacility();
+  const { selectedFacility: _selectedFacility } = useCustomerFacility();
 
   const booking = useMemo(() => {
     return bookings.find(

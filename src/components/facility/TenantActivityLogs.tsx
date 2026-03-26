@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useMemo } from "react";
@@ -66,6 +65,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
+import type { PieLabelRenderProps } from "recharts";
 
 interface TenantActivityLogsProps {
   facilityId: number;
@@ -177,8 +177,20 @@ export function TenantActivityLogs({
     }
   };
 
+  type BadgeVariant =
+    | "default"
+    | "secondary"
+    | "destructive"
+    | "success"
+    | "warning"
+    | "info"
+    | "outline";
+
   const getSeverityBadge = (severity: string) => {
-    const variants: Record<string, { variant: any; className: string }> = {
+    const variants: Record<
+      string,
+      { variant: BadgeVariant; className: string }
+    > = {
       Low: { variant: "secondary", className: "bg-blue-100 text-blue-700" },
       Medium: {
         variant: "secondary",
@@ -202,7 +214,7 @@ export function TenantActivityLogs({
   };
 
   const getStatusBadge = (status: string) => {
-    const variants: Record<string, any> = {
+    const variants: Record<string, BadgeVariant> = {
       Success: "default",
       Failed: "destructive",
       Pending: "secondary",
@@ -489,9 +501,13 @@ export function TenantActivityLogs({
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    label={(entry: any) =>
-                      `${entry.type}: ${entry.percentage}%`
-                    }
+                    label={(props: PieLabelRenderProps) => {
+                      const entry = props as PieLabelRenderProps & {
+                        type: string;
+                        percentage: number;
+                      };
+                      return `${entry.type}: ${entry.percentage}%`;
+                    }}
                     outerRadius={90}
                     fill="#8884d8"
                     dataKey="count"

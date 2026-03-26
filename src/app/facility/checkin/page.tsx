@@ -161,7 +161,7 @@ function CheckInContent() {
       ) {
         toast.info("Add-ons will be added to invoice per facility rules.");
       }
-    } catch (e) {
+    } catch {
       toast.error("Check-in failed");
     } finally {
       setCheckingIn(false);

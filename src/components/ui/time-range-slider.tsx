@@ -59,7 +59,10 @@ export function TimeRangeSlider({
 
   const clamp = (n: number, lo: number, hi: number) =>
     Math.max(lo, Math.min(hi, n));
-  const snap = (minutes: number) => Math.round(minutes / step) * step;
+  const snap = useCallback(
+    (minutes: number) => Math.round(minutes / step) * step,
+    [step],
+  );
 
   const startMinMinutes = dropOffWindow
     ? timeToMinutes(dropOffWindow.min)
@@ -104,6 +107,7 @@ export function TimeRangeSlider({
       onTimeChange(minutesToTime(s), minutesToTime(e));
     },
     [
+      snap,
       startMinMinutes,
       startMaxMinutes,
       endMinMinutes,
@@ -113,10 +117,13 @@ export function TimeRangeSlider({
     ],
   );
 
-  const percentToMinutes = (percent: number) => {
-    const m = trackMin + (percent / 100) * trackSpan;
-    return snap(Math.round(m));
-  };
+  const percentToMinutes = useCallback(
+    (percent: number) => {
+      const m = trackMin + (percent / 100) * trackSpan;
+      return snap(Math.round(m));
+    },
+    [trackMin, trackSpan, snap],
+  );
 
   const handleTrackClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!trackRef.current) return;
@@ -129,7 +136,6 @@ export function TimeRangeSlider({
     const distToStart = Math.abs(clickedMinutes - startMinutes);
     const distToEnd = Math.abs(clickedMinutes - endMinutes);
     if (distToStart <= distToEnd) {
-      const newEnd = Math.max(startMinutes + step, endMinutes);
       if (clickedMinutes >= endMinMinutes && clickedMinutes <= endMaxMinutes)
         enforceAndEmit(startMinutes, clickedMinutes);
       else if (clickedMinutes < startMinutes)
@@ -171,7 +177,18 @@ export function TimeRangeSlider({
         if (newEnd > startMinutes + step) enforceAndEmit(startMinutes, newEnd);
       }
     },
-    [dragging, enforceAndEmit, endMinutes, startMinutes, step],
+    [
+      dragging,
+      enforceAndEmit,
+      endMinutes,
+      startMinutes,
+      step,
+      percentToMinutes,
+      startMinMinutes,
+      startMaxMinutes,
+      endMinMinutes,
+      endMaxMinutes,
+    ],
   );
 
   useEffect(() => {

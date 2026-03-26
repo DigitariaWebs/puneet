@@ -31,7 +31,6 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   ArrowLeft,
   Lock,
-  CheckCircle2,
   AlertCircle,
   Loader2,
   Clock,
@@ -119,7 +118,7 @@ export default function YipyyGoFormPage({
     }
 
     return checkFormDeadline(deadline.toISOString());
-  }, [booking, yipyyGoConfig]);
+  }, [booking, yipyyGoConfig, DEV_MODE]);
 
   // Initialize form data
   useEffect(() => {
@@ -169,17 +168,13 @@ export default function YipyyGoFormPage({
     } else {
       setAuthState("login");
     }
-  }, [booking, pet, customer, yipyyGoConfig, deadlineInfo]);
+  }, [booking, pet, customer, yipyyGoConfig, deadlineInfo, DEV_MODE]);
 
   // Handle verification code request
   const handleRequestCode = async () => {
     if (!booking || !customer) return;
 
-    const code = generateVerificationCode(
-      booking.id,
-      customer.email,
-      customer.phone,
-    );
+    generateVerificationCode(booking.id, customer.email, customer.phone);
     setCodeSent(true);
     toast.success("Verification code sent to your email/SMS");
   };

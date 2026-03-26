@@ -5,7 +5,6 @@
  */
 
 import { facilityConfig } from "@/data/facility-config";
-import { triggerFormEvent } from "@/lib/form-automation-events";
 
 const customerNotify = facilityConfig.notifications?.forms?.customer;
 

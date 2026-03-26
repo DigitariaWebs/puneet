@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useSearchParams } from "next/navigation";
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import {
   getFormBySlug,
   shouldShowQuestion,
@@ -55,7 +55,7 @@ export default function PublicFormPage() {
   const searchParams = useSearchParams();
   const slug = params?.slug as string | undefined;
 
-  const [form, setForm] = useState<Form | null>(() =>
+  const [form, _setForm] = useState<Form | null>(() =>
     slug ? (getFormBySlug(slug) ?? null) : null,
   );
   const [answers, setAnswers] = useState<Record<string, unknown>>({});
@@ -88,7 +88,7 @@ export default function PublicFormPage() {
 
   // Feature 3: Multi-Pet Support state
   const [selectedPetIds, setSelectedPetIds] = useState<number[]>([]);
-  const [currentPetIndex, setCurrentPetIndex] = useState(0);
+  const [currentPetIndex, _setCurrentPetIndex] = useState(0);
   const [multiPetSubmitting, setMultiPetSubmitting] = useState(false);
   const [multiPetSubmittedCount, setMultiPetSubmittedCount] = useState(0);
 
@@ -107,18 +107,26 @@ export default function PublicFormPage() {
     } catch {
       // ignore
     }
-  }, [form?.id]);
+  }, [form]);
 
-  const context = {
-    petType: searchParams?.get("petType") ?? undefined,
-    serviceType: searchParams?.get("service") ?? undefined,
-    evaluationStatus: searchParams?.get("evaluationStatus") ?? undefined,
-  };
+  const context = useMemo(
+    () => ({
+      petType: searchParams?.get("petType") ?? undefined,
+      serviceType: searchParams?.get("service") ?? undefined,
+      evaluationStatus: searchParams?.get("evaluationStatus") ?? undefined,
+    }),
+    [searchParams],
+  );
   const linkPetId = searchParams?.get("petId");
   const linkCustomerId = searchParams?.get("customerId");
-  const petIds = linkPetId
-    ? [parseInt(linkPetId, 10)].filter((n) => !Number.isNaN(n))
-    : undefined;
+  const petIds = useMemo(
+    () =>
+      linkPetId
+        ? [parseInt(linkPetId, 10)].filter((n) => !Number.isNaN(n))
+        : undefined,
+    [linkPetId],
+  );
+  const firstPetId = petIds?.[0];
   const customerId = linkCustomerId ? parseInt(linkCustomerId, 10) : undefined;
 
   // Feature 3: Look up customer pets for multi-pet support
@@ -126,12 +134,15 @@ export default function PublicFormPage() {
   const customerRecord = customerId
     ? clients.find((c) => c.id === customerId)
     : undefined;
-  const customerPets: Pet[] =
-    customerRecord?.pets?.map((p) => ({
-      id: p.id,
-      name: p.name,
-      type: p.type,
-    })) ?? [];
+  const customerPets: Pet[] = useMemo(
+    () =>
+      customerRecord?.pets?.map((p) => ({
+        id: p.id,
+        name: p.name,
+        type: p.type,
+      })) ?? [],
+    [customerRecord?.pets],
+  );
   const isMultiPet = repeatPerPet && !!customerId && customerPets.length > 0;
 
   // Auto-select single pet
@@ -143,20 +154,28 @@ export default function PublicFormPage() {
     ) {
       setSelectedPetIds([customerPets[0].id]);
     }
-  }, [isMultiPet, customerPets.length]);
+  }, [isMultiPet, customerPets, selectedPetIds.length]);
 
   // Evaluate logic rules to determine hide/require/end effects
-  const logicEffects = form?.logicRules?.length
-    ? evaluateLogicRules(form.logicRules, answers)
-    : null;
+  const logicEffects = useMemo(
+    () =>
+      form?.logicRules?.length
+        ? evaluateLogicRules(form.logicRules, answers)
+        : null,
+    [form?.logicRules, answers],
+  );
 
-  const visibleQuestions = form
-    ? form.questions.filter((q) => {
-        if (!shouldShowQuestion(q, answers, context)) return false;
-        if (logicEffects?.hiddenQuestionIds.has(q.id)) return false;
-        return true;
-      })
-    : [];
+  const visibleQuestions = useMemo(
+    () =>
+      form
+        ? form.questions.filter((q) => {
+            if (!shouldShowQuestion(q, answers, context)) return false;
+            if (logicEffects?.hiddenQuestionIds.has(q.id)) return false;
+            return true;
+          })
+        : [],
+    [form, answers, context, logicEffects],
+  );
 
   const setAnswer = useCallback((questionId: string, value: unknown) => {
     setAnswers((prev) => ({ ...prev, [questionId]: value }));
@@ -174,14 +193,14 @@ export default function PublicFormPage() {
       customerId,
       petIds,
     });
-  }, [form?.id, form?.facilityId, form?.name, customerId, petIds]);
+  }, [form, customerId, petIds]);
 
   // Load draft on mount (client-only)
   useEffect(() => {
     if (!form || typeof window === "undefined" || draftLoadedRef.current)
       return;
     draftLoadedRef.current = true;
-    const key = draftKey(form.id, petIds?.[0], customerId);
+    const key = draftKey(form.id, firstPetId, customerId);
     try {
       const raw = localStorage.getItem(key);
       if (raw) {
@@ -191,12 +210,12 @@ export default function PublicFormPage() {
     } catch {
       // ignore invalid draft
     }
-  }, [form?.id, petIds?.[0], customerId]);
+  }, [form, firstPetId, customerId]);
 
   // Autosave draft (debounced) with saved indicator
   useEffect(() => {
     if (!form || typeof window === "undefined" || submitted) return;
-    const key = draftKey(form.id, petIds?.[0], customerId);
+    const key = draftKey(form.id, firstPetId, customerId);
     const t = setTimeout(() => {
       try {
         if (Object.keys(answers).length > 0) {
@@ -211,7 +230,7 @@ export default function PublicFormPage() {
       }
     }, 800);
     return () => clearTimeout(t);
-  }, [form?.id, answers, submitted, petIds?.[0], customerId]);
+  }, [form, answers, submitted, firstPetId, customerId]);
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
@@ -305,7 +324,7 @@ export default function PublicFormPage() {
 
       try {
         if (typeof window !== "undefined") {
-          localStorage.removeItem(draftKey(form.id, petIds?.[0], customerId));
+          localStorage.removeItem(draftKey(form.id, firstPetId, customerId));
         }
       } catch {}
       setIsEditing(false);
@@ -318,9 +337,12 @@ export default function PublicFormPage() {
       context,
       customerId,
       petIds,
+      firstPetId,
       isEditing,
       isMultiPet,
       selectedPetIds,
+      logicEffects?.alertFlag,
+      logicEffects?.requiredQuestionIds,
     ],
   );
 
@@ -360,7 +382,7 @@ export default function PublicFormPage() {
         // ignore
       }
     }
-  }, [authCode, form?.id]);
+  }, [authCode, form]);
 
   if (!slug) {
     return (

@@ -65,13 +65,10 @@ import {
   products,
   getActiveSuppliers,
   getPendingOrders,
-  getTransactionById,
   createReturn,
   createStoreCredit,
   createGiftCard,
-  getStoreCreditBalance,
   customPaymentMethods,
-  returns,
   inventoryMovements,
   type PurchaseOrder,
   type Supplier,
@@ -81,7 +78,6 @@ import {
   type ReturnItem,
   type RefundMethod,
   type ReturnReason,
-  type CustomPaymentMethod,
   type CartItem,
   getAllTransactions,
   type InventoryMovement,
@@ -639,7 +635,7 @@ export default function OrdersPage() {
                 return;
               }
             }
-          } catch (error) {
+          } catch {
             refundError = "Error processing Fiserv refund";
             if (!canOverrideRefund) {
               alert(
@@ -685,7 +681,7 @@ export default function OrdersPage() {
                 return;
               }
             }
-          } catch (error) {
+          } catch {
             refundError = "Error processing Fiserv refund";
             if (!canOverrideRefund) {
               alert(
@@ -726,7 +722,7 @@ export default function OrdersPage() {
               return;
             }
           }
-        } catch (error) {
+        } catch {
           refundError = "Error processing Fiserv refund";
           if (!canOverrideRefund) {
             alert(
@@ -2785,7 +2781,7 @@ export default function OrdersPage() {
                   </div>
                 </div>
 
-                {receivingForm.items.map((item, index) => {
+                {receivingForm.items.map((item) => {
                   const orderItem = selectedOrder.items.find(
                     (oi) => oi.sku === item.sku,
                   );

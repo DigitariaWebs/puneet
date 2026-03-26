@@ -24,7 +24,6 @@ import {
   FileEdit,
   AlertCircle,
   ArrowRight,
-  Dog,
 } from "lucide-react";
 
 const MOCK_CUSTOMER_ID = 15;

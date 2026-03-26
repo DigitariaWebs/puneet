@@ -1,20 +1,15 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useMemo, useEffect } from "react";
 import { useGroomingValidation } from "@/hooks/use-grooming-validation";
 import { clients } from "@/data/clients";
 import { bookings } from "@/data/bookings";
 import { vaccinationRecords } from "@/data/pet-data";
-import { stylists, type Stylist } from "@/data/grooming";
+import { stylists } from "@/data/grooming";
 import { locations } from "@/data/settings";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
@@ -45,12 +40,10 @@ import {
   AlertTriangle,
   Image as ImageIcon,
   X,
-  User,
   Star,
   MapPin,
   Truck,
   Building2,
-  Navigation,
   Loader2,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -432,7 +425,11 @@ export function GroomingBookingFlow({
   onOpenChange,
 }: GroomingBookingFlowProps) {
   const router = useRouter();
-  const { validation, isAvailable, config } = useGroomingValidation();
+  const {
+    validation: _validation,
+    isAvailable,
+    config,
+  } = useGroomingValidation();
   const { selectedFacility } = useCustomerFacility();
   const [currentStep, setCurrentStep] = useState<
     1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
@@ -471,7 +468,7 @@ export function GroomingBookingFlow({
   } | null>(null);
   const [customNotes, setCustomNotes] = useState("");
   const [customPhotos, setCustomPhotos] = useState<File[]>([]);
-  const [showAddPet, setShowAddPet] = useState(false);
+  const [_showAddPet, _setShowAddPet] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
   // Edge case handling states
@@ -982,7 +979,7 @@ export function GroomingBookingFlow({
 
   // Calculate final price with discounts and groomer surcharge
   const finalPrice = useMemo(() => {
-    let price = totalPriceWithAddOns + groomerSurcharge;
+    const price = totalPriceWithAddOns + groomerSurcharge;
     let discount = 0;
     let discountReason = "";
 
@@ -1302,26 +1299,39 @@ export function GroomingBookingFlow({
     );
   };
 
-  // Load booking progress from localStorage (only on client)
-  const loadBookingProgress = () => {
-    if (!isMounted || typeof window === "undefined") return null;
-    const stored = localStorage.getItem(
-      `grooming_booking_progress_${MOCK_CUSTOMER_ID}`,
-    );
-    if (!stored) return null;
-
-    try {
-      return JSON.parse(stored);
-    } catch {
-      return null;
-    }
-  };
-
   // Check if booking was abandoned (progress saved but not completed)
   useEffect(() => {
     if (!isMounted) return;
     if (open && currentStep === 1) {
-      const progress = loadBookingProgress();
+      // Load booking progress from localStorage (only on client)
+      const stored =
+        typeof window !== "undefined"
+          ? localStorage.getItem(
+              `grooming_booking_progress_${MOCK_CUSTOMER_ID}`,
+            )
+          : null;
+
+      interface BookingProgress {
+        petId: number;
+        serviceCategory?: string;
+        variant?: string;
+        addOns?: string[];
+        groomerId?: string;
+        groomerName?: string;
+        groomerTier?: string;
+        step: number;
+        timestamp: string;
+      }
+
+      let progress: BookingProgress | null = null;
+      if (stored) {
+        try {
+          progress = JSON.parse(stored) as BookingProgress;
+        } catch {
+          progress = null;
+        }
+      }
+
       if (progress && progress.step >= 5) {
         const progressDate = new Date(progress.timestamp);
         const hoursSinceProgress =
@@ -1332,7 +1342,7 @@ export function GroomingBookingFlow({
           // Schedule reminder email (in production, this would be handled by backend)
           import("@/lib/grooming-post-booking").then(
             ({ scheduleAbandonedBookingReminder }) => {
-              scheduleAbandonedBookingReminder(progress);
+              scheduleAbandonedBookingReminder(progress!);
             },
           );
         }
@@ -1867,12 +1877,12 @@ export function GroomingBookingFlow({
       await new Promise((resolve) => setTimeout(resolve, 1500));
       setPhoneVerificationSent(true);
       setFormErrors((prev) => {
-        const { phone, ...rest } = prev;
+        const { phone: _phone, ...rest } = prev;
         return rest;
       });
       // Mock: In production, this would come from the API
       // For demo purposes, we'll use a fixed code
-    } catch (error) {
+    } catch {
       setFormErrors((prev) => ({
         ...prev,
         phone: "Failed to send verification code. Please try again.",
@@ -1900,7 +1910,7 @@ export function GroomingBookingFlow({
       if (phoneVerificationCode.length === 6) {
         setPhoneVerified(true);
         setFormErrors((prev) => {
-          const { verificationCode, ...rest } = prev;
+          const { verificationCode: _verificationCode, ...rest } = prev;
           return rest;
         });
       } else {
@@ -1909,7 +1919,7 @@ export function GroomingBookingFlow({
           verificationCode: "Invalid code. Please try again.",
         }));
       }
-    } catch (error) {
+    } catch {
       setFormErrors((prev) => ({
         ...prev,
         verificationCode: "Verification failed. Please try again.",
@@ -2235,8 +2245,7 @@ export function GroomingBookingFlow({
       };
 
       // Execute immediate post-booking actions
-      const postBookingResult =
-        await handleImmediatePostBookingActions(bookingData);
+      await handleImmediatePostBookingActions(bookingData);
 
       // Schedule 24-hour reminder
       await schedule24HourReminder(bookingData);
@@ -2288,7 +2297,7 @@ export function GroomingBookingFlow({
       }
       setPetCoatPhoto(file);
       setFormErrors((prev) => {
-        const { coatPhoto, ...rest } = prev;
+        const { coatPhoto: _coatPhoto, ...rest } = prev;
         return rest;
       });
     }
@@ -2361,9 +2370,11 @@ export function GroomingBookingFlow({
                             {/* Pet Image */}
                             <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center overflow-hidden shrink-0 border-2 border-border">
                               {pet.imageUrl ? (
-                                <img
+                                <Image
                                   src={pet.imageUrl}
                                   alt={pet.name}
+                                  width={80}
+                                  height={80}
                                   className="w-full h-full object-cover"
                                 />
                               ) : (
@@ -2812,10 +2823,12 @@ export function GroomingBookingFlow({
                                             key={index}
                                             className="relative aspect-square rounded-lg overflow-hidden border"
                                           >
-                                            <img
+                                            <Image
                                               src={URL.createObjectURL(photo)}
                                               alt={`Reference ${index + 1}`}
-                                              className="w-full h-full object-cover"
+                                              fill
+                                              className="object-cover"
+                                              unoptimized
                                             />
                                             <Button
                                               variant="destructive"
@@ -3208,9 +3221,11 @@ export function GroomingBookingFlow({
                             {/* Groomer Photo */}
                             <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center overflow-hidden shrink-0 border-2 border-border">
                               {groomer.photoUrl ? (
-                                <img
+                                <Image
                                   src={groomer.photoUrl}
                                   alt={groomer.name}
+                                  width={64}
+                                  height={64}
                                   className="w-full h-full object-cover"
                                 />
                               ) : (
@@ -4579,7 +4594,7 @@ export function GroomingBookingFlow({
                     onChange={(e) => {
                       setClientName(e.target.value);
                       setFormErrors((prev) => {
-                        const { name, ...rest } = prev;
+                        const { name: _name, ...rest } = prev;
                         return rest;
                       });
                     }}
@@ -4603,7 +4618,7 @@ export function GroomingBookingFlow({
                     onChange={(e) => {
                       setClientEmail(e.target.value);
                       setFormErrors((prev) => {
-                        const { email, ...rest } = prev;
+                        const { email: _email, ...rest } = prev;
                         return rest;
                       });
                     }}
@@ -4631,7 +4646,7 @@ export function GroomingBookingFlow({
                       onChange={(e) => {
                         setClientPhone(e.target.value);
                         setFormErrors((prev) => {
-                          const { phone, ...rest } = prev;
+                          const { phone: _phone, ...rest } = prev;
                           return rest;
                         });
                         // Reset verification if phone changes
@@ -4701,7 +4716,10 @@ export function GroomingBookingFlow({
                               .slice(0, 6);
                             setPhoneVerificationCode(value);
                             setFormErrors((prev) => {
-                              const { verificationCode, ...rest } = prev;
+                              const {
+                                verificationCode: _verificationCode,
+                                ...rest
+                              } = prev;
                               return rest;
                             });
                           }}
@@ -4815,10 +4833,12 @@ export function GroomingBookingFlow({
                   ) : (
                     <div className="space-y-2">
                       <div className="relative w-full h-48 rounded-lg overflow-hidden border">
-                        <img
+                        <Image
                           src={URL.createObjectURL(petCoatPhoto)}
                           alt="Pet coat condition"
-                          className="w-full h-full object-cover"
+                          fill
+                          className="object-cover"
+                          unoptimized
                         />
                         <Button
                           type="button"
@@ -4863,7 +4883,10 @@ export function GroomingBookingFlow({
                     onChange={(e) => {
                       setSpecialInstructions(e.target.value);
                       setFormErrors((prev) => {
-                        const { specialInstructions, ...rest } = prev;
+                        const {
+                          specialInstructions: _specialInstructions,
+                          ...rest
+                        } = prev;
                         return rest;
                       });
                     }}
@@ -5120,7 +5143,7 @@ export function GroomingBookingFlow({
                       onCheckedChange={(checked) => {
                         setPolicyAccepted(checked === true);
                         setFormErrors((prev) => {
-                          const { policy, ...rest } = prev;
+                          const { policy: _policy, ...rest } = prev;
                           return rest;
                         });
                       }}

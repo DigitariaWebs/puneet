@@ -38,9 +38,6 @@ import {
   getCloverTerminal,
   getYipyyPayConfig,
   getYipyyPayDevicesByFacility,
-  getYipyyPayDevice,
-  type CloverTerminalConfig,
-  type YipyyPayDevice,
 } from "@/data/fiserv-payments";
 import {
   Printer,
@@ -48,7 +45,6 @@ import {
   EthernetPort,
   Bluetooth,
   Smartphone,
-  CheckCircle2,
   Info,
 } from "lucide-react";
 import { locations } from "@/data/settings";
@@ -65,7 +61,7 @@ export default function PaymentSettingsPage() {
   const [config, setConfig] = useState<FiservPaymentConfig | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [hasChanges, setHasChanges] = useState(false);
+  const [_hasChanges, setHasChanges] = useState(false);
 
   useEffect(() => {
     const existingConfig = getFiservConfig(facilityId);

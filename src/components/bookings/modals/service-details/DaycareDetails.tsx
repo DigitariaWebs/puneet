@@ -5,6 +5,7 @@ import { DateSelectionCalendar } from "@/components/ui/date-selection-calendar";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { PawPrint, Check } from "lucide-react";
 import { useSettings } from "@/hooks/use-settings";
@@ -439,11 +440,12 @@ export function DaycareDetails({
                         <div className="relative w-full h-48 overflow-hidden bg-muted">
                           {room.imageUrl ? (
                             <>
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img
+                              <Image
                                 src={room.imageUrl}
                                 alt={room.name}
-                                className="w-full h-full object-cover"
+                                fill
+                                className="object-cover"
+                                unoptimized
                               />
                               {assignedPets.length > 0 && (
                                 <div className="absolute top-2 right-2 bg-primary text-primary-foreground rounded-full px-2 py-1 text-xs font-semibold">
@@ -585,9 +587,11 @@ export function DaycareDetails({
                           totalQuantity > 0 && "ring-2 ring-primary",
                         )}
                       >
-                        <img
+                        <Image
                           src={service.image}
                           alt={service.name}
+                          width={400}
+                          height={128}
                           className="w-full h-32 object-cover"
                         />
                         <CardContent className="p-4 space-y-3">

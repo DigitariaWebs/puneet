@@ -47,7 +47,7 @@ const QUICK_REPLIES = [
 ];
 
 export function ReportCardQuickReply({
-  reportCardId,
+  reportCardId: _reportCardId,
   petName,
   serviceType,
   onReplySent,

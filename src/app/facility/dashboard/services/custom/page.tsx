@@ -64,10 +64,10 @@ const STATUS_COLORS: Record<CustomServiceStatus, string> = {
 function ModuleListRow({
   module,
   onEdit,
-  onDuplicate,
-  onDelete,
-  onToggleStatus,
-  onArchive,
+  onDuplicate: _onDuplicate,
+  onDelete: _onDelete,
+  onToggleStatus: _onToggleStatus,
+  onArchive: _onArchive,
 }: {
   module: CustomServiceModule;
   onEdit: (m: CustomServiceModule) => void;

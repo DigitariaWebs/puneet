@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check, PawPrint } from "lucide-react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useSettings } from "@/hooks/use-settings";
 import { Pet, FeedingScheduleItem, MedicationItem } from "@/lib/types";
@@ -490,10 +491,11 @@ export function BoardingDetails({
                         <div className="relative w-full h-48 overflow-hidden bg-muted">
                           {type.image ? (
                             <>
-                              <img
+                              <Image
                                 src={type.image}
                                 alt={type.name}
-                                className="w-full h-full object-cover"
+                                fill
+                                className="object-cover"
                               />
                               {assignedPets.length > 0 && (
                                 <div className="absolute top-2 right-2 bg-primary text-primary-foreground rounded-full px-2 py-1 text-xs font-semibold">
@@ -643,9 +645,11 @@ export function BoardingDetails({
                           totalQuantity > 0 && "ring-2 ring-primary",
                         )}
                       >
-                        <img
+                        <Image
                           src={service.image}
                           alt={service.name}
+                          width={400}
+                          height={128}
                           className="w-full h-32 object-cover"
                         />
                         <CardContent className="p-4 space-y-3">

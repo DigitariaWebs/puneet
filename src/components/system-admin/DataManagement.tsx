@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -6,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/DataTable";
+import type { ColumnDef } from "@/components/ui/DataTable";
 import {
   Dialog,
   DialogContent,
@@ -28,6 +28,12 @@ import {
   dataRecoveries,
   retentionPolicies,
 } from "@/data/system-administration";
+import type {
+  DataBackup,
+  DataRecovery,
+  RetentionPolicy,
+} from "@/data/system-administration";
+import type { LucideIcon } from "lucide-react";
 import {
   Database,
   HardDrive,
@@ -47,12 +53,23 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 
+type BadgeVariant =
+  | "default"
+  | "secondary"
+  | "destructive"
+  | "success"
+  | "warning"
+  | "info"
+  | "outline";
+
 export function DataManagement() {
   const [showBackupModal, setShowBackupModal] = useState(false);
   const [showRestoreModal, setShowRestoreModal] = useState(false);
   const [showEditPolicyModal, setShowEditPolicyModal] = useState(false);
-  const [selectedBackup, setSelectedBackup] = useState<any>(null);
-  const [selectedPolicy, setSelectedPolicy] = useState<any>(null);
+  const [selectedBackup, setSelectedBackup] = useState<DataBackup | null>(null);
+  const [selectedPolicy, setSelectedPolicy] = useState<RetentionPolicy | null>(
+    null,
+  );
   const [backupInProgress, setBackupInProgress] = useState(false);
   const [backupComplete, setBackupComplete] = useState(false);
   const [restoreInProgress, setRestoreInProgress] = useState(false);
@@ -83,7 +100,7 @@ export function DataManagement() {
     }, 2000);
   };
 
-  const handleDownload = (backup: any) => {
+  const handleDownload = (backup: DataBackup) => {
     // Simulate download
     const blob = new Blob(
       [`Backup: ${backup.backupName}\nDate: ${backup.startTime}`],
@@ -97,7 +114,7 @@ export function DataManagement() {
     document.body.removeChild(link);
   };
 
-  const handleRunPolicy = (policy: any) => {
+  const handleRunPolicy = (policy: RetentionPolicy) => {
     // Simulate running policy
     alert(`Policy "${policy.policyName}" execution started!`);
   };
@@ -105,7 +122,7 @@ export function DataManagement() {
   const getBackupStatusBadge = (status: string) => {
     const variants: Record<
       string,
-      { variant: any; icon: any; className: string }
+      { variant: BadgeVariant; icon: LucideIcon; className: string }
     > = {
       Completed: {
         variant: "default",
@@ -142,7 +159,10 @@ export function DataManagement() {
   };
 
   const getVerificationBadge = (status: string) => {
-    const variants: Record<string, { variant: any; className: string }> = {
+    const variants: Record<
+      string,
+      { variant: BadgeVariant; className: string }
+    > = {
       Verified: {
         variant: "default",
         className: "bg-green-100 text-green-700",
@@ -166,7 +186,10 @@ export function DataManagement() {
   };
 
   const getRecoveryStatusBadge = (status: string) => {
-    const variants: Record<string, { variant: any; className: string }> = {
+    const variants: Record<
+      string,
+      { variant: BadgeVariant; className: string }
+    > = {
       Completed: {
         variant: "default",
         className: "bg-green-100 text-green-700",
@@ -190,7 +213,7 @@ export function DataManagement() {
   };
 
   const getPolicyStatusBadge = (status: string) => {
-    const variants: Record<string, any> = {
+    const variants: Record<string, BadgeVariant> = {
       Active: "default",
       Inactive: "secondary",
       Draft: "outline",
@@ -203,11 +226,11 @@ export function DataManagement() {
   };
 
   // Backup Columns
-  const backupColumns = [
+  const backupColumns: ColumnDef<DataBackup>[] = [
     {
       key: "backupName",
       label: "Backup Name",
-      render: (item: any) => (
+      render: (item) => (
         <div>
           <div className="font-medium">{item.backupName}</div>
           <div className="text-xs text-muted-foreground">
@@ -219,19 +242,19 @@ export function DataManagement() {
     {
       key: "facilityName",
       label: "Facility",
-      render: (item: any) => (
+      render: (item) => (
         <span className="text-sm">{item.facilityName || "All Facilities"}</span>
       ),
     },
     {
       key: "status",
       label: "Status",
-      render: (item: any) => getBackupStatusBadge(item.status),
+      render: (item) => getBackupStatusBadge(item.status),
     },
     {
       key: "startTime",
       label: "Date & Time",
-      render: (item: any) => (
+      render: (item) => (
         <div className="text-sm">
           <div>{new Date(item.startTime).toLocaleDateString()}</div>
           <div className="text-xs text-muted-foreground">
@@ -243,7 +266,7 @@ export function DataManagement() {
     {
       key: "size",
       label: "Size",
-      render: (item: any) => (
+      render: (item) => (
         <span className="font-mono text-sm">
           {item.size >= 1024
             ? `${(item.size / 1024).toFixed(2)} GB`
@@ -254,12 +277,12 @@ export function DataManagement() {
     {
       key: "verificationStatus",
       label: "Verification",
-      render: (item: any) => getVerificationBadge(item.verificationStatus),
+      render: (item) => getVerificationBadge(item.verificationStatus),
     },
     {
       key: "backupMethod",
       label: "Method",
-      render: (item: any) => (
+      render: (item) => (
         <Badge variant="outline" className="text-xs">
           {item.backupMethod}
         </Badge>
@@ -267,7 +290,7 @@ export function DataManagement() {
     },
   ];
 
-  const backupActions = (item: any) => (
+  const backupActions = (item: DataBackup) => (
     <div className="flex gap-2">
       <Button
         variant="ghost"
@@ -294,11 +317,11 @@ export function DataManagement() {
   );
 
   // Recovery Columns
-  const recoveryColumns = [
+  const recoveryColumns: ColumnDef<DataRecovery>[] = [
     {
       key: "recoveryName",
       label: "Recovery Name",
-      render: (item: any) => (
+      render: (item) => (
         <div>
           <div className="font-medium">{item.recoveryName}</div>
           <div className="text-xs text-muted-foreground">
@@ -310,12 +333,12 @@ export function DataManagement() {
     {
       key: "backupName",
       label: "Source Backup",
-      render: (item: any) => <span className="text-sm">{item.backupName}</span>,
+      render: (item) => <span className="text-sm">{item.backupName}</span>,
     },
     {
       key: "requestedBy",
       label: "Requested By",
-      render: (item: any) => (
+      render: (item) => (
         <div>
           <div className="font-medium">{item.requestedBy}</div>
           <div className="text-xs text-muted-foreground">
@@ -327,12 +350,12 @@ export function DataManagement() {
     {
       key: "status",
       label: "Status",
-      render: (item: any) => getRecoveryStatusBadge(item.status),
+      render: (item) => getRecoveryStatusBadge(item.status),
     },
     {
       key: "progress",
       label: "Progress",
-      render: (item: any) => (
+      render: (item) => (
         <div className="w-32">
           <Progress value={item.progress} className="h-2" />
           <p className="text-xs text-muted-foreground mt-1">{item.progress}%</p>
@@ -342,11 +365,11 @@ export function DataManagement() {
   ];
 
   // Retention Policy Columns
-  const policyColumns = [
+  const policyColumns: ColumnDef<RetentionPolicy>[] = [
     {
       key: "policyName",
       label: "Policy Name",
-      render: (item: any) => (
+      render: (item) => (
         <div>
           <div className="font-medium">{item.policyName}</div>
           <div className="text-xs text-muted-foreground">{item.dataType}</div>
@@ -356,7 +379,7 @@ export function DataManagement() {
     {
       key: "retentionPeriod",
       label: "Retention Period",
-      render: (item: any) => (
+      render: (item) => (
         <span className="font-medium">
           {item.retentionPeriod} days ({Math.floor(item.retentionPeriod / 365)}{" "}
           years)
@@ -366,7 +389,7 @@ export function DataManagement() {
     {
       key: "action",
       label: "Action",
-      render: (item: any) => {
+      render: (item) => {
         const colors: Record<string, string> = {
           Archive: "bg-blue-100 text-blue-700",
           Purge: "bg-red-100 text-red-700",
@@ -385,12 +408,12 @@ export function DataManagement() {
     {
       key: "status",
       label: "Status",
-      render: (item: any) => getPolicyStatusBadge(item.status),
+      render: (item) => getPolicyStatusBadge(item.status),
     },
     {
       key: "itemsProcessed",
       label: "Items Processed",
-      render: (item: any) => (
+      render: (item) => (
         <span className="font-semibold">
           {item.itemsProcessed.toLocaleString()}
         </span>
@@ -399,7 +422,7 @@ export function DataManagement() {
     {
       key: "nextExecution",
       label: "Next Execution",
-      render: (item: any) => (
+      render: (item) => (
         <span className="text-sm">
           {new Date(item.nextExecution).toLocaleDateString()}
         </span>
@@ -407,7 +430,7 @@ export function DataManagement() {
     },
   ];
 
-  const policyActions = (item: any) => (
+  const policyActions = (item: RetentionPolicy) => (
     <div className="flex gap-2">
       <Button
         variant="ghost"
@@ -596,9 +619,9 @@ export function DataManagement() {
             </CardHeader>
             <CardContent>
               <DataTable
-                columns={backupColumns as any}
-                data={dataBackups as any}
-                actions={backupActions as any}
+                columns={backupColumns}
+                data={dataBackups}
+                actions={backupActions}
                 searchKey="backupName"
                 searchPlaceholder="Search backups..."
               />
@@ -619,8 +642,8 @@ export function DataManagement() {
             </CardHeader>
             <CardContent>
               <DataTable
-                columns={recoveryColumns as any}
-                data={dataRecoveries as any}
+                columns={recoveryColumns}
+                data={dataRecoveries}
                 searchKey="recoveryName"
                 searchPlaceholder="Search recovery operations..."
               />
@@ -699,9 +722,9 @@ export function DataManagement() {
             </CardHeader>
             <CardContent>
               <DataTable
-                columns={policyColumns as any}
-                data={retentionPolicies as any}
-                actions={policyActions as any}
+                columns={policyColumns}
+                data={retentionPolicies}
+                actions={policyActions}
                 searchKey="policyName"
                 searchPlaceholder="Search policies..."
               />

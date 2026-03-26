@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { CheckCircle, Scissors } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -98,11 +99,12 @@ function AddonCardToggle({
     >
       <div className="h-32 shrink-0 bg-muted relative">
         {addonWithExtras.image ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
+          <Image
             src={addonWithExtras.image}
             alt={addon.name}
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
+            unoptimized
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
@@ -155,13 +157,14 @@ function AddonCardQuantity({
         className,
       )}
     >
-      <div className="h-40 w-full shrink-0 bg-muted">
+      <div className="h-40 w-full shrink-0 bg-muted relative">
         {addon.image ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
+          <Image
             src={addon.image}
             alt={addon.name}
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
+            unoptimized
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-muted" />

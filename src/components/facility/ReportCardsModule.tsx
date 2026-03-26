@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -479,7 +480,7 @@ export function ReportCardsModule({
           ? "They had a high energy level, spending lots of time playing and exploring."
           : "They had a low energy level and appreciated extra rest and quiet breaks throughout the day.";
 
-    const careStatusLines = [
+    const _careStatusLines = [
       `Eating habits: ${appetiteLabels[entryInput.appetite]}`,
       `Potty habits: ${pottyLabels[entryInput.potty]}`,
       `Medication: ${medsLabels[entryInput.meds]}`,
@@ -1378,9 +1379,11 @@ export function ReportCardsModule({
                             key={`${photo}-${index}`}
                             className="w-20 h-20 rounded-lg border overflow-hidden bg-muted"
                           >
-                            <img
+                            <Image
                               src={photo}
                               alt="Report card"
+                              width={80}
+                              height={80}
                               className="h-full w-full object-cover"
                             />
                           </div>
@@ -1503,9 +1506,11 @@ export function ReportCardsModule({
                       <div className="flex items-center gap-3">
                         <div className="h-12 w-12 rounded-lg border bg-white flex items-center justify-center overflow-hidden">
                           {profile.logo ? (
-                            <img
+                            <Image
                               src={profile.logo}
                               alt={`${facilityName} logo`}
+                              width={48}
+                              height={48}
                               className="h-full w-full object-contain"
                             />
                           ) : (
@@ -1678,11 +1683,12 @@ export function ReportCardsModule({
                 <h3 className="font-semibold">Photo Highlight</h3>
                 {viewingCard.photos.length > 0 ? (
                   <div className="space-y-3">
-                    <div className="w-full h-56 rounded-xl overflow-hidden border bg-muted">
-                      <img
+                    <div className="relative w-full h-56 rounded-xl overflow-hidden border bg-muted">
+                      <Image
                         src={viewingCard.photos[0]}
                         alt="Report card hero"
-                        className="h-full w-full object-cover"
+                        fill
+                        className="object-cover"
                       />
                     </div>
                     {viewingCard.photos.length > 1 && (
@@ -1692,9 +1698,11 @@ export function ReportCardsModule({
                             key={`${photo}-${index}`}
                             className="w-20 h-20 rounded-lg border overflow-hidden bg-muted"
                           >
-                            <img
+                            <Image
                               src={photo}
                               alt="Report card thumbnail"
+                              width={80}
+                              height={80}
                               className="h-full w-full object-cover"
                             />
                           </div>

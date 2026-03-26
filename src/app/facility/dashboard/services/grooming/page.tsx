@@ -842,7 +842,7 @@ export default function GroomingCalendarPage() {
                       const selectedPkg = groomingPackages.find(
                         (p) => p.id === value,
                       );
-                      let updatedFormData = { ...formData, packageId: value };
+                      const updatedFormData = { ...formData, packageId: value };
 
                       // Automatically calculate end time based on package duration
                       if (selectedPkg && formData.startTime) {
@@ -853,7 +853,7 @@ export default function GroomingCalendarPage() {
                         const endMinutes = startMinutes + selectedPkg.duration;
                         const endHours = Math.floor(endMinutes / 60);
                         const endMins = endMinutes % 60;
-                        const endTime = `${String(endHours).padStart(2, "0")}:${String(endMins).padStart(2, "0")}`;
+                        const _endTime = `${String(endHours).padStart(2, "0")}:${String(endMins).padStart(2, "0")}`;
                         // Note: endTime is calculated but not stored in formData since it's derived
                         // The endTime will be calculated on save using the package duration
                       }

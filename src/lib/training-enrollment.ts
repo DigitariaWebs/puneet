@@ -4,11 +4,6 @@
  * Defines structures for training enrollments, session attendance, and progress tracking
  */
 
-import {
-  type TrainingSeries,
-  type TrainingSeriesSession,
-} from "./training-series";
-
 export interface TrainingEnrollment {
   id: string;
   seriesId: string;

@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { TimeRangeSlider } from "@/components/ui/time-range-slider";
-import { TimePicker } from "@/components/ui/time-picker";
 import {
   ChevronLeft,
   ChevronRight,

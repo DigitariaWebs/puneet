@@ -36,24 +36,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Plus,
-  Edit,
-  Trash2,
-  Calendar,
-  Users,
-  MapPin,
-  Clock,
-  DollarSign,
-} from "lucide-react";
-import {
-  type TrainingCourseType,
-  defaultTrainingCourseTypes,
-} from "@/lib/training-config";
+import { Plus, Edit, Trash2, Calendar } from "lucide-react";
+import { defaultTrainingCourseTypes } from "@/lib/training-config";
 import { trainers } from "@/data/training";
 import {
   type TrainingSeries,
-  type EnrollmentRules,
   calculateSessionDates,
   generateSeriesSessions,
   getDayName,

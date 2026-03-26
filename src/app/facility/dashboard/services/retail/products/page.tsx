@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import {
   Plus,
   MoreHorizontal,
@@ -762,12 +763,12 @@ export default function ProductsPage() {
                 </div>
                 {formData.imageUrl && (
                   <div className="relative">
-                    <div className="h-20 w-20 rounded-lg border overflow-hidden">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
+                    <div className="relative h-20 w-20 rounded-lg border overflow-hidden">
+                      <Image
                         src={formData.imageUrl}
                         alt="Product preview"
-                        className="h-full w-full object-cover"
+                        fill
+                        className="object-cover"
                         onError={(e) => {
                           (e.target as HTMLImageElement).src =
                             'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect fill="%23f0f0f0" width="80" height="80"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%23999" font-size="10">No image</text></svg>';
@@ -1333,12 +1334,12 @@ export default function ProductsPage() {
                 </div>
                 {variantForm.imageUrl && (
                   <div className="relative">
-                    <div className="h-20 w-20 rounded-lg border overflow-hidden">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
+                    <div className="relative h-20 w-20 rounded-lg border overflow-hidden">
+                      <Image
                         src={variantForm.imageUrl}
                         alt="Variant preview"
-                        className="h-full w-full object-cover"
+                        fill
+                        className="object-cover"
                       />
                     </div>
                     <Button

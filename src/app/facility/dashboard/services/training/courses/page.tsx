@@ -37,14 +37,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Plus,
-  Edit,
-  Trash2,
-  CheckCircle2,
-  XCircle,
-  BookOpen,
-} from "lucide-react";
+import { Plus, Edit, Trash2, CheckCircle2, XCircle } from "lucide-react";
 import {
   type TrainingCourseType,
   defaultTrainingCourseTypes,
@@ -183,7 +176,7 @@ export default function TrainingCourseCatalogPage() {
     );
   }, [courseTypes, editingCourse]);
 
-  const getPrerequisiteNames = (prerequisiteIds: string[]) => {
+  const _getPrerequisiteNames = (prerequisiteIds: string[]) => {
     return prerequisiteIds
       .map((id) => courseTypes.find((c) => c.id === id)?.name)
       .filter(Boolean)

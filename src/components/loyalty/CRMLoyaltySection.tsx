@@ -34,7 +34,7 @@ interface CRMLoyaltySectionProps {
 }
 
 export function CRMLoyaltySection({
-  customerId,
+  customerId: _customerId,
   currentPoints,
   lifetimePoints,
   currentTier,

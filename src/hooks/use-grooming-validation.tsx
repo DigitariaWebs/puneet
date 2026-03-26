@@ -60,7 +60,7 @@ export function useGroomingValidation(requestedDate?: Date) {
         },
       },
     };
-  }, [grooming, requestedDate]);
+  }, [grooming]);
 
   // Perform pre-booking validation (only on client to avoid hydration issues)
   const validation: GroomingPreBookingValidation = useMemo(() => {

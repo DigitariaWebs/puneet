@@ -207,7 +207,7 @@ export default function GroomingBookingRulesPage() {
       // TODO: Save to backend
       await new Promise((resolve) => setTimeout(resolve, 1000));
       toast.success("Booking rules saved successfully");
-    } catch (error) {
+    } catch {
       toast.error("Failed to save booking rules");
     } finally {
       setIsSaving(false);

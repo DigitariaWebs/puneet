@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { TrendingUp, TrendingDown, Gift, Users } from "lucide-react";
 
 interface RevenueReportLoyaltySectionProps {
@@ -28,7 +27,7 @@ export function RevenueReportLoyaltySection({
   rewardsValue,
   referralRewardsIssued,
   referralRewardsValue,
-  period,
+  period: _period,
 }: RevenueReportLoyaltySectionProps) {
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-US", {

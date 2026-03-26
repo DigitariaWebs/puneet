@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { Plus, DollarSign, X, Bell, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import type { PriceAdjustment, PriceAdjustmentReason } from "@/data/grooming";
@@ -89,10 +88,10 @@ const ADJUSTMENT_REASONS: Array<{
 ];
 
 export function PriceAdjustmentForm({
-  appointmentId,
+  appointmentId: _appointmentId,
   petName,
   basePrice,
-  currentTotal,
+  currentTotal: _currentTotal,
   adjustments,
   onAddAdjustment,
   onRemoveAdjustment,

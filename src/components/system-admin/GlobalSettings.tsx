@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -102,7 +101,10 @@ export function GlobalSettings() {
     }, 1500);
   };
 
-  const handleBrandingChange = (field: keyof BrandingSettings, value: any) => {
+  const handleBrandingChange = (
+    field: keyof BrandingSettings,
+    value: BrandingSettings[keyof BrandingSettings],
+  ) => {
     setBranding((prev) => ({ ...prev, [field]: value }));
     setUnsavedChanges(true);
   };
@@ -155,7 +157,10 @@ export function GlobalSettings() {
     setUnsavedChanges(true);
   };
 
-  const handleDefaultsChange = (field: keyof SystemDefaults, value: any) => {
+  const handleDefaultsChange = (
+    field: keyof SystemDefaults,
+    value: SystemDefaults[keyof SystemDefaults],
+  ) => {
     setDefaults((prev) => ({ ...prev, [field]: value }));
     setUnsavedChanges(true);
   };

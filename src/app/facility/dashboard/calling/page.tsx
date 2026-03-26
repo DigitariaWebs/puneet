@@ -8,7 +8,6 @@ import {
   Phone,
   PhoneForwarded,
   Voicemail,
-  Clock,
   Play,
   AlertCircle,
   Settings,

@@ -6,12 +6,10 @@
  * This helps managers schedule appropriate staff coverage.
  */
 
-import { Booking } from "@/lib/types";
 import { bookings } from "@/data/bookings";
-import { daycareCheckIns, DaycareCheckIn } from "@/data/daycare";
-import { boardingGuests, BoardingGuest } from "@/data/boarding";
+import { daycareCheckIns } from "@/data/daycare";
+import { boardingGuests } from "@/data/boarding";
 import { groomingAppointments, GroomingAppointment } from "@/data/grooming";
-import { TrainingSession } from "@/data/training";
 
 export interface WorkloadMetrics {
   date: string;

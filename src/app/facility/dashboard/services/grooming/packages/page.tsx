@@ -782,9 +782,6 @@ export default function GroomingPackagesPage() {
               {formData.productUsage.length > 0 && (
                 <div className="space-y-2 border rounded-lg p-3">
                   {formData.productUsage.map((usage, index) => {
-                    const product = activeProducts.find(
-                      (p) => p.id === usage.productId,
-                    );
                     return (
                       <div
                         key={index}

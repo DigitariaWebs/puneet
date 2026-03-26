@@ -42,7 +42,6 @@ import {
   Users,
   ChevronLeft,
   ChevronRight,
-  Grid3x3,
   Map,
   Scissors,
   GraduationCap,
@@ -60,7 +59,6 @@ import { toast } from "sonner";
 import {
   calculateWorkloadForDate,
   calculateWorkloadForTimeBlock,
-  type WorkloadMetrics,
   type TimeBlockWorkload,
 } from "@/lib/scheduling-workload";
 import {
@@ -418,7 +416,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import {
   Download,
-  Calendar as CalendarIcon,
   Clock,
   Plus,
   Edit,
@@ -544,7 +541,7 @@ const timeSlots = [
 
 export default function FacilitySchedulingPage() {
   // Get user role to determine if admin
-  const [userRole, setUserRole] = useState<
+  const [_userRole, setUserRole] = useState<
     "super_admin" | "facility_admin" | null
   >(null);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -672,7 +669,7 @@ export default function FacilitySchedulingPage() {
     targetShiftId: "",
     reason: "",
   });
-  const [swapValidationErrors, setSwapValidationErrors] = useState<string[]>(
+  const [_swapValidationErrors, setSwapValidationErrors] = useState<string[]>(
     [],
   );
 
@@ -1652,7 +1649,7 @@ export default function FacilitySchedulingPage() {
     try {
       const timeBlock = `${timeStr}-${String(hour + 1).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
       workload = calculateWorkloadForTimeBlock(dateStr, timeBlock, facility.id);
-    } catch (e) {
+    } catch {
       // If time block calculation fails, use daily workload
       const dailyWorkload = calculateWorkloadForDate(dateStr, facility.id);
       workload = {
@@ -4472,7 +4469,7 @@ export default function FacilitySchedulingPage() {
                   timeOffRequests={timeOffRequests.filter(
                     (to) => to.facility === facility.name,
                   )}
-                  onReassign={(shiftId, newStaffId) => {
+                  onReassign={(_shiftId, _newStaffId) => {
                     // TODO: Reassign shift in backend
                     toast.success("Shift reassigned successfully");
                   }}
@@ -5481,7 +5478,7 @@ export default function FacilitySchedulingPage() {
                 }
 
                 // TODO: Submit swap request to backend
-                const requestingShift = facilitySchedules.find(
+                const _requestingShift = facilitySchedules.find(
                   (s) => s.id.toString() === swapData.requestingShiftId,
                 );
 

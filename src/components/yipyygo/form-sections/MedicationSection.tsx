@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import {
   Card,
@@ -644,10 +645,13 @@ export function MedicationSection({
                             }}
                           />
                           {med.photoUrl && (
-                            <img
+                            <Image
                               src={med.photoUrl}
                               alt="Medication label"
+                              width={112}
+                              height={112}
                               className="mt-2 w-28 h-28 object-cover border rounded"
+                              unoptimized
                             />
                           )}
                         </div>

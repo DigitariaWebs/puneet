@@ -5,13 +5,7 @@
  * for grooming appointment assignments.
  */
 
-import type {
-  GroomingAppointment,
-  Stylist,
-  StylistCapacity,
-  PetSize,
-  GroomingStatus,
-} from "@/data/grooming";
+import type { GroomingAppointment, Stylist, PetSize } from "@/data/grooming";
 
 export interface StylistConflict {
   hasConflict: boolean;

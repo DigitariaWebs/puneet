@@ -11,8 +11,6 @@ import {
   ShieldAlert,
   AlertTriangle,
   Ban,
-  CheckCircle,
-  Shield,
 } from "lucide-react";
 import {
   Collapsible,

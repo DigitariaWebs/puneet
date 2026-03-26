@@ -20,13 +20,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import {
   Calendar,
   Clock,
@@ -52,7 +46,6 @@ import {
   calculateMakeupPrice,
 } from "@/lib/training-makeup";
 import { toast } from "sonner";
-import { Separator } from "@/components/ui/separator";
 import { facilityConfig } from "@/data/facility-config";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
@@ -168,7 +161,7 @@ interface MissedSessionInfo {
 }
 
 export default function TrainingMakeupPage() {
-  const { selectedFacility } = useCustomerFacility();
+  const { selectedFacility: _selectedFacility } = useCustomerFacility();
   const [isMounted, setIsMounted] = useState(false);
   const [enrollments] = useState<TrainingEnrollment[]>(mockEnrollments);
   const [series] = useState<TrainingSeries[]>(mockSeries);
@@ -346,7 +339,7 @@ export default function TrainingMakeupPage() {
       ) : (
         <div className="grid gap-4">
           {missedSessions.map((missed) => {
-            const pet = customer?.pets.find(
+            const _pet = customer?.pets.find(
               (p) => p.id === missed.enrollment.petId,
             );
             const makeupPrice = calculateMakeupPrice(

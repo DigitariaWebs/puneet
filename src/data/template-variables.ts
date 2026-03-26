@@ -503,9 +503,7 @@ export function getVariableDisplayTag(key: string): string {
   return `{{${key}}}`;
 }
 
-export function getGroupedVariablesForContext(
-  context: VariableContext,
-): {
+export function getGroupedVariablesForContext(context: VariableContext): {
   category: VariableCategory;
   label: string;
   variables: TemplateVariable[];

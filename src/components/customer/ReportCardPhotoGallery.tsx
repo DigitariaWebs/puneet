@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import {
   Dialog,
@@ -114,16 +115,17 @@ export function ReportCardPhotoGallery({
           {photos.slice(0, 4).map((photo, idx) => (
             <div
               key={`${reportCardId}-photo-${idx}`}
-              className="aspect-[4/3] rounded-lg overflow-hidden bg-muted cursor-pointer hover:opacity-90 transition-opacity"
+              className="relative aspect-[4/3] rounded-lg overflow-hidden bg-muted cursor-pointer hover:opacity-90 transition-opacity"
               onClick={() => {
                 setSelectedPhotoIndex(idx);
                 setIsGalleryOpen(true);
               }}
             >
-              <img
+              <Image
                 src={photo}
                 alt={`${petName} at the facility`}
-                className="h-full w-full object-cover"
+                fill
+                className="object-cover"
               />
             </div>
           ))}
@@ -151,10 +153,11 @@ export function ReportCardPhotoGallery({
           <div className="relative flex-1 overflow-hidden">
             {/* Main Photo */}
             <div className="relative aspect-video bg-muted">
-              <img
+              <Image
                 src={photos[selectedPhotoIndex]}
                 alt={`${petName} photo ${selectedPhotoIndex + 1}`}
-                className="h-full w-full object-contain"
+                fill
+                className="object-contain"
               />
             </div>
 
@@ -232,9 +235,11 @@ export function ReportCardPhotoGallery({
                         : "border-transparent opacity-60 hover:opacity-100"
                     }`}
                   >
-                    <img
+                    <Image
                       src={photo}
                       alt={`Thumbnail ${idx + 1}`}
+                      width={80}
+                      height={80}
                       className="h-full w-full object-cover"
                     />
                   </button>

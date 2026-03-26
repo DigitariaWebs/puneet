@@ -5,6 +5,7 @@ import {
   useContext,
   useState,
   useEffect,
+  useMemo,
   ReactNode,
 } from "react";
 import { facilities } from "@/data/facilities";
@@ -47,16 +48,20 @@ export function CustomerFacilityProvider({
 
   // Get available facilities for the customer
   // TODO: Replace with actual API call to get customer's facilities
-  const availableFacilities: FacilityBranding[] = facilities
-    .filter((f) => f.status === "active")
-    .map((f) => ({
-      id: f.id,
-      name: f.name,
-      logo: undefined, // TODO: Get from facility settings/API - defaults to Yipyy logo in header
-      primaryColor: undefined, // TODO: Get from facility settings
-      secondaryColor: undefined, // TODO: Get from facility settings
-      contact: f.contact,
-    }));
+  const availableFacilities: FacilityBranding[] = useMemo(
+    () =>
+      facilities
+        .filter((f) => f.status === "active")
+        .map((f) => ({
+          id: f.id,
+          name: f.name,
+          logo: undefined, // TODO: Get from facility settings/API - defaults to Yipyy logo in header
+          primaryColor: undefined, // TODO: Get from facility settings
+          secondaryColor: undefined, // TODO: Get from facility settings
+          contact: f.contact,
+        })),
+    [],
+  );
 
   useEffect(() => {
     // Load selected facility from localStorage or default to first available
@@ -74,7 +79,7 @@ export function CustomerFacilityProvider({
       setSelectedFacilityId(availableFacilities[0]?.id ?? null);
     }
     setIsLoading(false);
-  }, []);
+  }, [availableFacilities]);
 
   const setSelectedFacility = (facilityId: number) => {
     if (availableFacilities.some((f) => f.id === facilityId)) {

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import {
   Card,
@@ -52,7 +53,7 @@ export function BelongingsSection({
   const [otherNote, setOtherNote] = useState("");
   const [showOtherInput, setShowOtherInput] = useState(false);
 
-  const selectedTypes = new Set(formData.belongings.map((b) => b.type));
+  const _selectedTypes = new Set(formData.belongings.map((b) => b.type));
 
   const toggleBelonging = (type: BelongingItem["type"]) => {
     if (type === "other") {
@@ -252,10 +253,13 @@ export function BelongingsSection({
             />
             {formData.belongingsPhotoUrl && (
               <div className="relative w-32 h-32 rounded-lg border overflow-hidden">
-                <img
+                <Image
                   src={formData.belongingsPhotoUrl}
                   alt="Belongings"
+                  width={128}
+                  height={128}
                   className="w-full h-full object-cover"
+                  unoptimized
                 />
                 <Button
                   variant="secondary"

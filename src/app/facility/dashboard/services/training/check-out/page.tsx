@@ -1,13 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -34,7 +28,6 @@ import {
   LogOut,
   Search,
   Clock,
-  User,
   Calendar,
   CheckCircle2,
   XCircle,
@@ -208,7 +201,7 @@ export default function TrainingCheckOutPage() {
         selectedSession.enrollment.totalSessions;
       const newSessionsAttended =
         selectedSession.enrollment.sessionsAttended + 1;
-      const newProgress = Math.round(
+      const _newProgress = Math.round(
         (newSessionsAttended / selectedSession.enrollment.totalSessions) * 100,
       );
 
@@ -281,7 +274,7 @@ export default function TrainingCheckOutPage() {
       ) : (
         <div className="grid gap-4">
           {filteredSessions.map((session) => {
-            const pet = clients
+            const _pet = clients
               .flatMap((c) => c.pets)
               .find((p) => p.id === session.enrollment.petId);
             const finalSession = isFinalSession(session);

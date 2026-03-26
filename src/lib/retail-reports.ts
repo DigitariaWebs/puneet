@@ -3,7 +3,6 @@
 import {
   getAllTransactions,
   products,
-  type Transaction,
   type Product,
   type ProductVariant,
 } from "@/data/retail";
@@ -257,14 +256,6 @@ export function getProfitMarginReport(
     txn.items.forEach((item) => {
       const quantity = item.quantity;
       const unitPrice = item.unitPrice;
-      const discount = item.discount || 0;
-      const discountType = item.discountType || "fixed";
-      const discountAmount =
-        discountType === "percent"
-          ? (unitPrice * quantity * discount) / 100
-          : discount * quantity;
-      const revenue = unitPrice * quantity - discountAmount;
-
       // Find product/variant to get cost
       let product: Product | undefined;
       let variant: ProductVariant | undefined;

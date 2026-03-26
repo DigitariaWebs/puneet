@@ -588,22 +588,23 @@ export function FormWizard({
   }, [totalSteps, onComplete]);
 
   // ---- Load draft when step changes ----
+  const currentFormId = currentForm?.id;
   useEffect(() => {
-    if (!currentForm) return;
-    const draft = loadDraft(currentForm.id, petId);
+    if (!currentFormId) return;
+    const draft = loadDraft(currentFormId, petId);
     setAnswers(draft);
     setError(null);
     draftLoadedRef.current = true;
-  }, [currentForm?.id, petId]);
+  }, [currentFormId, petId]);
 
   // ---- Autosave draft (debounced) ----
   useEffect(() => {
-    if (!currentForm || allDone) return;
+    if (!currentFormId || allDone) return;
     const timer = setTimeout(() => {
-      saveDraft(currentForm.id, petId, answers);
+      saveDraft(currentFormId, petId, answers);
     }, 800);
     return () => clearTimeout(timer);
-  }, [currentForm?.id, petId, answers, allDone]);
+  }, [currentFormId, petId, answers, allDone]);
 
   // ---- Cleanup completion timer on unmount ----
   useEffect(() => {

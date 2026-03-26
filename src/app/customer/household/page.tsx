@@ -33,7 +33,7 @@ type HouseholdContact = {
 };
 
 export default function CustomerHouseholdPage() {
-  const { selectedFacility } = useCustomerFacility();
+  const { selectedFacility: _selectedFacility } = useCustomerFacility();
   const [isSaving, setIsSaving] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 

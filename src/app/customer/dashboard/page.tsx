@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, useEffect } from "react";
+import Image from "next/image";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
 import {
   Card,
@@ -21,15 +22,11 @@ import {
   Scissors,
   AlertTriangle,
   AlertCircle,
-  Clock,
-  MapPin,
-  Edit,
   ExternalLink,
   CheckCircle2,
   PawPrint,
   GraduationCap,
   Building2,
-  User,
 } from "lucide-react";
 import Link from "next/link";
 import { clients } from "@/data/clients";
@@ -38,7 +35,7 @@ import { vaccinationRecords } from "@/data/pet-data";
 import { payments, invoices } from "@/data/payments";
 import { facilityConfig } from "@/data/facility-config";
 import { getYipyyGoConfig } from "@/data/yipyygo-config";
-import { getYipyyGoForm, getYipyyGoDisplayStatus } from "@/data/yipyygo-forms";
+import { getYipyyGoDisplayStatus } from "@/data/yipyygo-forms";
 import { clientCommunications } from "@/data/communications";
 import { reportCards } from "@/data/pet-data";
 import { customerLoyaltyData, loyaltySettings } from "@/data/marketing";
@@ -87,7 +84,7 @@ export default function CustomerDashboardPage() {
   }, [customerBookings, isMounted]);
 
   // Get past bookings
-  const pastBookings = useMemo(() => {
+  const _pastBookings = useMemo(() => {
     if (!isMounted) return [];
     const now = new Date();
     return customerBookings
@@ -210,7 +207,6 @@ export default function CustomerDashboardPage() {
       ? getYipyyGoConfig(selectedFacility.id)
       : null;
     if (yipyyGoConfig?.enabled) {
-      const now = new Date();
       const upcomingNeedingForm = upcomingBookings.filter((b) => {
         const svc = b.service?.toLowerCase() as
           | "daycare"
@@ -436,9 +432,11 @@ export default function CustomerDashboardPage() {
         {/* Header */}
         <div className="flex items-center gap-4">
           {selectedFacility?.logo && (
-            <img
+            <Image
               src={selectedFacility.logo}
               alt={selectedFacility.name}
+              width={48}
+              height={48}
               className="h-12 w-auto"
             />
           )}

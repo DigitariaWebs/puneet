@@ -4,13 +4,7 @@ import { Info, QrCode } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import type { CustomServiceModule } from "@/lib/types";
 import { cn } from "@/lib/utils";
 

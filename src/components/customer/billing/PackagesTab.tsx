@@ -31,7 +31,7 @@ import { toast } from "sonner";
 const MOCK_CUSTOMER_ID = "15";
 
 export function PackagesTab() {
-  const { selectedFacility } = useCustomerFacility();
+  const { selectedFacility: _selectedFacility } = useCustomerFacility();
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
 

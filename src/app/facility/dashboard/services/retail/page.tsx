@@ -30,8 +30,6 @@ import {
   CheckCircle2,
   XCircle,
   RotateCcw,
-  Wifi,
-  WifiOff,
   Wallet,
   Gift,
 } from "lucide-react";
@@ -103,7 +101,6 @@ import {
 import { processYipyyPay, type YipyyPayRequest } from "@/lib/yipyy-pay-service";
 import { isDeviceReadyForTapToPay } from "@/lib/device-detection";
 import { logPaymentAction } from "@/lib/payment-audit";
-import { locations } from "@/data/settings";
 
 interface CartItemWithId extends CartItem {
   id: string;
@@ -556,7 +553,7 @@ export default function POSPage() {
     setPromoCode("");
   };
 
-  const removeCartDiscount = () => {
+  const _removeCartDiscount = () => {
     setCartDiscount(null);
     setAppliedPromoCode(null);
   };
@@ -720,7 +717,7 @@ export default function POSPage() {
           notes?: string;
         }> = [];
         let allPaymentsSuccessful = true;
-        let paymentErrors: string[] = [];
+        const paymentErrors: string[] = [];
 
         // Process each payment in the split
         for (let i = 0; i < paymentForm.payments.length; i++) {
@@ -922,7 +919,7 @@ export default function POSPage() {
           .join(" | ");
 
         addRetailTransaction({
-          items: cart.map(({ id, ...item }) => item),
+          items: cart.map(({ id: _id, ...item }) => item),
           subtotal,
           discountTotal,
           cartDiscount: cartDiscount || undefined,
@@ -1006,7 +1003,7 @@ export default function POSPage() {
 
         // Payment successful - record transaction with Clover details
         addRetailTransaction({
-          items: cart.map(({ id, ...item }) => item),
+          items: cart.map(({ id: _id, ...item }) => item),
           subtotal,
           discountTotal,
           cartDiscount: cartDiscount || undefined,
@@ -1040,7 +1037,7 @@ export default function POSPage() {
         fiservConfig?.yipyyPay?.enabled &&
         (paymentForm.method === "credit" || paymentForm.method === "debit")
       ) {
-        const yipyyPayConfig = getYipyyPayConfig(facilityId);
+        const _yipyyPayConfig = getYipyyPayConfig(facilityId);
         const device = getYipyyPayDevice(facilityId, yipyyPayDeviceId);
 
         if (!device || !device.isAuthorized || !device.isActive) {
@@ -1080,7 +1077,7 @@ export default function POSPage() {
 
         // Payment successful - record transaction with Yipyy Pay details
         addRetailTransaction({
-          items: cart.map(({ id, ...item }) => item),
+          items: cart.map(({ id: _id, ...item }) => item),
           subtotal,
           discountTotal,
           cartDiscount: cartDiscount || undefined,
@@ -1173,7 +1170,7 @@ export default function POSPage() {
 
         // Payment successful - record transaction with Fiserv details
         addRetailTransaction({
-          items: cart.map(({ id, ...item }) => item),
+          items: cart.map(({ id: _id, ...item }) => item),
           subtotal,
           discountTotal,
           cartDiscount: cartDiscount || undefined,
@@ -1241,7 +1238,7 @@ export default function POSPage() {
 
         // Non-card payment or Fiserv not enabled - process normally
         addRetailTransaction({
-          items: cart.map(({ id, ...item }) => item),
+          items: cart.map(({ id: _id, ...item }) => item),
           subtotal,
           discountTotal,
           cartDiscount: cartDiscount || undefined,
@@ -3771,7 +3768,7 @@ export default function POSPage() {
                 {/* Store Credit */}
                 {paymentForm.method === "store_credit" &&
                   (() => {
-                    const facilityId = 11; // TODO: Get from context
+                    const _facilityId = 11; // TODO: Get from context
                     const customerId =
                       selectedClientId && selectedClientId !== "__walk_in__"
                         ? selectedClientId
@@ -4276,7 +4273,7 @@ export default function POSPage() {
                               {client.pets && client.pets.length > 0 && (
                                 <div className="flex items-center gap-1 flex-wrap">
                                   <PawPrint className="h-3 w-3" />
-                                  {client.pets.map((pet, idx) => (
+                                  {client.pets.map((pet) => (
                                     <Badge
                                       key={pet.id}
                                       variant="outline"
@@ -4574,7 +4571,7 @@ export default function POSPage() {
 
                             // Record transaction
                             addRetailTransaction({
-                              items: cart.map(({ id, ...item }) => item),
+                              items: cart.map(({ id: _id, ...item }) => item),
                               subtotal,
                               discountTotal,
                               cartDiscount: cartDiscount || undefined,

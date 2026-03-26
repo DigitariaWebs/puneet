@@ -21,16 +21,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  BarChart3,
   TrendingUp,
   DollarSign,
   Package,
-  Users,
   ShoppingBag,
   Download,
-  Calendar,
-  Award,
-  Percent,
 } from "lucide-react";
 import { DataTable, ColumnDef } from "@/components/ui/DataTable";
 import {
@@ -40,9 +35,7 @@ import {
   getSalesByStaff,
   getSalesByCategory,
   getSalesLinkedToServices,
-  type SalesByPeriod,
   type TopProduct,
-  type ProfitMarginReport,
   type SalesByStaff,
   type SalesByCategory,
   type SalesLinkedToServices,
@@ -54,12 +47,7 @@ import {
   getLocationName,
 } from "@/lib/payment-method-utils";
 import {
-  Smartphone,
-  Printer,
   CreditCard,
-  Banknote,
-  Wallet,
-  Gift,
   MapPin,
   Clock,
   User as UserIcon,

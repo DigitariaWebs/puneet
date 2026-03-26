@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import Image from "next/image";
 import { Check } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
@@ -169,21 +170,23 @@ export function ServiceStep({
                   </div>
                 )}
                 {config?.bannerImage ? (
-                  <div className="w-full h-32">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                  <div className="w-full h-32 relative">
+                    <Image
                       src={config.bannerImage}
                       alt={config.clientFacingName}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
+                      unoptimized
                     />
                   </div>
                 ) : service.image ? (
-                  <div className="w-full h-32">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                  <div className="w-full h-32 relative">
+                    <Image
                       src={service.image}
                       alt={service.name}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
+                      unoptimized
                     />
                   </div>
                 ) : (

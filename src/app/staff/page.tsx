@@ -35,22 +35,16 @@ import {
   CheckCircle2,
   AlertCircle,
   Info,
-  MessageSquare,
-  X,
   ChevronLeft,
   ChevronRight,
   List,
   Grid3x3,
   Calendar as CalendarIcon,
-  PhoneCall,
-  Mail,
 } from "lucide-react";
 import { schedules, type Schedule } from "@/data/schedules";
 import {
   timeOffRequests,
   defaultTimeOffReasons,
-  type TimeOffRequest,
-  type TimeOffReason,
   shiftSwapRequests,
   type ShiftSwapRequest,
   shiftTasks,
@@ -91,7 +85,7 @@ export default function StaffSchedulePage() {
     const diff = today.getDate() - day + (day === 0 ? -6 : 1); // Adjust to Monday
     return new Date(today.setDate(diff));
   });
-  const [selectedDate, setSelectedDate] = useState(
+  const [_selectedDate, setSelectedDate] = useState(
     () => new Date().toISOString().split("T")[0],
   );
   const [selectedShift, setSelectedShift] = useState<Schedule | null>(null);

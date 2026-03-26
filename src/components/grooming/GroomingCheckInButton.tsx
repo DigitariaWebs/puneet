@@ -28,7 +28,7 @@ export function GroomingCheckInButton({
       toast.success("Check-in successful!", {
         description: "The front desk has been notified that you're here.",
       });
-    } catch (error) {
+    } catch {
       toast.error("Check-in failed", {
         description:
           "There was an error checking in. Please contact the front desk.",

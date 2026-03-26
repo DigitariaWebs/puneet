@@ -265,7 +265,10 @@ export default function SubmissionDetailPage({
     }
   }, [id, record?.status]);
 
-  const answers = submission?.answers ?? {};
+  const answers = useMemo(
+    () => submission?.answers ?? {},
+    [submission?.answers],
+  );
   const visibleQuestions = useMemo(() => {
     if (!form) return [];
     return form.questions.filter(
@@ -285,7 +288,7 @@ export default function SubmissionDetailPage({
   const hasMappings = Object.keys(mappingResults).length > 0;
 
   // Group questions by section
-  const sections = form?.sections ?? [];
+  const sections = useMemo(() => form?.sections ?? [], [form?.sections]);
   const hasSections = sections.length > 0;
 
   const groupedQuestions = useMemo(() => {
@@ -499,7 +502,7 @@ export default function SubmissionDetailPage({
         (v) => typeof v === "string" && v.includes(" ") && !v.includes("@"),
       ) as string) ?? "New Customer";
     const email = emailFromAnswers || undefined;
-    const phone = phoneFromAnswers || undefined;
+    const _phone = phoneFromAnswers || undefined;
     // In production, this creates a real customer + pet record via API
     // For demo, we log the creation and mark as processed
     linkSubmissionToCustomer(id, 999, undefined, {

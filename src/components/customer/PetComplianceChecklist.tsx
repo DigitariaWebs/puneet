@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, XCircle, AlertCircle } from "lucide-react";
+import { CheckCircle2, XCircle } from "lucide-react";
 import { vaccinationRecords } from "@/data/pet-data";
 import { clientDocuments } from "@/data/documents";
 import { invoices } from "@/data/payments";

@@ -4,9 +4,6 @@
  * Defines the structure for training series (scheduled occurrences of course types)
  */
 
-import { type TrainingCourseType } from "./training-config";
-import { type Trainer } from "@/data/training";
-
 export type SeriesStatus =
   | "draft"
   | "open"

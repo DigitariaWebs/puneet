@@ -2,7 +2,7 @@
 
 import { use, useMemo } from "react";
 import Link from "next/link";
-import { ArrowLeft, Smartphone, Mail, MessageCircle } from "lucide-react";
+import { ArrowLeft, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,

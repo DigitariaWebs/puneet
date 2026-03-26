@@ -56,9 +56,11 @@ export const CustomServiceModuleCard = memo(function CustomServiceModuleCard({
   const gradientStyle = getGradientStyle(module.iconColor, module.iconColorTo);
 
   const handleEdit = useCallback(() => {
-    onEdit
-      ? onEdit(module)
-      : router.push(`/facility/dashboard/services/custom/${module.slug}/edit`);
+    if (onEdit) {
+      onEdit(module);
+    } else {
+      router.push(`/facility/dashboard/services/custom/${module.slug}/edit`);
+    }
   }, [onEdit, module, router]);
 
   return (

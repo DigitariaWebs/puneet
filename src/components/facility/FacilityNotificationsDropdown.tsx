@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import {
   Bell,
@@ -11,7 +11,6 @@ import {
   Paperclip,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -65,14 +64,17 @@ export function FacilityNotificationsDropdown({
   );
   const [open, setOpen] = useState(false);
 
-  const refresh = () => setNotifications(getFacilityNotifications(facilityId));
+  const refresh = useCallback(
+    () => setNotifications(getFacilityNotifications(facilityId)),
+    [facilityId],
+  );
   const unreadCount = getUnreadFacilityNotificationCount(facilityId);
 
   useEffect(() => {
     refresh();
     const unsub = subscribeToFacilityNotifications(refresh);
     return unsub;
-  }, [facilityId]);
+  }, [refresh]);
 
   const markRead = (id: string) => {
     markFacilityNotificationRead(id);

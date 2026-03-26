@@ -5,10 +5,7 @@
  */
 
 import { type TrainingCourseType } from "./training-config";
-import {
-  type TrainingEnrollment,
-  type TrainingCertificate,
-} from "./training-enrollment";
+import { type TrainingCertificate } from "./training-enrollment";
 
 export interface CourseProgression {
   courseTypeId: string;

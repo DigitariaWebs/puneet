@@ -78,9 +78,9 @@ export interface AnswerRecord {
   signatureMetadata?: import("./forms-phase2-types").SignatureMetadata;
 }
 
-let submissionRecords: SubmissionRecord[] = [];
-let answerRecords: AnswerRecord[] = [];
-let submissions: FormSubmission[] = []; // legacy list for getSubmissionsByFacility that returns FormSubmission[]
+const submissionRecords: SubmissionRecord[] = [];
+const answerRecords: AnswerRecord[] = [];
+const submissions: FormSubmission[] = []; // legacy list for getSubmissionsByFacility that returns FormSubmission[]
 
 function generateId(): string {
   return `sub-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;

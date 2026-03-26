@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -13,7 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
 import {
   FileText,
   Shield,
@@ -57,7 +55,7 @@ const STAGE_CONFIG: Record<
   },
 };
 
-const ENFORCEMENT_CONFIG: Record<
+const _ENFORCEMENT_CONFIG: Record<
   string,
   { label: string; icon: React.ReactNode; color: string }
 > = {

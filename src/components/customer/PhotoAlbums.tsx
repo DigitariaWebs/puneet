@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState } from "react";
 import {
   Card,
@@ -10,13 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import {
   Calendar,
   Image as ImageIcon,
@@ -85,8 +80,6 @@ export function PhotoAlbums({
     reportCards.forEach((report) => {
       report.photos.forEach((photoUrl, index) => {
         // Try to find matching booking for this report card
-        const matchingBooking = bookings.find((b) => b.id === report.bookingId);
-
         unified.push({
           id: `report-${report.id}-photo-${index}`,
           url: photoUrl,
@@ -102,7 +95,7 @@ export function PhotoAlbums({
     });
 
     return unified;
-  }, [photos, reportCards, bookings, formatDate]);
+  }, [photos, reportCards, formatDate]);
 
   // Organize photos by date/stay
   const albums = useMemo(() => {
@@ -203,10 +196,11 @@ export function PhotoAlbums({
               className="aspect-square rounded-lg bg-muted overflow-hidden cursor-pointer hover:opacity-80 transition-opacity group relative"
               onClick={() => setSelectedPhoto(photo)}
             >
-              <img
+              <Image
                 src={photo.thumbnail || photo.url}
                 alt={photo.caption || "Pet photo"}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
               />
               {photo.caption && (
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end">
@@ -255,11 +249,12 @@ export function PhotoAlbums({
                     <ChevronRight className="h-4 w-4" />
                   </Button>
                 )}
-                <div className="aspect-video bg-muted flex items-center justify-center">
-                  <img
+                <div className="relative aspect-video bg-muted flex items-center justify-center">
+                  <Image
                     src={selectedPhoto.url}
                     alt={selectedPhoto.caption || "Pet photo"}
-                    className="max-w-full max-h-[80vh] object-contain"
+                    fill
+                    className="object-contain"
                   />
                 </div>
                 <div className="p-4 border-t">
@@ -333,10 +328,11 @@ export function PhotoAlbums({
                     className="aspect-square rounded-lg bg-muted overflow-hidden cursor-pointer hover:opacity-80 transition-opacity group relative"
                     onClick={() => setSelectedPhoto(photo)}
                   >
-                    <img
+                    <Image
                       src={photo.thumbnail || photo.url}
                       alt={photo.caption || "Pet photo"}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                     />
                     {photo.caption && (
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end">
@@ -389,11 +385,12 @@ export function PhotoAlbums({
                   <ChevronRight className="h-4 w-4" />
                 </Button>
               )}
-              <div className="aspect-video bg-muted flex items-center justify-center">
-                <img
+              <div className="relative aspect-video bg-muted flex items-center justify-center">
+                <Image
                   src={selectedPhoto.url}
                   alt={selectedPhoto.caption || "Pet photo"}
-                  className="max-w-full max-h-[80vh] object-contain"
+                  fill
+                  className="object-contain"
                 />
               </div>
               <div className="p-4 border-t">

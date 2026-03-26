@@ -31,7 +31,7 @@ const MOCK_CUSTOMER_ID = 15;
 const HAS_AUTOPAY_MEMBERSHIP = true;
 
 export function PaymentMethodsTab() {
-  const { selectedFacility } = useCustomerFacility();
+  const { selectedFacility: _selectedFacility } = useCustomerFacility();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
   const [isVerifying, setIsVerifying] = useState(false);
@@ -152,7 +152,7 @@ export function PaymentMethodsTab() {
     setIsDeleting(null);
   };
 
-  const handleSetDefault = async (id: string) => {
+  const handleSetDefault = async (_id: string) => {
     // TODO: Call API to set as default
     toast.success("Default payment method updated");
   };

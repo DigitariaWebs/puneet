@@ -7,8 +7,6 @@
 
 import type {
   GroomingAppointment,
-  GroomingPackage,
-  GroomingProduct,
   ProductUsage,
   ProductUsageLog,
 } from "@/data/grooming";
@@ -105,7 +103,6 @@ export function deductProductsForAppointment(
     }
 
     // Deduct the product
-    const previousStock = product.currentStock;
     product.currentStock = Math.max(0, product.currentStock - quantityToDeduct);
     const remainingStock = product.currentStock;
     const isNowLowStock = remainingStock <= product.minStock;

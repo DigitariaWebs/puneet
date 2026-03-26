@@ -21,7 +21,7 @@ import { facilityConfig } from "@/data/facility-config";
 import Link from "next/link";
 
 export function QuickBookButton() {
-  const { selectedFacility } = useCustomerFacility();
+  const { selectedFacility: _selectedFacility } = useCustomerFacility();
   const [open, setOpen] = useState(false);
 
   // Check which services are enabled

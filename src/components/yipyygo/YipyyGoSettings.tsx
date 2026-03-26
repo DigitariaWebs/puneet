@@ -13,7 +13,6 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Save, AlertCircle, Info } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { EnablementScopeSection } from "./EnablementScopeSection";
 import { TimingRemindersSection } from "./TimingRemindersSection";
@@ -35,7 +34,7 @@ interface YipyyGoSettingsProps {
 export function YipyyGoSettings({
   config,
   onConfigChange,
-  facilityId,
+  facilityId: _facilityId,
 }: YipyyGoSettingsProps) {
   const [localConfig, setLocalConfig] = useState<YipyyGoConfig>(config);
   const [isSaving, setIsSaving] = useState(false);

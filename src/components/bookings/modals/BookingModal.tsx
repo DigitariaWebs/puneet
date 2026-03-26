@@ -77,7 +77,10 @@ export function BookingModal({
   booking,
 }: NewBookingModalProps) {
   const { daycare, boarding, grooming, training, bookingFlow } = useSettings();
-  const configs = { daycare, boarding, grooming, training };
+  const configs = useMemo(
+    () => ({ daycare, boarding, grooming, training }),
+    [daycare, boarding, grooming, training],
+  );
   const { getModuleBySlug } = useCustomServices();
 
   // Staff options for assignment
@@ -464,11 +467,13 @@ export function BookingModal({
     selectedPetIds,
     selectedService,
     startDate,
-    checkInTime,
     isSubStepComplete,
     serviceRequiresEvaluation,
     isEvaluationOptional,
     selectedPets,
+    petHasExpiredEvaluation,
+    petHasFailedEvaluation,
+    petHasValidEvaluation,
   ]);
 
   const handleNext = () => {

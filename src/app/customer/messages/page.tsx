@@ -11,11 +11,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
 import {
   MessageSquare,
   Mail,
-  Phone,
   Send,
   Search,
   Calendar,
@@ -25,7 +23,6 @@ import {
   Clock,
   Clock as ClockIcon,
   XCircle,
-  AlertCircle,
   Image as ImageIcon,
   Paperclip,
 } from "lucide-react";
@@ -243,7 +240,7 @@ export default function CustomerMessagesPage() {
   }, [threads, searchQuery]);
 
   // Get selected thread messages
-  const selectedThreadMessages = useMemo(() => {
+  const _selectedThreadMessages = useMemo(() => {
     if (selectedThread === null) return [];
     return messagesByFacility[selectedThread] || [];
   }, [selectedThread, messagesByFacility]);

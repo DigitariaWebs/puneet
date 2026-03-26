@@ -80,7 +80,7 @@ export function checkFormRequirements(
   serviceType: string,
   stage: RequirementStage,
   customerId?: number,
-  petId?: number,
+  _petId?: number,
 ): FormRequirementsCheck {
   const stageReqs = getRequirementsAtStage(serviceType, stage);
   if (stageReqs.length === 0) {

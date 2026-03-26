@@ -12,7 +12,7 @@ import { useMemo } from "react";
 import { getFacilityLoyaltyConfig } from "@/data/facility-loyalty-config";
 
 // Mock settings - TODO: Replace with actual useSettings hook
-interface MockSettings {
+interface _MockSettings {
   selectedFacility: { id: number } | null;
   userRole: string;
   userPermissions: string[];
@@ -53,9 +53,11 @@ interface UseLoyaltyConfigResult {
 export function useLoyaltyConfig(locationId?: number): UseLoyaltyConfigResult {
   // TODO: Replace with actual useSettings hook
   // For now, use mock data
-  const selectedFacility: { id: number } | null = { id: 1 }; // Mock
+  const selectedFacility = useMemo<{ id: number } | null>(
+    () => ({ id: 1 }),
+    [],
+  ); // Mock
   const userRole = "facility_admin"; // Mock
-  const userPermissions: string[] = []; // Mock
 
   // Get facility loyalty config
   const config = useMemo(() => {
@@ -132,7 +134,7 @@ export function useLoyaltyConfig(locationId?: number): UseLoyaltyConfigResult {
     // In production, check actual permissions from userPermissions
     // For now, use role-based defaults
     return defaultPermissions;
-  }, [userRole, userPermissions]);
+  }, [userRole]);
 
   // Feature flags from config
   const features = useMemo(() => {
@@ -158,7 +160,7 @@ export function useLoyaltyConfig(locationId?: number): UseLoyaltyConfigResult {
 
   // Get location-specific config
   const getLocationConfig = useMemo(() => {
-    return (targetLocationId?: number) => {
+    return (_targetLocationId?: number) => {
       if (!config || !isEnabled) return null;
 
       // In production, this would fetch location-specific overrides

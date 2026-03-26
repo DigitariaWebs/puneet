@@ -2,13 +2,7 @@
 
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
 import { PaymentMethodsTab } from "@/components/customer/billing/PaymentMethodsTab";
 import { InvoicesTab } from "@/components/customer/billing/InvoicesTab";
 import { BalancesTab } from "@/components/customer/billing/BalancesTab";

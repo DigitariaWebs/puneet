@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -6,12 +5,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/DataTable";
+import type { ColumnDef } from "@/components/ui/DataTable";
 import {
   integrations,
   apiKeys,
   systemSettings,
   featureFlags,
 } from "@/data/system-administration";
+import type {
+  Integration,
+  ApiKey,
+  SystemSetting,
+  FeatureFlag,
+} from "@/data/system-administration";
+import type { LucideIcon } from "lucide-react";
 import {
   Settings,
   Key,
@@ -31,13 +38,22 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 
+type BadgeVariant =
+  | "default"
+  | "secondary"
+  | "destructive"
+  | "success"
+  | "warning"
+  | "info"
+  | "outline";
+
 export function SystemConfiguration() {
   const [showApiKeys, setShowApiKeys] = useState<Record<string, boolean>>({});
 
   const getIntegrationStatusBadge = (status: string) => {
     const variants: Record<
       string,
-      { variant: any; icon: any; className: string }
+      { variant: BadgeVariant; icon: LucideIcon; className: string }
     > = {
       Active: {
         variant: "default",
@@ -74,7 +90,10 @@ export function SystemConfiguration() {
   };
 
   const getApiKeyStatusBadge = (status: string) => {
-    const variants: Record<string, { variant: any; className: string }> = {
+    const variants: Record<
+      string,
+      { variant: BadgeVariant; className: string }
+    > = {
       Active: { variant: "default", className: "bg-green-100 text-green-700" },
       Expired: { variant: "destructive", className: "bg-red-100 text-red-700" },
       Revoked: {
@@ -112,11 +131,11 @@ export function SystemConfiguration() {
   };
 
   // Integration Columns
-  const integrationColumns = [
+  const integrationColumns: ColumnDef<Integration>[] = [
     {
       key: "name",
       label: "Integration",
-      render: (item: any) => (
+      render: (item) => (
         <div>
           <div className="font-medium">{item.name}</div>
           <div className="text-xs text-muted-foreground">{item.provider}</div>
@@ -126,17 +145,17 @@ export function SystemConfiguration() {
     {
       key: "type",
       label: "Type",
-      render: (item: any) => getIntegrationTypeBadge(item.type),
+      render: (item) => getIntegrationTypeBadge(item.type),
     },
     {
       key: "status",
       label: "Status",
-      render: (item: any) => getIntegrationStatusBadge(item.status),
+      render: (item) => getIntegrationStatusBadge(item.status),
     },
     {
       key: "usageStats",
       label: "Usage",
-      render: (item: any) => (
+      render: (item) => (
         <div className="text-sm">
           <div className="font-medium">
             {item.usageStats.totalRequests.toLocaleString()} requests
@@ -150,7 +169,7 @@ export function SystemConfiguration() {
     {
       key: "lastSync",
       label: "Last Sync",
-      render: (item: any) => (
+      render: (item) => (
         <span className="text-sm">
           {item.lastSync ? new Date(item.lastSync).toLocaleString() : "Never"}
         </span>
@@ -159,7 +178,7 @@ export function SystemConfiguration() {
     {
       key: "testStatus",
       label: "Test Status",
-      render: (item: any) => {
+      render: (item) => {
         if (!item.testStatus)
           return <span className="text-xs text-muted-foreground">-</span>;
         return (
@@ -174,7 +193,7 @@ export function SystemConfiguration() {
     },
   ];
 
-  const integrationActions = () => (
+  const integrationActions = (_item: Integration) => (
     <div className="flex gap-2">
       <Button variant="ghost" size="sm" className="gap-2">
         <TestTube className="h-4 w-4" />
@@ -188,11 +207,11 @@ export function SystemConfiguration() {
   );
 
   // API Key Columns
-  const apiKeyColumns = [
+  const apiKeyColumns: ColumnDef<ApiKey>[] = [
     {
       key: "name",
       label: "Key Name",
-      render: (item: any) => (
+      render: (item) => (
         <div>
           <div className="font-medium">{item.name}</div>
           <div className="text-xs text-muted-foreground">
@@ -204,7 +223,7 @@ export function SystemConfiguration() {
     {
       key: "key",
       label: "API Key",
-      render: (item: any) => (
+      render: (item) => (
         <div className="flex items-center gap-2">
           <code className="text-xs font-mono bg-muted px-2 py-1 rounded">
             {showApiKeys[item.id]
@@ -233,12 +252,12 @@ export function SystemConfiguration() {
     {
       key: "status",
       label: "Status",
-      render: (item: any) => getApiKeyStatusBadge(item.status),
+      render: (item) => getApiKeyStatusBadge(item.status),
     },
     {
       key: "rateLimit",
       label: "Rate Limit",
-      render: (item: any) => (
+      render: (item) => (
         <div className="text-sm">
           <div>{item.rateLimit.requestsPerMinute}/min</div>
           <div className="text-xs text-muted-foreground">
@@ -250,7 +269,7 @@ export function SystemConfiguration() {
     {
       key: "usageStats",
       label: "Usage",
-      render: (item: any) => (
+      render: (item) => (
         <div className="text-sm">
           <div className="font-medium">
             {item.usageStats.totalRequests.toLocaleString()}
@@ -269,7 +288,7 @@ export function SystemConfiguration() {
     {
       key: "lastUsed",
       label: "Last Used",
-      render: (item: any) => (
+      render: (item) => (
         <span className="text-sm">
           {item.lastUsed
             ? new Date(item.lastUsed).toLocaleDateString()
@@ -279,7 +298,7 @@ export function SystemConfiguration() {
     },
   ];
 
-  const apiKeyActions = () => (
+  const apiKeyActions = (_item: ApiKey) => (
     <div className="flex gap-2">
       <Button variant="ghost" size="sm" className="gap-2">
         <RotateCcw className="h-4 w-4" />
@@ -293,11 +312,11 @@ export function SystemConfiguration() {
   );
 
   // System Settings Columns
-  const settingsColumns = [
+  const settingsColumns: ColumnDef<SystemSetting>[] = [
     {
       key: "name",
       label: "Setting",
-      render: (item: any) => (
+      render: (item) => (
         <div>
           <div className="font-medium">{item.name}</div>
           <div className="text-xs text-muted-foreground">
@@ -309,7 +328,7 @@ export function SystemConfiguration() {
     {
       key: "category",
       label: "Category",
-      render: (item: any) => (
+      render: (item) => (
         <Badge variant="outline" className="text-xs">
           {item.category}
         </Badge>
@@ -318,7 +337,7 @@ export function SystemConfiguration() {
     {
       key: "value",
       label: "Current Value",
-      render: (item: any) => {
+      render: (item) => {
         if (item.type === "boolean") {
           return (
             <Switch
@@ -345,7 +364,7 @@ export function SystemConfiguration() {
     {
       key: "lastModified",
       label: "Last Modified",
-      render: (item: any) => (
+      render: (item) => (
         <div className="text-sm">
           <div>{new Date(item.lastModified).toLocaleDateString()}</div>
           <div className="text-xs text-muted-foreground">
@@ -356,7 +375,7 @@ export function SystemConfiguration() {
     },
   ];
 
-  const settingsActions = (item: any) => (
+  const settingsActions = (item: SystemSetting) => (
     <Button
       variant="ghost"
       size="sm"
@@ -369,11 +388,11 @@ export function SystemConfiguration() {
   );
 
   // Feature Flag Columns
-  const featureFlagColumns = [
+  const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
     {
       key: "name",
       label: "Feature",
-      render: (item: any) => (
+      render: (item) => (
         <div>
           <div className="font-medium">{item.name}</div>
           <div className="text-xs text-muted-foreground">
@@ -385,7 +404,7 @@ export function SystemConfiguration() {
     {
       key: "enabled",
       label: "Status",
-      render: (item: any) => (
+      render: (item) => (
         <Switch
           checked={item.enabled}
           className="data-[state=checked]:bg-primary"
@@ -395,7 +414,7 @@ export function SystemConfiguration() {
     {
       key: "rolloutPercentage",
       label: "Rollout",
-      render: (item: any) => (
+      render: (item) => (
         <div className="w-32">
           <div className="w-full bg-muted rounded-full h-2">
             <div
@@ -412,7 +431,7 @@ export function SystemConfiguration() {
     {
       key: "targetFacilities",
       label: "Target",
-      render: (item: any) => {
+      render: (item) => {
         if (item.targetFacilities && item.targetFacilities.length > 0) {
           return (
             <Badge variant="outline" className="text-xs">
@@ -433,7 +452,7 @@ export function SystemConfiguration() {
     {
       key: "createdAt",
       label: "Created",
-      render: (item: any) => (
+      render: (item) => (
         <div className="text-sm">
           <div>{new Date(item.createdAt).toLocaleDateString()}</div>
           <div className="text-xs text-muted-foreground">
@@ -444,7 +463,7 @@ export function SystemConfiguration() {
     },
   ];
 
-  const featureFlagActions = () => (
+  const featureFlagActions = (_item: FeatureFlag) => (
     <div className="flex gap-2">
       <Button variant="ghost" size="sm" className="gap-2">
         <Settings className="h-4 w-4" />
@@ -610,9 +629,9 @@ export function SystemConfiguration() {
             </CardHeader>
             <CardContent>
               <DataTable
-                columns={integrationColumns as any}
-                data={integrations as any}
-                actions={integrationActions as any}
+                columns={integrationColumns}
+                data={integrations}
+                actions={integrationActions}
                 searchKey="name"
                 searchPlaceholder="Search integrations..."
               />
@@ -633,9 +652,9 @@ export function SystemConfiguration() {
             </CardHeader>
             <CardContent>
               <DataTable
-                columns={apiKeyColumns as any}
-                data={apiKeys as any}
-                actions={apiKeyActions as any}
+                columns={apiKeyColumns}
+                data={apiKeys}
+                actions={apiKeyActions}
                 searchKey="name"
                 searchPlaceholder="Search API keys..."
               />
@@ -664,9 +683,9 @@ export function SystemConfiguration() {
             </CardHeader>
             <CardContent>
               <DataTable
-                columns={settingsColumns as any}
-                data={systemSettings as any}
-                actions={settingsActions as any}
+                columns={settingsColumns}
+                data={systemSettings}
+                actions={settingsActions}
                 searchKey="name"
                 searchPlaceholder="Search settings..."
               />
@@ -687,9 +706,9 @@ export function SystemConfiguration() {
             </CardHeader>
             <CardContent>
               <DataTable
-                columns={featureFlagColumns as any}
-                data={featureFlags as any}
-                actions={featureFlagActions as any}
+                columns={featureFlagColumns}
+                data={featureFlags}
+                actions={featureFlagActions}
                 searchKey="name"
                 searchPlaceholder="Search feature flags..."
               />

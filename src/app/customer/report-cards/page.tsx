@@ -1,18 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState } from "react";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
 import { clients } from "@/data/clients";
-import { reportCards, type ReportCard } from "@/data/pet-data";
+import { reportCards } from "@/data/pet-data";
 import { bookings } from "@/data/bookings";
 import { facilities } from "@/data/facilities";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
@@ -28,14 +23,12 @@ import {
   Calendar,
   Dog,
   FileText,
-  Image as ImageIcon,
   Clock,
   Utensils,
   Droplets,
   Search,
   Filter,
   X,
-  Sparkles,
   Star,
   Bell,
   Ghost,
@@ -296,26 +289,6 @@ export default function CustomerReportCardsPage() {
     });
   };
 
-  const getThemeBadge = (theme?: string) => {
-    if (!theme || theme === "everyday") return null;
-
-    const themeLabels: Record<string, string> = {
-      halloween: "🎃 Halloween",
-      christmas: "🎄 Christmas",
-      valentines: "💝 Valentine's",
-      easter: "🐰 Easter",
-      summer: "☀️ Summer",
-      winter: "❄️ Winter",
-    };
-
-    return (
-      <Badge variant="outline" className="text-xs">
-        <Sparkles className="h-3 w-3 mr-1" />
-        {themeLabels[theme] || theme}
-      </Badge>
-    );
-  };
-
   const hasActiveFilters =
     selectedPetId !== "all" ||
     selectedServiceType !== "all" ||
@@ -542,9 +515,11 @@ export default function CustomerReportCardsPage() {
 
                             {item.petImage && (
                               <div className="hidden sm:block h-14 w-14 rounded-full bg-white/20 overflow-hidden border-2 border-white/30 shrink-0">
-                                <img
+                                <Image
                                   src={item.petImage}
                                   alt={item.petName}
+                                  width={56}
+                                  height={56}
                                   className="h-full w-full object-cover"
                                 />
                               </div>
