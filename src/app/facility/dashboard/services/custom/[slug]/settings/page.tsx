@@ -34,17 +34,17 @@ import {
 function StatusRow({ label, enabled }: { label: string; enabled: boolean }) {
   return (
     <div className="flex items-center justify-between py-1.5">
-      <span className="text-sm text-muted-foreground">{label}</span>
+      <span className="text-muted-foreground text-sm">{label}</span>
       <div className="flex items-center gap-1.5">
         {enabled ? (
           <>
-            <CheckCircle2 className="h-3.5 w-3.5 text-success" />
-            <span className="text-xs font-medium text-success">Yes</span>
+            <CheckCircle2 className="text-success h-3.5 w-3.5" />
+            <span className="text-success text-xs font-medium">Yes</span>
           </>
         ) : (
           <>
-            <XCircle className="h-3.5 w-3.5 text-muted-foreground" />
-            <span className="text-xs text-muted-foreground">No</span>
+            <XCircle className="text-muted-foreground h-3.5 w-3.5" />
+            <span className="text-muted-foreground text-xs">No</span>
           </>
         )}
       </div>
@@ -69,13 +69,13 @@ export default function CustomServiceSettingsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-semibold">Settings</h2>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Configuration for {serviceModule.name}
           </p>
         </div>
         <Link href={editHref}>
           <Button className="gap-2">
-            <Edit className="h-4 w-4" />
+            <Edit className="size-4" />
             Edit in Wizard
           </Button>
         </Link>
@@ -88,7 +88,7 @@ export default function CustomServiceSettingsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="flex items-center gap-2">
-                  <Info className="h-4 w-4" />
+                  <Info className="size-4" />
                   Basic Info
                 </CardTitle>
                 <CardDescription>
@@ -97,7 +97,7 @@ export default function CustomServiceSettingsPage() {
               </div>
               <Link href={editHref}>
                 <Button variant="outline" size="sm">
-                  <Edit className="h-3.5 w-3.5 mr-1.5" />
+                  <Edit className="mr-1.5 h-3.5 w-3.5" />
                   Edit
                 </Button>
               </Link>
@@ -106,7 +106,7 @@ export default function CustomServiceSettingsPage() {
           <CardContent className="space-y-4">
             <div className="flex items-center gap-3">
               <div
-                className="flex items-center justify-center w-12 h-12 rounded-lg shrink-0"
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg"
                 style={{
                   ...getGradientStyle(
                     serviceModule.iconColor,
@@ -121,7 +121,7 @@ export default function CustomServiceSettingsPage() {
               </div>
               <div>
                 <p className="font-semibold">{serviceModule.name}</p>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   /{serviceModule.slug}
                 </p>
               </div>
@@ -151,11 +151,11 @@ export default function CustomServiceSettingsPage() {
                   {serviceModule.status}
                 </Badge>
               </div>
-              <div className="flex justify-between items-start">
+              <div className="flex items-start justify-between">
                 <span className="text-muted-foreground shrink-0">
                   Description
                 </span>
-                <span className="font-medium text-right ml-4 line-clamp-2">
+                <span className="ml-4 line-clamp-2 text-right font-medium">
                   {serviceModule.description || "—"}
                 </span>
               </div>
@@ -165,7 +165,7 @@ export default function CustomServiceSettingsPage() {
               <>
                 <Separator />
                 <div>
-                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
+                  <p className="text-muted-foreground mb-1 text-xs font-medium tracking-wide uppercase">
                     Internal Notes
                   </p>
                   <p className="text-sm">{serviceModule.internalNotes}</p>
@@ -181,14 +181,14 @@ export default function CustomServiceSettingsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="flex items-center gap-2">
-                  <DollarSign className="h-4 w-4" />
+                  <DollarSign className="size-4" />
                   Pricing
                 </CardTitle>
                 <CardDescription>Pricing model and base rate</CardDescription>
               </div>
               <Link href={editHref}>
                 <Button variant="outline" size="sm">
-                  <Edit className="h-3.5 w-3.5 mr-1.5" />
+                  <Edit className="mr-1.5 h-3.5 w-3.5" />
                   Edit
                 </Button>
               </Link>
@@ -234,7 +234,7 @@ export default function CustomServiceSettingsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4" />
+                  <Calendar className="size-4" />
                   Operational Config
                 </CardTitle>
                 <CardDescription>
@@ -243,7 +243,7 @@ export default function CustomServiceSettingsPage() {
               </div>
               <Link href={editHref}>
                 <Button variant="outline" size="sm">
-                  <Edit className="h-3.5 w-3.5 mr-1.5" />
+                  <Edit className="mr-1.5 h-3.5 w-3.5" />
                   Edit
                 </Button>
               </Link>
@@ -252,9 +252,9 @@ export default function CustomServiceSettingsPage() {
           <CardContent className="space-y-4 text-sm">
             {/* Calendar */}
             <div>
-              <div className="flex items-center gap-1.5 mb-2">
-                <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
-                <span className="font-medium text-xs uppercase tracking-wide text-muted-foreground">
+              <div className="mb-2 flex items-center gap-1.5">
+                <Calendar className="text-muted-foreground h-3.5 w-3.5" />
+                <span className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
                   Calendar
                 </span>
               </div>
@@ -269,7 +269,7 @@ export default function CustomServiceSettingsPage() {
                       <span className="text-muted-foreground">
                         Duration Mode
                       </span>
-                      <span className="capitalize font-medium">
+                      <span className="font-medium capitalize">
                         {serviceModule.calendar.durationMode}
                       </span>
                     </div>
@@ -296,9 +296,9 @@ export default function CustomServiceSettingsPage() {
 
             {/* Check-In/Out */}
             <div>
-              <div className="flex items-center gap-1.5 mb-2">
-                <LogIn className="h-3.5 w-3.5 text-muted-foreground" />
-                <span className="font-medium text-xs uppercase tracking-wide text-muted-foreground">
+              <div className="mb-2 flex items-center gap-1.5">
+                <LogIn className="text-muted-foreground h-3.5 w-3.5" />
+                <span className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
                   Check-In / Out
                 </span>
               </div>
@@ -313,7 +313,7 @@ export default function CustomServiceSettingsPage() {
                       <span className="text-muted-foreground">
                         Check-In Type
                       </span>
-                      <span className="capitalize font-medium">
+                      <span className="font-medium capitalize">
                         {serviceModule.checkInOut.checkInType}
                       </span>
                     </div>
@@ -334,9 +334,9 @@ export default function CustomServiceSettingsPage() {
 
             {/* Online Booking */}
             <div>
-              <div className="flex items-center gap-1.5 mb-2">
-                <Settings className="h-3.5 w-3.5 text-muted-foreground" />
-                <span className="font-medium text-xs uppercase tracking-wide text-muted-foreground">
+              <div className="mb-2 flex items-center gap-1.5">
+                <Settings className="text-muted-foreground h-3.5 w-3.5" />
+                <span className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
                   Online Booking
                 </span>
               </div>
@@ -351,7 +351,7 @@ export default function CustomServiceSettingsPage() {
                       <span className="text-muted-foreground">
                         Eligible Clients
                       </span>
-                      <span className="capitalize font-medium">
+                      <span className="font-medium capitalize">
                         {serviceModule.onlineBooking.eligibleClients.replace(
                           /_/g,
                           " ",
@@ -375,7 +375,7 @@ export default function CustomServiceSettingsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="flex items-center gap-2">
-                  <UserCheck className="h-4 w-4" />
+                  <UserCheck className="size-4" />
                   Staff &amp; Tasks
                 </CardTitle>
                 <CardDescription>
@@ -384,7 +384,7 @@ export default function CustomServiceSettingsPage() {
               </div>
               <Link href={editHref}>
                 <Button variant="outline" size="sm">
-                  <Edit className="h-3.5 w-3.5 mr-1.5" />
+                  <Edit className="mr-1.5 h-3.5 w-3.5" />
                   Edit
                 </Button>
               </Link>
@@ -420,7 +420,7 @@ export default function CustomServiceSettingsPage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-muted-foreground italic text-xs">
+                <p className="text-muted-foreground text-xs italic">
                   No automatic task generation
                 </p>
               )}
@@ -441,7 +441,7 @@ export default function CustomServiceSettingsPage() {
       {/* Metadata Footer */}
       <Card className="bg-muted/30">
         <CardContent className="pt-4 pb-4">
-          <div className="flex flex-wrap gap-6 text-xs text-muted-foreground">
+          <div className="text-muted-foreground flex flex-wrap gap-6 text-xs">
             <span>
               <strong>ID:</strong> {serviceModule.id}
             </span>

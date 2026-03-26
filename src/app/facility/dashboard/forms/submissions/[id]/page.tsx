@@ -120,11 +120,11 @@ function AnswerBlock({
     const filename = typeof value === "string" ? value : formatValue(value);
     return (
       <div className="space-y-1">
-        <Label className="text-muted-foreground font-normal text-xs">
+        <Label className="text-muted-foreground text-xs font-normal">
           {question.label}
         </Label>
         <div className="flex items-center gap-2 text-sm font-medium">
-          <File className="h-3.5 w-3.5 text-muted-foreground" />
+          <File className="text-muted-foreground h-3.5 w-3.5" />
           <span>{filename}</span>
         </div>
       </div>
@@ -136,11 +136,11 @@ function AnswerBlock({
     const addr = isAddressObject(value) ? value : null;
     return (
       <div className="space-y-1">
-        <Label className="text-muted-foreground font-normal text-xs">
+        <Label className="text-muted-foreground text-xs font-normal">
           {question.label}
         </Label>
         <div className="flex items-center gap-2 text-sm font-medium">
-          <MapPin className="h-3.5 w-3.5 text-muted-foreground" />
+          <MapPin className="text-muted-foreground h-3.5 w-3.5" />
           <span>{addr ? formatAddress(addr) : formatValue(value)}</span>
         </div>
       </div>
@@ -159,21 +159,21 @@ function AnswerBlock({
     const sigMeta = isEsignObj ? (value as Record<string, unknown>) : null;
     return (
       <div className="space-y-1">
-        <Label className="text-muted-foreground font-normal text-xs">
+        <Label className="text-muted-foreground text-xs font-normal">
           {question.label}
         </Label>
         <div className="flex items-center gap-2">
           <p className="text-sm font-medium italic">{sigName}</p>
           <Badge
             variant="outline"
-            className="text-[10px] h-5 gap-1 font-normal bg-violet-50 text-violet-700 border-violet-200"
+            className="h-5 gap-1 border-violet-200 bg-violet-50 text-[10px] font-normal text-violet-700"
           >
             <PenLine className="h-2.5 w-2.5" />
             e-signed
           </Badge>
         </div>
         {Boolean(sigMeta?.signedAt) && (
-          <div className="mt-1.5 rounded-md bg-violet-50/50 border border-violet-100 px-2.5 py-2 text-[11px] text-muted-foreground space-y-0.5">
+          <div className="text-muted-foreground mt-1.5 space-y-0.5 rounded-md border border-violet-100 bg-violet-50/50 px-2.5 py-2 text-[11px]">
             <p>
               Signed: {String(sigMeta!.signedAt).slice(0, 19).replace("T", " ")}{" "}
               UTC
@@ -204,18 +204,18 @@ function AnswerBlock({
       value === true || value === "yes" || value === "Yes" || value === "true";
     return (
       <div className="space-y-1">
-        <Label className="text-muted-foreground font-normal text-xs">
+        <Label className="text-muted-foreground text-xs font-normal">
           {question.label}
         </Label>
         <div className="flex items-center gap-2 text-sm font-medium">
           {boolVal ? (
             <div className="flex items-center gap-1.5 text-green-700">
-              <Check className="h-4 w-4" />
+              <Check className="size-4" />
               <span>Yes</span>
             </div>
           ) : (
             <div className="flex items-center gap-1.5 text-red-600">
-              <X className="h-4 w-4" />
+              <X className="size-4" />
               <span>No</span>
             </div>
           )}
@@ -227,7 +227,7 @@ function AnswerBlock({
   // Default
   return (
     <div className="space-y-1">
-      <Label className="text-muted-foreground font-normal text-xs">
+      <Label className="text-muted-foreground text-xs font-normal">
         {question.label}
       </Label>
       <p className="text-sm font-medium">{formatValue(value)}</p>
@@ -539,7 +539,7 @@ export default function SubmissionDetailPage({
     return (
       <div className="flex-1 p-4">
         <Card>
-          <CardContent className="py-12 text-center text-muted-foreground">
+          <CardContent className="text-muted-foreground py-12 text-center">
             Submission not found.
             <Button
               variant="link"
@@ -563,11 +563,11 @@ export default function SubmissionDetailPage({
           size="icon"
           onClick={() => router.push("/facility/dashboard/forms/submissions")}
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft className="size-4" />
         </Button>
         <div>
           <h2 className="text-2xl font-bold tracking-tight">Submission</h2>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             {form?.name ?? submission.formId} ·{" "}
             {formatSubmissionDate(submission.createdAt)}
           </p>
@@ -589,28 +589,28 @@ export default function SubmissionDetailPage({
           return (
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-base flex items-center gap-2">
-                  <BarChart3 className="h-4 w-4 text-indigo-600" />
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <BarChart3 className="size-4 text-indigo-600" />
                   Intake Score
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center gap-4">
-                  <div className={`rounded-xl px-4 py-2.5 ${outcome.bg}`}>
+                  <div className={`rounded-xl px-4 py-2.5 ${outcome.bg} `}>
                     <p className="text-2xl font-bold tabular-nums">
                       {totalPoints}
                     </p>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">
+                    <p className="text-muted-foreground mt-0.5 text-[10px]">
                       points
                     </p>
                   </div>
                   <div>
                     <Badge
-                      className={`${outcome.bg} ${outcome.color} border-0 text-xs font-semibold`}
+                      className={` ${outcome.bg} ${outcome.color} border-0 text-xs font-semibold`}
                     >
                       {outcome.label}
                     </Badge>
-                    <p className="text-xs text-muted-foreground mt-1.5">
+                    <p className="text-muted-foreground mt-1.5 text-xs">
                       {rules.length} rule{rules.length !== 1 ? "s" : ""}{" "}
                       evaluated
                     </p>
@@ -620,11 +620,11 @@ export default function SubmissionDetailPage({
                       {rules.map((r, i) => (
                         <div
                           key={i}
-                          className={`rounded-md px-2.5 py-1.5 text-center text-xs border ${
+                          className={`rounded-md border px-2.5 py-1.5 text-center text-xs ${
                             r.points > 0
-                              ? "bg-emerald-50 border-emerald-200 text-emerald-700"
-                              : "bg-muted/50 border-muted text-muted-foreground"
-                          }`}
+                              ? `border-emerald-200 bg-emerald-50 text-emerald-700`
+                              : "border-muted bg-muted/50 text-muted-foreground"
+                          } `}
                         >
                           <span className="font-semibold">
                             {r.points > 0 ? "+" : ""}
@@ -644,14 +644,14 @@ export default function SubmissionDetailPage({
         {/* Left: Answers in form layout */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
-              <FileText className="h-4 w-4" />
+            <CardTitle className="flex items-center gap-2 text-base">
+              <FileText className="size-4" />
               Answers
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {visibleQuestions.length === 0 ? (
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 No answers recorded.
               </p>
             ) : hasSections && groupedQuestions ? (
@@ -660,11 +660,11 @@ export default function SubmissionDetailPage({
                 <div key={group.section.id}>
                   {gi > 0 && <Separator className="my-4" />}
                   <div className="mb-3">
-                    <h3 className="text-sm font-semibold text-foreground">
+                    <h3 className="text-foreground text-sm font-semibold">
                       {group.section.title}
                     </h3>
                     {group.section.description && (
-                      <p className="text-xs text-muted-foreground mt-0.5">
+                      <p className="text-muted-foreground mt-0.5 text-xs">
                         {group.section.description}
                       </p>
                     )}
@@ -692,24 +692,24 @@ export default function SubmissionDetailPage({
         {/* Right: Matching panel */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
-              <Link2 className="h-4 w-4" />
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Link2 className="size-4" />
               Match to profile
             </CardTitle>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Match by email/phone from answers, or create a new customer.
             </p>
           </CardHeader>
           <CardContent className="space-y-4">
             {/* Linked success state */}
             {linkedCustomerName && (
-              <div className="rounded-md bg-green-50 border border-green-200 p-3 text-sm flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-green-600" />
+              <div className="flex items-center gap-2 rounded-md border border-green-200 bg-green-50 p-3 text-sm">
+                <CheckCircle className="size-4 text-green-600" />
                 <span className="font-medium text-green-800">
                   Linked to {linkedCustomerName}
                 </span>
                 {selectedPetIds.length > 0 && (
-                  <span className="text-green-700 text-xs ml-1">
+                  <span className="ml-1 text-xs text-green-700">
                     ({selectedPetIds.length} pet
                     {selectedPetIds.length !== 1 ? "s" : ""} selected)
                   </span>
@@ -718,8 +718,8 @@ export default function SubmissionDetailPage({
             )}
 
             {(emailFromAnswers || phoneFromAnswers) && (
-              <div className="rounded-md bg-muted/50 p-3 text-sm">
-                <p className="font-medium mb-1">From submission</p>
+              <div className="bg-muted/50 rounded-md p-3 text-sm">
+                <p className="mb-1 font-medium">From submission</p>
                 {emailFromAnswers && <p>Email: {emailFromAnswers}</p>}
                 {phoneFromAnswers && <p>Phone: {phoneFromAnswers}</p>}
               </div>
@@ -730,7 +730,7 @@ export default function SubmissionDetailPage({
                 <Label>Matching customers</Label>
                 {/* Prompt when matches exist but no selection */}
                 {!selectedCustomerId && !linkedCustomerName && (
-                  <p className="text-xs text-muted-foreground italic">
+                  <p className="text-muted-foreground text-xs italic">
                     Select a customer to see merge preview
                   </p>
                 )}
@@ -742,15 +742,15 @@ export default function SubmissionDetailPage({
                         selectedCustomerId === c.id
                           ? "border-primary bg-primary/5"
                           : ""
-                      }`}
+                      } `}
                     >
                       <div>
                         <p className="font-medium">{c.name}</p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-muted-foreground text-xs">
                           {c.email}
                         </p>
                         {c.phone && (
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-muted-foreground text-xs">
                             {c.phone}
                           </p>
                         )}
@@ -764,7 +764,7 @@ export default function SubmissionDetailPage({
                       >
                         {selectedCustomerId === c.id ? (
                           <>
-                            <Check className="h-3.5 w-3.5 mr-1" /> Selected
+                            <Check className="mr-1 h-3.5 w-3.5" /> Selected
                           </>
                         ) : (
                           "Select"
@@ -775,7 +775,7 @@ export default function SubmissionDetailPage({
                 </div>
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 No existing customer matched by email/phone.
               </p>
             )}
@@ -790,7 +790,7 @@ export default function SubmissionDetailPage({
                     Link pets
                   </Label>
                   {petNamesFromAnswers.length > 0 && (
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-muted-foreground text-xs">
                       Pet names from submission:{" "}
                       <span className="font-medium">
                         {petNamesFromAnswers.join(", ")}
@@ -804,17 +804,17 @@ export default function SubmissionDetailPage({
                       return (
                         <label
                           key={pet.id}
-                          className={`flex items-center gap-3 rounded-md border p-2.5 cursor-pointer transition-colors ${
+                          className={`flex cursor-pointer items-center gap-3 rounded-md border p-2.5 transition-colors ${
                             isSelected
                               ? "border-primary bg-primary/5"
                               : "hover:bg-muted/30"
-                          }`}
+                          } `}
                         >
                           <Checkbox
                             checked={isSelected}
                             onCheckedChange={() => togglePetSelection(pet.id)}
                           />
-                          <div className="flex-1 min-w-0">
+                          <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-2">
                               <span className="text-sm font-medium">
                                 {pet.name}
@@ -823,7 +823,7 @@ export default function SubmissionDetailPage({
                                 <Check className="h-3.5 w-3.5 text-green-600" />
                               )}
                             </div>
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-muted-foreground text-xs">
                               {pet.breed ?? pet.type}
                               {pet.age != null
                                 ? ` · ${pet.age} yr${pet.age !== 1 ? "s" : ""} old`
@@ -884,12 +884,12 @@ export default function SubmissionDetailPage({
                       key={d.field}
                       className="rounded-md border p-2.5 text-sm"
                     >
-                      <p className="font-medium text-xs text-muted-foreground mb-1">
+                      <p className="text-muted-foreground mb-1 text-xs font-medium">
                         {d.label}
                       </p>
                       {d.existing === "(empty)" ? (
                         <div className="flex items-center gap-2 text-green-700">
-                          <span className="text-xs bg-green-100 text-green-800 rounded px-1.5 py-0.5">
+                          <span className="rounded-sm bg-green-100 px-1.5 py-0.5 text-xs text-green-800">
                             NEW
                           </span>
                           <span>{d.submitted}</span>
@@ -898,36 +898,36 @@ export default function SubmissionDetailPage({
                         <div className="space-y-1">
                           <div className="flex items-center gap-2 text-xs">
                             <span
-                              className={`rounded px-1.5 py-0.5 ${
+                              className={`rounded-sm px-1.5 py-0.5 ${
                                 mergeRule === "ask"
                                   ? (conflictChoices[d.field] ?? true)
                                     ? "bg-primary/10 text-primary font-medium"
                                     : "bg-muted text-muted-foreground"
                                   : mergeRule === "submitted_wins"
                                     ? "bg-primary/10 text-primary font-medium"
-                                    : "bg-muted text-muted-foreground line-through"
-                              }`}
+                                    : `bg-muted text-muted-foreground line-through`
+                              } `}
                             >
                               Submitted: {d.submitted}
                             </span>
                           </div>
                           <div className="flex items-center gap-2 text-xs">
                             <span
-                              className={`rounded px-1.5 py-0.5 ${
+                              className={`rounded-sm px-1.5 py-0.5 ${
                                 mergeRule === "ask"
                                   ? !(conflictChoices[d.field] ?? true)
                                     ? "bg-primary/10 text-primary font-medium"
                                     : "bg-muted text-muted-foreground"
                                   : mergeRule === "existing_wins"
                                     ? "bg-primary/10 text-primary font-medium"
-                                    : "bg-muted text-muted-foreground line-through"
-                              }`}
+                                    : `bg-muted text-muted-foreground line-through`
+                              } `}
                             >
                               Existing: {d.existing}
                             </span>
                           </div>
                           {mergeRule === "ask" && (
-                            <div className="flex gap-2 mt-1.5">
+                            <div className="mt-1.5 flex gap-2">
                               <Button
                                 type="button"
                                 variant={
@@ -982,7 +982,7 @@ export default function SubmissionDetailPage({
                     handleMatchExisting(selectedCustomerId as number)
                   }
                 >
-                  <ArrowRight className="h-4 w-4 mr-2" />
+                  <ArrowRight className="mr-2 size-4" />
                   Merge &amp; link
                 </Button>
               ) : null}
@@ -992,7 +992,7 @@ export default function SubmissionDetailPage({
                 onClick={handleCreateNew}
                 disabled={createdProfile}
               >
-                <UserPlus className="h-4 w-4 mr-2" />
+                <UserPlus className="mr-2 size-4" />
                 {createdProfile ? "Profile created" : "Create new profile"}
               </Button>
               <Button
@@ -1002,7 +1002,7 @@ export default function SubmissionDetailPage({
                 }
                 onClick={handleMarkProcessed}
               >
-                <CheckCircle className="h-4 w-4 mr-2" />
+                <CheckCircle className="mr-2 size-4" />
                 Mark as processed
               </Button>
             </div>
@@ -1023,11 +1023,11 @@ export default function SubmissionDetailPage({
                     className="w-full justify-start"
                     onClick={() => setShowBookingForm(true)}
                   >
-                    <CalendarPlus className="h-4 w-4 mr-2" />
+                    <CalendarPlus className="mr-2 size-4" />
                     Create booking request
                   </Button>
                 ) : (
-                  <div className="rounded-md border bg-muted/20 p-3 space-y-3">
+                  <div className="bg-muted/20 space-y-3 rounded-md border p-3">
                     <div className="flex items-center justify-between">
                       <p className="text-sm font-medium">New booking request</p>
                       <Button
@@ -1091,10 +1091,10 @@ export default function SubmissionDetailPage({
               <Button
                 variant="outline"
                 size="sm"
-                className="w-full justify-start text-amber-700 border-amber-200 hover:bg-amber-50"
+                className="w-full justify-start border-amber-200 text-amber-700 hover:bg-amber-50"
                 onClick={handleFlagFollowUp}
               >
-                <AlertTriangle className="h-4 w-4 mr-2" />
+                <AlertTriangle className="mr-2 size-4" />
                 Flag for follow-up
               </Button>
             </div>
@@ -1105,18 +1105,18 @@ export default function SubmissionDetailPage({
       {/* Mapping Summary: where each answer is stored */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-base flex items-center gap-2">
-            <ArrowRight className="h-4 w-4" />
+          <CardTitle className="flex items-center gap-2 text-base">
+            <ArrowRight className="size-4" />
             Where answers go
           </CardTitle>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-muted-foreground text-xs">
             Field mappings configured in the form builder determine where each
             answer is stored.
           </p>
         </CardHeader>
         <CardContent>
           {!hasMappings ? (
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               No field mappings configured for this form.
             </p>
           ) : (
@@ -1128,41 +1128,41 @@ export default function SubmissionDetailPage({
                 > = {
                   customer: {
                     label: "Customer Profile",
-                    icon: <User className="h-4 w-4 text-blue-600" />,
+                    icon: <User className="size-4 text-blue-600" />,
                     bg: "bg-blue-50",
                   },
                   pet: {
                     label: "Pet Profile",
-                    icon: <PawPrint className="h-4 w-4 text-amber-600" />,
+                    icon: <PawPrint className="size-4 text-amber-600" />,
                     bg: "bg-amber-50",
                   },
                   medical: {
                     label: "Medical / Vaccine",
-                    icon: <Syringe className="h-4 w-4 text-red-600" />,
+                    icon: <Syringe className="size-4 text-red-600" />,
                     bg: "bg-red-50",
                   },
                   notes: {
                     label: "Notes",
-                    icon: <FileText className="h-4 w-4 text-slate-600" />,
+                    icon: <FileText className="size-4 text-slate-600" />,
                     bg: "bg-slate-50",
                   },
                   tags: {
                     label: "Tags",
-                    icon: <Tag className="h-4 w-4 text-purple-600" />,
+                    icon: <Tag className="size-4 text-purple-600" />,
                     bg: "bg-purple-50",
                   },
                 };
                 const config = groupConfig[group] ?? {
                   label: group,
-                  icon: <FileText className="h-4 w-4 text-slate-600" />,
+                  icon: <FileText className="size-4 text-slate-600" />,
                   bg: "bg-slate-50",
                 };
                 return (
                   <div
                     key={group}
-                    className={`rounded-lg border p-3 ${config.bg}`}
+                    className={`rounded-lg border p-3 ${config.bg} `}
                   >
-                    <div className="flex items-center gap-2 mb-3">
+                    <div className="mb-3 flex items-center gap-2">
                       {config.icon}
                       <span className="text-sm font-semibold">
                         {config.label}
@@ -1172,27 +1172,27 @@ export default function SubmissionDetailPage({
                       {(items as MappingResult[]).map((item, idx) => (
                         <div
                           key={idx}
-                          className="rounded-md bg-white/80 border border-white/60 px-2.5 py-2 text-sm"
+                          className="rounded-md border border-white/60 bg-white/80 px-2.5 py-2 text-sm"
                         >
-                          <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-0.5">
+                          <div className="text-muted-foreground mb-0.5 flex items-center gap-1.5 text-xs">
                             <span>{item.questionLabel}</span>
                             <ArrowRight className="h-3 w-3 shrink-0" />
-                            <span className="font-medium text-foreground">
+                            <span className="text-foreground font-medium">
                               {item.label}
                             </span>
                             {item.hasAttachment && (
-                              <Paperclip className="h-3 w-3 text-muted-foreground shrink-0" />
+                              <Paperclip className="text-muted-foreground h-3 w-3 shrink-0" />
                             )}
                           </div>
                           {group === "tags" ? (
                             <Badge
                               variant="secondary"
-                              className="mt-1 text-xs bg-purple-100 text-purple-700 border-purple-200"
+                              className="mt-1 border-purple-200 bg-purple-100 text-xs text-purple-700"
                             >
                               {formatValue(item.value)}
                             </Badge>
                           ) : (
-                            <p className="text-sm font-medium truncate">
+                            <p className="truncate text-sm font-medium">
                               {formatValue(item.value)}
                             </p>
                           )}
@@ -1210,11 +1210,11 @@ export default function SubmissionDetailPage({
       {/* Audit & compliance: timestamps, merge decision, audit trail */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-base flex items-center gap-2">
-            <History className="h-4 w-4" />
+          <CardTitle className="flex items-center gap-2 text-base">
+            <History className="size-4" />
             Audit & compliance
           </CardTitle>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-muted-foreground text-xs">
             Submission timestamps and merge decisions are logged for compliance.
           </p>
         </CardHeader>
@@ -1242,8 +1242,8 @@ export default function SubmissionDetailPage({
           {record?.mergeDecision &&
             typeof record.mergeDecision === "object" &&
             "rule" in record.mergeDecision && (
-              <div className="rounded-md border bg-muted/30 p-3 text-sm">
-                <p className="font-medium mb-1">Merge decision</p>
+              <div className="bg-muted/30 rounded-md border p-3 text-sm">
+                <p className="mb-1 font-medium">Merge decision</p>
                 <p className="text-muted-foreground text-xs">
                   Rule:{" "}
                   {(record.mergeDecision as { rule?: string }).rule ?? "—"} · at{" "}

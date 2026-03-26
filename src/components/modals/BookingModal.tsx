@@ -186,11 +186,11 @@ export function BookingModal({ booking }: BookingModalProps) {
           )}
 
           {/* Overview Cards */}
-          <div className="grid gap-4 grid-cols-1 md:grid-cols-4">
-            <Card className="bg-linear-to-br from-blue-50 to-blue-100 border-blue-200">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+            <Card className="border-blue-200 bg-linear-to-br from-blue-50 to-blue-100">
               <CardContent className="p-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-blue-500 rounded-lg">
+                  <div className="rounded-lg bg-blue-500 p-2">
                     <Calendar className="h-5 w-5 text-white" />
                   </div>
                   <div>
@@ -203,10 +203,10 @@ export function BookingModal({ booking }: BookingModalProps) {
               </CardContent>
             </Card>
 
-            <Card className="bg-linear-to-br from-green-50 to-green-100 border-green-200">
+            <Card className="border-green-200 bg-linear-to-br from-green-50 to-green-100">
               <CardContent className="p-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-green-500 rounded-lg">
+                  <div className="rounded-lg bg-green-500 p-2">
                     <Clock className="h-5 w-5 text-white" />
                   </div>
                   <div>
@@ -221,10 +221,10 @@ export function BookingModal({ booking }: BookingModalProps) {
               </CardContent>
             </Card>
 
-            <Card className="bg-linear-to-br from-purple-50 to-purple-100 border-purple-200">
+            <Card className="border-purple-200 bg-linear-to-br from-purple-50 to-purple-100">
               <CardContent className="p-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-purple-500 rounded-lg">
+                  <div className="rounded-lg bg-purple-500 p-2">
                     <DollarSign className="h-5 w-5 text-white" />
                   </div>
                   <div>
@@ -239,10 +239,10 @@ export function BookingModal({ booking }: BookingModalProps) {
               </CardContent>
             </Card>
 
-            <Card className="bg-linear-to-br from-orange-50 to-orange-100 border-orange-200">
+            <Card className="border-orange-200 bg-linear-to-br from-orange-50 to-orange-100">
               <CardContent className="p-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-orange-500 rounded-lg">
+                  <div className="rounded-lg bg-orange-500 p-2">
                     <CheckCircle className="h-5 w-5 text-white" />
                   </div>
                   <div>
@@ -251,7 +251,7 @@ export function BookingModal({ booking }: BookingModalProps) {
                     </p>
                     <Badge
                       variant="outline"
-                      className="capitalize font-semibold"
+                      className="font-semibold capitalize"
                     >
                       {booking.status}
                     </Badge>
@@ -282,7 +282,7 @@ export function BookingModal({ booking }: BookingModalProps) {
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="flex items-center gap-2 text-base">
-                    <FileText className="h-4 w-4 text-primary" />
+                    <FileText className="text-primary size-4" />
                     YipyyGo Pre-Check-In
                   </CardTitle>
                 </CardHeader>
@@ -304,18 +304,18 @@ export function BookingModal({ booking }: BookingModalProps) {
 
           {/* Schedule Section */}
           <Card className="overflow-hidden">
-            <CardHeader className="bg-linear-to-r from-primary/5 to-primary/10">
+            <CardHeader className="from-primary/5 to-primary/10 bg-linear-to-r">
               <CardTitle className="flex items-center gap-2">
-                <Calendar className="h-5 w-5 text-primary" />
+                <Calendar className="text-primary h-5 w-5" />
                 Schedule & Dates
               </CardTitle>
             </CardHeader>
             <CardContent className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div className="space-y-4">
-                  <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                    <div className="p-2 bg-blue-500 rounded-full">
-                      <Clock className="h-4 w-4 text-white" />
+                  <div className="flex items-center gap-3 rounded-lg border border-blue-200 bg-blue-50 p-4">
+                    <div className="rounded-full bg-blue-500 p-2">
+                      <Clock className="size-4 text-white" />
                     </div>
                     <div>
                       <p className="text-sm font-medium text-blue-900">
@@ -326,9 +326,9 @@ export function BookingModal({ booking }: BookingModalProps) {
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg border border-green-200">
-                    <div className="p-2 bg-green-500 rounded-full">
-                      <CheckCircle className="h-4 w-4 text-white" />
+                  <div className="flex items-center gap-3 rounded-lg border border-green-200 bg-green-50 p-4">
+                    <div className="rounded-full bg-green-500 p-2">
+                      <CheckCircle className="size-4 text-white" />
                     </div>
                     <div>
                       <p className="text-sm font-medium text-green-900">
@@ -341,9 +341,9 @@ export function BookingModal({ booking }: BookingModalProps) {
                   </div>
                 </div>
                 <div className="space-y-4">
-                  <div className="flex items-center gap-3 p-4 bg-purple-50 rounded-lg border border-purple-200">
-                    <div className="p-2 bg-purple-500 rounded-full">
-                      <MapPin className="h-4 w-4 text-white" />
+                  <div className="flex items-center gap-3 rounded-lg border border-purple-200 bg-purple-50 p-4">
+                    <div className="rounded-full bg-purple-500 p-2">
+                      <MapPin className="size-4 text-white" />
                     </div>
                     <div>
                       <p className="text-sm font-medium text-purple-900">
@@ -354,9 +354,9 @@ export function BookingModal({ booking }: BookingModalProps) {
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 p-4 bg-orange-50 rounded-lg border border-orange-200">
-                    <div className="p-2 bg-orange-500 rounded-full">
-                      <MapPin className="h-4 w-4 text-white" />
+                  <div className="flex items-center gap-3 rounded-lg border border-orange-200 bg-orange-50 p-4">
+                    <div className="rounded-full bg-orange-500 p-2">
+                      <MapPin className="size-4 text-white" />
                     </div>
                     <div>
                       <p className="text-sm font-medium text-orange-900">
@@ -373,7 +373,7 @@ export function BookingModal({ booking }: BookingModalProps) {
           </Card>
 
           {/* Client & Pet Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <Card className="overflow-hidden">
               <CardHeader className="bg-linear-to-r from-green-50 to-green-100">
                 <CardTitle className="flex items-center gap-2">
@@ -385,32 +385,32 @@ export function BookingModal({ booking }: BookingModalProps) {
                 {client ? (
                   <div className="space-y-4">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
                         <User className="h-6 w-6 text-green-600" />
                       </div>
                       <div>
                         <h3 className="text-lg font-bold">{client.name}</h3>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-muted-foreground text-sm">
                           {client.status}
                         </p>
                       </div>
                     </div>
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
-                        <Mail className="h-4 w-4 text-muted-foreground" />
+                        <Mail className="text-muted-foreground size-4" />
                         <span className="text-sm">{client.email}</span>
                       </div>
                       {client.phone && (
                         <div className="flex items-center gap-2">
-                          <Phone className="h-4 w-4 text-muted-foreground" />
+                          <Phone className="text-muted-foreground size-4" />
                           <span className="text-sm">{client.phone}</span>
                         </div>
                       )}
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center py-8">
-                    <User className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
+                  <div className="py-8 text-center">
+                    <User className="text-muted-foreground mx-auto mb-2 h-12 w-12" />
                     <p className="text-muted-foreground">
                       Client information not found
                     </p>
@@ -430,36 +430,36 @@ export function BookingModal({ booking }: BookingModalProps) {
                 {pet ? (
                   <div className="space-y-4">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-pink-100">
                         <Heart className="h-6 w-6 text-pink-600" />
                       </div>
                       <div>
                         <h3 className="text-lg font-bold">{pet.name}</h3>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-muted-foreground text-sm">
                           {pet.type} • {pet.breed}
                         </p>
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="bg-muted/50 p-3 rounded-lg">
-                        <p className="text-xs text-muted-foreground">Age</p>
+                      <div className="bg-muted/50 rounded-lg p-3">
+                        <p className="text-muted-foreground text-xs">Age</p>
                         <p className="font-semibold">
                           {pet.age} {pet.age === 1 ? "year" : "years"}
                         </p>
                       </div>
-                      <div className="bg-muted/50 p-3 rounded-lg">
-                        <p className="text-xs text-muted-foreground">Weight</p>
+                      <div className="bg-muted/50 rounded-lg p-3">
+                        <p className="text-muted-foreground text-xs">Weight</p>
                         <p className="font-semibold">{pet.weight} lbs</p>
                       </div>
-                      <div className="bg-muted/50 p-3 rounded-lg">
-                        <p className="text-xs text-muted-foreground">Color</p>
+                      <div className="bg-muted/50 rounded-lg p-3">
+                        <p className="text-muted-foreground text-xs">Color</p>
                         <p className="font-semibold">{pet.color}</p>
                       </div>
-                      <div className="bg-muted/50 p-3 rounded-lg">
-                        <p className="text-xs text-muted-foreground">
+                      <div className="bg-muted/50 rounded-lg p-3">
+                        <p className="text-muted-foreground text-xs">
                           Microchip
                         </p>
-                        <p className="font-semibold font-mono text-xs">
+                        <p className="font-mono text-xs font-semibold">
                           {pet.microchip}
                         </p>
                       </div>
@@ -468,8 +468,8 @@ export function BookingModal({ booking }: BookingModalProps) {
                       pet.specialNeeds !== "None") && (
                       <div className="space-y-2">
                         {pet.allergies !== "None" && (
-                          <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 rounded-lg">
-                            <AlertCircle className="h-4 w-4 text-red-500 mt-0.5" />
+                          <div className="flex items-start gap-2 rounded-lg border border-red-200 bg-red-50 p-3">
+                            <AlertCircle className="mt-0.5 size-4 text-red-500" />
                             <div>
                               <p className="text-sm font-medium text-red-900">
                                 Allergies
@@ -481,8 +481,8 @@ export function BookingModal({ booking }: BookingModalProps) {
                           </div>
                         )}
                         {pet.specialNeeds !== "None" && (
-                          <div className="flex items-start gap-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                            <FileText className="h-4 w-4 text-yellow-500 mt-0.5" />
+                          <div className="flex items-start gap-2 rounded-lg border border-yellow-200 bg-yellow-50 p-3">
+                            <FileText className="mt-0.5 size-4 text-yellow-500" />
                             <div>
                               <p className="text-sm font-medium text-yellow-900">
                                 Special Needs
@@ -497,8 +497,8 @@ export function BookingModal({ booking }: BookingModalProps) {
                     )}
                   </div>
                 ) : (
-                  <div className="text-center py-8">
-                    <Heart className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
+                  <div className="py-8 text-center">
+                    <Heart className="text-muted-foreground mx-auto mb-2 h-12 w-12" />
                     <p className="text-muted-foreground">
                       Pet information not found
                     </p>
@@ -522,8 +522,8 @@ export function BookingModal({ booking }: BookingModalProps) {
                 {booking.service === "boarding" && (
                   <div className="space-y-6">
                     {booking.kennel && (
-                      <div className="flex items-center gap-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                        <div className="p-2 bg-blue-500 rounded-lg">
+                      <div className="flex items-center gap-4 rounded-lg border border-blue-200 bg-blue-50 p-4">
+                        <div className="rounded-lg bg-blue-500 p-2">
                           <Home className="h-5 w-5 text-white" />
                         </div>
                         <div>
@@ -537,8 +537,8 @@ export function BookingModal({ booking }: BookingModalProps) {
                       </div>
                     )}
                     {booking.walkSchedule && (
-                      <div className="flex items-center gap-4 p-4 bg-green-50 rounded-lg border border-green-200">
-                        <div className="p-2 bg-green-500 rounded-lg">
+                      <div className="flex items-center gap-4 rounded-lg border border-green-200 bg-green-50 p-4">
+                        <div className="rounded-lg bg-green-500 p-2">
                           <Clock className="h-5 w-5 text-white" />
                         </div>
                         <div>
@@ -558,16 +558,16 @@ export function BookingModal({ booking }: BookingModalProps) {
                   booking.daycareSelectedDates && (
                     <div className="space-y-4">
                       <div>
-                        <h4 className="text-lg font-semibold mb-3">
+                        <h4 className="mb-3 text-lg font-semibold">
                           Scheduled Dates
                         </h4>
                         <div className="flex flex-wrap gap-2">
                           {booking.daycareSelectedDates.map((date) => (
                             <div
                               key={date}
-                              className="flex items-center gap-2 px-3 py-2 bg-primary/10 border border-primary/20 rounded-lg"
+                              className="border-primary/20 bg-primary/10 flex items-center gap-2 rounded-lg border px-3 py-2"
                             >
-                              <Calendar className="h-4 w-4 text-primary" />
+                              <Calendar className="text-primary size-4" />
                               <span className="font-medium">{date}</span>
                             </div>
                           ))}
@@ -589,8 +589,8 @@ export function BookingModal({ booking }: BookingModalProps) {
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-6">
-                <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
-                  <p className="text-amber-900 leading-relaxed">
+                <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
+                  <p className="leading-relaxed text-amber-900">
                     {booking.specialRequests}
                   </p>
                 </div>
@@ -607,32 +607,32 @@ export function BookingModal({ booking }: BookingModalProps) {
               </CardTitle>
             </CardHeader>
             <CardContent className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-center">
                   <p className="text-sm text-emerald-700">Base Price</p>
                   <p className="text-2xl font-bold text-emerald-600">
                     ${booking.basePrice}
                   </p>
                 </div>
-                <div className="text-center p-4 bg-orange-50 rounded-lg border border-orange-200">
+                <div className="rounded-lg border border-orange-200 bg-orange-50 p-4 text-center">
                   <p className="text-sm text-orange-700">Discount</p>
                   <p className="text-2xl font-bold text-orange-600">
                     ${booking.discount}
                   </p>
                 </div>
-                <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <div className="rounded-lg border border-blue-200 bg-blue-50 p-4 text-center">
                   <p className="text-sm text-blue-700">Total</p>
                   <p className="text-2xl font-bold text-blue-600">
                     ${booking.totalCost}
                   </p>
                 </div>
               </div>
-              <div className="mt-4 flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div className="mt-4 flex items-center justify-between rounded-lg bg-gray-50 p-4">
                 <span className="font-medium">Payment Status</span>
                 <StatusBadge type="status" value={booking.paymentStatus} />
               </div>
               {booking.discountReason && (
-                <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <div className="mt-4 rounded-lg border border-yellow-200 bg-yellow-50 p-4">
                   <p className="text-sm text-yellow-800">
                     <strong>Discount Reason:</strong> {booking.discountReason}
                   </p>
@@ -647,8 +647,8 @@ export function BookingModal({ booking }: BookingModalProps) {
             {tasks.length === 0 ? (
               <Card>
                 <CardContent className="flex flex-col items-center justify-center py-16">
-                  <CheckCircle className="h-16 w-16 text-muted-foreground/50 mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">No Tasks</h3>
+                  <CheckCircle className="text-muted-foreground/50 mb-4 h-16 w-16" />
+                  <h3 className="mb-2 text-lg font-semibold">No Tasks</h3>
                   <p className="text-muted-foreground text-center">
                     This booking does not have any scheduled tasks.
                   </p>
@@ -660,11 +660,11 @@ export function BookingModal({ booking }: BookingModalProps) {
                   <Card key={task.id}>
                     <CardContent className="p-4">
                       <div className="flex items-start gap-3">
-                        <div className="p-2 bg-muted rounded-lg">
-                          <task.icon className="h-4 w-4" />
+                        <div className="bg-muted rounded-lg p-2">
+                          <task.icon className="size-4" />
                         </div>
                         <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1">
+                          <div className="mb-1 flex items-center gap-2">
                             <h4 className="font-medium">{task.title}</h4>
                             <Badge
                               variant="outline"
@@ -674,7 +674,7 @@ export function BookingModal({ booking }: BookingModalProps) {
                             </Badge>
                           </div>
                           {task.time && (
-                            <p className="text-sm text-muted-foreground mb-1">
+                            <p className="text-muted-foreground mb-1 text-sm">
                               Time: {task.time}
                             </p>
                           )}

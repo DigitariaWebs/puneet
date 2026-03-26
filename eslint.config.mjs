@@ -2,6 +2,7 @@ import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 import unusedImports from "eslint-plugin-unused-imports";
+import betterTailwindcss from "eslint-plugin-better-tailwindcss";
 
 const eslintConfig = defineConfig([
   ...nextVitals,
@@ -29,6 +30,24 @@ const eslintConfig = defineConfig([
           argsIgnorePattern: "^_",
         },
       ],
+    },
+  },
+  {
+    extends: [betterTailwindcss.configs.recommended],
+    settings: {
+      "better-tailwindcss": {
+        entryPoint: "src/app/globals.css",
+      },
+    },
+    rules: {
+      "better-tailwindcss/enforce-consistent-class-order": "off",
+      "better-tailwindcss/enforce-consistent-line-wrapping": "off", // conflicts with Prettier
+      "better-tailwindcss/no-unnecessary-whitespace": "off", // conflicts with Prettier
+      "better-tailwindcss/enforce-canonical-classes": [
+        "warn",
+        { collapse: true },
+      ],
+      "better-tailwindcss/no-unknown-classes": "warn",
     },
   },
 ]);

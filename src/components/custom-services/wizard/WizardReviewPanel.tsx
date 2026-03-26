@@ -16,7 +16,7 @@ function BooleanIcon({ value }: { value: boolean }) {
   return value ? (
     <Check className="h-3.5 w-3.5 text-green-600" />
   ) : (
-    <X className="h-3.5 w-3.5 text-muted-foreground" />
+    <X className="text-muted-foreground h-3.5 w-3.5" />
   );
 }
 
@@ -31,13 +31,13 @@ function SectionHeader({
 }) {
   return (
     <div className="flex items-center justify-between">
-      <h3 className="text-sm font-semibold text-foreground">{title}</h3>
+      <h3 className="text-foreground text-sm font-semibold">{title}</h3>
       <Button
         type="button"
         variant="ghost"
         size="sm"
         onClick={() => onEdit(stepIndex)}
-        className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
+        className="text-muted-foreground hover:text-foreground h-7 px-2 text-xs"
       >
         <Pencil className="h-3 w-3" />
         Edit
@@ -55,10 +55,10 @@ function Row({
 }) {
   return (
     <div className="flex items-start justify-between gap-4 py-1.5">
-      <span className="text-xs text-muted-foreground shrink-0 w-36">
+      <span className="text-muted-foreground w-36 shrink-0 text-xs">
         {label}
       </span>
-      <span className="text-xs text-foreground text-right">{children}</span>
+      <span className="text-foreground text-right text-xs">{children}</span>
     </div>
   );
 }
@@ -78,7 +78,7 @@ export function WizardReviewPanel({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center gap-4 rounded-xl border border-border bg-card p-4">
+      <div className="border-border bg-card flex items-center gap-4 rounded-xl border p-4">
         <div
           className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-white shadow-sm"
           style={gradientStyle}
@@ -86,15 +86,15 @@ export function WizardReviewPanel({
           <DynamicIcon name={data.icon} className="h-7 w-7" />
         </div>
         <div>
-          <h2 className="text-base font-bold leading-tight">
+          <h2 className="text-base/tight font-bold">
             {data.name || (
               <span className="text-muted-foreground italic">
                 Untitled Service
               </span>
             )}
           </h2>
-          <p className="text-xs text-muted-foreground mt-0.5">/{data.slug}</p>
-          <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
+          <p className="text-muted-foreground mt-0.5 text-xs">/{data.slug}</p>
+          <p className="text-muted-foreground mt-1 line-clamp-1 text-xs">
             {data.description || <em>No description</em>}
           </p>
         </div>

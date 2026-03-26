@@ -51,7 +51,7 @@ export function ContactFacilityButton() {
                 asChild
               >
                 <Link href="/customer/messages">
-                  <MessageSquare className="mr-2 h-4 w-4" />
+                  <MessageSquare className="mr-2 size-4" />
                   Send a Message
                 </Link>
               </Button>
@@ -64,7 +64,7 @@ export function ContactFacilityButton() {
                   window.location.href = `tel:${contact.phone}`;
                 }}
               >
-                <Phone className="mr-2 h-4 w-4" />
+                <Phone className="mr-2 size-4" />
                 Call {contact.phone}
               </Button>
             )}
@@ -76,7 +76,7 @@ export function ContactFacilityButton() {
                   window.location.href = `mailto:${contact.email}`;
                 }}
               >
-                <Mail className="mr-2 h-4 w-4" />
+                <Mail className="mr-2 size-4" />
                 Email {contact.email}
               </Button>
             )}

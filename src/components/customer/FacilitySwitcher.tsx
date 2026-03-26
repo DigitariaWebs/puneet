@@ -26,13 +26,13 @@ export function FacilitySwitcher() {
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          className="gap-2 border-muted-foreground/20 hover:bg-accent"
+          className="border-muted-foreground/20 hover:bg-accent gap-2"
         >
-          <Building2 className="h-4 w-4" />
+          <Building2 className="size-4" />
           <span className="max-w-[200px] truncate">
             {selectedFacility?.name ?? "Select Facility"}
           </span>
-          <ChevronDown className="h-4 w-4 opacity-50" />
+          <ChevronDown className="size-4 opacity-50" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-[250px]">
@@ -44,16 +44,16 @@ export function FacilitySwitcher() {
               setIsOpen(false);
             }}
             className={cn(
-              "flex items-center justify-between cursor-pointer",
+              "flex cursor-pointer items-center justify-between",
               selectedFacility?.id === facility.id && "bg-accent",
             )}
           >
-            <div className="flex items-center gap-2 flex-1 min-w-0">
-              <Building2 className="h-4 w-4 shrink-0 text-muted-foreground" />
+            <div className="flex min-w-0 flex-1 items-center gap-2">
+              <Building2 className="text-muted-foreground size-4 shrink-0" />
               <span className="truncate">{facility.name}</span>
             </div>
             {selectedFacility?.id === facility.id && (
-              <Check className="h-4 w-4 shrink-0 text-primary" />
+              <Check className="text-primary size-4 shrink-0" />
             )}
           </DropdownMenuItem>
         ))}

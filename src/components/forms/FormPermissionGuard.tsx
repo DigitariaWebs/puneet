@@ -54,11 +54,11 @@ export function FormPermissionGuard({
   return (
     <Card>
       <CardContent className="py-12 text-center">
-        <Shield className="h-10 w-10 mx-auto mb-3 text-muted-foreground/50" />
-        <h3 className="text-sm font-semibold text-muted-foreground">
+        <Shield className="text-muted-foreground/50 mx-auto mb-3 h-10 w-10" />
+        <h3 className="text-muted-foreground text-sm font-semibold">
           Access Restricted
         </h3>
-        <p className="text-xs text-muted-foreground mt-1">
+        <p className="text-muted-foreground mt-1 text-xs">
           You don&apos;t have permission to access this feature. Contact your
           facility administrator.
         </p>

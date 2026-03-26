@@ -231,7 +231,7 @@ export function StaffEvaluationFormModal({
       size="lg"
     >
       <div className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div className="space-y-3">
             <Label>Dog-friendly</Label>
             <RadioGroup
@@ -287,7 +287,7 @@ export function StaffEvaluationFormModal({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           <div className="space-y-2">
             <Label>Energy level</Label>
             <Select
@@ -355,7 +355,7 @@ export function StaffEvaluationFormModal({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div className="space-y-2">
             <Label>Play style</Label>
             <Select
@@ -422,7 +422,7 @@ export function StaffEvaluationFormModal({
           placeholder="e.g. resource-guarding"
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div className="space-y-2">
             <Label>Temperament notes</Label>
             <Textarea
@@ -486,7 +486,7 @@ export function StaffEvaluationFormModal({
                 </label>
               </RadioGroup>
               {resultError && (
-                <p className="text-sm text-destructive" role="alert">
+                <p className="text-destructive text-sm" role="alert">
                   {resultError}
                 </p>
               )}
@@ -497,7 +497,7 @@ export function StaffEvaluationFormModal({
               className="space-y-3 data-[disabled=true]:opacity-50"
             >
               <Label>Service approvals</Label>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                 <label className="flex items-center gap-2 rounded-md border p-3">
                   <Checkbox
                     checked={form.approvedServices.daycare}

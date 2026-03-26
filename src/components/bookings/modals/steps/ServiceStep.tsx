@@ -143,9 +143,9 @@ export function ServiceStep({
             return (
               <div
                 key={service.id}
-                className={`relative border rounded-lg transition-colors overflow-hidden ${
+                className={`relative overflow-hidden rounded-lg border transition-colors ${
                   isDisabled
-                    ? "opacity-50 cursor-not-allowed"
+                    ? "cursor-not-allowed opacity-50"
                     : "cursor-pointer"
                 } ${
                   selectedService === service.id && !isDisabled
@@ -153,7 +153,7 @@ export function ServiceStep({
                     : !isDisabled
                       ? "hover:border-primary/50"
                       : ""
-                }`}
+                } `}
                 onClick={() => {
                   if (!isDisabled) {
                     setSelectedService(service.id);
@@ -170,7 +170,7 @@ export function ServiceStep({
                   </div>
                 )}
                 {config?.bannerImage ? (
-                  <div className="w-full h-32 relative">
+                  <div className="relative h-32 w-full">
                     <Image
                       src={config.bannerImage}
                       alt={config.clientFacingName}
@@ -180,7 +180,7 @@ export function ServiceStep({
                     />
                   </div>
                 ) : service.image ? (
-                  <div className="w-full h-32 relative">
+                  <div className="relative h-32 w-full">
                     <Image
                       src={service.image}
                       alt={service.name}
@@ -191,29 +191,29 @@ export function ServiceStep({
                   </div>
                 ) : (
                   <div
-                    className={`w-full h-32 flex items-center justify-center ${
+                    className={`flex h-32 w-full items-center justify-center ${
                       selectedService === service.id && !isDisabled
                         ? "bg-primary text-primary-foreground"
                         : "bg-muted"
-                    }`}
+                    } `}
                   >
                     <Icon className="h-12 w-12" />
                   </div>
                 )}
-                <div className="p-4 space-y-3">
+                <div className="space-y-3 p-4">
                   <div className="text-center">
                     <p className="font-medium">
                       {isEvaluation
                         ? evaluationConfig.customerName
                         : config?.clientFacingName || service.name}
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       {isEvaluation
                         ? evaluationConfig.description
                         : config?.slogan || service.description}
                     </p>
                     {config && !isEvaluation && (
-                      <p className="text-xs text-muted-foreground mt-1">
+                      <p className="text-muted-foreground mt-1 text-xs">
                         {isLockedByEvaluation
                           ? "Evaluation required (expired, failed, or not approved)"
                           : isDisabled
@@ -221,7 +221,7 @@ export function ServiceStep({
                             : config.description}
                       </p>
                     )}
-                    <p className="font-semibold text-primary">
+                    <p className="text-primary font-semibold">
                       {isEvaluation
                         ? `$${evaluationConfig.price}`
                         : `From $${config?.basePrice || service.basePrice}`}
@@ -229,7 +229,7 @@ export function ServiceStep({
                   </div>
                 </div>
                 {selectedService === service.id && !isDisabled && (
-                  <Check className="absolute top-2 right-2 h-5 w-5 text-primary" />
+                  <Check className="text-primary absolute top-2 right-2 h-5 w-5" />
                 )}
               </div>
             );

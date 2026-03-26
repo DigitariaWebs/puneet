@@ -92,7 +92,7 @@ const LOG_COLUMNS: ColumnDef<PlaydateAlertLog>[] = [
           </Badge>
           {row.original.reasonSuppressed && (
             <span
-              className="text-xs text-muted-foreground"
+              className="text-muted-foreground text-xs"
               title={row.original.reasonSuppressed}
             >
               ({row.original.reasonSuppressed})
@@ -142,8 +142,8 @@ export function PlaydateAlertsTab() {
       {/* Section 1: Configuration */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-base flex items-center gap-2">
-            <Heart className="h-4 w-4" aria-hidden="true" />
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Heart className="size-4" aria-hidden="true" />
             Playdate Alert Configuration
           </CardTitle>
         </CardHeader>
@@ -154,7 +154,7 @@ export function PlaydateAlertsTab() {
               <Label htmlFor="playdate-enabled" className="text-sm font-medium">
                 Enable Playdate Alerts
               </Label>
-              <p className="text-xs text-muted-foreground mt-0.5">
+              <p className="text-muted-foreground mt-0.5 text-xs">
                 Automatically notify pet friends&apos; owners when a booking is
                 created
               </p>
@@ -173,10 +173,10 @@ export function PlaydateAlertsTab() {
               {/* Service triggers */}
               <div className="space-y-2">
                 <Label className="text-sm">Trigger Services</Label>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   Which bookings should trigger playdate alerts?
                 </p>
-                <div className="flex gap-4 mt-2 flex-wrap">
+                <div className="mt-2 flex flex-wrap gap-4">
                   {TRIGGER_SERVICES.map((svc) => (
                     <div key={svc.id} className="flex items-center gap-2">
                       <Checkbox
@@ -186,7 +186,7 @@ export function PlaydateAlertsTab() {
                       />
                       <Label
                         htmlFor={`svc-${svc.id}`}
-                        className="text-sm font-normal cursor-pointer"
+                        className="cursor-pointer text-sm font-normal"
                       >
                         {svc.label}
                       </Label>
@@ -198,7 +198,7 @@ export function PlaydateAlertsTab() {
               {/* Trigger moment */}
               <div className="space-y-2">
                 <Label className="text-sm">Trigger Moment</Label>
-                <div className="flex gap-4 flex-wrap">
+                <div className="flex flex-wrap gap-4">
                   <Button
                     variant={
                       config.triggerMoment === "on_request"
@@ -239,11 +239,11 @@ export function PlaydateAlertsTab() {
               {/* Channel toggles */}
               <div className="space-y-2">
                 <Label className="text-sm">Notification Channels</Label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="flex items-center justify-between p-3 border rounded-lg">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                  <div className="flex items-center justify-between rounded-lg border p-3">
                     <div className="flex items-center gap-2">
                       <MessageSquare
-                        className="h-4 w-4 text-muted-foreground"
+                        className="text-muted-foreground size-4"
                         aria-hidden="true"
                       />
                       <Label htmlFor="ch-sms" className="text-sm font-normal">
@@ -261,10 +261,10 @@ export function PlaydateAlertsTab() {
                       }
                     />
                   </div>
-                  <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div className="flex items-center justify-between rounded-lg border p-3">
                     <div className="flex items-center gap-2">
                       <Mail
-                        className="h-4 w-4 text-muted-foreground"
+                        className="text-muted-foreground size-4"
                         aria-hidden="true"
                       />
                       <Label htmlFor="ch-email" className="text-sm font-normal">
@@ -282,10 +282,10 @@ export function PlaydateAlertsTab() {
                       }
                     />
                   </div>
-                  <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div className="flex items-center justify-between rounded-lg border p-3">
                     <div className="flex items-center gap-2">
                       <Bell
-                        className="h-4 w-4 text-muted-foreground"
+                        className="text-muted-foreground size-4"
                         aria-hidden="true"
                       />
                       <Label htmlFor="ch-inapp" className="text-sm font-normal">
@@ -309,7 +309,7 @@ export function PlaydateAlertsTab() {
               {/* Timing */}
               <div className="space-y-2">
                 <Label className="text-sm">Timing</Label>
-                <div className="flex gap-4 items-end flex-wrap">
+                <div className="flex flex-wrap items-end gap-4">
                   <div className="flex gap-2">
                     <Button
                       variant={
@@ -353,11 +353,11 @@ export function PlaydateAlertsTab() {
                             beforeHours: Number(e.target.value) || undefined,
                           }))
                         }
-                        className="w-20 h-8"
+                        className="h-8 w-20"
                         min={1}
                         aria-label="Hours before booking"
                       />
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-muted-foreground text-sm">
                         hours before booking
                       </span>
                     </div>
@@ -366,7 +366,7 @@ export function PlaydateAlertsTab() {
               </div>
 
               {/* Quiet Hours + Rate Limit */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <div className="space-y-2">
                   <Label htmlFor="quiet-start" className="text-sm">
                     Quiet Hours Start
@@ -444,7 +444,7 @@ export function PlaydateAlertsTab() {
                     <Label htmlFor="sms-template" className="text-sm">
                       SMS Message
                     </Label>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-muted-foreground text-xs">
                       {smsTemplate.length} chars (template length, variables
                       will expand)
                     </span>
@@ -457,11 +457,11 @@ export function PlaydateAlertsTab() {
                   />
                 </div>
                 <div>
-                  <Label className="text-xs text-muted-foreground">
+                  <Label className="text-muted-foreground text-xs">
                     Insert variable:
                   </Label>
                   <div
-                    className="flex flex-wrap gap-1 mt-1"
+                    className="mt-1 flex flex-wrap gap-1"
                     role="group"
                     aria-label="SMS template variables"
                   >
@@ -470,7 +470,7 @@ export function PlaydateAlertsTab() {
                         key={v}
                         variant="outline"
                         size="sm"
-                        className="h-auto py-0.5 px-2 text-xs font-normal"
+                        className="h-auto px-2 py-0.5 text-xs font-normal"
                         onClick={() => insertVariable(v, "sms")}
                       >
                         {v}
@@ -503,11 +503,11 @@ export function PlaydateAlertsTab() {
                   />
                 </div>
                 <div>
-                  <Label className="text-xs text-muted-foreground">
+                  <Label className="text-muted-foreground text-xs">
                     Insert variable:
                   </Label>
                   <div
-                    className="flex flex-wrap gap-1 mt-1"
+                    className="mt-1 flex flex-wrap gap-1"
                     role="group"
                     aria-label="Email template variables"
                   >
@@ -516,7 +516,7 @@ export function PlaydateAlertsTab() {
                         key={v}
                         variant="outline"
                         size="sm"
-                        className="h-auto py-0.5 px-2 text-xs font-normal"
+                        className="h-auto px-2 py-0.5 text-xs font-normal"
                         onClick={() => insertVariable(v, "email_body")}
                       >
                         {v}
@@ -534,7 +534,7 @@ export function PlaydateAlertsTab() {
       {config.enabled && (
         <div className="flex justify-end">
           <Button onClick={handleSave}>
-            <Save className="h-4 w-4 mr-2" /> Save Configuration
+            <Save className="mr-2 size-4" /> Save Configuration
           </Button>
         </div>
       )}

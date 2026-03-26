@@ -54,7 +54,7 @@ export function YipyyGoPendingWidget({
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2 text-base">
-            <FileText className="h-4 w-4 text-primary" />
+            <FileText className="text-primary size-4" />
             YipyyGo Pending
           </CardTitle>
           <Badge variant="secondary">{pendingBookings.length}</Badge>
@@ -73,19 +73,19 @@ export function YipyyGoPendingWidget({
             <Link
               key={b.id}
               href={`/facility/dashboard/bookings/${b.id}#yipyygo`}
-              className="flex items-center justify-between p-2 rounded-lg border bg-card hover:bg-muted/50 transition-colors"
+              className="bg-card hover:bg-muted/50 flex items-center justify-between rounded-lg border p-2 transition-colors"
             >
               <div className="min-w-0">
-                <p className="font-medium text-sm truncate">
+                <p className="truncate text-sm font-medium">
                   {pet?.name ?? "Pet"}
                 </p>
-                <p className="text-xs text-muted-foreground truncate">
+                <p className="text-muted-foreground truncate text-xs">
                   {client?.name} · #{b.id} · {b.startDate}
                 </p>
               </div>
-              <div className="flex items-center gap-2 flex-shrink-0">
+              <div className="flex shrink-0 items-center gap-2">
                 <YipyyGoStatusBadge status={status} showIcon={false} />
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                <ChevronRight className="text-muted-foreground size-4" />
               </div>
             </Link>
           );

@@ -143,7 +143,7 @@ export function CreateFormModal({
           <div className="space-y-2">
             <Label>Welcome Message (optional)</Label>
             <textarea
-              className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm"
+              className="border-input flex min-h-[80px] w-full rounded-md border bg-transparent px-3 py-2 text-sm"
               value={welcomeMessage}
               onChange={(e) => setWelcomeMessage(e.target.value)}
               placeholder="Brief intro shown at the top of the form"
@@ -164,7 +164,7 @@ export function CreateFormModal({
                     <span className="flex items-center gap-2">
                       {c.value && (
                         <span
-                          className="h-4 w-4 rounded border"
+                          className="size-4 rounded-sm border"
                           style={{ backgroundColor: c.value }}
                         />
                       )}

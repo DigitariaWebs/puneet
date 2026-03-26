@@ -36,7 +36,7 @@ export function CancelBookingDialog({
             Are you sure you want to cancel this booking? This action cannot be
             undone.
             {booking.paymentStatus === "paid" && (
-              <span className="block mt-2 text-sm font-medium">
+              <span className="mt-2 block text-sm font-medium">
                 A refund will be processed according to the facility&apos;s
                 cancellation policy.
               </span>

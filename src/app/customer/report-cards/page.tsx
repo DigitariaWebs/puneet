@@ -305,8 +305,8 @@ export default function CustomerReportCardsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background p-4 md:p-6">
-      <div className="max-w-5xl mx-auto space-y-6">
+    <div className="from-background via-muted/20 to-background min-h-screen bg-linear-to-br p-4 md:p-6">
+      <div className="mx-auto max-w-5xl space-y-6">
         <div className="space-y-2">
           <h1 className="text-3xl font-bold">Report Cards History</h1>
           <p className="text-muted-foreground">
@@ -318,13 +318,13 @@ export default function CustomerReportCardsPage() {
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Filter className="h-4 w-4" />
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <Filter className="size-4" />
                 Filters & Search
               </CardTitle>
               {hasActiveFilters && (
                 <Button variant="ghost" size="sm" onClick={clearFilters}>
-                  <X className="h-4 w-4 mr-1" />
+                  <X className="mr-1 size-4" />
                   Clear filters
                 </Button>
               )}
@@ -335,7 +335,7 @@ export default function CustomerReportCardsPage() {
               {/* Search */}
               <div className="lg:col-span-2">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
                   <Input
                     placeholder="Search by pet name, notes, activities..."
                     value={searchQuery}
@@ -379,9 +379,9 @@ export default function CustomerReportCardsPage() {
             </div>
 
             {/* Date Range */}
-            <div className="grid gap-4 md:grid-cols-3 mt-4">
+            <div className="mt-4 grid gap-4 md:grid-cols-3">
               <div>
-                <label className="text-sm font-medium mb-1 block">
+                <label className="mb-1 block text-sm font-medium">
                   Start Date
                 </label>
                 <Input
@@ -391,7 +391,7 @@ export default function CustomerReportCardsPage() {
                 />
               </div>
               <div>
-                <label className="text-sm font-medium mb-1 block">
+                <label className="mb-1 block text-sm font-medium">
                   End Date
                 </label>
                 <Input
@@ -401,7 +401,7 @@ export default function CustomerReportCardsPage() {
                 />
               </div>
               <div>
-                <label className="text-sm font-medium mb-1 block">
+                <label className="mb-1 block text-sm font-medium">
                   Sort By
                 </label>
                 <Select
@@ -425,14 +425,14 @@ export default function CustomerReportCardsPage() {
 
         {timelineItems.length === 0 ? (
           <Card>
-            <CardContent className="py-12 text-center space-y-3">
-              <FileText className="h-12 w-12 mx-auto text-muted-foreground opacity-50" />
+            <CardContent className="space-y-3 py-12 text-center">
+              <FileText className="text-muted-foreground mx-auto h-12 w-12 opacity-50" />
               <p className="font-semibold">
                 {hasActiveFilters
                   ? "No report cards match your filters"
                   : "No report cards yet"}
               </p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 {hasActiveFilters
                   ? "Try adjusting your filters to see more results."
                   : "Once your pet visits the facility, their report cards will appear here as a memory timeline."}
@@ -453,7 +453,7 @@ export default function CustomerReportCardsPage() {
             <div className="relative pl-4">
               {/* Vertical timeline line */}
               <div
-                className="absolute left-4 top-0 bottom-0 w-px bg-border/60"
+                className="bg-border/60 absolute top-0 bottom-0 left-4 w-px"
                 aria-hidden="true"
               />
 
@@ -462,9 +462,9 @@ export default function CustomerReportCardsPage() {
                   <div key={item.id} className="relative flex gap-4">
                     {/* Timeline dot */}
                     <div className="flex flex-col items-center pt-3">
-                      <div className="h-3 w-3 rounded-full bg-primary shadow-sm" />
+                      <div className="bg-primary size-3 rounded-full shadow-sm" />
                       {index !== timelineItems.length - 1 && (
-                        <div className="flex-1 w-px bg-border/40" />
+                        <div className="bg-border/40 w-px flex-1" />
                       )}
                     </div>
 
@@ -476,58 +476,57 @@ export default function CustomerReportCardsPage() {
                       const { DecorativeIcon } = ts;
                       return (
                         <div
-                          className={`flex-1 relative overflow-hidden rounded-xl border ${ts.cardBg}`}
+                          className={`relative flex-1 overflow-hidden rounded-xl border ${ts.cardBg} `}
                         >
                           {/* Decorative corner icon */}
                           <DecorativeIcon
-                            className={`absolute h-20 w-20 opacity-[0.06] text-gray-900 ${ts.iconPos}`}
+                            className={`absolute h-20 w-20 text-gray-900 opacity-[0.06] ${ts.iconPos} `}
                           />
 
                           {/* Themed accent header */}
                           <div
                             className={`relative px-5 py-3 ${ts.accentBg} ${ts.accentText} flex items-start justify-between gap-4`}
                           >
-                            <div className="space-y-1 min-w-0">
-                              <div className="flex items-center gap-2 flex-wrap">
+                            <div className="min-w-0 space-y-1">
+                              <div className="flex flex-wrap items-center gap-2">
                                 <span className="text-lg">{ts.emoji}</span>
                                 <p className="text-base font-bold">
                                   {item.petName}&apos;s {item.serviceType} day
                                 </p>
-                                <Badge className="bg-white/20 text-white border-0 capitalize text-xs">
+                                <Badge className="border-0 bg-white/20 text-xs text-white capitalize">
                                   {item.mood}
                                 </Badge>
                               </div>
                               <div className="flex flex-wrap items-center gap-3 text-xs opacity-80">
                                 <span className="inline-flex items-center gap-1">
-                                  <Calendar className="h-3 w-3" />{" "}
+                                  <Calendar className="size-3" />{" "}
                                   {formatDate(item.date)}
                                 </span>
                                 <span className="inline-flex items-center gap-1">
-                                  <Clock className="h-3 w-3" />{" "}
+                                  <Clock className="size-3" />{" "}
                                   {formatTime(item.timeLabel)}
                                 </span>
                                 <span className="inline-flex items-center gap-1">
-                                  <Dog className="h-3 w-3" />{" "}
-                                  {item.facilityName}
+                                  <Dog className="size-3" /> {item.facilityName}
                                 </span>
                               </div>
                             </div>
 
                             {item.petImage && (
-                              <div className="hidden sm:block h-14 w-14 rounded-full bg-white/20 overflow-hidden border-2 border-white/30 shrink-0">
+                              <div className="hidden h-14 w-14 shrink-0 overflow-hidden rounded-full border-2 border-white/30 bg-white/20 sm:block">
                                 <Image
                                   src={item.petImage}
                                   alt={item.petName}
                                   width={56}
                                   height={56}
-                                  className="h-full w-full object-cover"
+                                  className="size-full object-cover"
                                 />
                               </div>
                             )}
                           </div>
 
                           {/* Card body */}
-                          <div className="relative p-4 space-y-4">
+                          <div className="relative space-y-4 p-4">
                             {item.photos.length > 0 && (
                               <ReportCardPhotoGallery
                                 photos={item.photos}
@@ -540,23 +539,23 @@ export default function CustomerReportCardsPage() {
 
                             {item.meals && item.meals.length > 0 && (
                               <div className="space-y-2">
-                                <p className="text-sm font-medium flex items-center gap-2">
-                                  <Utensils className="h-4 w-4" /> Meals
+                                <p className="flex items-center gap-2 text-sm font-medium">
+                                  <Utensils className="size-4" /> Meals
                                 </p>
-                                <div className="space-y-1 text-xs md:text-sm text-muted-foreground">
+                                <div className="text-muted-foreground space-y-1 text-xs md:text-sm">
                                   {item.meals.map((meal, idx) => (
                                     <div
                                       key={`${item.id}-meal-${idx}`}
-                                      className="flex flex-wrap items-center gap-2 justify-between"
+                                      className="flex flex-wrap items-center justify-between gap-2"
                                     >
                                       <span className="font-medium">
                                         {meal.time}
                                       </span>
-                                      <span className="flex-1 min-w-[140px]">
+                                      <span className="min-w-35 flex-1">
                                         {meal.food}
                                       </span>
                                       <span>{meal.amount}</span>
-                                      <span className="px-2 py-0.5 rounded-full bg-white capitalize text-[0.7rem]">
+                                      <span className="rounded-full bg-white px-2 py-0.5 text-[0.7rem] capitalize">
                                         Ate {meal.consumed}
                                       </span>
                                     </div>
@@ -568,9 +567,8 @@ export default function CustomerReportCardsPage() {
                             {item.pottyBreaks &&
                               item.pottyBreaks.length > 0 && (
                                 <div className="space-y-2">
-                                  <p className="text-sm font-medium flex items-center gap-2">
-                                    <Droplets className="h-4 w-4" /> Potty
-                                    breaks
+                                  <p className="flex items-center gap-2 text-sm font-medium">
+                                    <Droplets className="size-4" /> Potty breaks
                                   </p>
                                   <div className="flex flex-wrap gap-2">
                                     {item.pottyBreaks.map((pb, idx) => (
@@ -613,8 +611,8 @@ export default function CustomerReportCardsPage() {
 
                             {item.overallFeedback && (
                               <div className="space-y-2">
-                                <p className="text-sm font-medium flex items-center gap-2">
-                                  <ClipboardCheck className="h-4 w-4" /> Overall
+                                <p className="flex items-center gap-2 text-sm font-medium">
+                                  <ClipboardCheck className="size-4" /> Overall
                                   Feedback
                                 </p>
                                 <Badge variant="outline" className="text-xs">
@@ -626,8 +624,8 @@ export default function CustomerReportCardsPage() {
                             {item.petConditions &&
                               Object.keys(item.petConditions).length > 0 && (
                                 <div className="space-y-2">
-                                  <p className="text-sm font-medium flex items-center gap-2">
-                                    <Stethoscope className="h-4 w-4" /> Pet
+                                  <p className="flex items-center gap-2 text-sm font-medium">
+                                    <Stethoscope className="size-4" /> Pet
                                     Condition
                                   </p>
                                   <div className="grid grid-cols-2 gap-2 text-xs">

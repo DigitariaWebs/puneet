@@ -102,7 +102,7 @@ function ServicePointRulesList({
   return (
     <div className="space-y-2">
       {rules.map((rule, i) => (
-        <div key={i} className="grid grid-cols-3 gap-2 items-end">
+        <div key={i} className="grid grid-cols-3 items-end gap-2">
           <Select
             value={rule.serviceType}
             onValueChange={(v) => onUpdate(i, "serviceType", v)}
@@ -130,12 +130,12 @@ function ServicePointRulesList({
             aria-label="Remove rule"
             onClick={() => onRemove(i)}
           >
-            <Trash2 className="h-4 w-4 text-destructive" />
+            <Trash2 className="text-destructive size-4" />
           </Button>
         </div>
       ))}
       <Button variant="outline" size="sm" onClick={onAdd}>
-        <Plus className="h-4 w-4 mr-1" /> {addLabel}
+        <Plus className="mr-1 size-4" /> {addLabel}
       </Button>
     </div>
   );
@@ -412,27 +412,27 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
       <Tabs defaultValue="earning" className="w-full">
         <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="earning" className="text-xs">
-            <Star className="h-3 w-3 mr-1" />
+            <Star className="mr-1 h-3 w-3" />
             Earning
           </TabsTrigger>
           <TabsTrigger value="tiers" className="text-xs">
-            <Layers className="h-3 w-3 mr-1" />
+            <Layers className="mr-1 h-3 w-3" />
             Tiers
           </TabsTrigger>
           <TabsTrigger value="expiration" className="text-xs">
-            <Clock className="h-3 w-3 mr-1" />
+            <Clock className="mr-1 h-3 w-3" />
             Expiration
           </TabsTrigger>
           <TabsTrigger value="stacking" className="text-xs">
-            <LayoutList className="h-3 w-3 mr-1" />
+            <LayoutList className="mr-1 h-3 w-3" />
             Stacking
           </TabsTrigger>
           <TabsTrigger value="scope" className="text-xs">
-            <Target className="h-3 w-3 mr-1" />
+            <Target className="mr-1 h-3 w-3" />
             Scope
           </TabsTrigger>
           <TabsTrigger value="general" className="text-xs">
-            <Settings2 className="h-3 w-3 mr-1" />
+            <Settings2 className="mr-1 h-3 w-3" />
             General
           </TabsTrigger>
         </TabsList>
@@ -440,7 +440,7 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
         {/* Tab 1: Earning Rules */}
         <TabsContent
           value="earning"
-          className="space-y-4 max-h-[55vh] overflow-y-auto pr-2"
+          className="max-h-[55vh] space-y-4 overflow-y-auto pr-2"
         >
           <div className="space-y-2">
             <Label>Earning Method</Label>
@@ -465,9 +465,9 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
 
           {formData.earningMethod === "per_dollar" && (
             <Card>
-              <CardContent className="pt-6 space-y-4">
+              <CardContent className="space-y-4 pt-6">
                 <Label className="text-base">Per Dollar Configuration</Label>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                   <div className="space-y-2">
                     <Label>Base Points per $1</Label>
                     <Input
@@ -507,7 +507,7 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
 
           {formData.earningMethod === "per_booking" && (
             <Card>
-              <CardContent className="pt-6 space-y-4">
+              <CardContent className="space-y-4 pt-6">
                 <Label className="text-base">Per Booking Configuration</Label>
                 <div className="space-y-2">
                   <Label>Base Points per Booking</Label>
@@ -537,7 +537,7 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
 
           {formData.earningMethod === "per_service_type" && (
             <Card>
-              <CardContent className="pt-6 space-y-4">
+              <CardContent className="space-y-4 pt-6">
                 <Label className="text-base">
                   Service Points Configuration
                 </Label>
@@ -555,10 +555,10 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
 
           {formData.earningMethod === "per_visit_count" && (
             <Card>
-              <CardContent className="pt-6 space-y-4">
+              <CardContent className="space-y-4 pt-6">
                 <Label className="text-base">Visit Milestones</Label>
                 {formData.visitMilestones.map((milestone, i) => (
-                  <div key={i} className="grid grid-cols-4 gap-2 items-end">
+                  <div key={i} className="grid grid-cols-4 items-end gap-2">
                     <div className="space-y-1">
                       <Label className="text-xs">Visit #</Label>
                       <Input
@@ -595,12 +595,12 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
                       aria-label="Remove milestone"
                       onClick={() => removeVisitMilestone(i)}
                     >
-                      <Trash2 className="h-4 w-4 text-destructive" />
+                      <Trash2 className="text-destructive size-4" />
                     </Button>
                   </div>
                 ))}
                 <Button variant="outline" size="sm" onClick={addVisitMilestone}>
-                  <Plus className="h-4 w-4 mr-1" /> Add Milestone
+                  <Plus className="mr-1 size-4" /> Add Milestone
                 </Button>
               </CardContent>
             </Card>
@@ -608,9 +608,9 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
 
           {formData.earningMethod === "hybrid" && (
             <Card>
-              <CardContent className="pt-6 space-y-4">
+              <CardContent className="space-y-4 pt-6">
                 <Label className="text-base">Hybrid Configuration</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Combines per-dollar and per-booking earning rules together.
                 </p>
                 <div className="space-y-2">
@@ -667,7 +667,7 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
         {/* Tab 2: Tiers */}
         <TabsContent
           value="tiers"
-          className="space-y-4 max-h-[55vh] overflow-y-auto pr-2"
+          className="max-h-[55vh] space-y-4 overflow-y-auto pr-2"
         >
           {formData.tiers.map((tier, tierIndex) => (
             <Card key={tier.id} className="relative">
@@ -678,13 +678,13 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
                   aria-label="Remove tier"
                   onClick={() => removeTier(tierIndex)}
                 >
-                  <Trash2 className="h-4 w-4 text-destructive" />
+                  <Trash2 className="text-destructive size-4" />
                 </Button>
               </div>
-              <CardContent className="pt-6 space-y-4">
+              <CardContent className="space-y-4 pt-6">
                 <div className="flex items-center gap-2">
                   <div
-                    className="w-4 h-4 rounded-full border"
+                    className="size-4 rounded-full border"
                     style={{ backgroundColor: tier.color }}
                     aria-hidden="true"
                   />
@@ -714,7 +714,7 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                   <div className="space-y-2">
                     <Label>Min Points</Label>
                     <Input
@@ -747,7 +747,7 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
                         className="font-mono"
                       />
                       <div
-                        className="w-10 h-10 rounded border shrink-0"
+                        className="h-10 w-10 shrink-0 rounded-sm border"
                         style={{ backgroundColor: tier.color }}
                         aria-hidden="true"
                       />
@@ -793,7 +793,7 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
                   {tier.benefits.map((benefit, benefitIndex) => (
                     <div
                       key={benefitIndex}
-                      className="grid grid-cols-4 gap-2 items-end"
+                      className="grid grid-cols-4 items-end gap-2"
                     >
                       <Select
                         value={benefit.type}
@@ -850,7 +850,7 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
                           removeTierBenefit(tierIndex, benefitIndex)
                         }
                       >
-                        <Trash2 className="h-4 w-4 text-destructive" />
+                        <Trash2 className="text-destructive size-4" />
                       </Button>
                     </div>
                   ))}
@@ -859,26 +859,26 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
                     size="sm"
                     onClick={() => addTierBenefit(tierIndex)}
                   >
-                    <Plus className="h-4 w-4 mr-1" /> Add Benefit
+                    <Plus className="mr-1 size-4" /> Add Benefit
                   </Button>
                 </div>
               </CardContent>
             </Card>
           ))}
           <Button variant="outline" onClick={addTier} className="w-full">
-            <Plus className="h-4 w-4 mr-2" /> Add Tier
+            <Plus className="mr-2 size-4" /> Add Tier
           </Button>
         </TabsContent>
 
         {/* Tab 3: Expiration */}
         <TabsContent
           value="expiration"
-          className="space-y-4 max-h-[55vh] overflow-y-auto pr-2"
+          className="max-h-[55vh] space-y-4 overflow-y-auto pr-2"
         >
           <div className="flex items-center justify-between rounded-lg border p-4">
             <div className="space-y-0.5">
               <Label className="text-base">Points Expiration</Label>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 Set when earned points expire
               </p>
             </div>
@@ -917,7 +917,7 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
 
               {formData.expirationType === "time_based" && (
                 <Card>
-                  <CardContent className="pt-6 space-y-4">
+                  <CardContent className="space-y-4 pt-6">
                     <Label className="text-base">Time-Based Expiration</Label>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
@@ -961,7 +961,7 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
 
               {formData.expirationType === "activity_based" && (
                 <Card>
-                  <CardContent className="pt-6 space-y-4">
+                  <CardContent className="space-y-4 pt-6">
                     <Label className="text-base">
                       Activity-Based Expiration
                     </Label>
@@ -994,7 +994,7 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
               )}
 
               <Card>
-                <CardContent className="pt-6 space-y-4">
+                <CardContent className="space-y-4 pt-6">
                   <div className="flex items-center justify-between">
                     <Label className="text-base">Warning Notifications</Label>
                     <Switch
@@ -1015,11 +1015,11 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
                           }
                           placeholder="e.g., 30,14,7"
                         />
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-muted-foreground text-xs">
                           Comma-separated list of days
                         </p>
                       </div>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                         <div className="flex items-center space-x-2">
                           <Switch
                             id="warnEmail"
@@ -1062,12 +1062,12 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
         {/* Tab 4: Discount Stacking */}
         <TabsContent
           value="stacking"
-          className="space-y-4 max-h-[55vh] overflow-y-auto pr-2"
+          className="max-h-[55vh] space-y-4 overflow-y-auto pr-2"
         >
           <div className="flex items-center justify-between rounded-lg border p-4">
             <div className="space-y-0.5">
               <Label className="text-base">Discount Stacking Rules</Label>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 Control how loyalty discounts combine with other offers
               </p>
             </div>
@@ -1109,7 +1109,7 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
               </div>
 
               <Card>
-                <CardContent className="pt-6 space-y-4">
+                <CardContent className="space-y-4 pt-6">
                   <Label className="text-base">Tier Discount Stacking</Label>
                   <div className="flex items-center space-x-2">
                     <Switch
@@ -1147,7 +1147,7 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
               </Card>
 
               <Card>
-                <CardContent className="pt-6 space-y-4">
+                <CardContent className="space-y-4 pt-6">
                   <Label className="text-base">
                     Points Redemption Stacking
                   </Label>
@@ -1207,7 +1207,7 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
         {/* Tab 5: Points Scope */}
         <TabsContent
           value="scope"
-          className="space-y-4 max-h-[55vh] overflow-y-auto pr-2"
+          className="max-h-[55vh] space-y-4 overflow-y-auto pr-2"
         >
           <div className="space-y-2">
             <Label>Points Earning Scope</Label>
@@ -1231,7 +1231,7 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
           {(formData.scopeType === "services_only" ||
             formData.scopeType === "both") && (
             <Card>
-              <CardContent className="pt-6 space-y-4">
+              <CardContent className="space-y-4 pt-6">
                 <Label className="text-base">Service Rules</Label>
                 <div className="space-y-2">
                   <Label>Eligible Service Types</Label>
@@ -1276,7 +1276,7 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
           {(formData.scopeType === "retail_only" ||
             formData.scopeType === "both") && (
             <Card>
-              <CardContent className="pt-6 space-y-4">
+              <CardContent className="space-y-4 pt-6">
                 <Label className="text-base">Retail Rules</Label>
                 <div className="flex items-center space-x-2">
                   <Switch
@@ -1304,7 +1304,7 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
           )}
 
           <Card>
-            <CardContent className="pt-6 space-y-3">
+            <CardContent className="space-y-3 pt-6">
               <Label className="text-base">Exclusions</Label>
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center space-x-2">
@@ -1347,10 +1347,10 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
         {/* Tab 6: General Settings */}
         <TabsContent
           value="general"
-          className="space-y-4 max-h-[55vh] overflow-y-auto pr-2"
+          className="max-h-[55vh] space-y-4 overflow-y-auto pr-2"
         >
           <Card>
-            <CardContent className="pt-6 space-y-4">
+            <CardContent className="space-y-4 pt-6">
               <Label className="text-base">Points Configuration</Label>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -1393,7 +1393,7 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
           </Card>
 
           <Card>
-            <CardContent className="pt-6 space-y-3">
+            <CardContent className="space-y-3 pt-6">
               <Label className="text-base">Display & Behavior</Label>
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center space-x-2">
@@ -1486,7 +1486,7 @@ export function LoyaltyBuilderModal({ onClose }: LoyaltyBuilderModalProps) {
           Cancel
         </Button>
         <Button onClick={handleSave}>
-          <Award className="h-4 w-4 mr-2" />
+          <Award className="mr-2 size-4" />
           Save Configuration
         </Button>
       </DialogFooter>

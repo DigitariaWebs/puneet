@@ -184,20 +184,20 @@ export default function SubmissionsInboxPage() {
         <div className="flex items-center gap-2 rounded-md border px-3 py-2 text-sm">
           <span className="h-2 w-2 rounded-full bg-blue-500" />
           <span className="text-muted-foreground">Unread</span>
-          <Badge className="bg-blue-100 text-blue-800 border-0">
+          <Badge className="border-0 bg-blue-100 text-blue-800">
             {unreadCount}
           </Badge>
         </div>
         <div className="flex items-center gap-2 rounded-md border px-3 py-2 text-sm">
           <span className="text-muted-foreground">Processed</span>
-          <Badge className="bg-green-100 text-green-800 border-0">
+          <Badge className="border-0 bg-green-100 text-green-800">
             {processedCount}
           </Badge>
         </div>
         <div className="flex items-center gap-2 rounded-md border px-3 py-2 text-sm">
           <span className="h-2 w-2 rounded-full bg-red-500" />
           <span className="text-muted-foreground">Alerts</span>
-          <Badge className="bg-red-100 text-red-800 border-0">
+          <Badge className="border-0 bg-red-100 text-red-800">
             {alertCount}
           </Badge>
         </div>
@@ -288,17 +288,17 @@ export default function SubmissionsInboxPage() {
       {/* List */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-base flex items-center gap-2">
-            <Inbox className="h-4 w-4" />
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Inbox className="size-4" />
             Submissions ({list.length})
           </CardTitle>
         </CardHeader>
         <CardContent>
           {list.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground">
-              <Search className="h-10 w-10 mb-4 opacity-50" />
+            <div className="text-muted-foreground flex flex-col items-center justify-center py-12 text-center">
+              <Search className="mb-4 h-10 w-10 opacity-50" />
               <p>No submissions match your filters.</p>
-              <p className="text-sm mt-1">
+              <p className="mt-1 text-sm">
                 Submissions appear when forms are filled via shareable links.
               </p>
             </div>
@@ -307,16 +307,16 @@ export default function SubmissionsInboxPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b">
-                    <th className="text-left py-3 px-2 font-medium">
+                    <th className="px-2 py-3 text-left font-medium">
                       Submitted at
                     </th>
-                    <th className="text-left py-3 px-2 font-medium">Form</th>
-                    <th className="text-left py-3 px-2 font-medium">
+                    <th className="px-2 py-3 text-left font-medium">Form</th>
+                    <th className="px-2 py-3 text-left font-medium">
                       Customer
                     </th>
-                    <th className="text-left py-3 px-2 font-medium">Pet(s)</th>
-                    <th className="text-left py-3 px-2 font-medium">Status</th>
-                    <th className="text-left py-3 px-2 font-medium">Flags</th>
+                    <th className="px-2 py-3 text-left font-medium">Pet(s)</th>
+                    <th className="px-2 py-3 text-left font-medium">Status</th>
+                    <th className="px-2 py-3 text-left font-medium">Flags</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -329,25 +329,25 @@ export default function SubmissionsInboxPage() {
                     return (
                       <tr
                         key={submission.id}
-                        className={`border-b hover:bg-muted/50 cursor-pointer ${isUnread ? "border-l-2 border-l-primary font-medium" : ""}`}
+                        className={`hover:bg-muted/50 cursor-pointer border-b ${isUnread ? `border-l-primary border-l-2 font-medium` : ""} `}
                         onClick={() =>
                           router.push(
                             `/facility/dashboard/forms/submissions/${submission.id}`,
                           )
                         }
                       >
-                        <td className="py-3 px-2 whitespace-nowrap">
+                        <td className="px-2 py-3 whitespace-nowrap">
                           {formatSubmissionDate(submission.createdAt)}
                         </td>
-                        <td className="py-3 px-2">
+                        <td className="px-2 py-3">
                           {form?.name ?? submission.formId}
                         </td>
-                        <td className="py-3 px-2">
+                        <td className="px-2 py-3">
                           {getCustomerName(
                             submission.customerId ?? record.relatedCustomerId,
                           )}
                         </td>
-                        <td className="py-3 px-2">
+                        <td className="px-2 py-3">
                           {getPetNames(
                             submission.petIds ??
                               (record.relatedPetId
@@ -355,7 +355,7 @@ export default function SubmissionsInboxPage() {
                                 : undefined),
                           )}
                         </td>
-                        <td className="py-3 px-2">
+                        <td className="px-2 py-3">
                           <Badge
                             variant={badgeProps.variant}
                             className={badgeProps.className}
@@ -363,11 +363,11 @@ export default function SubmissionsInboxPage() {
                             {record.status}
                           </Badge>
                         </td>
-                        <td className="py-3 px-2">
-                          <div className="flex gap-1.5 items-center">
+                        <td className="px-2 py-3">
+                          <div className="flex items-center gap-1.5">
                             {hasFiles && (
                               <span
-                                className="inline-flex items-center gap-0.5 text-muted-foreground"
+                                className="text-muted-foreground inline-flex items-center gap-0.5"
                                 title="Has file upload"
                               >
                                 <FileText className="h-3.5 w-3.5" />

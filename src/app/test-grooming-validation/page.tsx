@@ -27,8 +27,8 @@ export default function TestGroomingValidationPage() {
   } = useGroomingValidation();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background p-4 md:p-8">
-      <div className="max-w-6xl mx-auto space-y-6">
+    <div className="from-background via-muted/20 to-background min-h-screen bg-linear-to-br p-4 md:p-8">
+      <div className="mx-auto max-w-6xl space-y-6">
         <div className="space-y-2">
           <h1 className="text-3xl font-bold">
             Test: Grooming Pre-Booking Validation
@@ -54,14 +54,14 @@ export default function TestGroomingValidationPage() {
           <CardContent>
             <Badge
               variant={isAvailable ? "default" : "destructive"}
-              className="text-lg px-4 py-2"
+              className="px-4 py-2 text-lg"
             >
               {isAvailable ? "Service Disponible" : "Service Non Disponible"}
             </Badge>
             {!isAvailable && validation.validationErrors.length > 0 && (
-              <div className="mt-4 p-4 bg-destructive/10 rounded-lg">
-                <p className="font-semibold text-destructive mb-2">Erreurs:</p>
-                <ul className="list-disc list-inside space-y-1">
+              <div className="bg-destructive/10 mt-4 rounded-lg p-4">
+                <p className="text-destructive mb-2 font-semibold">Erreurs:</p>
+                <ul className="list-inside list-disc space-y-1">
                   {validation.validationErrors.map((error, i) => (
                     <li key={i} className="text-sm">
                       {error}
@@ -125,12 +125,12 @@ export default function TestGroomingValidationPage() {
                     {availableCategories.map((cat) => (
                       <div
                         key={cat.id}
-                        className="flex items-center justify-between p-3 rounded-lg border bg-card"
+                        className="bg-card flex items-center justify-between rounded-lg border p-3"
                       >
                         <div>
                           <p className="font-medium">{cat.name}</p>
                           {cat.hiddenWhenFullyBooked && (
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-muted-foreground text-xs">
                               Masqué si complètement réservé
                             </p>
                           )}
@@ -158,7 +158,7 @@ export default function TestGroomingValidationPage() {
               <CardContent className="space-y-4">
                 <div className="flex items-center gap-4">
                   <span className="font-medium">Mode:</span>
-                  <Badge variant="outline" className="text-base px-3 py-1">
+                  <Badge variant="outline" className="px-3 py-1 text-base">
                     {groomerSelectionMode === "stealth" &&
                       "Furtif (Système assigne)"}
                     {groomerSelectionMode === "optional" && "Optionnel"}
@@ -169,19 +169,19 @@ export default function TestGroomingValidationPage() {
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
-                  <div className="p-3 rounded-lg border bg-muted/50">
-                    <p className="text-sm font-medium mb-1">
+                  <div className="bg-muted/50 rounded-lg border p-3">
+                    <p className="mb-1 text-sm font-medium">
                       Sélection de Toilettage
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       {canSelectGroomer ? "✓ Permis" : "✗ Non permis"}
                     </p>
                   </div>
-                  <div className="p-3 rounded-lg border bg-muted/50">
-                    <p className="text-sm font-medium mb-1">
+                  <div className="bg-muted/50 rounded-lg border p-3">
+                    <p className="mb-1 text-sm font-medium">
                       Afficher les Noms
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       {validation.groomerSelectionOptions.showGroomerNames
                         ? "✓ Oui"
                         : "✗ Non"}
@@ -192,7 +192,7 @@ export default function TestGroomingValidationPage() {
                 {validation.groomerSelectionOptions.tiers &&
                   validation.groomerSelectionOptions.tiers.length > 0 && (
                     <div className="mt-4">
-                      <p className="font-medium mb-2">Niveaux Disponibles:</p>
+                      <p className="mb-2 font-medium">Niveaux Disponibles:</p>
                       <div className="flex flex-wrap gap-2">
                         {validation.groomerSelectionOptions.tiers.map(
                           (tier) => (
@@ -224,9 +224,9 @@ export default function TestGroomingValidationPage() {
                 </div>
 
                 {depositRequired && (
-                  <div className="space-y-3 p-4 rounded-lg border bg-muted/50">
+                  <div className="bg-muted/50 space-y-3 rounded-lg border p-4">
                     <div>
-                      <p className="text-sm font-medium mb-1">Type:</p>
+                      <p className="mb-1 text-sm font-medium">Type:</p>
                       <Badge variant="outline">
                         {validation.depositInfo.type === "fixed" &&
                           "Montant Fixe"}
@@ -238,7 +238,7 @@ export default function TestGroomingValidationPage() {
 
                     {validation.depositInfo.amount && (
                       <div>
-                        <p className="text-sm font-medium mb-1">Montant:</p>
+                        <p className="mb-1 text-sm font-medium">Montant:</p>
                         <p className="text-lg font-bold">
                           ${validation.depositInfo.amount.toFixed(2)}
                         </p>
@@ -247,7 +247,7 @@ export default function TestGroomingValidationPage() {
 
                     {validation.depositInfo.percentage && (
                       <div>
-                        <p className="text-sm font-medium mb-1">Pourcentage:</p>
+                        <p className="mb-1 text-sm font-medium">Pourcentage:</p>
                         <p className="text-lg font-bold">
                           {validation.depositInfo.percentage}%
                         </p>
@@ -255,10 +255,10 @@ export default function TestGroomingValidationPage() {
                     )}
 
                     <div>
-                      <p className="text-sm font-medium mb-1">
+                      <p className="mb-1 text-sm font-medium">
                         Message Client:
                       </p>
-                      <p className="text-sm text-muted-foreground italic">
+                      <p className="text-muted-foreground text-sm italic">
                         {depositMessage || "Aucun message"}
                       </p>
                     </div>
@@ -273,7 +273,7 @@ export default function TestGroomingValidationPage() {
                 <CardTitle>Objet de Validation Complet (Debug)</CardTitle>
               </CardHeader>
               <CardContent>
-                <pre className="p-4 rounded-lg bg-muted text-xs overflow-auto max-h-96">
+                <pre className="bg-muted max-h-96 overflow-auto rounded-lg p-4 text-xs">
                   {JSON.stringify(validation, null, 2)}
                 </pre>
               </CardContent>

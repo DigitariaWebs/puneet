@@ -207,12 +207,12 @@ function CheckInContent() {
 
   if (!token && manualBookingId == null) {
     return (
-      <div className="min-h-screen bg-muted/30 p-4 md:p-6">
-        <div className="max-w-lg mx-auto space-y-6">
+      <div className="bg-muted/30 min-h-screen p-4 md:p-6">
+        <div className="mx-auto max-w-lg space-y-6">
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" asChild>
               <Link href="/facility/dashboard">
-                <ArrowLeft className="h-4 w-4 mr-1" />
+                <ArrowLeft className="mr-1 size-4" />
                 Dashboard
               </Link>
             </Button>
@@ -237,7 +237,7 @@ function CheckInContent() {
                   id="search"
                   type="text"
                   placeholder="e.g. 5 or Smith or Bella"
-                  className="mt-1 flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm"
+                  className="border-input mt-1 flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -245,7 +245,7 @@ function CheckInContent() {
               {searchResults.length > 0 && (
                 <div className="space-y-2">
                   <p className="text-sm font-medium">Select a booking</p>
-                  <ul className="border rounded-md divide-y max-h-48 overflow-auto">
+                  <ul className="max-h-48 divide-y overflow-auto rounded-md border">
                     {searchResults.map((b) => {
                       const c = clients.find((x) => x.id === b.clientId);
                       const pid = Array.isArray(b.petId) ? b.petId[0] : b.petId;
@@ -259,7 +259,7 @@ function CheckInContent() {
                         <li key={b.id}>
                           <button
                             type="button"
-                            className="w-full px-3 py-2 text-left text-sm hover:bg-muted flex items-center justify-between"
+                            className="hover:bg-muted flex w-full items-center justify-between px-3 py-2 text-left text-sm"
                             onClick={() => {
                               setManualBookingId(b.id);
                               setSearchQuery("");
@@ -290,7 +290,7 @@ function CheckInContent() {
               )}
             </CardContent>
           </Card>
-          <p className="text-xs text-muted-foreground text-center">
+          <p className="text-muted-foreground text-center text-xs">
             Or scan the customer’s QR code with{" "}
             <code className="bg-muted px-1">?t=...</code> for fast-track
             check-in.
@@ -302,8 +302,8 @@ function CheckInContent() {
 
   if (token && (!payload || !booking)) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <Card className="max-w-md w-full">
+      <div className="flex min-h-screen items-center justify-center p-4">
+        <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>Invalid or expired token</CardTitle>
             <CardDescription>
@@ -328,8 +328,8 @@ function CheckInContent() {
 
   if (!payload || !booking) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <Card className="max-w-md w-full">
+      <div className="flex min-h-screen items-center justify-center p-4">
+        <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>Booking not found</CardTitle>
             <CardDescription>
@@ -349,18 +349,18 @@ function CheckInContent() {
 
   if (checkedIn) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <Card className="max-w-md w-full border-green-200 bg-green-50">
+      <div className="flex min-h-screen items-center justify-center p-4">
+        <Card className="w-full max-w-md border-green-200 bg-green-50">
           <CardContent className="pt-6 text-center">
-            <CheckCircle2 className="h-16 w-16 text-green-600 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold mb-2">Checked in</h2>
+            <CheckCircle2 className="mx-auto mb-4 h-16 w-16 text-green-600" />
+            <h2 className="mb-2 text-xl font-semibold">Checked in</h2>
             <p className="text-muted-foreground mb-4">
               {pet?.name} · Booking #{booking.id}
             </p>
             <Button asChild>
               <Link href={`/facility/dashboard/bookings/${booking.id}`}>
                 Open reservation
-                <ExternalLink className="ml-2 h-4 w-4" />
+                <ExternalLink className="ml-2 size-4" />
               </Link>
             </Button>
             <Button variant="outline" className="mt-2 w-full" asChild>
@@ -380,12 +380,12 @@ function CheckInContent() {
     : null;
 
   return (
-    <div className="min-h-screen bg-muted/30 p-4 md:p-6">
-      <div className="max-w-lg mx-auto space-y-6">
+    <div className="bg-muted/30 min-h-screen p-4 md:p-6">
+      <div className="mx-auto max-w-lg space-y-6">
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="sm" asChild>
             <Link href="/facility/dashboard">
-              <ArrowLeft className="h-4 w-4 mr-1" />
+              <ArrowLeft className="mr-1 size-4" />
               Dashboard
             </Link>
           </Button>
@@ -418,9 +418,9 @@ function CheckInContent() {
         {(form || isPreCheckMissing) && (
           <Card className={isPreCheckMissing ? "border-destructive/50" : ""}>
             <CardHeader className="pb-2">
-              <CardTitle className="text-base flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 text-base">
                 {isPreCheckMissing && (
-                  <AlertCircle className="h-4 w-4 text-destructive" />
+                  <AlertCircle className="text-destructive size-4" />
                 )}
                 YipyyGo {form ? "summary" : "— PreCheck missing"}
               </CardTitle>
@@ -429,11 +429,11 @@ function CheckInContent() {
               {form ? (
                 <>
                   <div className="flex items-start gap-2">
-                    <Package className="h-4 w-4 mt-0.5 text-muted-foreground" />
+                    <Package className="text-muted-foreground mt-0.5 size-4" />
                     <div>
                       <p className="font-medium">Belongings</p>
                       {form.belongings?.length ? (
-                        <ul className="list-disc pl-4 text-muted-foreground">
+                        <ul className="text-muted-foreground list-disc pl-4">
                           {form.belongings.map((b) => (
                             <li key={b.id}>
                               {b.type.replace("_", " ")}{" "}
@@ -448,7 +448,7 @@ function CheckInContent() {
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
-                    <Utensils className="h-4 w-4 mt-0.5 text-muted-foreground" />
+                    <Utensils className="text-muted-foreground mt-0.5 size-4" />
                     <div>
                       <p className="font-medium">Feeding</p>
                       <p className="text-muted-foreground">
@@ -459,13 +459,13 @@ function CheckInContent() {
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
-                    <Pill className="h-4 w-4 mt-0.5 text-muted-foreground" />
+                    <Pill className="text-muted-foreground mt-0.5 size-4" />
                     <div>
                       <p className="font-medium">Medications</p>
                       {form.noMedications || !form.medications?.length ? (
                         <p className="text-muted-foreground">None</p>
                       ) : (
-                        <ul className="list-disc pl-4 text-muted-foreground">
+                        <ul className="text-muted-foreground list-disc pl-4">
                           {form.medications.map((m) => (
                             <li key={m.id}>
                               {m.name} – {m.dosage}, {m.frequency}
@@ -497,8 +497,8 @@ function CheckInContent() {
 
         <Card className="border-primary/30">
           <CardHeader className="pb-2">
-            <CardTitle className="text-base flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-primary" />
+            <CardTitle className="flex items-center gap-2 text-base">
+              <CheckCircle2 className="text-primary size-4" />
               Ready to check-in
             </CardTitle>
             <CardDescription>
@@ -525,11 +525,11 @@ function CheckInContent() {
               </div>
             )}
             {isPreCheckMissing && (
-              <div className="space-y-2 rounded-md border border-destructive/50 bg-destructive/5 p-3">
+              <div className="border-destructive/50 bg-destructive/5 space-y-2 rounded-md border p-3">
                 <Label className="text-destructive font-medium">
                   PreCheck missing (mandatory)
                 </Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Customer did not submit the pre-check form. You can complete
                   manually from the booking detail, or override and check in
                   with a reason below (logged for audit).
@@ -569,7 +569,7 @@ function CheckInContent() {
             </div>
 
             <Button
-              className="w-full mt-4 gap-2"
+              className="mt-4 w-full gap-2"
               size="lg"
               disabled={!canCheckIn || checkingIn}
               onClick={handleCheckIn}
@@ -584,7 +584,7 @@ function CheckInContent() {
           </CardContent>
         </Card>
 
-        <p className="text-xs text-muted-foreground text-center">
+        <p className="text-muted-foreground text-center text-xs">
           Scanned from phone? Open this link on your facility desktop to
           complete check-in there.
         </p>
@@ -597,7 +597,7 @@ export default function FacilityCheckInPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center">
+        <div className="flex min-h-screen items-center justify-center">
           <p className="text-muted-foreground">Loading…</p>
         </div>
       }

@@ -257,7 +257,7 @@ export default function LoyaltyReportsPage() {
 
   return (
     <LoyaltyModuleGuard requirePermission="reports">
-      <div className="container mx-auto p-6 space-y-6">
+      <div className="container mx-auto space-y-6 p-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
@@ -269,11 +269,11 @@ export default function LoyaltyReportsPage() {
           </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm">
-              <Calendar className="h-4 w-4 mr-2" />
+              <Calendar className="mr-2 size-4" />
               {dateRange.startDate} - {dateRange.endDate}
             </Button>
             <Button variant="outline" size="sm">
-              <Download className="h-4 w-4 mr-2" />
+              <Download className="mr-2 size-4" />
               Export
             </Button>
           </div>
@@ -284,7 +284,7 @@ export default function LoyaltyReportsPage() {
           {/* Total Points Issued */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
+              <CardTitle className="text-muted-foreground text-sm font-medium">
                 Total Points Issued
               </CardTitle>
             </CardHeader>
@@ -292,7 +292,7 @@ export default function LoyaltyReportsPage() {
               <div className="text-2xl font-bold">
                 {loyaltyStats.totalPointsIssued.toLocaleString()}
               </div>
-              <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
+              <div className="text-muted-foreground mt-1 flex items-center gap-1 text-xs">
                 <TrendingUp className="h-3 w-3 text-green-600" />
                 <span>Lifetime total</span>
               </div>
@@ -302,7 +302,7 @@ export default function LoyaltyReportsPage() {
           {/* Total Points Redeemed */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
+              <CardTitle className="text-muted-foreground text-sm font-medium">
                 Total Points Redeemed
               </CardTitle>
             </CardHeader>
@@ -310,7 +310,7 @@ export default function LoyaltyReportsPage() {
               <div className="text-2xl font-bold">
                 {loyaltyStats.totalPointsRedeemed.toLocaleString()}
               </div>
-              <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
+              <div className="text-muted-foreground mt-1 flex items-center gap-1 text-xs">
                 <Gift className="h-3 w-3 text-blue-600" />
                 <span>All time</span>
               </div>
@@ -320,7 +320,7 @@ export default function LoyaltyReportsPage() {
           {/* Active Loyalty Members */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
+              <CardTitle className="text-muted-foreground text-sm font-medium">
                 Active Loyalty Members
               </CardTitle>
             </CardHeader>
@@ -328,7 +328,7 @@ export default function LoyaltyReportsPage() {
               <div className="text-2xl font-bold">
                 {loyaltyStats.activeMembers}
               </div>
-              <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
+              <div className="text-muted-foreground mt-1 flex items-center gap-1 text-xs">
                 <Users className="h-3 w-3 text-purple-600" />
                 <span>
                   of {loyaltyStats.totalMembers} total members (
@@ -348,7 +348,7 @@ export default function LoyaltyReportsPage() {
           {/* Current Points Balance */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
+              <CardTitle className="text-muted-foreground text-sm font-medium">
                 Current Points Balance
               </CardTitle>
             </CardHeader>
@@ -356,7 +356,7 @@ export default function LoyaltyReportsPage() {
               <div className="text-2xl font-bold">
                 {loyaltyStats.currentPointsBalance.toLocaleString()}
               </div>
-              <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
+              <div className="text-muted-foreground mt-1 flex items-center gap-1 text-xs">
                 <Star className="h-3 w-3 text-yellow-600" />
                 <span>Outstanding points</span>
               </div>
@@ -369,7 +369,7 @@ export default function LoyaltyReportsPage() {
           {/* Referral Conversion Rate */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
+              <CardTitle className="text-muted-foreground text-sm font-medium">
                 Referral Conversion Rate
               </CardTitle>
             </CardHeader>
@@ -377,12 +377,12 @@ export default function LoyaltyReportsPage() {
               <div className="text-3xl font-bold">
                 {formatPercentage(referralStats.conversionRate)}
               </div>
-              <div className="text-sm text-muted-foreground mt-2">
+              <div className="text-muted-foreground mt-2 text-sm">
                 {referralStats.completedReferrals} of{" "}
                 {referralStats.totalReferrals} referrals completed
               </div>
               <div className="mt-3">
-                <div className="w-full bg-muted rounded-full h-2">
+                <div className="bg-muted h-2 w-full rounded-full">
                   <div
                     className="bg-primary h-2 rounded-full"
                     style={{ width: `${referralStats.conversionRate}%` }}
@@ -395,7 +395,7 @@ export default function LoyaltyReportsPage() {
           {/* Revenue from Referrals */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
+              <CardTitle className="text-muted-foreground text-sm font-medium">
                 Revenue from Referrals
               </CardTitle>
             </CardHeader>
@@ -403,10 +403,10 @@ export default function LoyaltyReportsPage() {
               <div className="text-3xl font-bold">
                 {formatCurrency(referralStats.revenueFromReferrals)}
               </div>
-              <div className="text-sm text-muted-foreground mt-2">
+              <div className="text-muted-foreground mt-2 text-sm">
                 From {referralStats.completedReferrals} completed referrals
               </div>
-              <div className="flex items-center gap-1 text-xs text-green-600 mt-2">
+              <div className="mt-2 flex items-center gap-1 text-xs text-green-600">
                 <ArrowUpRight className="h-3 w-3" />
                 <span>From first bookings</span>
               </div>
@@ -416,7 +416,7 @@ export default function LoyaltyReportsPage() {
           {/* Average Referral Value */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
+              <CardTitle className="text-muted-foreground text-sm font-medium">
                 Average Referral Value
               </CardTitle>
             </CardHeader>
@@ -429,7 +429,7 @@ export default function LoyaltyReportsPage() {
                     )
                   : formatCurrency(0)}
               </div>
-              <div className="text-sm text-muted-foreground mt-2">
+              <div className="text-muted-foreground mt-2 text-sm">
                 Per completed referral
               </div>
             </CardContent>
@@ -578,18 +578,18 @@ export default function LoyaltyReportsPage() {
                     {tierDistribution.map((tier, index) => (
                       <div
                         key={tier.name}
-                        className="flex items-center justify-between p-4 rounded-lg border"
+                        className="flex items-center justify-between rounded-lg border p-4"
                       >
                         <div className="flex items-center gap-3">
                           <div
-                            className="w-4 h-4 rounded-full"
+                            className="size-4 rounded-full"
                             style={{
                               backgroundColor: COLORS[index % COLORS.length],
                             }}
                           />
                           <div>
                             <div className="font-semibold">{tier.name}</div>
-                            <div className="text-sm text-muted-foreground">
+                            <div className="text-muted-foreground text-sm">
                               {tier.value} members
                             </div>
                           </div>
@@ -661,7 +661,7 @@ export default function LoyaltyReportsPage() {
                 <CardContent>
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-muted-foreground text-sm">
                         Total Revenue
                       </span>
                       <span className="text-2xl font-bold">
@@ -669,7 +669,7 @@ export default function LoyaltyReportsPage() {
                       </span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-muted-foreground text-sm">
                         Completed Referrals
                       </span>
                       <span className="text-xl font-semibold">
@@ -677,7 +677,7 @@ export default function LoyaltyReportsPage() {
                       </span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-muted-foreground text-sm">
                         Average Value
                       </span>
                       <span className="text-xl font-semibold">
@@ -689,16 +689,16 @@ export default function LoyaltyReportsPage() {
                           : formatCurrency(0)}
                       </span>
                     </div>
-                    <div className="pt-4 border-t">
-                      <div className="text-sm text-muted-foreground mb-2">
+                    <div className="border-t pt-4">
+                      <div className="text-muted-foreground mb-2 text-sm">
                         Conversion Rate
                       </div>
-                      <div className="w-full bg-muted rounded-full h-3">
+                      <div className="bg-muted h-3 w-full rounded-full">
                         <div
-                          className="bg-primary h-3 rounded-full flex items-center justify-end pr-2"
+                          className="bg-primary flex h-3 items-center justify-end rounded-full pr-2"
                           style={{ width: `${referralStats.conversionRate}%` }}
                         >
-                          <span className="text-xs text-white font-semibold">
+                          <span className="text-xs font-semibold text-white">
                             {formatPercentage(referralStats.conversionRate)}
                           </span>
                         </div>
@@ -725,16 +725,16 @@ export default function LoyaltyReportsPage() {
                     {referralStats.topReferrers.map((referrer, index) => (
                       <div
                         key={referrer.referrerId}
-                        className="flex items-center justify-between p-4 rounded-lg border hover:bg-muted/50 transition-colors"
+                        className="hover:bg-muted/50 flex items-center justify-between rounded-lg border p-4 transition-colors"
                       >
                         <div className="flex items-center gap-4">
-                          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary font-bold">
+                          <div className="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-full font-bold">
                             #{index + 1}
                           </div>
                           <div>
                             <div className="font-semibold">{referrer.name}</div>
                             {referrer.email && (
-                              <div className="text-sm text-muted-foreground">
+                              <div className="text-muted-foreground text-sm">
                                 {referrer.email}
                               </div>
                             )}
@@ -742,7 +742,7 @@ export default function LoyaltyReportsPage() {
                         </div>
                         <div className="flex items-center gap-6">
                           <div className="text-right">
-                            <div className="text-sm text-muted-foreground">
+                            <div className="text-muted-foreground text-sm">
                               Referrals
                             </div>
                             <div className="text-lg font-bold">
@@ -750,7 +750,7 @@ export default function LoyaltyReportsPage() {
                             </div>
                           </div>
                           <div className="text-right">
-                            <div className="text-sm text-muted-foreground">
+                            <div className="text-muted-foreground text-sm">
                               Revenue
                             </div>
                             <div className="text-lg font-bold text-green-600">
@@ -762,10 +762,10 @@ export default function LoyaltyReportsPage() {
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-8 text-muted-foreground">
-                    <Users className="h-12 w-12 mx-auto mb-2 opacity-50" />
+                  <div className="text-muted-foreground py-8 text-center">
+                    <Users className="mx-auto mb-2 h-12 w-12 opacity-50" />
                     <p>No referrals yet</p>
-                    <p className="text-xs mt-1">
+                    <p className="mt-1 text-xs">
                       Start promoting your referral program to see top referrers
                     </p>
                   </div>

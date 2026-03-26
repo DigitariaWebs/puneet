@@ -189,7 +189,7 @@ export default function OnlineBookingPage() {
       label: "Contact",
       sortable: false,
       render: (r) => (
-        <div className="text-xs text-muted-foreground">{r.clientContact}</div>
+        <div className="text-muted-foreground text-xs">{r.clientContact}</div>
       ),
     },
     {
@@ -214,7 +214,7 @@ export default function OnlineBookingPage() {
         value={activeTab}
         onValueChange={(v) => setActiveTab(v as typeof activeTab)}
       >
-        <TabsList className="grid w-full grid-cols-3 max-w-xl">
+        <TabsList className="grid w-full max-w-xl grid-cols-3">
           <TabsTrigger value="requests" className="flex items-center gap-2">
             Booking requests
             <Badge
@@ -250,7 +250,7 @@ export default function OnlineBookingPage() {
                     label: "Service(s)",
                     sortable: false,
                     render: (r) => (
-                      <div className="text-xs text-muted-foreground">
+                      <div className="text-muted-foreground text-xs">
                         {servicesLabel(r.services)}
                       </div>
                     ),
@@ -306,7 +306,7 @@ export default function OnlineBookingPage() {
                     label: "Service(s)",
                     sortable: false,
                     render: (r) => (
-                      <div className="text-xs text-muted-foreground">
+                      <div className="text-muted-foreground text-xs">
                         {servicesLabel(r.services)}
                       </div>
                     ),
@@ -345,7 +345,7 @@ export default function OnlineBookingPage() {
                 Online booking settings
               </CardTitle>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
+            <CardContent className="text-muted-foreground text-sm">
               Settings UI isn’t required for this task; this tab is a
               placeholder for the online booking settings flow.
             </CardContent>
@@ -360,15 +360,15 @@ export default function OnlineBookingPage() {
               <SheetHeader>
                 <SheetTitle>Booking request</SheetTitle>
               </SheetHeader>
-              <div className="p-4 space-y-4">
+              <div className="space-y-4 p-4">
                 <div className="space-y-1">
-                  <div className="text-xs text-muted-foreground">Submitted</div>
+                  <div className="text-muted-foreground text-xs">Submitted</div>
                   <div className="text-sm font-medium">
                     {formatDateTime(selected.createdAt)}
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <div className="text-xs text-muted-foreground">
+                  <div className="text-muted-foreground text-xs">
                     Requested appointment
                   </div>
                   <div className="text-sm font-medium">
@@ -376,18 +376,18 @@ export default function OnlineBookingPage() {
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <div className="text-xs text-muted-foreground">
+                  <div className="text-muted-foreground text-xs">
                     Customer / Pet
                   </div>
                   <div className="text-sm font-medium">
                     {selected.clientName} — {selected.petName}
                   </div>
-                  <div className="text-xs text-muted-foreground">
+                  <div className="text-muted-foreground text-xs">
                     {selected.clientContact}
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <div className="text-xs text-muted-foreground">
+                  <div className="text-muted-foreground text-xs">
                     Service(s)
                   </div>
                   <div className="text-sm font-medium">
@@ -396,7 +396,7 @@ export default function OnlineBookingPage() {
                 </div>
                 {selected.notes && (
                   <div className="space-y-1">
-                    <div className="text-xs text-muted-foreground">Notes</div>
+                    <div className="text-muted-foreground text-xs">Notes</div>
                     <div className="text-sm">{selected.notes}</div>
                   </div>
                 )}

@@ -423,8 +423,8 @@ export default function CustomerDashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background p-4 md:p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className="from-background via-muted/20 to-background min-h-screen bg-linear-to-br p-4 md:p-6">
+      <div className="mx-auto max-w-7xl space-y-6">
         {/* Header */}
         <div className="flex items-center gap-4">
           {selectedFacility?.logo && (
@@ -456,27 +456,27 @@ export default function CustomerDashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-lg bg-primary/10">
+                <div className="bg-primary/10 rounded-lg p-3">
                   {(() => {
                     const ServiceIcon = getServiceIcon(nextBooking.service);
-                    return <ServiceIcon className="h-6 w-6 text-primary" />;
+                    return <ServiceIcon className="text-primary h-6 w-6" />;
                   })()}
                 </div>
                 <div className="flex-1 space-y-2">
                   <div>
-                    <h3 className="font-semibold text-lg capitalize">
+                    <h3 className="text-lg font-semibold capitalize">
                       {nextBooking.service}
                       {nextBookingPet &&
                         ` – ${nextBookingPet.name} (${nextBookingPet.breed})`}
                     </h3>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       {formatDateTime(
                         nextBooking.startDate,
                         nextBooking.checkInTime || undefined,
                       )}
                     </p>
                     {nextBooking.groomingStyle && (
-                      <p className="text-sm text-muted-foreground mt-1">
+                      <p className="text-muted-foreground mt-1 text-sm">
                         {nextBooking.groomingStyle}
                         {nextBooking.groomingAddOns &&
                           nextBooking.groomingAddOns.length > 0 && (
@@ -487,7 +487,7 @@ export default function CustomerDashboardPage() {
                           )}
                       </p>
                     )}
-                    <p className="text-lg font-semibold mt-2">
+                    <p className="mt-2 text-lg font-semibold">
                       ${nextBooking.totalCost}
                     </p>
                   </div>
@@ -512,16 +512,16 @@ export default function CustomerDashboardPage() {
         {/* Dashboard Summary Tiles */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card
-            className="cursor-pointer hover:bg-accent/50 transition-colors"
+            className="hover:bg-accent/50 cursor-pointer transition-colors"
             onClick={() => (window.location.href = "/customer/pets")}
           >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">My Pets</CardTitle>
-              <PawPrint className="h-4 w-4 text-muted-foreground" />
+              <PawPrint className="text-muted-foreground size-4" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{customerPets.length}</div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 {customerPets.length > 0
                   ? customerPets.map((p) => p.name).join(" & ")
                   : "Add your first pet"}
@@ -530,18 +530,18 @@ export default function CustomerDashboardPage() {
           </Card>
 
           <Card
-            className="cursor-pointer hover:bg-accent/50 transition-colors"
+            className="hover:bg-accent/50 cursor-pointer transition-colors"
             onClick={() => (window.location.href = "/customer/bookings")}
           >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Upcoming</CardTitle>
-              <Calendar className="h-4 w-4 text-muted-foreground" />
+              <Calendar className="text-muted-foreground size-4" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
                 {upcomingBookings.length}
               </div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 {upcomingBookings.length > 0 && nextBooking
                   ? `Next: ${formatDateShort(new Date(nextBooking.startDate))}`
                   : "No upcoming appointments"}
@@ -550,18 +550,18 @@ export default function CustomerDashboardPage() {
           </Card>
 
           <Card
-            className="cursor-pointer hover:bg-accent/50 transition-colors"
+            className="hover:bg-accent/50 cursor-pointer transition-colors"
             onClick={() => (window.location.href = "/customer/messages")}
           >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Messages</CardTitle>
-              <MessageSquare className="h-4 w-4 text-muted-foreground" />
+              <MessageSquare className="text-muted-foreground size-4" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{messagesData.total}</div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 {messagesData.unread > 0 ? (
-                  <span className="text-orange-600 font-medium">
+                  <span className="font-medium text-orange-600">
                     {messagesData.unread} new messages
                   </span>
                 ) : (
@@ -572,18 +572,18 @@ export default function CustomerDashboardPage() {
           </Card>
 
           <Card
-            className="cursor-pointer hover:bg-accent/50 transition-colors"
+            className="hover:bg-accent/50 cursor-pointer transition-colors"
             onClick={() => (window.location.href = "/customer/report-cards")}
           >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
                 Report Cards
               </CardTitle>
-              <FileText className="h-4 w-4 text-muted-foreground" />
+              <FileText className="text-muted-foreground size-4" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{reportCardsData.total}</div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 {reportCardsData.latest
                   ? `Latest: ${formatDateShort(reportCardsData.latest)}`
                   : "No report cards yet"}
@@ -594,19 +594,19 @@ export default function CustomerDashboardPage() {
 
         {/* Loyalty Rewards Section */}
         {loyaltyData && (
-          <Card className="bg-gradient-to-br from-primary to-white border-0 shadow-lg">
+          <Card className="from-primary border-0 bg-linear-to-br to-white shadow-lg">
             <CardContent className="p-6">
-              <div className="flex items-center justify-between gap-6 flex-wrap">
+              <div className="flex flex-wrap items-center justify-between gap-6">
                 <div className="flex items-center gap-4">
                   <div className="text-4xl font-bold text-white drop-shadow-md">
                     {loyaltyData.points} pts
                   </div>
                 </div>
-                <div className="flex-1 min-w-[200px]">
-                  <div className="text-xs uppercase tracking-wide mb-1 text-white drop-shadow-sm">
+                <div className="min-w-[200px] flex-1">
+                  <div className="mb-1 text-xs tracking-wide text-white uppercase drop-shadow-sm">
                     LOYALTY REWARDS
                   </div>
-                  <div className="text-sm mb-2 text-slate-900 font-medium">
+                  <div className="mb-2 text-sm font-medium text-slate-900">
                     {loyaltyData.currentTier?.name || "Bronze"}
                     {loyaltyData.nextTier &&
                       ` - ${loyaltyData.pointsToNextTier} pts to ${loyaltyData.nextTier.name}`}
@@ -615,7 +615,7 @@ export default function CustomerDashboardPage() {
                     <>
                       <Progress
                         value={loyaltyData.progressPercentage}
-                        className="h-2 mb-1"
+                        className="mb-1 h-2"
                       />
                       <div className="text-xs text-slate-700">
                         {loyaltyData.points}/{loyaltyData.nextTier.minPoints}{" "}
@@ -627,7 +627,7 @@ export default function CustomerDashboardPage() {
                 <Button
                   variant="secondary"
                   size="sm"
-                  className="bg-white text-primary hover:bg-white/90"
+                  className="text-primary bg-white hover:bg-white/90"
                   asChild
                 >
                   <Link href="/customer/rewards">Redeem Points</Link>
@@ -645,7 +645,7 @@ export default function CustomerDashboardPage() {
                 <CardTitle>My Pets</CardTitle>
                 <Link
                   href="/customer/pets"
-                  className="text-sm text-muted-foreground hover:text-foreground"
+                  className="text-muted-foreground hover:text-foreground text-sm"
                 >
                   Manage all →
                 </Link>
@@ -653,8 +653,8 @@ export default function CustomerDashboardPage() {
             </CardHeader>
             <CardContent className="space-y-3">
               {customerPets.length === 0 ? (
-                <div className="text-center py-8 text-muted-foreground">
-                  <Dog className="h-12 w-12 mx-auto mb-2 opacity-50" />
+                <div className="text-muted-foreground py-8 text-center">
+                  <Dog className="mx-auto mb-2 h-12 w-12 opacity-50" />
                   <p>No pets registered yet</p>
                   <Button variant="outline" size="sm" className="mt-4" asChild>
                     <Link href="/customer/pets/add">Add your first pet</Link>
@@ -667,26 +667,26 @@ export default function CustomerDashboardPage() {
                     return (
                       <div
                         key={pet.id}
-                        className="flex items-center gap-3 p-3 rounded-lg border bg-background/60"
+                        className="bg-background/60 flex items-center gap-3 rounded-lg border p-3"
                       >
-                        <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                          <Dog className="h-6 w-6 text-primary" />
+                        <div className="bg-primary/10 flex h-12 w-12 items-center justify-center rounded-full">
+                          <Dog className="text-primary h-6 w-6" />
                         </div>
-                        <div className="flex-1 min-w-0">
+                        <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2">
-                            <p className="font-medium text-sm">{pet.name}</p>
+                            <p className="text-sm font-medium">{pet.name}</p>
                             <div className="flex items-center gap-1">
                               <div className="h-2 w-2 rounded-full bg-green-500" />
-                              <span className="text-xs text-muted-foreground">
+                              <span className="text-muted-foreground text-xs">
                                 Healthy
                               </span>
                             </div>
                           </div>
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-muted-foreground text-xs">
                             {pet.breed} - {pet.age}{" "}
                             {pet.age === 1 ? "yr" : "yrs"}
                           </p>
-                          <div className="flex flex-wrap gap-1 mt-1">
+                          <div className="mt-1 flex flex-wrap gap-1">
                             {petServices.map((service) => (
                               <Badge
                                 key={service}
@@ -703,7 +703,7 @@ export default function CustomerDashboardPage() {
                   })}
                   <Link
                     href="/customer/pets/add"
-                    className="block text-center text-sm text-muted-foreground hover:text-foreground pt-2 border-t"
+                    className="text-muted-foreground hover:text-foreground block border-t pt-2 text-center text-sm"
                   >
                     + Add a new pet
                   </Link>
@@ -719,7 +719,7 @@ export default function CustomerDashboardPage() {
                 <CardTitle>Messages</CardTitle>
                 <Link
                   href="/customer/messages"
-                  className="text-sm text-muted-foreground hover:text-foreground"
+                  className="text-muted-foreground hover:text-foreground text-sm"
                 >
                   View all →
                 </Link>
@@ -727,8 +727,8 @@ export default function CustomerDashboardPage() {
             </CardHeader>
             <CardContent className="space-y-3">
               {messagesData.recent.length === 0 ? (
-                <div className="text-center py-8 text-muted-foreground">
-                  <MessageSquare className="h-12 w-12 mx-auto mb-2 opacity-50" />
+                <div className="text-muted-foreground py-8 text-center">
+                  <MessageSquare className="mx-auto mb-2 h-12 w-12 opacity-50" />
                   <p>No messages yet</p>
                 </div>
               ) : (
@@ -745,27 +745,27 @@ export default function CustomerDashboardPage() {
                   return (
                     <div
                       key={message.id}
-                      className="flex items-start gap-3 p-3 rounded-lg border bg-background/60 cursor-pointer hover:bg-accent/50 transition-colors"
+                      className="bg-background/60 hover:bg-accent/50 flex cursor-pointer items-start gap-3 rounded-lg border p-3 transition-colors"
                       onClick={() =>
                         (window.location.href = "/customer/messages")
                       }
                     >
-                      <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                        <Icon className="h-5 w-5 text-primary" />
+                      <div className="bg-primary/10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
+                        <Icon className="text-primary h-5 w-5" />
                       </div>
-                      <div className="flex-1 min-w-0">
+                      <div className="min-w-0 flex-1">
                         <div className="flex items-center justify-between gap-2">
-                          <p className="font-medium text-sm">
+                          <p className="text-sm font-medium">
                             {message.staffName || "Facility Team"}
                           </p>
                           {isUnread && (
-                            <div className="h-2 w-2 rounded-full bg-orange-500 flex-shrink-0" />
+                            <div className="h-2 w-2 shrink-0 rounded-full bg-orange-500" />
                           )}
                         </div>
-                        <p className="text-xs text-muted-foreground truncate">
+                        <p className="text-muted-foreground truncate text-xs">
                           {message.subject}
                         </p>
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="text-muted-foreground mt-1 text-xs">
                           {formatTimeAgo(message.timestamp)}
                         </p>
                       </div>
@@ -783,7 +783,7 @@ export default function CustomerDashboardPage() {
             <CardTitle className="flex items-center gap-2">
               {urgentActions.length > 0 ? (
                 <>
-                  <AlertTriangle className="h-5 w-5 text-destructive" />
+                  <AlertTriangle className="text-destructive h-5 w-5" />
                   Action Needed
                 </>
               ) : (
@@ -803,7 +803,7 @@ export default function CustomerDashboardPage() {
             {urgentActions.length === 0 ? (
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-sm">
-                  <CheckCircle2 className="h-4 w-4 text-green-600" />
+                  <CheckCircle2 className="size-4 text-green-600" />
                   <span>Add your first pet: Done ✓</span>
                 </div>
               </div>
@@ -816,12 +816,12 @@ export default function CustomerDashboardPage() {
                   }
                   className="border-l-4"
                 >
-                  <AlertCircle className="h-4 w-4" />
+                  <AlertCircle className="size-4" />
                   <AlertDescription>
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex-1">
-                        <p className="font-semibold text-sm">{action.title}</p>
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="text-sm font-semibold">{action.title}</p>
+                        <p className="text-muted-foreground mt-1 text-xs">
                           {action.message}
                         </p>
                       </div>
@@ -852,7 +852,7 @@ export default function CustomerDashboardPage() {
                 <CardTitle>Upcoming Bookings</CardTitle>
                 <Link
                   href="/customer/bookings"
-                  className="text-sm text-muted-foreground hover:text-foreground"
+                  className="text-muted-foreground hover:text-foreground text-sm"
                 >
                   View all →
                 </Link>
@@ -865,24 +865,24 @@ export default function CustomerDashboardPage() {
                 return (
                   <div
                     key={booking.id}
-                    className="flex items-center gap-3 p-3 rounded-lg border bg-background/60 cursor-pointer hover:bg-accent/50 transition-colors"
+                    className="bg-background/60 hover:bg-accent/50 flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-colors"
                     onClick={() =>
                       (window.location.href = `/customer/bookings/${booking.id}`)
                     }
                   >
-                    <div className="p-2 rounded-lg bg-primary/10">
-                      <ServiceIcon className="h-4 w-4 text-primary" />
+                    <div className="bg-primary/10 rounded-lg p-2">
+                      <ServiceIcon className="text-primary size-4" />
                     </div>
-                    <div className="flex-1 min-w-0">
+                    <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
-                        <p className="font-medium text-sm uppercase">
+                        <p className="text-sm font-medium uppercase">
                           {booking.service}
                         </p>
                         <Badge variant="outline" className="text-xs">
                           {booking.status}
                         </Badge>
                       </div>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         {pet?.name}
                         {booking.groomingStyle && ` - ${booking.groomingStyle}`}
                         {booking.groomingAddOns &&
@@ -890,14 +890,14 @@ export default function CustomerDashboardPage() {
                             <span> + {booking.groomingAddOns.join(", ")}</span>
                           )}
                       </p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         {formatDateTime(
                           booking.startDate,
                           booking.checkInTime || undefined,
                         )}
                       </p>
                     </div>
-                    <div className="text-sm font-semibold text-primary">
+                    <div className="text-primary text-sm font-semibold">
                       ${booking.totalCost}
                     </div>
                   </div>

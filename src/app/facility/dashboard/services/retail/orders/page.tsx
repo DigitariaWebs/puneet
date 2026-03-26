@@ -1088,17 +1088,17 @@ export default function OrdersPage() {
   const getOrderStatusIcon = (status: string) => {
     switch (status) {
       case "pending":
-        return <Clock className="h-4 w-4" />;
+        return <Clock className="size-4" />;
       case "ordered":
-        return <Package className="h-4 w-4" />;
+        return <Package className="size-4" />;
       case "shipped":
-        return <Truck className="h-4 w-4" />;
+        return <Truck className="size-4" />;
       case "partially_received":
-        return <PackageCheck className="h-4 w-4" />;
+        return <PackageCheck className="size-4" />;
       case "received":
-        return <CheckCircle2 className="h-4 w-4" />;
+        return <CheckCircle2 className="size-4" />;
       case "cancelled":
-        return <XCircle className="h-4 w-4" />;
+        return <XCircle className="size-4" />;
       default:
         return null;
     }
@@ -1181,7 +1181,7 @@ export default function OrdersPage() {
       render: (item) => (
         <div>
           <div className="font-medium">{item.name}</div>
-          <div className="text-sm text-muted-foreground">
+          <div className="text-muted-foreground text-sm">
             {item.contactName}
           </div>
         </div>
@@ -1305,11 +1305,11 @@ export default function OrdersPage() {
         const PaymentIcon = paymentInfo.icon;
         return (
           <div className="flex items-center gap-2">
-            <PaymentIcon className="h-4 w-4 text-muted-foreground" />
+            <PaymentIcon className="text-muted-foreground size-4" />
             <div className="flex flex-col">
               <span className="font-medium">{paymentInfo.label}</span>
               {paymentInfo.transactionId && (
-                <span className="text-xs text-muted-foreground font-mono">
+                <span className="text-muted-foreground font-mono text-xs">
                   ID: {paymentInfo.transactionId.slice(0, 12)}...
                 </span>
               )}
@@ -1334,15 +1334,15 @@ export default function OrdersPage() {
           <div className="flex flex-col">
             <span className="font-mono text-xs">{transactionId}</span>
             {txn.yipyyPayTransactionId && (
-              <span className="text-xs text-muted-foreground">Yipyy Pay</span>
+              <span className="text-muted-foreground text-xs">Yipyy Pay</span>
             )}
             {txn.cloverTransactionId && (
-              <span className="text-xs text-muted-foreground">Clover</span>
+              <span className="text-muted-foreground text-xs">Clover</span>
             )}
             {txn.fiservTransactionId &&
               !txn.yipyyPayTransactionId &&
               !txn.cloverTransactionId && (
-                <span className="text-xs text-muted-foreground">Fiserv</span>
+                <span className="text-muted-foreground text-xs">Fiserv</span>
               )}
           </div>
         );
@@ -1359,7 +1359,7 @@ export default function OrdersPage() {
           <div className="flex flex-col">
             <span className="font-medium">{txn.cashierName || "Unknown"}</span>
             {txn.cashierId && (
-              <span className="text-xs text-muted-foreground">
+              <span className="text-muted-foreground text-xs">
                 ID: {txn.cashierId}
               </span>
             )}
@@ -1377,7 +1377,7 @@ export default function OrdersPage() {
         const locationName = getLocationName(txn.locationId);
         return (
           <div className="flex items-center gap-2">
-            <MapPin className="h-4 w-4 text-muted-foreground" />
+            <MapPin className="text-muted-foreground size-4" />
             <span>{locationName}</span>
           </div>
         );
@@ -1393,7 +1393,7 @@ export default function OrdersPage() {
         return (
           <div className="flex flex-col">
             <span>{formatTransactionTimestamp(txn.createdAt)}</span>
-            <span className="text-xs text-muted-foreground">
+            <span className="text-muted-foreground text-xs">
               {new Date(txn.createdAt).toLocaleTimeString("en-US", {
                 hour: "2-digit",
                 minute: "2-digit",
@@ -1420,12 +1420,12 @@ export default function OrdersPage() {
               <span className="font-medium">Booking #{txn.bookingId}</span>
             )}
             {txn.bookingService && (
-              <span className="text-xs text-muted-foreground capitalize">
+              <span className="text-muted-foreground text-xs capitalize">
                 {txn.bookingService}
               </span>
             )}
             {txn.petName && (
-              <span className="text-xs text-muted-foreground">
+              <span className="text-muted-foreground text-xs">
                 Pet: {txn.petName}
               </span>
             )}
@@ -1498,11 +1498,11 @@ export default function OrdersPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Orders</CardTitle>
-            <Package className="h-4 w-4 text-muted-foreground" />
+            <Package className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{purchaseOrders.length}</div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {receivedOrders} received
             </p>
           </CardContent>
@@ -1512,33 +1512,33 @@ export default function OrdersPage() {
             <CardTitle className="text-sm font-medium">
               Pending Orders
             </CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
+            <Clock className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{pendingOrders.length}</div>
-            <p className="text-xs text-muted-foreground">Awaiting delivery</p>
+            <p className="text-muted-foreground text-xs">Awaiting delivery</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Order Value</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <DollarSign className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
               ${totalOrderValue.toFixed(2)}
             </div>
-            <p className="text-xs text-muted-foreground">Total ordered</p>
+            <p className="text-muted-foreground text-xs">Total ordered</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Suppliers</CardTitle>
-            <Building2 className="h-4 w-4 text-muted-foreground" />
+            <Building2 className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{suppliers.length}</div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {activeSuppliers.length} active
             </p>
           </CardContent>
@@ -1555,15 +1555,15 @@ export default function OrdersPage() {
         <div className="flex items-center justify-between">
           <TabsList>
             <TabsTrigger value="orders" className="gap-2">
-              <Package className="h-4 w-4" />
+              <Package className="size-4" />
               Purchase Orders
             </TabsTrigger>
             <TabsTrigger value="transactions" className="gap-2">
-              <Receipt className="h-4 w-4" />
+              <Receipt className="size-4" />
               Transactions
             </TabsTrigger>
             <TabsTrigger value="suppliers" className="gap-2">
-              <Building2 className="h-4 w-4" />
+              <Building2 className="size-4" />
               Suppliers
             </TabsTrigger>
           </TabsList>
@@ -1574,7 +1574,7 @@ export default function OrdersPage() {
                 selectedTab === "orders" ? handleCreateOrder : handleAddSupplier
               }
             >
-              <Plus className="h-4 w-4 mr-2" />
+              <Plus className="mr-2 size-4" />
               {selectedTab === "orders" ? "New Order" : "Add Supplier"}
             </Button>
           )}
@@ -1592,7 +1592,7 @@ export default function OrdersPage() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon">
-                    <MoreHorizontal className="h-4 w-4" />
+                    <MoreHorizontal className="size-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -1610,7 +1610,7 @@ export default function OrdersPage() {
                         handleOpenReceiveOrder(item as PurchaseOrder)
                       }
                     >
-                      <PackageCheck className="h-4 w-4 mr-2" />
+                      <PackageCheck className="mr-2 size-4" />
                       Receive Order
                     </DropdownMenuItem>
                   )}
@@ -1637,7 +1637,7 @@ export default function OrdersPage() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon">
-                    <MoreHorizontal className="h-4 w-4" />
+                    <MoreHorizontal className="size-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -1650,7 +1650,7 @@ export default function OrdersPage() {
                     <DropdownMenuItem
                       onClick={() => handleInitiateReturn(item as Transaction)}
                     >
-                      <RotateCcw className="h-4 w-4 mr-2" />
+                      <RotateCcw className="mr-2 size-4" />
                       Return / Refund
                     </DropdownMenuItem>
                   )}
@@ -1672,7 +1672,7 @@ export default function OrdersPage() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon">
-                    <MoreHorizontal className="h-4 w-4" />
+                    <MoreHorizontal className="size-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -1695,7 +1695,7 @@ export default function OrdersPage() {
 
       {/* Create Order Modal */}
       <Dialog open={isOrderModalOpen} onOpenChange={setIsOrderModalOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Create Purchase Order</DialogTitle>
             <DialogDescription>
@@ -1741,19 +1741,19 @@ export default function OrdersPage() {
 
             <div className="grid gap-2">
               <Label>Products</Label>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 Add products to this order. Select from available products
                 below.
               </p>
-              <div className="border rounded-lg p-4 space-y-2">
+              <div className="space-y-2 rounded-lg border p-4">
                 {products.slice(0, 5).map((product) => (
                   <div
                     key={product.id}
-                    className="flex items-center justify-between p-2 rounded border bg-muted/30"
+                    className="bg-muted/30 flex items-center justify-between rounded-sm border p-2"
                   >
                     <div>
                       <span className="font-medium">{product.name}</span>
-                      <span className="text-sm text-muted-foreground ml-2">
+                      <span className="text-muted-foreground ml-2 text-sm">
                         (Cost: ${product.baseCostPrice.toFixed(2)})
                       </span>
                     </div>
@@ -1794,7 +1794,7 @@ export default function OrdersPage() {
 
       {/* Add/Edit Supplier Modal */}
       <Dialog open={isSupplierModalOpen} onOpenChange={setIsSupplierModalOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {editingSupplier ? "Edit Supplier" : "Add New Supplier"}
@@ -1985,7 +1985,7 @@ export default function OrdersPage() {
         open={isViewOrderModalOpen}
         onOpenChange={setIsViewOrderModalOpen}
       >
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Purchase Order Details</DialogTitle>
           </DialogHeader>
@@ -1994,7 +1994,7 @@ export default function OrdersPage() {
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-lg font-semibold font-mono">
+                  <h3 className="font-mono text-lg font-semibold">
                     {selectedOrder.orderNumber}
                   </h3>
                   <p className="text-muted-foreground">
@@ -2017,15 +2017,15 @@ export default function OrdersPage() {
                 </Badge>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 p-4 rounded-lg bg-muted">
+              <div className="bg-muted grid grid-cols-2 gap-4 rounded-lg p-4">
                 <div>
-                  <p className="text-sm text-muted-foreground">Order Date</p>
+                  <p className="text-muted-foreground text-sm">Order Date</p>
                   <p className="font-medium">
                     {new Date(selectedOrder.orderedAt).toLocaleDateString()}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     Expected Delivery
                   </p>
                   <p className="font-medium">
@@ -2036,21 +2036,21 @@ export default function OrdersPage() {
                 </div>
                 {selectedOrder.receivedAt && (
                   <div>
-                    <p className="text-sm text-muted-foreground">Received</p>
+                    <p className="text-muted-foreground text-sm">Received</p>
                     <p className="font-medium">
                       {new Date(selectedOrder.receivedAt).toLocaleDateString()}
                     </p>
                   </div>
                 )}
                 <div>
-                  <p className="text-sm text-muted-foreground">Created By</p>
+                  <p className="text-muted-foreground text-sm">Created By</p>
                   <p className="font-medium">{selectedOrder.createdBy}</p>
                 </div>
               </div>
 
               <div>
-                <h4 className="font-medium mb-2">Order Items</h4>
-                <div className="border rounded-lg divide-y">
+                <h4 className="mb-2 font-medium">Order Items</h4>
+                <div className="divide-y rounded-lg border">
                   {selectedOrder.items.map((item, index) => (
                     <div
                       key={index}
@@ -2059,11 +2059,11 @@ export default function OrdersPage() {
                       <div>
                         <p className="font-medium">{item.productName}</p>
                         {item.variantName && (
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-muted-foreground text-sm">
                             {item.variantName}
                           </p>
                         )}
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-muted-foreground text-xs">
                           SKU: {item.sku}
                         </p>
                       </div>
@@ -2085,7 +2085,7 @@ export default function OrdersPage() {
                 </div>
               </div>
 
-              <div className="space-y-2 p-4 rounded-lg bg-muted">
+              <div className="bg-muted space-y-2 rounded-lg p-4">
                 <div className="flex justify-between text-sm">
                   <span>Subtotal</span>
                   <span>${selectedOrder.subtotal.toFixed(2)}</span>
@@ -2100,7 +2100,7 @@ export default function OrdersPage() {
                   <span>Shipping</span>
                   <span>${selectedOrder.shipping.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between font-bold text-lg pt-2 border-t">
+                <div className="flex justify-between border-t pt-2 text-lg font-bold">
                   <span>Total</span>
                   <span>${selectedOrder.total.toFixed(2)}</span>
                 </div>
@@ -2108,8 +2108,8 @@ export default function OrdersPage() {
 
               {selectedOrder.notes && (
                 <div>
-                  <h4 className="font-medium mb-1">Notes</h4>
-                  <p className="text-sm text-muted-foreground">
+                  <h4 className="mb-1 font-medium">Notes</h4>
+                  <p className="text-muted-foreground text-sm">
                     {selectedOrder.notes}
                   </p>
                 </div>
@@ -2133,7 +2133,7 @@ export default function OrdersPage() {
 
       {/* Return / Refund Modal */}
       <Dialog open={isReturnModalOpen} onOpenChange={setIsReturnModalOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Return / Refund</DialogTitle>
             <DialogDescription>
@@ -2145,16 +2145,16 @@ export default function OrdersPage() {
           {selectedTransaction && (
             <div className="space-y-6 py-4">
               {/* Transaction Info */}
-              <div className="p-4 rounded-lg bg-muted">
+              <div className="bg-muted rounded-lg p-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-muted-foreground">Transaction</p>
-                    <p className="font-medium font-mono">
+                    <p className="text-muted-foreground text-sm">Transaction</p>
+                    <p className="font-mono font-medium">
                       {selectedTransaction.transactionNumber}
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">Date</p>
+                    <p className="text-muted-foreground text-sm">Date</p>
                     <p className="font-medium">
                       {new Date(
                         selectedTransaction.createdAt,
@@ -2163,14 +2163,14 @@ export default function OrdersPage() {
                   </div>
                   {selectedTransaction.customerName && (
                     <div>
-                      <p className="text-sm text-muted-foreground">Customer</p>
+                      <p className="text-muted-foreground text-sm">Customer</p>
                       <p className="font-medium">
                         {selectedTransaction.customerName}
                       </p>
                     </div>
                   )}
                   <div>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       Original Total
                     </p>
                     <p className="font-medium">
@@ -2182,10 +2182,10 @@ export default function OrdersPage() {
 
               {/* Select Items to Return */}
               <div>
-                <Label className="text-base font-medium mb-3 block">
+                <Label className="mb-3 block text-base font-medium">
                   Select Items to Return
                 </Label>
-                <div className="space-y-2 border rounded-lg p-4">
+                <div className="space-y-2 rounded-lg border p-4">
                   {selectedTransaction.items.map((item, index) => {
                     const returnItem = returnForm.items.find(
                       (ri) =>
@@ -2198,11 +2198,11 @@ export default function OrdersPage() {
                     return (
                       <div
                         key={index}
-                        className={`p-3 rounded-lg border ${
+                        className={`rounded-lg border p-3 ${
                           isSelected
-                            ? "bg-blue-50 border-blue-200"
+                            ? "border-blue-200 bg-blue-50"
                             : "bg-background"
-                        }`}
+                        } `}
                       >
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex-1">
@@ -2248,18 +2248,18 @@ export default function OrdersPage() {
                                     });
                                   }
                                 }}
-                                className="rounded"
+                                className="rounded-sm"
                               />
                               <div className="flex-1">
                                 <p className="font-medium">
                                   {item.productName}
                                 </p>
                                 {item.variantName && (
-                                  <p className="text-sm text-muted-foreground">
+                                  <p className="text-muted-foreground text-sm">
                                     {item.variantName}
                                   </p>
                                 )}
-                                <p className="text-sm text-muted-foreground">
+                                <p className="text-muted-foreground text-sm">
                                   ${item.unitPrice.toFixed(2)} each ×{" "}
                                   {item.quantity}
                                 </p>
@@ -2338,7 +2338,7 @@ export default function OrdersPage() {
                                   });
                                 }}
                               >
-                                <SelectTrigger className="w-40 h-8 text-xs">
+                                <SelectTrigger className="h-8 w-40 text-xs">
                                   <SelectValue placeholder="Select reason" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -2364,7 +2364,7 @@ export default function OrdersPage() {
                             (!returnItem.reason ||
                               (returnItem.reason === "other" &&
                                 !returnItem.reasonNotes)) && (
-                              <p className="text-xs text-orange-600 mt-1 ml-2">
+                              <p className="mt-1 ml-2 text-xs text-orange-600">
                                 ⚠️ Return reason recommended for audit purposes
                               </p>
                             )}
@@ -2377,7 +2377,7 @@ export default function OrdersPage() {
 
               {/* Return Summary */}
               {returnForm.items.length > 0 && (
-                <div className="p-4 rounded-lg bg-muted space-y-2">
+                <div className="bg-muted space-y-2 rounded-lg p-4">
                   <h4 className="font-medium">Return Summary</h4>
                   <div className="space-y-1">
                     {returnForm.items.map((item, index) => {
@@ -2399,7 +2399,7 @@ export default function OrdersPage() {
                         </div>
                       );
                     })}
-                    <div className="flex justify-between font-bold pt-2 border-t">
+                    <div className="flex justify-between border-t pt-2 font-bold">
                       <span>Refund Total</span>
                       <span>
                         $
@@ -2422,14 +2422,14 @@ export default function OrdersPage() {
               {/* Refund Method */}
               {returnForm.items.length > 0 && (
                 <div>
-                  <Label className="text-base font-medium mb-3 block">
+                  <Label className="mb-3 block text-base font-medium">
                     Refund Method
                   </Label>
 
                   {/* Show original payment method info */}
                   {selectedTransaction && (
-                    <div className="mb-3 p-3 rounded-lg bg-muted">
-                      <p className="text-sm font-medium mb-1">
+                    <div className="bg-muted mb-3 rounded-lg p-3">
+                      <p className="mb-1 text-sm font-medium">
                         Original Payment Method:
                       </p>
                       <div className="flex items-center gap-2">
@@ -2475,7 +2475,7 @@ export default function OrdersPage() {
                             </Badge>
                           )}
                       </div>
-                      <p className="text-xs text-muted-foreground mt-1">
+                      <p className="text-muted-foreground mt-1 text-xs">
                         Refund will default to original payment method
                       </p>
                     </div>
@@ -2495,7 +2495,7 @@ export default function OrdersPage() {
                                 ? "default"
                                 : "outline"
                             }
-                            className="h-auto p-4 flex flex-col items-start gap-2"
+                            className="flex h-auto flex-col items-start gap-2 p-4"
                             onClick={() =>
                               setReturnForm({
                                 ...returnForm,
@@ -2506,7 +2506,7 @@ export default function OrdersPage() {
                             <ArrowLeft className="h-5 w-5" />
                             <div className="text-left">
                               <p className="font-medium">Original Payment</p>
-                              <p className="text-xs text-muted-foreground">
+                              <p className="text-muted-foreground text-xs">
                                 Refund to original payment method
                               </p>
                             </div>
@@ -2519,7 +2519,7 @@ export default function OrdersPage() {
                                 ? "default"
                                 : "outline"
                             }
-                            className="h-auto p-4 flex flex-col items-start gap-2"
+                            className="flex h-auto flex-col items-start gap-2 p-4"
                             onClick={() =>
                               setReturnForm({
                                 ...returnForm,
@@ -2534,12 +2534,12 @@ export default function OrdersPage() {
                             <Wallet className="h-5 w-5" />
                             <div className="text-left">
                               <p className="font-medium">Store Credit</p>
-                              <p className="text-xs text-muted-foreground">
+                              <p className="text-muted-foreground text-xs">
                                 Issue store credit to customer
                                 {!canOverrideRefund &&
                                   returnForm.refundMethod ===
                                     "original_payment" && (
-                                    <span className="block text-orange-600 mt-1">
+                                    <span className="mt-1 block text-orange-600">
                                       Manager only
                                     </span>
                                   )}
@@ -2554,7 +2554,7 @@ export default function OrdersPage() {
                                 ? "default"
                                 : "outline"
                             }
-                            className="h-auto p-4 flex flex-col items-start gap-2"
+                            className="flex h-auto flex-col items-start gap-2 p-4"
                             onClick={() =>
                               setReturnForm({
                                 ...returnForm,
@@ -2569,12 +2569,12 @@ export default function OrdersPage() {
                             <Gift className="h-5 w-5" />
                             <div className="text-left">
                               <p className="font-medium">Gift Card</p>
-                              <p className="text-xs text-muted-foreground">
+                              <p className="text-muted-foreground text-xs">
                                 Issue gift card to customer
                                 {!canOverrideRefund &&
                                   returnForm.refundMethod ===
                                     "original_payment" && (
-                                    <span className="block text-orange-600 mt-1">
+                                    <span className="mt-1 block text-orange-600">
                                       Manager only
                                     </span>
                                   )}
@@ -2589,7 +2589,7 @@ export default function OrdersPage() {
                                 ? "default"
                                 : "outline"
                             }
-                            className="h-auto p-4 flex flex-col items-start gap-2"
+                            className="flex h-auto flex-col items-start gap-2 p-4"
                             onClick={() =>
                               setReturnForm({
                                 ...returnForm,
@@ -2600,7 +2600,7 @@ export default function OrdersPage() {
                             <Banknote className="h-5 w-5" />
                             <div className="text-left">
                               <p className="font-medium">Cash (Override)</p>
-                              <p className="text-xs text-muted-foreground">
+                              <p className="text-muted-foreground text-xs">
                                 Manager override - refund in cash
                               </p>
                             </div>
@@ -2619,7 +2619,7 @@ export default function OrdersPage() {
                                     ? "default"
                                     : "outline"
                                 }
-                                className="h-auto p-4 flex flex-col items-start gap-2"
+                                className="flex h-auto flex-col items-start gap-2 p-4"
                                 onClick={() =>
                                   setReturnForm({
                                     ...returnForm,
@@ -2631,7 +2631,7 @@ export default function OrdersPage() {
                                 <CreditCard className="h-5 w-5" />
                                 <div className="text-left">
                                   <p className="font-medium">{method.name}</p>
-                                  <p className="text-xs text-muted-foreground">
+                                  <p className="text-muted-foreground text-xs">
                                     {method.description ||
                                       "Custom payment method"}
                                   </p>
@@ -2742,7 +2742,7 @@ export default function OrdersPage() {
         open={isReceiveOrderModalOpen}
         onOpenChange={setIsReceiveOrderModalOpen}
       >
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Receive Purchase Order</DialogTitle>
             <DialogDescription>
@@ -2753,13 +2753,13 @@ export default function OrdersPage() {
 
           {selectedOrder && (
             <div className="space-y-4 py-4">
-              <div className="p-4 rounded-lg bg-muted">
-                <div className="flex items-center justify-between mb-2">
+              <div className="bg-muted rounded-lg p-4">
+                <div className="mb-2 flex items-center justify-between">
                   <div>
-                    <p className="font-semibold font-mono">
+                    <p className="font-mono font-semibold">
                       {selectedOrder.orderNumber}
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       {selectedOrder.supplierName}
                     </p>
                   </div>
@@ -2781,7 +2781,7 @@ export default function OrdersPage() {
               </div>
 
               <div className="space-y-3">
-                <div className="flex items-center justify-between text-sm font-medium pb-2 border-b">
+                <div className="flex items-center justify-between border-b pb-2 text-sm font-medium">
                   <span className="font-medium">Item</span>
                   <div className="flex items-center gap-8">
                     <span className="w-24 text-center">Ordered</span>
@@ -2802,7 +2802,7 @@ export default function OrdersPage() {
                   return (
                     <div
                       key={item.sku}
-                      className="p-4 border rounded-lg space-y-3"
+                      className="space-y-3 rounded-lg border p-4"
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex-1">
@@ -2810,11 +2810,11 @@ export default function OrdersPage() {
                             {orderItem?.productName || "Unknown Product"}
                           </p>
                           {orderItem?.variantName && (
-                            <p className="text-sm text-muted-foreground">
+                            <p className="text-muted-foreground text-sm">
                               {orderItem.variantName}
                             </p>
                           )}
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-muted-foreground text-xs">
                             SKU: {item.sku}
                           </p>
                         </div>
@@ -2825,7 +2825,7 @@ export default function OrdersPage() {
                             </span>
                           </div>
                           <div className="w-24 text-center">
-                            <span className="text-sm text-muted-foreground">
+                            <span className="text-muted-foreground text-sm">
                               {item.receivedQuantity}
                             </span>
                           </div>
@@ -2849,8 +2849,8 @@ export default function OrdersPage() {
                       </div>
 
                       {quantityToReceive > 0 && (
-                        <div className="flex items-center gap-2 text-sm text-green-600 bg-green-50 p-2 rounded">
-                          <PackageCheck className="h-4 w-4" />
+                        <div className="flex items-center gap-2 rounded-sm bg-green-50 p-2 text-sm text-green-600">
+                          <PackageCheck className="size-4" />
                           <span>
                             Will receive {quantityToReceive} unit
                             {quantityToReceive !== 1 ? "s" : ""}
@@ -2859,8 +2859,8 @@ export default function OrdersPage() {
                       )}
 
                       {remainingQuantity > 0 && quantityToReceive > 0 && (
-                        <div className="flex items-center gap-2 text-sm text-amber-600 bg-amber-50 p-2 rounded">
-                          <AlertCircle className="h-4 w-4" />
+                        <div className="flex items-center gap-2 rounded-sm bg-amber-50 p-2 text-sm text-amber-600">
+                          <AlertCircle className="size-4" />
                           <span>
                             {remainingQuantity} unit
                             {remainingQuantity !== 1 ? "s" : ""} remaining
@@ -2869,8 +2869,8 @@ export default function OrdersPage() {
                       )}
 
                       {item.newReceivedQuantity >= item.orderedQuantity && (
-                        <div className="flex items-center gap-2 text-sm text-blue-600 bg-blue-50 p-2 rounded">
-                          <CheckCircle2 className="h-4 w-4" />
+                        <div className="flex items-center gap-2 rounded-sm bg-blue-50 p-2 text-sm text-blue-600">
+                          <CheckCircle2 className="size-4" />
                           <span>Fully received</span>
                         </div>
                       )}
@@ -2879,7 +2879,7 @@ export default function OrdersPage() {
                 })}
               </div>
 
-              <div className="p-4 rounded-lg bg-muted space-y-2">
+              <div className="bg-muted space-y-2 rounded-lg p-4">
                 <div className="flex justify-between text-sm">
                   <span>Total Items to Receive:</span>
                   <span className="font-medium">
@@ -2931,7 +2931,7 @@ export default function OrdersPage() {
                 ).length === 0
               }
             >
-              <PackageCheck className="h-4 w-4 mr-2" />
+              <PackageCheck className="mr-2 size-4" />
               Process Receiving
             </Button>
           </DialogFooter>

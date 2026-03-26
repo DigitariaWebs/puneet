@@ -163,7 +163,7 @@ export default function NotificationsPage() {
   );
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
+    <div className="container mx-auto space-y-6 py-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Notifications</h1>
@@ -175,7 +175,7 @@ export default function NotificationsPage() {
         </div>
         {unreadCount > 0 && (
           <Button variant="outline" onClick={markAllAsRead}>
-            <CheckCircle2 className="mr-2 h-4 w-4" />
+            <CheckCircle2 className="mr-2 size-4" />
             Mark all as read
           </Button>
         )}
@@ -190,7 +190,7 @@ export default function NotificationsPage() {
           <TabsTrigger value="read">Read</TabsTrigger>
         </TabsList>
 
-        <TabsContent value={filter} className="space-y-4 mt-4">
+        <TabsContent value={filter} className="mt-4 space-y-4">
           {filteredNotifications.length === 0 ? (
             <Card>
               <CardContent className="py-12 text-center">
@@ -208,7 +208,7 @@ export default function NotificationsPage() {
               ([category, categoryNotifications]) => (
                 <Card key={category}>
                   <CardHeader>
-                    <CardTitle className="text-sm font-semibold uppercase text-muted-foreground">
+                    <CardTitle className="text-muted-foreground text-sm font-semibold uppercase">
                       {category}
                     </CardTitle>
                   </CardHeader>
@@ -216,35 +216,33 @@ export default function NotificationsPage() {
                     {categoryNotifications.map((notif) => (
                       <div
                         key={notif.id}
-                        className={`p-4 rounded-lg border transition-colors ${
+                        className={`rounded-lg border p-4 transition-colors ${
                           !notif.read
-                            ? "bg-muted/50 border-primary/20"
+                            ? "border-primary/20 bg-muted/50"
                             : "bg-background"
-                        }`}
+                        } `}
                       >
                         <div className="flex items-start gap-3">
-                          <span className="text-2xl flex-shrink-0">
+                          <span className="shrink-0 text-2xl">
                             {notificationIcons[notif.type]}
                           </span>
-                          <div className="flex-1 min-w-0">
+                          <div className="min-w-0 flex-1">
                             <div className="flex items-start justify-between gap-2">
                               <div className="flex-1">
                                 <div className="flex items-center gap-2">
                                   <h3
-                                    className={`text-sm font-medium ${
-                                      !notif.read ? "font-semibold" : ""
-                                    }`}
+                                    className={`text-sm font-medium ${!notif.read ? "font-semibold" : ""} `}
                                   >
                                     {notif.title}
                                   </h3>
                                   {!notif.read && (
-                                    <div className="h-2 w-2 rounded-full bg-primary flex-shrink-0" />
+                                    <div className="bg-primary h-2 w-2 shrink-0 rounded-full" />
                                   )}
                                 </div>
-                                <p className="text-sm text-muted-foreground mt-1">
+                                <p className="text-muted-foreground mt-1 text-sm">
                                   {notif.message}
                                 </p>
-                                <p className="text-xs text-muted-foreground mt-2">
+                                <p className="text-muted-foreground mt-2 text-xs">
                                   {formatTimeAgo(new Date(notif.createdAt))}
                                 </p>
                               </div>
@@ -257,7 +255,7 @@ export default function NotificationsPage() {
                                     onClick={() => markAsRead(notif.id)}
                                     title="Mark as read"
                                   >
-                                    <CheckCircle2 className="h-4 w-4" />
+                                    <CheckCircle2 className="size-4" />
                                   </Button>
                                 )}
                                 <Button
@@ -267,7 +265,7 @@ export default function NotificationsPage() {
                                   onClick={() => deleteNotification(notif.id)}
                                   title="Delete"
                                 >
-                                  <X className="h-4 w-4" />
+                                  <X className="size-4" />
                                 </Button>
                               </div>
                             </div>

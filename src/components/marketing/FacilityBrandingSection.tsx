@@ -93,13 +93,13 @@ export function FacilityBrandingSection() {
   return (
     <Card>
       <CardHeader className="pb-4">
-        <CardTitle className="text-base flex items-center gap-2">
-          <Palette className="h-4 w-4" />
+        <CardTitle className="flex items-center gap-2 text-base">
+          <Palette className="size-4" />
           Email Branding
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           {/* Left: Form Fields */}
           <div className="space-y-4">
             {/* Logo */}
@@ -113,7 +113,7 @@ export function FacilityBrandingSection() {
             </div>
 
             {/* Colors */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label className="text-sm">Primary Color</Label>
                 <div className="flex gap-2">
@@ -121,7 +121,7 @@ export function FacilityBrandingSection() {
                     type="color"
                     value={formData.primaryColor}
                     onChange={(e) => update("primaryColor", e.target.value)}
-                    className="w-10 h-9 rounded border cursor-pointer appearance-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="focus-visible:ring-ring h-9 w-10 cursor-pointer appearance-none rounded-sm border focus-visible:ring-2 focus-visible:outline-none"
                     aria-label="Primary color picker"
                   />
                   <Input
@@ -138,7 +138,7 @@ export function FacilityBrandingSection() {
                     type="color"
                     value={formData.secondaryColor}
                     onChange={(e) => update("secondaryColor", e.target.value)}
-                    className="w-10 h-9 rounded border cursor-pointer appearance-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="focus-visible:ring-ring h-9 w-10 cursor-pointer appearance-none rounded-sm border focus-visible:ring-2 focus-visible:outline-none"
                     aria-label="Secondary color picker"
                   />
                   <Input
@@ -151,7 +151,7 @@ export function FacilityBrandingSection() {
             </div>
 
             {/* From Name + Reply-to */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label className="text-sm">From Name</Label>
                 <Input
@@ -187,14 +187,14 @@ export function FacilityBrandingSection() {
               <Label className="text-sm">Social Links</Label>
               <div className="space-y-2">
                 {formData.socialLinks.map((link: SocialLink) => (
-                  <div key={link.id} className="flex gap-2 items-center">
+                  <div key={link.id} className="flex items-center gap-2">
                     <Select
                       value={link.platform}
                       onValueChange={(v) =>
                         updateSocialLink(link.id, "platform", v)
                       }
                     >
-                      <SelectTrigger className="w-32 h-8">
+                      <SelectTrigger className="h-8 w-32">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -225,19 +225,19 @@ export function FacilityBrandingSection() {
                   </div>
                 ))}
                 <Button variant="outline" size="sm" onClick={addSocialLink}>
-                  <Plus className="h-3.5 w-3.5 mr-1" /> Add Link
+                  <Plus className="mr-1 h-3.5 w-3.5" /> Add Link
                 </Button>
               </div>
             </div>
 
             <Button onClick={handleSave} className="w-full">
-              <Save className="h-4 w-4 mr-2" /> Save Branding
+              <Save className="mr-2 size-4" /> Save Branding
             </Button>
           </div>
 
           {/* Right: Live Preview */}
           <div className="space-y-2">
-            <Label className="text-sm text-muted-foreground">
+            <Label className="text-muted-foreground text-sm">
               Live Preview
             </Label>
             <Card className="overflow-hidden">
@@ -246,11 +246,11 @@ export function FacilityBrandingSection() {
                 className="h-2"
                 style={{ backgroundColor: formData.primaryColor }}
               />
-              <CardContent className="pt-4 space-y-3">
+              <CardContent className="space-y-3 pt-4">
                 {/* Logo + Name */}
-                <div className="flex items-center gap-2.5 pb-3 border-b">
+                <div className="flex items-center gap-2.5 border-b pb-3">
                   <div
-                    className="w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg text-sm font-bold"
                     style={{
                       backgroundColor: formData.primaryColor,
                       color: brandTextColor,
@@ -259,25 +259,25 @@ export function FacilityBrandingSection() {
                     {formData.fromName.charAt(0) || "?"}
                   </div>
                   <div>
-                    <div className="font-medium text-sm">
+                    <div className="text-sm font-medium">
                       {formData.fromName || "Your Business"}
                     </div>
-                    <div className="text-xs text-muted-foreground">
+                    <div className="text-muted-foreground text-xs">
                       {formData.replyToEmail || "email@example.com"}
                     </div>
                   </div>
                 </div>
 
                 {/* Sample content */}
-                <div className="text-sm text-muted-foreground py-2">
+                <div className="text-muted-foreground py-2 text-sm">
                   Hi Sarah, your email content will appear here with your
                   branding applied automatically.
                 </div>
 
                 {/* Sample CTA */}
-                <div className="text-center py-2">
+                <div className="py-2 text-center">
                   <span
-                    className="inline-block px-6 py-2.5 rounded-lg font-medium text-sm"
+                    className="inline-block rounded-lg px-6 py-2.5 text-sm font-medium"
                     style={{
                       backgroundColor: formData.primaryColor,
                       color: brandTextColor,
@@ -288,22 +288,22 @@ export function FacilityBrandingSection() {
                 </div>
 
                 {/* Footer */}
-                <div className="border-t pt-3 space-y-1.5">
-                  <div className="text-xs text-muted-foreground text-center">
+                <div className="space-y-1.5 border-t pt-3">
+                  <div className="text-muted-foreground text-center text-xs">
                     {formData.footerText || "Your business footer text"}
                   </div>
                   <div className="flex justify-center gap-3">
                     {formData.socialLinks.map((link: SocialLink) => (
                       <span
                         key={link.id}
-                        className="text-xs text-muted-foreground capitalize"
+                        className="text-muted-foreground text-xs capitalize"
                       >
                         {link.platform}
                       </span>
                     ))}
                   </div>
                   <div className="text-center">
-                    <span className="text-xs text-primary underline">
+                    <span className="text-primary text-xs underline">
                       Unsubscribe
                     </span>
                   </div>

@@ -52,7 +52,7 @@ export function BoardingOpsRequestsTable({
         render: (r) => (
           <div className="space-y-1">
             <div className="font-medium">{r.id}</div>
-            <div className="text-xs text-muted-foreground">{r.clientName}</div>
+            <div className="text-muted-foreground text-xs">{r.clientName}</div>
           </div>
         ),
       },
@@ -71,7 +71,7 @@ export function BoardingOpsRequestsTable({
         render: (r) => (
           <div className="text-sm">
             <div>{r.checkInDate}</div>
-            <div className="text-xs text-muted-foreground">
+            <div className="text-muted-foreground text-xs">
               → {r.checkOutDate}
             </div>
           </div>
@@ -85,7 +85,7 @@ export function BoardingOpsRequestsTable({
         render: (r) => (
           <div className="space-y-1">
             <div className="text-sm font-medium">{r.pets.length} pet(s)</div>
-            <div className="text-xs text-muted-foreground">
+            <div className="text-muted-foreground text-xs">
               {r.pets.map((p) => p.petName).join(", ")}
             </div>
           </div>

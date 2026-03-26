@@ -312,7 +312,7 @@ export default function YipyyGoFormPage({
 
   if (!booking || !customer || !pet) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold">Booking not found</h2>
           <Button
@@ -320,7 +320,7 @@ export default function YipyyGoFormPage({
             className="mt-4"
             onClick={() => router.push("/customer/bookings")}
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
+            <ArrowLeft className="mr-2 size-4" />
             Back to Bookings
           </Button>
         </div>
@@ -331,7 +331,7 @@ export default function YipyyGoFormPage({
   // Authentication screens
   if (authState === "checking") {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin" />
       </div>
     );
@@ -339,7 +339,7 @@ export default function YipyyGoFormPage({
 
   if (authState === "login") {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-muted/20">
+      <div className="bg-muted/20 flex min-h-screen items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>Access YipyyGo Form</CardTitle>
@@ -362,7 +362,7 @@ export default function YipyyGoFormPage({
             <div className="relative">
               <Separator />
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="bg-background px-2 text-sm text-muted-foreground">
+                <span className="bg-background text-muted-foreground px-2 text-sm">
                   OR
                 </span>
               </div>
@@ -411,7 +411,7 @@ export default function YipyyGoFormPage({
 
   if (authState === "verification") {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="flex min-h-screen items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>Verify Access</CardTitle>
@@ -445,11 +445,11 @@ export default function YipyyGoFormPage({
   // Form locked after deadline (skip in development mode)
   if (!DEV_MODE && formData?.isLocked && !formData.submittedAt) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="flex min-h-screen items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Lock className="h-5 w-5" />
+              <Lock className="size-5" />
               Form Locked
             </CardTitle>
             <CardDescription>
@@ -458,7 +458,7 @@ export default function YipyyGoFormPage({
           </CardHeader>
           <CardContent>
             <Alert>
-              <AlertCircle className="h-4 w-4" />
+              <AlertCircle className="size-4" />
               <AlertDescription>
                 Please contact the facility directly to provide this
                 information.
@@ -466,7 +466,7 @@ export default function YipyyGoFormPage({
             </Alert>
             <Button
               variant="outline"
-              className="w-full mt-4"
+              className="mt-4 w-full"
               onClick={() => router.push(`/customer/bookings/${booking.id}`)}
             >
               Back to Booking
@@ -480,7 +480,7 @@ export default function YipyyGoFormPage({
   // Main form
   if (!formData) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin" />
       </div>
     );
@@ -513,33 +513,33 @@ export default function YipyyGoFormPage({
       : `Step ${currentSection + 1} of ${totalSections - 1}`;
 
   return (
-    <div className="min-h-screen bg-background p-4">
-      <div className="max-w-4xl mx-auto space-y-6">
+    <div className="bg-background min-h-screen p-4">
+      <div className="mx-auto max-w-4xl space-y-6">
         {/* Header – plane check-in style: fast, clear */}
-        <div className="flex items-center justify-between flex-wrap gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <Button
               variant="ghost"
               size="sm"
               onClick={() => router.push(`/customer/bookings/${booking.id}`)}
             >
-              <ArrowLeft className="mr-2 h-4 w-4" />
+              <ArrowLeft className="mr-2 size-4" />
               Back
             </Button>
-            <div className="flex items-center gap-2 mt-2 flex-wrap">
+            <div className="mt-2 flex flex-wrap items-center gap-2">
               <h1 className="text-2xl font-bold">YipyyGo</h1>
-              <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
-                <Zap className="h-3 w-3" />
+              <span className="bg-primary/10 text-primary inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium">
+                <Zap className="size-3" />
                 ~2 min
               </span>
             </div>
-            <p className="text-muted-foreground text-sm mt-0.5">
+            <p className="text-muted-foreground mt-0.5 text-sm">
               {pet.name} · {booking.service} · {stepLabel}
             </p>
           </div>
           {deadlineInfo && !deadlineInfo.isPastDeadline && (
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Clock className="h-4 w-4" />
+            <div className="text-muted-foreground flex items-center gap-2 text-sm">
+              <Clock className="size-4" />
               <span>{deadlineInfo.timeRemaining}</span>
             </div>
           )}
@@ -549,14 +549,14 @@ export default function YipyyGoFormPage({
         {lastStayForm && (
           <Card className="border-primary/30 bg-primary/5">
             <CardContent className="py-4">
-              <div className="flex items-center justify-between gap-4 flex-wrap">
+              <div className="flex flex-wrap items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-primary/10">
-                    <RotateCcw className="h-5 w-5 text-primary" />
+                  <div className="bg-primary/10 rounded-lg p-2">
+                    <RotateCcw className="text-primary h-5 w-5" />
                   </div>
                   <div>
                     <p className="font-medium">Use same as last time</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       Copy belongings, feeding, meds & behavior from your last
                       stay
                     </p>
@@ -573,7 +573,7 @@ export default function YipyyGoFormPage({
         {/* Booking Summary */}
         <Card>
           <CardContent className="pt-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+            <div className="grid grid-cols-2 gap-4 text-sm md:grid-cols-4">
               <div>
                 <p className="text-muted-foreground">Pet</p>
                 <p className="font-medium">{pet.name}</p>
@@ -601,13 +601,13 @@ export default function YipyyGoFormPage({
           {sections.map((section, index) => (
             <div
               key={section.id}
-              className={`flex-1 h-2 rounded ${
+              className={`h-2 flex-1 rounded-sm ${
                 index < currentSection
                   ? "bg-primary"
                   : index === currentSection
                     ? "bg-primary/50"
                     : "bg-muted"
-              }`}
+              } `}
             />
           ))}
         </div>

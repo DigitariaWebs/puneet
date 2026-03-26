@@ -207,7 +207,7 @@ export function MedicationSection({
     <Card>
       <CardHeader>
         <div className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-lg bg-red-50 flex items-center justify-center">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-red-50">
             <Pill className="h-4.5 w-4.5 text-red-600" />
           </div>
           <div>
@@ -220,10 +220,10 @@ export function MedicationSection({
       </CardHeader>
       <CardContent className="space-y-5">
         {/* ── No Medications Toggle ── */}
-        <div className="flex items-center justify-between p-4 border rounded-lg">
+        <div className="flex items-center justify-between rounded-lg border p-4">
           <div>
             <Label className="text-sm font-medium">No Medications</Label>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {formData.petName} is not taking any medications
             </p>
           </div>
@@ -255,13 +255,13 @@ export function MedicationSection({
                 >
                   {/* Card header */}
                   <div
-                    className="flex items-center justify-between px-4 py-3 cursor-pointer"
+                    className="flex cursor-pointer items-center justify-between px-4 py-3"
                     onClick={() => setExpandedMed(isExpanded ? null : med.id)}
                   >
                     <div className="flex items-center gap-3">
                       <div
                         className={cn(
-                          "w-8 h-8 rounded-full flex items-center justify-center",
+                          `flex h-8 w-8 items-center justify-center rounded-full`,
                           showHighRisk ? "bg-red-100" : "bg-violet-100",
                         )}
                       >
@@ -280,14 +280,14 @@ export function MedicationSection({
                           {showHighRisk && (
                             <Badge
                               variant="destructive"
-                              className="text-[10px] px-1.5 py-0"
+                              className="px-1.5 py-0 text-[10px]"
                             >
-                              <ShieldAlert className="h-3 w-3 mr-0.5" />
+                              <ShieldAlert className="mr-0.5 h-3 w-3" />
                               High Risk
                             </Badge>
                           )}
                         </div>
-                        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                        <div className="text-muted-foreground flex items-center gap-1.5 text-xs">
                           {med.dosage && <span>{med.dosage}</span>}
                           {med.strength && <span>&middot; {med.strength}</span>}
                           {med.frequency && (
@@ -306,7 +306,7 @@ export function MedicationSection({
                         type="button"
                         variant="ghost"
                         size="icon"
-                        className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                        className="text-muted-foreground hover:text-destructive h-7 w-7"
                         onClick={(e) => {
                           e.stopPropagation();
                           removeMedication(med.id);
@@ -315,18 +315,18 @@ export function MedicationSection({
                         <Trash2 className="h-3.5 w-3.5" />
                       </Button>
                       {isExpanded ? (
-                        <ChevronUp className="h-4 w-4 text-muted-foreground" />
+                        <ChevronUp className="text-muted-foreground size-4" />
                       ) : (
-                        <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                        <ChevronDown className="text-muted-foreground size-4" />
                       )}
                     </div>
                   </div>
 
                   {/* Expanded details */}
                   {isExpanded && (
-                    <div className="px-4 pb-4 space-y-4 border-t border-violet-100">
+                    <div className="space-y-4 border-t border-violet-100 px-4 pb-4">
                       {/* Name + Purpose */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3">
+                      <div className="grid grid-cols-1 gap-3 pt-3 sm:grid-cols-2">
                         <div className="space-y-1">
                           <Label className="text-xs">Medication Name *</Label>
                           <Input
@@ -352,11 +352,11 @@ export function MedicationSection({
                       </div>
 
                       {/* Dosing section */}
-                      <div className="rounded-md border bg-white p-3 space-y-3">
-                        <h5 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                      <div className="space-y-3 rounded-md border bg-white p-3">
+                        <h5 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
                           Dosage
                         </h5>
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                           <div className="space-y-1">
                             <Label className="text-xs">Amount *</Label>
                             <Input
@@ -401,13 +401,13 @@ export function MedicationSection({
                           </div>
                         </div>
                         {med.form === "liquid" && (
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-muted-foreground text-xs">
                             Use ml for liquid dosage amount
                           </p>
                         )}
                         {(med.form === "ear_drops" ||
                           med.form === "eye_drops") && (
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-muted-foreground text-xs">
                             Specify number of drops and per ear/eye in the
                             amount field
                           </p>
@@ -415,8 +415,8 @@ export function MedicationSection({
                       </div>
 
                       {/* Timing section */}
-                      <div className="rounded-md border bg-white p-3 space-y-3">
-                        <h5 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                      <div className="space-y-3 rounded-md border bg-white p-3">
+                        <h5 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
                           Schedule
                         </h5>
                         <div className="space-y-2">
@@ -430,10 +430,10 @@ export function MedicationSection({
                                   updateMed(med.id, { frequency: freq.value })
                                 }
                                 className={cn(
-                                  "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
+                                  `rounded-full border px-3 py-1 text-xs font-medium transition-colors`,
                                   med.frequency === freq.value
-                                    ? "border-violet-300 bg-violet-50 text-violet-700"
-                                    : "border-input hover:bg-muted/50 text-muted-foreground",
+                                    ? `border-violet-300 bg-violet-50 text-violet-700`
+                                    : `border-input text-muted-foreground hover:bg-muted/50`,
                                 )}
                               >
                                 {freq.label}
@@ -503,14 +503,14 @@ export function MedicationSection({
                                 type="button"
                                 onClick={() => addTime(med.id, time)}
                                 disabled={med.times.includes(time)}
-                                className="rounded-full border border-input px-3 py-1 text-xs hover:bg-muted/50 disabled:opacity-40 transition-colors"
+                                className="border-input hover:bg-muted/50 rounded-full border px-3 py-1 text-xs transition-colors disabled:opacity-40"
                               >
                                 + {formatTime(time)}
                               </button>
                             ))}
                             <Input
                               type="time"
-                              className="w-28 h-7 text-xs"
+                              className="h-7 w-28 text-xs"
                               onBlur={(e) => {
                                 if (e.target.value) {
                                   addTime(med.id, e.target.value);
@@ -520,11 +520,11 @@ export function MedicationSection({
                             />
                           </div>
                           {med.times.length > 0 && (
-                            <div className="flex flex-wrap gap-1 mt-1">
+                            <div className="mt-1 flex flex-wrap gap-1">
                               {med.times.map((time, idx) => (
                                 <span
                                   key={idx}
-                                  className="inline-flex items-center gap-1 rounded-full bg-violet-100 text-violet-700 px-2.5 py-0.5 text-xs"
+                                  className="inline-flex items-center gap-1 rounded-full bg-violet-100 px-2.5 py-0.5 text-xs text-violet-700"
                                 >
                                   <Clock className="h-3 w-3" />
                                   {formatTime(time)}
@@ -542,8 +542,8 @@ export function MedicationSection({
                       </div>
 
                       {/* Administration instructions */}
-                      <div className="rounded-md border bg-white p-3 space-y-3">
-                        <h5 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                      <div className="space-y-3 rounded-md border bg-white p-3">
+                        <h5 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
                           How to Give
                         </h5>
                         <div className="flex flex-wrap gap-1.5">
@@ -559,10 +559,10 @@ export function MedicationSection({
                                   toggleAdminInstruction(med.id, inst.value)
                                 }
                                 className={cn(
-                                  "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
+                                  `rounded-full border px-3 py-1 text-xs font-medium transition-colors`,
                                   active
                                     ? "border-teal-300 bg-teal-50 text-teal-700"
-                                    : "border-input hover:bg-muted/50 text-muted-foreground",
+                                    : `border-input text-muted-foreground hover:bg-muted/50`,
                                 )}
                               >
                                 {inst.label}
@@ -594,10 +594,10 @@ export function MedicationSection({
                                 updateMed(med.id, { ifMissed: opt.value })
                               }
                               className={cn(
-                                "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
+                                `rounded-full border px-3 py-1 text-xs font-medium transition-colors`,
                                 med.ifMissed === opt.value
-                                  ? "border-amber-300 bg-amber-50 text-amber-700"
-                                  : "border-input hover:bg-muted/50 text-muted-foreground",
+                                  ? `border-amber-300 bg-amber-50 text-amber-700`
+                                  : `border-input text-muted-foreground hover:bg-muted/50`,
                               )}
                             >
                               {opt.label}
@@ -612,7 +612,7 @@ export function MedicationSection({
                           <Label className="text-xs font-medium">
                             High-risk medication
                           </Label>
-                          <p className="text-[11px] text-muted-foreground">
+                          <p className="text-muted-foreground text-[11px]">
                             Mark if this requires extra caution (insulin,
                             seizure meds, etc.)
                           </p>
@@ -650,7 +650,7 @@ export function MedicationSection({
                               alt="Medication label"
                               width={112}
                               height={112}
-                              className="mt-2 w-28 h-28 object-cover border rounded"
+                              className="mt-2 h-28 w-28 rounded-sm border object-cover"
                               unoptimized
                             />
                           )}
@@ -679,7 +679,7 @@ export function MedicationSection({
               onClick={addMedication}
               className="w-full"
             >
-              <Plus className="h-4 w-4 mr-2" />
+              <Plus className="mr-2 size-4" />
               Add Medication
             </Button>
 
@@ -701,11 +701,11 @@ export function MedicationSection({
                 <div>
                   <Label
                     htmlFor="med-confirm"
-                    className="text-sm font-medium cursor-pointer"
+                    className="cursor-pointer text-sm font-medium"
                   >
                     I confirm all medication dosages are correct
                   </Label>
-                  <p className="text-xs text-muted-foreground mt-0.5">
+                  <p className="text-muted-foreground mt-0.5 text-xs">
                     Please verify each medication name, dosage, and frequency
                     before continuing
                   </p>

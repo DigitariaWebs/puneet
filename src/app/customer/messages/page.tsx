@@ -310,18 +310,18 @@ export default function CustomerMessagesPage() {
   const getMessageIcon = (message: UnifiedMessage) => {
     switch (message.type) {
       case "booking_confirmation":
-        return <CheckCircle2 className="h-4 w-4" />;
+        return <CheckCircle2 className="size-4" />;
       case "reminder":
-        return <Bell className="h-4 w-4" />;
+        return <Bell className="size-4" />;
       case "report_card":
-        return <FileText className="h-4 w-4" />;
+        return <FileText className="size-4" />;
       case "notification":
-        return <Bell className="h-4 w-4" />;
+        return <Bell className="size-4" />;
       default:
-        if (message.channel === "email") return <Mail className="h-4 w-4" />;
+        if (message.channel === "email") return <Mail className="size-4" />;
         if (message.channel === "sms")
-          return <MessageSquare className="h-4 w-4" />;
-        return <MessageSquare className="h-4 w-4" />;
+          return <MessageSquare className="size-4" />;
+        return <MessageSquare className="size-4" />;
     }
   };
 
@@ -349,17 +349,17 @@ export default function CustomerMessagesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
+    <div className="from-background via-muted/20 to-background min-h-screen bg-linear-to-br">
       <div className="flex h-[calc(100vh-4rem)]">
         {/* Sidebar - Thread List */}
-        <div className="w-80 border-r bg-background flex flex-col">
-          <div className="p-4 border-b">
-            <div className="flex items-center justify-between mb-4">
+        <div className="bg-background flex w-80 flex-col border-r">
+          <div className="border-b p-4">
+            <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-semibold">Messages</h2>
               <Badge variant="secondary">{threads.length}</Badge>
             </div>
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
               <Input
                 placeholder="Search messages..."
                 value={searchQuery}
@@ -370,10 +370,10 @@ export default function CustomerMessagesPage() {
           </div>
 
           <ScrollArea className="flex-1">
-            <div className="p-2 space-y-1">
+            <div className="space-y-1 p-2">
               {filteredThreads.length === 0 ? (
-                <div className="text-center py-12 text-muted-foreground">
-                  <MessageSquare className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <div className="text-muted-foreground py-12 text-center">
+                  <MessageSquare className="mx-auto mb-4 h-12 w-12 opacity-50" />
                   <p>No messages yet</p>
                 </div>
               ) : (
@@ -382,16 +382,16 @@ export default function CustomerMessagesPage() {
                     key={thread.facilityId}
                     className={`cursor-pointer transition-all ${
                       selectedThread === thread.facilityId
-                        ? "ring-2 ring-primary"
+                        ? "ring-primary ring-2"
                         : "hover:bg-accent"
-                    }`}
+                    } `}
                     onClick={() => setSelectedThread(thread.facilityId)}
                   >
                     <CardContent className="p-4">
                       <div className="flex items-start justify-between gap-2">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <h3 className="font-semibold truncate">
+                        <div className="min-w-0 flex-1">
+                          <div className="mb-1 flex items-center gap-2">
+                            <h3 className="truncate font-semibold">
                               {thread.facilityName}
                             </h3>
                             {thread.unreadCount > 0 && (
@@ -400,10 +400,10 @@ export default function CustomerMessagesPage() {
                               </Badge>
                             )}
                           </div>
-                          <p className="text-sm text-muted-foreground truncate">
+                          <p className="text-muted-foreground truncate text-sm">
                             {thread.latestMessage}
                           </p>
-                          <p className="text-xs text-muted-foreground mt-1">
+                          <p className="text-muted-foreground mt-1 text-xs">
                             {formatTimestamp(thread.latestTimestamp)}
                           </p>
                         </div>
@@ -417,17 +417,17 @@ export default function CustomerMessagesPage() {
         </div>
 
         {/* Main Content - Message Thread */}
-        <div className="flex-1 flex flex-col">
+        <div className="flex flex-1 flex-col">
           {selectedThreadData ? (
             <>
               {/* Thread Header */}
-              <div className="p-4 border-b bg-background">
-                <div className="flex items-center justify-between mb-2">
+              <div className="bg-background border-b p-4">
+                <div className="mb-2 flex items-center justify-between">
                   <div>
                     <h2 className="text-xl font-semibold">
                       {selectedThreadData.facilityName}
                     </h2>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       {chatMessages.length} messages
                       {reminderMessages.length > 0 &&
                         ` • ${reminderMessages.length} reminders`}
@@ -439,9 +439,9 @@ export default function CustomerMessagesPage() {
               <Tabs
                 value={activeTab}
                 onValueChange={(v) => setActiveTab(v as "chat" | "reminders")}
-                className="flex-1 flex flex-col"
+                className="flex flex-1 flex-col"
               >
-                <div className="px-4 pt-2 border-b">
+                <div className="border-b px-4 pt-2">
                   <TabsList>
                     <TabsTrigger value="chat">Chat</TabsTrigger>
                     <TabsTrigger value="reminders">
@@ -456,12 +456,12 @@ export default function CustomerMessagesPage() {
                 </div>
 
                 {/* Chat Tab */}
-                <TabsContent value="chat" className="flex-1 flex flex-col m-0">
+                <TabsContent value="chat" className="m-0 flex flex-1 flex-col">
                   {/* Office Hours / Auto-Reply Banner */}
                   {messagingConfig?.officeHours?.enabled && (
                     <div className="px-4 pt-4">
                       <Alert variant={isInOfficeHours ? "default" : "default"}>
-                        <ClockIcon className="h-4 w-4" />
+                        <ClockIcon className="size-4" />
                         <AlertDescription>
                           {isInOfficeHours ? (
                             <span>
@@ -482,7 +482,7 @@ export default function CustomerMessagesPage() {
 
                   {/* Messages */}
                   <ScrollArea className="flex-1 p-4">
-                    <div className="space-y-4 max-w-3xl mx-auto">
+                    <div className="mx-auto max-w-3xl space-y-4">
                       {chatMessages.map((message) => (
                         <div
                           key={message.id}
@@ -490,52 +490,52 @@ export default function CustomerMessagesPage() {
                             message.direction === "inbound"
                               ? "justify-start"
                               : "justify-end"
-                          }`}
+                          } `}
                         >
                           {message.direction === "inbound" && (
-                            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                            <div className="bg-primary/10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
                               {getMessageIcon(message)}
                             </div>
                           )}
                           <div
-                            className={`flex-1 max-w-[70%] ${
+                            className={`max-w-[70%] flex-1 ${
                               message.direction === "inbound"
                                 ? ""
                                 : "flex flex-col items-end"
-                            }`}
+                            } `}
                           >
                             <div
                               className={`rounded-lg p-3 ${
                                 message.direction === "inbound"
                                   ? "bg-muted"
                                   : "bg-primary text-primary-foreground"
-                              }`}
+                              } `}
                             >
                               {/* Channel, Sender, and Delivery Status */}
-                              <div className="flex items-center gap-2 mb-2 flex-wrap">
+                              <div className="mb-2 flex flex-wrap items-center gap-2">
                                 {/* Channel Icon */}
                                 <Badge
                                   variant="outline"
                                   className={`text-xs ${
                                     message.direction === "inbound"
                                       ? "bg-background"
-                                      : "bg-primary-foreground/20 border-primary-foreground/30"
-                                  }`}
+                                      : `border-primary-foreground/30 bg-primary-foreground/20`
+                                  } `}
                                 >
                                   {message.channel === "email" && (
-                                    <Mail className="h-3 w-3 mr-1" />
+                                    <Mail className="mr-1 h-3 w-3" />
                                   )}
                                   {message.channel === "sms" && (
-                                    <MessageSquare className="h-3 w-3 mr-1" />
+                                    <MessageSquare className="mr-1 h-3 w-3" />
                                   )}
                                   {message.channel === "in-app" && (
-                                    <MessageSquare className="h-3 w-3 mr-1" />
+                                    <MessageSquare className="mr-1 h-3 w-3" />
                                   )}
                                   {message.type === "booking_confirmation" && (
-                                    <Calendar className="h-3 w-3 mr-1" />
+                                    <Calendar className="mr-1 h-3 w-3" />
                                   )}
                                   {message.type === "report_card" && (
-                                    <FileText className="h-3 w-3 mr-1" />
+                                    <FileText className="mr-1 h-3 w-3" />
                                   )}
                                   {message.channel ||
                                     (message.type === "booking_confirmation"
@@ -587,7 +587,7 @@ export default function CustomerMessagesPage() {
                               </div>
 
                               {/* Timestamp */}
-                              <div className="text-xs opacity-70 mb-2">
+                              <div className="mb-2 text-xs opacity-70">
                                 {formatTimestamp(message.timestamp)}
                               </div>
 
@@ -604,7 +604,7 @@ export default function CustomerMessagesPage() {
                                       )
                                     }
                                   >
-                                    <Calendar className="h-3 w-3 mr-1" />
+                                    <Calendar className="mr-1 h-3 w-3" />
                                     Booking:{" "}
                                     {bookings.find(
                                       (b) => b.id === message.bookingId,
@@ -613,7 +613,7 @@ export default function CustomerMessagesPage() {
                                 </div>
                               )}
 
-                              <h4 className="font-semibold mb-1">
+                              <h4 className="mb-1 font-semibold">
                                 {message.subject}
                               </h4>
                               <p className="text-sm whitespace-pre-wrap">
@@ -625,9 +625,9 @@ export default function CustomerMessagesPage() {
                                     {message.attachments.map((att, idx) => (
                                       <div
                                         key={idx}
-                                        className="flex items-center gap-2 p-2 rounded bg-background/20"
+                                        className="bg-background/20 flex items-center gap-2 rounded-sm p-2"
                                       >
-                                        <ImageIcon className="h-4 w-4" />
+                                        <ImageIcon className="size-4" />
                                         <span className="text-xs">
                                           Photo {idx + 1}
                                         </span>
@@ -638,8 +638,8 @@ export default function CustomerMessagesPage() {
                             </div>
                           </div>
                           {message.direction === "outbound" && (
-                            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0">
-                              <MessageSquare className="h-4 w-4 text-primary-foreground" />
+                            <div className="bg-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
+                              <MessageSquare className="text-primary-foreground size-4" />
                             </div>
                           )}
                         </div>
@@ -648,15 +648,15 @@ export default function CustomerMessagesPage() {
                   </ScrollArea>
 
                   {/* Message Input */}
-                  <div className="p-4 border-t bg-background">
-                    <div className="max-w-3xl mx-auto space-y-2">
+                  <div className="bg-background border-t p-4">
+                    <div className="mx-auto max-w-3xl space-y-2">
                       {/* Attachments Preview */}
                       {attachments.length > 0 && (
                         <div className="flex flex-wrap gap-2 pb-2">
                           {attachments.map((att) => (
                             <div
                               key={att.id}
-                              className="flex items-center gap-2 px-2 py-1 bg-muted rounded text-xs"
+                              className="bg-muted flex items-center gap-2 rounded-sm px-2 py-1 text-xs"
                             >
                               <Paperclip className="h-3 w-3" />
                               <span className="max-w-[150px] truncate">
@@ -697,7 +697,7 @@ export default function CustomerMessagesPage() {
                               !newMessage.trim() && attachments.length === 0
                             }
                           >
-                            <Send className="h-4 w-4" />
+                            <Send className="size-4" />
                           </Button>
                         </div>
                       </div>
@@ -706,57 +706,57 @@ export default function CustomerMessagesPage() {
                 </TabsContent>
 
                 {/* Reminders Tab */}
-                <TabsContent value="reminders" className="flex-1 m-0">
+                <TabsContent value="reminders" className="m-0 flex-1">
                   <ScrollArea className="flex-1 p-4">
                     {reminderMessages.length === 0 ? (
-                      <div className="text-center py-12">
-                        <Bell className="h-12 w-12 mx-auto text-muted-foreground mb-4 opacity-50" />
+                      <div className="py-12 text-center">
+                        <Bell className="text-muted-foreground mx-auto mb-4 h-12 w-12 opacity-50" />
                         <p className="font-semibold">No reminders</p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-muted-foreground text-sm">
                           Booking reminders will appear here
                         </p>
                       </div>
                     ) : (
-                      <div className="space-y-4 max-w-3xl mx-auto">
+                      <div className="mx-auto max-w-3xl space-y-4">
                         {reminderMessages.map((message) => (
                           <Card key={message.id}>
                             <CardContent className="p-4">
                               <div className="flex items-start gap-3">
-                                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                                  <Bell className="h-5 w-5 text-primary" />
+                                <div className="bg-primary/10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
+                                  <Bell className="text-primary h-5 w-5" />
                                 </div>
                                 <div className="flex-1">
-                                  <div className="flex items-center gap-2 mb-1">
+                                  <div className="mb-1 flex items-center gap-2">
                                     <Badge
                                       variant="outline"
                                       className="text-xs"
                                     >
-                                      <Bell className="h-3 w-3 mr-1" />
+                                      <Bell className="mr-1 h-3 w-3" />
                                       Reminder
                                     </Badge>
                                     {message.bookingId && (
                                       <Button
                                         variant="ghost"
                                         size="sm"
-                                        className="text-xs h-6"
+                                        className="h-6 text-xs"
                                         onClick={() =>
                                           router.push(
                                             `/customer/bookings?booking=${message.bookingId}`,
                                           )
                                         }
                                       >
-                                        <Calendar className="h-3 w-3 mr-1" />
+                                        <Calendar className="mr-1 h-3 w-3" />
                                         View Booking
                                       </Button>
                                     )}
                                   </div>
-                                  <h4 className="font-semibold mb-1">
+                                  <h4 className="mb-1 font-semibold">
                                     {message.subject}
                                   </h4>
-                                  <p className="text-sm text-muted-foreground mb-2">
+                                  <p className="text-muted-foreground mb-2 text-sm">
                                     {message.content}
                                   </p>
-                                  <p className="text-xs text-muted-foreground">
+                                  <p className="text-muted-foreground text-xs">
                                     {formatTimestamp(message.timestamp)}
                                   </p>
                                 </div>
@@ -771,10 +771,10 @@ export default function CustomerMessagesPage() {
               </Tabs>
             </>
           ) : (
-            <div className="flex-1 flex items-center justify-center">
+            <div className="flex flex-1 items-center justify-center">
               <div className="text-center">
-                <MessageSquare className="h-16 w-16 mx-auto text-muted-foreground mb-4 opacity-50" />
-                <h3 className="text-lg font-semibold mb-2">
+                <MessageSquare className="text-muted-foreground mx-auto mb-4 h-16 w-16 opacity-50" />
+                <h3 className="mb-2 text-lg font-semibold">
                   Select a conversation
                 </h3>
                 <p className="text-muted-foreground">

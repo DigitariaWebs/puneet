@@ -46,12 +46,12 @@ export function BasicInfoStep({ data, onChange }: BasicInfoStepProps) {
     <div className="space-y-6">
       {/* First-time hint — only when name is empty (new module) */}
       {!data.name && (
-        <div className="rounded-lg border border-primary/20 bg-primary/5 p-4 dark:bg-primary/10">
-          <p className="text-sm font-medium text-foreground">
+        <div className="border-primary/20 bg-primary/5 dark:bg-primary/10 rounded-lg border p-4">
+          <p className="text-foreground text-sm font-medium">
             Name it, categorize it, and the wizard will configure everything
             else.
           </p>
-          <p className="text-xs text-muted-foreground mt-1">
+          <p className="text-muted-foreground mt-1 text-xs">
             Pick a category first — it sets smart defaults for scheduling,
             check-in, pricing, and staffing so you can skip what doesn&apos;t
             apply.
@@ -62,7 +62,7 @@ export function BasicInfoStep({ data, onChange }: BasicInfoStepProps) {
       {/* Category selection */}
       <div className="space-y-2">
         <Label className="text-sm font-semibold">Service Category</Label>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-muted-foreground text-xs">
           The category determines default settings and how the service
           integrates with your workflows.
         </p>
@@ -86,14 +86,14 @@ export function BasicInfoStep({ data, onChange }: BasicInfoStepProps) {
             value={data.name}
             onChange={(e) => handleNameChange(e.target.value)}
           />
-          <p className="text-xs text-muted-foreground">
+          <p className="text-muted-foreground text-xs">
             Shown to clients on booking pages.
           </p>
         </div>
         <div className="space-y-1.5">
           <Label htmlFor="service-slug">URL Slug</Label>
           <div className="flex items-center gap-1.5">
-            <span className="text-sm text-muted-foreground shrink-0">
+            <span className="text-muted-foreground shrink-0 text-sm">
               /services/
             </span>
             <Input
@@ -104,7 +104,7 @@ export function BasicInfoStep({ data, onChange }: BasicInfoStepProps) {
               className="font-mono text-sm"
             />
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-muted-foreground text-xs">
             Auto-generated. Only lowercase letters, numbers, hyphens.
           </p>
         </div>
@@ -113,10 +113,10 @@ export function BasicInfoStep({ data, onChange }: BasicInfoStepProps) {
       {/* Icon Picker */}
       <div className="space-y-2">
         <Label className="text-sm font-semibold">Icon & Color</Label>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-muted-foreground text-xs">
           Choose an icon and gradient color shown on cards and the sidebar.
         </p>
-        <div className="rounded-xl border border-border bg-card p-4">
+        <div className="border-border bg-card rounded-xl border p-4">
           <IconPicker
             selectedIcon={data.icon}
             selectedColorFrom={data.iconColor}
@@ -142,7 +142,7 @@ export function BasicInfoStep({ data, onChange }: BasicInfoStepProps) {
           rows={3}
           className="resize-none"
         />
-        <p className="text-xs text-muted-foreground">
+        <p className="text-muted-foreground text-xs">
           Displayed to clients on the online booking page.
         </p>
       </div>
@@ -158,7 +158,7 @@ export function BasicInfoStep({ data, onChange }: BasicInfoStepProps) {
           rows={2}
           className="resize-none"
         />
-        <p className="text-xs text-muted-foreground">
+        <p className="text-muted-foreground text-xs">
           Not visible to clients. Only staff and admins can see this.
         </p>
       </div>

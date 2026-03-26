@@ -176,10 +176,10 @@ export function CustomServiceWizard({
   const stepDetail = STEP_DETAILS[currentStep];
 
   return (
-    <div className="mx-auto max-w-4xl space-y-6 px-3 sm:px-4 py-6">
+    <div className="mx-auto max-w-4xl space-y-6 px-3 py-6 sm:px-4">
       {/* Stepper header — hidden on small screens, shown as step counter instead */}
       <Card className="overflow-hidden">
-        <CardContent className="pt-6 px-3 sm:px-6">
+        <CardContent className="px-3 pt-6 sm:px-6">
           <div className="hidden sm:block">
             <Stepper
               steps={WIZARD_STEPS}
@@ -187,8 +187,8 @@ export function CustomServiceWizard({
               onStepChange={setCurrentStep}
             />
           </div>
-          <div className="sm:hidden text-center">
-            <p className="text-sm text-muted-foreground">
+          <div className="text-center sm:hidden">
+            <p className="text-muted-foreground text-sm">
               Step {currentStep + 1} of {WIZARD_STEPS.length}
             </p>
             <p className="font-medium">{WIZARD_STEPS[currentStep].title}</p>
@@ -198,7 +198,7 @@ export function CustomServiceWizard({
 
       {/* Step content with transition */}
       <Card>
-        <CardHeader className="pb-2 px-4 sm:px-6">
+        <CardHeader className="px-4 pb-2 sm:px-6">
           <CardTitle>{stepDetail.title}</CardTitle>
           <CardDescription>{stepDetail.description}</CardDescription>
         </CardHeader>
@@ -267,7 +267,7 @@ export function CustomServiceWizard({
         <button
           type="button"
           onClick={handleCancel}
-          className="text-xs text-muted-foreground underline-offset-2 hover:underline"
+          className="text-muted-foreground text-xs underline-offset-2 hover:underline"
         >
           Cancel and discard changes
         </button>

@@ -95,7 +95,7 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
   ) {
     return (
       <div className={cn("relative w-full max-w-xl", className)}>
-        <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+        <Search className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2" />
         <Input
           ref={ref}
           value={value}
@@ -106,7 +106,7 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
           aria-label="Global search"
         />
         {showShortcutHint && (
-          <kbd className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-muted-foreground border rounded px-1.5 py-0.5 bg-background/60">
+          <kbd className="bg-background/60 text-muted-foreground pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 rounded-sm border px-1.5 py-0.5 text-[10px]">
             /
           </kbd>
         )}
@@ -129,7 +129,7 @@ export function ResultItem({ item, onSelect }: ResultItemProps) {
     >
       <div className="min-w-0">
         <div className="truncate font-medium">{item.primaryText}</div>
-        <div className="truncate text-xs text-muted-foreground">
+        <div className="text-muted-foreground truncate text-xs">
           {item.secondaryText}
         </div>
       </div>
@@ -176,14 +176,14 @@ export function ResultsDropdown({
     <PopoverContent
       align="start"
       sideOffset={8}
-      className="w-[var(--radix-popover-trigger-width)] p-0"
+      className="w-(--radix-popover-trigger-width) p-0"
       // Prevent cmdk focus loss on click (popover handles click-outside)
       onOpenAutoFocus={(e) => e.preventDefault()}
     >
       <Command shouldFilter={false}>
         <CommandList>
           {loading && (
-            <div className="flex items-center gap-2 px-3 py-3 text-sm text-muted-foreground">
+            <div className="text-muted-foreground flex items-center gap-2 px-3 py-3 text-sm">
               <Loader2 className="size-4 animate-spin" />
               Searching…
             </div>

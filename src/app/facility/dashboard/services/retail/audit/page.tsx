@@ -133,7 +133,7 @@ export default function PaymentAuditPage() {
       render: (item) => (
         <div className="flex flex-col">
           <span>{formatTransactionTimestamp(item.timestamp)}</span>
-          <span className="text-xs text-muted-foreground">
+          <span className="text-muted-foreground text-xs">
             {new Date(item.timestamp).toLocaleTimeString("en-US", {
               hour: "2-digit",
               minute: "2-digit",
@@ -151,7 +151,7 @@ export default function PaymentAuditPage() {
         const ActionIcon = getActionIcon(item.action);
         return (
           <div className="flex items-center gap-2">
-            <ActionIcon className="h-4 w-4 text-muted-foreground" />
+            <ActionIcon className="text-muted-foreground size-4" />
             <Badge variant={getActionBadgeVariant(item.action)}>
               {item.action
                 .replace(/_/g, " ")
@@ -216,7 +216,7 @@ export default function PaymentAuditPage() {
       render: (item) => (
         <div className="flex flex-col">
           <span className="font-medium">{item.staffName}</span>
-          <span className="text-xs text-muted-foreground">
+          <span className="text-muted-foreground text-xs">
             {item.staffRole} • ID: {item.staffId}
           </span>
         </div>
@@ -236,7 +236,7 @@ export default function PaymentAuditPage() {
         <div className="flex flex-col">
           <span className="text-sm">{item.notes || "—"}</span>
           {item.reason && (
-            <span className="text-xs text-muted-foreground">
+            <span className="text-muted-foreground text-xs">
               Reason: {item.reason}
             </span>
           )}
@@ -276,7 +276,7 @@ export default function PaymentAuditPage() {
           </p>
         </div>
         <Button>
-          <Download className="h-4 w-4 mr-2" />
+          <Download className="mr-2 size-4" />
           Export Logs
         </Button>
       </div>
@@ -362,7 +362,7 @@ export default function PaymentAuditPage() {
             <div className="space-y-2">
               <Label>Search</Label>
               <div className="relative">
-                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Search className="text-muted-foreground absolute top-2.5 left-2 size-4" />
                 <Input
                   placeholder="Transaction #, staff, customer..."
                   value={searchQuery}

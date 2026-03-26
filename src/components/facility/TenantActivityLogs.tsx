@@ -207,7 +207,10 @@ export function TenantActivityLogs({
     };
     const config = variants[severity] || variants.Low;
     return (
-      <Badge variant={config.variant} className={`text-xs ${config.className}`}>
+      <Badge
+        variant={config.variant}
+        className={`text-xs ${config.className} `}
+      >
         {severity}
       </Badge>
     );
@@ -227,7 +230,7 @@ export function TenantActivityLogs({
     return (
       <Badge
         variant={variants[status] || "secondary"}
-        className={`text-xs ${colors[status] || ""}`}
+        className={`text-xs ${colors[status] || ""} `}
       >
         {status}
       </Badge>
@@ -248,7 +251,7 @@ export function TenantActivityLogs({
     return (
       <Badge
         variant="secondary"
-        className={`text-xs ${colors[category] || ""}`}
+        className={`text-xs ${colors[category] || ""} `}
       >
         {category}
       </Badge>
@@ -290,38 +293,38 @@ export function TenantActivityLogs({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-xl font-semibold flex items-center gap-2">
+          <h3 className="flex items-center gap-2 text-xl font-semibold">
             <Activity className="h-5 w-5" />
             Activity & Audit Logs
           </h3>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Track all activities and changes for {facilityName}
           </p>
         </div>
         <Button className="gap-2">
-          <Download className="h-4 w-4" />
+          <Download className="size-4" />
           Export Logs
         </Button>
       </div>
 
       {/* Statistics Overview */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-0 shadow-card">
+        <Card className="shadow-card border-0">
           <CardContent className="p-5">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-sm font-medium text-muted-foreground mb-1">
+                <p className="text-muted-foreground mb-1 text-sm font-medium">
                   Activity Logs
                 </p>
                 <h3 className="text-2xl font-bold tracking-tight">
                   {statistics.totalActivityLogs.toLocaleString()}
                 </h3>
-                <p className="text-xs text-muted-foreground mt-0.5">
+                <p className="text-muted-foreground mt-0.5 text-xs">
                   {statistics.todayActivityLogs} today
                 </p>
               </div>
               <div
-                className="flex items-center justify-center w-11 h-11 rounded-xl"
+                className="flex h-11 w-11 items-center justify-center rounded-xl"
                 style={{
                   background:
                     "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
@@ -333,22 +336,22 @@ export function TenantActivityLogs({
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-card">
+        <Card className="shadow-card border-0">
           <CardContent className="p-5">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-sm font-medium text-muted-foreground mb-1">
+                <p className="text-muted-foreground mb-1 text-sm font-medium">
                   Audit Logs
                 </p>
                 <h3 className="text-2xl font-bold tracking-tight">
                   {statistics.totalAuditLogs.toLocaleString()}
                 </h3>
-                <p className="text-xs text-muted-foreground mt-0.5">
+                <p className="text-muted-foreground mt-0.5 text-xs">
                   {statistics.todayAuditLogs} today
                 </p>
               </div>
               <div
-                className="flex items-center justify-center w-11 h-11 rounded-xl"
+                className="flex h-11 w-11 items-center justify-center rounded-xl"
                 style={{
                   background:
                     "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)",
@@ -360,22 +363,22 @@ export function TenantActivityLogs({
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-card">
+        <Card className="shadow-card border-0">
           <CardContent className="p-5">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-sm font-medium text-muted-foreground mb-1">
+                <p className="text-muted-foreground mb-1 text-sm font-medium">
                   Security Events
                 </p>
                 <h3 className="text-2xl font-bold tracking-tight">
                   {statistics.securityEvents}
                 </h3>
-                <p className="text-xs text-muted-foreground mt-0.5">
+                <p className="text-muted-foreground mt-0.5 text-xs">
                   {statistics.criticalEvents} critical
                 </p>
               </div>
               <div
-                className="flex items-center justify-center w-11 h-11 rounded-xl"
+                className="flex h-11 w-11 items-center justify-center rounded-xl"
                 style={{
                   background:
                     "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
@@ -387,22 +390,22 @@ export function TenantActivityLogs({
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-card">
+        <Card className="shadow-card border-0">
           <CardContent className="p-5">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-sm font-medium text-muted-foreground mb-1">
+                <p className="text-muted-foreground mb-1 text-sm font-medium">
                   Failed Actions
                 </p>
-                <h3 className="text-2xl font-bold tracking-tight text-destructive">
+                <h3 className="text-destructive text-2xl font-bold tracking-tight">
                   {statistics.failedActions}
                 </h3>
-                <p className="text-xs text-muted-foreground mt-0.5">
+                <p className="text-muted-foreground mt-0.5 text-xs">
                   Requires review
                 </p>
               </div>
               <div
-                className="flex items-center justify-center w-11 h-11 rounded-xl"
+                className="flex h-11 w-11 items-center justify-center rounded-xl"
                 style={{
                   background:
                     "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
@@ -418,13 +421,13 @@ export function TenantActivityLogs({
       {/* Charts */}
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Weekly Trend */}
-        <Card className="border-0 shadow-card">
+        <Card className="shadow-card border-0">
           <CardHeader>
-            <CardTitle className="text-lg font-semibold flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-lg font-semibold">
               <TrendingUp className="h-5 w-5" />
               Weekly Activity Trend
             </CardTitle>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               Activity and audit logs over the past week
             </p>
           </CardHeader>
@@ -482,13 +485,13 @@ export function TenantActivityLogs({
         </Card>
 
         {/* Activity by Type */}
-        <Card className="border-0 shadow-card">
+        <Card className="shadow-card border-0">
           <CardHeader>
-            <CardTitle className="text-lg font-semibold flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-lg font-semibold">
               <Activity className="h-5 w-5" />
               Activity Distribution
             </CardTitle>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               Breakdown of activities by type
             </p>
           </CardHeader>
@@ -535,13 +538,13 @@ export function TenantActivityLogs({
       </div>
 
       {/* Top Active Users */}
-      <Card className="border-0 shadow-card">
+      <Card className="shadow-card border-0">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-lg font-semibold">
             <Users className="h-5 w-5" />
             Most Active Users
           </CardTitle>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Users with the most logged actions in this facility
           </p>
         </CardHeader>
@@ -589,17 +592,17 @@ export function TenantActivityLogs({
 
       {/* Logs Tabs */}
       <Tabs defaultValue="activity" className="space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <TabsList className="bg-muted/50">
             <TabsTrigger value="activity" className="gap-2">
-              <Activity className="h-4 w-4" />
+              <Activity className="size-4" />
               Activity Logs
               <Badge variant="secondary" className="ml-1 h-5 px-1.5">
                 {filteredActivityLogs.length}
               </Badge>
             </TabsTrigger>
             <TabsTrigger value="audit" className="gap-2">
-              <Shield className="h-4 w-4" />
+              <Shield className="size-4" />
               Audit Logs
               <Badge variant="secondary" className="ml-1 h-5 px-1.5">
                 {filteredAuditLogs.length}
@@ -609,10 +612,10 @@ export function TenantActivityLogs({
 
           <div className="flex items-center gap-2">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
               <Input
                 placeholder="Search logs..."
-                className="pl-9 w-64"
+                className="w-64 pl-9"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -623,7 +626,7 @@ export function TenantActivityLogs({
         {/* Activity Logs Tab */}
         <TabsContent value="activity" className="space-y-4">
           <div className="flex items-center gap-2">
-            <Filter className="h-4 w-4 text-muted-foreground" />
+            <Filter className="text-muted-foreground size-4" />
             <Select value={activityFilter} onValueChange={setActivityFilter}>
               <SelectTrigger className="w-48">
                 <SelectValue placeholder="Filter by type" />
@@ -644,7 +647,7 @@ export function TenantActivityLogs({
             </Select>
           </div>
 
-          <Card className="border-0 shadow-card">
+          <Card className="shadow-card border-0">
             <CardContent className="p-0">
               <div className="divide-y">
                 {filteredActivityLogs.map((log) => {
@@ -652,7 +655,7 @@ export function TenantActivityLogs({
                   return (
                     <div
                       key={log.id}
-                      className="p-4 hover:bg-muted/50 transition-colors cursor-pointer"
+                      className="hover:bg-muted/50 cursor-pointer p-4 transition-colors"
                       onClick={() => {
                         setSelectedActivity(log);
                         setShowActivityDetails(true);
@@ -660,21 +663,21 @@ export function TenantActivityLogs({
                     >
                       <div className="flex items-start gap-4">
                         <div
-                          className={`flex items-center justify-center w-10 h-10 rounded-xl ${getActivityColor(log.actionType)}`}
+                          className={`flex h-10 w-10 items-center justify-center rounded-xl ${getActivityColor(log.actionType)} `}
                         >
                           <Icon className="h-5 w-5" />
                         </div>
-                        <div className="flex-1 min-w-0">
+                        <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2">
                             <h4 className="font-medium">{log.action}</h4>
                             <Badge variant="outline" className="text-xs">
                               {log.actionType}
                             </Badge>
                           </div>
-                          <p className="text-sm text-muted-foreground mt-0.5 truncate">
+                          <p className="text-muted-foreground mt-0.5 truncate text-sm">
                             {log.description}
                           </p>
-                          <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
+                          <div className="text-muted-foreground mt-2 flex items-center gap-4 text-xs">
                             <span className="flex items-center gap-1">
                               <User className="h-3 w-3" />
                               {log.actorName}
@@ -685,14 +688,14 @@ export function TenantActivityLogs({
                             </span>
                           </div>
                         </div>
-                        <ChevronRight className="h-5 w-5 text-muted-foreground" />
+                        <ChevronRight className="text-muted-foreground h-5 w-5" />
                       </div>
                     </div>
                   );
                 })}
                 {filteredActivityLogs.length === 0 && (
-                  <div className="p-8 text-center text-muted-foreground">
-                    <Activity className="h-12 w-12 mx-auto mb-3 opacity-50" />
+                  <div className="text-muted-foreground p-8 text-center">
+                    <Activity className="mx-auto mb-3 h-12 w-12 opacity-50" />
                     <p>No activity logs found</p>
                     <p className="text-sm">
                       Try adjusting your search or filter
@@ -707,7 +710,7 @@ export function TenantActivityLogs({
         {/* Audit Logs Tab */}
         <TabsContent value="audit" className="space-y-4">
           <div className="flex items-center gap-2">
-            <Filter className="h-4 w-4 text-muted-foreground" />
+            <Filter className="text-muted-foreground size-4" />
             <Select value={auditFilter} onValueChange={setAuditFilter}>
               <SelectTrigger className="w-48">
                 <SelectValue placeholder="Filter by category" />
@@ -726,33 +729,33 @@ export function TenantActivityLogs({
             </Select>
           </div>
 
-          <Card className="border-0 shadow-card overflow-hidden">
+          <Card className="shadow-card overflow-hidden border-0">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-muted/50">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">
+                    <th className="text-muted-foreground px-4 py-3 text-left text-xs font-semibold">
                       Timestamp
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">
+                    <th className="text-muted-foreground px-4 py-3 text-left text-xs font-semibold">
                       User
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">
+                    <th className="text-muted-foreground px-4 py-3 text-left text-xs font-semibold">
                       Action
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">
+                    <th className="text-muted-foreground px-4 py-3 text-left text-xs font-semibold">
                       Category
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">
+                    <th className="text-muted-foreground px-4 py-3 text-left text-xs font-semibold">
                       Entity
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">
+                    <th className="text-muted-foreground px-4 py-3 text-left text-xs font-semibold">
                       Severity
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">
+                    <th className="text-muted-foreground px-4 py-3 text-left text-xs font-semibold">
                       Status
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">
+                    <th className="text-muted-foreground px-4 py-3 text-left text-xs font-semibold">
                       Actions
                     </th>
                   </tr>
@@ -767,27 +770,27 @@ export function TenantActivityLogs({
                         <div className="text-sm">
                           {new Date(log.timestamp).toLocaleDateString()}
                         </div>
-                        <div className="text-xs text-muted-foreground">
+                        <div className="text-muted-foreground text-xs">
                           {new Date(log.timestamp).toLocaleTimeString()}
                         </div>
                       </td>
                       <td className="px-4 py-3">
-                        <div className="font-medium text-sm">
+                        <div className="text-sm font-medium">
                           {log.userName}
                         </div>
-                        <div className="text-xs text-muted-foreground">
+                        <div className="text-muted-foreground text-xs">
                           {log.userRole}
                         </div>
                       </td>
                       <td className="px-4 py-3">
-                        <div className="font-medium text-sm">{log.action}</div>
+                        <div className="text-sm font-medium">{log.action}</div>
                       </td>
                       <td className="px-4 py-3">
                         {getCategoryBadge(log.category)}
                       </td>
                       <td className="px-4 py-3">
                         <div className="text-sm">{log.entityName}</div>
-                        <div className="text-xs text-muted-foreground">
+                        <div className="text-muted-foreground text-xs">
                           {log.entityType}
                         </div>
                       </td>
@@ -807,7 +810,7 @@ export function TenantActivityLogs({
                             setShowAuditDetails(true);
                           }}
                         >
-                          <Eye className="h-4 w-4" />
+                          <Eye className="size-4" />
                           Details
                         </Button>
                       </td>
@@ -816,8 +819,8 @@ export function TenantActivityLogs({
                 </tbody>
               </table>
               {filteredAuditLogs.length === 0 && (
-                <div className="p-8 text-center text-muted-foreground">
-                  <Shield className="h-12 w-12 mx-auto mb-3 opacity-50" />
+                <div className="text-muted-foreground p-8 text-center">
+                  <Shield className="mx-auto mb-3 h-12 w-12 opacity-50" />
                   <p>No audit logs found</p>
                   <p className="text-sm">Try adjusting your search or filter</p>
                 </div>
@@ -840,7 +843,7 @@ export function TenantActivityLogs({
             <div className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground mb-1">
+                  <p className="text-muted-foreground mb-1 text-sm font-medium">
                     Action
                   </p>
                   <p className="text-lg font-semibold">
@@ -848,7 +851,7 @@ export function TenantActivityLogs({
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground mb-1">
+                  <p className="text-muted-foreground mb-1 text-sm font-medium">
                     Type
                   </p>
                   <Badge
@@ -858,13 +861,13 @@ export function TenantActivityLogs({
                   </Badge>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground mb-1">
+                  <p className="text-muted-foreground mb-1 text-sm font-medium">
                     Timestamp
                   </p>
                   <p>{new Date(selectedActivity.timestamp).toLocaleString()}</p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground mb-1">
+                  <p className="text-muted-foreground mb-1 text-sm font-medium">
                     Target
                   </p>
                   <p>{selectedActivity.targetName}</p>
@@ -873,18 +876,18 @@ export function TenantActivityLogs({
 
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-sm flex items-center gap-2">
-                    <User className="h-4 w-4" />
+                  <CardTitle className="flex items-center gap-2 text-sm">
+                    <User className="size-4" />
                     Actor Information
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-xs text-muted-foreground mb-1">Name</p>
+                    <p className="text-muted-foreground mb-1 text-xs">Name</p>
                     <p className="font-medium">{selectedActivity.actorName}</p>
                   </div>
                   <div>
-                    <p className="text-xs text-muted-foreground mb-1">Role</p>
+                    <p className="text-muted-foreground mb-1 text-xs">Role</p>
                     <p className="font-medium">{selectedActivity.actorRole}</p>
                   </div>
                 </CardContent>
@@ -895,7 +898,7 @@ export function TenantActivityLogs({
                   <CardTitle className="text-sm">Description</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     {selectedActivity.description}
                   </p>
                 </CardContent>
@@ -907,7 +910,7 @@ export function TenantActivityLogs({
                     <CardTitle className="text-sm">Additional Data</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <pre className="text-xs bg-muted/50 p-3 rounded-lg overflow-auto">
+                    <pre className="bg-muted/50 overflow-auto rounded-lg p-3 text-xs">
                       {JSON.stringify(selectedActivity.metadata, null, 2)}
                     </pre>
                   </CardContent>
@@ -920,7 +923,7 @@ export function TenantActivityLogs({
 
       {/* Audit Details Dialog */}
       <Dialog open={showAuditDetails} onOpenChange={setShowAuditDetails}>
-        <DialogContent className="min-w-5xl max-h-[80vh] overflow-y-auto">
+        <DialogContent className="max-h-[80vh] min-w-5xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Audit Log Details</DialogTitle>
             <DialogDescription>
@@ -931,7 +934,7 @@ export function TenantActivityLogs({
             <div className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground mb-1">
+                  <p className="text-muted-foreground mb-1 text-sm font-medium">
                     Action
                   </p>
                   <p className="text-lg font-semibold">
@@ -939,19 +942,19 @@ export function TenantActivityLogs({
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground mb-1">
+                  <p className="text-muted-foreground mb-1 text-sm font-medium">
                     Status
                   </p>
                   {getStatusBadge(selectedAudit.status)}
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground mb-1">
+                  <p className="text-muted-foreground mb-1 text-sm font-medium">
                     Timestamp
                   </p>
                   <p>{new Date(selectedAudit.timestamp).toLocaleString()}</p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground mb-1">
+                  <p className="text-muted-foreground mb-1 text-sm font-medium">
                     Severity
                   </p>
                   {getSeverityBadge(selectedAudit.severity)}
@@ -960,22 +963,22 @@ export function TenantActivityLogs({
 
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-sm flex items-center gap-2">
-                    <User className="h-4 w-4" />
+                  <CardTitle className="flex items-center gap-2 text-sm">
+                    <User className="size-4" />
                     User Information
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-xs text-muted-foreground mb-1">Name</p>
+                    <p className="text-muted-foreground mb-1 text-xs">Name</p>
                     <p className="font-medium">{selectedAudit.userName}</p>
                   </div>
                   <div>
-                    <p className="text-xs text-muted-foreground mb-1">Role</p>
+                    <p className="text-muted-foreground mb-1 text-xs">Role</p>
                     <p className="font-medium">{selectedAudit.userRole}</p>
                   </div>
                   <div>
-                    <p className="text-xs text-muted-foreground mb-1">
+                    <p className="text-muted-foreground mb-1 text-xs">
                       IP Address
                     </p>
                     <p className="font-mono text-sm">
@@ -983,10 +986,10 @@ export function TenantActivityLogs({
                     </p>
                   </div>
                   <div>
-                    <p className="text-xs text-muted-foreground mb-1">
+                    <p className="text-muted-foreground mb-1 text-xs">
                       User Agent
                     </p>
-                    <p className="text-sm truncate">
+                    <p className="truncate text-sm">
                       {selectedAudit.userAgent}
                     </p>
                   </div>
@@ -995,26 +998,26 @@ export function TenantActivityLogs({
 
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-sm flex items-center gap-2">
-                    <FileText className="h-4 w-4" />
+                  <CardTitle className="flex items-center gap-2 text-sm">
+                    <FileText className="size-4" />
                     Entity Information
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-xs text-muted-foreground mb-1">
+                    <p className="text-muted-foreground mb-1 text-xs">
                       Entity Type
                     </p>
                     <p className="font-medium">{selectedAudit.entityType}</p>
                   </div>
                   <div>
-                    <p className="text-xs text-muted-foreground mb-1">
+                    <p className="text-muted-foreground mb-1 text-xs">
                       Entity Name
                     </p>
                     <p className="font-medium">{selectedAudit.entityName}</p>
                   </div>
                   <div>
-                    <p className="text-xs text-muted-foreground mb-1">
+                    <p className="text-muted-foreground mb-1 text-xs">
                       Category
                     </p>
                     {getCategoryBadge(selectedAudit.category)}
@@ -1025,8 +1028,8 @@ export function TenantActivityLogs({
               {selectedAudit.changes && selectedAudit.changes.length > 0 && (
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-sm flex items-center gap-2">
-                      <Activity className="h-4 w-4" />
+                    <CardTitle className="flex items-center gap-2 text-sm">
+                      <Activity className="size-4" />
                       Changes Made
                     </CardTitle>
                   </CardHeader>
@@ -1035,17 +1038,17 @@ export function TenantActivityLogs({
                       {selectedAudit.changes.map((change, index) => (
                         <div
                           key={index}
-                          className="border-l-2 border-primary pl-4"
+                          className="border-primary border-l-2 pl-4"
                         >
-                          <p className="font-medium text-sm">{change.field}</p>
-                          <div className="flex items-center gap-2 mt-1">
-                            <span className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded">
+                          <p className="text-sm font-medium">{change.field}</p>
+                          <div className="mt-1 flex items-center gap-2">
+                            <span className="rounded-sm bg-red-100 px-2 py-1 text-xs text-red-700">
                               {change.oldValue}
                             </span>
-                            <span className="text-xs text-muted-foreground">
+                            <span className="text-muted-foreground text-xs">
                               →
                             </span>
-                            <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
+                            <span className="rounded-sm bg-green-100 px-2 py-1 text-xs text-green-700">
                               {change.newValue}
                             </span>
                           </div>
@@ -1061,7 +1064,7 @@ export function TenantActivityLogs({
                   <CardTitle className="text-sm">Description</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     {selectedAudit.description}
                   </p>
                 </CardContent>

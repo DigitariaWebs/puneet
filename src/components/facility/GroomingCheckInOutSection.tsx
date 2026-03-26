@@ -410,7 +410,7 @@ export function GroomingCheckInOutSection() {
       <Card>
         <CardContent className="pt-6">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2 transform" />
             <Input
               placeholder="Search by pet name, owner, phone, or stylist..."
               value={searchQuery}
@@ -422,7 +422,7 @@ export function GroomingCheckInOutSection() {
       </Card>
 
       {/* Filter Toggles */}
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex flex-wrap gap-2">
         <Button
           variant={showScheduled ? "default" : "outline"}
           size="sm"
@@ -467,10 +467,10 @@ export function GroomingCheckInOutSection() {
               {displayedScheduled.map((apt) => (
                 <div
                   key={apt.id}
-                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors"
+                  className="hover:bg-muted/50 flex items-center justify-between rounded-lg border p-4 transition-colors"
                 >
-                  <div className="flex items-center gap-4 flex-1">
-                    <div className="relative w-12 h-12 rounded-full overflow-hidden bg-muted">
+                  <div className="flex flex-1 items-center gap-4">
+                    <div className="bg-muted relative h-12 w-12 overflow-hidden rounded-full">
                       {apt.petPhotoUrl ? (
                         <Image
                           src={apt.petPhotoUrl}
@@ -479,20 +479,20 @@ export function GroomingCheckInOutSection() {
                           className="object-cover"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <PawPrint className="h-6 w-6 text-muted-foreground" />
+                        <div className="flex h-full w-full items-center justify-center">
+                          <PawPrint className="text-muted-foreground h-6 w-6" />
                         </div>
                       )}
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <h3 className="font-semibold">{apt.petName}</h3>
-                        <span className="text-sm text-muted-foreground">
+                        <span className="text-muted-foreground text-sm">
                           ({apt.petBreed})
                         </span>
                       </div>
-                      <div className="text-sm text-muted-foreground">
-                        <div className="flex items-center gap-4 mt-1">
+                      <div className="text-muted-foreground text-sm">
+                        <div className="mt-1 flex items-center gap-4">
                           <span className="flex items-center gap-1">
                             <User className="h-3 w-3" />
                             {apt.ownerName}
@@ -525,7 +525,7 @@ export function GroomingCheckInOutSection() {
                       onClick={() => handleCheckIn(apt)}
                       className="gap-2"
                     >
-                      <LogIn className="h-4 w-4" />
+                      <LogIn className="size-4" />
                       Check In
                     </Button>
                     <Button
@@ -533,7 +533,7 @@ export function GroomingCheckInOutSection() {
                       variant="outline"
                       onClick={() => handleViewDetails(apt)}
                     >
-                      <Eye className="h-4 w-4" />
+                      <Eye className="size-4" />
                     </Button>
                   </div>
                 </div>
@@ -557,10 +557,10 @@ export function GroomingCheckInOutSection() {
               {displayedCheckedIn.map((apt) => (
                 <div
                   key={apt.id}
-                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors"
+                  className="hover:bg-muted/50 flex items-center justify-between rounded-lg border p-4 transition-colors"
                 >
-                  <div className="flex items-center gap-4 flex-1">
-                    <div className="relative w-12 h-12 rounded-full overflow-hidden bg-muted">
+                  <div className="flex flex-1 items-center gap-4">
+                    <div className="bg-muted relative h-12 w-12 overflow-hidden rounded-full">
                       {apt.petPhotoUrl ? (
                         <Image
                           src={apt.petPhotoUrl}
@@ -569,20 +569,20 @@ export function GroomingCheckInOutSection() {
                           className="object-cover"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <PawPrint className="h-6 w-6 text-muted-foreground" />
+                        <div className="flex h-full w-full items-center justify-center">
+                          <PawPrint className="text-muted-foreground h-6 w-6" />
                         </div>
                       )}
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <h3 className="font-semibold">{apt.petName}</h3>
-                        <span className="text-sm text-muted-foreground">
+                        <span className="text-muted-foreground text-sm">
                           ({apt.petBreed})
                         </span>
                       </div>
-                      <div className="text-sm text-muted-foreground">
-                        <div className="flex items-center gap-4 mt-1">
+                      <div className="text-muted-foreground text-sm">
+                        <div className="mt-1 flex items-center gap-4">
                           <span className="flex items-center gap-1">
                             <User className="h-3 w-3" />
                             {apt.ownerName}
@@ -682,7 +682,7 @@ export function GroomingCheckInOutSection() {
                       variant="outline"
                       onClick={() => handleViewDetails(apt)}
                     >
-                      <Eye className="h-4 w-4" />
+                      <Eye className="size-4" />
                     </Button>
                   </div>
                 </div>
@@ -706,10 +706,10 @@ export function GroomingCheckInOutSection() {
               {displayedReady.map((apt) => (
                 <div
                   key={apt.id}
-                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors"
+                  className="hover:bg-muted/50 flex items-center justify-between rounded-lg border p-4 transition-colors"
                 >
-                  <div className="flex items-center gap-4 flex-1">
-                    <div className="relative w-12 h-12 rounded-full overflow-hidden bg-muted">
+                  <div className="flex flex-1 items-center gap-4">
+                    <div className="bg-muted relative h-12 w-12 overflow-hidden rounded-full">
                       {apt.petPhotoUrl ? (
                         <Image
                           src={apt.petPhotoUrl}
@@ -718,20 +718,20 @@ export function GroomingCheckInOutSection() {
                           className="object-cover"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <PawPrint className="h-6 w-6 text-muted-foreground" />
+                        <div className="flex h-full w-full items-center justify-center">
+                          <PawPrint className="text-muted-foreground h-6 w-6" />
                         </div>
                       )}
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <h3 className="font-semibold">{apt.petName}</h3>
-                        <span className="text-sm text-muted-foreground">
+                        <span className="text-muted-foreground text-sm">
                           ({apt.petBreed})
                         </span>
                       </div>
-                      <div className="text-sm text-muted-foreground">
-                        <div className="flex items-center gap-4 mt-1">
+                      <div className="text-muted-foreground text-sm">
+                        <div className="mt-1 flex items-center gap-4">
                           <span className="flex items-center gap-1">
                             <User className="h-3 w-3" />
                             {apt.ownerName}
@@ -763,7 +763,7 @@ export function GroomingCheckInOutSection() {
                       onClick={() => handleCheckOut(apt)}
                       className="gap-2"
                     >
-                      <LogOut className="h-4 w-4" />
+                      <LogOut className="size-4" />
                       Check Out
                     </Button>
                     <Button
@@ -771,7 +771,7 @@ export function GroomingCheckInOutSection() {
                       variant="outline"
                       onClick={() => handleViewDetails(apt)}
                     >
-                      <Eye className="h-4 w-4" />
+                      <Eye className="size-4" />
                     </Button>
                   </div>
                 </div>
@@ -795,10 +795,10 @@ export function GroomingCheckInOutSection() {
               {displayedCheckedOut.map((apt) => (
                 <div
                   key={apt.id}
-                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors"
+                  className="hover:bg-muted/50 flex items-center justify-between rounded-lg border p-4 transition-colors"
                 >
-                  <div className="flex items-center gap-4 flex-1">
-                    <div className="relative w-12 h-12 rounded-full overflow-hidden bg-muted">
+                  <div className="flex flex-1 items-center gap-4">
+                    <div className="bg-muted relative h-12 w-12 overflow-hidden rounded-full">
                       {apt.petPhotoUrl ? (
                         <Image
                           src={apt.petPhotoUrl}
@@ -807,20 +807,20 @@ export function GroomingCheckInOutSection() {
                           className="object-cover"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <PawPrint className="h-6 w-6 text-muted-foreground" />
+                        <div className="flex h-full w-full items-center justify-center">
+                          <PawPrint className="text-muted-foreground h-6 w-6" />
                         </div>
                       )}
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <h3 className="font-semibold">{apt.petName}</h3>
-                        <span className="text-sm text-muted-foreground">
+                        <span className="text-muted-foreground text-sm">
                           ({apt.petBreed})
                         </span>
                       </div>
-                      <div className="text-sm text-muted-foreground">
-                        <div className="flex items-center gap-4 mt-1">
+                      <div className="text-muted-foreground text-sm">
+                        <div className="mt-1 flex items-center gap-4">
                           <span className="flex items-center gap-1">
                             <User className="h-3 w-3" />
                             {apt.ownerName}
@@ -850,7 +850,7 @@ export function GroomingCheckInOutSection() {
                       variant="outline"
                       onClick={() => handleViewDetails(apt)}
                     >
-                      <Eye className="h-4 w-4" />
+                      <Eye className="size-4" />
                     </Button>
                   </div>
                 </div>
@@ -891,7 +891,7 @@ export function GroomingCheckInOutSection() {
           {selectedAppointment && (
             <div className="space-y-4">
               <div className="flex items-center gap-4">
-                <div className="relative w-16 h-16 rounded-full overflow-hidden bg-muted">
+                <div className="bg-muted relative h-16 w-16 overflow-hidden rounded-full">
                   {selectedAppointment.petPhotoUrl ? (
                     <Image
                       src={selectedAppointment.petPhotoUrl}
@@ -900,16 +900,16 @@ export function GroomingCheckInOutSection() {
                       className="object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <PawPrint className="h-8 w-8 text-muted-foreground" />
+                    <div className="flex h-full w-full items-center justify-center">
+                      <PawPrint className="text-muted-foreground h-8 w-8" />
                     </div>
                   )}
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg">
+                  <h3 className="text-lg font-semibold">
                     {selectedAppointment.petName}
                   </h3>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     {selectedAppointment.petBreed}
                   </p>
                 </div>
@@ -953,20 +953,20 @@ export function GroomingCheckInOutSection() {
               </div>
               {selectedAppointment.specialInstructions && (
                 <div>
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-muted-foreground text-sm">
                     Special Instructions:
                   </span>
-                  <p className="text-sm mt-1">
+                  <p className="mt-1 text-sm">
                     {selectedAppointment.specialInstructions}
                   </p>
                 </div>
               )}
               {selectedAppointment.allergies.length > 0 && (
                 <div>
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-muted-foreground text-sm">
                     Allergies:
                   </span>
-                  <div className="flex gap-2 mt-1">
+                  <div className="mt-1 flex gap-2">
                     {selectedAppointment.allergies.map((allergy, idx) => (
                       <Badge
                         key={idx}
@@ -1004,7 +1004,7 @@ export function GroomingCheckInOutSection() {
 
               {/* Price Adjustments - Show for checked-in or in-progress appointments */}
               {(checkInOutMode === "check-in" || checkInOutMode === "view") && (
-                <div className="pt-4 border-t">
+                <div className="border-t pt-4">
                   <PriceAdjustmentForm
                     appointmentId={selectedAppointment.id}
                     petName={selectedAppointment.petName}
@@ -1108,8 +1108,8 @@ export function GroomingCheckInOutSection() {
 
               {/* Intake Form - Show for checked-in or in-progress appointments */}
               {(checkInOutMode === "check-in" || checkInOutMode === "view") && (
-                <div className="pt-4 border-t">
-                  <div className="flex items-center justify-between mb-4">
+                <div className="border-t pt-4">
+                  <div className="mb-4 flex items-center justify-between">
                     <h3 className="text-lg font-semibold">Intake Form</h3>
                     {checkInOutMode === "check-in" && (
                       <Button

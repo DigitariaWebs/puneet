@@ -76,17 +76,17 @@ export function StaffAssignmentStep({
   return (
     <div className="space-y-6">
       {/* Auto-Assign */}
-      <div className="flex items-center justify-between rounded-xl border border-border bg-card p-4">
+      <div className="border-border bg-card flex items-center justify-between rounded-xl border p-4">
         <div className="flex items-start gap-3">
-          <Users className="h-5 w-5 text-muted-foreground mt-0.5 shrink-0" />
+          <Users className="text-muted-foreground mt-0.5 h-5 w-5 shrink-0" />
           <div className="space-y-0.5">
             <Label
               htmlFor="auto-assign"
-              className="text-sm font-semibold cursor-pointer"
+              className="cursor-pointer text-sm font-semibold"
             >
               Auto-Assign Staff
             </Label>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Automatically assign the next available qualified staff member
               when a booking is confirmed.
             </p>
@@ -100,7 +100,7 @@ export function StaffAssignmentStep({
       </div>
 
       {!sa.autoAssign && (
-        <p className="text-xs text-muted-foreground rounded-lg bg-muted/50 p-3">
+        <p className="bg-muted/50 text-muted-foreground rounded-lg p-3 text-xs">
           Staff assignment will be manual. A manager must assign a staff member
           before or after the booking is confirmed.
         </p>
@@ -112,7 +112,7 @@ export function StaffAssignmentStep({
       <div className="space-y-3">
         <div>
           <Label className="text-sm font-semibold">Required Staff Role</Label>
-          <p className="text-xs text-muted-foreground mt-0.5">
+          <p className="text-muted-foreground mt-0.5 text-xs">
             Only staff with this role can be assigned to this service.
           </p>
         </div>
@@ -155,7 +155,7 @@ export function StaffAssignmentStep({
           <Label className="text-sm font-semibold">
             Automatic Task Generation
           </Label>
-          <p className="text-xs text-muted-foreground mt-0.5">
+          <p className="text-muted-foreground mt-0.5 text-xs">
             Select which tasks are automatically created in the task queue when
             a booking is confirmed. Tasks will be assigned to the designated
             staff member.
@@ -168,10 +168,10 @@ export function StaffAssignmentStep({
               <label
                 key={task.value}
                 className={cn(
-                  "flex items-start gap-3 rounded-xl border p-4 cursor-pointer transition-colors",
+                  `flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors`,
                   isChecked
                     ? "border-primary bg-primary/5"
-                    : "border-border hover:bg-accent/30",
+                    : `border-border hover:bg-accent/30`,
                 )}
               >
                 <Checkbox
@@ -181,7 +181,7 @@ export function StaffAssignmentStep({
                 />
                 <div>
                   <p className="text-sm font-medium">{task.label}</p>
-                  <p className="text-xs text-muted-foreground mt-0.5">
+                  <p className="text-muted-foreground mt-0.5 text-xs">
                     {task.description}
                   </p>
                 </div>
@@ -197,15 +197,15 @@ export function StaffAssignmentStep({
       <div className="space-y-3">
         <Label className="text-sm font-semibold">Integration Flags</Label>
         <div className="space-y-3">
-          <div className="flex items-center justify-between rounded-xl border border-border bg-card p-4">
+          <div className="border-border bg-card flex items-center justify-between rounded-xl border p-4">
             <div className="space-y-0.5">
               <Label
                 htmlFor="yipyygo"
-                className="text-sm font-medium cursor-pointer"
+                className="cursor-pointer text-sm font-medium"
               >
                 YipyyGo App Required
               </Label>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 Staff must use the YipyyGo mobile app to manage this service.
               </p>
             </div>
@@ -217,15 +217,15 @@ export function StaffAssignmentStep({
               }
             />
           </div>
-          <div className="flex items-center justify-between rounded-xl border border-border bg-card p-4">
+          <div className="border-border bg-card flex items-center justify-between rounded-xl border p-4">
             <div className="space-y-0.5">
               <Label
                 htmlFor="requires-eval"
-                className="text-sm font-medium cursor-pointer"
+                className="cursor-pointer text-sm font-medium"
               >
                 Evaluation Required
               </Label>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 Pets must pass a facility evaluation before being eligible for
                 this service.
               </p>
@@ -238,15 +238,15 @@ export function StaffAssignmentStep({
               }
             />
           </div>
-          <div className="flex items-center justify-between rounded-xl border border-border bg-card p-4">
+          <div className="border-border bg-card flex items-center justify-between rounded-xl border p-4">
             <div className="space-y-0.5">
               <Label
                 htmlFor="show-sidebar"
-                className="text-sm font-medium cursor-pointer"
+                className="cursor-pointer text-sm font-medium"
               >
                 Show in Sidebar
               </Label>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 Display this service as a quick-access item in the facility
                 sidebar.
               </p>

@@ -161,18 +161,18 @@ export default function MessagingPage() {
   const getChannelIcon = (type: string) => {
     switch (type) {
       case "email":
-        return <Mail className="h-4 w-4" />;
+        return <Mail className="size-4" />;
       case "sms":
-        return <MessageSquare className="h-4 w-4" />;
+        return <MessageSquare className="size-4" />;
       case "in-app":
-        return <MessageSquare className="h-4 w-4" />;
+        return <MessageSquare className="size-4" />;
       default:
-        return <MessageSquare className="h-4 w-4" />;
+        return <MessageSquare className="size-4" />;
     }
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6 p-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -182,7 +182,7 @@ export default function MessagingPage() {
           </p>
         </div>
         <Button onClick={() => setShowComposeModal(true)}>
-          <Plus className="h-4 w-4 mr-2" />
+          <Plus className="mr-2 size-4" />
           New Message
         </Button>
       </div>
@@ -191,7 +191,7 @@ export default function MessagingPage() {
       <Tabs defaultValue="inbox" className="space-y-4">
         <TabsList>
           <TabsTrigger value="inbox">
-            <Mail className="h-4 w-4 mr-2" />
+            <Mail className="mr-2 size-4" />
             Inbox
             {conversations.reduce((sum, c) => sum + c.unreadCount, 0) > 0 && (
               <Badge variant="destructive" className="ml-2">
@@ -200,29 +200,29 @@ export default function MessagingPage() {
             )}
           </TabsTrigger>
           <TabsTrigger value="pet-updates">
-            <Bell className="h-4 w-4 mr-2" />
+            <Bell className="mr-2 size-4" />
             Pet Updates
           </TabsTrigger>
           <TabsTrigger value="reminders">
-            <Clock className="h-4 w-4 mr-2" />
+            <Clock className="mr-2 size-4" />
             Appointment Reminders
           </TabsTrigger>
           <TabsTrigger value="internal">
-            <Users className="h-4 w-4 mr-2" />
+            <Users className="mr-2 size-4" />
             Internal
           </TabsTrigger>
         </TabsList>
 
         {/* Unified Inbox Tab - Conversation View */}
         <TabsContent value="inbox" className="space-y-4">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 h-[calc(100vh-300px)]">
+          <div className="grid h-[calc(100vh-300px)] grid-cols-1 gap-4 lg:grid-cols-3">
             {/* Conversations List */}
             <Card className="lg:col-span-1">
               <CardHeader className="pb-3">
                 <div className="space-y-3">
                   {/* Search */}
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2 transform" />
                     <Input
                       placeholder="Search conversations..."
                       value={searchQuery}
@@ -232,8 +232,8 @@ export default function MessagingPage() {
                   </div>
 
                   {/* Filters */}
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <Filter className="h-4 w-4 text-muted-foreground" />
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Filter className="text-muted-foreground size-4" />
                     <Button
                       variant={filterType === "all" ? "default" : "outline"}
                       size="sm"
@@ -246,7 +246,7 @@ export default function MessagingPage() {
                       size="sm"
                       onClick={() => setFilterType("email")}
                     >
-                      <Mail className="h-3 w-3 mr-1" />
+                      <Mail className="mr-1 h-3 w-3" />
                       Email
                     </Button>
                     <Button
@@ -254,7 +254,7 @@ export default function MessagingPage() {
                       size="sm"
                       onClick={() => setFilterType("sms")}
                     >
-                      <MessageSquare className="h-3 w-3 mr-1" />
+                      <MessageSquare className="mr-1 h-3 w-3" />
                       SMS
                     </Button>
                     <Button
@@ -262,7 +262,7 @@ export default function MessagingPage() {
                       size="sm"
                       onClick={() => setFilterType("in-app")}
                     >
-                      <MessageSquare className="h-3 w-3 mr-1" />
+                      <MessageSquare className="mr-1 h-3 w-3" />
                       Chat
                     </Button>
                   </div>
@@ -271,8 +271,8 @@ export default function MessagingPage() {
               <CardContent className="p-0">
                 <ScrollArea className="h-[calc(100vh-420px)]">
                   {filteredConversations.length === 0 ? (
-                    <div className="text-center py-8 text-muted-foreground px-4">
-                      <MessageSquare className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                    <div className="text-muted-foreground px-4 py-8 text-center">
+                      <MessageSquare className="mx-auto mb-4 h-12 w-12 opacity-50" />
                       <p>No conversations found</p>
                     </div>
                   ) : (
@@ -281,16 +281,16 @@ export default function MessagingPage() {
                         <button
                           key={conv.clientId}
                           onClick={() => setSelectedConversation(conv)}
-                          className={`w-full text-left p-4 hover:bg-muted transition-colors ${
+                          className={`hover:bg-muted w-full p-4 text-left transition-colors ${
                             selectedConversation?.clientId === conv.clientId
-                              ? "bg-muted border-l-4 border-l-primary"
+                              ? "border-l-primary bg-muted border-l-4"
                               : ""
-                          }`}
+                          } `}
                         >
                           <div className="flex items-start justify-between gap-2">
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-2 mb-1">
-                                <span className="font-semibold truncate">
+                            <div className="min-w-0 flex-1">
+                              <div className="mb-1 flex items-center gap-2">
+                                <span className="truncate font-semibold">
                                   {conv.clientName}
                                 </span>
                                 {conv.unreadCount > 0 && (
@@ -302,7 +302,7 @@ export default function MessagingPage() {
                                   </Badge>
                                 )}
                               </div>
-                              <div className="flex items-center gap-2 mb-1">
+                              <div className="mb-1 flex items-center gap-2">
                                 {conv.channels.map((channel) => (
                                   <span
                                     key={channel}
@@ -312,11 +312,11 @@ export default function MessagingPage() {
                                   </span>
                                 ))}
                               </div>
-                              <p className="text-sm text-muted-foreground truncate">
+                              <p className="text-muted-foreground truncate text-sm">
                                 {conv.lastMessage.body}
                               </p>
                             </div>
-                            <div className="text-xs text-muted-foreground shrink-0">
+                            <div className="text-muted-foreground shrink-0 text-xs">
                               {formatTimestamp(conv.lastMessage.timestamp)}
                             </div>
                           </div>
@@ -343,7 +343,7 @@ export default function MessagingPage() {
                             </Badge>
                           )}
                         </CardTitle>
-                        <div className="flex items-center gap-2 mt-1">
+                        <div className="mt-1 flex items-center gap-2">
                           {selectedConversation.channels.map((channel) => (
                             <Badge
                               key={channel}
@@ -363,14 +363,14 @@ export default function MessagingPage() {
                         size="sm"
                         onClick={() => setShowComposeModal(true)}
                       >
-                        <Plus className="h-4 w-4 mr-2" />
+                        <Plus className="mr-2 size-4" />
                         Reply
                       </Button>
                     </div>
                   </CardHeader>
                   <CardContent className="p-0">
                     <ScrollArea className="h-[calc(100vh-420px)]">
-                      <div className="p-4 space-y-4">
+                      <div className="space-y-4 p-4">
                         {conversationMessages.map((msg) => (
                           <div
                             key={msg.id}
@@ -378,10 +378,10 @@ export default function MessagingPage() {
                               msg.direction === "outbound"
                                 ? "justify-end"
                                 : "justify-start"
-                            }`}
+                            } `}
                           >
                             {msg.direction === "inbound" && (
-                              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                              <div className="bg-primary/10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
                                 {getChannelIcon(msg.type)}
                               </div>
                             )}
@@ -390,9 +390,9 @@ export default function MessagingPage() {
                                 msg.direction === "outbound"
                                   ? "bg-primary text-primary-foreground"
                                   : "bg-muted"
-                              }`}
+                              } `}
                             >
-                              <div className="flex items-center gap-2 mb-1">
+                              <div className="mb-1 flex items-center gap-2">
                                 <Badge
                                   variant={
                                     msg.direction === "outbound"
@@ -417,7 +417,7 @@ export default function MessagingPage() {
                                   )}
                               </div>
                               {msg.subject && (
-                                <div className="font-semibold mb-1">
+                                <div className="mb-1 font-semibold">
                                   {msg.subject}
                                 </div>
                               )}
@@ -430,7 +430,7 @@ export default function MessagingPage() {
                                     {msg.attachments.map((att) => (
                                       <div
                                         key={att.id}
-                                        className="flex items-center gap-2 p-2 bg-background/50 rounded text-xs"
+                                        className="bg-background/50 flex items-center gap-2 rounded-sm p-2 text-xs"
                                       >
                                         <Paperclip className="h-3 w-3" />
                                         <span className="truncate">
@@ -443,7 +443,7 @@ export default function MessagingPage() {
                                     ))}
                                   </div>
                                 )}
-                              <div className="text-xs opacity-70 mt-2">
+                              <div className="mt-2 text-xs opacity-70">
                                 {formatTimestamp(msg.timestamp)}
                                 {msg.status && (
                                   <span className="ml-2 capitalize">
@@ -453,8 +453,8 @@ export default function MessagingPage() {
                               </div>
                             </div>
                             {msg.direction === "outbound" && (
-                              <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0">
-                                <MessageSquare className="h-4 w-4 text-primary-foreground" />
+                              <div className="bg-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
+                                <MessageSquare className="text-primary-foreground size-4" />
                               </div>
                             )}
                           </div>
@@ -464,11 +464,11 @@ export default function MessagingPage() {
                   </CardContent>
                 </>
               ) : (
-                <CardContent className="flex items-center justify-center h-full min-h-[400px]">
-                  <div className="text-center text-muted-foreground">
-                    <MessageSquare className="h-16 w-16 mx-auto mb-4 opacity-50" />
+                <CardContent className="flex h-full min-h-[400px] items-center justify-center">
+                  <div className="text-muted-foreground text-center">
+                    <MessageSquare className="mx-auto mb-4 h-16 w-16 opacity-50" />
                     <p className="text-lg font-medium">Select a conversation</p>
-                    <p className="text-sm mt-2">
+                    <p className="mt-2 text-sm">
                       Choose a conversation from the list to view messages
                     </p>
                   </div>
@@ -485,12 +485,12 @@ export default function MessagingPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle>Real-Time Pet Updates</CardTitle>
-                  <p className="text-sm text-muted-foreground mt-1">
+                  <p className="text-muted-foreground mt-1 text-sm">
                     Quick updates sent to pet owners
                   </p>
                 </div>
                 <Button onClick={() => setShowPetUpdateModal(true)}>
-                  <Plus className="h-4 w-4 mr-2" />
+                  <Plus className="mr-2 size-4" />
                   Send Update
                 </Button>
               </div>
@@ -498,10 +498,10 @@ export default function MessagingPage() {
             <CardContent>
               <div className="space-y-3">
                 {petUpdates.map((update) => (
-                  <div key={update.id} className="p-4 border rounded-lg">
+                  <div key={update.id} className="rounded-lg border p-4">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
+                        <div className="mb-2 flex items-center gap-2">
                           <span className="font-semibold">
                             {update.petName}
                           </span>
@@ -510,7 +510,7 @@ export default function MessagingPage() {
                           </Badge>
                         </div>
                         <p className="text-sm">{update.message}</p>
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="text-muted-foreground mt-1 text-xs">
                           By {update.staffName} •{" "}
                           {formatTimestamp(update.timestamp)}
                         </p>
@@ -538,13 +538,13 @@ export default function MessagingPage() {
         {/* Internal Communications Tab - CLEARLY SEPARATED */}
         <TabsContent value="internal" className="space-y-4">
           {/* Warning Banner - Clear Separation */}
-          <div className="rounded-lg border-2 border-orange-500/30 bg-orange-50/50 dark:bg-orange-950/20 p-4">
+          <div className="rounded-lg border-2 border-orange-500/30 bg-orange-50/50 p-4 dark:bg-orange-950/20">
             <div className="flex items-start gap-3">
-              <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+              <div className="rounded-lg bg-orange-100 p-2 dark:bg-orange-900/30">
                 <Users className="h-5 w-5 text-orange-600 dark:text-orange-400" />
               </div>
               <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
+                <div className="mb-1 flex items-center gap-2">
                   <p className="text-sm font-semibold text-orange-900 dark:text-orange-100">
                     Internal Team Communication Only
                   </p>
@@ -564,8 +564,8 @@ export default function MessagingPage() {
             </div>
           </div>
 
-          <Card className="border-2 border-muted">
-            <CardHeader className="border-b bg-muted/30">
+          <Card className="border-muted border-2">
+            <CardHeader className="bg-muted/30 border-b">
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle className="flex items-center gap-2">
@@ -575,26 +575,26 @@ export default function MessagingPage() {
                       Internal
                     </Badge>
                   </CardTitle>
-                  <p className="text-sm text-muted-foreground mt-1">
+                  <p className="text-muted-foreground mt-1 text-sm">
                     Team messages with @mentions, channels, and read receipts.
-                    <span className="font-medium text-foreground">
+                    <span className="text-foreground font-medium">
                       {" "}
                       No customer data.
                     </span>
                   </p>
                 </div>
                 <Button onClick={() => setShowComposeModal(true)}>
-                  <Plus className="h-4 w-4 mr-2" />
+                  <Plus className="mr-2 size-4" />
                   New Internal Message
                 </Button>
               </div>
             </CardHeader>
             <CardContent className="pt-6">
               {internalMessages.length === 0 ? (
-                <div className="text-center py-12 text-muted-foreground">
-                  <Users className="h-16 w-16 mx-auto mb-4 opacity-50" />
+                <div className="text-muted-foreground py-12 text-center">
+                  <Users className="mx-auto mb-4 h-16 w-16 opacity-50" />
                   <p className="text-lg font-medium">No internal messages</p>
-                  <p className="text-sm mt-2">
+                  <p className="mt-2 text-sm">
                     Start a conversation with your team
                   </p>
                 </div>
@@ -603,11 +603,11 @@ export default function MessagingPage() {
                   {internalMessages.map((msg) => (
                     <div
                       key={msg.id}
-                      className="p-4 border-2 border-muted rounded-lg hover:bg-muted/50 transition-colors bg-background"
+                      className="border-muted bg-background hover:bg-muted/50 rounded-lg border-2 p-4 transition-colors"
                     >
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-2">
+                          <div className="mb-2 flex items-center gap-2">
                             <span className="font-semibold">{msg.from}</span>
                             <Badge
                               variant={
@@ -632,7 +632,7 @@ export default function MessagingPage() {
                           </div>
                           <p className="text-sm">{msg.message}</p>
                         </div>
-                        <div className="text-xs text-muted-foreground ml-4 shrink-0">
+                        <div className="text-muted-foreground ml-4 shrink-0 text-xs">
                           {formatTimestamp(msg.timestamp)}
                         </div>
                       </div>
@@ -653,8 +653,8 @@ export default function MessagingPage() {
           </Card>
 
           {/* Optional: Note about moving to separate section */}
-          <div className="rounded-lg border border-muted bg-muted/30 p-3">
-            <p className="text-xs text-muted-foreground text-center">
+          <div className="border-muted bg-muted/30 rounded-lg border p-3">
+            <p className="text-muted-foreground text-center text-xs">
               💡 <span className="font-medium">Note:</span> This internal
               messaging feature can be moved to a dedicated Staff/Operations
               section if preferred for better separation.
@@ -665,13 +665,13 @@ export default function MessagingPage() {
 
       {/* Modals */}
       <Dialog open={showComposeModal} onOpenChange={setShowComposeModal}>
-        <DialogContent className="min-w-5xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] min-w-5xl overflow-y-auto">
           <ComposeMessageModal onClose={() => setShowComposeModal(false)} />
         </DialogContent>
       </Dialog>
 
       <Dialog open={showPetUpdateModal} onOpenChange={setShowPetUpdateModal}>
-        <DialogContent className="min-w-5xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] min-w-5xl overflow-y-auto">
           <PetUpdateModal onClose={() => setShowPetUpdateModal(false)} />
         </DialogContent>
       </Dialog>

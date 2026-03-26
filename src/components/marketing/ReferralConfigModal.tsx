@@ -103,14 +103,14 @@ function RewardConfigCard({
 }) {
   return (
     <Card>
-      <CardContent className="pt-6 space-y-4">
+      <CardContent className="space-y-4 pt-6">
         <div className="flex items-center gap-2">
-          <Icon className="h-4 w-4 text-primary" />
+          <Icon className="text-primary size-4" />
           <Label className="text-base">{title}</Label>
         </div>
-        <p className="text-sm text-muted-foreground -mt-2">{description}</p>
+        <p className="text-muted-foreground -mt-2 text-sm">{description}</p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <div className="space-y-2">
             <Label>Reward Type</Label>
             <Select value={rewardType} onValueChange={onRewardTypeChange}>
@@ -210,12 +210,12 @@ export function ReferralConfigModal({ onClose }: ReferralConfigModalProps) {
         </DialogDescription>
       </DialogHeader>
 
-      <div className="space-y-6 py-4 max-h-[65vh] overflow-y-auto pr-2">
+      <div className="max-h-[65vh] space-y-6 overflow-y-auto py-4 pr-2">
         {/* Enable/Disable */}
         <div className="flex items-center justify-between rounded-lg border p-4">
           <div className="space-y-0.5">
             <Label className="text-base">Enable Referral Program</Label>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               Allow customers to refer friends and earn rewards
             </p>
           </div>
@@ -271,12 +271,12 @@ export function ReferralConfigModal({ onClose }: ReferralConfigModalProps) {
 
             {/* Trigger Conditions */}
             <Card>
-              <CardContent className="pt-6 space-y-4">
+              <CardContent className="space-y-4 pt-6">
                 <div className="flex items-center gap-2">
-                  <Target className="h-4 w-4 text-primary" />
+                  <Target className="text-primary size-4" />
                   <Label className="text-base">Trigger Conditions</Label>
                 </div>
-                <p className="text-sm text-muted-foreground -mt-2">
+                <p className="text-muted-foreground -mt-2 text-sm">
                   When should the referral reward be issued?
                 </p>
 
@@ -374,7 +374,7 @@ export function ReferralConfigModal({ onClose }: ReferralConfigModalProps) {
 
             {/* Requirements */}
             <Card>
-              <CardContent className="pt-6 space-y-4">
+              <CardContent className="space-y-4 pt-6">
                 <Label className="text-base">Requirements</Label>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -436,7 +436,7 @@ export function ReferralConfigModal({ onClose }: ReferralConfigModalProps) {
                       </Badge>
                     ))}
                   </div>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-muted-foreground text-xs">
                     Leave empty to allow all service types
                   </p>
                 </div>
@@ -445,13 +445,13 @@ export function ReferralConfigModal({ onClose }: ReferralConfigModalProps) {
 
             {/* Tracking Settings */}
             <Card>
-              <CardContent className="pt-6 space-y-4">
+              <CardContent className="space-y-4 pt-6">
                 <div className="flex items-center gap-2">
-                  <Link2 className="h-4 w-4 text-primary" />
+                  <Link2 className="text-primary size-4" />
                   <Label className="text-base">Tracking Settings</Label>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                   <div className="space-y-2">
                     <Label>Code Length</Label>
                     <Input
@@ -508,7 +508,7 @@ export function ReferralConfigModal({ onClose }: ReferralConfigModalProps) {
           Cancel
         </Button>
         <Button onClick={handleSave}>
-          <Settings className="h-4 w-4 mr-2" />
+          <Settings className="mr-2 size-4" />
           Save Settings
         </Button>
       </DialogFooter>

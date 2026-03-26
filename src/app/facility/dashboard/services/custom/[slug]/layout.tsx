@@ -41,18 +41,18 @@ export default function CustomServiceLayout({
   if (!serviceModule) {
     return (
       <div className="flex flex-1 flex-col items-center justify-center gap-4 p-12 text-center">
-        <div className="flex items-center justify-center w-16 h-16 rounded-full bg-muted">
-          <AlertTriangle className="h-8 w-8 text-muted-foreground" />
+        <div className="bg-muted flex h-16 w-16 items-center justify-center rounded-full">
+          <AlertTriangle className="text-muted-foreground h-8 w-8" />
         </div>
         <div>
           <h2 className="text-xl font-semibold">Service Not Found</h2>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-muted-foreground mt-1 text-sm">
             No custom service module exists for slug &ldquo;{slug}&rdquo;.
           </p>
         </div>
         <Link
           href="/facility/dashboard/services"
-          className="text-sm text-primary hover:underline"
+          className="text-primary text-sm hover:underline"
         >
           Back to Services
         </Link>
@@ -147,12 +147,12 @@ export default function CustomServiceLayout({
 
   return (
     <div className="flex flex-1 flex-col">
-      <div className="sticky top-16 z-10 border-b bg-background">
-        <div className="px-4 sm:px-6 py-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-3 min-w-0">
+      <div className="bg-background sticky top-16 z-10 border-b">
+        <div className="p-4 sm:px-6">
+          <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+            <div className="flex min-w-0 items-center gap-3">
               <div
-                className="flex items-center justify-center w-10 h-10 shrink-0 rounded-lg"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
                 style={{
                   ...getGradientStyle(
                     serviceModule.iconColor,
@@ -166,17 +166,17 @@ export default function CustomServiceLayout({
                 />
               </div>
               <div className="min-w-0">
-                <h1 className="text-xl sm:text-2xl font-bold tracking-tight flex items-center gap-2 truncate">
+                <h1 className="flex items-center gap-2 truncate text-xl font-bold tracking-tight sm:text-2xl">
                   {serviceModule.name}
                   <Badge variant={statusVariant} className="shrink-0">
                     {statusLabel}
                   </Badge>
                 </h1>
-                <p className="text-sm text-muted-foreground truncate flex items-center">
+                <p className="text-muted-foreground flex items-center truncate text-sm">
                   {catMeta && (
                     <Badge
                       className={cn(
-                        "text-[10px] mr-2 shrink-0",
+                        "mr-2 shrink-0 text-[10px]",
                         catMeta.badgeClass,
                       )}
                     >
@@ -187,7 +187,7 @@ export default function CustomServiceLayout({
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+            <div className="flex shrink-0 items-center gap-2 self-end sm:self-auto">
               <span className="text-sm font-medium">Enabled</span>
               <Switch
                 checked={isEnabled}
@@ -199,7 +199,7 @@ export default function CustomServiceLayout({
 
         <nav
           aria-label="Service navigation"
-          className="px-4 sm:px-6 flex gap-1 overflow-x-auto scrollbar-none"
+          className="scrollbar-none flex gap-1 overflow-x-auto px-4 sm:px-6"
         >
           {tabs.map((tab) => {
             const isActive =
@@ -212,17 +212,17 @@ export default function CustomServiceLayout({
                 key={tab.href}
                 href={tab.href}
                 className={cn(
-                  "flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-t-lg transition-colors whitespace-nowrap",
+                  `flex items-center gap-2 rounded-t-lg px-4 py-2.5 text-sm font-medium whitespace-nowrap transition-colors`,
                   "hover:bg-muted/50",
                   isActive
                     ? cn(
-                        "bg-background border-b-2 border-primary",
+                        "border-primary bg-background border-b-2",
                         catMeta?.textClass ?? "text-primary",
                       )
                     : "text-muted-foreground",
                 )}
               >
-                <TabIcon className="h-4 w-4" />
+                <TabIcon className="size-4" />
                 {tab.name}
               </Link>
             );

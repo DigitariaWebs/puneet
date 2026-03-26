@@ -97,7 +97,7 @@ export function PackagesTab() {
         {/* Active Memberships */}
         {customerMemberships.length > 0 && (
           <div>
-            <h2 className="text-2xl font-semibold mb-4">
+            <h2 className="mb-4 text-2xl font-semibold">
               Your Active Memberships
             </h2>
             <div className="grid gap-4 md:grid-cols-2">
@@ -149,7 +149,7 @@ export function PackagesTab() {
                         <span>{formatDate(membership.nextBillingDate)}</span>
                       </div>
                     )}
-                    <div className="pt-2 border-t space-y-1 text-xs text-muted-foreground">
+                    <div className="text-muted-foreground space-y-1 border-t pt-2 text-xs">
                       <div className="flex items-center gap-2">
                         {membership.autoRenew ? (
                           <>
@@ -158,7 +158,7 @@ export function PackagesTab() {
                           </>
                         ) : (
                           <>
-                            <X className="h-3 w-3 text-muted-foreground" />
+                            <X className="text-muted-foreground h-3 w-3" />
                             Auto-renewal disabled
                           </>
                         )}
@@ -180,7 +180,7 @@ export function PackagesTab() {
         {/* Prepaid Credits */}
         {customerPrepaidCredits.length > 0 && (
           <div>
-            <h2 className="text-2xl font-semibold mb-4">Prepaid Credits</h2>
+            <h2 className="mb-4 text-2xl font-semibold">Prepaid Credits</h2>
             <div className="grid gap-4 md:grid-cols-2">
               {customerPrepaidCredits.map((credit) => (
                 <Card key={credit.id}>
@@ -224,14 +224,14 @@ export function PackagesTab() {
 
         {/* Available Plans */}
         <div>
-          <h2 className="text-2xl font-semibold mb-4">
+          <h2 className="mb-4 text-2xl font-semibold">
             Available Membership Plans
           </h2>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {availablePlans.map((plan) => (
               <Card
                 key={plan.id}
-                className={plan.isPopular ? "ring-2 ring-primary" : ""}
+                className={plan.isPopular ? "ring-primary ring-2" : ""}
               >
                 <CardHeader>
                   <div className="flex items-start justify-between">
@@ -254,7 +254,7 @@ export function PackagesTab() {
                     <div className="text-3xl font-bold">
                       {formatCurrency(plan.monthlyPrice)}
                     </div>
-                    <div className="text-sm text-muted-foreground">
+                    <div className="text-muted-foreground text-sm">
                       per month
                     </div>
                   </div>
@@ -275,7 +275,7 @@ export function PackagesTab() {
                   {plan.perks.length > 0 && (
                     <div className="space-y-1">
                       <p className="text-sm font-medium">Perks:</p>
-                      <ul className="text-sm text-muted-foreground space-y-1">
+                      <ul className="text-muted-foreground space-y-1 text-sm">
                         {plan.perks.map((perk, idx) => (
                           <li key={idx} className="flex items-center gap-2">
                             <Check className="h-3 w-3 text-green-500" />
@@ -312,7 +312,7 @@ export function PackagesTab() {
           {selectedPlan && (
             <div className="space-y-4 py-4">
               <div className="space-y-2">
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   You will be charged monthly. You can cancel anytime.
                 </p>
                 <div className="flex items-center justify-between font-semibold">

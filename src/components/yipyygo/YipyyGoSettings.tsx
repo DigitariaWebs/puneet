@@ -96,7 +96,7 @@ export function YipyyGoSettings({
               </div>
               {hasChanges && (
                 <Button onClick={handleSave} disabled={isSaving}>
-                  <Save className="h-4 w-4 mr-2" />
+                  <Save className="mr-2 size-4" />
                   {isSaving ? "Saving..." : "Save Changes"}
                 </Button>
               )}
@@ -106,7 +106,7 @@ export function YipyyGoSettings({
         {!localConfig.enabled && (
           <CardContent>
             <Alert>
-              <AlertCircle className="h-4 w-4" />
+              <AlertCircle className="size-4" />
               <AlertDescription>
                 YipyyGo is currently disabled. Enable it to configure
                 pre-check-in forms for your services.
@@ -120,7 +120,7 @@ export function YipyyGoSettings({
         <>
           {/* Info Alert */}
           <Alert>
-            <Info className="h-4 w-4" />
+            <Info className="size-4" />
             <AlertDescription>
               <strong>Mandatory vs Optional:</strong> Mandatory forms must be
               completed before check-in (staff can override if needed). Optional
@@ -153,7 +153,7 @@ export function YipyyGoSettings({
                     <RadioGroupItem value="auto" id="addons-auto" />
                     <Label
                       htmlFor="addons-auto"
-                      className="font-normal cursor-pointer"
+                      className="cursor-pointer font-normal"
                     >
                       Auto-approve add-ons – add directly to invoice when
                       customer submits
@@ -163,7 +163,7 @@ export function YipyyGoSettings({
                     <RadioGroupItem value="staff_approval" id="addons-staff" />
                     <Label
                       htmlFor="addons-staff"
-                      className="font-normal cursor-pointer"
+                      className="cursor-pointer font-normal"
                     >
                       Require staff approval – add as &quot;pending add-on&quot;
                       until staff approves
@@ -179,7 +179,7 @@ export function YipyyGoSettings({
                   >
                     Notify staff by email on submission
                   </Label>
-                  <p className="text-sm text-muted-foreground mt-1">
+                  <p className="text-muted-foreground mt-1 text-sm">
                     In-app notification is always sent when a customer submits a
                     form.
                   </p>
@@ -230,11 +230,11 @@ export function YipyyGoSettings({
             <Card>
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     You have unsaved changes
                   </p>
                   <Button onClick={handleSave} disabled={isSaving} size="lg">
-                    <Save className="h-4 w-4 mr-2" />
+                    <Save className="mr-2 size-4" />
                     {isSaving ? "Saving..." : "Save All Changes"}
                   </Button>
                 </div>

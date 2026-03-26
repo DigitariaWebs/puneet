@@ -278,30 +278,28 @@ function SortableQuestionRow({
     <div
       ref={setNodeRef}
       style={style}
-      className={`flex items-center gap-2 rounded-md border p-2 ${isDragging ? "opacity-50 shadow-md" : ""} ${
-        selectedQuestionId === q.id ? "border-primary bg-muted/50" : ""
-      }`}
+      className={`flex items-center gap-2 rounded-md border p-2 ${isDragging ? `opacity-50 shadow-md` : ""} ${selectedQuestionId === q.id ? "border-primary bg-muted/50" : ""} `}
     >
       <div
         {...attributes}
         {...listeners}
-        className="shrink-0 cursor-grab active:cursor-grabbing touch-none"
+        className="shrink-0 cursor-grab touch-none active:cursor-grabbing"
       >
-        <GripVertical className="h-4 w-4 text-muted-foreground" />
+        <GripVertical className="text-muted-foreground size-4" />
       </div>
-      <div className="flex-1 min-w-0 flex items-center gap-1.5">
+      <div className="flex min-w-0 flex-1 items-center gap-1.5">
         <Input
           value={q.label || ""}
           onChange={(e) => onUpdateLabel(e.target.value)}
           onFocus={onSelect}
           onClick={onSelect}
-          className="flex-1 min-w-0 h-8 border-0 shadow-none focus-visible:ring-0 text-sm"
+          className="h-8 min-w-0 flex-1 border-0 text-sm shadow-none focus-visible:ring-0"
           placeholder="Question text"
         />
         {mappingLabel && (
           <Badge
             variant="secondary"
-            className="shrink-0 text-[10px] h-5 px-1.5 font-normal bg-blue-50 text-blue-700 border-blue-200"
+            className="h-5 shrink-0 border-blue-200 bg-blue-50 px-1.5 text-[10px] font-normal text-blue-700"
           >
             {mappingLabel}
           </Badge>
@@ -314,7 +312,7 @@ function SortableQuestionRow({
         onClick={onMoveUp}
         disabled={idx === 0}
       >
-        <ChevronUp className="h-4 w-4" />
+        <ChevronUp className="size-4" />
       </Button>
       <Button
         variant="ghost"
@@ -323,15 +321,15 @@ function SortableQuestionRow({
         onClick={onMoveDown}
         disabled={idx === total - 1}
       >
-        <ChevronDown className="h-4 w-4" />
+        <ChevronDown className="size-4" />
       </Button>
       <Button
         variant="ghost"
         size="icon"
-        className="h-8 w-8 text-destructive"
+        className="text-destructive h-8 w-8"
         onClick={onRemove}
       >
-        <Trash2 className="h-4 w-4" />
+        <Trash2 className="size-4" />
       </Button>
     </div>
   );
@@ -692,13 +690,13 @@ export function FormBuilderEditor({
 
   return (
     <div className="grid gap-6 lg:grid-cols-3">
-      <div className="lg:col-span-2 space-y-6">
+      <div className="space-y-6 lg:col-span-2">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Form settings</CardTitle>
             <div className="flex gap-2">
               <Button variant="outline" onClick={handleSave}>
-                <Save className="mr-2 h-4 w-4" />
+                <Save className="mr-2 size-4" />
                 Save
               </Button>
               {existing && (
@@ -733,7 +731,7 @@ export function FormBuilderEditor({
             <div className="space-y-2">
               <Label>Welcome message (optional)</Label>
               <textarea
-                className="flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm"
+                className="border-input flex min-h-[60px] w-full rounded-md border bg-transparent px-3 py-2 text-sm"
                 value={welcomeMessage}
                 onChange={(e) => setWelcomeMessage(e.target.value)}
                 placeholder="Brief intro shown at the top of the form"
@@ -742,7 +740,7 @@ export function FormBuilderEditor({
             <div className="space-y-2">
               <Label>Submit confirmation message (optional)</Label>
               <textarea
-                className="flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm"
+                className="border-input flex min-h-[60px] w-full rounded-md border bg-transparent px-3 py-2 text-sm"
                 value={submitMessage}
                 onChange={(e) => setSubmitMessage(e.target.value)}
                 placeholder="Message shown after successful submission"
@@ -791,18 +789,18 @@ export function FormBuilderEditor({
                 Applies to (targeting)
               </Label>
               <div className="space-y-2">
-                <Label className="text-xs text-muted-foreground">
+                <Label className="text-muted-foreground text-xs">
                   Pet types
                 </Label>
                 <div className="flex flex-wrap gap-3">
                   {["dog", "cat", "other"].map((pt) => (
                     <label
                       key={pt}
-                      className="flex items-center gap-1.5 text-sm cursor-pointer"
+                      className="flex cursor-pointer items-center gap-1.5 text-sm"
                     >
                       <input
                         type="checkbox"
-                        className="h-4 w-4"
+                        className="size-4"
                         checked={appliesTo.petTypes?.includes(pt) ?? false}
                         onChange={(e) => {
                           const current = appliesTo.petTypes ?? [];
@@ -820,18 +818,18 @@ export function FormBuilderEditor({
                 </div>
               </div>
               <div className="space-y-2">
-                <Label className="text-xs text-muted-foreground">
+                <Label className="text-muted-foreground text-xs">
                   Service types
                 </Label>
                 <div className="flex flex-wrap gap-3">
                   {["boarding", "daycare", "grooming", "training"].map((st) => (
                     <label
                       key={st}
-                      className="flex items-center gap-1.5 text-sm cursor-pointer"
+                      className="flex cursor-pointer items-center gap-1.5 text-sm"
                     >
                       <input
                         type="checkbox"
-                        className="h-4 w-4"
+                        className="size-4"
                         checked={appliesTo.serviceTypes?.includes(st) ?? false}
                         onChange={(e) => {
                           const current = appliesTo.serviceTypes ?? [];
@@ -923,18 +921,18 @@ export function FormBuilderEditor({
             <CardTitle>Sections & questions</CardTitle>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" onClick={addSection}>
-                <FolderOpen className="mr-2 h-4 w-4" />
+                <FolderOpen className="mr-2 size-4" />
                 Add section
               </Button>
               <Button variant="outline" size="sm" onClick={() => addQuestion()}>
-                <Plus className="mr-2 h-4 w-4" />
+                <Plus className="mr-2 size-4" />
                 Add question
               </Button>
             </div>
           </CardHeader>
           <CardContent>
             {questionsBySection.length === 0 ? (
-              <p className="text-sm text-muted-foreground py-4">
+              <p className="text-muted-foreground py-4 text-sm">
                 Add a section, then add questions.
               </p>
             ) : (
@@ -951,7 +949,7 @@ export function FormBuilderEditor({
                         className="space-y-2 rounded-lg border p-3"
                       >
                         <div className="flex items-center gap-2">
-                          <FolderOpen className="h-4 w-4 text-muted-foreground shrink-0" />
+                          <FolderOpen className="text-muted-foreground size-4 shrink-0" />
                           <Input
                             value={section.title}
                             onChange={(e) =>
@@ -959,18 +957,18 @@ export function FormBuilderEditor({
                                 title: e.target.value,
                               })
                             }
-                            className="h-8 font-medium border-0 shadow-none focus-visible:ring-0 px-0"
+                            className="h-8 border-0 px-0 font-medium shadow-none focus-visible:ring-0"
                             placeholder="Section title"
                           />
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-8 w-8 shrink-0 text-destructive"
+                            className="text-destructive h-8 w-8 shrink-0"
                             onClick={() => removeSection(section.id)}
                             disabled={questionsBySection.length <= 1}
                             title="Remove section"
                           >
-                            <Trash2 className="h-4 w-4" />
+                            <Trash2 className="size-4" />
                           </Button>
                           <Button
                             variant="ghost"
@@ -978,12 +976,12 @@ export function FormBuilderEditor({
                             className="shrink-0"
                             onClick={() => addQuestion(section.id)}
                           >
-                            <Plus className="mr-1 h-4 w-4" />
+                            <Plus className="mr-1 size-4" />
                             Add question
                           </Button>
                         </div>
                         {secQuestions.length === 0 ? (
-                          <p className="text-xs text-muted-foreground pl-6">
+                          <p className="text-muted-foreground pl-6 text-xs">
                             No questions yet.
                           </p>
                         ) : (
@@ -1059,30 +1057,30 @@ export function FormBuilderEditor({
               {fieldMapping.length > 0 && (
                 <Badge
                   variant="secondary"
-                  className="text-xs h-5 px-1.5 bg-blue-50 text-blue-700 border-blue-200"
+                  className="h-5 border-blue-200 bg-blue-50 px-1.5 text-xs text-blue-700"
                 >
                   {fieldMapping.length} mapped
                 </Badge>
               )}
             </div>
             <Button variant="outline" size="sm" onClick={addMapping}>
-              <Plus className="h-4 w-4" />
+              <Plus className="size-4" />
             </Button>
           </CardHeader>
           <CardContent>
-            <p className="text-xs text-muted-foreground mb-3">
+            <p className="text-muted-foreground mb-3 text-xs">
               Map answers to customer/pet profile fields, notes,
               medical/vaccine, or tags. Configurable per question in the
               question editor (Save answer to profile) or here.
             </p>
             {fieldMapping.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No mappings yet.</p>
+              <p className="text-muted-foreground text-sm">No mappings yet.</p>
             ) : (
               <div className="space-y-2">
                 {fieldMapping.map((m) => (
                   <div
                     key={m.questionId}
-                    className="flex items-center gap-2 rounded border p-2 text-sm"
+                    className="flex items-center gap-2 rounded-sm border p-2 text-sm"
                   >
                     <Select
                       value={m.questionId}
@@ -1094,7 +1092,7 @@ export function FormBuilderEditor({
                         updateMapping(v, cur?.target ?? "customer.name");
                       }}
                     >
-                      <SelectTrigger className="flex-1 min-w-0">
+                      <SelectTrigger className="min-w-0 flex-1">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -1109,7 +1107,7 @@ export function FormBuilderEditor({
                       value={m.target}
                       onValueChange={(v) => updateMapping(m.questionId, v)}
                     >
-                      <SelectTrigger className="flex-1 min-w-0">
+                      <SelectTrigger className="min-w-0 flex-1">
                         <SelectValue placeholder="Map to..." />
                       </SelectTrigger>
                       <SelectContent>
@@ -1140,12 +1138,12 @@ export function FormBuilderEditor({
                       className="h-8 w-8 shrink-0"
                       onClick={() => removeMapping(m.questionId)}
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="size-4" />
                     </Button>
                   </div>
                 ))}
                 {/* Mapping preview summary — shows grouped target counts */}
-                <div className="flex flex-wrap gap-1.5 pt-2 border-t mt-3">
+                <div className="mt-3 flex flex-wrap gap-1.5 border-t pt-2">
                   {(() => {
                     const counts: Record<string, number> = {};
                     for (const m of fieldMapping) {
@@ -1159,7 +1157,7 @@ export function FormBuilderEditor({
                       <Badge
                         key={group}
                         variant="outline"
-                        className="text-[10px] h-5 font-normal"
+                        className="h-5 text-[10px] font-normal"
                       >
                         {group}: {count}
                       </Badge>
@@ -1174,8 +1172,8 @@ export function FormBuilderEditor({
         {/* Logic Rules */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-base flex items-center gap-2">
-              <Zap className="h-4 w-4" />
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Zap className="size-4" />
               Logic Rules
             </CardTitle>
             <Button
@@ -1195,19 +1193,19 @@ export function FormBuilderEditor({
                 ]);
               }}
             >
-              <Plus className="h-4 w-4 mr-1" />
+              <Plus className="mr-1 size-4" />
               Add rule
             </Button>
           </CardHeader>
           <CardContent>
-            <p className="text-xs text-muted-foreground mb-3">
+            <p className="text-muted-foreground mb-3 text-xs">
               IF a question&apos;s answer matches a condition, THEN perform an
               action on other questions or sections.
               {questions.length === 0 &&
                 " Add questions first, then create logic rules."}
             </p>
             {formLogicRules.length === 0 ? (
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 No logic rules yet.
               </p>
             ) : (
@@ -1238,8 +1236,8 @@ export function FormBuilderEditor({
         {/* Preview */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
-              <Eye className="h-4 w-4" />
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Eye className="size-4" />
               Preview
             </CardTitle>
           </CardHeader>
@@ -1252,7 +1250,7 @@ export function FormBuilderEditor({
                   setPreviewMode(previewMode === "desktop" ? "none" : "desktop")
                 }
               >
-                <Monitor className="h-3.5 w-3.5 mr-1" />
+                <Monitor className="mr-1 h-3.5 w-3.5" />
                 Desktop
               </Button>
               <Button
@@ -1262,7 +1260,7 @@ export function FormBuilderEditor({
                   setPreviewMode(previewMode === "mobile" ? "none" : "mobile")
                 }
               >
-                <Smartphone className="h-3.5 w-3.5 mr-1" />
+                <Smartphone className="mr-1 h-3.5 w-3.5" />
                 Mobile
               </Button>
             </div>
@@ -1272,7 +1270,7 @@ export function FormBuilderEditor({
                 size="sm"
                 onClick={() => setPreviewAudience("customer")}
               >
-                <Eye className="h-3.5 w-3.5 mr-1" />
+                <Eye className="mr-1 h-3.5 w-3.5" />
                 Customer view
               </Button>
               <Button
@@ -1280,23 +1278,23 @@ export function FormBuilderEditor({
                 size="sm"
                 onClick={() => setPreviewAudience("staff")}
               >
-                <EyeOff className="h-3.5 w-3.5 mr-1" />
+                <EyeOff className="mr-1 h-3.5 w-3.5" />
                 Staff view
               </Button>
             </div>
             {previewMode !== "none" && (
               <div
-                className={`border rounded-lg overflow-hidden bg-background ${
-                  previewMode === "mobile" ? "max-w-[375px] mx-auto" : "w-full"
-                }`}
+                className={`bg-background overflow-hidden rounded-lg border ${
+                  previewMode === "mobile" ? "mx-auto max-w-[375px]" : "w-full"
+                } `}
               >
-                <div className="p-4 space-y-4">
+                <div className="space-y-4 p-4">
                   <div>
-                    <h3 className="font-semibold text-lg">
+                    <h3 className="text-lg font-semibold">
                       {name || "Untitled form"}
                     </h3>
                     {welcomeMessage && (
-                      <p className="text-sm text-muted-foreground mt-1">
+                      <p className="text-muted-foreground mt-1 text-sm">
                         {welcomeMessage}
                       </p>
                     )}
@@ -1316,11 +1314,11 @@ export function FormBuilderEditor({
                           )}
                         </p>
                         {q.helpText && (
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-muted-foreground text-xs">
                             {q.helpText}
                           </p>
                         )}
-                        <div className="h-9 rounded-md border border-input bg-muted/30 px-3 flex items-center text-sm text-muted-foreground">
+                        <div className="border-input bg-muted/30 text-muted-foreground flex h-9 items-center rounded-md border px-3 text-sm">
                           {q.type === "yes_no"
                             ? "Yes / No"
                             : q.type === "textarea"
@@ -1346,7 +1344,7 @@ export function FormBuilderEditor({
                         )}
                       </div>
                     ))}
-                  <div className="h-10 rounded-md bg-primary flex items-center justify-center text-sm font-medium text-primary-foreground">
+                  <div className="bg-primary text-primary-foreground flex h-10 items-center justify-center rounded-md text-sm font-medium">
                     Submit
                   </div>
                 </div>
@@ -1381,8 +1379,8 @@ export function FormBuilderEditor({
         {versionHistory.length > 0 && (
           <Card>
             <CardHeader>
-              <CardTitle className="text-base flex items-center gap-2">
-                <History className="h-4 w-4" />
+              <CardTitle className="flex items-center gap-2 text-base">
+                <History className="size-4" />
                 Version History
               </CardTitle>
             </CardHeader>
@@ -1395,7 +1393,7 @@ export function FormBuilderEditor({
                   >
                     <div>
                       <p className="font-medium">v{v.versionNumber}</p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         {v.questionCount} question
                         {v.questionCount !== 1 ? "s" : ""}
                         {v.createdBy ? ` · by ${v.createdBy}` : ""}
@@ -1403,7 +1401,7 @@ export function FormBuilderEditor({
                     </div>
                     <div className="text-right">
                       {v.publishedAt ? (
-                        <Badge className="text-[10px] bg-green-100 text-green-800 hover:bg-green-100 border-0">
+                        <Badge className="border-0 bg-green-100 text-[10px] text-green-800 hover:bg-green-100">
                           Published
                         </Badge>
                       ) : (
@@ -1411,7 +1409,7 @@ export function FormBuilderEditor({
                           Draft
                         </Badge>
                       )}
-                      <p className="text-[10px] text-muted-foreground mt-0.5">
+                      <p className="text-muted-foreground mt-0.5 text-[10px]">
                         {v.createdAt.slice(0, 10)}
                       </p>
                     </div>
@@ -1480,19 +1478,19 @@ function LogicRuleEditor({
   }
 
   return (
-    <div className="rounded-lg border p-3 space-y-2.5 text-sm">
+    <div className="space-y-2.5 rounded-lg border p-3 text-sm">
       <div className="flex items-center justify-between gap-2">
         <Button
           variant="ghost"
           size="sm"
-          className="h-7 w-7 p-0 shrink-0"
+          className="h-7 w-7 shrink-0 p-0"
           onClick={onRemove}
         >
           <Trash2 className="h-3.5 w-3.5" />
         </Button>
       </div>
       {/* Plain-language summary */}
-      <div className="rounded-md bg-muted/50 px-3 py-2 text-xs leading-relaxed">
+      <div className="bg-muted/50 rounded-md px-3 py-2 text-xs/relaxed">
         <span className="font-semibold text-indigo-600">If</span>{" "}
         <span className="font-medium">&ldquo;{triggerLabel}&rdquo;</span>{" "}
         <span className="text-muted-foreground">{operatorLabel}</span>
@@ -1593,16 +1591,16 @@ function LogicRuleEditor({
       {/* Target questions (for show/hide/require) */}
       {needsTargetQuestions && (
         <div className="space-y-1">
-          <Label className="text-xs text-muted-foreground">
+          <Label className="text-muted-foreground text-xs">
             Target questions
           </Label>
-          <div className="max-h-32 overflow-y-auto space-y-1 rounded border p-2">
+          <div className="max-h-32 space-y-1 overflow-y-auto rounded-sm border p-2">
             {allQuestions
               .filter((q) => q.id !== rule.triggerQuestionId)
               .map((q) => (
                 <label
                   key={q.id}
-                  className="flex items-center gap-2 text-xs cursor-pointer"
+                  className="flex cursor-pointer items-center gap-2 text-xs"
                 >
                   <input
                     type="checkbox"
@@ -1815,7 +1813,7 @@ function QuestionEditor({
         </div>
       </div>
       <div className="space-y-2 rounded-lg border p-3">
-        <Label className="text-xs font-medium text-muted-foreground">
+        <Label className="text-muted-foreground text-xs font-medium">
           Validation rules
         </Label>
         <div className="grid gap-2 sm:grid-cols-2">
@@ -1940,7 +1938,7 @@ function QuestionEditor({
         <div className="space-y-2">
           <Label>Options (one per line, optional label after colon)</Label>
           <textarea
-            className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm"
+            className="border-input flex min-h-[80px] w-full rounded-md border bg-transparent px-3 py-2 text-sm"
             value={optionsText}
             onChange={(e) => syncOptions(e.target.value)}
             placeholder="Yes\nNo\nvalue:Display Label"
@@ -1956,7 +1954,7 @@ function QuestionEditor({
           onChange={(c) => onChange({ condition: c })}
         />
         {question.condition && (
-          <p className="text-xs text-muted-foreground rounded bg-muted/50 px-2 py-1.5 mt-1">
+          <p className="bg-muted/50 text-muted-foreground mt-1 rounded-sm px-2 py-1.5 text-xs">
             {formatConditionPlainLanguage(question.condition, allQuestions)}
           </p>
         )}
@@ -2074,7 +2072,7 @@ function ConditionEditor({
   }
 
   return (
-    <div className="space-y-2 rounded border p-3">
+    <div className="space-y-2 rounded-sm border p-3">
       <div className="flex items-center justify-between">
         <span className="text-sm font-medium">Show when</span>
         <Button

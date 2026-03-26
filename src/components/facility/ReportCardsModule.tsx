@@ -597,12 +597,12 @@ export function ReportCardsModule({
       defaultVisible: true,
       render: (item) => (
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-            <PawPrint className="h-4 w-4 text-primary" />
+          <div className="bg-primary/10 flex h-8 w-8 items-center justify-center rounded-full">
+            <PawPrint className="text-primary size-4" />
           </div>
           <div>
             <p className="font-medium">{item.petName}</p>
-            <p className="text-xs text-muted-foreground capitalize">
+            <p className="text-muted-foreground text-xs capitalize">
               {item.serviceType}
             </p>
           </div>
@@ -648,12 +648,12 @@ export function ReportCardsModule({
       render: (item) =>
         item.delivery.status === "sent" ? (
           <Badge variant="success">
-            <Check className="h-3 w-3 mr-1" />
+            <Check className="mr-1 h-3 w-3" />
             Sent
           </Badge>
         ) : item.delivery.status === "scheduled" ? (
           <Badge variant="secondary">
-            <CalendarClock className="h-3 w-3 mr-1" />
+            <CalendarClock className="mr-1 h-3 w-3" />
             Scheduled
           </Badge>
         ) : (
@@ -683,12 +683,12 @@ export function ReportCardsModule({
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-primary/10">
-                <FileText className="h-5 w-5 text-primary" />
+              <div className="bg-primary/10 rounded-lg p-2">
+                <FileText className="text-primary h-5 w-5" />
               </div>
               <div>
                 <p className="text-2xl font-bold">{reportCards.length}</p>
-                <p className="text-sm text-muted-foreground">Total Reports</p>
+                <p className="text-muted-foreground text-sm">Total Reports</p>
               </div>
             </div>
           </CardContent>
@@ -696,12 +696,12 @@ export function ReportCardsModule({
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-info/10">
-                <Clock className="h-5 w-5 text-info" />
+              <div className="bg-info/10 rounded-lg p-2">
+                <Clock className="text-info h-5 w-5" />
               </div>
               <div>
                 <p className="text-2xl font-bold">{todayCards}</p>
-                <p className="text-sm text-muted-foreground">Today</p>
+                <p className="text-muted-foreground text-sm">Today</p>
               </div>
             </div>
           </CardContent>
@@ -709,12 +709,12 @@ export function ReportCardsModule({
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-success/10">
-                <Mail className="h-5 w-5 text-success" />
+              <div className="bg-success/10 rounded-lg p-2">
+                <Mail className="text-success h-5 w-5" />
               </div>
               <div>
                 <p className="text-2xl font-bold">{sentCards}</p>
-                <p className="text-sm text-muted-foreground">Sent to Owners</p>
+                <p className="text-muted-foreground text-sm">Sent to Owners</p>
               </div>
             </div>
           </CardContent>
@@ -722,12 +722,12 @@ export function ReportCardsModule({
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-warning/10">
-                <Send className="h-5 w-5 text-warning" />
+              <div className="bg-warning/10 rounded-lg p-2">
+                <Send className="text-warning h-5 w-5" />
               </div>
               <div>
                 <p className="text-2xl font-bold">{scheduledCards}</p>
-                <p className="text-sm text-muted-foreground">Scheduled</p>
+                <p className="text-muted-foreground text-sm">Scheduled</p>
               </div>
             </div>
           </CardContent>
@@ -739,7 +739,7 @@ export function ReportCardsModule({
           <div className="flex items-center justify-between">
             <CardTitle>Daily Report Cards</CardTitle>
             <Button onClick={handleAddNew}>
-              <Plus className="h-4 w-4 mr-2" />
+              <Plus className="mr-2 size-4" />
               Create Report Card
             </Button>
           </div>
@@ -760,7 +760,7 @@ export function ReportCardsModule({
                     setIsViewModalOpen(true);
                   }}
                 >
-                  <Eye className="h-4 w-4" />
+                  <Eye className="size-4" />
                 </Button>
                 {item.delivery.status !== "sent" && (
                   <Button
@@ -769,7 +769,7 @@ export function ReportCardsModule({
                     onClick={() => handleSendNow(item.id)}
                     title="Resend now"
                   >
-                    <Send className="h-4 w-4 text-primary" />
+                    <Send className="text-primary size-4" />
                   </Button>
                 )}
               </div>
@@ -779,7 +779,7 @@ export function ReportCardsModule({
       </Card>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Create Report Card</DialogTitle>
           </DialogHeader>
@@ -846,21 +846,21 @@ export function ReportCardsModule({
 
             <div className="space-y-2 rounded-lg border p-4">
               <Label>Auto-populated</Label>
-              <div className="grid gap-2 text-sm text-muted-foreground">
+              <div className="text-muted-foreground grid gap-2 text-sm">
                 <div>
-                  <span className="font-medium text-foreground">Dog:</span>{" "}
+                  <span className="text-foreground font-medium">Dog:</span>{" "}
                   {selectedVisit?.petName ?? "—"}
                 </div>
                 <div>
-                  <span className="font-medium text-foreground">Owner:</span>{" "}
+                  <span className="text-foreground font-medium">Owner:</span>{" "}
                   {selectedVisit?.ownerName ?? "—"}
                 </div>
                 <div>
-                  <span className="font-medium text-foreground">Facility:</span>{" "}
+                  <span className="text-foreground font-medium">Facility:</span>{" "}
                   {facilityName}
                 </div>
                 <div>
-                  <span className="font-medium text-foreground">
+                  <span className="text-foreground font-medium">
                     Visit date:
                   </span>{" "}
                   {selectedVisit?.visitDate ?? "—"}
@@ -879,7 +879,7 @@ export function ReportCardsModule({
                       <Label>Mood & Energy</Label>
                       <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <Label className="text-xs text-muted-foreground">
+                          <Label className="text-muted-foreground text-xs">
                             Mood
                           </Label>
                           <RadioGroup
@@ -908,7 +908,7 @@ export function ReportCardsModule({
                           </RadioGroup>
                         </div>
                         <div className="space-y-2">
-                          <Label className="text-xs text-muted-foreground">
+                          <Label className="text-muted-foreground text-xs">
                             Energy
                           </Label>
                           <RadioGroup
@@ -975,7 +975,7 @@ export function ReportCardsModule({
                         placeholder="Best friends (e.g., Luna and Max)"
                       />
                       <div className="grid gap-2">
-                        <Label className="text-xs text-muted-foreground">
+                        <Label className="text-muted-foreground text-xs">
                           Favorite activity
                         </Label>
                         <div className="grid grid-cols-2 gap-2 rounded-lg border p-3">
@@ -1039,7 +1039,7 @@ export function ReportCardsModule({
                       <Label>Wellness & Habits</Label>
                       <div className="grid grid-cols-3 gap-4">
                         <div className="space-y-2">
-                          <Label className="text-xs text-muted-foreground">
+                          <Label className="text-muted-foreground text-xs">
                             Meals
                           </Label>
                           <RadioGroup
@@ -1072,7 +1072,7 @@ export function ReportCardsModule({
                           </RadioGroup>
                         </div>
                         <div className="space-y-2">
-                          <Label className="text-xs text-muted-foreground">
+                          <Label className="text-muted-foreground text-xs">
                             Potty
                           </Label>
                           <RadioGroup
@@ -1101,7 +1101,7 @@ export function ReportCardsModule({
                           </RadioGroup>
                         </div>
                         <div className="space-y-2">
-                          <Label className="text-xs text-muted-foreground">
+                          <Label className="text-muted-foreground text-xs">
                             Meds
                           </Label>
                           <RadioGroup
@@ -1193,7 +1193,7 @@ export function ReportCardsModule({
                         <Label>Custom Feedback</Label>
                         {customQuestionsConfig.map((q) => (
                           <div key={q.id} className="space-y-1">
-                            <Label className="text-xs text-muted-foreground">
+                            <Label className="text-muted-foreground text-xs">
                               {q.question}
                               {q.required && " *"}
                             </Label>
@@ -1313,7 +1313,7 @@ export function ReportCardsModule({
                         <Label>Pet Condition</Label>
                         {petConditionConfig.categories.map((cat) => (
                           <div key={cat.id} className="space-y-1">
-                            <Label className="text-xs text-muted-foreground">
+                            <Label className="text-muted-foreground text-xs">
                               {cat.label}
                             </Label>
                             <Select
@@ -1374,7 +1374,7 @@ export function ReportCardsModule({
                         {photoPreviews.map((photo, index) => (
                           <div
                             key={`${photo}-${index}`}
-                            className="w-20 h-20 rounded-lg border overflow-hidden bg-muted"
+                            className="bg-muted h-20 w-20 overflow-hidden rounded-lg border"
                           >
                             <Image
                               src={photo}
@@ -1393,7 +1393,7 @@ export function ReportCardsModule({
             })()}
           </div>
           <DialogFooter className="flex items-center justify-between">
-            <div className="space-y-1 text-xs text-muted-foreground">
+            <div className="text-muted-foreground space-y-1 text-xs">
               <div>
                 Delivery:{" "}
                 {reportCardConfig.autoSend.mode === "immediate"
@@ -1434,7 +1434,7 @@ export function ReportCardsModule({
       </Dialog>
 
       <Dialog open={isViewModalOpen} onOpenChange={setIsViewModalOpen}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <PawPrint className="h-5 w-5" />
@@ -1446,20 +1446,20 @@ export function ReportCardsModule({
               {/* Full themed card */}
               <div
                 className={cn(
-                  "relative rounded-2xl overflow-hidden border",
+                  "relative overflow-hidden rounded-2xl border",
                   viewingThemeMeta.cardBg,
                 )}
               >
                 {/* Decorative corner icon */}
                 <viewingThemeMeta.DecorativeIcon
                   className={cn(
-                    "absolute h-20 w-20 opacity-[0.06] text-gray-900",
+                    "absolute h-20 w-20 text-gray-900 opacity-[0.06]",
                     viewingThemeMeta.iconPosition === "top-right" &&
                       "-top-1 -right-1",
                     viewingThemeMeta.iconPosition === "top-left" &&
                       "-top-1 -left-1",
                     viewingThemeMeta.iconPosition === "bottom-right" &&
-                      "-bottom-1 -right-1",
+                      "-right-1 -bottom-1",
                     viewingThemeMeta.iconPosition === "bottom-left" &&
                       "-bottom-1 -left-1",
                   )}
@@ -1468,7 +1468,7 @@ export function ReportCardsModule({
                 {/* Themed accent header */}
                 <div
                   className={cn(
-                    "px-5 py-3 flex items-center gap-2",
+                    "flex items-center gap-2 px-5 py-3",
                     viewingThemeMeta.accentBg,
                     viewingThemeMeta.accentText,
                   )}
@@ -1484,7 +1484,7 @@ export function ReportCardsModule({
                   {/* Date band */}
                   <div
                     className={cn(
-                      "px-4 py-2.5 text-sm font-medium rounded-lg mb-4",
+                      "mb-4 rounded-lg px-4 py-2.5 text-sm font-medium",
                       viewingThemeMeta.accentBg,
                       viewingThemeMeta.accentText,
                     )}
@@ -1501,7 +1501,7 @@ export function ReportCardsModule({
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="h-12 w-12 rounded-lg border bg-white flex items-center justify-center overflow-hidden">
+                        <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-lg border bg-white">
                           {profile.logo ? (
                             <Image
                               src={profile.logo}
@@ -1511,32 +1511,32 @@ export function ReportCardsModule({
                               className="h-full w-full object-contain"
                             />
                           ) : (
-                            <PawPrint className="h-5 w-5 text-muted-foreground" />
+                            <PawPrint className="text-muted-foreground h-5 w-5" />
                           )}
                         </div>
                         <div>
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-muted-foreground text-sm">
                             Facility
                           </p>
                           <p className="font-semibold">{facilityName}</p>
                         </div>
                       </div>
                     </div>
-                    <div className="grid gap-3 md:grid-cols-2 text-sm">
+                    <div className="grid gap-3 text-sm md:grid-cols-2">
                       <div>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-muted-foreground text-xs">
                           Dog name
                         </p>
                         <p className="font-medium">{viewingCard.petName}</p>
                       </div>
                       <div>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-muted-foreground text-xs">
                           Parent name
                         </p>
                         <p className="font-medium">{viewingCard.ownerName}</p>
                       </div>
                       <div>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-muted-foreground text-xs">
                           Service type
                         </p>
                         <p className="font-medium capitalize">
@@ -1544,7 +1544,7 @@ export function ReportCardsModule({
                         </p>
                       </div>
                       <div>
-                        <p className="text-xs text-muted-foreground">Theme</p>
+                        <p className="text-muted-foreground text-xs">Theme</p>
                         <p className="font-medium">
                           {viewingThemeMeta.emoji} {viewingThemeMeta.label}
                         </p>
@@ -1556,19 +1556,19 @@ export function ReportCardsModule({
 
               <div className="space-y-3">
                 <h3 className="font-semibold">Today&apos;s vibe</h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   {viewingCard.generated.todaysVibe}
                 </p>
               </div>
               <div className="space-y-3">
                 <h3 className="font-semibold">Friends & fun</h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   {viewingCard.generated.friendsAndFun}
                 </p>
               </div>
               <div className="space-y-3">
                 <h3 className="font-semibold">Care metrics</h3>
-                <div className="space-y-2 text-sm text-muted-foreground">
+                <div className="text-muted-foreground space-y-2 text-sm">
                   {viewingCard.generated.careMetrics
                     .split("\n")
                     .filter(Boolean)
@@ -1596,7 +1596,7 @@ export function ReportCardsModule({
                     {holidaySectionTitles[viewingCard.theme] ??
                       "Holiday special moment"}
                   </h3>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     {viewingCard.generated.holidaySparkle}
                   </p>
                 </div>
@@ -1606,7 +1606,7 @@ export function ReportCardsModule({
                   <h3 className="font-semibold">
                     {overallFeedbackConfig.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     {viewingCard.input.overallFeedback}
                   </p>
                 </div>
@@ -1615,7 +1615,7 @@ export function ReportCardsModule({
                 Object.keys(viewingCard.input.customAnswers).length > 0 && (
                   <div className="space-y-3">
                     <h3 className="font-semibold">Custom Feedback</h3>
-                    <div className="space-y-2 text-sm text-muted-foreground">
+                    <div className="text-muted-foreground space-y-2 text-sm">
                       {Object.entries(viewingCard.input.customAnswers).map(
                         ([qId, answer]) => {
                           const question = customQuestionsConfig.find(
@@ -1623,7 +1623,7 @@ export function ReportCardsModule({
                           );
                           return (
                             <div key={qId}>
-                              <p className="font-medium text-foreground text-xs">
+                              <p className="text-foreground text-xs font-medium">
                                 {question?.question ?? qId}
                               </p>
                               <p>{answer}</p>
@@ -1646,7 +1646,7 @@ export function ReportCardsModule({
                           );
                           return (
                             <div key={catId}>
-                              <p className="text-xs text-muted-foreground">
+                              <p className="text-muted-foreground text-xs">
                                 {cat?.label ?? catId}
                               </p>
                               <p className="font-medium">{value}</p>
@@ -1659,21 +1659,21 @@ export function ReportCardsModule({
                 )}
               <div className="space-y-3">
                 <h3 className="font-semibold">A Personal Note from the Team</h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   💖 From our team:
                 </p>
-                <p className="text-sm text-muted-foreground italic">
+                <p className="text-muted-foreground text-sm italic">
                   &quot;{viewingCard.input.closingComment}&quot;
                 </p>
               </div>
 
-              <div className="space-y-1 text-sm text-muted-foreground">
-                <p className="font-medium text-foreground">With love,</p>
+              <div className="text-muted-foreground space-y-1 text-sm">
+                <p className="text-foreground font-medium">With love,</p>
                 <p>The {viewingCard.facilityName} Team 🐶</p>
                 <p>
                   Thanks for trusting us with {viewingCard.petName}&apos;s day!
                 </p>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   Reply to this message if you have any questions 💬
                 </p>
               </div>
@@ -1682,7 +1682,7 @@ export function ReportCardsModule({
                 <h3 className="font-semibold">Photo Highlight</h3>
                 {viewingCard.photos.length > 0 ? (
                   <div className="space-y-3">
-                    <div className="relative w-full h-56 rounded-xl overflow-hidden border bg-muted">
+                    <div className="bg-muted relative h-56 w-full overflow-hidden rounded-xl border">
                       <Image
                         src={viewingCard.photos[0]}
                         alt="Report card hero"
@@ -1695,7 +1695,7 @@ export function ReportCardsModule({
                         {viewingCard.photos.slice(1).map((photo, index) => (
                           <div
                             key={`${photo}-${index}`}
-                            className="w-20 h-20 rounded-lg border overflow-hidden bg-muted"
+                            className="bg-muted h-20 w-20 overflow-hidden rounded-lg border"
                           >
                             <Image
                               src={photo}
@@ -1710,20 +1710,20 @@ export function ReportCardsModule({
                     )}
                   </div>
                 ) : (
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     No photos attached.
                   </p>
                 )}
               </div>
 
               <div className="border-t pt-4">
-                <div className="text-xs uppercase tracking-wide text-muted-foreground mb-2">
+                <div className="text-muted-foreground mb-2 text-xs tracking-wide uppercase">
                   Internal delivery controls
                 </div>
                 <div className="flex items-center justify-between">
                   {viewingCard.delivery.status === "sent" ? (
                     <Badge variant="success">
-                      <Check className="h-3 w-3 mr-1" />
+                      <Check className="mr-1 h-3 w-3" />
                       Sent
                       {viewingCard.delivery.sentAt &&
                         ` at ${new Date(
@@ -1732,7 +1732,7 @@ export function ReportCardsModule({
                     </Badge>
                   ) : viewingCard.delivery.status === "scheduled" ? (
                     <Badge variant="secondary">
-                      <CalendarClock className="h-3 w-3 mr-1" />
+                      <CalendarClock className="mr-1 h-3 w-3" />
                       Scheduled for{" "}
                       {viewingCard.delivery.scheduledFor
                         ? new Date(
@@ -1745,7 +1745,7 @@ export function ReportCardsModule({
                   )}
                   {viewingCard.delivery.status !== "sent" && (
                     <Button onClick={() => handleSendNow(viewingCard.id)}>
-                      <Send className="h-4 w-4 mr-2" />
+                      <Send className="mr-2 size-4" />
                       Send now
                     </Button>
                   )}

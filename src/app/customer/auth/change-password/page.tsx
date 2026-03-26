@@ -88,10 +88,10 @@ export default function ChangePasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted/20 to-background p-4">
+    <div className="from-background via-muted/20 to-background flex min-h-screen items-center justify-center bg-linear-to-br p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
-          <div className="flex justify-center mb-4">
+          <div className="mb-4 flex justify-center">
             <Image
               src="/yipyy-transparent.png"
               alt="Yipyy"
@@ -108,7 +108,7 @@ export default function ChangePasswordPage() {
             <div className="space-y-2">
               <Label htmlFor="currentPassword">Current Password</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Lock className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
                 <Input
                   id="currentPassword"
                   type={showCurrentPassword ? "text" : "password"}
@@ -120,23 +120,23 @@ export default function ChangePasswordPage() {
                       currentPassword: e.target.value,
                     })
                   }
-                  className="pl-9 pr-9"
+                  className="px-9"
                   aria-invalid={errors.currentPassword ? "true" : "false"}
                 />
                 <button
                   type="button"
                   onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2"
                 >
                   {showCurrentPassword ? (
-                    <EyeOff className="h-4 w-4" />
+                    <EyeOff className="size-4" />
                   ) : (
-                    <Eye className="h-4 w-4" />
+                    <Eye className="size-4" />
                   )}
                 </button>
               </div>
               {errors.currentPassword && (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {errors.currentPassword}
                 </p>
               )}
@@ -145,7 +145,7 @@ export default function ChangePasswordPage() {
             <div className="space-y-2">
               <Label htmlFor="newPassword">New Password</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Lock className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
                 <Input
                   id="newPassword"
                   type={showNewPassword ? "text" : "password"}
@@ -154,30 +154,30 @@ export default function ChangePasswordPage() {
                   onChange={(e) =>
                     setFormData({ ...formData, newPassword: e.target.value })
                   }
-                  className="pl-9 pr-9"
+                  className="px-9"
                   aria-invalid={errors.newPassword ? "true" : "false"}
                 />
                 <button
                   type="button"
                   onClick={() => setShowNewPassword(!showNewPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2"
                 >
                   {showNewPassword ? (
-                    <EyeOff className="h-4 w-4" />
+                    <EyeOff className="size-4" />
                   ) : (
-                    <Eye className="h-4 w-4" />
+                    <Eye className="size-4" />
                   )}
                 </button>
               </div>
               {errors.newPassword && (
-                <p className="text-sm text-destructive">{errors.newPassword}</p>
+                <p className="text-destructive text-sm">{errors.newPassword}</p>
               )}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="confirmPassword">Confirm New Password</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Lock className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
                 <Input
                   id="confirmPassword"
                   type={showConfirmPassword ? "text" : "password"}
@@ -189,23 +189,23 @@ export default function ChangePasswordPage() {
                       confirmPassword: e.target.value,
                     })
                   }
-                  className="pl-9 pr-9"
+                  className="px-9"
                   aria-invalid={errors.confirmPassword ? "true" : "false"}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2"
                 >
                   {showConfirmPassword ? (
-                    <EyeOff className="h-4 w-4" />
+                    <EyeOff className="size-4" />
                   ) : (
-                    <Eye className="h-4 w-4" />
+                    <Eye className="size-4" />
                   )}
                 </button>
               </div>
               {errors.confirmPassword && (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {errors.confirmPassword}
                 </p>
               )}
@@ -214,7 +214,7 @@ export default function ChangePasswordPage() {
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="mr-2 size-4 animate-spin" />
                   Changing password...
                 </>
               ) : (

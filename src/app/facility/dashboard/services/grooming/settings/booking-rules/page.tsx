@@ -260,7 +260,7 @@ export default function GroomingBookingRulesPage() {
           </p>
         </div>
         <Button onClick={handleSave} disabled={isSaving}>
-          <Save className="mr-2 h-4 w-4" />
+          <Save className="mr-2 size-4" />
           {isSaving ? "Saving..." : "Save All Changes"}
         </Button>
       </div>
@@ -294,7 +294,7 @@ export default function GroomingBookingRulesPage() {
               {serviceCatalog.map((service) => (
                 <TableRow key={service.id}>
                   <TableCell>
-                    <GripVertical className="h-4 w-4 text-muted-foreground cursor-move" />
+                    <GripVertical className="text-muted-foreground size-4 cursor-move" />
                   </TableCell>
                   <TableCell className="font-medium">{service.name}</TableCell>
                   <TableCell>
@@ -419,11 +419,11 @@ export default function GroomingBookingRulesPage() {
           {addOnRestrictions.map((restriction) => (
             <div
               key={restriction.id}
-              className="flex items-center gap-4 p-4 border rounded-lg"
+              className="flex items-center gap-4 rounded-lg border p-4"
             >
               <div className="flex-1">
                 <p className="font-medium">{restriction.addOnName}</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   {restriction.condition === "requires"
                     ? `Requires: ${restriction.requiresServiceName}`
                     : `Excludes: ${restriction.requiresServiceName}`}
@@ -438,12 +438,12 @@ export default function GroomingBookingRulesPage() {
                   );
                 }}
               >
-                <Trash2 className="h-4 w-4" />
+                <Trash2 className="size-4" />
               </Button>
             </div>
           ))}
           <Button variant="outline" onClick={() => {}}>
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus className="mr-2 size-4" />
             Add Restriction
           </Button>
         </CardContent>
@@ -463,7 +463,7 @@ export default function GroomingBookingRulesPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           {schedulingRules.map((rule) => (
-            <div key={rule.id} className="p-4 border rounded-lg space-y-3">
+            <div key={rule.id} className="space-y-3 rounded-lg border p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Switch
@@ -483,7 +483,7 @@ export default function GroomingBookingRulesPage() {
                   size="sm"
                   onClick={() => removeSchedulingRule(rule.id)}
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <Trash2 className="size-4" />
                 </Button>
               </div>
               {rule.type === "advance_booking" && (
@@ -567,7 +567,7 @@ export default function GroomingBookingRulesPage() {
             </div>
           ))}
           <Button variant="outline" onClick={addSchedulingRule}>
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus className="mr-2 size-4" />
             Add Scheduling Rule
           </Button>
         </CardContent>
@@ -589,12 +589,12 @@ export default function GroomingBookingRulesPage() {
           {groomerBuffers.map((groomer) => (
             <div
               key={groomer.groomerId}
-              className="p-4 border rounded-lg space-y-3"
+              className="space-y-3 rounded-lg border p-4"
             >
               <h4 className="font-medium">{groomer.groomerName}</h4>
               {groomer.buffers.map((buffer) => (
                 <div key={buffer.id} className="flex items-center gap-4">
-                  <div className="flex-1 grid grid-cols-3 gap-2">
+                  <div className="grid flex-1 grid-cols-3 gap-2">
                     <Input
                       type="time"
                       value={buffer.startTime}
@@ -701,7 +701,7 @@ export default function GroomingBookingRulesPage() {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Enable Capacity Guard</Label>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 Automatically stop online bookings when capacity threshold is
                 reached
               </p>
@@ -730,7 +730,7 @@ export default function GroomingBookingRulesPage() {
                       });
                     }}
                   />
-                  <p className="text-xs text-muted-foreground mt-1">
+                  <p className="text-muted-foreground mt-1 text-xs">
                     Stop online booking when {capacityGuard.threshold}% of slots
                     are full
                   </p>
@@ -788,9 +788,9 @@ export default function GroomingBookingRulesPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           {blackoutDates.map((blackout) => (
-            <div key={blackout.id} className="p-4 border rounded-lg space-y-3">
+            <div key={blackout.id} className="space-y-3 rounded-lg border p-4">
               <div className="flex items-center justify-between">
-                <div className="flex-1 grid grid-cols-3 gap-4">
+                <div className="grid flex-1 grid-cols-3 gap-4">
                   <div>
                     <Label>Start Date</Label>
                     <Input
@@ -845,7 +845,7 @@ export default function GroomingBookingRulesPage() {
                   size="sm"
                   onClick={() => removeBlackoutDate(blackout.id)}
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <Trash2 className="size-4" />
                 </Button>
               </div>
               <div className="flex items-center gap-2">
@@ -868,7 +868,7 @@ export default function GroomingBookingRulesPage() {
             </div>
           ))}
           <Button variant="outline" onClick={addBlackoutDate}>
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus className="mr-2 size-4" />
             Add Blackout Date
           </Button>
         </CardContent>

@@ -386,12 +386,12 @@ export function StaffConflictDetector({
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">
+                <p className="text-muted-foreground text-sm font-medium">
                   Total Conflicts
                 </p>
                 <p className="text-2xl font-bold">{activeConflicts.length}</p>
               </div>
-              <AlertTriangle className="h-8 w-8 text-muted-foreground" />
+              <AlertTriangle className="text-muted-foreground h-8 w-8" />
             </div>
           </CardContent>
         </Card>
@@ -400,7 +400,7 @@ export function StaffConflictDetector({
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">
+                <p className="text-muted-foreground text-sm font-medium">
                   Critical
                 </p>
                 <p className="text-2xl font-bold text-red-600">
@@ -416,7 +416,7 @@ export function StaffConflictDetector({
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">
+                <p className="text-muted-foreground text-sm font-medium">
                   Warnings
                 </p>
                 <p className="text-2xl font-bold text-yellow-600">
@@ -434,11 +434,11 @@ export function StaffConflictDetector({
         {activeConflicts.length === 0 ? (
           <Card>
             <CardContent className="py-12 text-center">
-              <CheckCircle className="h-12 w-12 text-green-500 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">
+              <CheckCircle className="mx-auto mb-4 h-12 w-12 text-green-500" />
+              <h3 className="mb-2 text-lg font-semibold">
                 No Conflicts Detected
               </h3>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 All staff schedules are optimized with no conflicts.
               </p>
             </CardContent>
@@ -447,14 +447,14 @@ export function StaffConflictDetector({
           activeConflicts.map((conflict) => (
             <Card
               key={conflict.id}
-              className={`border-2 ${getSeverityColor(conflict.severity)}`}
+              className={`border-2 ${getSeverityColor(conflict.severity)} `}
             >
               <CardHeader className="pb-3">
                 <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-start gap-3 flex-1">
+                  <div className="flex flex-1 items-start gap-3">
                     {getSeverityIcon(conflict.severity)}
                     <div className="flex-1">
-                      <div className="flex items-center gap-2 flex-wrap mb-2">
+                      <div className="mb-2 flex flex-wrap items-center gap-2">
                         <CardTitle className="text-base">
                           {conflict.staffName}
                         </CardTitle>
@@ -462,7 +462,7 @@ export function StaffConflictDetector({
                           {getConflictTypeBadge(conflict.conflictType)}
                         </Badge>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="text-muted-foreground flex items-center gap-2 text-sm">
                         <span>📅 {conflict.date}</span>
                         <span>•</span>
                         <span>⏰ {conflict.timeSlot}</span>
@@ -476,16 +476,16 @@ export function StaffConflictDetector({
                       setResolvedIds((prev) => new Set(prev).add(conflict.id))
                     }
                   >
-                    <X className="h-4 w-4" />
+                    <X className="size-4" />
                   </Button>
                 </div>
               </CardHeader>
 
               <CardContent className="space-y-4">
                 {/* Description */}
-                <div className="p-3 bg-muted/50 rounded-lg border">
-                  <p className="text-sm font-medium mb-1">⚠️ Issue</p>
-                  <p className="text-sm text-muted-foreground">
+                <div className="bg-muted/50 rounded-lg border p-3">
+                  <p className="mb-1 text-sm font-medium">⚠️ Issue</p>
+                  <p className="text-muted-foreground text-sm">
                     {conflict.message}
                   </p>
                 </div>
@@ -494,7 +494,7 @@ export function StaffConflictDetector({
                 {conflict.conflictingShift && (
                   <div className="space-y-2">
                     <p className="text-sm font-medium">Conflicting Shift:</p>
-                    <div className="p-2 bg-muted/50 rounded border text-sm">
+                    <div className="bg-muted/50 rounded-sm border p-2 text-sm">
                       <div className="flex items-center justify-between">
                         <span className="font-medium">
                           {conflict.conflictingShift.staffName}
@@ -503,7 +503,7 @@ export function StaffConflictDetector({
                           Shift #{conflict.conflictingShift.id}
                         </Badge>
                       </div>
-                      <p className="text-xs text-muted-foreground mt-1">
+                      <p className="text-muted-foreground mt-1 text-xs">
                         {conflict.conflictingShift.date} (
                         {conflict.conflictingShift.startTime} -{" "}
                         {conflict.conflictingShift.endTime})
@@ -513,7 +513,7 @@ export function StaffConflictDetector({
                 )}
 
                 {/* Action Buttons */}
-                <div className="flex items-center gap-2 pt-2 border-t">
+                <div className="flex items-center gap-2 border-t pt-2">
                   <Button
                     size="sm"
                     variant="outline"
@@ -524,7 +524,7 @@ export function StaffConflictDetector({
                       setIsReassignModalOpen(true);
                     }}
                   >
-                    <ArrowRightLeft className="h-4 w-4 mr-1" />
+                    <ArrowRightLeft className="mr-1 size-4" />
                     Reassign
                   </Button>
                   <Button
@@ -538,7 +538,7 @@ export function StaffConflictDetector({
                       }
                     }}
                   >
-                    <Edit className="h-4 w-4 mr-1" />
+                    <Edit className="mr-1 size-4" />
                     Edit Shift Time
                   </Button>
                   <Button
@@ -551,7 +551,7 @@ export function StaffConflictDetector({
                       setIsIgnoreModalOpen(true);
                     }}
                   >
-                    <Ban className="h-4 w-4 mr-1" />
+                    <Ban className="mr-1 size-4" />
                     Ignore
                   </Button>
                 </div>
@@ -577,9 +577,9 @@ export function StaffConflictDetector({
 
           {selectedConflict && (
             <div className="space-y-4 py-4">
-              <div className="p-3 bg-muted/50 rounded-lg">
-                <p className="text-sm font-medium mb-1">Current Shift</p>
-                <p className="text-sm text-muted-foreground">
+              <div className="bg-muted/50 rounded-lg p-3">
+                <p className="mb-1 text-sm font-medium">Current Shift</p>
+                <p className="text-muted-foreground text-sm">
                   {selectedConflict.staffName} - {selectedConflict.date} (
                   {selectedConflict.timeSlot})
                 </p>
@@ -604,7 +604,7 @@ export function StaffConflictDetector({
                 </Select>
                 {getAvailableStaffForReassign(selectedConflict).length ===
                   0 && (
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     No available staff found for this shift
                   </p>
                 )}
@@ -668,13 +668,13 @@ export function StaffConflictDetector({
 
           {selectedConflict && (
             <div className="space-y-4 py-4">
-              <div className="p-3 bg-muted/50 rounded-lg">
-                <p className="text-sm font-medium mb-1">Conflict Details</p>
-                <p className="text-sm text-muted-foreground">
+              <div className="bg-muted/50 rounded-lg p-3">
+                <p className="mb-1 text-sm font-medium">Conflict Details</p>
+                <p className="text-muted-foreground text-sm">
                   {selectedConflict.staffName} - {selectedConflict.date} (
                   {selectedConflict.timeSlot})
                 </p>
-                <p className="text-xs text-muted-foreground mt-1">
+                <p className="text-muted-foreground mt-1 text-xs">
                   {selectedConflict.message}
                 </p>
               </div>

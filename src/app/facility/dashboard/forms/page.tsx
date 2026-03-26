@@ -77,7 +77,7 @@ export default function IntakeFormsPage() {
         </div>
         <div className="flex gap-2">
           <Button onClick={() => setCreateModalOpen(true)}>
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus className="mr-2 size-4" />
             Create New
           </Button>
           <Button variant="outline" asChild>
@@ -92,7 +92,7 @@ export default function IntakeFormsPage() {
           </Button>
           <Button variant="outline" asChild>
             <Link href="/facility/dashboard/forms/audit">
-              <Shield className="mr-2 h-4 w-4" />
+              <Shield className="mr-2 size-4" />
               Audit Trail
             </Link>
           </Button>
@@ -106,11 +106,11 @@ export default function IntakeFormsPage() {
 
       <Tabs value={category} onValueChange={(v) => setCategory(v as FormType)}>
         <div className="flex flex-wrap items-center gap-2">
-          <TabsList className="flex flex-wrap h-auto gap-1">
+          <TabsList className="flex h-auto flex-wrap gap-1">
             {FORM_CATEGORIES.map((cat) => (
               <TabsTrigger key={cat.value} value={cat.value}>
                 {cat.value === "internal" && (
-                  <Lock className="mr-1.5 h-3.5 w-3.5 text-muted-foreground" />
+                  <Lock className="text-muted-foreground mr-1.5 h-3.5 w-3.5" />
                 )}
                 {cat.label}
               </TabsTrigger>
@@ -121,7 +121,7 @@ export default function IntakeFormsPage() {
               href="/facility/dashboard/forms/builder?new=1"
               className="gap-2"
             >
-              <PenLine className="h-4 w-4" />
+              <PenLine className="size-4" />
               Form Builder
             </Link>
           </Button>
@@ -138,7 +138,7 @@ export default function IntakeFormsPage() {
                   yet.
                 </p>
                 <Button onClick={() => setCreateModalOpen(true)}>
-                  <Plus className="mr-2 h-4 w-4" />
+                  <Plus className="mr-2 size-4" />
                   Create form
                 </Button>
               </CardContent>
@@ -166,13 +166,13 @@ function statusBadge(status?: string) {
   switch (status) {
     case "published":
       return (
-        <Badge className="text-xs bg-green-100 text-green-800 hover:bg-green-100 border-0">
+        <Badge className="border-0 bg-green-100 text-xs text-green-800 hover:bg-green-100">
           Published
         </Badge>
       );
     case "archived":
       return (
-        <Badge variant="outline" className="text-xs text-muted-foreground">
+        <Badge variant="outline" className="text-muted-foreground text-xs">
           Archived
         </Badge>
       );
@@ -241,13 +241,13 @@ function FormCard({
     <>
       <Card className={form.status === "archived" ? "opacity-60" : ""}>
         <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
-          <div className="space-y-1 min-w-0 flex-1">
+          <div className="min-w-0 flex-1 space-y-1">
             <CardTitle className="text-base font-medium">{form.name}</CardTitle>
             <div className="flex flex-wrap items-center gap-1.5">
               {statusBadge(form.status)}
               {form.internal && (
                 <Badge variant="secondary" className="text-xs">
-                  <Lock className="h-2.5 w-2.5 mr-0.5" />
+                  <Lock className="mr-0.5 h-2.5 w-2.5" />
                   Staff only
                 </Badge>
               )}
@@ -261,7 +261,7 @@ function FormCard({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0">
-                <MoreVertical className="h-4 w-4" />
+                <MoreVertical className="size-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -270,7 +270,7 @@ function FormCard({
                   router.push(`/facility/dashboard/forms/builder?id=${form.id}`)
                 }
               >
-                <Pencil className="h-3.5 w-3.5 mr-2" />
+                <Pencil className="mr-2 h-3.5 w-3.5" />
                 Edit
               </DropdownMenuItem>
               <DropdownMenuItem
@@ -282,12 +282,12 @@ function FormCard({
                     );
                 }}
               >
-                <Copy className="h-3.5 w-3.5 mr-2" />
+                <Copy className="mr-2 h-3.5 w-3.5" />
                 Duplicate
               </DropdownMenuItem>
               {form.status !== "archived" && (
                 <DropdownMenuItem onClick={handleArchive}>
-                  <Archive className="h-3.5 w-3.5 mr-2" />
+                  <Archive className="mr-2 h-3.5 w-3.5" />
                   Archive
                 </DropdownMenuItem>
               )}
@@ -295,14 +295,14 @@ function FormCard({
                 onClick={handleDelete}
                 className="text-destructive focus:text-destructive"
               >
-                <Trash2 className="h-3.5 w-3.5 mr-2" />
+                <Trash2 className="mr-2 h-3.5 w-3.5" />
                 Delete
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </CardHeader>
         <CardContent className="space-y-3">
-          <p className="text-xs text-muted-foreground">
+          <p className="text-muted-foreground text-xs">
             {form.questions.length} question
             {form.questions.length !== 1 ? "s" : ""}
             {form.serviceType && ` · ${form.serviceType}`}
@@ -318,7 +318,7 @@ function FormCard({
                 router.push(`/facility/dashboard/forms/builder?id=${form.id}`)
               }
             >
-              <Pencil className="h-3.5 w-3.5 mr-1" />
+              <Pencil className="mr-1 h-3.5 w-3.5" />
               Edit
             </Button>
             {!form.internal && (
@@ -326,24 +326,24 @@ function FormCard({
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button size="sm" variant="ghost">
-                      <Share2 className="h-3.5 w-3.5 mr-1" />
+                      <Share2 className="mr-1 h-3.5 w-3.5" />
                       Share
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="start">
                     <DropdownMenuItem onClick={copyLink}>
-                      <Copy className="h-3.5 w-3.5 mr-2" />
+                      <Copy className="mr-2 h-3.5 w-3.5" />
                       Copy link
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => setEmbedOpen(true)}>
-                      <Code className="h-3.5 w-3.5 mr-2" />
+                      <Code className="mr-2 h-3.5 w-3.5" />
                       Embed code
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
                 <Button size="sm" variant="ghost" asChild>
                   <a href={sharePath} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                    <ExternalLink className="mr-1 h-3.5 w-3.5" />
                     Open link
                   </a>
                 </Button>
@@ -361,14 +361,14 @@ function FormCard({
           <DialogHeader>
             <DialogTitle>Embed form</DialogTitle>
           </DialogHeader>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Paste this code on your website to embed the form.
           </p>
-          <pre className="rounded bg-muted p-3 text-xs overflow-x-auto max-h-32">
+          <pre className="bg-muted max-h-32 overflow-x-auto rounded-sm p-3 text-xs">
             {embedSnippet}
           </pre>
           <Button onClick={copyEmbed} variant="outline" size="sm">
-            <Copy className="h-3.5 w-3.5 mr-2" />
+            <Copy className="mr-2 h-3.5 w-3.5" />
             Copy embed code
           </Button>
         </DialogContent>

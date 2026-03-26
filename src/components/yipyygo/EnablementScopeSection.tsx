@@ -145,7 +145,7 @@ export function EnablementScopeSection({
               return (
                 <div
                   key={serviceType}
-                  className="flex items-center justify-between p-4 border rounded-lg"
+                  className="flex items-center justify-between rounded-lg border p-4"
                 >
                   <div className="flex items-center gap-3">
                     <Switch
@@ -155,7 +155,7 @@ export function EnablementScopeSection({
                       }
                     />
                     <div className="flex-1">
-                      <Label className="text-base font-medium cursor-pointer">
+                      <Label className="cursor-pointer text-base font-medium">
                         {SERVICE_TYPE_LABELS[serviceType]}
                       </Label>
                       {serviceConfig.enabled && (
@@ -212,7 +212,7 @@ export function EnablementScopeSection({
                 return (
                   <div
                     key={`custom-${actualIndex}`}
-                    className="flex items-center gap-3 p-4 border rounded-lg"
+                    className="flex items-center gap-3 rounded-lg border p-4"
                   >
                     <Switch
                       checked={serviceConfig.enabled}
@@ -264,7 +264,7 @@ export function EnablementScopeSection({
                       size="icon"
                       onClick={() => handleRemoveCustomService(actualIndex)}
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="size-4" />
                     </Button>
                   </div>
                 );
@@ -278,13 +278,13 @@ export function EnablementScopeSection({
             onClick={handleAddCustomService}
             className="w-full"
           >
-            <Plus className="h-4 w-4 mr-2" />
+            <Plus className="mr-2 size-4" />
             Add Custom Service
           </Button>
 
           {/* Info Alert */}
           <Alert>
-            <Info className="h-4 w-4" />
+            <Info className="size-4" />
             <AlertDescription>
               <strong>Mandatory:</strong> Booking cannot be checked-in without
               completion (staff can override if needed).

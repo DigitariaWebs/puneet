@@ -57,11 +57,11 @@ export default function StaffLoginPage() {
   const staffMembers = users.filter((u) => u.role === "Staff");
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 p-4">
+    <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-blue-50 to-indigo-50 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
-          <div className="flex items-center justify-center mb-4">
-            <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-500">
+          <div className="mb-4 flex items-center justify-center">
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-linear-to-br from-blue-500 to-indigo-500">
               <Calendar className="h-6 w-6 text-white" />
             </div>
           </div>
@@ -98,8 +98,8 @@ export default function StaffLoginPage() {
           </form>
 
           {/* Quick Login for Demo */}
-          <div className="mt-6 pt-6 border-t">
-            <p className="text-sm text-muted-foreground text-center mb-3">
+          <div className="mt-6 border-t pt-6">
+            <p className="text-muted-foreground mb-3 text-center text-sm">
               Quick Login (Demo)
             </p>
             <div className="space-y-2">

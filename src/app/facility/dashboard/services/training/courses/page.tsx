@@ -193,7 +193,7 @@ export default function TrainingCourseCatalogPage() {
           </p>
         </div>
         <Button onClick={handleAddNew}>
-          <Plus className="mr-2 h-4 w-4" />
+          <Plus className="mr-2 size-4" />
           Add Course Type
         </Button>
       </div>
@@ -225,7 +225,7 @@ export default function TrainingCourseCatalogPage() {
                 <TableRow>
                   <TableCell
                     colSpan={7}
-                    className="text-center py-8 text-muted-foreground"
+                    className="text-muted-foreground py-8 text-center"
                   >
                     No course types configured. Click &quot;Add Course
                     Type&quot; to get started.
@@ -236,7 +236,7 @@ export default function TrainingCourseCatalogPage() {
                   <TableRow key={course.id}>
                     <TableCell className="font-medium">{course.name}</TableCell>
                     <TableCell className="max-w-md">
-                      <p className="text-sm text-muted-foreground truncate">
+                      <p className="text-muted-foreground truncate text-sm">
                         {course.description}
                       </p>
                     </TableCell>
@@ -263,12 +263,12 @@ export default function TrainingCourseCatalogPage() {
                           variant="default"
                           className="bg-green-100 text-green-700"
                         >
-                          <CheckCircle2 className="h-3 w-3 mr-1" />
+                          <CheckCircle2 className="mr-1 h-3 w-3" />
                           Active
                         </Badge>
                       ) : (
                         <Badge variant="secondary">
-                          <XCircle className="h-3 w-3 mr-1" />
+                          <XCircle className="mr-1 h-3 w-3" />
                           Inactive
                         </Badge>
                       )}
@@ -280,14 +280,14 @@ export default function TrainingCourseCatalogPage() {
                           size="sm"
                           onClick={() => handleEdit(course)}
                         >
-                          <Edit className="h-4 w-4" />
+                          <Edit className="size-4" />
                         </Button>
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => handleDelete(course.id)}
                         >
-                          <Trash2 className="h-4 w-4 text-destructive" />
+                          <Trash2 className="text-destructive size-4" />
                         </Button>
                       </div>
                     </TableCell>
@@ -301,7 +301,7 @@ export default function TrainingCourseCatalogPage() {
 
       {/* Add/Edit Modal */}
       <Dialog open={isAddEditModalOpen} onOpenChange={setIsAddEditModalOpen}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {editingCourse ? "Edit Course Type" : "Add New Course Type"}
@@ -402,7 +402,7 @@ export default function TrainingCourseCatalogPage() {
             {/* Required Vaccines */}
             <div className="space-y-2">
               <Label>Required Vaccines</Label>
-              <div className="grid grid-cols-2 gap-3 p-4 border rounded-lg">
+              <div className="grid grid-cols-2 gap-3 rounded-lg border p-4">
                 {AVAILABLE_VACCINES.map((vaccine) => (
                   <div key={vaccine} className="flex items-center space-x-2">
                     <Checkbox
@@ -429,7 +429,7 @@ export default function TrainingCourseCatalogPage() {
                     />
                     <Label
                       htmlFor={`vaccine-${vaccine}`}
-                      className="text-sm font-normal cursor-pointer"
+                      className="cursor-pointer text-sm font-normal"
                     >
                       {vaccine}
                     </Label>
@@ -464,7 +464,7 @@ export default function TrainingCourseCatalogPage() {
                 </SelectContent>
               </Select>
               {formData.prerequisites.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-2">
+                <div className="mt-2 flex flex-wrap gap-2">
                   {formData.prerequisites.map((prereqId) => {
                     const prereq = courseTypes.find((c) => c.id === prereqId);
                     return (
@@ -483,7 +483,7 @@ export default function TrainingCourseCatalogPage() {
                               ),
                             });
                           }}
-                          className="ml-1 hover:text-destructive"
+                          className="hover:text-destructive ml-1"
                         >
                           <XCircle className="h-3 w-3" />
                         </button>
@@ -492,17 +492,17 @@ export default function TrainingCourseCatalogPage() {
                   })}
                 </div>
               )}
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 Select courses that must be completed before enrolling in this
                 course.
               </p>
             </div>
 
             {/* Active Status */}
-            <div className="flex items-center justify-between p-4 border rounded-lg">
+            <div className="flex items-center justify-between rounded-lg border p-4">
               <div>
                 <Label htmlFor="isActive">Course Active</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Inactive courses won&apos;t appear in client booking options
                 </p>
               </div>

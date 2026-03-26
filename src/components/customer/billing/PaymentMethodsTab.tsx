@@ -167,21 +167,21 @@ export function PaymentMethodsTab() {
           </p>
         </div>
         <Button onClick={() => setIsAddModalOpen(true)}>
-          <Plus className="h-4 w-4 mr-2" />
+          <Plus className="mr-2 size-4" />
           Add Payment Method
         </Button>
       </div>
 
       {customerPaymentMethods.length === 0 ? (
         <Card>
-          <CardContent className="py-12 text-center space-y-3">
-            <CreditCard className="h-12 w-12 mx-auto text-muted-foreground opacity-50" />
+          <CardContent className="space-y-3 py-12 text-center">
+            <CreditCard className="text-muted-foreground mx-auto h-12 w-12 opacity-50" />
             <p className="font-semibold">No payment methods</p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               Add a payment method to make booking and payments easier
             </p>
             <Button onClick={() => setIsAddModalOpen(true)} className="mt-4">
-              <Plus className="h-4 w-4 mr-2" />
+              <Plus className="mr-2 size-4" />
               Add Your First Card
             </Button>
           </CardContent>
@@ -272,12 +272,12 @@ export function PaymentMethodsTab() {
                         disabled={isDeleting === method.id || disableRemove}
                         className="text-destructive hover:text-destructive"
                       >
-                        <Trash2 className="h-4 w-4 mr-1" />
+                        <Trash2 className="mr-1 size-4" />
                         {isDeleting === method.id ? "Removing..." : "Remove"}
                       </Button>
                     </div>
                     {disableRemove && (
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         You can’t remove your only card while an auto-pay
                         membership is active. Please add another card first.
                       </p>
@@ -316,7 +316,7 @@ export function PaymentMethodsTab() {
                 aria-invalid={!!errors.cardNumber}
               />
               {errors.cardNumber && (
-                <p className="text-sm text-destructive flex items-center gap-1">
+                <p className="text-destructive flex items-center gap-1 text-sm">
                   <AlertCircle className="h-3 w-3" />
                   {errors.cardNumber}
                 </p>
@@ -354,7 +354,7 @@ export function PaymentMethodsTab() {
               </div>
             </div>
             {errors.expiry && (
-              <p className="text-sm text-destructive flex items-center gap-1">
+              <p className="text-destructive flex items-center gap-1 text-sm">
                 <AlertCircle className="h-3 w-3" />
                 {errors.expiry}
               </p>
@@ -375,7 +375,7 @@ export function PaymentMethodsTab() {
                 aria-invalid={!!errors.cvc}
               />
               {errors.cvc && (
-                <p className="text-sm text-destructive flex items-center gap-1">
+                <p className="text-destructive flex items-center gap-1 text-sm">
                   <AlertCircle className="h-3 w-3" />
                   {errors.cvc}
                 </p>
@@ -396,7 +396,7 @@ export function PaymentMethodsTab() {
                 aria-invalid={!!errors.cardholderName}
               />
               {errors.cardholderName && (
-                <p className="text-sm text-destructive flex items-center gap-1">
+                <p className="text-destructive flex items-center gap-1 text-sm">
                   <AlertCircle className="h-3 w-3" />
                   {errors.cardholderName}
                 </p>

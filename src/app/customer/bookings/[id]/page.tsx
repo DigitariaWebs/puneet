@@ -80,7 +80,7 @@ export default function BookingDetailPage({
 
   if (!booking) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold">Booking not found</h2>
           <Button
@@ -88,7 +88,7 @@ export default function BookingDetailPage({
             className="mt-4"
             onClick={() => router.push("/customer/bookings")}
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
+            <ArrowLeft className="mr-2 size-4" />
             Back to Bookings
           </Button>
         </div>
@@ -107,7 +107,7 @@ export default function BookingDetailPage({
   );
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
+    <div className="container mx-auto space-y-6 py-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Button
@@ -115,7 +115,7 @@ export default function BookingDetailPage({
             size="sm"
             onClick={() => router.push("/customer/bookings")}
           >
-            <ArrowLeft className="h-4 w-4 mr-2" />
+            <ArrowLeft className="mr-2 size-4" />
             Back
           </Button>
           <div>
@@ -138,9 +138,9 @@ export default function BookingDetailPage({
         </Badge>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Main Content */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="space-y-6 lg:col-span-2">
           {/* Booking Information */}
           <Card>
             <CardHeader>
@@ -149,9 +149,9 @@ export default function BookingDetailPage({
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-start gap-3">
-                  <Calendar className="h-5 w-5 text-muted-foreground mt-0.5" />
+                  <Calendar className="text-muted-foreground mt-0.5 h-5 w-5" />
                   <div>
-                    <p className="text-sm text-muted-foreground">Date</p>
+                    <p className="text-muted-foreground text-sm">Date</p>
                     <p className="font-medium">
                       {bookingDate.toLocaleDateString("en-US", {
                         weekday: "long",
@@ -163,27 +163,27 @@ export default function BookingDetailPage({
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Clock className="h-5 w-5 text-muted-foreground mt-0.5" />
+                  <Clock className="text-muted-foreground mt-0.5 h-5 w-5" />
                   <div>
-                    <p className="text-sm text-muted-foreground">Time</p>
+                    <p className="text-muted-foreground text-sm">Time</p>
                     <p className="font-medium">
                       {booking.checkInTime || "Not specified"}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
+                  <MapPin className="text-muted-foreground mt-0.5 h-5 w-5" />
                   <div>
-                    <p className="text-sm text-muted-foreground">Location</p>
+                    <p className="text-muted-foreground text-sm">Location</p>
                     <p className="font-medium">
                       {isSalon ? "Salon" : "Mobile Van"}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <DollarSign className="h-5 w-5 text-muted-foreground mt-0.5" />
+                  <DollarSign className="text-muted-foreground mt-0.5 h-5 w-5" />
                   <div>
-                    <p className="text-sm text-muted-foreground">Total Cost</p>
+                    <p className="text-muted-foreground text-sm">Total Cost</p>
                     <p className="font-medium">
                       ${booking.totalCost.toFixed(2)}
                     </p>
@@ -200,12 +200,12 @@ export default function BookingDetailPage({
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <p className="text-sm text-muted-foreground mb-1">Service</p>
+                <p className="text-muted-foreground mb-1 text-sm">Service</p>
                 <p className="font-medium">{booking.service}</p>
               </div>
               {booking.extraServices && booking.extraServices.length > 0 && (
                 <div>
-                  <p className="text-sm text-muted-foreground mb-1">Add-ons</p>
+                  <p className="text-muted-foreground mb-1 text-sm">Add-ons</p>
                   <div className="flex flex-wrap gap-2">
                     {booking.extraServices.map((service, index) => {
                       // Handle both string[] (grooming) and ExtraService[] (daycare/boarding) types
@@ -236,7 +236,7 @@ export default function BookingDetailPage({
             <Card className="border-primary/50 bg-primary/5">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <QrCode className="h-5 w-5 text-primary" />
+                  <QrCode className="text-primary h-5 w-5" />
                   Fast-track check-in QR
                 </CardTitle>
                 <CardDescription>
@@ -245,7 +245,7 @@ export default function BookingDetailPage({
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col items-center">
-                <div className="p-4 bg-white rounded-xl shadow-sm">
+                <div className="rounded-xl bg-white p-4 shadow-sm">
                   <CheckInQRCode
                     token={yipyyGoForm!.qrCheckInToken!}
                     size={200}
@@ -297,7 +297,7 @@ export default function BookingDetailPage({
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     The mobile grooming van will arrive at your location.
                     You&apos;ll be notified when they&apos;re on their way.
                   </p>
@@ -317,25 +317,25 @@ export default function BookingDetailPage({
               {customer && (
                 <>
                   <div className="flex items-start gap-3">
-                    <User className="h-5 w-5 text-muted-foreground mt-0.5" />
+                    <User className="text-muted-foreground mt-0.5 h-5 w-5" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Name</p>
+                      <p className="text-muted-foreground text-sm">Name</p>
                       <p className="font-medium">{customer.name}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Phone className="h-5 w-5 text-muted-foreground mt-0.5" />
+                    <Phone className="text-muted-foreground mt-0.5 h-5 w-5" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Phone</p>
+                      <p className="text-muted-foreground text-sm">Phone</p>
                       <p className="font-medium">
                         {customer.phone || "Not provided"}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Mail className="h-5 w-5 text-muted-foreground mt-0.5" />
+                    <Mail className="text-muted-foreground mt-0.5 h-5 w-5" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Email</p>
+                      <p className="text-muted-foreground text-sm">Email</p>
                       <p className="font-medium">
                         {customer.email || "Not provided"}
                       </p>
@@ -362,7 +362,7 @@ export default function BookingDetailPage({
                     <Link
                       href={`/customer/bookings/${booking.id}/yipyygo-form`}
                     >
-                      <FileText className="mr-2 h-4 w-4" />
+                      <FileText className="mr-2 size-4" />
                       Complete YipyyGo Form
                     </Link>
                   </Button>

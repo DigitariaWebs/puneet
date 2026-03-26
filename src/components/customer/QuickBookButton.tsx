@@ -76,7 +76,7 @@ export function QuickBookButton() {
     return (
       <Button asChild className="gap-2">
         <Link href={serviceInfo.href}>
-          <Icon className="h-4 w-4" />
+          <Icon className="size-4" />
           <span>Book {serviceInfo.label}</span>
         </Link>
       </Button>
@@ -88,9 +88,9 @@ export function QuickBookButton() {
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <Button className="gap-2">
-          <Calendar className="h-4 w-4" />
+          <Calendar className="size-4" />
           <span>Book a Service</span>
-          <ChevronDown className="h-4 w-4" />
+          <ChevronDown className="size-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
@@ -101,7 +101,7 @@ export function QuickBookButton() {
           return (
             <DropdownMenuItem key={service} asChild>
               <Link href={serviceInfo.href} className="cursor-pointer">
-                <Icon className="mr-2 h-4 w-4" />
+                <Icon className="mr-2 size-4" />
                 {serviceInfo.label}
               </Link>
             </DropdownMenuItem>

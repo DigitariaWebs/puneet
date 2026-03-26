@@ -221,12 +221,12 @@ export function ComposeMessageModal({ onClose }: ComposeMessageModalProps) {
             rows={formData.type === "sms" ? 5 : 10}
           />
           {formData.type === "sms" && (
-            <div className="text-xs text-muted-foreground space-y-0.5">
+            <div className="text-muted-foreground space-y-0.5 text-xs">
               <p>{formData.body.length} / 160 characters (template)</p>
               {estimatedSmsLength !== null && (
                 <p
                   className={
-                    estimatedSmsLength > 160 ? "text-amber-600 font-medium" : ""
+                    estimatedSmsLength > 160 ? "font-medium text-amber-600" : ""
                   }
                 >
                   ~{estimatedSmsLength} / 160 characters (estimated after
@@ -248,11 +248,11 @@ export function ComposeMessageModal({ onClose }: ComposeMessageModalProps) {
         {/* File Attachments (Email only) */}
         {formData.type === "email" && (
           <Card>
-            <CardContent className="pt-6 space-y-4">
+            <CardContent className="space-y-4 pt-6">
               <div className="flex items-center justify-between">
                 <Label>Attachments</Label>
                 <Button variant="outline" size="sm" onClick={handleFileAttach}>
-                  <Paperclip className="h-4 w-4 mr-2" />
+                  <Paperclip className="mr-2 size-4" />
                   Attach File
                 </Button>
               </div>
@@ -262,12 +262,12 @@ export function ComposeMessageModal({ onClose }: ComposeMessageModalProps) {
                   {attachments.map((file, idx) => (
                     <div
                       key={idx}
-                      className="flex items-center justify-between p-2 border rounded"
+                      className="flex items-center justify-between rounded-sm border p-2"
                     >
                       <div className="flex items-center gap-2">
-                        <Paperclip className="h-4 w-4 text-muted-foreground" />
+                        <Paperclip className="text-muted-foreground size-4" />
                         <span className="text-sm">{file.name}</span>
-                        <span className="text-xs text-muted-foreground">
+                        <span className="text-muted-foreground text-xs">
                           ({(file.size / 1024).toFixed(1)} KB)
                         </span>
                       </div>
@@ -277,7 +277,7 @@ export function ComposeMessageModal({ onClose }: ComposeMessageModalProps) {
                         aria-label={`Remove ${file.name}`}
                         onClick={() => handleRemoveAttachment(idx)}
                       >
-                        <X className="h-4 w-4" />
+                        <X className="size-4" />
                       </Button>
                     </div>
                   ))}
@@ -300,7 +300,7 @@ export function ComposeMessageModal({ onClose }: ComposeMessageModalProps) {
             (formData.type === "email" && !formData.subject)
           }
         >
-          <Send className="h-4 w-4 mr-2" />
+          <Send className="mr-2 size-4" />
           Send {formData.type === "email" ? "Email" : "SMS"}
         </Button>
       </DialogFooter>

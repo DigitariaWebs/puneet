@@ -68,10 +68,10 @@ export default function ForgotPasswordPage() {
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted/20 to-background p-4">
+      <div className="from-background via-muted/20 to-background flex min-h-screen items-center justify-center bg-linear-to-br p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-1 text-center">
-            <div className="flex justify-center mb-4">
+            <div className="mb-4 flex justify-center">
               <Image
                 src="/yipyy-transparent.png"
                 alt="Yipyy"
@@ -88,7 +88,7 @@ export default function ForgotPasswordPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="rounded-lg bg-muted p-4 text-sm text-muted-foreground">
+            <div className="bg-muted text-muted-foreground rounded-lg p-4 text-sm">
               <p className="mb-2">
                 If an account exists with this email, you&apos;ll receive
                 instructions to reset your password.
@@ -107,7 +107,7 @@ export default function ForgotPasswordPage() {
                 }}
                 className="w-full"
               >
-                <Mail className="mr-2 h-4 w-4" />
+                <Mail className="mr-2 size-4" />
                 Resend email
               </Button>
               <Button
@@ -115,7 +115,7 @@ export default function ForgotPasswordPage() {
                 onClick={() => router.push("/customer/auth/login")}
                 className="w-full"
               >
-                <ArrowLeft className="mr-2 h-4 w-4" />
+                <ArrowLeft className="mr-2 size-4" />
                 Back to login
               </Button>
             </div>
@@ -126,10 +126,10 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted/20 to-background p-4">
+    <div className="from-background via-muted/20 to-background flex min-h-screen items-center justify-center bg-linear-to-br p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
-          <div className="flex justify-center mb-4">
+          <div className="mb-4 flex justify-center">
             <Image
               src="/yipyy-transparent.png"
               alt="Yipyy"
@@ -149,7 +149,7 @@ export default function ForgotPasswordPage() {
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Mail className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
                 <Input
                   id="email"
                   type="email"
@@ -163,18 +163,18 @@ export default function ForgotPasswordPage() {
                   aria-invalid={error ? "true" : "false"}
                 />
               </div>
-              {error && <p className="text-sm text-destructive">{error}</p>}
+              {error && <p className="text-destructive text-sm">{error}</p>}
             </div>
 
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="mr-2 size-4 animate-spin" />
                   Sending...
                 </>
               ) : (
                 <>
-                  <Mail className="mr-2 h-4 w-4" />
+                  <Mail className="mr-2 size-4" />
                   Send reset link
                 </>
               )}
@@ -184,9 +184,9 @@ export default function ForgotPasswordPage() {
           <div className="text-center">
             <Link
               href="/customer/auth/login"
-              className="text-sm text-primary hover:underline inline-flex items-center"
+              className="text-primary inline-flex items-center text-sm hover:underline"
             >
-              <ArrowLeft className="mr-1 h-3 w-3" />
+              <ArrowLeft className="mr-1 size-3" />
               Back to login
             </Link>
           </div>

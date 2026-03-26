@@ -84,7 +84,7 @@ export function CustomerHeader() {
   }, [selectedFacility]);
 
   return (
-    <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between gap-4 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4 md:px-6">
+    <header className="bg-background/95 supports-backdrop-filter:bg-background/60 sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between gap-4 border-b px-4 backdrop-blur-sm md:px-6">
       <div className="flex items-center gap-4">
         {/* Facility Logo and Name */}
         <Link href="/customer/dashboard" className="flex items-center gap-3">
@@ -106,10 +106,10 @@ export function CustomerHeader() {
             />
           )}
           <div className="hidden sm:block">
-            <div className="font-semibold text-sm">
+            <div className="text-sm font-semibold">
               {selectedFacility?.name ?? "Yipyy"}
             </div>
-            <div className="text-xs text-muted-foreground">Customer Portal</div>
+            <div className="text-muted-foreground text-xs">Customer Portal</div>
           </div>
         </Link>
       </div>
@@ -138,7 +138,7 @@ export function CustomerHeader() {
           <DropdownMenuContent align="end" className="w-56">
             <div className="px-2 py-1.5">
               <p className="text-sm font-medium">Customer Account</p>
-              <p className="text-xs text-muted-foreground truncate">
+              <p className="text-muted-foreground truncate text-xs">
                 {/* TODO: Get from auth context */}
                 customer@example.com
               </p>
@@ -146,37 +146,37 @@ export function CustomerHeader() {
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link href="/customer/dashboard" className="cursor-pointer">
-                <User className="mr-2 h-4 w-4" />
+                <User className="mr-2 size-4" />
                 Dashboard
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link href="/customer/messages" className="cursor-pointer">
-                <MessageSquare className="mr-2 h-4 w-4" />
+                <MessageSquare className="mr-2 size-4" />
                 Messages
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link href="/customer/report-cards" className="cursor-pointer">
-                <FileText className="mr-2 h-4 w-4" />
+                <FileText className="mr-2 size-4" />
                 Report Cards
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link href="/customer/billing" className="cursor-pointer">
-                <CreditCard className="mr-2 h-4 w-4" />
+                <CreditCard className="mr-2 size-4" />
                 Billing & Payments
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link href="/customer/pets" className="cursor-pointer">
-                <Dog className="mr-2 h-4 w-4" />
+                <Dog className="mr-2 size-4" />
                 My Pets
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link href="/customer/settings" className="cursor-pointer">
-                <Settings className="mr-2 h-4 w-4" />
+                <Settings className="mr-2 size-4" />
                 Settings
               </Link>
             </DropdownMenuItem>
@@ -186,7 +186,7 @@ export function CustomerHeader() {
               disabled={isPending}
               className="cursor-pointer"
             >
-              <Building2 className="mr-2 h-4 w-4" />
+              <Building2 className="mr-2 size-4" />
               Switch to Facility
             </DropdownMenuItem>
             <DropdownMenuItem
@@ -198,7 +198,7 @@ export function CustomerHeader() {
               disabled={isPending}
               className="cursor-pointer"
             >
-              <User className="mr-2 h-4 w-4" />
+              <User className="mr-2 size-4" />
               Switch to Customer
             </DropdownMenuItem>
             <DropdownMenuItem
@@ -206,7 +206,7 @@ export function CustomerHeader() {
               disabled={isPending}
               className="cursor-pointer"
             >
-              <Shield className="mr-2 h-4 w-4" />
+              <Shield className="mr-2 size-4" />
               Switch to Admin
             </DropdownMenuItem>
             <DropdownMenuSeparator />
@@ -215,9 +215,9 @@ export function CustomerHeader() {
                 // TODO: Implement logout
                 window.location.href = "/customer/auth/login";
               }}
-              className="cursor-pointer text-destructive focus:text-destructive"
+              className="text-destructive focus:text-destructive cursor-pointer"
             >
-              <LogOut className="mr-2 h-4 w-4" />
+              <LogOut className="mr-2 size-4" />
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>

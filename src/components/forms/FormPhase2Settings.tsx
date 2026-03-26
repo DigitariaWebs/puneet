@@ -114,11 +114,11 @@ export function FormPhase2Settings({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base flex items-center gap-2">
-          <ShieldCheck className="h-4 w-4 text-primary" />
+        <CardTitle className="flex items-center gap-2 text-base">
+          <ShieldCheck className="text-primary size-4" />
           Advanced (Phase 2)
         </CardTitle>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-muted-foreground text-xs">
           Scoring, multi-language, e-signatures, and payment blocks.
         </p>
       </CardHeader>
@@ -128,22 +128,22 @@ export function FormPhase2Settings({
           role="button"
           tabIndex={0}
           onClick={() => toggle("scoring")}
-          className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-muted/50 transition-colors text-left cursor-pointer"
+          className="hover:bg-muted/50 flex w-full cursor-pointer items-center justify-between rounded-lg p-3 text-left transition-colors"
         >
           <div className="flex items-center gap-3">
-            <div className="rounded-lg p-2 bg-indigo-50">
-              <BarChart3 className="h-4 w-4 text-indigo-600" />
+            <div className="rounded-lg bg-indigo-50 p-2">
+              <BarChart3 className="size-4 text-indigo-600" />
             </div>
             <div>
               <p className="text-sm font-medium">Scoring & Intake Decisions</p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 Approve / deny / needs review based on answers
               </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             {scoring.enabled && (
-              <Badge className="text-[10px] bg-indigo-100 text-indigo-700 border-0">
+              <Badge className="border-0 bg-indigo-100 text-[10px] text-indigo-700">
                 {scoring.rules?.length ?? 0} rules
               </Badge>
             )}
@@ -163,7 +163,7 @@ export function FormPhase2Settings({
                 <Label className="text-xs">Approve above (points)</Label>
                 <Input
                   type="number"
-                  className="h-8 text-xs mt-1"
+                  className="mt-1 h-8 text-xs"
                   value={scoring.thresholds?.approveAbove ?? 80}
                   onChange={(e) =>
                     updateScoring({
@@ -179,7 +179,7 @@ export function FormPhase2Settings({
                 <Label className="text-xs">Needs review above (points)</Label>
                 <Input
                   type="number"
-                  className="h-8 text-xs mt-1"
+                  className="mt-1 h-8 text-xs"
                   value={scoring.thresholds?.needsReviewAbove ?? 50}
                   onChange={(e) =>
                     updateScoring({
@@ -192,7 +192,7 @@ export function FormPhase2Settings({
                 />
               </div>
             </div>
-            <p className="text-[11px] text-muted-foreground">
+            <p className="text-muted-foreground text-[11px]">
               Below the &ldquo;needs review&rdquo; threshold = denied.
             </p>
 
@@ -206,19 +206,19 @@ export function FormPhase2Settings({
                   className="h-7 text-xs"
                   onClick={addRule}
                 >
-                  <Plus className="h-3 w-3 mr-1" />
+                  <Plus className="mr-1 h-3 w-3" />
                   Add rule
                 </Button>
               </div>
               {(scoring.rules ?? []).length === 0 && (
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   No scoring rules yet. Add one to start scoring submissions.
                 </p>
               )}
               {(scoring.rules ?? []).map((rule) => (
                 <div
                   key={rule.id}
-                  className="rounded-lg border p-3 space-y-2 text-xs"
+                  className="space-y-2 rounded-lg border p-3 text-xs"
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-muted-foreground font-medium">
@@ -307,15 +307,15 @@ export function FormPhase2Settings({
           role="button"
           tabIndex={0}
           onClick={() => toggle("i18n")}
-          className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-muted/50 transition-colors text-left cursor-pointer"
+          className="hover:bg-muted/50 flex w-full cursor-pointer items-center justify-between rounded-lg p-3 text-left transition-colors"
         >
           <div className="flex items-center gap-3">
-            <div className="rounded-lg p-2 bg-sky-50">
-              <Languages className="h-4 w-4 text-sky-600" />
+            <div className="rounded-lg bg-sky-50 p-2">
+              <Languages className="size-4 text-sky-600" />
             </div>
             <div>
               <p className="text-sm font-medium">Multi-Language (EN / FR)</p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 Add French translations per question
               </p>
             </div>
@@ -329,21 +329,21 @@ export function FormPhase2Settings({
 
         {expandedSection === "i18n" && i18nEnabled && (
           <div className="ml-12 space-y-3 pb-4">
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Customers can switch between English and French when filling out
               the form. Add French labels below.
             </p>
             {questions.length === 0 ? (
-              <p className="text-xs text-muted-foreground italic">
+              <p className="text-muted-foreground text-xs italic">
                 Add questions first.
               </p>
             ) : (
               <div className="space-y-2">
                 {questions.map((q) => (
-                  <div key={q.id} className="rounded-lg border p-3 space-y-1.5">
+                  <div key={q.id} className="space-y-1.5 rounded-lg border p-3">
                     <p className="text-xs font-medium">{q.label}</p>
                     <div className="flex items-center gap-2">
-                      <Badge variant="outline" className="text-[10px] shrink-0">
+                      <Badge variant="outline" className="shrink-0 text-[10px]">
                         FR
                       </Badge>
                       <Input
@@ -369,15 +369,15 @@ export function FormPhase2Settings({
           role="button"
           tabIndex={0}
           onClick={() => toggle("esign")}
-          className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-muted/50 transition-colors text-left cursor-pointer"
+          className="hover:bg-muted/50 flex w-full cursor-pointer items-center justify-between rounded-lg p-3 text-left transition-colors"
         >
           <div className="flex items-center gap-3">
-            <div className="rounded-lg p-2 bg-emerald-50">
-              <PenTool className="h-4 w-4 text-emerald-600" />
+            <div className="rounded-lg bg-emerald-50 p-2">
+              <PenTool className="size-4 text-emerald-600" />
             </div>
             <div>
               <p className="text-sm font-medium">E-Signatures</p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 Capture timestamp, IP, device on signature fields
               </p>
             </div>
@@ -391,7 +391,7 @@ export function FormPhase2Settings({
 
         {expandedSection === "esign" && esignEnabled && (
           <div className="ml-12 space-y-2 pb-4">
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               When enabled, every signature field on this form will
               automatically capture:
             </p>
@@ -404,13 +404,13 @@ export function FormPhase2Settings({
               ].map((item) => (
                 <div key={item.label} className="rounded-lg border p-2.5">
                   <p className="text-xs font-medium">{item.label}</p>
-                  <p className="text-[10px] text-muted-foreground">
+                  <p className="text-muted-foreground text-[10px]">
                     {item.desc}
                   </p>
                 </div>
               ))}
             </div>
-            <p className="text-[11px] text-muted-foreground mt-2">
+            <p className="text-muted-foreground mt-2 text-[11px]">
               Agreement text shown to the signer is snapshotted with each
               signature for compliance audit.
             </p>
@@ -424,21 +424,21 @@ export function FormPhase2Settings({
           role="button"
           tabIndex={0}
           onClick={() => toggle("payment")}
-          className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-muted/50 transition-colors text-left cursor-pointer"
+          className="hover:bg-muted/50 flex w-full cursor-pointer items-center justify-between rounded-lg p-3 text-left transition-colors"
         >
           <div className="flex items-center gap-3">
-            <div className="rounded-lg p-2 bg-violet-50">
-              <CreditCard className="h-4 w-4 text-violet-600" />
+            <div className="rounded-lg bg-violet-50 p-2">
+              <CreditCard className="size-4 text-violet-600" />
             </div>
             <div>
               <p className="text-sm font-medium">Payment Block</p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 Capture card details within the form
               </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Badge variant="outline" className="text-[10px] gap-1">
+            <Badge variant="outline" className="gap-1 text-[10px]">
               <Lock className="h-2.5 w-2.5" />
               Planned
             </Badge>
@@ -453,22 +453,22 @@ export function FormPhase2Settings({
         {expandedSection === "payment" && (
           <div className="ml-12 space-y-2 pb-4">
             {!paymentBlockEnabled ? (
-              <p className="text-xs text-muted-foreground italic">
+              <p className="text-muted-foreground text-xs italic">
                 Enable the toggle to configure payment capture.
               </p>
             ) : (
               <>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   Payment capture will be available once the payments module
                   supports tokenization. Configuration is saved for when it goes
                   live.
                 </p>
                 <div className="rounded-lg border border-dashed border-violet-200 bg-violet-50/50 p-4 text-center">
-                  <CreditCard className="h-6 w-6 text-violet-400 mx-auto mb-2" />
+                  <CreditCard className="mx-auto mb-2 h-6 w-6 text-violet-400" />
                   <p className="text-xs font-medium text-violet-700">
                     Tokenized card capture
                   </p>
-                  <p className="text-[10px] text-violet-500 mt-1">
+                  <p className="mt-1 text-[10px] text-violet-500">
                     PCI-compliant • Authorize-only or full capture • Amount
                     configurable per form
                   </p>

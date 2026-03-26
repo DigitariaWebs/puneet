@@ -73,7 +73,7 @@ export function CustomServiceDetails({
 
   if (!serviceModule) {
     return (
-      <div className="text-center py-8 text-muted-foreground">
+      <div className="text-muted-foreground py-8 text-center">
         Service configuration not found.
       </div>
     );
@@ -143,14 +143,14 @@ function ScheduleStep({
   return (
     <div className="space-y-6">
       {/* Service info banner */}
-      <Card className="border-none bg-muted/50">
+      <Card className="bg-muted/50 border-none">
         <CardContent className="flex items-center gap-3 py-3">
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10">
-            <Icon className="h-4 w-4 text-primary" />
+          <div className="bg-primary/10 flex h-8 w-8 items-center justify-center rounded-lg">
+            <Icon className="text-primary size-4" />
           </div>
           <div className="flex-1">
             <p className="text-sm font-medium">{serviceModule.name}</p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {serviceModule.description}
             </p>
           </div>
@@ -182,7 +182,7 @@ function ScheduleStep({
             serviceModule.calendar.durationOptions.length > 1 && (
               <div className="space-y-2">
                 <Label className="text-sm font-medium">Duration</Label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                   {serviceModule.calendar.durationOptions.map((opt) => (
                     <button
                       key={opt.minutes}
@@ -193,13 +193,13 @@ function ScheduleStep({
                       className={`flex flex-col items-center gap-1 rounded-lg border p-3 text-sm transition-colors ${
                         selectedDuration === opt.minutes.toString()
                           ? "border-primary bg-primary/5 text-primary"
-                          : "border-border hover:border-primary/50"
-                      }`}
+                          : `border-border hover:border-primary/50`
+                      } `}
                     >
-                      <Clock className="h-4 w-4" />
+                      <Clock className="size-4" />
                       <span className="font-medium">{opt.label}</span>
                       {opt.price !== undefined && (
-                        <span className="text-xs text-muted-foreground">
+                        <span className="text-muted-foreground text-xs">
                           ${opt.price}
                         </span>
                       )}
@@ -243,8 +243,8 @@ function ScheduleStep({
           {/* Transport-specific: address input */}
           {serviceModule.category === "transport" && (
             <div className="space-y-2">
-              <Label className="text-sm font-medium flex items-center gap-2">
-                <MapPin className="h-4 w-4" />
+              <Label className="flex items-center gap-2 text-sm font-medium">
+                <MapPin className="size-4" />
                 Pickup Address
               </Label>
               <Textarea placeholder="Enter pickup address..." rows={2} />
@@ -254,8 +254,8 @@ function ScheduleStep({
           {/* Event-specific: participant count */}
           {serviceModule.category === "event_based" && (
             <div className="space-y-2">
-              <Label className="text-sm font-medium flex items-center gap-2">
-                <Users className="h-4 w-4" />
+              <Label className="flex items-center gap-2 text-sm font-medium">
+                <Users className="size-4" />
                 Number of Pets Attending
               </Label>
               <Input
@@ -283,15 +283,15 @@ function ScheduleStep({
                   )}
                 </span>
               </div>
-              <div className="flex items-center justify-between text-sm mt-1">
+              <div className="mt-1 flex items-center justify-between text-sm">
                 <span className="text-muted-foreground">Time</span>
                 <span className="font-medium">
                   {checkInTime} — {checkOutTime}
                 </span>
               </div>
-              <div className="flex items-center justify-between text-sm mt-1">
+              <div className="mt-1 flex items-center justify-between text-sm">
                 <span className="text-muted-foreground">Price</span>
-                <span className="font-medium text-primary">
+                <span className="text-primary font-medium">
                   ${serviceModule.pricing.basePrice}
                 </span>
               </div>

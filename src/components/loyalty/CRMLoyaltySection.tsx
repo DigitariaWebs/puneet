@@ -65,7 +65,7 @@ export function CRMLoyaltySection({
         <div className="flex items-center justify-between">
           <div>
             <CardTitle className="flex items-center gap-2">
-              <Star className="h-5 w-5 text-primary" />
+              <Star className="text-primary h-5 w-5" />
               Loyalty Program
             </CardTitle>
             <CardDescription>
@@ -73,7 +73,7 @@ export function CRMLoyaltySection({
             </CardDescription>
           </div>
           <Link href={`/facility/dashboard/marketing`}>
-            <Badge variant="outline" className="cursor-pointer hover:bg-muted">
+            <Badge variant="outline" className="hover:bg-muted cursor-pointer">
               View Details
             </Badge>
           </Link>
@@ -84,25 +84,25 @@ export function CRMLoyaltySection({
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm font-medium text-muted-foreground">
+              <div className="text-muted-foreground text-sm font-medium">
                 Current Tier
               </div>
               {currentTier ? (
-                <div className="flex items-center gap-2 mt-1">
+                <div className="mt-1 flex items-center gap-2">
                   <Badge
                     style={{ backgroundColor: currentTier.color }}
                     className="text-white"
                   >
-                    <Award className="h-3 w-3 mr-1" />
+                    <Award className="mr-1 h-3 w-3" />
                     {currentTier.displayName}
                   </Badge>
                 </div>
               ) : (
-                <div className="text-lg font-semibold mt-1">No Tier</div>
+                <div className="mt-1 text-lg font-semibold">No Tier</div>
               )}
             </div>
             <div className="text-right">
-              <div className="text-sm font-medium text-muted-foreground">
+              <div className="text-muted-foreground text-sm font-medium">
                 Points Balance
               </div>
               <div className="text-2xl font-bold">
@@ -133,11 +133,11 @@ export function CRMLoyaltySection({
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 gap-4 pt-4 border-t">
+        <div className="grid grid-cols-2 gap-4 border-t pt-4">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <TrendingUp className="h-4 w-4 text-green-600 dark:text-green-400" />
-              <span className="text-sm font-medium text-muted-foreground">
+            <div className="mb-1 flex items-center gap-2">
+              <TrendingUp className="size-4 text-green-600 dark:text-green-400" />
+              <span className="text-muted-foreground text-sm font-medium">
                 Lifetime Points
               </span>
             </div>
@@ -147,9 +147,9 @@ export function CRMLoyaltySection({
           </div>
 
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <Gift className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-              <span className="text-sm font-medium text-muted-foreground">
+            <div className="mb-1 flex items-center gap-2">
+              <Gift className="size-4 text-blue-600 dark:text-blue-400" />
+              <span className="text-muted-foreground text-sm font-medium">
                 Rewards Redeemed
               </span>
             </div>
@@ -157,9 +157,9 @@ export function CRMLoyaltySection({
           </div>
 
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <Users className="h-4 w-4 text-purple-600 dark:text-purple-400" />
-              <span className="text-sm font-medium text-muted-foreground">
+            <div className="mb-1 flex items-center gap-2">
+              <Users className="size-4 text-purple-600 dark:text-purple-400" />
+              <span className="text-muted-foreground text-sm font-medium">
                 Referrals Made
               </span>
             </div>
@@ -167,9 +167,9 @@ export function CRMLoyaltySection({
           </div>
 
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <Star className="h-4 w-4 text-primary" />
-              <span className="text-sm font-medium text-muted-foreground">
+            <div className="mb-1 flex items-center gap-2">
+              <Star className="text-primary size-4" />
+              <span className="text-muted-foreground text-sm font-medium">
                 Last Activity
               </span>
             </div>

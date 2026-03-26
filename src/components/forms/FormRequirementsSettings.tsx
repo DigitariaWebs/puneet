@@ -197,14 +197,14 @@ export function FormRequirementsSettings() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Shield className="h-5 w-5 text-primary" />
+              <Shield className="text-primary h-5 w-5" />
               <CardTitle>Form Requirements per Service</CardTitle>
             </div>
             <Button size="sm" onClick={handleSave}>
               Save changes
             </Button>
           </div>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-muted-foreground mt-1 text-sm">
             Configure which forms are required before customers can book, staff
             can approve, or pets can be checked in. Choose to{" "}
             <strong>block</strong> the step entirely or{" "}
@@ -227,20 +227,20 @@ export function FormRequirementsSettings() {
                 className="rounded-lg border"
               >
                 {/* Service header */}
-                <div className="flex items-center justify-between p-4 bg-muted/30 rounded-t-lg">
+                <div className="bg-muted/30 flex items-center justify-between rounded-t-lg p-4">
                   <div className="flex items-center gap-3">
-                    <div className="h-8 w-8 rounded-md bg-primary/10 flex items-center justify-center">
-                      <FileText className="h-4 w-4 text-primary" />
+                    <div className="bg-primary/10 flex h-8 w-8 items-center justify-center rounded-md">
+                      <FileText className="text-primary size-4" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-sm">
+                      <h3 className="text-sm font-semibold">
                         {serviceConfig.serviceLabel}
                       </h3>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         {activeCount} required form
                         {activeCount !== 1 ? "s" : ""}
                         {blockerCount > 0 && (
-                          <span className="text-red-600 ml-1">
+                          <span className="ml-1 text-red-600">
                             ({blockerCount} blocking)
                           </span>
                         )}
@@ -252,28 +252,26 @@ export function FormRequirementsSettings() {
                     size="sm"
                     onClick={() => addRequirement(sIdx)}
                   >
-                    <Plus className="h-3.5 w-3.5 mr-1" />
+                    <Plus className="mr-1 h-3.5 w-3.5" />
                     Add form
                   </Button>
                 </div>
 
                 {/* Requirements list */}
-                <div className="p-4 space-y-3">
+                <div className="space-y-3 p-4">
                   {serviceConfig.requirements.length === 0 ? (
-                    <p className="text-sm text-muted-foreground text-center py-4">
+                    <p className="text-muted-foreground py-4 text-center text-sm">
                       No form requirements. Customers can book freely.
                     </p>
                   ) : (
                     serviceConfig.requirements.map((req, rIdx) => (
                       <div
                         key={req.formId}
-                        className={`rounded-md border p-3 transition-colors ${
-                          req.enabled ? "bg-white" : "bg-muted/20 opacity-60"
-                        }`}
+                        className={`rounded-md border p-3 transition-colors ${req.enabled ? "bg-white" : "bg-muted/20 opacity-60"} `}
                       >
                         {/* Requirement header row */}
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2 flex-1 min-w-0">
+                        <div className="mb-2 flex items-center justify-between">
+                          <div className="flex min-w-0 flex-1 items-center gap-2">
                             <Switch
                               checked={req.enabled}
                               onCheckedChange={(v) =>
@@ -293,7 +291,7 @@ export function FormRequirementsSettings() {
                                   });
                               }}
                             >
-                              <SelectTrigger className="h-8 text-sm flex-1">
+                              <SelectTrigger className="h-8 flex-1 text-sm">
                                 <SelectValue />
                               </SelectTrigger>
                               <SelectContent>
@@ -307,7 +305,7 @@ export function FormRequirementsSettings() {
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="h-7 w-7 shrink-0 text-destructive"
+                              className="text-destructive h-7 w-7 shrink-0"
                               onClick={() => removeRequirement(sIdx, rIdx)}
                             >
                               <Trash2 className="h-3.5 w-3.5" />
@@ -323,7 +321,7 @@ export function FormRequirementsSettings() {
                                 key={gIdx}
                                 className="flex items-center gap-2 text-sm"
                               >
-                                <div className="flex items-center gap-1.5 text-muted-foreground min-w-0">
+                                <div className="text-muted-foreground flex min-w-0 items-center gap-1.5">
                                   {STAGE_CONFIG[gate.stage]?.icon}
                                   <Select
                                     value={gate.stage}
@@ -334,7 +332,7 @@ export function FormRequirementsSettings() {
                                       })
                                     }
                                   >
-                                    <SelectTrigger className="h-7 text-xs w-[150px]">
+                                    <SelectTrigger className="h-7 w-[150px] text-xs">
                                       <SelectValue />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -358,7 +356,7 @@ export function FormRequirementsSettings() {
                                     })
                                   }
                                 >
-                                  <SelectTrigger className="h-7 text-xs w-[160px]">
+                                  <SelectTrigger className="h-7 w-[160px] text-xs">
                                     <SelectValue />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -392,10 +390,10 @@ export function FormRequirementsSettings() {
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                className="h-6 text-xs text-muted-foreground"
+                                className="text-muted-foreground h-6 text-xs"
                                 onClick={() => addGate(sIdx, rIdx)}
                               >
-                                <Plus className="h-3 w-3 mr-1" />
+                                <Plus className="mr-1 h-3 w-3" />
                                 Add stage gate
                               </Button>
                             )}
@@ -414,8 +412,8 @@ export function FormRequirementsSettings() {
       {/* Summary overview card */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-base flex items-center gap-2">
-            <ShieldCheck className="h-4 w-4" />
+          <CardTitle className="flex items-center gap-2 text-base">
+            <ShieldCheck className="size-4" />
             Requirements overview
           </CardTitle>
         </CardHeader>
@@ -441,7 +439,7 @@ export function FormRequirementsSettings() {
 
               return (
                 <div key={stage} className="rounded-lg border p-3">
-                  <div className="flex items-center gap-2 mb-2">
+                  <div className="mb-2 flex items-center gap-2">
                     {stageInfo.icon}
                     <span className="text-sm font-semibold">
                       {stageInfo.label}
@@ -451,7 +449,7 @@ export function FormRequirementsSettings() {
                     </Badge>
                   </div>
                   {allAtStage.length === 0 ? (
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-muted-foreground text-xs">
                       No requirements at this stage
                     </p>
                   ) : (
@@ -462,9 +460,9 @@ export function FormRequirementsSettings() {
                           className="flex items-center gap-1.5 text-xs"
                         >
                           {item.enforcement === "block" ? (
-                            <ShieldAlert className="h-3 w-3 text-red-500 shrink-0" />
+                            <ShieldAlert className="h-3 w-3 shrink-0 text-red-500" />
                           ) : (
-                            <CheckCircle className="h-3 w-3 text-amber-500 shrink-0" />
+                            <CheckCircle className="h-3 w-3 shrink-0 text-amber-500" />
                           )}
                           <span className="truncate">
                             <span className="font-medium">{item.service}</span>:{" "}

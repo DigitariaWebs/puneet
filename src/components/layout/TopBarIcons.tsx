@@ -149,7 +149,7 @@ function IconButton({
           {showBadge && (
             <span
               data-slot="topbar-badge"
-              className="absolute -right-1 -top-1 min-w-5 h-5 px-1.5 rounded-full bg-destructive text-white text-[10px] leading-5 text-center font-medium"
+              className="bg-destructive absolute -top-1 -right-1 h-5 min-w-5 rounded-full px-1.5 text-center text-[10px]/5 font-medium text-white"
             >
               {badge}
             </span>
@@ -205,7 +205,7 @@ export function TopBarIcons({
           badge={msgBadge}
           onClick={() => nav(inboxHref)}
         >
-          <Inbox className="h-5 w-5 text-muted-foreground" />
+          <Inbox className="text-muted-foreground h-5 w-5" />
         </IconButton>
 
         <IconButton
@@ -213,12 +213,12 @@ export function TopBarIcons({
           badge={alertBadge}
           onClick={() => nav(notificationsHref)}
         >
-          <Bell className="h-5 w-5 text-muted-foreground" />
+          <Bell className="text-muted-foreground h-5 w-5" />
         </IconButton>
 
         {showQuickCreate && (
           <IconButton label="Create" onClick={handleQuickCreate}>
-            <Plus className="h-5 w-5 text-muted-foreground" />
+            <Plus className="text-muted-foreground h-5 w-5" />
           </IconButton>
         )}
       </div>

@@ -137,10 +137,10 @@ export function BelongingsSection({
                 type="button"
                 onClick={() => toggleBelonging(value)}
                 className={cn(
-                  "inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-colors",
+                  `inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-colors`,
                   isSelected
                     ? "border-primary bg-primary text-primary-foreground"
-                    : "border-input bg-background hover:bg-accent hover:text-accent-foreground",
+                    : `border-input bg-background hover:bg-accent hover:text-accent-foreground`,
                 )}
               >
                 {label}
@@ -192,9 +192,9 @@ export function BelongingsSection({
               {formData.belongings.map((item) => (
                 <li
                   key={item.id}
-                  className="flex items-center justify-between gap-2 rounded-lg border bg-muted/30 px-3 py-2"
+                  className="bg-muted/30 flex items-center justify-between gap-2 rounded-lg border px-3 py-2"
                 >
-                  <div className="flex items-center gap-2 min-w-0">
+                  <div className="flex min-w-0 items-center gap-2">
                     <span className="font-medium">
                       {BELONGING_TYPES.find((t) => t.value === item.type)
                         ?.label ?? item.type}
@@ -218,7 +218,7 @@ export function BelongingsSection({
                         )
                       }
                       placeholder="Qty"
-                      className="w-14 rounded border bg-background px-2 py-1 text-sm"
+                      className="bg-background w-14 rounded-sm border px-2 py-1 text-sm"
                     />
                   </div>
                   <Button
@@ -227,7 +227,7 @@ export function BelongingsSection({
                     className="h-8 w-8 shrink-0"
                     onClick={() => handleRemoveItem(item.id)}
                   >
-                    <X className="h-4 w-4" />
+                    <X className="size-4" />
                   </Button>
                 </li>
               ))}
@@ -252,13 +252,13 @@ export function BelongingsSection({
               }}
             />
             {formData.belongingsPhotoUrl && (
-              <div className="relative w-32 h-32 rounded-lg border overflow-hidden">
+              <div className="relative h-32 w-32 overflow-hidden rounded-lg border">
                 <Image
                   src={formData.belongingsPhotoUrl}
                   alt="Belongings"
                   width={128}
                   height={128}
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-cover"
                   unoptimized
                 />
                 <Button

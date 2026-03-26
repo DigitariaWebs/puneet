@@ -387,8 +387,8 @@ export default function StaffSchedulePage() {
         <Card>
           <CardContent className="pt-6">
             <div className="text-center">
-              <AlertCircle className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
-              <h2 className="text-xl font-semibold mb-2">
+              <AlertCircle className="mx-auto mb-4 h-12 w-12 text-yellow-500" />
+              <h2 className="mb-2 text-xl font-semibold">
                 No Staff Member Found
               </h2>
               <p className="text-muted-foreground">
@@ -402,12 +402,12 @@ export default function StaffSchedulePage() {
   }
 
   return (
-    <div className="p-3 sm:p-4 space-y-4">
+    <div className="space-y-4 p-3 sm:p-4">
       {/* Minimal Header - Mobile First */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold">My Schedule</h1>
-          <p className="text-sm text-muted-foreground">{staffMember.name}</p>
+          <h1 className="text-xl font-bold sm:text-2xl">My Schedule</h1>
+          <p className="text-muted-foreground text-sm">{staffMember.name}</p>
         </div>
         {/* Mobile: Single menu button, Desktop: Essential actions only */}
         <div className="flex gap-2">
@@ -417,7 +417,7 @@ export default function StaffSchedulePage() {
             size="sm"
             className="hidden sm:flex"
           >
-            <CalendarDays className="h-4 w-4 sm:mr-2" />
+            <CalendarDays className="size-4 sm:mr-2" />
             <span className="hidden sm:inline">Time Off</span>
           </Button>
           <Button
@@ -426,7 +426,7 @@ export default function StaffSchedulePage() {
             size="sm"
             className="hidden sm:flex"
           >
-            <ArrowRightLeft className="h-4 w-4 sm:mr-2" />
+            <ArrowRightLeft className="size-4 sm:mr-2" />
             <span className="hidden sm:inline">Swap</span>
           </Button>
           {/* Mobile menu button */}
@@ -439,7 +439,7 @@ export default function StaffSchedulePage() {
               setIsTimeOffModalOpen(true);
             }}
           >
-            <CalendarDays className="h-4 w-4" />
+            <CalendarDays className="size-4" />
           </Button>
         </div>
       </div>
@@ -448,7 +448,7 @@ export default function StaffSchedulePage() {
       {pendingUpdates.length > 0 && (
         <Card className="border-blue-200 bg-blue-50/50">
           <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-lg">
               <Info className="h-5 w-5 text-blue-600" />
               New Schedule Updates
             </CardTitle>
@@ -457,14 +457,14 @@ export default function StaffSchedulePage() {
             {pendingUpdates.map((update) => (
               <div
                 key={update.id}
-                className="flex items-center justify-between p-3 bg-background rounded-lg border"
+                className="bg-background flex items-center justify-between rounded-lg border p-3"
               >
                 <div>
                   <p className="font-medium">
                     Schedule published for {formatDate(update.weekStart)} -{" "}
                     {formatDate(update.weekEnd)}
                   </p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     Published{" "}
                     {new Date(update.publishedAt).toLocaleDateString("en-US", {
                       month: "short",
@@ -479,7 +479,7 @@ export default function StaffSchedulePage() {
                   size="sm"
                   onClick={() => handleAcknowledgeUpdate(update.id)}
                 >
-                  <CheckCircle2 className="mr-2 h-4 w-4" />
+                  <CheckCircle2 className="mr-2 size-4" />
                   Acknowledge
                 </Button>
               </div>
@@ -492,7 +492,7 @@ export default function StaffSchedulePage() {
       {availableSwapRequests.length > 0 && (
         <Card className="border-green-200 bg-green-50/50">
           <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-lg">
               <ArrowRightLeft className="h-5 w-5 text-green-600" />
               Available Swap Requests
             </CardTitle>
@@ -501,13 +501,13 @@ export default function StaffSchedulePage() {
             {availableSwapRequests.map((request) => (
               <div
                 key={request.id}
-                className="flex items-center justify-between p-3 bg-background rounded-lg border"
+                className="bg-background flex items-center justify-between rounded-lg border p-3"
               >
                 <div className="flex-1">
                   <p className="font-medium">
                     {request.requestingStaffName} wants to swap
                   </p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     {request.requestingShiftDate} -{" "}
                     {request.requestingShiftTime}
                     {(() => {
@@ -519,7 +519,7 @@ export default function StaffSchedulePage() {
                     })()}
                   </p>
                   {request.reason && (
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="text-muted-foreground mt-1 text-sm">
                       Reason: {request.reason}
                     </p>
                   )}
@@ -553,7 +553,7 @@ export default function StaffSchedulePage() {
                       .length
                   }
                 </div>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   Pending Requests
                 </p>
               </CardContent>
@@ -565,7 +565,7 @@ export default function StaffSchedulePage() {
                 <div className="text-lg font-bold">
                   {mySwapRequests.filter((r) => r.status === "pending").length}
                 </div>
-                <p className="text-xs text-muted-foreground">Pending Swaps</p>
+                <p className="text-muted-foreground text-xs">Pending Swaps</p>
               </CardContent>
             </Card>
           )}
@@ -580,15 +580,15 @@ export default function StaffSchedulePage() {
         <div className="flex items-center justify-between">
           <TabsList>
             <TabsTrigger value="week">
-              <Grid3x3 className="mr-2 h-4 w-4" />
+              <Grid3x3 className="mr-2 size-4" />
               Week View
             </TabsTrigger>
             <TabsTrigger value="list">
-              <List className="mr-2 h-4 w-4" />
+              <List className="mr-2 size-4" />
               My Shifts
             </TabsTrigger>
             <TabsTrigger value="day">
-              <CalendarIcon className="mr-2 h-4 w-4" />
+              <CalendarIcon className="mr-2 size-4" />
               Today
             </TabsTrigger>
           </TabsList>
@@ -606,13 +606,13 @@ export default function StaffSchedulePage() {
                     size="sm"
                     onClick={handlePreviousWeek}
                   >
-                    <ChevronLeft className="h-4 w-4" />
+                    <ChevronLeft className="size-4" />
                   </Button>
                   <Button variant="outline" size="sm" onClick={handleToday}>
                     Today
                   </Button>
                   <Button variant="outline" size="sm" onClick={handleNextWeek}>
-                    <ChevronRight className="h-4 w-4" />
+                    <ChevronRight className="size-4" />
                   </Button>
                 </div>
               </div>
@@ -628,18 +628,16 @@ export default function StaffSchedulePage() {
                   return (
                     <div
                       key={index}
-                      className={`border rounded-lg p-2 min-h-[200px] ${
-                        isToday ? "bg-blue-50 border-blue-300" : ""
-                      }`}
+                      className={`min-h-[200px] rounded-lg border p-2 ${isToday ? "border-blue-300 bg-blue-50" : ""} `}
                     >
-                      <div className="font-semibold text-sm mb-2">
+                      <div className="mb-2 text-sm font-semibold">
                         {formatDateShort(day)}
                       </div>
                       <div className="space-y-1">
                         {daySchedules.map((shift) => (
                           <div
                             key={shift.id}
-                            className="text-xs p-1.5 bg-primary/10 rounded cursor-pointer hover:bg-primary/20"
+                            className="bg-primary/10 hover:bg-primary/20 cursor-pointer rounded-sm p-1.5 text-xs"
                             onClick={() => handleViewShift(shift)}
                           >
                             <div className="font-medium">
@@ -673,8 +671,8 @@ export default function StaffSchedulePage() {
             </CardHeader>
             <CardContent>
               {mySchedules.length === 0 ? (
-                <div className="text-center py-8 text-muted-foreground">
-                  <Calendar className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <div className="text-muted-foreground py-8 text-center">
+                  <Calendar className="mx-auto mb-4 h-12 w-12 opacity-50" />
                   <p>No upcoming shifts scheduled</p>
                 </div>
               ) : (
@@ -684,19 +682,19 @@ export default function StaffSchedulePage() {
                     return (
                       <div
                         key={shift.id}
-                        className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border rounded-lg hover:bg-accent/50 cursor-pointer transition-colors"
+                        className="hover:bg-accent/50 flex cursor-pointer flex-col items-start justify-between rounded-lg border p-4 transition-colors sm:flex-row sm:items-center"
                         onClick={() => handleViewShift(shift)}
                       >
                         <div className="flex-1 space-y-2">
-                          <div className="flex items-center gap-3 flex-wrap">
+                          <div className="flex flex-wrap items-center gap-3">
                             <div className="flex items-center gap-2">
-                              <Calendar className="h-4 w-4 text-muted-foreground" />
+                              <Calendar className="text-muted-foreground size-4" />
                               <span className="font-medium">
                                 {formatDate(shift.date)}
                               </span>
                             </div>
                             <div className="flex items-center gap-2">
-                              <Clock className="h-4 w-4 text-muted-foreground" />
+                              <Clock className="text-muted-foreground size-4" />
                               <span className="text-sm">
                                 {shift.startTime} - {shift.endTime}
                               </span>
@@ -705,7 +703,7 @@ export default function StaffSchedulePage() {
                               {shift.status}
                             </Badge>
                           </div>
-                          <div className="flex items-center gap-4 flex-wrap text-sm text-muted-foreground">
+                          <div className="text-muted-foreground flex flex-wrap items-center gap-4 text-sm">
                             <span className="font-medium">{shift.role}</span>
                             {shift.location && (
                               <div className="flex items-center gap-1">
@@ -716,7 +714,7 @@ export default function StaffSchedulePage() {
                           </div>
                           {myTasks.length > 0 && (
                             <div className="mt-2 space-y-1">
-                              <p className="text-xs font-medium text-muted-foreground">
+                              <p className="text-muted-foreground text-xs font-medium">
                                 My Tasks:
                               </p>
                               {myTasks.slice(0, 2).map((task) => (
@@ -732,7 +730,7 @@ export default function StaffSchedulePage() {
                                   <span
                                     className={
                                       task.status === "completed"
-                                        ? "line-through text-muted-foreground"
+                                        ? "text-muted-foreground line-through"
                                         : ""
                                     }
                                   >
@@ -741,14 +739,14 @@ export default function StaffSchedulePage() {
                                 </div>
                               ))}
                               {myTasks.length > 2 && (
-                                <p className="text-xs text-muted-foreground">
+                                <p className="text-muted-foreground text-xs">
                                   +{myTasks.length - 2} more tasks
                                 </p>
                               )}
                             </div>
                           )}
                           {shift.notes && (
-                            <p className="text-sm text-muted-foreground line-clamp-2">
+                            <p className="text-muted-foreground line-clamp-2 text-sm">
                               {shift.notes}
                             </p>
                           )}
@@ -762,7 +760,7 @@ export default function StaffSchedulePage() {
                             handleViewShift(shift);
                           }}
                         >
-                          <FileText className="mr-2 h-4 w-4" />
+                          <FileText className="mr-2 size-4" />
                           Details
                         </Button>
                       </div>
@@ -782,8 +780,8 @@ export default function StaffSchedulePage() {
             </CardHeader>
             <CardContent>
               {todayShifts.length === 0 ? (
-                <div className="text-center py-8 text-muted-foreground">
-                  <Calendar className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <div className="text-muted-foreground py-8 text-center">
+                  <Calendar className="mx-auto mb-4 h-12 w-12 opacity-50" />
                   <p>No shifts scheduled for today</p>
                 </div>
               ) : (
@@ -798,7 +796,7 @@ export default function StaffSchedulePage() {
                               <CardTitle className="text-lg">
                                 {shift.startTime} - {shift.endTime}
                               </CardTitle>
-                              <div className="flex items-center gap-2 mt-1">
+                              <div className="mt-1 flex items-center gap-2">
                                 <Badge variant={getStatusBadge(shift.status)}>
                                   {shift.status}
                                 </Badge>
@@ -829,21 +827,21 @@ export default function StaffSchedulePage() {
                               <Label className="text-sm font-medium">
                                 Notes
                               </Label>
-                              <p className="text-sm text-muted-foreground mt-1">
+                              <p className="text-muted-foreground mt-1 text-sm">
                                 {shift.notes}
                               </p>
                             </div>
                           )}
                           {myTasks.length > 0 && (
                             <div>
-                              <Label className="text-sm font-medium mb-2 block">
+                              <Label className="mb-2 block text-sm font-medium">
                                 My Tasks
                               </Label>
                               <div className="space-y-2">
                                 {myTasks.map((task) => (
                                   <div
                                     key={task.id}
-                                    className="flex items-start gap-3 p-2 border rounded-lg"
+                                    className="flex items-start gap-3 rounded-lg border p-2"
                                   >
                                     <Checkbox
                                       checked={task.status === "completed"}
@@ -852,12 +850,16 @@ export default function StaffSchedulePage() {
                                     />
                                     <div className="flex-1">
                                       <p
-                                        className={`text-sm font-medium ${task.status === "completed" ? "line-through text-muted-foreground" : ""}`}
+                                        className={`text-sm font-medium ${
+                                          task.status === "completed"
+                                            ? `text-muted-foreground line-through`
+                                            : ""
+                                        } `}
                                       >
                                         {task.taskName}
                                       </p>
                                       {task.description && (
-                                        <p className="text-xs text-muted-foreground mt-1">
+                                        <p className="text-muted-foreground mt-1 text-xs">
                                           {task.description}
                                         </p>
                                       )}
@@ -889,7 +891,7 @@ export default function StaffSchedulePage() {
         open={isShiftDetailModalOpen}
         onOpenChange={setIsShiftDetailModalOpen}
       >
-        <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Shift Details</DialogTitle>
             <DialogDescription>
@@ -901,14 +903,14 @@ export default function StaffSchedulePage() {
               <div className="space-y-2">
                 <Label>Date</Label>
                 <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-muted-foreground" />
+                  <Calendar className="text-muted-foreground size-4" />
                   <span>{formatDate(selectedShift.date)}</span>
                 </div>
               </div>
               <div className="space-y-2">
                 <Label>Time</Label>
                 <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-muted-foreground" />
+                  <Clock className="text-muted-foreground size-4" />
                   <span>
                     {selectedShift.startTime} - {selectedShift.endTime}
                   </span>
@@ -924,7 +926,7 @@ export default function StaffSchedulePage() {
                 <div className="space-y-2">
                   <Label>Location</Label>
                   <div className="flex items-center gap-2">
-                    <MapPin className="h-4 w-4 text-muted-foreground" />
+                    <MapPin className="text-muted-foreground size-4" />
                     <span>{selectedShift.location}</span>
                   </div>
                 </div>
@@ -938,7 +940,7 @@ export default function StaffSchedulePage() {
               {selectedShift.notes && (
                 <div className="space-y-2">
                   <Label>Notes</Label>
-                  <p className="text-sm text-muted-foreground bg-muted p-3 rounded-md">
+                  <p className="bg-muted text-muted-foreground rounded-md p-3 text-sm">
                     {selectedShift.notes}
                   </p>
                 </div>
@@ -947,11 +949,11 @@ export default function StaffSchedulePage() {
               {getMyShiftTasks(selectedShift).length > 0 && (
                 <div className="space-y-2">
                   <Label>My Tasks</Label>
-                  <div className="space-y-2 border rounded-lg p-3 bg-muted/50">
+                  <div className="bg-muted/50 space-y-2 rounded-lg border p-3">
                     {getMyShiftTasks(selectedShift).map((task) => (
                       <div
                         key={task.id}
-                        className="flex items-start gap-3 p-2 bg-background rounded"
+                        className="bg-background flex items-start gap-3 rounded-sm p-2"
                       >
                         <Checkbox
                           checked={task.status === "completed"}
@@ -960,12 +962,16 @@ export default function StaffSchedulePage() {
                         />
                         <div className="flex-1">
                           <p
-                            className={`text-sm font-medium ${task.status === "completed" ? "line-through text-muted-foreground" : ""}`}
+                            className={`text-sm font-medium ${
+                              task.status === "completed"
+                                ? `text-muted-foreground line-through`
+                                : ""
+                            } `}
                           >
                             {task.taskName}
                           </p>
                           {task.description && (
-                            <p className="text-xs text-muted-foreground mt-1">
+                            <p className="text-muted-foreground mt-1 text-xs">
                               {task.description}
                             </p>
                           )}
@@ -980,7 +986,7 @@ export default function StaffSchedulePage() {
               )}
             </div>
           )}
-          <DialogFooter className="flex-col sm:flex-row gap-2">
+          <DialogFooter className="flex-col gap-2 sm:flex-row">
             <Button
               variant="destructive"
               onClick={() => {
@@ -992,7 +998,7 @@ export default function StaffSchedulePage() {
                 setIsSickCallModalOpen(true);
               }}
             >
-              <AlertCircle className="mr-2 h-4 w-4" />I Can&apos;t Make This
+              <AlertCircle className="mr-2 size-4" />I Can&apos;t Make This
               Shift
             </Button>
             <Button
@@ -1254,9 +1260,9 @@ export default function StaffSchedulePage() {
                 rows={4}
               />
             </div>
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+            <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-3">
               <p className="text-sm text-yellow-800">
-                <AlertCircle className="h-4 w-4 inline mr-1" />
+                <AlertCircle className="mr-1 inline size-4" />
                 This will flag your shift as needing coverage and notify
                 managers immediately.
               </p>
@@ -1342,7 +1348,7 @@ export default function StaffSchedulePage() {
               </div>
               <div className="space-y-2">
                 <Label>Shift Details</Label>
-                <div className="text-sm space-y-1">
+                <div className="space-y-1 text-sm">
                   <p>
                     <strong>Date:</strong>{" "}
                     {formatDate(selectedSwapRequest.requestingShiftDate)}
@@ -1366,7 +1372,7 @@ export default function StaffSchedulePage() {
               {selectedSwapRequest.reason && (
                 <div className="space-y-2">
                   <Label>Reason</Label>
-                  <p className="text-sm text-muted-foreground bg-muted p-3 rounded-md">
+                  <p className="bg-muted text-muted-foreground rounded-md p-3 text-sm">
                     {selectedSwapRequest.reason}
                   </p>
                 </div>

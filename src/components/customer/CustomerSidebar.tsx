@@ -207,10 +207,10 @@ export function CustomerSidebar() {
 
   const header = (
     <div className="flex flex-col gap-0.5">
-      <Link href="/customer/dashboard" className="font-semibold text-sm">
+      <Link href="/customer/dashboard" className="text-sm font-semibold">
         {isMounted && selectedFacility ? selectedFacility.name : "Yipyy"}
       </Link>
-      <span className="text-xs text-muted-foreground">Customer Portal</span>
+      <span className="text-muted-foreground text-xs">Customer Portal</span>
     </div>
   );
 

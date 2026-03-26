@@ -119,7 +119,7 @@ export default function TemplatesPage() {
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" asChild>
             <Link href="/facility/dashboard/forms">
-              <ArrowLeft className="h-4 w-4" />
+              <ArrowLeft className="size-4" />
             </Link>
           </Button>
         </div>
@@ -136,17 +136,17 @@ export default function TemplatesPage() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">
-            <Sparkles className="h-5 w-5 text-primary" />
+            <Sparkles className="text-primary h-5 w-5" />
             Starter templates
           </CardTitle>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Prebuilt forms you can duplicate and customize. New client intake,
             pet profile, boarding, grooming consent, behavior evaluation.
           </p>
         </CardHeader>
         <CardContent>
           {starters.length === 0 ? (
-            <p className="text-sm text-muted-foreground py-4">
+            <p className="text-muted-foreground py-4 text-sm">
               No starter templates available.
             </p>
           ) : (
@@ -156,28 +156,28 @@ export default function TemplatesPage() {
                 return (
                   <div
                     key={t.id}
-                    className="flex flex-col rounded-xl border bg-card overflow-hidden transition-shadow hover:shadow-md"
+                    className="bg-card flex flex-col overflow-hidden rounded-xl border transition-shadow hover:shadow-md"
                   >
                     {/* Colored header bar */}
                     <div
-                      className={`flex items-center gap-3 px-4 py-3 ${meta?.bg ?? "bg-muted/30"}`}
+                      className={`flex items-center gap-3 px-4 py-3 ${meta?.bg ?? `bg-muted/30`} `}
                     >
                       <div className={meta?.color ?? "text-muted-foreground"}>
                         {meta?.icon ?? <FileText className="h-5 w-5" />}
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-sm">{t.name}</h3>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="text-sm font-semibold">{t.name}</h3>
                         <Badge
                           variant="secondary"
-                          className="text-[10px] mt-0.5"
+                          className="mt-0.5 text-[10px]"
                         >
                           {TYPE_BADGES[t.formType] ?? t.formType}
                         </Badge>
                       </div>
                     </div>
                     {/* Description */}
-                    <div className="px-4 py-3 flex-1">
-                      <p className="text-xs text-muted-foreground leading-relaxed">
+                    <div className="flex-1 px-4 py-3">
+                      <p className="text-muted-foreground text-xs/relaxed">
                         {meta?.description ??
                           `${t.questions.length} questions ready to customize.`}
                       </p>
@@ -195,20 +195,20 @@ export default function TemplatesPage() {
                               {q.label}
                             </span>
                             {q.required && (
-                              <span className="text-rose-400 shrink-0">*</span>
+                              <span className="shrink-0 text-rose-400">*</span>
                             )}
                           </div>
                         ))}
                         {t.questions.length > 4 && (
-                          <p className="text-[11px] text-muted-foreground">
+                          <p className="text-muted-foreground text-[11px]">
                             + {t.questions.length - 4} more
                           </p>
                         )}
                       </div>
                     </div>
                     {/* Footer */}
-                    <div className="px-4 py-3 border-t bg-muted/20 flex items-center justify-between">
-                      <span className="text-xs text-muted-foreground">
+                    <div className="bg-muted/20 flex items-center justify-between border-t px-4 py-3">
+                      <span className="text-muted-foreground text-xs">
                         {t.questions.length} questions
                       </span>
                       <Button size="sm" onClick={() => handleUseTemplate(t)}>
@@ -228,17 +228,17 @@ export default function TemplatesPage() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">
-            <FileText className="h-5 w-5 text-muted-foreground" />
+            <FileText className="text-muted-foreground h-5 w-5" />
             Your templates
           </CardTitle>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Templates saved by your facility. Duplicate and edit to create new
             forms.
           </p>
         </CardHeader>
         <CardContent>
           {facilityTemplates.length === 0 ? (
-            <p className="text-sm text-muted-foreground py-4">
+            <p className="text-muted-foreground py-4 text-sm">
               No facility templates yet. Use a starter template above or save a
               form as a template from the builder.
             </p>
@@ -247,18 +247,18 @@ export default function TemplatesPage() {
               {facilityTemplates.map((t) => (
                 <div
                   key={t.id}
-                  className="flex flex-col rounded-xl border bg-card overflow-hidden transition-shadow hover:shadow-md"
+                  className="bg-card flex flex-col overflow-hidden rounded-xl border transition-shadow hover:shadow-md"
                 >
-                  <div className="flex items-center gap-3 px-4 py-3 bg-muted/30">
-                    <FileText className="h-5 w-5 text-muted-foreground" />
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-sm">{t.name}</h3>
-                      <Badge variant="secondary" className="text-[10px] mt-0.5">
+                  <div className="bg-muted/30 flex items-center gap-3 px-4 py-3">
+                    <FileText className="text-muted-foreground h-5 w-5" />
+                    <div className="min-w-0 flex-1">
+                      <h3 className="text-sm font-semibold">{t.name}</h3>
+                      <Badge variant="secondary" className="mt-0.5 text-[10px]">
                         {TYPE_BADGES[t.formType] ?? t.formType}
                       </Badge>
                     </div>
                   </div>
-                  <div className="px-4 py-3 flex-1">
+                  <div className="flex-1 px-4 py-3">
                     <div className="space-y-1">
                       {t.questions.slice(0, 4).map((q) => (
                         <div
@@ -272,19 +272,19 @@ export default function TemplatesPage() {
                             {q.label}
                           </span>
                           {q.required && (
-                            <span className="text-rose-400 shrink-0">*</span>
+                            <span className="shrink-0 text-rose-400">*</span>
                           )}
                         </div>
                       ))}
                       {t.questions.length > 4 && (
-                        <p className="text-[11px] text-muted-foreground">
+                        <p className="text-muted-foreground text-[11px]">
                           + {t.questions.length - 4} more
                         </p>
                       )}
                     </div>
                   </div>
-                  <div className="px-4 py-3 border-t bg-muted/20 flex items-center justify-between">
-                    <span className="text-xs text-muted-foreground">
+                  <div className="bg-muted/20 flex items-center justify-between border-t px-4 py-3">
+                    <span className="text-muted-foreground text-xs">
                       {t.questions.length} questions
                     </span>
                     <Button size="sm" onClick={() => handleUseTemplate(t)}>

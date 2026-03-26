@@ -364,8 +364,8 @@ export default function PublicFormPage() {
 
   if (!slug) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <Card className="max-w-md w-full">
+      <div className="flex min-h-screen items-center justify-center p-4">
+        <Card className="w-full max-w-md">
           <CardContent className="pt-6">
             <p className="text-destructive">Invalid form link.</p>
           </CardContent>
@@ -376,8 +376,8 @@ export default function PublicFormPage() {
 
   if (!form) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <Card className="max-w-md w-full">
+      <div className="flex min-h-screen items-center justify-center p-4">
+        <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>Form not found</CardTitle>
           </CardHeader>
@@ -396,21 +396,21 @@ export default function PublicFormPage() {
     (form as Form & { requireAuth?: boolean }).requireAuth ?? false;
   if (requireAuth && !authVerified) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <Card className="max-w-md w-full">
+      <div className="flex min-h-screen items-center justify-center p-4">
+        <Card className="w-full max-w-md">
           <CardHeader className="text-center">
-            <div className="mx-auto mb-3 h-12 w-12 rounded-full bg-blue-50 flex items-center justify-center">
+            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-blue-50">
               <Shield className="h-6 w-6 text-blue-600" />
             </div>
             <CardTitle className="text-xl">{form.name}</CardTitle>
-            <p className="text-sm text-muted-foreground mt-2">
+            <p className="text-muted-foreground mt-2 text-sm">
               Please verify your identity to access this form
             </p>
           </CardHeader>
           <CardContent className="space-y-4">
             {authError && (
               <div
-                className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive"
+                className="bg-destructive/10 text-destructive rounded-lg p-3 text-sm"
                 role="alert"
               >
                 {authError}
@@ -421,37 +421,37 @@ export default function PublicFormPage() {
                 <div className="space-y-2">
                   <Label htmlFor="auth-email">Email address</Label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Mail className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
                     <Input
                       id="auth-email"
                       type="email"
                       placeholder="you@example.com"
                       value={authEmail}
                       onChange={(e) => setAuthEmail(e.target.value)}
-                      className="pl-10 min-h-12 text-base"
+                      className="min-h-12 pl-10 text-base"
                     />
                   </div>
                 </div>
                 <Button
                   onClick={handleSendCode}
-                  className="w-full min-h-12 text-base"
+                  className="min-h-12 w-full text-base"
                 >
-                  <Mail className="h-4 w-4 mr-2" />
+                  <Mail className="mr-2 size-4" />
                   Send verification code
                 </Button>
               </>
             ) : (
               <>
-                <p className="text-sm text-muted-foreground text-center">
+                <p className="text-muted-foreground text-center text-sm">
                   A 6-digit code has been sent to{" "}
-                  <span className="font-medium text-foreground">
+                  <span className="text-foreground font-medium">
                     {authEmail}
                   </span>
                 </p>
                 <div className="space-y-2">
                   <Label htmlFor="auth-code">Verification code</Label>
                   <div className="relative">
-                    <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <KeyRound className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
                     <Input
                       id="auth-code"
                       type="text"
@@ -464,15 +464,15 @@ export default function PublicFormPage() {
                           e.target.value.replace(/\D/g, "").slice(0, 6),
                         )
                       }
-                      className="pl-10 min-h-12 text-base tracking-widest text-center font-mono"
+                      className="min-h-12 pl-10 text-center font-mono text-base tracking-widest"
                     />
                   </div>
                 </div>
                 <Button
                   onClick={handleVerifyCode}
-                  className="w-full min-h-12 text-base"
+                  className="min-h-12 w-full text-base"
                 >
-                  <KeyRound className="h-4 w-4 mr-2" />
+                  <KeyRound className="mr-2 size-4" />
                   Verify code
                 </Button>
                 <button
@@ -482,7 +482,7 @@ export default function PublicFormPage() {
                     setAuthCode("");
                     setAuthError(null);
                   }}
-                  className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-muted-foreground hover:text-foreground w-full text-sm transition-colors"
                 >
                   Use a different email
                 </button>
@@ -496,40 +496,40 @@ export default function PublicFormPage() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <Card className="max-w-md w-full">
-          <CardContent className="pt-6 flex flex-col items-center text-center">
-            <CheckCircle className="h-12 w-12 text-green-600 mb-4" />
-            <h2 className="text-xl font-semibold mb-2">Thank you</h2>
+      <div className="flex min-h-screen items-center justify-center p-4">
+        <Card className="w-full max-w-md">
+          <CardContent className="flex flex-col items-center pt-6 text-center">
+            <CheckCircle className="mb-4 h-12 w-12 text-green-600" />
+            <h2 className="mb-2 text-xl font-semibold">Thank you</h2>
             <p className="text-muted-foreground">
               {form?.settings?.submitMessage ||
                 "Your response has been submitted successfully."}
             </p>
             {isMultiPet && multiPetSubmittedCount > 1 && (
-              <p className="text-sm text-muted-foreground mt-2">
+              <p className="text-muted-foreground mt-2 text-sm">
                 {multiPetSubmittedCount} submissions created (one per selected
                 pet).
               </p>
             )}
             {/* Feature 2: Review & Edit button */}
-            <div className="flex flex-col sm:flex-row gap-3 mt-4 w-full">
+            <div className="mt-4 flex w-full flex-col gap-3 sm:flex-row">
               <Button
                 variant="outline"
                 onClick={handleReviewEdit}
-                className="min-h-12 text-base flex-1"
+                className="min-h-12 flex-1 text-base"
               >
-                <Edit2 className="h-4 w-4 mr-2" />
+                <Edit2 className="mr-2 size-4" />
                 Review &amp; Edit
               </Button>
-              <Button asChild className="min-h-12 text-base flex-1">
+              <Button asChild className="min-h-12 flex-1 text-base">
                 <Link href="/customer/documents">
-                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  <ArrowLeft className="mr-2 size-4" />
                   Back to Documents
                 </Link>
               </Button>
             </div>
             {previousSubmissionId && (
-              <p className="text-xs text-muted-foreground mt-2">
+              <p className="text-muted-foreground mt-2 text-xs">
                 Submission ID: {previousSubmissionId}
               </p>
             )}
@@ -569,12 +569,12 @@ export default function PublicFormPage() {
   const showPetSelector = isMultiPet && customerPets.length > 1 && !linkPetId;
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 sm:p-6">
+    <div className="flex min-h-screen items-center justify-center p-4 sm:p-6">
       <Card className="w-full max-w-lg">
         <CardHeader className="pb-2">
           <CardTitle className="text-xl sm:text-2xl">{form.name}</CardTitle>
           {form.settings?.welcomeMessage && (
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-muted-foreground mt-1 text-sm">
               {form.settings.welcomeMessage}
             </p>
           )}
@@ -582,15 +582,15 @@ export default function PublicFormPage() {
           {/* Phase 2: Language switcher (EN/FR) */}
           {hasI18n && (
             <div className="mt-2 flex items-center gap-2">
-              <Languages className="h-4 w-4 text-muted-foreground" />
-              <div className="inline-flex rounded-lg border overflow-hidden text-xs">
+              <Languages className="text-muted-foreground size-4" />
+              <div className="inline-flex overflow-hidden rounded-lg border text-xs">
                 <button
                   type="button"
                   className={`px-3 py-1.5 font-medium transition-colors ${
                     locale === "en"
                       ? "bg-primary text-primary-foreground"
-                      : "bg-background text-muted-foreground hover:bg-muted/50"
-                  }`}
+                      : `bg-background text-muted-foreground hover:bg-muted/50`
+                  } `}
                   onClick={() => setLocale("en")}
                 >
                   EN
@@ -600,8 +600,8 @@ export default function PublicFormPage() {
                   className={`px-3 py-1.5 font-medium transition-colors ${
                     locale === "fr"
                       ? "bg-primary text-primary-foreground"
-                      : "bg-background text-muted-foreground hover:bg-muted/50"
-                  }`}
+                      : `bg-background text-muted-foreground hover:bg-muted/50`
+                  } `}
                   onClick={() => setLocale("fr")}
                 >
                   FR
@@ -612,8 +612,8 @@ export default function PublicFormPage() {
 
           {/* Feature 2: Editing banner */}
           {isEditing && (
-            <div className="mt-2 rounded-lg bg-amber-50 border border-amber-200 p-3 flex items-center gap-2">
-              <Edit2 className="h-4 w-4 text-amber-700 shrink-0" />
+            <div className="mt-2 flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3">
+              <Edit2 className="size-4 shrink-0 text-amber-700" />
               <p className="text-sm font-medium text-amber-800">
                 You are editing your previous submission
               </p>
@@ -622,11 +622,11 @@ export default function PublicFormPage() {
 
           {/* Feature 3: Active pet badge */}
           {activePet && (
-            <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-blue-50 border border-blue-200 px-3 py-1.5">
+            <div className="mt-2 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5">
               {activePet.type.toLowerCase() === "cat" ? (
-                <Cat className="h-4 w-4 text-blue-600" />
+                <Cat className="size-4 text-blue-600" />
               ) : (
-                <Dog className="h-4 w-4 text-blue-600" />
+                <Dog className="size-4 text-blue-600" />
               )}
               <span className="text-sm font-medium text-blue-800">
                 Answering for {activePet.name}
@@ -637,15 +637,15 @@ export default function PublicFormPage() {
           {/* Progress indicator: mobile-first */}
           {total > 0 && (
             <div className="mt-4 space-y-1.5">
-              <div className="flex justify-between text-xs text-muted-foreground">
+              <div className="text-muted-foreground flex justify-between text-xs">
                 <span>Progress</span>
                 <span>
                   {answered} of {total} {total === 1 ? "question" : "questions"}
                 </span>
               </div>
-              <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
+              <div className="bg-muted h-2 w-full overflow-hidden rounded-full">
                 <div
-                  className="h-full bg-primary transition-all duration-300"
+                  className="bg-primary h-full transition-all duration-300"
                   style={{ width: `${progressPct}%` }}
                 />
               </div>
@@ -654,31 +654,29 @@ export default function PublicFormPage() {
         </CardHeader>
         <CardContent>
           {isAnonymous && (
-            <p className="text-xs text-muted-foreground bg-muted/50 rounded-lg p-3 mb-4">
+            <p className="bg-muted/50 text-muted-foreground mb-4 rounded-lg p-3 text-xs">
               <a
                 href="/customer/auth/login"
-                className="underline hover:text-foreground"
+                className="hover:text-foreground underline"
               >
                 Sign in
               </a>{" "}
               to link this response to your account and save progress.
             </p>
           )}
-          <div className="flex items-center justify-between text-xs text-muted-foreground mb-4">
+          <div className="text-muted-foreground mb-4 flex items-center justify-between text-xs">
             <p>
               Your progress is saved automatically. You can leave and come back
               anytime.
             </p>
             <span
-              className={`shrink-0 ml-2 text-[10px] font-medium text-emerald-600 transition-opacity duration-300 ${
-                draftSavedShow ? "opacity-100" : "opacity-0"
-              }`}
+              className={`ml-2 shrink-0 text-[10px] font-medium text-emerald-600 transition-opacity duration-300 ${draftSavedShow ? "opacity-100" : "opacity-0"} `}
             >
               Saved
             </span>
           </div>
           {form.repeatPerPet && !isMultiPet && (
-            <p className="text-xs text-muted-foreground mb-4">
+            <p className="text-muted-foreground mb-4 text-xs">
               This form can be completed once per pet. Use the link from your
               pet&apos;s Forms tab to fill for a specific pet.
             </p>
@@ -687,7 +685,7 @@ export default function PublicFormPage() {
           {/* Feature 3: Multi-pet selector */}
           {showPetSelector && (
             <div className="mb-6">
-              <Label className="text-sm font-medium mb-2 block">
+              <Label className="mb-2 block text-sm font-medium">
                 Select which pets this form applies to
               </Label>
               <div className="space-y-2">
@@ -696,11 +694,11 @@ export default function PublicFormPage() {
                   return (
                     <label
                       key={pet.id}
-                      className={`flex items-center gap-3 rounded-lg border-2 p-3 cursor-pointer touch-manipulation transition-colors ${
+                      className={`flex cursor-pointer touch-manipulation items-center gap-3 rounded-lg border-2 p-3 transition-colors ${
                         isSelected
                           ? "border-primary bg-primary/5"
-                          : "border-input hover:border-muted-foreground/30"
-                      }`}
+                          : `border-input hover:border-muted-foreground/30`
+                      } `}
                     >
                       <input
                         type="checkbox"
@@ -709,12 +707,12 @@ export default function PublicFormPage() {
                         onChange={() => togglePet(pet.id)}
                       />
                       {pet.type.toLowerCase() === "cat" ? (
-                        <Cat className="h-5 w-5 text-muted-foreground shrink-0" />
+                        <Cat className="text-muted-foreground h-5 w-5 shrink-0" />
                       ) : (
-                        <Dog className="h-5 w-5 text-muted-foreground shrink-0" />
+                        <Dog className="text-muted-foreground h-5 w-5 shrink-0" />
                       )}
                       <span className="text-base font-medium">{pet.name}</span>
-                      <span className="text-xs text-muted-foreground">
+                      <span className="text-muted-foreground text-xs">
                         {pet.type}
                       </span>
                     </label>
@@ -722,7 +720,7 @@ export default function PublicFormPage() {
                 })}
               </div>
               {isMultiPet && selectedPetIds.length === 0 && (
-                <p className="text-xs text-destructive mt-2">
+                <p className="text-destructive mt-2 text-xs">
                   Please select at least one pet.
                 </p>
               )}
@@ -730,7 +728,7 @@ export default function PublicFormPage() {
           )}
 
           {logicEffects?.endFormMessage ? (
-            <div className="rounded-lg bg-amber-50 border border-amber-200 p-4 text-center">
+            <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-center">
               <p className="text-sm font-medium text-amber-800">
                 {logicEffects.endFormMessage}
               </p>
@@ -750,7 +748,7 @@ export default function PublicFormPage() {
             >
               {error && (
                 <div
-                  className="rounded-xl bg-rose-50 border border-rose-200 p-4 text-sm text-rose-700"
+                  className="rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700"
                   role="alert"
                 >
                   <p className="font-semibold">Oops, not quite ready yet</p>
@@ -777,7 +775,7 @@ export default function PublicFormPage() {
               })}
               <Button
                 type="submit"
-                className="w-full min-h-12 text-base touch-manipulation"
+                className="min-h-12 w-full touch-manipulation text-base"
                 disabled={multiPetSubmitting}
               >
                 {isEditing
@@ -815,7 +813,7 @@ function QuestionLabel({
         {required && " *"}
       </Label>
       {helpText && (
-        <p className="text-xs text-muted-foreground -mt-1">{helpText}</p>
+        <p className="text-muted-foreground -mt-1 text-xs">{helpText}</p>
       )}
     </>
   );
@@ -841,7 +839,7 @@ function QuestionInput({
   // Wrap in inline validation highlight
   const wrap = (node: React.ReactNode) =>
     hasError ? (
-      <div className="rounded-xl ring-2 ring-rose-200 bg-rose-50/30 p-3 -mx-1 space-y-1">
+      <div className="-mx-1 space-y-1 rounded-xl bg-rose-50/30 p-3 ring-2 ring-rose-200">
         {node}
         <p className="text-xs text-rose-500">This field is required</p>
       </div>
@@ -871,11 +869,11 @@ function QuestionInput({
               <button
                 key={o.value}
                 type="button"
-                className={`flex-1 min-h-12 rounded-lg border-2 text-base font-medium transition-colors touch-manipulation ${
+                className={`min-h-12 flex-1 touch-manipulation rounded-lg border-2 text-base font-medium transition-colors ${
                   value === o.value
                     ? "border-primary bg-primary/10 text-primary"
-                    : "border-input hover:border-muted-foreground/30"
-                }`}
+                    : `border-input hover:border-muted-foreground/30`
+                } `}
                 onClick={() => onChange(o.value)}
               >
                 {o.label}
@@ -899,7 +897,7 @@ function QuestionInput({
             {opts.map((o) => (
               <label
                 key={o.value}
-                className="flex items-center gap-3 rounded-lg border p-3 cursor-pointer touch-manipulation hover:bg-muted/50 transition-colors"
+                className="hover:bg-muted/50 flex cursor-pointer touch-manipulation items-center gap-3 rounded-lg border p-3 transition-colors"
               >
                 <input
                   type="radio"
@@ -927,7 +925,7 @@ function QuestionInput({
           />
           <textarea
             id={id}
-            className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-base"
+            className="border-input flex min-h-[80px] w-full rounded-md border bg-transparent px-3 py-2 text-base"
             value={(value as string) ?? question.defaultValue ?? ""}
             onChange={(e) => onChange(e.target.value)}
             placeholder={question.placeholder}
@@ -947,7 +945,7 @@ function QuestionInput({
           />
           <select
             id={id}
-            className="flex min-h-12 w-full rounded-md border border-input bg-transparent px-3 py-2 text-base"
+            className="border-input flex min-h-12 w-full rounded-md border bg-transparent px-3 py-2 text-base"
             value={(value as string) ?? question.defaultValue ?? ""}
             onChange={(e) => onChange(e.target.value)}
             required={question.required}
@@ -982,7 +980,7 @@ function QuestionInput({
             {opts.map((o) => (
               <label
                 key={o.value}
-                className="flex items-center gap-2 text-base min-h-12 cursor-pointer touch-manipulation"
+                className="flex min-h-12 cursor-pointer touch-manipulation items-center gap-2 text-base"
               >
                 <input
                   type="checkbox"
@@ -999,7 +997,7 @@ function QuestionInput({
     }
     case "checkbox":
       return wrap(
-        <div className="flex items-center gap-2 min-h-12 touch-manipulation">
+        <div className="flex min-h-12 touch-manipulation items-center gap-2">
           <input
             id={id}
             type="checkbox"
@@ -1012,7 +1010,7 @@ function QuestionInput({
             {question.required && " *"}
           </Label>
           {help && (
-            <span className="text-xs text-muted-foreground">{help}</span>
+            <span className="text-muted-foreground text-xs">{help}</span>
           )}
         </div>,
       );
@@ -1029,7 +1027,7 @@ function QuestionInput({
           <Input
             id={id}
             type="date"
-            className="text-base min-h-12"
+            className="min-h-12 text-base"
             value={(value as string) ?? question.defaultValue ?? ""}
             onChange={(e) => onChange(e.target.value)}
             required={question.required}
@@ -1049,7 +1047,7 @@ function QuestionInput({
           <Input
             id={id}
             type="number"
-            className="text-base min-h-12"
+            className="min-h-12 text-base"
             value={(value as number) ?? question.defaultValue ?? ""}
             onChange={(e) =>
               onChange(e.target.value ? Number(e.target.value) : undefined)
@@ -1069,7 +1067,7 @@ function QuestionInput({
             frLabel={frLabel}
             locale={locale}
           />
-          <div className="rounded-lg border-2 border-dashed border-input p-6 text-center">
+          <div className="border-input rounded-lg border-2 border-dashed p-6 text-center">
             <input
               id={id}
               type="file"
@@ -1083,7 +1081,7 @@ function QuestionInput({
               }}
             />
             <label htmlFor={id} className="cursor-pointer touch-manipulation">
-              <div className="text-sm text-muted-foreground">
+              <div className="text-muted-foreground text-sm">
                 {value ? (
                   <span className="text-foreground font-medium">
                     {String(value)}
@@ -1092,7 +1090,7 @@ function QuestionInput({
                   <>Click to upload a file</>
                 )}
               </div>
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-muted-foreground mt-1 text-xs">
                 {question.validation?.allowedFileTypes
                   ? `Allowed: ${question.validation.allowedFileTypes.join(", ")}`
                   : "PDF, JPG, PNG, DOC accepted"}
@@ -1118,10 +1116,10 @@ function QuestionInput({
             frLabel={frLabel}
             locale={locale}
           />
-          <div className="rounded-lg border border-input p-4 space-y-3">
-            <div className="h-24 bg-muted/30 rounded flex items-center justify-center text-sm text-muted-foreground">
+          <div className="border-input space-y-3 rounded-lg border p-4">
+            <div className="bg-muted/30 text-muted-foreground flex h-24 items-center justify-center rounded-sm text-sm">
               {sigName ? (
-                <p className="font-medium text-foreground italic text-lg">
+                <p className="text-foreground text-lg font-medium italic">
                   {sigName}
                 </p>
               ) : (
@@ -1146,14 +1144,14 @@ function QuestionInput({
                 });
               }}
               required={question.required}
-              className="text-base min-h-12"
+              className="min-h-12 text-base"
             />
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               By typing your name above, you agree this serves as your
               electronic signature.
             </p>
             {sigName && (
-              <div className="flex items-center gap-2 text-[10px] text-muted-foreground bg-muted/30 rounded px-2 py-1">
+              <div className="bg-muted/30 text-muted-foreground flex items-center gap-2 rounded-sm px-2 py-1 text-[10px]">
                 <Shield className="h-3 w-3" />
                 <span>
                   E-signed · {Intl.DateTimeFormat().resolvedOptions().timeZone}
@@ -1177,7 +1175,7 @@ function QuestionInput({
           <Input
             id={id}
             type="tel"
-            className="text-base min-h-12 touch-manipulation"
+            className="min-h-12 touch-manipulation text-base"
             value={(value as string) ?? question.defaultValue ?? ""}
             onChange={(e) => onChange(e.target.value)}
             placeholder={question.placeholder ?? "(555) 123-4567"}
@@ -1198,7 +1196,7 @@ function QuestionInput({
           <Input
             id={id}
             type="email"
-            className="text-base min-h-12 touch-manipulation"
+            className="min-h-12 touch-manipulation text-base"
             value={(value as string) ?? question.defaultValue ?? ""}
             onChange={(e) => onChange(e.target.value)}
             placeholder={question.placeholder ?? "name@example.com"}
@@ -1230,7 +1228,7 @@ function QuestionInput({
               placeholder="Street address"
               value={addr.street ?? ""}
               onChange={(e) => update("street", e.target.value)}
-              className="text-base min-h-12"
+              className="min-h-12 text-base"
               required={question.required}
             />
             <div className="grid grid-cols-3 gap-2">
@@ -1238,19 +1236,19 @@ function QuestionInput({
                 placeholder="City"
                 value={addr.city ?? ""}
                 onChange={(e) => update("city", e.target.value)}
-                className="text-base min-h-12 col-span-1"
+                className="col-span-1 min-h-12 text-base"
               />
               <Input
                 placeholder="State"
                 value={addr.state ?? ""}
                 onChange={(e) => update("state", e.target.value)}
-                className="text-base min-h-12"
+                className="min-h-12 text-base"
               />
               <Input
                 placeholder="ZIP"
                 value={addr.zip ?? ""}
                 onChange={(e) => update("zip", e.target.value)}
-                className="text-base min-h-12"
+                className="min-h-12 text-base"
               />
             </div>
           </div>
@@ -1275,7 +1273,7 @@ function QuestionInput({
             onChange={(e) => onChange(e.target.value)}
             placeholder={question.placeholder}
             required={question.required}
-            className="text-base min-h-12 touch-manipulation"
+            className="min-h-12 touch-manipulation text-base"
           />
         </div>,
       );

@@ -237,19 +237,19 @@ export function TimeRangeSlider({
       <div className="flex items-center justify-between gap-2">
         <div>
           <div className="text-lg font-bold">{startTime}</div>
-          <div className="text-[10px] text-muted-foreground uppercase tracking-wide">
+          <div className="text-muted-foreground text-[10px] tracking-wide uppercase">
             Check-in Time
           </div>
         </div>
         <div className="text-center">
-          <div className="text-sm font-medium text-muted-foreground">
+          <div className="text-muted-foreground text-sm font-medium">
             {durationText}
           </div>
           <Badge variant="secondary">{daycareType}</Badge>
         </div>
         <div className="text-right">
           <div className="text-lg font-bold">{endTime}</div>
-          <div className="text-[10px] text-muted-foreground uppercase tracking-wide">
+          <div className="text-muted-foreground text-[10px] tracking-wide uppercase">
             Check-out Time
           </div>
         </div>
@@ -267,16 +267,16 @@ export function TimeRangeSlider({
         onMouseDown={(e) => e.preventDefault()}
       >
         <div className="absolute inset-0 flex items-center">
-          <div className="h-2 w-full rounded-full bg-muted" />
+          <div className="bg-muted h-2 w-full rounded-full" />
           <div
-            className="absolute h-2 rounded-full bg-primary"
+            className="bg-primary absolute h-2 rounded-full"
             style={{
               left: `${startPercent}%`,
               width: `${endPercent - startPercent}%`,
             }}
           />
           <div
-            className="absolute h-5 w-5 -translate-x-1/2 rounded-full border-2 border-primary bg-background shadow-md transition-none hover:scale-110"
+            className="border-primary bg-background absolute h-5 w-5 -translate-x-1/2 rounded-full border-2 shadow-md transition-none hover:scale-110"
             style={{
               left: `${startPercent}%`,
               top: "50%",
@@ -288,7 +288,7 @@ export function TimeRangeSlider({
             }}
           />
           <div
-            className="absolute h-5 w-5 -translate-x-1/2 rounded-full border-2 border-primary bg-background shadow-md transition-none hover:scale-110"
+            className="border-primary bg-background absolute h-5 w-5 -translate-x-1/2 rounded-full border-2 shadow-md transition-none hover:scale-110"
             style={{
               left: `${endPercent}%`,
               top: "50%",
@@ -302,7 +302,7 @@ export function TimeRangeSlider({
         </div>
       </div>
 
-      <div className="flex justify-between text-[10px] text-muted-foreground">
+      <div className="text-muted-foreground flex justify-between text-[10px]">
         {timeMarkers.map((t) => (
           <span key={t}>{t}</span>
         ))}
@@ -310,7 +310,7 @@ export function TimeRangeSlider({
 
       <div className="grid grid-cols-2 gap-3 pt-1">
         <div className="space-y-1">
-          <Label className="text-xs text-muted-foreground">Check-in</Label>
+          <Label className="text-muted-foreground text-xs">Check-in</Label>
           <Input
             type="time"
             value={startTime}
@@ -326,7 +326,7 @@ export function TimeRangeSlider({
           />
         </div>
         <div className="space-y-1">
-          <Label className="text-xs text-muted-foreground">Check-out</Label>
+          <Label className="text-muted-foreground text-xs">Check-out</Label>
           <Input
             type="time"
             value={endTime}

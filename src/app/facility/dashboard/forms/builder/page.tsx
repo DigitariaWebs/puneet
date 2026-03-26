@@ -25,7 +25,7 @@ export default function FormBuilderPage() {
       <div className="flex items-center gap-4">
         <Button variant="ghost" size="icon" asChild>
           <Link href="/facility/dashboard/forms">
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="size-4" />
           </Link>
         </Button>
         <div>

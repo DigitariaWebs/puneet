@@ -97,8 +97,8 @@ export function ReportCardPhotoGallery({
     <>
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <p className="text-sm font-medium flex items-center gap-2">
-            <ImageIcon className="h-4 w-4" /> Photos from this stay
+          <p className="flex items-center gap-2 text-sm font-medium">
+            <ImageIcon className="size-4" /> Photos from this stay
           </p>
           {photos.length > 4 && (
             <Button
@@ -111,11 +111,11 @@ export function ReportCardPhotoGallery({
             </Button>
           )}
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
           {photos.slice(0, 4).map((photo, idx) => (
             <div
               key={`${reportCardId}-photo-${idx}`}
-              className="relative aspect-[4/3] rounded-lg overflow-hidden bg-muted cursor-pointer hover:opacity-90 transition-opacity"
+              className="bg-muted relative aspect-4/3 cursor-pointer overflow-hidden rounded-lg transition-opacity hover:opacity-90"
               onClick={() => {
                 setSelectedPhotoIndex(idx);
                 setIsGalleryOpen(true);
@@ -134,7 +134,7 @@ export function ReportCardPhotoGallery({
 
       {/* Gallery Modal */}
       <Dialog open={isGalleryOpen} onOpenChange={setIsGalleryOpen}>
-        <DialogContent className="max-w-6xl max-h-[90vh] p-0">
+        <DialogContent className="max-h-[90vh] max-w-6xl p-0">
           <DialogHeader className="px-6 pt-6 pb-4">
             <DialogTitle className="flex items-center justify-between">
               <span>
@@ -145,14 +145,14 @@ export function ReportCardPhotoGallery({
                 size="icon"
                 onClick={() => setIsGalleryOpen(false)}
               >
-                <X className="h-4 w-4" />
+                <X className="size-4" />
               </Button>
             </DialogTitle>
           </DialogHeader>
 
           <div className="relative flex-1 overflow-hidden">
             {/* Main Photo */}
-            <div className="relative aspect-video bg-muted">
+            <div className="bg-muted relative aspect-video">
               <Image
                 src={photos[selectedPhotoIndex]}
                 alt={`${petName} photo ${selectedPhotoIndex + 1}`}
@@ -162,7 +162,7 @@ export function ReportCardPhotoGallery({
             </div>
 
             {/* Photo Actions */}
-            <div className="absolute bottom-4 right-4 flex gap-2">
+            <div className="absolute right-4 bottom-4 flex gap-2">
               {photoDownloadEnabled && (
                 <Button
                   size="sm"
@@ -174,7 +174,7 @@ export function ReportCardPhotoGallery({
                     )
                   }
                 >
-                  <Download className="h-4 w-4 mr-2" />
+                  <Download className="mr-2 size-4" />
                   Download
                 </Button>
               )}
@@ -184,7 +184,7 @@ export function ReportCardPhotoGallery({
                   variant="secondary"
                   onClick={() => handleSharePhoto(photos[selectedPhotoIndex])}
                 >
-                  <Share2 className="h-4 w-4 mr-2" />
+                  <Share2 className="mr-2 size-4" />
                   Share
                 </Button>
               )}
@@ -196,26 +196,26 @@ export function ReportCardPhotoGallery({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute left-4 top-1/2 -translate-y-1/2"
+                  className="absolute top-1/2 left-4 -translate-y-1/2"
                   onClick={() =>
                     setSelectedPhotoIndex((prev) =>
                       prev > 0 ? prev - 1 : photos.length - 1,
                     )
                   }
                 >
-                  <ChevronLeft className="h-4 w-4" />
+                  <ChevronLeft className="size-4" />
                 </Button>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute right-4 top-1/2 -translate-y-1/2"
+                  className="absolute top-1/2 right-4 -translate-y-1/2"
                   onClick={() =>
                     setSelectedPhotoIndex((prev) =>
                       prev < photos.length - 1 ? prev + 1 : 0,
                     )
                   }
                 >
-                  <ChevronRight className="h-4 w-4" />
+                  <ChevronRight className="size-4" />
                 </Button>
               </>
             )}
@@ -223,17 +223,17 @@ export function ReportCardPhotoGallery({
 
           {/* Thumbnail Strip */}
           {photos.length > 1 && (
-            <div className="px-6 pb-6 pt-4 border-t">
+            <div className="border-t px-6 pt-4 pb-6">
               <div className="flex gap-2 overflow-x-auto">
                 {photos.map((photo, idx) => (
                   <button
                     key={idx}
                     onClick={() => setSelectedPhotoIndex(idx)}
-                    className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
+                    className={`h-20 w-20 shrink-0 overflow-hidden rounded-lg border-2 transition-all ${
                       selectedPhotoIndex === idx
                         ? "border-primary"
-                        : "border-transparent opacity-60 hover:opacity-100"
-                    }`}
+                        : `border-transparent opacity-60 hover:opacity-100`
+                    } `}
                   >
                     <Image
                       src={photo}

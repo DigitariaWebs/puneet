@@ -427,7 +427,7 @@ export default function CustomerTrainingPage() {
       {/* Series Cards */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {availableSeries.length === 0 ? (
-          <div className="col-span-full text-center py-12 text-muted-foreground">
+          <div className="text-muted-foreground col-span-full py-12 text-center">
             No training series available at this time.
           </div>
         ) : (
@@ -441,34 +441,34 @@ export default function CustomerTrainingPage() {
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <CardTitle className="text-xl mb-2">
+                      <CardTitle className="mb-2 text-xl">
                         {seriesItem.courseTypeName}
                       </CardTitle>
                       <CardDescription className="space-y-1">
                         <div className="flex items-center gap-2 text-sm">
-                          <CalendarDays className="h-4 w-4" />
+                          <CalendarDays className="size-4" />
                           {getDayName(seriesItem.dayOfWeek)}{" "}
                           {seriesItem.startTime}
                         </div>
                         {isMounted && dateRange && (
                           <div className="flex items-center gap-2 text-sm">
-                            <Clock className="h-4 w-4" />
+                            <Clock className="size-4" />
                             {dateRange} | {seriesItem.numberOfWeeks} weeks
                           </div>
                         )}
                         <div className="flex items-center gap-2 text-sm">
-                          <User className="h-4 w-4" />
+                          <User className="size-4" />
                           Instructor: {seriesItem.instructorName}
                         </div>
                         <div className="flex items-center gap-2 text-sm">
-                          <MapPin className="h-4 w-4" />
+                          <MapPin className="size-4" />
                           {seriesItem.location}
                         </div>
                       </CardDescription>
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="flex-1 flex flex-col justify-end space-y-4">
+                <CardContent className="flex flex-1 flex-col justify-end space-y-4">
                   <div className="flex items-center justify-between">
                     <Badge
                       variant={isFull ? "destructive" : "default"}
@@ -481,9 +481,9 @@ export default function CustomerTrainingPage() {
                   <Separator />
                   {/* Show enrolled pet if any */}
                   {enrollments.some((e) => e.seriesId === seriesItem.id) && (
-                    <div className="p-2 bg-primary/10 rounded-lg text-sm">
-                      <div className="flex items-center gap-2 text-primary font-medium">
-                        <CheckCircle2 className="h-4 w-4" />
+                    <div className="bg-primary/10 rounded-lg p-2 text-sm">
+                      <div className="text-primary flex items-center gap-2 font-medium">
+                        <CheckCircle2 className="size-4" />
                         Enrolled:{" "}
                         {enrollments
                           .filter((e) => e.seriesId === seriesItem.id)
@@ -498,7 +498,7 @@ export default function CustomerTrainingPage() {
                       className="flex-1"
                       onClick={() => handleCourseDetailsClick(seriesItem)}
                     >
-                      <Info className="h-4 w-4 mr-2" />
+                      <Info className="mr-2 size-4" />
                       Course Details
                     </Button>
                     {isFull ? (
@@ -530,7 +530,7 @@ export default function CustomerTrainingPage() {
         open={isEnrollmentModalOpen}
         onOpenChange={setIsEnrollmentModalOpen}
       >
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Enroll in Training Series</DialogTitle>
             <DialogDescription>{selectedSeries?.seriesName}</DialogDescription>
@@ -565,7 +565,7 @@ export default function CustomerTrainingPage() {
             {selectedPet && selectedCourseType && prerequisiteValidation && (
               <div className="space-y-2">
                 <Label>Prerequisites Check</Label>
-                <div className="p-4 border rounded-lg space-y-2">
+                <div className="space-y-2 rounded-lg border p-4">
                   {prerequisiteValidation.eligible ? (
                     <div className="flex items-center gap-2 text-green-600">
                       <CheckCircle2 className="h-5 w-5" />
@@ -575,13 +575,13 @@ export default function CustomerTrainingPage() {
                     </div>
                   ) : (
                     <div className="space-y-2">
-                      <div className="flex items-center gap-2 text-destructive">
+                      <div className="text-destructive flex items-center gap-2">
                         <XCircle className="h-5 w-5" />
                         <span className="font-medium">
                           Prerequisites not met
                         </span>
                       </div>
-                      <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground ml-7">
+                      <ul className="text-muted-foreground ml-7 list-inside list-disc space-y-1 text-sm">
                         {prerequisiteValidation.issues.map((issue, index) => (
                           <li key={index}>{issue.message}</li>
                         ))}
@@ -596,12 +596,12 @@ export default function CustomerTrainingPage() {
             {selectedSeries && (
               <div className="space-y-2">
                 <Label>Series Commitment</Label>
-                <div className="p-4 border rounded-lg space-y-2">
-                  <p className="text-sm text-muted-foreground">
+                <div className="space-y-2 rounded-lg border p-4">
+                  <p className="text-muted-foreground text-sm">
                     By enrolling, you commit to attending all{" "}
                     {selectedSeries.numberOfWeeks} sessions:
                   </p>
-                  <ul className="list-disc list-inside space-y-1 text-sm ml-4">
+                  <ul className="ml-4 list-inside list-disc space-y-1 text-sm">
                     {isMounted &&
                       calculateSessionDates(
                         selectedSeries.startDate,
@@ -631,7 +631,7 @@ export default function CustomerTrainingPage() {
                   />
                   <Label
                     htmlFor="commitment"
-                    className="text-sm font-normal cursor-pointer"
+                    className="cursor-pointer text-sm font-normal"
                   >
                     I agree to the series commitment (all{" "}
                     {selectedSeries.numberOfWeeks} weeks)
@@ -652,12 +652,12 @@ export default function CustomerTrainingPage() {
                     setPaymentOption(value as "deposit" | "full")
                   }
                 >
-                  <div className="flex items-center space-x-2 p-4 border rounded-lg">
+                  <div className="flex items-center space-x-2 rounded-lg border p-4">
                     <RadioGroupItem value="deposit" id="deposit" />
                     <Label htmlFor="deposit" className="flex-1 cursor-pointer">
                       <div>
                         <div className="font-medium">Deposit</div>
-                        <div className="text-sm text-muted-foreground">
+                        <div className="text-muted-foreground text-sm">
                           ${selectedSeries.enrollmentRules.depositRequired} now,
                           remainder due before first session
                         </div>
@@ -667,12 +667,12 @@ export default function CustomerTrainingPage() {
                       ${selectedSeries.enrollmentRules.depositRequired}
                     </div>
                   </div>
-                  <div className="flex items-center space-x-2 p-4 border rounded-lg">
+                  <div className="flex items-center space-x-2 rounded-lg border p-4">
                     <RadioGroupItem value="full" id="full" />
                     <Label htmlFor="full" className="flex-1 cursor-pointer">
                       <div>
                         <div className="font-medium">Full Payment</div>
-                        <div className="text-sm text-muted-foreground">
+                        <div className="text-muted-foreground text-sm">
                           Pay entire series amount upfront
                         </div>
                       </div>
@@ -717,7 +717,7 @@ export default function CustomerTrainingPage() {
         open={isCourseDetailsModalOpen}
         onOpenChange={setIsCourseDetailsModalOpen}
       >
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Course Details</DialogTitle>
             <DialogDescription>
@@ -730,7 +730,7 @@ export default function CustomerTrainingPage() {
               {/* Description */}
               <div className="space-y-2">
                 <h3 className="font-semibold">Description</h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   {selectedCourseType?.description ||
                     "No description available."}
                 </p>
@@ -744,7 +744,7 @@ export default function CustomerTrainingPage() {
                   <>
                     <div className="space-y-2">
                       <h3 className="font-semibold">What to Bring</h3>
-                      <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground ml-2">
+                      <ul className="text-muted-foreground ml-2 list-inside list-disc space-y-1 text-sm">
                         {selectedCourseType.whatToBring.map((item, index) => (
                           <li key={index}>{item}</li>
                         ))}
@@ -761,10 +761,10 @@ export default function CustomerTrainingPage() {
                   {selectedCourseType?.requiredVaccines &&
                     selectedCourseType.requiredVaccines.length > 0 && (
                       <div>
-                        <p className="text-sm font-medium mb-1">
+                        <p className="mb-1 text-sm font-medium">
                           Required Vaccinations:
                         </p>
-                        <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground ml-2">
+                        <ul className="text-muted-foreground ml-2 list-inside list-disc space-y-1 text-sm">
                           {selectedCourseType.requiredVaccines.map(
                             (vaccine, index) => (
                               <li key={index}>{vaccine}</li>
@@ -776,10 +776,10 @@ export default function CustomerTrainingPage() {
                   {selectedCourseType?.prerequisites &&
                     selectedCourseType.prerequisites.length > 0 && (
                       <div>
-                        <p className="text-sm font-medium mb-1">
+                        <p className="mb-1 text-sm font-medium">
                           Required Courses:
                         </p>
-                        <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground ml-2">
+                        <ul className="text-muted-foreground ml-2 list-inside list-disc space-y-1 text-sm">
                           {selectedCourseType.prerequisites.map(
                             (prereqId, index) => {
                               const prereqCourse =
@@ -800,7 +800,7 @@ export default function CustomerTrainingPage() {
                     selectedCourseType.requiredVaccines.length === 0) &&
                     (!selectedCourseType?.prerequisites ||
                       selectedCourseType.prerequisites.length === 0) && (
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-muted-foreground text-sm">
                         No prerequisites required.
                       </p>
                     )}
@@ -814,7 +814,7 @@ export default function CustomerTrainingPage() {
                 <>
                   <div className="space-y-2">
                     <h3 className="font-semibold">Cancellation Policy</h3>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       {selectedCourseType.cancellationPolicy}
                     </p>
                   </div>
@@ -826,7 +826,7 @@ export default function CustomerTrainingPage() {
               {selectedCourseType?.refundPolicy && (
                 <div className="space-y-2">
                   <h3 className="font-semibold">Refund Policy</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     {selectedCourseType.refundPolicy}
                   </p>
                 </div>
@@ -895,7 +895,7 @@ export default function CustomerTrainingPage() {
             </div>
 
             {waitlistPosition && (
-              <div className="p-4 bg-muted rounded-lg">
+              <div className="bg-muted rounded-lg p-4">
                 <p className="text-sm">
                   If you join now, your position will be{" "}
                   <strong>#{waitlistPosition}</strong>. You&apos;ll receive an

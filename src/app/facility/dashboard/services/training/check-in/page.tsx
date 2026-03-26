@@ -248,7 +248,7 @@ export default function TrainingCheckInPage() {
         <Badge variant="outline" className="text-sm">
           Training - Arrivals Today
         </Badge>
-        <span className="text-sm text-muted-foreground">
+        <span className="text-muted-foreground text-sm">
           {filteredArrivals.length}{" "}
           {filteredArrivals.length === 1 ? "arrival" : "arrivals"}
         </span>
@@ -256,8 +256,8 @@ export default function TrainingCheckInPage() {
 
       {/* Search */}
       <div className="flex gap-4">
-        <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <div className="relative flex-1">
+          <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2 transform" />
           <Input
             placeholder="Search by pet name, owner, or series..."
             value={searchQuery}
@@ -270,7 +270,7 @@ export default function TrainingCheckInPage() {
       {/* Arrivals List */}
       {filteredArrivals.length === 0 ? (
         <Card>
-          <CardContent className="py-12 text-center text-muted-foreground">
+          <CardContent className="text-muted-foreground py-12 text-center">
             {isMounted &&
               new Date().toLocaleDateString("en-US", {
                 weekday: "long",
@@ -287,12 +287,12 @@ export default function TrainingCheckInPage() {
               <Card key={arrival.enrollment.id}>
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4 flex-1">
-                      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
-                        <GraduationCap className="h-6 w-6 text-primary" />
+                    <div className="flex flex-1 items-center gap-4">
+                      <div className="bg-primary/10 flex h-12 w-12 items-center justify-center rounded-full">
+                        <GraduationCap className="text-primary h-6 w-6" />
                       </div>
                       <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-1">
+                        <div className="mb-1 flex items-center gap-3">
                           <h3 className="text-lg font-semibold">
                             {arrival.enrollment.petName} (
                             {arrival.enrollment.petBreed})
@@ -304,20 +304,20 @@ export default function TrainingCheckInPage() {
                             Week {arrival.sessionNumber}
                           </Badge>
                         </div>
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                        <div className="text-muted-foreground flex items-center gap-4 text-sm">
                           <div className="flex items-center gap-1">
-                            <User className="h-4 w-4" />
+                            <User className="size-4" />
                             Handler:{" "}
                             {arrival.enrollment.handlerName ||
                               arrival.enrollment.ownerName}
                           </div>
                           <div className="flex items-center gap-1">
-                            <Clock className="h-4 w-4" />
+                            <Clock className="size-4" />
                             {getDayName(arrival.series.dayOfWeek)}{" "}
                             {arrival.series.startTime}
                           </div>
                           <div className="flex items-center gap-1">
-                            <Calendar className="h-4 w-4" />
+                            <Calendar className="size-4" />
                             {isMounted &&
                               new Date(arrival.sessionDate).toLocaleDateString(
                                 "en-US",
@@ -328,7 +328,7 @@ export default function TrainingCheckInPage() {
                               )}
                           </div>
                           <div className="flex items-center gap-1">
-                            <GraduationCap className="h-4 w-4" />
+                            <GraduationCap className="size-4" />
                             {arrival.series.location}
                           </div>
                         </div>
@@ -344,7 +344,7 @@ export default function TrainingCheckInPage() {
                         </div>
                       ) : (
                         <Button onClick={() => handleCheckIn(arrival)}>
-                          <LogIn className="mr-2 h-4 w-4" />
+                          <LogIn className="mr-2 size-4" />
                           Check In
                         </Button>
                       )}
@@ -369,15 +369,15 @@ export default function TrainingCheckInPage() {
 
           {selectedArrival && (
             <div className="space-y-4 py-4">
-              <div className="p-4 border rounded-lg space-y-2">
+              <div className="space-y-2 rounded-lg border p-4">
                 <div className="font-medium">
                   {selectedArrival.enrollment.petName}
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-muted-foreground text-sm">
                   {selectedArrival.series.courseTypeName} - Week{" "}
                   {selectedArrival.sessionNumber}
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-muted-foreground text-sm">
                   Class starts at {selectedArrival.series.startTime} in{" "}
                   {selectedArrival.series.location}
                 </div>
@@ -393,9 +393,9 @@ export default function TrainingCheckInPage() {
                 />
               </div>
 
-              <div className="p-3 bg-muted rounded-lg text-sm">
-                <p className="font-medium mb-1">Actions that will occur:</p>
-                <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+              <div className="bg-muted rounded-lg p-3 text-sm">
+                <p className="mb-1 font-medium">Actions that will occur:</p>
+                <ul className="text-muted-foreground list-inside list-disc space-y-1">
                   <li>
                     Print tag: TRAINING - {selectedArrival.series.location} -
                     Week {selectedArrival.sessionNumber}
@@ -421,7 +421,7 @@ export default function TrainingCheckInPage() {
               Cancel
             </Button>
             <Button onClick={confirmCheckIn}>
-              <Printer className="mr-2 h-4 w-4" />
+              <Printer className="mr-2 size-4" />
               Check In & Print Tag
             </Button>
           </DialogFooter>

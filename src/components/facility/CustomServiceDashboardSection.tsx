@@ -69,17 +69,17 @@ export const CustomServiceDashboardSection = memo(
 
     return (
       <Card
-        className="animate-in fade-in duration-300 border-l-4"
+        className="animate-in fade-in border-l-4 duration-300"
         style={borderStyle}
       >
-        <CardContent className="pt-6 space-y-4">
+        <CardContent className="space-y-4 pt-6">
           {/* Header */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div
                 className={cn(
-                  "h-10 w-10 rounded-xl flex items-center justify-center shrink-0",
-                  "bg-gradient-to-br",
+                  `flex h-10 w-10 shrink-0 items-center justify-center rounded-xl`,
+                  "bg-linear-to-br",
                 )}
                 style={gradientStyle}
               >
@@ -92,7 +92,7 @@ export const CustomServiceDashboardSection = memo(
                 <h3 className={cn("text-lg font-semibold", catMeta?.textClass)}>
                   {module.name}
                 </h3>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   {module.description}
                 </p>
               </div>
@@ -107,43 +107,43 @@ export const CustomServiceDashboardSection = memo(
 
           {/* Stats Row */}
           <div className="flex gap-4">
-            <div className="rounded-lg bg-muted/50 px-4 py-3 flex-1 text-center">
+            <div className="bg-muted/50 flex-1 rounded-lg px-4 py-3 text-center">
               <p className="text-2xl font-bold">3</p>
-              <p className="text-xs text-muted-foreground mt-0.5">
+              <p className="text-muted-foreground mt-0.5 text-xs">
                 Today&apos;s Bookings
               </p>
             </div>
-            <div className="rounded-lg bg-muted/50 px-4 py-3 flex-1 text-center">
+            <div className="bg-muted/50 flex-1 rounded-lg px-4 py-3 text-center">
               <p className="text-2xl font-bold">12</p>
-              <p className="text-xs text-muted-foreground mt-0.5">This Week</p>
+              <p className="text-muted-foreground mt-0.5 text-xs">This Week</p>
             </div>
           </div>
 
           {/* Upcoming Bookings */}
           <div className="space-y-2">
-            <p className="text-sm font-medium text-muted-foreground">
+            <p className="text-muted-foreground text-sm font-medium">
               Upcoming Today
             </p>
             {MOCK_BOOKINGS.map((booking) => (
               <div
                 key={booking.id}
-                className="flex items-center justify-between p-3 rounded-lg border bg-card hover:bg-muted/30 transition-colors"
+                className="bg-card hover:bg-muted/30 flex items-center justify-between rounded-lg border p-3 transition-colors"
               >
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <User className="h-4 w-4 text-primary" />
+                <div className="flex min-w-0 items-center gap-3">
+                  <div className="bg-primary/10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
+                    <User className="text-primary size-4" />
                   </div>
                   <div className="min-w-0">
-                    <p className="font-medium text-sm truncate">
+                    <p className="truncate text-sm font-medium">
                       {booking.petName}
                     </p>
-                    <p className="text-xs text-muted-foreground truncate">
+                    <p className="text-muted-foreground truncate text-xs">
                       {booking.client}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 shrink-0 ml-2">
-                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                <div className="ml-2 flex shrink-0 items-center gap-2">
+                  <div className="text-muted-foreground flex items-center gap-1 text-xs">
                     <Clock className="h-3 w-3" />
                     {booking.time}
                   </div>

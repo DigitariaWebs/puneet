@@ -177,11 +177,11 @@ export default function SchedulingSettings() {
           {isEditing ? (
             <>
               <Button variant="outline" onClick={handleReset}>
-                <RotateCcw className="mr-2 h-4 w-4" />
+                <RotateCcw className="mr-2 size-4" />
                 Cancel
               </Button>
               <Button onClick={handleSave}>
-                <Save className="mr-2 h-4 w-4" />
+                <Save className="mr-2 size-4" />
                 Save Changes
               </Button>
             </>
@@ -202,7 +202,7 @@ export default function SchedulingSettings() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Enable Staff Scheduling</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Allow scheduling functionality for staff
                 </p>
               </div>
@@ -218,7 +218,7 @@ export default function SchedulingSettings() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Allow Self-Scheduling</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Staff can pick up open shifts
                 </p>
               </div>
@@ -234,7 +234,7 @@ export default function SchedulingSettings() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Require Manager Approval</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   All schedule changes require manager approval
                 </p>
               </div>
@@ -362,7 +362,7 @@ export default function SchedulingSettings() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Enable Overtime Tracking</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Track overtime hours automatically
                 </p>
               </div>
@@ -411,7 +411,7 @@ export default function SchedulingSettings() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label>Require Overtime Approval</Label>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       Manager must approve overtime scheduling
                     </p>
                   </div>
@@ -441,7 +441,7 @@ export default function SchedulingSettings() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Enable Break Tracking</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Track staff breaks during shifts
                 </p>
               </div>
@@ -490,7 +490,7 @@ export default function SchedulingSettings() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label>Paid Breaks</Label>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       Breaks are included in paid time
                     </p>
                   </div>
@@ -519,7 +519,7 @@ export default function SchedulingSettings() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Enable Time Off Requests</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Staff can submit time off requests
                 </p>
               </div>
@@ -569,7 +569,7 @@ export default function SchedulingSettings() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label>Allow Partial Day Time Off</Label>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       Staff can request time off for part of a day
                     </p>
                   </div>
@@ -599,7 +599,7 @@ export default function SchedulingSettings() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Enable Shift Swaps</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Staff can swap shifts with each other
                 </p>
               </div>
@@ -617,7 +617,7 @@ export default function SchedulingSettings() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label>Require Swap Approval</Label>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       Manager must approve shift swaps
                     </p>
                   </div>
@@ -647,7 +647,7 @@ export default function SchedulingSettings() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label>Allow Cross-Role Swaps</Label>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       Allow swaps between staff of different roles
                     </p>
                   </div>
@@ -674,7 +674,7 @@ export default function SchedulingSettings() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Enable Sick Call-Ins</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Staff can report sick through the system
                 </p>
               </div>
@@ -707,7 +707,7 @@ export default function SchedulingSettings() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label>Require Sick Note</Label>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       Require doctor&apos;s note for sick leave
                     </p>
                   </div>
@@ -722,7 +722,7 @@ export default function SchedulingSettings() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label>Auto-Find Coverage</Label>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       Automatically suggest available staff for coverage
                     </p>
                   </div>
@@ -751,7 +751,7 @@ export default function SchedulingSettings() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Schedule Published Notification</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Notify staff when new schedule is published
                 </p>
               </div>
@@ -770,7 +770,7 @@ export default function SchedulingSettings() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Shift Reminder Notification</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Send reminder before scheduled shifts
                 </p>
               </div>
@@ -806,7 +806,7 @@ export default function SchedulingSettings() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Swap Request Notification</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Notify when swap requests are submitted
                 </p>
               </div>
@@ -825,7 +825,7 @@ export default function SchedulingSettings() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Time Off Approval Notification</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Notify when time off is approved/denied
                 </p>
               </div>
@@ -895,7 +895,7 @@ export default function SchedulingSettings() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Show Staff Photos</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Display staff profile photos in calendar
                 </p>
               </div>
@@ -910,7 +910,7 @@ export default function SchedulingSettings() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Color Code by Role</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Use different colors for different staff roles
                 </p>
               </div>
@@ -936,11 +936,11 @@ export default function SchedulingSettings() {
           <CardContent className="space-y-6">
             {/* Daycare Coverage */}
             <div className="space-y-4">
-              <h4 className="font-semibold text-sm">Daycare Coverage</h4>
+              <h4 className="text-sm font-semibold">Daycare Coverage</h4>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Staff per Dogs Ratio</Label>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-muted-foreground text-xs">
                     1 staff member per X dogs
                   </p>
                   <Input
@@ -957,7 +957,7 @@ export default function SchedulingSettings() {
                 </div>
                 <div className="space-y-2">
                   <Label>Minimum Staff Required</Label>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-muted-foreground text-xs">
                     Always have at least this many staff for daycare
                   </p>
                   <Input
@@ -979,11 +979,11 @@ export default function SchedulingSettings() {
 
             {/* Boarding Coverage */}
             <div className="space-y-4">
-              <h4 className="font-semibold text-sm">Boarding Coverage</h4>
+              <h4 className="text-sm font-semibold">Boarding Coverage</h4>
               <div className="grid grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label>Morning Shift Minimum</Label>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-muted-foreground text-xs">
                     Minimum staff for morning shift (e.g., 06:00-14:00)
                   </p>
                   <Input
@@ -1000,7 +1000,7 @@ export default function SchedulingSettings() {
                 </div>
                 <div className="space-y-2">
                   <Label>Afternoon Shift Minimum</Label>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-muted-foreground text-xs">
                     Minimum staff for afternoon shift (e.g., 14:00-22:00)
                   </p>
                   <Input
@@ -1018,7 +1018,7 @@ export default function SchedulingSettings() {
                 </div>
                 <div className="space-y-2">
                   <Label>Evening Shift Minimum</Label>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-muted-foreground text-xs">
                     Minimum staff for evening shift (e.g., 22:00-06:00)
                   </p>
                   <Input
@@ -1040,10 +1040,10 @@ export default function SchedulingSettings() {
 
             {/* Front Desk Coverage */}
             <div className="space-y-4">
-              <h4 className="font-semibold text-sm">
+              <h4 className="text-sm font-semibold">
                 Front Desk Coverage Windows
               </h4>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 Define time windows when front desk must be staffed
               </p>
               <div className="space-y-2">
@@ -1147,7 +1147,7 @@ export default function SchedulingSettings() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Show Grooming Schedule</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Display grooming appointments in the main schedule view
                 </p>
               </div>
@@ -1164,13 +1164,13 @@ export default function SchedulingSettings() {
 
             {/* Coverage Thresholds */}
             <div className="space-y-4">
-              <h4 className="font-semibold text-sm">
+              <h4 className="text-sm font-semibold">
                 Coverage Heatmap Thresholds
               </h4>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Understaffed Threshold</Label>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-muted-foreground text-xs">
                     Below this percentage of required staff = understaffed
                     (0.0-1.0)
                   </p>
@@ -1192,7 +1192,7 @@ export default function SchedulingSettings() {
                 </div>
                 <div className="space-y-2">
                   <Label>Overstaffed Threshold</Label>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-muted-foreground text-xs">
                     Above this percentage of required staff = overstaffed (1.0+)
                   </p>
                   <Input
@@ -1274,7 +1274,7 @@ export default function SchedulingSettings() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                <div className="rounded-lg border border-blue-200 bg-blue-50 p-3">
                   <p className="text-sm text-blue-900">
                     <strong>Admin Configuration:</strong> Define roles,
                     departments, and assign permissions to staff members.
@@ -1282,30 +1282,30 @@ export default function SchedulingSettings() {
                 </div>
                 <div className="space-y-2">
                   <Label>Available Roles</Label>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     Boarding, Daycare, Grooming, Front Desk, Training, Admin,
                     Manager
                   </p>
                 </div>
                 <div className="space-y-2">
                   <Label>Staff Permissions</Label>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     Configure who can be employee vs manager vs admin
                   </p>
                   <div className="mt-2 space-y-2">
-                    <div className="flex items-center justify-between p-2 border rounded">
+                    <div className="flex items-center justify-between rounded-sm border p-2">
                       <span className="text-sm">
                         Employee can view own schedule
                       </span>
                       <Switch defaultChecked disabled={!isEditing} />
                     </div>
-                    <div className="flex items-center justify-between p-2 border rounded">
+                    <div className="flex items-center justify-between rounded-sm border p-2">
                       <span className="text-sm">
                         Manager can edit schedules
                       </span>
                       <Switch defaultChecked disabled={!isEditing} />
                     </div>
-                    <div className="flex items-center justify-between p-2 border rounded">
+                    <div className="flex items-center justify-between rounded-sm border p-2">
                       <span className="text-sm">
                         Admin can override locked schedules
                       </span>
@@ -1335,32 +1335,32 @@ export default function SchedulingSettings() {
                 <Separator />
                 <div className="space-y-2">
                   <Label>Conflict Types to Detect</Label>
-                  <div className="space-y-2 mt-2">
-                    <div className="flex items-center justify-between p-2 border rounded">
+                  <div className="mt-2 space-y-2">
+                    <div className="flex items-center justify-between rounded-sm border p-2">
                       <span className="text-sm">Double-booked staff</span>
                       <Switch defaultChecked disabled={!isEditing} />
                     </div>
-                    <div className="flex items-center justify-between p-2 border rounded">
+                    <div className="flex items-center justify-between rounded-sm border p-2">
                       <span className="text-sm">Overlapping shifts</span>
                       <Switch defaultChecked disabled={!isEditing} />
                     </div>
-                    <div className="flex items-center justify-between p-2 border rounded">
+                    <div className="flex items-center justify-between rounded-sm border p-2">
                       <span className="text-sm">
                         Scheduling during approved time off
                       </span>
                       <Switch defaultChecked disabled={!isEditing} />
                     </div>
-                    <div className="flex items-center justify-between p-2 border rounded">
+                    <div className="flex items-center justify-between rounded-sm border p-2">
                       <span className="text-sm">Role mismatch</span>
                       <Switch defaultChecked disabled={!isEditing} />
                     </div>
-                    <div className="flex items-center justify-between p-2 border rounded">
+                    <div className="flex items-center justify-between rounded-sm border p-2">
                       <span className="text-sm">
                         Max hours per day exceeded
                       </span>
                       <Switch defaultChecked disabled={!isEditing} />
                     </div>
-                    <div className="flex items-center justify-between p-2 border rounded">
+                    <div className="flex items-center justify-between rounded-sm border p-2">
                       <span className="text-sm">
                         Min rest between shifts violated
                       </span>
@@ -1385,28 +1385,28 @@ export default function SchedulingSettings() {
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <Label>Task Template Categories</Label>
-                  <div className="grid grid-cols-2 gap-2 mt-2">
-                    <div className="p-2 border rounded">
+                  <div className="mt-2 grid grid-cols-2 gap-2">
+                    <div className="rounded-sm border p-2">
                       <p className="text-sm font-medium">Opening Tasks</p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         Morning setup, feeding rounds
                       </p>
                     </div>
-                    <div className="p-2 border rounded">
+                    <div className="rounded-sm border p-2">
                       <p className="text-sm font-medium">Closing Tasks</p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         Evening cleanup, final checks
                       </p>
                     </div>
-                    <div className="p-2 border rounded">
+                    <div className="rounded-sm border p-2">
                       <p className="text-sm font-medium">Medication Rounds</p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         Scheduled medication administration
                       </p>
                     </div>
-                    <div className="p-2 border rounded">
+                    <div className="rounded-sm border p-2">
                       <p className="text-sm font-medium">Cleaning Tasks</p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         Sanitization, deep cleaning
                       </p>
                     </div>

@@ -283,17 +283,17 @@ export default function PaymentSettingsPage() {
                 onClick={handleReset}
                 disabled={isSaving}
               >
-                <RotateCcw className="mr-2 h-4 w-4" />
+                <RotateCcw className="mr-2 size-4" />
                 Cancel
               </Button>
               <Button onClick={handleSave} disabled={isSaving}>
-                <Save className="mr-2 h-4 w-4" />
+                <Save className="mr-2 size-4" />
                 {isSaving ? "Saving..." : "Save Changes"}
               </Button>
             </>
           ) : (
             <Button onClick={() => setIsEditing(true)}>
-              <Settings className="mr-2 h-4 w-4" />
+              <Settings className="mr-2 size-4" />
               Edit Settings
             </Button>
           )}
@@ -302,7 +302,7 @@ export default function PaymentSettingsPage() {
 
       {/* Connection Status */}
       <Alert>
-        <AlertCircle className="h-4 w-4" />
+        <AlertCircle className="size-4" />
         <AlertDescription>
           {config.apiKey && config.merchantId ? (
             <div className="flex items-center gap-2">
@@ -404,13 +404,13 @@ export default function PaymentSettingsPage() {
         <CardContent className="space-y-4">
           <div className="space-y-3">
             {/* Clover Terminal */}
-            <div className="flex items-center justify-between p-3 border rounded-lg">
+            <div className="flex items-center justify-between rounded-lg border p-3">
               <div className="space-y-0.5">
                 <Label className="flex items-center gap-2">
-                  <Printer className="h-4 w-4" />
+                  <Printer className="size-4" />
                   Clover Terminal (Fiserv)
                 </Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Physical terminal for Tap/Chip/Swipe payments
                 </p>
               </div>
@@ -438,14 +438,14 @@ export default function PaymentSettingsPage() {
             </div>
 
             {/* Pay with iPhone */}
-            <div className="p-3 border rounded-lg space-y-3">
+            <div className="space-y-3 rounded-lg border p-3">
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label className="flex items-center gap-2">
-                    <Smartphone className="h-4 w-4" />
+                    <Smartphone className="size-4" />
                     Pay with iPhone (Tap to Pay)
                   </Label>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     Contactless payments directly on iPhone - no terminal needed
                   </p>
                 </div>
@@ -496,19 +496,19 @@ export default function PaymentSettingsPage() {
                       <span className="text-sm">
                         iPhone Setup & Configuration
                       </span>
-                      <Settings className="h-4 w-4" />
+                      <Settings className="size-4" />
                     </Button>
                   </CollapsibleTrigger>
                   <CollapsibleContent className="space-y-4 pt-3">
                     {/* Device Requirements */}
-                    <div className="p-3 bg-muted rounded-lg space-y-2">
+                    <div className="bg-muted space-y-2 rounded-lg p-3">
                       <div className="flex items-start gap-2">
-                        <Info className="h-4 w-4 text-blue-500 mt-0.5" />
+                        <Info className="mt-0.5 size-4 text-blue-500" />
                         <div className="flex-1 space-y-2">
                           <Label className="text-sm font-semibold">
                             Device Eligibility Requirements
                           </Label>
-                          <div className="text-xs text-muted-foreground space-y-1">
+                          <div className="text-muted-foreground space-y-1 text-xs">
                             <p>
                               <strong>Minimum iOS Version:</strong>{" "}
                               {config.inPersonMethods?.iphoneSettings
@@ -517,7 +517,7 @@ export default function PaymentSettingsPage() {
                             <p>
                               <strong>Supported iPhone Models:</strong>
                             </p>
-                            <ul className="list-disc list-inside ml-2 space-y-1">
+                            <ul className="ml-2 list-inside list-disc space-y-1">
                               <li>iPhone XS and newer</li>
                               <li>Requires NFC capability</li>
                               <li>
@@ -541,7 +541,7 @@ export default function PaymentSettingsPage() {
                     {/* Enable per Location */}
                     <div className="space-y-2">
                       <Label>Enable for Locations</Label>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         Select which locations can accept iPhone payments
                       </p>
                       <div className="space-y-2">
@@ -603,7 +603,7 @@ export default function PaymentSettingsPage() {
                             />
                             <Label
                               htmlFor={`iphone-loc-${location.id}`}
-                              className="text-sm font-normal cursor-pointer"
+                              className="cursor-pointer text-sm font-normal"
                             >
                               {location.name}
                             </Label>
@@ -615,7 +615,7 @@ export default function PaymentSettingsPage() {
                     {/* Role Restrictions */}
                     <div className="space-y-2">
                       <Label>Restrict to Roles (Optional)</Label>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         Leave empty to allow all roles. Select specific roles to
                         restrict access.
                       </p>
@@ -680,7 +680,7 @@ export default function PaymentSettingsPage() {
                               />
                               <Label
                                 htmlFor={`iphone-role-${role}`}
-                                className="text-sm font-normal cursor-pointer"
+                                className="cursor-pointer text-sm font-normal"
                               >
                                 {role}
                               </Label>
@@ -692,7 +692,7 @@ export default function PaymentSettingsPage() {
                         ?.restrictedRoles ||
                         config.inPersonMethods.iphoneSettings.restrictedRoles
                           .length === 0) && (
-                        <p className="text-xs text-muted-foreground italic">
+                        <p className="text-muted-foreground text-xs italic">
                           All roles can use iPhone payments
                         </p>
                       )}
@@ -703,14 +703,14 @@ export default function PaymentSettingsPage() {
             </div>
 
             {/* Manual Card Entry */}
-            <div className="p-3 border rounded-lg space-y-3">
+            <div className="space-y-3 rounded-lg border p-3">
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label className="flex items-center gap-2">
-                    <CreditCard className="h-4 w-4" />
+                    <CreditCard className="size-4" />
                     Manual Card Entry
                   </Label>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     Enter card details manually (optional / admin-only)
                   </p>
                 </div>
@@ -753,14 +753,14 @@ export default function PaymentSettingsPage() {
                       className="w-full justify-between"
                     >
                       <span className="text-sm">Manual Entry Settings</span>
-                      <Settings className="h-4 w-4" />
+                      <Settings className="size-4" />
                     </Button>
                   </CollapsibleTrigger>
                   <CollapsibleContent className="space-y-3 pt-3">
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label className="text-sm">Admin Only</Label>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-muted-foreground text-xs">
                           Restrict manual card entry to admin users only
                         </p>
                       </div>
@@ -809,7 +809,7 @@ export default function PaymentSettingsPage() {
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label className="text-sm">Require CVV</Label>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-muted-foreground text-xs">
                           Require CVV code for manual card entry
                         </p>
                       </div>
@@ -858,7 +858,7 @@ export default function PaymentSettingsPage() {
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label className="text-sm">Require ZIP Code</Label>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-muted-foreground text-xs">
                           Require billing ZIP code for manual card entry
                         </p>
                       </div>
@@ -911,13 +911,13 @@ export default function PaymentSettingsPage() {
             <Separator />
 
             {/* Cash */}
-            <div className="flex items-center justify-between p-3 border rounded-lg">
+            <div className="flex items-center justify-between rounded-lg border p-3">
               <div className="space-y-0.5">
                 <Label className="flex items-center gap-2">
-                  <Banknote className="h-4 w-4" />
+                  <Banknote className="size-4" />
                   Cash
                 </Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Accept cash payments at POS
                 </p>
               </div>
@@ -946,13 +946,13 @@ export default function PaymentSettingsPage() {
             </div>
 
             {/* Store Credit */}
-            <div className="flex items-center justify-between p-3 border rounded-lg">
+            <div className="flex items-center justify-between rounded-lg border p-3">
               <div className="space-y-0.5">
                 <Label className="flex items-center gap-2">
-                  <CreditCard className="h-4 w-4" />
+                  <CreditCard className="size-4" />
                   Store Credit
                 </Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Allow customers to use store credit
                 </p>
               </div>
@@ -981,13 +981,13 @@ export default function PaymentSettingsPage() {
             </div>
 
             {/* Gift Card */}
-            <div className="flex items-center justify-between p-3 border rounded-lg">
+            <div className="flex items-center justify-between rounded-lg border p-3">
               <div className="space-y-0.5">
                 <Label className="flex items-center gap-2">
-                  <CreditCard className="h-4 w-4" />
+                  <CreditCard className="size-4" />
                   Gift Card
                 </Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Accept gift card payments
                 </p>
               </div>
@@ -1031,7 +1031,7 @@ export default function PaymentSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Credit/Debit Cards</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Process card payments through Fiserv
                 </p>
               </div>
@@ -1052,7 +1052,7 @@ export default function PaymentSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Card on File</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Allow customers to save cards for future payments
                 </p>
               </div>
@@ -1073,7 +1073,7 @@ export default function PaymentSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Auto-Pay</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Enable automatic payments for recurring services
                 </p>
               </div>
@@ -1096,7 +1096,7 @@ export default function PaymentSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Cash</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Accept cash payments at POS
                 </p>
               </div>
@@ -1117,7 +1117,7 @@ export default function PaymentSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Gift Cards</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Accept gift card payments
                 </p>
               </div>
@@ -1138,7 +1138,7 @@ export default function PaymentSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Store Credit</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Allow customers to use store credit
                 </p>
               </div>
@@ -1172,7 +1172,7 @@ export default function PaymentSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Enable Auto-Pay</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Allow automatic charging for recurring services
                 </p>
               </div>
@@ -1195,7 +1195,7 @@ export default function PaymentSettingsPage() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label>Require Customer Consent</Label>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       Customers must explicitly opt-in to auto-pay
                     </p>
                   </div>
@@ -1216,7 +1216,7 @@ export default function PaymentSettingsPage() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label>Default to Auto-Pay</Label>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       Pre-select auto-pay option for new bookings
                     </p>
                   </div>
@@ -1272,7 +1272,7 @@ export default function PaymentSettingsPage() {
                             });
                           }}
                           disabled={!isEditing}
-                          className="rounded border-gray-300"
+                          className="rounded-sm border-gray-300"
                         />
                         <Label
                           htmlFor={`autopay-${service}`}
@@ -1303,7 +1303,7 @@ export default function PaymentSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Require CVV for Saved Cards</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Ask for CVV when using saved cards
                 </p>
               </div>
@@ -1324,7 +1324,7 @@ export default function PaymentSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Allow Multiple Cards</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Customers can save multiple payment methods
                 </p>
               </div>
@@ -1394,7 +1394,7 @@ export default function PaymentSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>POS Checkout</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Process payments at point of sale
                 </p>
               </div>
@@ -1415,7 +1415,7 @@ export default function PaymentSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Online Payments</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Process payments from customer portal
                 </p>
               </div>
@@ -1436,7 +1436,7 @@ export default function PaymentSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Booking Invoices</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Charge invoices through Fiserv
                 </p>
               </div>
@@ -1457,7 +1457,7 @@ export default function PaymentSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Memberships/Packages</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Process membership and package payments
                 </p>
               </div>
@@ -1478,7 +1478,7 @@ export default function PaymentSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Recurring Grooming Auto-Pay</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Automatically charge recurring grooming appointments
                 </p>
               </div>
@@ -1511,7 +1511,7 @@ export default function PaymentSettingsPage() {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Allow Partial Payments</Label>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 Customers can pay invoices in multiple installments
               </p>
             </div>
@@ -1532,7 +1532,7 @@ export default function PaymentSettingsPage() {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Allow Split Payments</Label>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 Split payment across multiple methods
               </p>
             </div>
@@ -1624,7 +1624,7 @@ export default function PaymentSettingsPage() {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Enable Clover Terminal</Label>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 Allow payments through physical Clover terminal (Tap/Chip/Swipe)
               </p>
             </div>
@@ -1680,13 +1680,13 @@ export default function PaymentSettingsPage() {
                       >
                         <div className="flex items-center gap-2">
                           {terminal.connectionType === "wifi" && (
-                            <Wifi className="h-4 w-4" />
+                            <Wifi className="size-4" />
                           )}
                           {terminal.connectionType === "ethernet" && (
-                            <EthernetPort className="h-4 w-4" />
+                            <EthernetPort className="size-4" />
                           )}
                           {terminal.connectionType === "bluetooth" && (
-                            <Bluetooth className="h-4 w-4" />
+                            <Bluetooth className="size-4" />
                           )}
                           <span>{terminal.terminalName}</span>
                           {terminal.isOnline ? (
@@ -1704,7 +1704,7 @@ export default function PaymentSettingsPage() {
                   </SelectContent>
                 </Select>
                 {cloverTerminals.length === 0 && (
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     No Clover terminals configured. Please add a terminal first.
                   </p>
                 )}
@@ -1714,7 +1714,7 @@ export default function PaymentSettingsPage() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Auto-Print Receipts</Label>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     Automatically print receipts on terminal after payment
                   </p>
                 </div>
@@ -1769,7 +1769,7 @@ export default function PaymentSettingsPage() {
                     </SelectItem>
                   </SelectContent>
                 </Select>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   When &quot;Both&quot; is selected, cashier will be prompted to
                   choose between terminal or web payment
                 </p>
@@ -1778,7 +1778,7 @@ export default function PaymentSettingsPage() {
               {config.cloverTerminal?.terminalId && (
                 <>
                   <Separator />
-                  <div className="p-4 bg-muted rounded-lg space-y-2">
+                  <div className="bg-muted space-y-2 rounded-lg p-4">
                     <Label className="text-sm font-semibold">
                       Terminal Information
                     </Label>
@@ -1789,7 +1789,7 @@ export default function PaymentSettingsPage() {
                       );
                       if (!terminal) return null;
                       return (
-                        <div className="text-sm space-y-1">
+                        <div className="space-y-1 text-sm">
                           <div className="flex items-center gap-2">
                             <span className="text-muted-foreground">Name:</span>
                             <span>{terminal.terminalName}</span>
@@ -1872,7 +1872,7 @@ export default function PaymentSettingsPage() {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Enable Tap to Pay</Label>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 Allow contactless card payments directly on iPhone
               </p>
             </div>
@@ -1902,13 +1902,13 @@ export default function PaymentSettingsPage() {
                     {yipyyPayDevices.map((device) => (
                       <div
                         key={device.id}
-                        className="p-3 border rounded-lg flex items-center justify-between"
+                        className="flex items-center justify-between rounded-lg border p-3"
                       >
                         <div className="flex items-center gap-3">
-                          <Smartphone className="h-5 w-5 text-muted-foreground" />
+                          <Smartphone className="text-muted-foreground h-5 w-5" />
                           <div>
                             <p className="font-medium">{device.deviceName}</p>
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-muted-foreground text-xs">
                               Device ID: {device.deviceId}
                               {device.lastUsedAt && (
                                 <span>
@@ -1933,10 +1933,10 @@ export default function PaymentSettingsPage() {
                     ))}
                   </div>
                 ) : (
-                  <div className="p-4 border rounded-lg text-center text-sm text-muted-foreground">
-                    <Smartphone className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                  <div className="text-muted-foreground rounded-lg border p-4 text-center text-sm">
+                    <Smartphone className="mx-auto mb-2 h-8 w-8 opacity-50" />
                     <p>No authorized iPhone devices</p>
-                    <p className="text-xs mt-1">
+                    <p className="mt-1 text-xs">
                       Authorize an iPhone device to enable Tap to Pay
                     </p>
                   </div>
@@ -1947,7 +1947,7 @@ export default function PaymentSettingsPage() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Require Receipt</Label>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     Require receipt for all Tap to Pay transactions
                   </p>
                 </div>
@@ -1972,7 +1972,7 @@ export default function PaymentSettingsPage() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Auto-Send Receipt</Label>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     Automatically send receipt to customer after payment
                   </p>
                 </div>
@@ -1995,11 +1995,11 @@ export default function PaymentSettingsPage() {
               {yipyyPayConfig && (
                 <>
                   <Separator />
-                  <div className="p-4 bg-muted rounded-lg space-y-2">
+                  <div className="bg-muted space-y-2 rounded-lg p-4">
                     <Label className="text-sm font-semibold">
                       Transaction Limits
                     </Label>
-                    <div className="text-sm space-y-1">
+                    <div className="space-y-1 text-sm">
                       {yipyyPayConfig.minTransactionAmount && (
                         <div className="flex items-center gap-2">
                           <span className="text-muted-foreground">

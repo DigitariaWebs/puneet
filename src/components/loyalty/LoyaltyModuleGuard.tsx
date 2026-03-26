@@ -51,7 +51,7 @@ export function LoyaltyModuleGuard({
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Lock className="h-5 w-5 text-muted-foreground" />
+              <Lock className="text-muted-foreground h-5 w-5" />
               Loyalty Program Disabled
             </CardTitle>
             <CardDescription>
@@ -59,12 +59,12 @@ export function LoyaltyModuleGuard({
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground mb-4">
+            <p className="text-muted-foreground mb-4 text-sm">
               Contact your facility administrator to enable the loyalty program.
             </p>
             <Button asChild variant="outline">
               <Link href="/facility/dashboard/settings">
-                <Settings className="h-4 w-4 mr-2" />
+                <Settings className="mr-2 size-4" />
                 Go to Settings
               </Link>
             </Button>

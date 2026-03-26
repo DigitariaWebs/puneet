@@ -145,11 +145,11 @@ export default function RetailSettingsPage() {
           {isEditing ? (
             <>
               <Button variant="outline" onClick={handleReset}>
-                <RotateCcw className="mr-2 h-4 w-4" />
+                <RotateCcw className="mr-2 size-4" />
                 Cancel
               </Button>
               <Button onClick={handleSave}>
-                <Save className="mr-2 h-4 w-4" />
+                <Save className="mr-2 size-4" />
                 Save Changes
               </Button>
             </>
@@ -170,7 +170,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Enable Retail Service</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Enable retail and POS functionality
                 </p>
               </div>
@@ -186,7 +186,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Enable Online Store</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Allow customers to purchase online
                 </p>
               </div>
@@ -202,7 +202,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Enable In-Store POS</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Enable point of sale for in-store transactions
                 </p>
               </div>
@@ -218,7 +218,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Require Customer Account</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Customers must have an account to purchase
                 </p>
               </div>
@@ -263,7 +263,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Enable Tips</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Allow customers to add tips at checkout
                 </p>
               </div>
@@ -282,7 +282,7 @@ export default function RetailSettingsPage() {
                   <Label className="text-base font-medium">
                     Tips by Service Type
                   </Label>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     Configure tip options for different service types
                   </p>
 
@@ -290,7 +290,7 @@ export default function RetailSettingsPage() {
                     ([serviceType, config]) => (
                       <div
                         key={serviceType}
-                        className="p-3 border rounded-lg space-y-3"
+                        className="space-y-3 rounded-lg border p-3"
                       >
                         <div className="flex items-center justify-between">
                           <Label className="capitalize">{serviceType}</Label>
@@ -313,10 +313,10 @@ export default function RetailSettingsPage() {
                         </div>
                         {config.enabled && (
                           <div className="space-y-2">
-                            <Label className="text-xs text-muted-foreground">
+                            <Label className="text-muted-foreground text-xs">
                               Tip Percentages
                             </Label>
-                            <div className="flex gap-2 flex-wrap">
+                            <div className="flex flex-wrap gap-2">
                               {config.percentages.map((percent, index) => (
                                 <Input
                                   key={index}
@@ -343,7 +343,7 @@ export default function RetailSettingsPage() {
                                     });
                                   }}
                                   disabled={!isEditing}
-                                  className="w-16 h-8 text-xs"
+                                  className="h-8 w-16 text-xs"
                                 />
                               ))}
                               <Button
@@ -383,7 +383,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Print Receipts</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Automatically print receipts after purchase
                 </p>
               </div>
@@ -398,7 +398,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Email Receipts</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Offer to email receipts to customers
                 </p>
               </div>
@@ -413,7 +413,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Enable Barcode Scanning</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Use barcode scanner for product lookup
                 </p>
               </div>
@@ -501,12 +501,12 @@ export default function RetailSettingsPage() {
             </div>
             <Separator />
             <div>
-              <div className="flex items-center justify-between mb-4">
+              <div className="mb-4 flex items-center justify-between">
                 <div>
                   <Label className="text-base font-medium">
                     Custom Payment Methods
                   </Label>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     Add custom payment methods (e.g., Check, Venmo, etc.)
                   </p>
                 </div>
@@ -524,7 +524,7 @@ export default function RetailSettingsPage() {
                   disabled={!isEditing}
                   size="sm"
                 >
-                  <Plus className="h-4 w-4 mr-2" />
+                  <Plus className="mr-2 size-4" />
                   Add Method
                 </Button>
               </div>
@@ -532,24 +532,24 @@ export default function RetailSettingsPage() {
                 {customPaymentMethods.map((method) => (
                   <div
                     key={method.id}
-                    className="flex items-center justify-between p-3 rounded-lg border bg-muted/30"
+                    className="bg-muted/30 flex items-center justify-between rounded-lg border p-3"
                   >
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <p className="font-medium">{method.name}</p>
                         {!method.isActive && (
-                          <span className="text-xs text-muted-foreground">
+                          <span className="text-muted-foreground text-xs">
                             (Inactive)
                           </span>
                         )}
                       </div>
                       {method.description && (
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-muted-foreground text-sm">
                           {method.description}
                         </p>
                       )}
-                      <div className="flex items-center gap-4 mt-1">
-                        <span className="text-xs text-muted-foreground">
+                      <div className="mt-1 flex items-center gap-4">
+                        <span className="text-muted-foreground text-xs">
                           {method.canBeUsedForRefunds
                             ? "Can be used for refunds"
                             : "Not available for refunds"}
@@ -573,12 +573,12 @@ export default function RetailSettingsPage() {
                         }}
                         disabled={!isEditing}
                       >
-                        <Edit className="h-4 w-4" />
+                        <Edit className="size-4" />
                       </Button>
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 text-destructive"
+                        className="text-destructive h-8 w-8"
                         onClick={() => {
                           setCustomPaymentMethodsList(
                             customPaymentMethodsList.filter(
@@ -588,13 +588,13 @@ export default function RetailSettingsPage() {
                         }}
                         disabled={!isEditing}
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="size-4" />
                       </Button>
                     </div>
                   </div>
                 ))}
                 {customPaymentMethodsList.length === 0 && (
-                  <p className="text-sm text-muted-foreground text-center py-4">
+                  <p className="text-muted-foreground py-4 text-center text-sm">
                     No custom payment methods added yet
                   </p>
                 )}
@@ -624,7 +624,7 @@ export default function RetailSettingsPage() {
                 disabled={!isEditing}
                 className="w-32"
               />
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 Alert when stock falls below this quantity
               </p>
             </div>
@@ -632,7 +632,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Enable Low Stock Alerts</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Send notifications when items are low in stock
                 </p>
               </div>
@@ -648,7 +648,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Auto-Reorder</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Automatically create purchase orders for low stock items
                 </p>
               </div>
@@ -681,7 +681,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Track Inventory by Location</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Maintain separate inventory counts per location
                 </p>
               </div>
@@ -711,7 +711,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Allow Backorders</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Allow orders for out-of-stock items
                 </p>
               </div>
@@ -727,7 +727,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Show Out of Stock Products</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Display products that are currently out of stock
                 </p>
               </div>
@@ -743,7 +743,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Require SKU for Products</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   All products must have a unique SKU
                 </p>
               </div>
@@ -759,7 +759,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Enable Product Reviews</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Allow customers to leave reviews on products
                 </p>
               </div>
@@ -786,7 +786,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Enable Member Discounts</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Offer discounts to registered members
                 </p>
               </div>
@@ -822,7 +822,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Enable Bulk Discounts</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Offer discounts for bulk purchases
                 </p>
               </div>
@@ -838,7 +838,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Enable Promo Codes</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Accept promotional discount codes
                 </p>
               </div>
@@ -882,7 +882,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Enable Order Pickup</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Allow customers to pick up orders in store
                 </p>
               </div>
@@ -898,7 +898,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Enable Local Delivery</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Offer delivery to local addresses
                 </p>
               </div>
@@ -948,7 +948,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Order Ready Notification</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Notify customers when their order is ready
                 </p>
               </div>
@@ -975,7 +975,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Enable Returns</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Accept product returns
                 </p>
               </div>
@@ -1008,7 +1008,7 @@ export default function RetailSettingsPage() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label>Require Receipt</Label>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       Receipt required for returns
                     </p>
                   </div>
@@ -1044,7 +1044,7 @@ export default function RetailSettingsPage() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label>Allow Exchanges</Label>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       Allow product exchanges in addition to refunds
                     </p>
                   </div>
@@ -1071,7 +1071,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Order Confirmation</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Send confirmation email after purchase
                 </p>
               </div>
@@ -1087,7 +1087,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Shipping Notification</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Notify when order is shipped
                 </p>
               </div>
@@ -1106,7 +1106,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Low Stock Alerts</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Send alerts when inventory is low
                 </p>
               </div>
@@ -1236,7 +1236,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Active</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Enable this payment method for use
                 </p>
               </div>
@@ -1253,7 +1253,7 @@ export default function RetailSettingsPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Can be used for refunds</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Allow this method to be used when processing returns/refunds
                 </p>
               </div>

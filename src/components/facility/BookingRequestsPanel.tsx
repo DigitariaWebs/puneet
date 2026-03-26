@@ -188,7 +188,7 @@ export function BookingRequestsPanel({
       render: (r) => (
         <div className="min-w-0">
           <div className="truncate font-medium">{r.clientName}</div>
-          <div className="truncate text-xs text-muted-foreground">
+          <div className="text-muted-foreground truncate text-xs">
             {r.petName}
           </div>
         </div>
@@ -199,7 +199,7 @@ export function BookingRequestsPanel({
       label: "Service(s)",
       sortable: false,
       render: (r) => (
-        <div className="text-xs text-muted-foreground">
+        <div className="text-muted-foreground text-xs">
           {servicesLabel(r.services)}
         </div>
       ),
@@ -215,10 +215,10 @@ export function BookingRequestsPanel({
   const header = (
     <div className="flex flex-row items-center justify-between gap-3">
       <div className="space-y-1">
-        <div className="text-base font-semibold leading-none tracking-tight">
+        <div className="text-base leading-none font-semibold tracking-tight">
           Booking Requests
         </div>
-        <div className="text-xs text-muted-foreground">
+        <div className="text-muted-foreground text-xs">
           Act quickly on new requests
         </div>
       </div>
@@ -230,7 +230,7 @@ export function BookingRequestsPanel({
           className="gap-1"
         >
           View all
-          <ChevronRight className="h-4 w-4" />
+          <ChevronRight className="size-4" />
         </Button>
       </div>
     </div>
@@ -288,15 +288,15 @@ export function BookingRequestsPanel({
               <SheetHeader>
                 <SheetTitle>Booking Request</SheetTitle>
               </SheetHeader>
-              <div className="p-4 space-y-4">
+              <div className="space-y-4 p-4">
                 <div className="space-y-1">
-                  <div className="text-xs text-muted-foreground">Submitted</div>
+                  <div className="text-muted-foreground text-xs">Submitted</div>
                   <div className="text-sm font-medium">
                     {formatDateTime(selected.createdAt)}
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <div className="text-xs text-muted-foreground">
+                  <div className="text-muted-foreground text-xs">
                     Requested appointment
                   </div>
                   <div className="text-sm font-medium">
@@ -304,18 +304,18 @@ export function BookingRequestsPanel({
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <div className="text-xs text-muted-foreground">
+                  <div className="text-muted-foreground text-xs">
                     Customer / Pet
                   </div>
                   <div className="text-sm font-medium">
                     {selected.clientName} — {selected.petName}
                   </div>
-                  <div className="text-xs text-muted-foreground">
+                  <div className="text-muted-foreground text-xs">
                     {selected.clientContact}
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <div className="text-xs text-muted-foreground">
+                  <div className="text-muted-foreground text-xs">
                     Service(s)
                   </div>
                   <div className="text-sm font-medium">
@@ -324,7 +324,7 @@ export function BookingRequestsPanel({
                 </div>
                 {selected.notes && (
                   <div className="space-y-1">
-                    <div className="text-xs text-muted-foreground">Notes</div>
+                    <div className="text-muted-foreground text-xs">Notes</div>
                     <div className="text-sm">{selected.notes}</div>
                   </div>
                 )}

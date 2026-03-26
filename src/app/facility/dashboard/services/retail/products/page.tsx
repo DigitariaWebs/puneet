@@ -305,7 +305,7 @@ export default function ProductsPage() {
       render: (item) => (
         <div>
           <div className="font-medium">{item.name}</div>
-          <div className="text-sm text-muted-foreground">{item.brand}</div>
+          <div className="text-muted-foreground text-sm">{item.brand}</div>
         </div>
       ),
     },
@@ -419,11 +419,11 @@ export default function ProductsPage() {
             <CardTitle className="text-sm font-medium">
               Total Products
             </CardTitle>
-            <Package className="h-4 w-4 text-muted-foreground" />
+            <Package className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.totalProducts}</div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {stats.activeProducts} active
             </p>
           </CardContent>
@@ -433,13 +433,13 @@ export default function ProductsPage() {
             <CardTitle className="text-sm font-medium">
               Inventory Value
             </CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <DollarSign className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
               ${stats.inventoryRetailValue.toFixed(0)}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Cost: ${stats.inventoryCostValue.toFixed(0)}
             </p>
           </CardContent>
@@ -455,17 +455,17 @@ export default function ProductsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.lowStockCount}</div>
-            <p className="text-xs text-muted-foreground">Items need reorder</p>
+            <p className="text-muted-foreground text-xs">Items need reorder</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Categories</CardTitle>
-            <Tag className="h-4 w-4 text-muted-foreground" />
+            <Tag className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{categories.length}</div>
-            <p className="text-xs text-muted-foreground">Product categories</p>
+            <p className="text-muted-foreground text-xs">Product categories</p>
           </CardContent>
         </Card>
       </div>
@@ -478,7 +478,7 @@ export default function ProductsPage() {
             size="sm"
             onClick={() => setViewMode("list")}
           >
-            <Package className="h-4 w-4 mr-2" />
+            <Package className="mr-2 size-4" />
             List View
           </Button>
           <Button
@@ -486,12 +486,12 @@ export default function ProductsPage() {
             size="sm"
             onClick={() => setViewMode("cards")}
           >
-            <Box className="h-4 w-4 mr-2" />
+            <Box className="mr-2 size-4" />
             Card View
           </Button>
         </div>
         <Button onClick={handleAddNew}>
-          <Plus className="h-4 w-4 mr-2" />
+          <Plus className="mr-2 size-4" />
           Add Product
         </Button>
       </div>
@@ -508,7 +508,7 @@ export default function ProductsPage() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon">
-                  <MoreHorizontal className="h-4 w-4" />
+                  <MoreHorizontal className="size-4" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
@@ -540,14 +540,14 @@ export default function ProductsPage() {
                   <div className="flex items-start justify-between">
                     <div>
                       <CardTitle className="text-lg">{product.name}</CardTitle>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-muted-foreground text-sm">
                         {product.brand} • {product.category}
                       </p>
                     </div>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon">
-                          <MoreHorizontal className="h-4 w-4" />
+                          <MoreHorizontal className="size-4" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
@@ -565,7 +565,7 @@ export default function ProductsPage() {
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  <p className="text-sm text-muted-foreground line-clamp-2">
+                  <p className="text-muted-foreground line-clamp-2 text-sm">
                     {product.description}
                   </p>
 
@@ -580,7 +580,7 @@ export default function ProductsPage() {
                   </div>
 
                   <div className="flex items-center gap-2 text-sm">
-                    <Barcode className="h-4 w-4 text-muted-foreground" />
+                    <Barcode className="text-muted-foreground size-4" />
                     <span>{product.sku}</span>
                     <span className="text-muted-foreground">•</span>
                     <span>Stock: {product.stock}</span>
@@ -616,7 +616,7 @@ export default function ProductsPage() {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="w-full mt-2"
+                          className="mt-2 w-full"
                         >
                           {expandedProducts.has(product.id)
                             ? "Hide Variants"
@@ -633,17 +633,17 @@ export default function ProductsPage() {
                             return (
                               <div
                                 key={variant.id}
-                                className="p-2 rounded border bg-muted/30"
+                                className="bg-muted/30 rounded-sm border p-2"
                               >
                                 <div className="flex items-center justify-between">
-                                  <span className="font-medium text-sm">
+                                  <span className="text-sm font-medium">
                                     {variant.name}
                                   </span>
                                   <span className="font-medium">
                                     ${variant.price.toFixed(2)}
                                   </span>
                                 </div>
-                                <div className="flex items-center justify-between text-xs text-muted-foreground mt-1">
+                                <div className="text-muted-foreground mt-1 flex items-center justify-between text-xs">
                                   <span>SKU: {variant.sku}</span>
                                   <div className="flex items-center gap-1">
                                     <span>Stock: {variant.stock}</span>
@@ -671,7 +671,7 @@ export default function ProductsPage() {
 
       {/* Add/Edit Product Modal */}
       <Dialog open={isAddEditModalOpen} onOpenChange={setIsAddEditModalOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {editingProduct ? "Edit Product" : "Add New Product"}
@@ -723,7 +723,7 @@ export default function ProductsPage() {
 
             <div className="grid gap-2">
               <Label>Product Image</Label>
-              <div className="flex gap-4 items-start">
+              <div className="flex items-start gap-4">
                 <div className="flex-1 space-y-2">
                   <div className="flex gap-2">
                     <Button
@@ -734,7 +734,7 @@ export default function ProductsPage() {
                         document.getElementById("imageUpload")?.click()
                       }
                     >
-                      <Upload className="h-4 w-4" />
+                      <Upload className="size-4" />
                       Upload Image
                     </Button>
                     <input
@@ -757,13 +757,13 @@ export default function ProductsPage() {
                       }}
                     />
                   </div>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-muted-foreground text-xs">
                     Supported formats: JPG, PNG, GIF, WebP (max 5MB)
                   </p>
                 </div>
                 {formData.imageUrl && (
                   <div className="relative">
-                    <div className="relative h-20 w-20 rounded-lg border overflow-hidden">
+                    <div className="relative h-20 w-20 overflow-hidden rounded-lg border">
                       <Image
                         src={formData.imageUrl}
                         alt="Product preview"
@@ -957,7 +957,7 @@ export default function ProductsPage() {
                 </Button>
               </div>
               {formData.tags.length > 0 && (
-                <div className="flex flex-wrap gap-1 mt-2">
+                <div className="mt-2 flex flex-wrap gap-1">
                   {formData.tags.map((tag) => (
                     <Badge
                       key={tag}
@@ -974,7 +974,7 @@ export default function ProductsPage() {
 
             {/* Variants Section */}
             {formData.hasVariants && (
-              <div className="space-y-4 pt-4 border-t">
+              <div className="space-y-4 border-t pt-4">
                 <div className="flex items-center justify-between">
                   <Label className="text-base font-medium">
                     Product Variants
@@ -985,7 +985,7 @@ export default function ProductsPage() {
                     size="sm"
                     onClick={handleAddVariant}
                   >
-                    <Plus className="h-4 w-4 mr-2" />
+                    <Plus className="mr-2 size-4" />
                     Add Variant
                   </Button>
                 </div>
@@ -995,7 +995,7 @@ export default function ProductsPage() {
                     {variants.map((variant) => (
                       <div
                         key={variant.id}
-                        className="flex items-center justify-between p-3 border rounded-lg bg-muted/30"
+                        className="bg-muted/30 flex items-center justify-between rounded-lg border p-3"
                       >
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
@@ -1007,7 +1007,7 @@ export default function ProductsPage() {
                               : {variant.variantValue}
                             </Badge>
                           </div>
-                          <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
+                          <div className="text-muted-foreground mt-1 flex items-center gap-4 text-sm">
                             <span>SKU: {variant.sku}</span>
                             <span>Barcode: {variant.barcode}</span>
                             <span>Stock: {variant.stock}</span>
@@ -1022,23 +1022,23 @@ export default function ProductsPage() {
                             className="h-8 w-8"
                             onClick={() => handleEditVariant(variant)}
                           >
-                            <Edit className="h-4 w-4" />
+                            <Edit className="size-4" />
                           </Button>
                           <Button
                             type="button"
                             variant="ghost"
                             size="icon"
-                            className="h-8 w-8 text-destructive"
+                            className="text-destructive h-8 w-8"
                             onClick={() => handleDeleteVariant(variant.id)}
                           >
-                            <X className="h-4 w-4" />
+                            <X className="size-4" />
                           </Button>
                         </div>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm text-muted-foreground text-center py-4">
+                  <p className="text-muted-foreground py-4 text-center text-sm">
                     No variants added yet. Click &quot;Add Variant&quot; to
                     create one.
                   </p>
@@ -1046,7 +1046,7 @@ export default function ProductsPage() {
               </div>
             )}
 
-            <div className="flex items-center justify-between pt-4 border-t">
+            <div className="flex items-center justify-between border-t pt-4">
               <div className="flex items-center gap-2">
                 <Switch
                   id="hasVariants"
@@ -1103,7 +1103,7 @@ export default function ProductsPage() {
 
       {/* Add/Edit Variant Modal */}
       <Dialog open={isVariantModalOpen} onOpenChange={setIsVariantModalOpen}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {editingVariant ? "Edit Variant" : "Add New Variant"}
@@ -1295,7 +1295,7 @@ export default function ProductsPage() {
 
             <div className="grid gap-2">
               <Label>Variant Image</Label>
-              <div className="flex gap-4 items-start">
+              <div className="flex items-start gap-4">
                 <div className="flex-1 space-y-2">
                   <div className="flex gap-2">
                     <Button
@@ -1306,7 +1306,7 @@ export default function ProductsPage() {
                         document.getElementById("variantImageUpload")?.click()
                       }
                     >
-                      <Upload className="h-4 w-4" />
+                      <Upload className="size-4" />
                       Upload Image
                     </Button>
                     <input
@@ -1329,13 +1329,13 @@ export default function ProductsPage() {
                       }}
                     />
                   </div>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-muted-foreground text-xs">
                     Upload an image specific to this variant
                   </p>
                 </div>
                 {variantForm.imageUrl && (
                   <div className="relative">
-                    <div className="relative h-20 w-20 rounded-lg border overflow-hidden">
+                    <div className="relative h-20 w-20 overflow-hidden rounded-lg border">
                       <Image
                         src={variantForm.imageUrl}
                         alt="Variant preview"

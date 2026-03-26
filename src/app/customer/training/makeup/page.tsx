@@ -315,7 +315,7 @@ export default function TrainingMakeupPage() {
 
       {/* Explanation of Makeup Sessions */}
       <Alert>
-        <AlertCircle className="h-4 w-4" />
+        <AlertCircle className="size-4" />
         <AlertTitle>What is a Makeup Session?</AlertTitle>
         <AlertDescription>
           If you miss a training class, you can schedule a{" "}
@@ -329,10 +329,10 @@ export default function TrainingMakeupPage() {
 
       {missedSessions.length === 0 ? (
         <Card>
-          <CardContent className="py-12 text-center text-muted-foreground">
-            <CheckCircle2 className="h-12 w-12 mx-auto mb-4 text-green-600" />
+          <CardContent className="text-muted-foreground py-12 text-center">
+            <CheckCircle2 className="mx-auto mb-4 h-12 w-12 text-green-600" />
             <p className="text-lg font-medium">No missed sessions</p>
-            <p className="text-sm mt-2">
+            <p className="mt-2 text-sm">
               All your training sessions have been attended!
             </p>
           </CardContent>
@@ -379,23 +379,23 @@ export default function TrainingMakeupPage() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {/* Missed Session Details */}
-                  <div className="p-4 bg-muted/50 rounded-lg space-y-3">
+                  <div className="bg-muted/50 space-y-3 rounded-lg p-4">
                     <div>
-                      <p className="text-sm font-medium mb-2">
+                      <p className="mb-2 text-sm font-medium">
                         Missed Session Details
                       </p>
                       <div className="grid grid-cols-2 gap-4 text-sm">
-                        <div className="flex items-center gap-2 text-muted-foreground">
-                          <Calendar className="h-4 w-4" />
+                        <div className="text-muted-foreground flex items-center gap-2">
+                          <Calendar className="size-4" />
                           <div>
-                            <p className="font-medium text-foreground">Date</p>
+                            <p className="text-foreground font-medium">Date</p>
                             <p>{formatDate(missed.sessionDate)}</p>
                           </div>
                         </div>
-                        <div className="flex items-center gap-2 text-muted-foreground">
-                          <Clock className="h-4 w-4" />
+                        <div className="text-muted-foreground flex items-center gap-2">
+                          <Clock className="size-4" />
                           <div>
-                            <p className="font-medium text-foreground">Time</p>
+                            <p className="text-foreground font-medium">Time</p>
                             <p>
                               {getDayName(missed.series.dayOfWeek)}{" "}
                               {missed.series.startTime}
@@ -404,11 +404,11 @@ export default function TrainingMakeupPage() {
                         </div>
                       </div>
                       {missed.attendance.trainerNotes && (
-                        <div className="mt-2 pt-2 border-t">
-                          <p className="text-sm font-medium text-foreground mb-1">
+                        <div className="mt-2 border-t pt-2">
+                          <p className="text-foreground mb-1 text-sm font-medium">
                             Reason / Notes:
                           </p>
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-muted-foreground text-sm">
                             {missed.attendance.trainerNotes}
                           </p>
                         </div>
@@ -417,11 +417,11 @@ export default function TrainingMakeupPage() {
                   </div>
 
                   {missed.existingMakeup ? (
-                    <div className="p-4 bg-muted rounded-lg">
-                      <p className="text-sm font-medium mb-1">
+                    <div className="bg-muted rounded-lg p-4">
+                      <p className="mb-1 text-sm font-medium">
                         Makeup Session Status
                       </p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-muted-foreground text-sm">
                         {missed.existingMakeup.status === "pending" &&
                           "Your makeup request is pending. We'll contact you to schedule."}
                         {missed.existingMakeup.status === "scheduled" &&
@@ -432,7 +432,7 @@ export default function TrainingMakeupPage() {
                     </div>
                   ) : (
                     <>
-                      <div className="p-4 border rounded-lg space-y-3">
+                      <div className="space-y-3 rounded-lg border p-4">
                         <p className="text-sm font-medium">
                           What would you like to do?
                         </p>
@@ -442,7 +442,7 @@ export default function TrainingMakeupPage() {
                             className="flex-1"
                             onClick={() => handleScheduleMakeup(missed)}
                           >
-                            <GraduationCap className="mr-2 h-4 w-4" />
+                            <GraduationCap className="mr-2 size-4" />
                             Schedule Private Makeup
                           </Button>
                           <Button
@@ -450,18 +450,18 @@ export default function TrainingMakeupPage() {
                             className="flex-1"
                             onClick={() => handleSkipSession(missed)}
                           >
-                            <XCircle className="mr-2 h-4 w-4" />
+                            <XCircle className="mr-2 size-4" />
                             Skip and Continue Week{" "}
                             {missed.enrollment.currentSessionNumber}
                           </Button>
                         </div>
-                        <div className="space-y-2 pt-2 border-t">
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <DollarSign className="h-4 w-4" />
+                        <div className="space-y-2 border-t pt-2">
+                          <div className="text-muted-foreground flex items-center gap-2 text-sm">
+                            <DollarSign className="size-4" />
                             Makeup session: ${makeupPrice}
                           </div>
                           {makeupConfig?.expirationRules?.enabled && (
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-muted-foreground text-xs">
                               Must be scheduled within {expirationDays} days of
                               the missed session
                             </p>
@@ -496,11 +496,11 @@ export default function TrainingMakeupPage() {
             <div className="space-y-4 py-4">
               {makeupAction === "schedule" ? (
                 <>
-                  <div className="p-4 bg-muted rounded-lg space-y-2">
+                  <div className="bg-muted space-y-2 rounded-lg p-4">
                     <p className="text-sm font-medium">
                       Makeup Session Details
                     </p>
-                    <div className="text-sm text-muted-foreground space-y-1">
+                    <div className="text-muted-foreground space-y-1 text-sm">
                       <p>• Private one-on-one session with trainer</p>
                       <p>
                         • Covers material from Week{" "}
@@ -519,9 +519,9 @@ export default function TrainingMakeupPage() {
                       </p>
                     </div>
                   </div>
-                  <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                  <div className="rounded-lg border border-blue-200 bg-blue-50 p-3">
                     <p className="text-sm text-blue-900">
-                      <AlertCircle className="h-4 w-4 inline mr-1" />
+                      <AlertCircle className="mr-1 inline size-4" />
                       After requesting, our team will contact you within 24
                       hours to schedule your makeup session.
                     </p>
@@ -529,12 +529,12 @@ export default function TrainingMakeupPage() {
                 </>
               ) : (
                 <>
-                  <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
-                    <p className="text-sm text-destructive font-medium mb-2">
-                      <AlertCircle className="h-4 w-4 inline mr-1" />
+                  <div className="border-destructive/20 bg-destructive/10 rounded-lg border p-4">
+                    <p className="text-destructive mb-2 text-sm font-medium">
+                      <AlertCircle className="mr-1 inline size-4" />
                       You will forfeit this session
                     </p>
-                    <p className="text-sm text-destructive/80">
+                    <p className="text-destructive/80 text-sm">
                       By skipping, you will forfeit Week{" "}
                       {selectedMissedSession.attendance.sessionNumber} and
                       continue directly to Week{" "}
@@ -583,18 +583,18 @@ export default function TrainingMakeupPage() {
 
           {selectedMissedSession && (
             <div className="space-y-4 py-4">
-              <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
-                <p className="text-sm text-destructive font-medium mb-2">
-                  <AlertCircle className="h-4 w-4 inline mr-1" />
+              <div className="border-destructive/20 bg-destructive/10 rounded-lg border p-4">
+                <p className="text-destructive mb-2 text-sm font-medium">
+                  <AlertCircle className="mr-1 inline size-4" />
                   Warning: You will forfeit this session
                 </p>
-                <p className="text-sm text-destructive/80 mb-3">
+                <p className="text-destructive/80 mb-3 text-sm">
                   By skipping, you will forfeit Week{" "}
                   {selectedMissedSession.attendance.sessionNumber} and continue
                   directly to Week{" "}
                   {selectedMissedSession.enrollment.currentSessionNumber}.
                 </p>
-                <div className="text-sm text-muted-foreground space-y-1">
+                <div className="text-muted-foreground space-y-1 text-sm">
                   <p>• This session will be marked as forfeited</p>
                   <p>
                     • You can still schedule a makeup session later if needed
@@ -602,9 +602,9 @@ export default function TrainingMakeupPage() {
                   <p>• You will continue with the next session in the series</p>
                 </div>
               </div>
-              <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+              <div className="rounded-lg border border-blue-200 bg-blue-50 p-3">
                 <p className="text-sm text-blue-900">
-                  <AlertCircle className="h-4 w-4 inline mr-1" />
+                  <AlertCircle className="mr-1 inline size-4" />
                   Consider scheduling a makeup session instead to ensure your
                   pet doesn&apos;t miss important training material.
                 </p>

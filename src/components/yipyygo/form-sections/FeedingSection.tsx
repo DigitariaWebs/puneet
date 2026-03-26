@@ -291,7 +291,7 @@ export function FeedingSection({
     <Card>
       <CardHeader>
         <div className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-lg bg-orange-50 flex items-center justify-center">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-orange-50">
             <Utensils className="h-4.5 w-4.5 text-orange-600" />
           </div>
           <div>
@@ -306,7 +306,7 @@ export function FeedingSection({
         {/* ── Food Source ── */}
         <div className="space-y-2">
           <Label className="text-sm font-medium">Who provides the food?</Label>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
             {SOURCE_OPTIONS.map((opt) => (
               <button
                 key={opt.value}
@@ -316,11 +316,11 @@ export function FeedingSection({
                   "rounded-lg border p-3 text-left transition-colors",
                   (feeding.source || "parent_brings") === opt.value
                     ? "border-orange-300 bg-orange-50"
-                    : "border-input hover:bg-muted/50",
+                    : `border-input hover:bg-muted/50`,
                 )}
               >
                 <span className="text-sm font-medium">{opt.label}</span>
-                <p className="text-xs text-muted-foreground mt-0.5">
+                <p className="text-muted-foreground mt-0.5 text-xs">
                   {opt.description}
                 </p>
               </button>
@@ -342,13 +342,13 @@ export function FeedingSection({
                   type="button"
                   onClick={() => toggleAllergy(allergy)}
                   className={cn(
-                    "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
+                    `rounded-full border px-3 py-1 text-xs font-medium transition-colors`,
                     active
                       ? "border-red-300 bg-red-50 text-red-700"
-                      : "border-input hover:bg-muted/50 text-muted-foreground",
+                      : `border-input text-muted-foreground hover:bg-muted/50`,
                   )}
                 >
-                  {active && <AlertTriangle className="h-3 w-3 inline mr-1" />}
+                  {active && <AlertTriangle className="mr-1 inline h-3 w-3" />}
                   {allergy}
                 </button>
               );
@@ -360,20 +360,20 @@ export function FeedingSection({
                   key={allergy}
                   type="button"
                   onClick={() => toggleAllergy(allergy)}
-                  className="rounded-full border border-red-300 bg-red-50 text-red-700 px-3 py-1 text-xs font-medium"
+                  className="rounded-full border border-red-300 bg-red-50 px-3 py-1 text-xs font-medium text-red-700"
                 >
-                  <AlertTriangle className="h-3 w-3 inline mr-1" />
+                  <AlertTriangle className="mr-1 inline h-3 w-3" />
                   {allergy}
-                  <X className="h-3 w-3 inline ml-1" />
+                  <X className="ml-1 inline h-3 w-3" />
                 </button>
               ))}
           </div>
-          <div className="flex gap-2 mt-1">
+          <div className="mt-1 flex gap-2">
             <Input
               value={customAllergy}
               onChange={(e) => setCustomAllergy(e.target.value)}
               placeholder="Add custom allergy..."
-              className="h-8 text-sm max-w-[200px]"
+              className="h-8 max-w-[200px] text-sm"
               onKeyDown={(e) =>
                 e.key === "Enter" && (e.preventDefault(), addCustomAllergy())
               }
@@ -407,9 +407,9 @@ export function FeedingSection({
                   key={preset.label}
                   type="button"
                   onClick={() => addOccasion(preset)}
-                  className="rounded-full border border-dashed border-orange-300 text-orange-600 px-3 py-1.5 text-sm hover:bg-orange-50 transition-colors"
+                  className="rounded-full border border-dashed border-orange-300 px-3 py-1.5 text-sm text-orange-600 transition-colors hover:bg-orange-50"
                 >
-                  <Plus className="h-3 w-3 inline mr-1" />
+                  <Plus className="mr-1 inline h-3 w-3" />
                   {preset.label}
                 </button>
               ),
@@ -417,9 +417,9 @@ export function FeedingSection({
             <button
               type="button"
               onClick={() => addOccasion()}
-              className="rounded-full border border-dashed border-input text-muted-foreground px-3 py-1.5 text-sm hover:bg-muted/50 transition-colors"
+              className="border-input text-muted-foreground hover:bg-muted/50 rounded-full border border-dashed px-3 py-1.5 text-sm transition-colors"
             >
-              <Plus className="h-3 w-3 inline mr-1" />
+              <Plus className="mr-1 inline h-3 w-3" />
               Custom Meal
             </button>
           </div>
@@ -440,18 +440,18 @@ export function FeedingSection({
                 >
                   {/* Occasion header */}
                   <div
-                    className="flex items-center justify-between px-4 py-3 cursor-pointer"
+                    className="flex cursor-pointer items-center justify-between px-4 py-3"
                     onClick={() =>
                       setExpandedOccasion(isExpanded ? null : occ.id)
                     }
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-orange-100">
                         <Utensils className="h-3.5 w-3.5 text-orange-600" />
                       </div>
                       <div>
                         <span className="text-sm font-medium">{occ.label}</span>
-                        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                        <div className="text-muted-foreground flex items-center gap-1.5 text-xs">
                           <Clock className="h-3 w-3" />
                           {formatTime(occ.time)}
                           {occ.components.length > 0 && (
@@ -468,7 +468,7 @@ export function FeedingSection({
                         type="button"
                         variant="ghost"
                         size="icon"
-                        className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                        className="text-muted-foreground hover:text-destructive h-7 w-7"
                         onClick={(e) => {
                           e.stopPropagation();
                           removeOccasion(occ.id);
@@ -477,16 +477,16 @@ export function FeedingSection({
                         <X className="h-3.5 w-3.5" />
                       </Button>
                       {isExpanded ? (
-                        <ChevronUp className="h-4 w-4 text-muted-foreground" />
+                        <ChevronUp className="text-muted-foreground size-4" />
                       ) : (
-                        <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                        <ChevronDown className="text-muted-foreground size-4" />
                       )}
                     </div>
                   </div>
 
                   {/* Expanded content */}
                   {isExpanded && (
-                    <div className="px-4 pb-4 space-y-4 border-t border-orange-100">
+                    <div className="space-y-4 border-t border-orange-100 px-4 pb-4">
                       {/* Occasion name + time */}
                       <div className="grid grid-cols-2 gap-3 pt-3">
                         <div className="space-y-1">
@@ -514,16 +514,16 @@ export function FeedingSection({
 
                       {/* Food components */}
                       <div className="space-y-2">
-                        <Label className="text-xs font-medium text-muted-foreground">
+                        <Label className="text-muted-foreground text-xs font-medium">
                           Food Components
                         </Label>
                         {occ.components.map((comp) => (
                           <div
                             key={comp.id}
-                            className="rounded-md border bg-white p-3 space-y-2"
+                            className="space-y-2 rounded-md border bg-white p-3"
                           >
                             <div className="flex items-start justify-between">
-                              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 flex-1">
+                              <div className="grid flex-1 grid-cols-2 gap-2 sm:grid-cols-4">
                                 <div className="space-y-1">
                                   <Label className="text-xs">Type</Label>
                                   <Select
@@ -607,7 +607,7 @@ export function FeedingSection({
                                 type="button"
                                 variant="ghost"
                                 size="icon"
-                                className="h-7 w-7 ml-2 text-muted-foreground hover:text-destructive shrink-0"
+                                className="text-muted-foreground hover:text-destructive ml-2 h-7 w-7 shrink-0"
                                 onClick={() => removeComponent(occ.id, comp.id)}
                               >
                                 <X className="h-3.5 w-3.5" />
@@ -616,7 +616,7 @@ export function FeedingSection({
                             {(comp.type === "supplement" ||
                               comp.type === "toppers") && (
                               <div className="space-y-1">
-                                <Label className="text-xs text-muted-foreground">
+                                <Label className="text-muted-foreground text-xs">
                                   Mix with
                                 </Label>
                                 <Input
@@ -627,7 +627,7 @@ export function FeedingSection({
                                     })
                                   }
                                   placeholder="e.g., Wet food"
-                                  className="h-8 text-xs max-w-[200px]"
+                                  className="h-8 max-w-[200px] text-xs"
                                 />
                               </div>
                             )}
@@ -640,7 +640,7 @@ export function FeedingSection({
                           className="w-full text-xs"
                           onClick={() => addComponent(occ.id)}
                         >
-                          <Plus className="h-3 w-3 mr-1" />
+                          <Plus className="mr-1 h-3 w-3" />
                           Add Food Component
                         </Button>
                       </div>
@@ -656,7 +656,7 @@ export function FeedingSection({
         <div className="flex items-center justify-between rounded-lg border p-3">
           <div>
             <Label className="text-sm">Pre-portioned bags</Label>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Bringing bagged meals?
             </p>
           </div>
@@ -674,7 +674,7 @@ export function FeedingSection({
                         parseInt(e.target.value, 10) || undefined,
                     })
                   }
-                  className="w-16 text-center h-8"
+                  className="h-8 w-16 text-center"
                 />
               )}
             <Switch
@@ -692,7 +692,7 @@ export function FeedingSection({
         {/* ── Prep Instructions ── */}
         <div className="space-y-2">
           <Label className="text-sm font-medium">Prep Instructions</Label>
-          <p className="text-xs text-muted-foreground">Select all that apply</p>
+          <p className="text-muted-foreground text-xs">Select all that apply</p>
           <div className="flex flex-wrap gap-1.5">
             {PREP_OPTIONS.map((opt) => {
               const active = (feeding.prepInstructions || []).includes(
@@ -704,10 +704,10 @@ export function FeedingSection({
                   type="button"
                   onClick={() => togglePrep(opt.value)}
                   className={cn(
-                    "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
+                    `rounded-full border px-3 py-1.5 text-xs font-medium transition-colors`,
                     active
                       ? "border-orange-300 bg-orange-50 text-orange-700"
-                      : "border-input hover:bg-muted/50 text-muted-foreground",
+                      : `border-input text-muted-foreground hover:bg-muted/50`,
                   )}
                 >
                   {opt.label}
@@ -728,7 +728,7 @@ export function FeedingSection({
           <Label className="text-sm font-medium">
             If {formData.petName} refuses to eat
           </Label>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-muted-foreground text-xs">
             What should staff do? Select all that apply
           </p>
           <div className="flex flex-wrap gap-1.5">
@@ -740,10 +740,10 @@ export function FeedingSection({
                   type="button"
                   onClick={() => toggleRefusal(opt.value)}
                   className={cn(
-                    "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
+                    `rounded-full border px-3 py-1.5 text-xs font-medium transition-colors`,
                     active
                       ? "border-amber-300 bg-amber-50 text-amber-700"
-                      : "border-input hover:bg-muted/50 text-muted-foreground",
+                      : `border-input text-muted-foreground hover:bg-muted/50`,
                   )}
                 >
                   {opt.label}
@@ -763,7 +763,7 @@ export function FeedingSection({
         <button
           type="button"
           onClick={() => setShowAdvanced(!showAdvanced)}
-          className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          className="text-muted-foreground hover:text-foreground flex items-center gap-1 text-xs transition-colors"
         >
           {showAdvanced ? (
             <ChevronUp className="h-3 w-3" />

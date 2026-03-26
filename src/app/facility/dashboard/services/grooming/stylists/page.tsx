@@ -272,7 +272,7 @@ export default function StylistsPage() {
           </Avatar>
           <div>
             <p className="font-medium">{stylist.name}</p>
-            <p className="text-sm text-muted-foreground">{stylist.email}</p>
+            <p className="text-muted-foreground text-sm">{stylist.email}</p>
           </div>
         </div>
       ),
@@ -283,7 +283,7 @@ export default function StylistsPage() {
       icon: Scissors,
       defaultVisible: true,
       render: (stylist) => (
-        <div className="flex flex-wrap gap-1 max-w-xs">
+        <div className="flex max-w-xs flex-wrap gap-1">
           {stylist.specializations.slice(0, 2).map((spec, idx) => (
             <Badge key={idx} variant="secondary" className="text-xs">
               {spec}
@@ -311,7 +311,7 @@ export default function StylistsPage() {
       defaultVisible: true,
       render: (stylist) => (
         <div className="flex items-center gap-1">
-          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+          <Star className="size-4 fill-yellow-400 text-yellow-400" />
           <span>{stylist.rating.toFixed(1)}</span>
         </div>
       ),
@@ -378,7 +378,7 @@ export default function StylistsPage() {
             <span
               className={
                 rate > 15
-                  ? "text-red-600 font-medium"
+                  ? "font-medium text-red-600"
                   : rate > 10
                     ? "text-orange-600"
                     : "text-green-600"
@@ -387,7 +387,7 @@ export default function StylistsPage() {
               {rate}%
             </span>
             {metrics && (
-              <span className="text-xs text-muted-foreground">
+              <span className="text-muted-foreground text-xs">
                 ({metrics.cancelledCount}/{metrics.totalAppointments})
               </span>
             )}
@@ -402,7 +402,7 @@ export default function StylistsPage() {
       render: (stylist) => {
         const colors = statusColors[stylist.status];
         return (
-          <Badge className={`${colors.bg} ${colors.text}`}>
+          <Badge className={` ${colors.bg} ${colors.text} `}>
             {stylist.status}
           </Badge>
         );
@@ -420,7 +420,7 @@ export default function StylistsPage() {
               checked={isVisible}
               onCheckedChange={() => toggleGroomerVisibility(stylist.id)}
             />
-            <span className="text-sm text-muted-foreground">
+            <span className="text-muted-foreground text-sm">
               {isVisible ? "Visible" : "Hidden"}
             </span>
           </div>
@@ -435,23 +435,23 @@ export default function StylistsPage() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon">
-              <MoreHorizontal className="h-4 w-4" />
+              <MoreHorizontal className="size-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={() => handleEdit(stylist)}>
-              <Edit className="mr-2 h-4 w-4" />
+              <Edit className="mr-2 size-4" />
               Edit
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => handleManageAvailability(stylist)}>
-              <Clock className="mr-2 h-4 w-4" />
+              <Clock className="mr-2 size-4" />
               Manage Availability
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => handleDeleteClick(stylist)}
               className="text-red-600"
             >
-              <Trash2 className="mr-2 h-4 w-4" />
+              <Trash2 className="mr-2 size-4" />
               Delete
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -482,11 +482,11 @@ export default function StylistsPage() {
             <CardTitle className="text-sm font-medium">
               Active Stylists
             </CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <Users className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{activeStylists}</div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               of {stylists.length} total
             </p>
           </CardContent>
@@ -496,13 +496,13 @@ export default function StylistsPage() {
             <CardTitle className="text-sm font-medium">
               Total Appointments
             </CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
+            <Calendar className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
               {totalAppointments.toLocaleString()}
             </div>
-            <p className="text-xs text-muted-foreground">All time</p>
+            <p className="text-muted-foreground text-xs">All time</p>
           </CardContent>
         </Card>
         <Card>
@@ -510,14 +510,14 @@ export default function StylistsPage() {
             <CardTitle className="text-sm font-medium">
               Average Rating
             </CardTitle>
-            <Star className="h-4 w-4 text-muted-foreground" />
+            <Star className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold flex items-center gap-1">
+            <div className="flex items-center gap-1 text-2xl font-bold">
               <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
               {avgRating.toFixed(2)}
             </div>
-            <p className="text-xs text-muted-foreground">Across all stylists</p>
+            <p className="text-muted-foreground text-xs">Across all stylists</p>
           </CardContent>
         </Card>
         <Card>
@@ -525,23 +525,23 @@ export default function StylistsPage() {
             <CardTitle className="text-sm font-medium">
               Avg. Experience
             </CardTitle>
-            <Award className="h-4 w-4 text-muted-foreground" />
+            <Award className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
               {avgExperience.toFixed(1)} years
             </div>
-            <p className="text-xs text-muted-foreground">Team average</p>
+            <p className="text-muted-foreground text-xs">Team average</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <DollarSign className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">${totalRevenue.toFixed(2)}</div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               From completed appointments
             </p>
           </CardContent>
@@ -551,13 +551,13 @@ export default function StylistsPage() {
             <CardTitle className="text-sm font-medium">
               Avg. Cancellation Rate
             </CardTitle>
-            <TrendingDown className="h-4 w-4 text-muted-foreground" />
+            <TrendingDown className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
               {avgCancellationRate.toFixed(1)}%
             </div>
-            <p className="text-xs text-muted-foreground">Team average</p>
+            <p className="text-muted-foreground text-xs">Team average</p>
           </CardContent>
         </Card>
       </div>
@@ -567,7 +567,7 @@ export default function StylistsPage() {
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Stylists Directory</CardTitle>
           <Button onClick={handleAddNew}>
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus className="mr-2 size-4" />
             Add Stylist
           </Button>
         </CardHeader>
@@ -584,7 +584,7 @@ export default function StylistsPage() {
 
       {/* Add/Edit Modal */}
       <Dialog open={isAddEditModalOpen} onOpenChange={setIsAddEditModalOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {editingStylist ? "Edit Stylist" : "Add New Stylist"}
@@ -704,10 +704,10 @@ export default function StylistsPage() {
                 rows={3}
               />
             </div>
-            <div className="flex items-center justify-between p-4 border rounded-lg">
+            <div className="flex items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
                 <Label htmlFor="visibleOnline">Visible in Online Booking</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Toggle to show/hide this groomer from customer booking
                   options. New hires can be hidden until trained.
                 </p>
@@ -754,7 +754,7 @@ export default function StylistsPage() {
             {dayNames.map((dayName, dayIndex) => (
               <div
                 key={dayIndex}
-                className="flex items-center gap-4 p-3 rounded-lg border"
+                className="flex items-center gap-4 rounded-lg border p-3"
               >
                 <div className="w-24">
                   <span className="font-medium">{dayName}</span>
@@ -772,7 +772,7 @@ export default function StylistsPage() {
                   }
                 />
                 {availabilityData[dayIndex]?.isAvailable && (
-                  <div className="flex items-center gap-2 flex-1">
+                  <div className="flex flex-1 items-center gap-2">
                     <Select
                       value={availabilityData[dayIndex]?.startTime || "08:00"}
                       onValueChange={(value) =>
@@ -839,7 +839,7 @@ export default function StylistsPage() {
                   </div>
                 )}
                 {!availabilityData[dayIndex]?.isAvailable && (
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-muted-foreground text-sm">
                     Not available
                   </span>
                 )}

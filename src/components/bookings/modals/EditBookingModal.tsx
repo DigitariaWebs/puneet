@@ -192,7 +192,7 @@ export function EditBookingModal({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="min-w-5xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] min-w-5xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Calendar className="h-5 w-5" />
@@ -253,7 +253,7 @@ export function EditBookingModal({
                   className={errors.startDate ? "border-destructive" : ""}
                 />
                 {errors.startDate && (
-                  <p className="text-sm text-destructive">{errors.startDate}</p>
+                  <p className="text-destructive text-sm">{errors.startDate}</p>
                 )}
               </div>
               <div className="grid gap-2">
@@ -273,7 +273,7 @@ export function EditBookingModal({
                   className={errors.endDate ? "border-destructive" : ""}
                 />
                 {errors.endDate && (
-                  <p className="text-sm text-destructive">{errors.endDate}</p>
+                  <p className="text-destructive text-sm">{errors.endDate}</p>
                 )}
               </div>
             </div>
@@ -325,12 +325,12 @@ export function EditBookingModal({
                   className={errors.checkInTime ? "border-destructive" : ""}
                 />
                 {errors.checkInTime && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {errors.checkInTime}
                   </p>
                 )}
                 {requiresCheckoutAfterCheckin && (
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-muted-foreground text-xs">
                     Increments of {TIME_STEP_MINUTES} minutes
                   </p>
                 )}
@@ -353,13 +353,13 @@ export function EditBookingModal({
                   className={errors.checkOutTime ? "border-destructive" : ""}
                 />
                 {errors.checkOutTime && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {errors.checkOutTime}
                   </p>
                 )}
                 {requiresCheckoutAfterCheckin &&
                   sameDayDurationMinutes !== null && (
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-muted-foreground text-xs">
                       Duration: {(sameDayDurationMinutes / 60).toFixed(1)} hours
                     </p>
                   )}
@@ -389,7 +389,7 @@ export function EditBookingModal({
                   required
                 />
                 {errors.basePrice && (
-                  <p className="text-sm text-destructive">{errors.basePrice}</p>
+                  <p className="text-destructive text-sm">{errors.basePrice}</p>
                 )}
               </div>
               <div className="grid gap-2">
@@ -412,7 +412,7 @@ export function EditBookingModal({
                   className={errors.discount ? "border-destructive" : ""}
                 />
                 {errors.discount && (
-                  <p className="text-sm text-destructive">{errors.discount}</p>
+                  <p className="text-destructive text-sm">{errors.discount}</p>
                 )}
               </div>
             </div>
@@ -437,7 +437,7 @@ export function EditBookingModal({
                   placeholder="e.g., Loyalty discount, First-time customer"
                 />
                 {errors.discountReason && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {errors.discountReason}
                   </p>
                 )}
@@ -445,8 +445,8 @@ export function EditBookingModal({
             )}
 
             {/* Total Cost */}
-            <div className="grid gap-2 p-4 bg-muted rounded-lg">
-              <div className="flex justify-between items-center">
+            <div className="bg-muted grid gap-2 rounded-lg p-4">
+              <div className="flex items-center justify-between">
                 <Label className="text-base">Total Cost</Label>
                 <div className="text-2xl font-bold">
                   ${(formData.basePrice - formData.discount).toFixed(2)}
@@ -457,7 +457,7 @@ export function EditBookingModal({
             {/* Error Alert */}
             {Object.keys(errors).length > 0 && (
               <Alert variant="destructive">
-                <AlertCircle className="h-4 w-4" />
+                <AlertCircle className="size-4" />
                 <AlertDescription>
                   Please fix the errors above before saving.
                 </AlertDescription>

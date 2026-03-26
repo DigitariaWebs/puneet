@@ -27,8 +27,8 @@ export function StaffSidebar() {
     <Sidebar>
       <SidebarHeader className="border-b px-4 py-3">
         <div className="flex items-center gap-2">
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-500">
-            <Calendar className="h-4 w-4 text-white" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-blue-500 to-indigo-500">
+            <Calendar className="size-4 text-white" />
           </div>
           <span className="font-semibold">Staff Portal</span>
         </div>
@@ -44,7 +44,7 @@ export function StaffSidebar() {
               <SidebarMenuItem key={item.url}>
                 <SidebarMenuButton asChild isActive={isActive}>
                   <Link href={item.url}>
-                    <Icon className="h-4 w-4" />
+                    <Icon className="size-4" />
                     <span>{item.title}</span>
                   </Link>
                 </SidebarMenuButton>

@@ -40,8 +40,8 @@ export function GroomingCheckInButton({
 
   if (isCheckedIn) {
     return (
-      <Button disabled className="bg-green-50 text-green-700 border-green-200">
-        <CheckCircle2 className="h-4 w-4 mr-2" />
+      <Button disabled className="border-green-200 bg-green-50 text-green-700">
+        <CheckCircle2 className="mr-2 size-4" />
         Checked In
       </Button>
     );
@@ -55,7 +55,7 @@ export function GroomingCheckInButton({
     >
       {isCheckingIn ? (
         <>
-          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+          <Loader2 className="mr-2 size-4 animate-spin" />
           Checking in...
         </>
       ) : (

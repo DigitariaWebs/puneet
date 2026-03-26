@@ -210,7 +210,7 @@ export function CampaignBuilderModal({
         </DialogHeader>
 
         <div className="space-y-6 py-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+          <div className="grid grid-cols-1 gap-4 text-sm sm:grid-cols-2">
             <div>
               <span className="text-muted-foreground">Type:</span>{" "}
               <span className="font-medium capitalize">{campaign.type}</span>
@@ -234,7 +234,7 @@ export function CampaignBuilderModal({
               <span className="text-muted-foreground">Status:</span>{" "}
               <Badge
                 variant={campaign.status === "sent" ? "default" : "secondary"}
-                className="capitalize ml-1"
+                className="ml-1 capitalize"
               >
                 {campaign.status}
               </Badge>
@@ -246,50 +246,50 @@ export function CampaignBuilderModal({
               <CardTitle className="text-base">Campaign Statistics</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
                 <div>
-                  <div className="text-sm text-muted-foreground">Sent</div>
+                  <div className="text-muted-foreground text-sm">Sent</div>
                   <div className="text-2xl font-bold">{stats.sent}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-muted-foreground">Delivered</div>
+                  <div className="text-muted-foreground text-sm">Delivered</div>
                   <div className="text-2xl font-bold">{stats.delivered}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-muted-foreground">Opened</div>
+                  <div className="text-muted-foreground text-sm">Opened</div>
                   <div className="text-2xl font-bold">
                     {stats.opened}
                     {stats.sent > 0 && (
-                      <span className="text-sm text-muted-foreground ml-2">
+                      <span className="text-muted-foreground ml-2 text-sm">
                         ({((stats.opened / stats.sent) * 100).toFixed(1)}%)
                       </span>
                     )}
                   </div>
                 </div>
                 <div>
-                  <div className="text-sm text-muted-foreground">Clicked</div>
+                  <div className="text-muted-foreground text-sm">Clicked</div>
                   <div className="text-2xl font-bold">
                     {stats.clicked}
                     {stats.opened > 0 && (
-                      <span className="text-sm text-muted-foreground ml-2">
+                      <span className="text-muted-foreground ml-2 text-sm">
                         ({((stats.clicked / stats.opened) * 100).toFixed(1)}%)
                       </span>
                     )}
                   </div>
                 </div>
                 <div>
-                  <div className="text-sm text-muted-foreground">Bounced</div>
+                  <div className="text-muted-foreground text-sm">Bounced</div>
                   <div className="text-2xl font-bold">{stats.bounced}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-muted-foreground text-sm">
                     Unsubscribed
                   </div>
                   <div className="text-2xl font-bold">{stats.unsubscribed}</div>
                 </div>
               </div>
               {campaign.abTest?.winner && (
-                <div className="mt-4 pt-4 border-t">
+                <div className="mt-4 border-t pt-4">
                   <Badge variant="default">
                     A/B Test Winner: Variant {campaign.abTest.winner}
                   </Badge>
@@ -329,11 +329,11 @@ export function CampaignBuilderModal({
           {/* STEP 1: Goal */}
           {currentStep === 0 && (
             <div className="space-y-4">
-              <Label className="text-sm text-muted-foreground">
+              <Label className="text-muted-foreground text-sm">
                 What&apos;s the objective? (optional — helps suggest segments)
               </Label>
               <div
-                className="grid grid-cols-1 sm:grid-cols-2 gap-3"
+                className="grid grid-cols-1 gap-3 sm:grid-cols-2"
                 role="radiogroup"
                 aria-label="Campaign goal"
               >
@@ -346,16 +346,20 @@ export function CampaignBuilderModal({
                       type="button"
                       role="radio"
                       aria-checked={isSelected}
-                      className={`text-left rounded-lg border p-4 transition-all hover:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${isSelected ? "border-primary bg-primary/5 ring-1 ring-primary/20" : "border-border"}`}
+                      className={`hover:border-primary/50 focus-visible:ring-ring rounded-lg border p-4 text-left transition-all focus-visible:ring-2 focus-visible:outline-none ${
+                        isSelected
+                          ? `border-primary bg-primary/5 ring-primary/20 ring-1`
+                          : `border-border`
+                      } `}
                       onClick={() => setGoal(isSelected ? "" : g.value)}
                     >
                       <div className="flex items-start gap-3">
-                        <div className="p-2 rounded-lg bg-muted">
-                          <Icon className="h-4 w-4" />
+                        <div className="bg-muted rounded-lg p-2">
+                          <Icon className="size-4" />
                         </div>
                         <div>
-                          <div className="font-medium text-sm">{g.label}</div>
-                          <div className="text-xs text-muted-foreground mt-0.5">
+                          <div className="text-sm font-medium">{g.label}</div>
+                          <div className="text-muted-foreground mt-0.5 text-xs">
                             {g.description}
                           </div>
                         </div>
@@ -381,10 +385,10 @@ export function CampaignBuilderModal({
 
               {suggestedSegmentIds.length > 0 && (
                 <div className="space-y-2">
-                  <Label className="text-xs text-muted-foreground">
+                  <Label className="text-muted-foreground text-xs">
                     Suggested for this goal:
                   </Label>
-                  <div className="flex gap-2 flex-wrap">
+                  <div className="flex flex-wrap gap-2">
                     {suggestedSegmentIds.map((sid) => {
                       const seg = customerSegments.find((s) => s.id === sid);
                       if (!seg) return null;
@@ -393,7 +397,7 @@ export function CampaignBuilderModal({
                           key={sid}
                           variant={segmentId === sid ? "default" : "outline"}
                           size="sm"
-                          className="h-auto py-1 px-2.5 text-xs"
+                          className="h-auto px-2.5 py-1 text-xs"
                           onClick={() => setSegmentId(sid)}
                         >
                           {seg.name} ({seg.customerCount})
@@ -431,7 +435,7 @@ export function CampaignBuilderModal({
                       );
                     }}
                   >
-                    <Plus className="h-3.5 w-3.5 mr-1" />
+                    <Plus className="mr-1 h-3.5 w-3.5" />
                     New Segment
                   </Button>
                 </div>
@@ -440,20 +444,20 @@ export function CampaignBuilderModal({
               {selectedSegment && (
                 <Card className="bg-muted/30">
                   <CardContent className="py-3">
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                       <span className="text-sm font-medium">
                         {selectedSegment.name}
                       </span>
                       <Badge>
-                        <Users className="h-3 w-3 mr-1" />
+                        <Users className="mr-1 h-3 w-3" />
                         {selectedSegment.customerCount} recipients
                       </Badge>
                     </div>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-muted-foreground text-xs">
                       {selectedSegment.description}
                     </p>
-                    <div className="mt-2 pt-2 border-t border-muted">
-                      <span className="text-xs text-muted-foreground">
+                    <div className="border-muted mt-2 border-t pt-2">
+                      <span className="text-muted-foreground text-xs">
                         Sample recipients:{" "}
                       </span>
                       <span className="text-xs">
@@ -478,7 +482,7 @@ export function CampaignBuilderModal({
                     onClick={() => setCampaignType("email")}
                     aria-pressed={campaignType === "email"}
                   >
-                    <Mail className="h-3.5 w-3.5 mr-1" /> Email
+                    <Mail className="mr-1 h-3.5 w-3.5" /> Email
                   </Button>
                   <Button
                     variant={campaignType === "sms" ? "default" : "outline"}
@@ -540,7 +544,7 @@ export function CampaignBuilderModal({
                   <div className="space-y-2">
                     <Label className="text-sm">Email Body</Label>
                     <textarea
-                      className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[80px] w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:outline-none"
                       rows={4}
                       value={overrides.body || selectedTemplate.body}
                       onChange={(e) =>
@@ -550,7 +554,7 @@ export function CampaignBuilderModal({
                   </div>
 
                   {/* Offer section editing */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <div className="space-y-1">
                       <Label className="text-xs">Offer Headline</Label>
                       <Input
@@ -572,7 +576,7 @@ export function CampaignBuilderModal({
                     <div className="space-y-1">
                       <Label className="text-xs">Promo Code</Label>
                       <Input
-                        className="h-8 text-sm font-mono uppercase"
+                        className="h-8 font-mono text-sm uppercase"
                         value={
                           overrides.offerCode ||
                           selectedTemplate.offerSection?.code ||
@@ -590,7 +594,7 @@ export function CampaignBuilderModal({
                   </div>
 
                   {/* CTA button editing */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <div className="space-y-1">
                       <Label className="text-xs">Button Text</Label>
                       <Input
@@ -635,10 +639,10 @@ export function CampaignBuilderModal({
                       className="h-1.5"
                       style={{ backgroundColor: facilityBranding.primaryColor }}
                     />
-                    <CardContent className="py-3 space-y-2">
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <CardContent className="space-y-2 py-3">
+                      <div className="text-muted-foreground flex items-center gap-2 text-xs">
                         <div
-                          className="w-5 h-5 rounded flex items-center justify-center text-[10px] font-bold"
+                          className="flex h-5 w-5 items-center justify-center rounded-sm text-[10px] font-bold"
                           style={{
                             backgroundColor: facilityBranding.primaryColor,
                             color: BRAND_TEXT_COLOR,
@@ -651,12 +655,12 @@ export function CampaignBuilderModal({
                       <div className="text-sm font-medium">
                         {overrides.subject || selectedTemplate.subject}
                       </div>
-                      <div className="text-xs text-muted-foreground whitespace-pre-wrap line-clamp-4">
+                      <div className="text-muted-foreground line-clamp-4 text-xs whitespace-pre-wrap">
                         {overrides.body || selectedTemplate.body}
                       </div>
                       {(overrides.offerHeadline ||
                         selectedTemplate.offerSection) && (
-                        <div className="text-center py-2 rounded bg-muted/50 text-xs">
+                        <div className="bg-muted/50 rounded-sm py-2 text-center text-xs">
                           <span className="font-semibold">
                             {overrides.offerHeadline ||
                               selectedTemplate.offerSection?.headline}
@@ -674,7 +678,7 @@ export function CampaignBuilderModal({
                         selectedTemplate.buttonText) && (
                         <div className="text-center">
                           <span
-                            className="inline-block px-4 py-1.5 rounded text-xs font-medium"
+                            className="inline-block rounded-sm px-4 py-1.5 text-xs font-medium"
                             style={{
                               backgroundColor: facilityBranding.primaryColor,
                               color: BRAND_TEXT_COLOR,
@@ -708,14 +712,18 @@ export function CampaignBuilderModal({
                       type="button"
                       role="radio"
                       aria-checked={sendOption === opt.value}
-                      className={`w-full text-left rounded-lg border p-3 px-4 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${sendOption === opt.value ? "border-primary ring-1 ring-primary/20" : "border-border"}`}
+                      className={`focus-visible:ring-ring w-full rounded-lg border p-3 px-4 text-left transition-all focus-visible:ring-2 focus-visible:outline-none ${
+                        sendOption === opt.value
+                          ? `border-primary ring-primary/20 ring-1`
+                          : `border-border`
+                      } `}
                       onClick={() => setSendOption(opt.value)}
                     >
                       <div className="flex items-center gap-3">
-                        <opt.icon className="h-4 w-4 shrink-0" />
+                        <opt.icon className="size-4 shrink-0" />
                         <div>
                           <div className="text-sm font-medium">{opt.label}</div>
-                          <div className="text-xs text-muted-foreground">
+                          <div className="text-muted-foreground text-xs">
                             {opt.desc}
                           </div>
                         </div>
@@ -774,7 +782,7 @@ export function CampaignBuilderModal({
               <Card>
                 <CardHeader className="pb-2">
                   <div className="flex items-center gap-2">
-                    <TestTube2 className="h-4 w-4" />
+                    <TestTube2 className="size-4" />
                     <CardTitle className="text-sm">
                       A/B Testing (Optional)
                     </CardTitle>
@@ -789,7 +797,7 @@ export function CampaignBuilderModal({
                         setAbTestEnabled(checked as boolean)
                       }
                     />
-                    <label htmlFor="abTest" className="text-sm cursor-pointer">
+                    <label htmlFor="abTest" className="cursor-pointer text-sm">
                       Enable A/B testing
                     </label>
                   </div>
@@ -826,7 +834,7 @@ export function CampaignBuilderModal({
                           step="10"
                           value={abSplit}
                           onChange={(e) => setAbSplit(parseInt(e.target.value))}
-                          className="w-full accent-primary"
+                          className="accent-primary w-full"
                           aria-label={`A/B test split: ${abSplit}% variant A, ${100 - abSplit}% variant B`}
                         />
                       </div>
@@ -844,7 +852,7 @@ export function CampaignBuilderModal({
                   {goal && (
                     <div className="flex items-center gap-2">
                       <ChevronRight
-                        className="h-3 w-3 text-muted-foreground"
+                        className="text-muted-foreground h-3 w-3"
                         aria-hidden="true"
                       />
                       <span className="text-muted-foreground">Goal:</span>
@@ -855,7 +863,7 @@ export function CampaignBuilderModal({
                   )}
                   <div className="flex items-center gap-2">
                     <ChevronRight
-                      className="h-3 w-3 text-muted-foreground"
+                      className="text-muted-foreground h-3 w-3"
                       aria-hidden="true"
                     />
                     <span className="text-muted-foreground">Campaign:</span>
@@ -863,7 +871,7 @@ export function CampaignBuilderModal({
                   </div>
                   <div className="flex items-center gap-2">
                     <ChevronRight
-                      className="h-3 w-3 text-muted-foreground"
+                      className="text-muted-foreground h-3 w-3"
                       aria-hidden="true"
                     />
                     <span className="text-muted-foreground">Segment:</span>
@@ -876,7 +884,7 @@ export function CampaignBuilderModal({
                   </div>
                   <div className="flex items-center gap-2">
                     <ChevronRight
-                      className="h-3 w-3 text-muted-foreground"
+                      className="text-muted-foreground h-3 w-3"
                       aria-hidden="true"
                     />
                     <span className="text-muted-foreground">Template:</span>
@@ -884,7 +892,7 @@ export function CampaignBuilderModal({
                   </div>
                   <div className="flex items-center gap-2">
                     <ChevronRight
-                      className="h-3 w-3 text-muted-foreground"
+                      className="text-muted-foreground h-3 w-3"
                       aria-hidden="true"
                     />
                     <span className="text-muted-foreground">Send:</span>
@@ -898,7 +906,7 @@ export function CampaignBuilderModal({
                   </div>
                   <div className="flex items-center gap-2">
                     <ChevronRight
-                      className="h-3 w-3 text-muted-foreground"
+                      className="text-muted-foreground h-3 w-3"
                       aria-hidden="true"
                     />
                     <span className="text-muted-foreground">Type:</span>

@@ -98,7 +98,7 @@ export function ReportCardQuickReply({
   };
 
   return (
-    <div className="space-y-2 pt-4 border-t">
+    <div className="space-y-2 border-t pt-4">
       <p className="text-sm font-medium">Quick Reply</p>
       <div className="flex flex-wrap gap-2">
         {QUICK_REPLIES.map((reply) => {
@@ -112,7 +112,7 @@ export function ReportCardQuickReply({
               disabled={selectedQuickReply === reply.id}
               className="text-xs"
             >
-              <Icon className="h-3 w-3 mr-1" />
+              <Icon className="mr-1 h-3 w-3" />
               {reply.label}
             </Button>
           );
@@ -123,7 +123,7 @@ export function ReportCardQuickReply({
           onClick={() => setIsCustomReplyOpen(true)}
           className="text-xs"
         >
-          <MessageCircle className="h-3 w-3 mr-1" />
+          <MessageCircle className="mr-1 h-3 w-3" />
           Custom message
         </Button>
       </div>

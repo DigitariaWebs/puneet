@@ -411,9 +411,9 @@ export function InvoicesTab() {
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
           <Input
             placeholder="Search invoices..."
             className="pl-9"
@@ -455,10 +455,10 @@ export function InvoicesTab() {
 
       {customerInvoices.length === 0 ? (
         <Card>
-          <CardContent className="py-12 text-center space-y-3">
-            <FileText className="h-12 w-12 mx-auto text-muted-foreground opacity-50" />
+          <CardContent className="space-y-3 py-12 text-center">
+            <FileText className="text-muted-foreground mx-auto h-12 w-12 opacity-50" />
             <p className="font-semibold">No invoices found</p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               Your invoices and receipts will appear here
             </p>
           </CardContent>
@@ -498,7 +498,7 @@ export function InvoicesTab() {
                         size="sm"
                         onClick={() => handleDownloadReceipt(invoice.id)}
                       >
-                        <Download className="h-4 w-4 mr-1" />
+                        <Download className="mr-1 size-4" />
                         Download
                       </Button>
                     </div>
@@ -507,7 +507,7 @@ export function InvoicesTab() {
                 <CardContent>
                   <div className="space-y-4">
                     <div>
-                      <h4 className="text-sm font-medium mb-2">Items</h4>
+                      <h4 className="mb-2 text-sm font-medium">Items</h4>
                       <Table>
                         <TableHeader>
                           <TableRow>
@@ -562,7 +562,7 @@ export function InvoicesTab() {
                             <span>-{formatCurrency(invoice.discount)}</span>
                           </div>
                         )}
-                        <div className="flex justify-between font-semibold pt-2 border-t">
+                        <div className="flex justify-between border-t pt-2 font-semibold">
                           <span>Total:</span>
                           <span>{formatCurrency(invoice.total)}</span>
                         </div>
@@ -591,7 +591,7 @@ export function InvoicesTab() {
                               onClick={() => handlePayNow(invoice.id)}
                               className="whitespace-nowrap"
                             >
-                              <DollarSign className="h-4 w-4 mr-1" />
+                              <DollarSign className="mr-1 size-4" />
                               Pay Now
                             </Button>
                           </div>
@@ -600,15 +600,15 @@ export function InvoicesTab() {
                     </div>
 
                     {relatedPayments.length > 0 && (
-                      <div className="pt-4 border-t">
-                        <h4 className="text-sm font-medium mb-2">
+                      <div className="border-t pt-4">
+                        <h4 className="mb-2 text-sm font-medium">
                           Payment Details
                         </h4>
                         <div className="space-y-1 text-sm">
                           {relatedPayments.map((payment) => (
                             <div
                               key={payment.id}
-                              className="flex items-center justify-between text-muted-foreground"
+                              className="text-muted-foreground flex items-center justify-between"
                             >
                               <span>
                                 {payment.paymentMethod === "card"
@@ -628,7 +628,7 @@ export function InvoicesTab() {
                     )}
 
                     {/* Loyalty Section */}
-                    <div className="pt-4 border-t">
+                    <div className="border-t pt-4">
                       <InvoiceLoyaltySection
                         loyaltyPointsEarned={
                           invoice.status === "paid"

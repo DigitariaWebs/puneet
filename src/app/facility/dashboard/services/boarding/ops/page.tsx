@@ -47,18 +47,18 @@ export default function BoardingOpsPage() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold tracking-tight">Boarding Ops</h2>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Staff-only workflow: requests, eligibility checks, assignments,
             payments, and PreCheck.
           </p>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline">
-            <Bell className="h-4 w-4 mr-2" />
+            <Bell className="mr-2 size-4" />
             Notifications
           </Button>
           <Button>
-            <ClipboardList className="h-4 w-4 mr-2" />
+            <ClipboardList className="mr-2 size-4" />
             Create request
           </Button>
         </div>
@@ -109,7 +109,7 @@ export default function BoardingOpsPage() {
 
       {(counts.preCheckMissing > 0 || counts.corrections > 0) && (
         <Alert className="border-warning/40 bg-warning/5">
-          <AlertTriangle className="h-4 w-4" />
+          <AlertTriangle className="size-4" />
           <AlertTitle>PreCheck attention needed</AlertTitle>
           <AlertDescription>
             Some bookings are missing PreCheck or need corrections. Staff can
@@ -128,7 +128,7 @@ export default function BoardingOpsPage() {
           </TabsTrigger>
           <TabsTrigger value="eligibility" className="flex items-center gap-2">
             Eligibility
-            <ShieldAlert className="h-4 w-4" />
+            <ShieldAlert className="size-4" />
           </TabsTrigger>
         </TabsList>
 
@@ -159,7 +159,7 @@ export default function BoardingOpsPage() {
                 Eligibility (per request)
               </CardTitle>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
+            <CardContent className="text-muted-foreground text-sm">
               Open a request to see detailed eligibility reasons and evaluation
               indicators per pet.
             </CardContent>

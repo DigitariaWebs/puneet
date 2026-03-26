@@ -141,13 +141,13 @@ export default function CustomerYipyyGoPage() {
 
   if (!selectedFacility) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <Card className="max-w-md w-full">
+      <div className="flex min-h-screen items-center justify-center p-4">
+        <Card className="w-full max-w-md">
           <CardContent className="pt-6">
             <p className="text-muted-foreground text-center">
               Select a facility to view YipyyGo.
             </p>
-            <Button asChild className="w-full mt-4">
+            <Button asChild className="mt-4 w-full">
               <Link href="/customer/dashboard">Go to Dashboard</Link>
             </Button>
           </CardContent>
@@ -158,11 +158,11 @@ export default function CustomerYipyyGoPage() {
 
   if (!config?.enabled) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background p-4 md:p-6">
-        <div className="max-w-3xl mx-auto space-y-6">
+      <div className="from-background via-muted/20 to-background min-h-screen bg-linear-to-br p-4 md:p-6">
+        <div className="mx-auto max-w-3xl space-y-6">
           <div>
-            <h1 className="text-2xl font-bold flex items-center gap-2">
-              <ClipboardCheck className="h-7 w-7 text-primary" />
+            <h1 className="flex items-center gap-2 text-2xl font-bold">
+              <ClipboardCheck className="text-primary h-7 w-7" />
               YipyyGo
             </h1>
             <p className="text-muted-foreground mt-1">Pre-check-in forms</p>
@@ -173,7 +173,7 @@ export default function CustomerYipyyGoPage() {
                 YipyyGo pre-check-in is not enabled for {selectedFacility.name}.
                 You’ll complete check-in at the facility.
               </p>
-              <Button asChild variant="outline" className="w-full mt-4">
+              <Button asChild variant="outline" className="mt-4 w-full">
                 <Link href="/customer/bookings">View Bookings</Link>
               </Button>
             </CardContent>
@@ -184,12 +184,12 @@ export default function CustomerYipyyGoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background p-4 md:p-6">
-      <div className="max-w-3xl mx-auto space-y-6">
-        <div className="flex items-center justify-between gap-4 flex-wrap">
+    <div className="from-background via-muted/20 to-background min-h-screen bg-linear-to-br p-4 md:p-6">
+      <div className="mx-auto max-w-3xl space-y-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold flex items-center gap-2">
-              <ClipboardCheck className="h-7 w-7 text-primary" />
+            <h1 className="flex items-center gap-2 text-2xl font-bold">
+              <ClipboardCheck className="text-primary h-7 w-7" />
               YipyyGo
             </h1>
             <p className="text-muted-foreground mt-1">
@@ -198,7 +198,7 @@ export default function CustomerYipyyGoPage() {
           </div>
           <Button variant="outline" size="sm" asChild>
             <Link href="/customer/bookings">
-              <Calendar className="h-4 w-4 mr-1" />
+              <Calendar className="mr-1 size-4" />
               My Bookings
             </Link>
           </Button>
@@ -207,8 +207,8 @@ export default function CustomerYipyyGoPage() {
         {/* Upcoming forms needed */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
-              <FileEdit className="h-4 w-4 text-amber-600" />
+            <CardTitle className="flex items-center gap-2 text-base">
+              <FileEdit className="size-4 text-amber-600" />
               Forms to complete
             </CardTitle>
             <CardDescription>
@@ -218,7 +218,7 @@ export default function CustomerYipyyGoPage() {
           </CardHeader>
           <CardContent>
             {upcomingNeeded.length === 0 ? (
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 No forms need your action right now.
               </p>
             ) : (
@@ -227,17 +227,17 @@ export default function CustomerYipyyGoPage() {
                   <li key={booking.id}>
                     <Link
                       href={`/customer/bookings/${booking.id}/yipyygo-form`}
-                      className="flex items-center justify-between gap-4 p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors"
+                      className="bg-card hover:bg-muted/50 flex items-center justify-between gap-4 rounded-lg border p-3 transition-colors"
                     >
-                      <div className="flex items-center gap-3 min-w-0">
-                        <div className="p-2 rounded-md bg-amber-100 dark:bg-amber-900/30">
-                          <AlertCircle className="h-4 w-4 text-amber-600" />
+                      <div className="flex min-w-0 items-center gap-3">
+                        <div className="rounded-md bg-amber-100 p-2 dark:bg-amber-900/30">
+                          <AlertCircle className="size-4 text-amber-600" />
                         </div>
                         <div className="min-w-0">
-                          <p className="font-medium truncate">
+                          <p className="truncate font-medium">
                             {getPetName(booking)}’s {booking.service}
                           </p>
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-muted-foreground text-xs">
                             {formatDate(booking.startDate, booking.checkInTime)}
                           </p>
                         </div>
@@ -245,7 +245,7 @@ export default function CustomerYipyyGoPage() {
                       <Badge variant="secondary" className="shrink-0">
                         Complete form
                       </Badge>
-                      <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0" />
+                      <ArrowRight className="text-muted-foreground size-4 shrink-0" />
                     </Link>
                   </li>
                 ))}
@@ -257,8 +257,8 @@ export default function CustomerYipyyGoPage() {
         {/* QR access */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
-              <QrCode className="h-4 w-4 text-primary" />
+            <CardTitle className="flex items-center gap-2 text-base">
+              <QrCode className="text-primary size-4" />
               Check-in QR codes
             </CardTitle>
             <CardDescription>
@@ -268,7 +268,7 @@ export default function CustomerYipyyGoPage() {
           </CardHeader>
           <CardContent>
             {qrAccessList.length === 0 ? (
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 Complete a pre-check-in form to get your QR code for drop-off.
               </p>
             ) : (
@@ -277,25 +277,25 @@ export default function CustomerYipyyGoPage() {
                   <li key={booking.id}>
                     <Link
                       href={`/customer/bookings/${booking.id}/check-in-qr`}
-                      className="flex items-center justify-between gap-4 p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors"
+                      className="bg-card hover:bg-muted/50 flex items-center justify-between gap-4 rounded-lg border p-3 transition-colors"
                     >
-                      <div className="flex items-center gap-3 min-w-0">
-                        <div className="p-2 rounded-md bg-primary/10">
-                          <QrCode className="h-4 w-4 text-primary" />
+                      <div className="flex min-w-0 items-center gap-3">
+                        <div className="bg-primary/10 rounded-md p-2">
+                          <QrCode className="text-primary size-4" />
                         </div>
                         <div className="min-w-0">
-                          <p className="font-medium truncate">
+                          <p className="truncate font-medium">
                             {petName} · {booking.service}
                           </p>
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-muted-foreground text-xs">
                             {formatDate(booking.startDate, booking.checkInTime)}
                           </p>
                         </div>
                       </div>
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-muted-foreground text-sm">
                         Show QR at drop-off
                       </span>
-                      <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0" />
+                      <ArrowRight className="text-muted-foreground size-4 shrink-0" />
                     </Link>
                   </li>
                 ))}
@@ -307,8 +307,8 @@ export default function CustomerYipyyGoPage() {
         {/* Completed forms history */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-green-600" />
+            <CardTitle className="flex items-center gap-2 text-base">
+              <CheckCircle2 className="size-4 text-green-600" />
               Completed forms
             </CardTitle>
             <CardDescription>
@@ -317,7 +317,7 @@ export default function CustomerYipyyGoPage() {
           </CardHeader>
           <CardContent>
             {completedForms.length === 0 ? (
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 No completed forms yet.
               </p>
             ) : (
@@ -329,17 +329,17 @@ export default function CustomerYipyyGoPage() {
                     <li key={booking.id}>
                       <Link
                         href={`/customer/bookings/${booking.id}`}
-                        className="flex items-center justify-between gap-4 p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors"
+                        className="bg-card hover:bg-muted/50 flex items-center justify-between gap-4 rounded-lg border p-3 transition-colors"
                       >
-                        <div className="flex items-center gap-3 min-w-0">
-                          <div className="p-2 rounded-md bg-green-100 dark:bg-green-900/30">
-                            <CheckCircle2 className="h-4 w-4 text-green-600" />
+                        <div className="flex min-w-0 items-center gap-3">
+                          <div className="rounded-md bg-green-100 p-2 dark:bg-green-900/30">
+                            <CheckCircle2 className="size-4 text-green-600" />
                           </div>
                           <div className="min-w-0">
-                            <p className="font-medium truncate">
+                            <p className="truncate font-medium">
                               {getPetName(booking)}’s {booking.service}
                             </p>
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-muted-foreground text-xs">
                               {formatDate(
                                 booking.startDate,
                                 booking.checkInTime,
@@ -365,7 +365,7 @@ export default function CustomerYipyyGoPage() {
                         >
                           {status === "approved" ? "Approved" : "Submitted"}
                         </Badge>
-                        <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0" />
+                        <ArrowRight className="text-muted-foreground size-4 shrink-0" />
                       </Link>
                     </li>
                   );

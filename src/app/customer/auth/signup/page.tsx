@@ -153,10 +153,10 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted/20 to-background p-4">
+    <div className="from-background via-muted/20 to-background flex min-h-screen items-center justify-center bg-linear-to-br p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
-          <div className="flex justify-center mb-4">
+          <div className="mb-4 flex justify-center">
             <Image
               src="/yipyy-transparent.png"
               alt="Yipyy"
@@ -180,7 +180,7 @@ export default function SignUpPage() {
             onClick={handleGoogleSignUp}
             disabled={isLoading}
           >
-            <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
+            <svg className="mr-2 size-4" viewBox="0 0 24 24">
               <path
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
                 fill="#4285F4"
@@ -206,7 +206,7 @@ export default function SignUpPage() {
               <Separator />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-muted-foreground">
+              <span className="bg-card text-muted-foreground px-2">
                 Or continue with
               </span>
             </div>
@@ -216,7 +216,7 @@ export default function SignUpPage() {
             <div className="space-y-2">
               <Label htmlFor="name">Full Name</Label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <User className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
                 <Input
                   id="name"
                   type="text"
@@ -230,14 +230,14 @@ export default function SignUpPage() {
                 />
               </div>
               {errors.name && (
-                <p className="text-sm text-destructive">{errors.name}</p>
+                <p className="text-destructive text-sm">{errors.name}</p>
               )}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Mail className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
                 <Input
                   id="email"
                   type="email"
@@ -251,14 +251,14 @@ export default function SignUpPage() {
                 />
               </div>
               {errors.email && (
-                <p className="text-sm text-destructive">{errors.email}</p>
+                <p className="text-destructive text-sm">{errors.email}</p>
               )}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Lock className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
@@ -267,30 +267,30 @@ export default function SignUpPage() {
                   onChange={(e) =>
                     setFormData({ ...formData, password: e.target.value })
                   }
-                  className="pl-9 pr-9"
+                  className="px-9"
                   aria-invalid={errors.password ? "true" : "false"}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2"
                 >
                   {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
+                    <EyeOff className="size-4" />
                   ) : (
-                    <Eye className="h-4 w-4" />
+                    <Eye className="size-4" />
                   )}
                 </button>
               </div>
               {errors.password && (
-                <p className="text-sm text-destructive">{errors.password}</p>
+                <p className="text-destructive text-sm">{errors.password}</p>
               )}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="confirmPassword">Confirm Password</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Lock className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
                 <Input
                   id="confirmPassword"
                   type={showConfirmPassword ? "text" : "password"}
@@ -302,23 +302,23 @@ export default function SignUpPage() {
                       confirmPassword: e.target.value,
                     })
                   }
-                  className="pl-9 pr-9"
+                  className="px-9"
                   aria-invalid={errors.confirmPassword ? "true" : "false"}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2"
                 >
                   {showConfirmPassword ? (
-                    <EyeOff className="h-4 w-4" />
+                    <EyeOff className="size-4" />
                   ) : (
-                    <Eye className="h-4 w-4" />
+                    <Eye className="size-4" />
                   )}
                 </button>
               </div>
               {errors.confirmPassword && (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {errors.confirmPassword}
                 </p>
               )}
@@ -327,7 +327,7 @@ export default function SignUpPage() {
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="mr-2 size-4 animate-spin" />
                   Creating account...
                 </>
               ) : (
@@ -336,11 +336,11 @@ export default function SignUpPage() {
             </Button>
           </form>
 
-          <p className="text-center text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-center text-sm">
             Already have an account?{" "}
             <Link
               href="/customer/auth/login"
-              className="text-primary hover:underline font-medium"
+              className="text-primary font-medium hover:underline"
             >
               Sign in
             </Link>

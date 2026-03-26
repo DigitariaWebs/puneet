@@ -139,8 +139,8 @@ export default function AddPetPage() {
 
   if (showWizard && newPetId) {
     return (
-      <div className="min-h-screen bg-background p-4 md:p-6">
-        <div className="max-w-2xl mx-auto space-y-6">
+      <div className="bg-background min-h-screen p-4 md:p-6">
+        <div className="mx-auto max-w-2xl space-y-6">
           <div className="flex items-center gap-4">
             <Button
               variant="ghost"
@@ -149,7 +149,7 @@ export default function AddPetPage() {
                 router.push(`/customer/pets/${newPetId}?tab=forms`)
               }
             >
-              <ArrowLeft className="h-4 w-4" />
+              <ArrowLeft className="size-4" />
             </Button>
             <div>
               <h1 className="text-2xl font-bold">Required Forms</h1>
@@ -172,8 +172,8 @@ export default function AddPetPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-6">
-      <div className="max-w-4xl mx-auto space-y-6">
+    <div className="bg-background min-h-screen p-4 md:p-6">
+      <div className="mx-auto max-w-4xl space-y-6">
         {/* Header */}
         <div className="flex items-center gap-4">
           <Button
@@ -181,7 +181,7 @@ export default function AddPetPage() {
             size="icon"
             onClick={() => router.push("/customer/pets")}
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="size-4" />
           </Button>
           <div>
             <h1 className="text-3xl font-bold">Add a New Pet</h1>
@@ -202,7 +202,7 @@ export default function AddPetPage() {
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-6">
-                <div className="relative w-32 h-32 rounded-lg bg-muted flex items-center justify-center overflow-hidden">
+                <div className="bg-muted relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-lg">
                   {formData.imageUrl ? (
                     <Image
                       src={formData.imageUrl}
@@ -211,15 +211,15 @@ export default function AddPetPage() {
                       className="object-cover"
                     />
                   ) : (
-                    <PetIcon className="h-16 w-16 text-muted-foreground" />
+                    <PetIcon className="text-muted-foreground h-16 w-16" />
                   )}
                 </div>
                 <div className="flex-1">
                   <Button type="button" variant="outline" size="sm">
-                    <Upload className="h-4 w-4 mr-2" />
+                    <Upload className="mr-2 size-4" />
                     Upload Photo
                   </Button>
-                  <p className="text-xs text-muted-foreground mt-2">
+                  <p className="text-muted-foreground mt-2 text-xs">
                     You can add a photo later from your pet&apos;s profile
                   </p>
                 </div>
@@ -238,7 +238,7 @@ export default function AddPetPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="name">
                     Pet Name <span className="text-destructive">*</span>
@@ -254,7 +254,7 @@ export default function AddPetPage() {
                     aria-invalid={errors.name ? "true" : "false"}
                   />
                   {errors.name && (
-                    <p className="text-sm text-destructive">{errors.name}</p>
+                    <p className="text-destructive text-sm">{errors.name}</p>
                   )}
                 </div>
 
@@ -277,7 +277,7 @@ export default function AddPetPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="breed">
                     Breed <span className="text-destructive">*</span>
@@ -293,7 +293,7 @@ export default function AddPetPage() {
                     aria-invalid={errors.breed ? "true" : "false"}
                   />
                   {errors.breed && (
-                    <p className="text-sm text-destructive">{errors.breed}</p>
+                    <p className="text-destructive text-sm">{errors.breed}</p>
                   )}
                 </div>
 
@@ -312,12 +312,12 @@ export default function AddPetPage() {
                     aria-invalid={errors.color ? "true" : "false"}
                   />
                   {errors.color && (
-                    <p className="text-sm text-destructive">{errors.color}</p>
+                    <p className="text-destructive text-sm">{errors.color}</p>
                   )}
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="age">
                     Age (years) <span className="text-destructive">*</span>
@@ -338,7 +338,7 @@ export default function AddPetPage() {
                     aria-invalid={errors.age ? "true" : "false"}
                   />
                   {errors.age && (
-                    <p className="text-sm text-destructive">{errors.age}</p>
+                    <p className="text-destructive text-sm">{errors.age}</p>
                   )}
                 </div>
 
@@ -362,7 +362,7 @@ export default function AddPetPage() {
                     aria-invalid={errors.weight ? "true" : "false"}
                   />
                   {errors.weight && (
-                    <p className="text-sm text-destructive">{errors.weight}</p>
+                    <p className="text-destructive text-sm">{errors.weight}</p>
                   )}
                 </div>
               </div>
@@ -378,7 +378,7 @@ export default function AddPetPage() {
                   placeholder="123456789"
                   className="font-mono"
                 />
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   Optional - Enter your pet&apos;s microchip number if available
                 </p>
               </div>
@@ -407,7 +407,7 @@ export default function AddPetPage() {
                   placeholder="List any allergies (e.g., Chicken, Beef) or enter 'None'"
                   rows={3}
                 />
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   List any known allergies. Enter &quot;None&quot; if your pet
                   has no allergies.
                 </p>
@@ -424,7 +424,7 @@ export default function AddPetPage() {
                   placeholder="Any special medical or care needs (e.g., medication, mobility assistance)"
                   rows={3}
                 />
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   Include any special care requirements, medications, or health
                   conditions.
                 </p>
@@ -445,12 +445,12 @@ export default function AddPetPage() {
             <Button type="submit" disabled={isSaving}>
               {isSaving ? (
                 <>
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  <Loader2 className="mr-2 size-4 animate-spin" />
                   Adding Pet...
                 </>
               ) : (
                 <>
-                  <Save className="h-4 w-4 mr-2" />
+                  <Save className="mr-2 size-4" />
                   Add Pet
                 </>
               )}

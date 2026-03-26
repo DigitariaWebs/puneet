@@ -161,7 +161,7 @@ export default function FacilityBookingDetailPage({
           className="mt-4"
           onClick={() => router.push("/facility/dashboard/bookings")}
         >
-          <ArrowLeft className="mr-2 h-4 w-4" />
+          <ArrowLeft className="mr-2 size-4" />
           Back to Bookings
         </Button>
       </div>
@@ -175,11 +175,11 @@ export default function FacilityBookingDetailPage({
       yipyyGoStatus === "approved");
 
   return (
-    <div className="flex-1 space-y-6 p-4 md:p-8 pt-6">
+    <div className="flex-1 space-y-6 p-4 pt-6 md:p-8">
       <div className="flex items-center gap-4">
         <Button variant="ghost" size="icon" asChild>
           <Link href="/facility/dashboard/bookings">
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="size-4" />
           </Link>
         </Button>
         <div>
@@ -202,20 +202,28 @@ export default function FacilityBookingDetailPage({
           <CardContent className="py-4">
             <div className="flex items-start gap-3">
               {formRequirementsCheck.hasBlocker ? (
-                <ShieldAlert className="h-5 w-5 text-red-600 shrink-0 mt-0.5" />
+                <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0 text-red-600" />
               ) : (
-                <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
+                <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" />
               )}
-              <div className="flex-1 min-w-0">
+              <div className="min-w-0 flex-1">
                 <h3
-                  className={`text-sm font-semibold ${formRequirementsCheck.hasBlocker ? "text-red-800" : "text-amber-800"}`}
+                  className={`text-sm font-semibold ${
+                    formRequirementsCheck.hasBlocker
+                      ? `text-red-800`
+                      : `text-amber-800`
+                  } `}
                 >
                   {formRequirementsCheck.hasBlocker
                     ? "Incomplete Requirements"
                     : "Missing Recommended Forms"}
                 </h3>
                 <p
-                  className={`text-xs mt-0.5 ${formRequirementsCheck.hasBlocker ? "text-red-700" : "text-amber-700"}`}
+                  className={`mt-0.5 text-xs ${
+                    formRequirementsCheck.hasBlocker
+                      ? `text-red-700`
+                      : `text-amber-700`
+                  } `}
                 >
                   {formRequirementsCheck.missing.length} form
                   {formRequirementsCheck.missing.length !== 1 ? "s" : ""}{" "}
@@ -233,9 +241,9 @@ export default function FacilityBookingDetailPage({
                       className="flex items-center gap-2 text-sm"
                     >
                       {m.enforcement === "block" ? (
-                        <Ban className="h-3.5 w-3.5 text-red-500 shrink-0" />
+                        <Ban className="h-3.5 w-3.5 shrink-0 text-red-500" />
                       ) : (
-                        <AlertTriangle className="h-3.5 w-3.5 text-amber-500 shrink-0" />
+                        <AlertTriangle className="h-3.5 w-3.5 shrink-0 text-amber-500" />
                       )}
                       <span
                         className={
@@ -248,11 +256,11 @@ export default function FacilityBookingDetailPage({
                       </span>
                       <Badge
                         variant="outline"
-                        className={`text-[10px] h-4 px-1.5 ${
+                        className={`h-4 px-1.5 text-[10px] ${
                           m.enforcement === "block"
-                            ? "bg-red-100 text-red-700 border-red-200"
-                            : "bg-amber-100 text-amber-700 border-amber-200"
-                        }`}
+                            ? "border-red-200 bg-red-100 text-red-700"
+                            : "border-amber-200 bg-amber-100 text-amber-700"
+                        } `}
                       >
                         {m.enforcement === "block" ? "Required" : "Recommended"}
                       </Badge>
@@ -260,7 +268,7 @@ export default function FacilityBookingDetailPage({
                   ))}
                 </div>
                 {formRequirementsCheck.hasBlocker && (
-                  <p className="text-xs text-red-600 mt-2 font-medium">
+                  <p className="mt-2 text-xs font-medium text-red-600">
                     This booking cannot proceed until all required forms are
                     submitted.
                   </p>
@@ -311,7 +319,7 @@ export default function FacilityBookingDetailPage({
           <Card id="yipyygo">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <FileText className="h-4 w-4 text-primary" />
+                <FileText className="text-primary size-4" />
                 YipyyGo Pre-Check-In
               </CardTitle>
             </CardHeader>
@@ -329,7 +337,7 @@ export default function FacilityBookingDetailPage({
                 </Button>
               )}
               {yipyyGoEnabled && !yipyyGoForm && (
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   No form submitted yet. You can mark as manually completed from
                   the review screen.
                 </p>
@@ -343,8 +351,8 @@ export default function FacilityBookingDetailPage({
       {bookingAlerts.all.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm flex items-center gap-2">
-              <Heart className="h-4 w-4" />
+            <CardTitle className="flex items-center gap-2 text-sm">
+              <Heart className="size-4" />
               Playdate Alerts Sent: {bookingAlerts.sent.length} owner
               {bookingAlerts.sent.length !== 1 ? "s" : ""} notified
             </CardTitle>
@@ -355,7 +363,7 @@ export default function FacilityBookingDetailPage({
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="w-full justify-between mb-2"
+                  className="mb-2 w-full justify-between"
                 >
                   <span>
                     View {bookingAlerts.all.length} alert
@@ -369,7 +377,7 @@ export default function FacilityBookingDetailPage({
                   {bookingAlerts.all.map((alert) => (
                     <div
                       key={alert.id}
-                      className="flex items-center justify-between p-2.5 rounded-lg border text-sm"
+                      className="flex items-center justify-between rounded-lg border p-2.5 text-sm"
                     >
                       <div className="flex items-center gap-2">
                         <span className="font-medium">
@@ -388,7 +396,7 @@ export default function FacilityBookingDetailPage({
                     </div>
                   ))}
                   {bookingAlerts.suppressed.length > 0 && (
-                    <p className="text-xs text-muted-foreground mt-1">
+                    <p className="text-muted-foreground mt-1 text-xs">
                       {bookingAlerts.suppressed.length} alert
                       {bookingAlerts.suppressed.length !== 1 ? "s" : ""}{" "}
                       suppressed (

@@ -275,23 +275,23 @@ export function FeedingScheduleForm({
 
           return (
             <Card key={item.id}>
-              <CardContent className="pt-4 space-y-4">
+              <CardContent className="space-y-4 pt-4">
                 {/* Header */}
                 <div
-                  className="flex justify-between items-start cursor-pointer"
+                  className="flex cursor-pointer items-start justify-between"
                   onClick={() => setExpandedItem(isExpanded ? null : item.id)}
                 >
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-orange-100">
                       <Utensils className="h-3.5 w-3.5 text-orange-600" />
                     </div>
                     <div>
-                      <h4 className="font-medium text-sm">
+                      <h4 className="text-sm font-medium">
                         {selectedPets.length > 1
                           ? `Feeding — ${selectedPets.find((p) => p.id === item.petId)?.name || "Select Pet"}`
                           : "Feeding Schedule"}
                       </h4>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         {item.occasions.length}{" "}
                         {item.occasions.length === 1 ? "meal" : "meals"}{" "}
                         &middot;{" "}
@@ -316,9 +316,9 @@ export function FeedingScheduleForm({
                       Remove
                     </Button>
                     {isExpanded ? (
-                      <ChevronUp className="h-4 w-4 text-muted-foreground" />
+                      <ChevronUp className="text-muted-foreground size-4" />
                     ) : (
-                      <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                      <ChevronDown className="text-muted-foreground size-4" />
                     )}
                   </div>
                 </div>
@@ -362,10 +362,10 @@ export function FeedingScheduleForm({
                             type="button"
                             onClick={() => update(index, { source: opt.value })}
                             className={cn(
-                              "rounded-md border px-3 py-1.5 text-xs font-medium transition-colors",
+                              `rounded-md border px-3 py-1.5 text-xs font-medium transition-colors`,
                               item.source === opt.value
-                                ? "border-orange-300 bg-orange-50 text-orange-700"
-                                : "border-input hover:bg-muted/50",
+                                ? `border-orange-300 bg-orange-50 text-orange-700`
+                                : `border-input hover:bg-muted/50`,
                             )}
                           >
                             {opt.label}
@@ -386,14 +386,14 @@ export function FeedingScheduleForm({
                               type="button"
                               onClick={() => toggleChip(index, "allergies", a)}
                               className={cn(
-                                "rounded-full border px-2.5 py-0.5 text-[11px] font-medium transition-colors",
+                                `rounded-full border px-2.5 py-0.5 text-[11px] font-medium transition-colors`,
                                 active
                                   ? "border-red-300 bg-red-50 text-red-700"
-                                  : "border-input hover:bg-muted/50",
+                                  : `border-input hover:bg-muted/50`,
                               )}
                             >
                               {active && (
-                                <AlertTriangle className="h-2.5 w-2.5 inline mr-0.5" />
+                                <AlertTriangle className="mr-0.5 inline h-2.5 w-2.5" />
                               )}
                               {a}
                             </button>
@@ -419,18 +419,18 @@ export function FeedingScheduleForm({
                             key={preset.label}
                             type="button"
                             onClick={() => addOccasion(index, preset)}
-                            className="rounded-full border border-dashed border-orange-300 text-orange-600 px-2.5 py-1 text-[11px] hover:bg-orange-50 transition-colors"
+                            className="rounded-full border border-dashed border-orange-300 px-2.5 py-1 text-[11px] text-orange-600 transition-colors hover:bg-orange-50"
                           >
-                            <Plus className="h-2.5 w-2.5 inline mr-0.5" />
+                            <Plus className="mr-0.5 inline h-2.5 w-2.5" />
                             {preset.label}
                           </button>
                         ))}
                         <button
                           type="button"
                           onClick={() => addOccasion(index)}
-                          className="rounded-full border border-dashed border-input text-muted-foreground px-2.5 py-1 text-[11px] hover:bg-muted/50"
+                          className="border-input text-muted-foreground hover:bg-muted/50 rounded-full border border-dashed px-2.5 py-1 text-[11px]"
                         >
-                          <Plus className="h-2.5 w-2.5 inline mr-0.5" />
+                          <Plus className="mr-0.5 inline h-2.5 w-2.5" />
                           Custom
                         </button>
                       </div>
@@ -448,7 +448,7 @@ export function FeedingScheduleForm({
                             )}
                           >
                             <div
-                              className="flex items-center justify-between px-3 py-2 cursor-pointer"
+                              className="flex cursor-pointer items-center justify-between px-3 py-2"
                               onClick={() =>
                                 setExpandedOcc(occExpanded ? null : occ.id)
                               }
@@ -478,7 +478,7 @@ export function FeedingScheduleForm({
                               </div>
                             </div>
                             {occExpanded && (
-                              <div className="px-3 pb-3 space-y-2 border-t">
+                              <div className="space-y-2 border-t px-3 pb-3">
                                 <div className="grid grid-cols-2 gap-2 pt-2">
                                   <div className="space-y-1">
                                     <Label className="text-[11px]">Name</Label>
@@ -509,7 +509,7 @@ export function FeedingScheduleForm({
                                 {occ.components.map((comp) => (
                                   <div
                                     key={comp.id}
-                                    className="grid grid-cols-5 gap-1.5 items-end"
+                                    className="grid grid-cols-5 items-end gap-1.5"
                                   >
                                     <Select
                                       value={comp.type}
@@ -604,10 +604,10 @@ export function FeedingScheduleForm({
                                   type="button"
                                   variant="outline"
                                   size="sm"
-                                  className="w-full text-[11px] h-7"
+                                  className="h-7 w-full text-[11px]"
                                   onClick={() => addComponent(index, occ.id)}
                                 >
-                                  <Plus className="h-3 w-3 mr-1" />
+                                  <Plus className="mr-1 h-3 w-3" />
                                   Add Component
                                 </Button>
                               </div>
@@ -618,8 +618,8 @@ export function FeedingScheduleForm({
                     </div>
 
                     {/* Prep + Refusal chips */}
-                    <div className="bg-muted/30 rounded-lg p-3 space-y-3">
-                      <h5 className="text-xs font-medium text-muted-foreground">
+                    <div className="bg-muted/30 space-y-3 rounded-lg p-3">
+                      <h5 className="text-muted-foreground text-xs font-medium">
                         Prep Instructions
                       </h5>
                       <div className="flex flex-wrap gap-1">
@@ -635,10 +635,10 @@ export function FeedingScheduleForm({
                                 toggleChip(index, "prepInstructions", opt.value)
                               }
                               className={cn(
-                                "rounded-full border px-2.5 py-0.5 text-[11px] font-medium transition-colors",
+                                `rounded-full border px-2.5 py-0.5 text-[11px] font-medium transition-colors`,
                                 active
-                                  ? "border-orange-300 bg-orange-50 text-orange-700"
-                                  : "border-input hover:bg-muted/50",
+                                  ? `border-orange-300 bg-orange-50 text-orange-700`
+                                  : `border-input hover:bg-muted/50`,
                               )}
                             >
                               {opt.label}
@@ -646,7 +646,7 @@ export function FeedingScheduleForm({
                           );
                         })}
                       </div>
-                      <h5 className="text-xs font-medium text-muted-foreground pt-1">
+                      <h5 className="text-muted-foreground pt-1 text-xs font-medium">
                         If Refuses Food
                       </h5>
                       <div className="flex flex-wrap gap-1">
@@ -662,10 +662,10 @@ export function FeedingScheduleForm({
                                 toggleChip(index, "ifRefuses", opt.value)
                               }
                               className={cn(
-                                "rounded-full border px-2.5 py-0.5 text-[11px] font-medium transition-colors",
+                                `rounded-full border px-2.5 py-0.5 text-[11px] font-medium transition-colors`,
                                 active
-                                  ? "border-amber-300 bg-amber-50 text-amber-700"
-                                  : "border-input hover:bg-muted/50",
+                                  ? `border-amber-300 bg-amber-50 text-amber-700`
+                                  : `border-input hover:bg-muted/50`,
                               )}
                             >
                               {opt.label}
@@ -699,7 +699,7 @@ export function FeedingScheduleForm({
           onClick={add}
           className="w-full"
         >
-          <Plus className="h-4 w-4 mr-2" />
+          <Plus className="mr-2 size-4" />
           Add Feeding Schedule
         </Button>
       </div>

@@ -329,7 +329,7 @@ export default function TrainingSeriesPage() {
           </p>
         </div>
         <Button onClick={handleAddNew}>
-          <Plus className="mr-2 h-4 w-4" />
+          <Plus className="mr-2 size-4" />
           Create Series
         </Button>
       </div>
@@ -361,7 +361,7 @@ export default function TrainingSeriesPage() {
                 <TableRow>
                   <TableCell
                     colSpan={8}
-                    className="text-center py-8 text-muted-foreground"
+                    className="text-muted-foreground py-8 text-center"
                   >
                     No series created yet. Click &quot;Create Series&quot; to
                     get started.
@@ -394,14 +394,14 @@ export default function TrainingSeriesPage() {
                           size="sm"
                           onClick={() => handleEdit(s)}
                         >
-                          <Edit className="h-4 w-4" />
+                          <Edit className="size-4" />
                         </Button>
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => handleDelete(s.id)}
                         >
-                          <Trash2 className="h-4 w-4 text-destructive" />
+                          <Trash2 className="text-destructive size-4" />
                         </Button>
                       </div>
                     </TableCell>
@@ -415,7 +415,7 @@ export default function TrainingSeriesPage() {
 
       {/* Add/Edit Modal */}
       <Dialog open={isAddEditModalOpen} onOpenChange={setIsAddEditModalOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {editingSeries ? "Edit Series" : "Create New Series"}
@@ -450,7 +450,7 @@ export default function TrainingSeriesPage() {
                 </SelectContent>
               </Select>
               {selectedCourseType && (
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   {selectedCourseType.description}
                 </p>
               )}
@@ -491,7 +491,7 @@ export default function TrainingSeriesPage() {
                           !formData.startDate && "text-muted-foreground",
                         )}
                       >
-                        <Calendar className="mr-2 h-4 w-4" />
+                        <Calendar className="mr-2 size-4" />
                         {formData.startDate ? (
                           formatDate(formData.startDate, "long")
                         ) : (
@@ -624,8 +624,8 @@ export default function TrainingSeriesPage() {
               {sessionDatesPreview.length > 0 && (
                 <div className="space-y-2">
                   <Label>Session Dates (Auto-calculated)</Label>
-                  <div className="p-3 bg-muted rounded-md">
-                    <p className="text-sm font-medium mb-2">
+                  <div className="bg-muted rounded-md p-3">
+                    <p className="mb-2 text-sm font-medium">
                       {sessionDatesPreview.length} sessions:
                     </p>
                     <div className="flex flex-wrap gap-2">
@@ -715,7 +715,7 @@ export default function TrainingSeriesPage() {
                           !formData.bookingOpensDate && "text-muted-foreground",
                         )}
                       >
-                        <Calendar className="mr-2 h-4 w-4" />
+                        <Calendar className="mr-2 size-4" />
                         {formData.bookingOpensDate ? (
                           formatDate(formData.bookingOpensDate, "long")
                         ) : (
@@ -765,7 +765,7 @@ export default function TrainingSeriesPage() {
                             "text-muted-foreground",
                         )}
                       >
-                        <Calendar className="mr-2 h-4 w-4" />
+                        <Calendar className="mr-2 size-4" />
                         {formData.bookingClosesDate ? (
                           formatDate(formData.bookingClosesDate, "long")
                         ) : (
@@ -837,10 +837,10 @@ export default function TrainingSeriesPage() {
               </div>
 
               <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 border rounded-lg">
+                <div className="flex items-center justify-between rounded-lg border p-4">
                   <div>
                     <Label htmlFor="waitlistEnabled">Waitlist Enabled</Label>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       Allow clients to join waitlist when series is full
                     </p>
                   </div>
@@ -853,10 +853,10 @@ export default function TrainingSeriesPage() {
                   />
                 </div>
 
-                <div className="flex items-center justify-between p-4 border rounded-lg">
+                <div className="flex items-center justify-between rounded-lg border p-4">
                   <div>
                     <Label htmlFor="allowDropIns">Allow Drop-Ins</Label>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       Allow single-session enrollments (not full series)
                     </p>
                   </div>

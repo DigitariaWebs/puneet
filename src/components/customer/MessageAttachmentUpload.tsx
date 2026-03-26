@@ -96,13 +96,13 @@ export function MessageAttachmentUpload({
   const getAttachmentTypeIcon = (type: Attachment["type"]) => {
     switch (type) {
       case "vaccine_record":
-        return <FileCheck className="h-4 w-4" />;
+        return <FileCheck className="size-4" />;
       case "document":
-        return <FileText className="h-4 w-4" />;
+        return <FileText className="size-4" />;
       case "photo":
-        return <ImageIcon className="h-4 w-4" />;
+        return <ImageIcon className="size-4" />;
       case "signed_form":
-        return <FileCheck className="h-4 w-4" />;
+        return <FileCheck className="size-4" />;
     }
   };
 
@@ -115,7 +115,7 @@ export function MessageAttachmentUpload({
           size="icon"
           onClick={() => fileInputRef.current?.click()}
         >
-          <Paperclip className="h-4 w-4" />
+          <Paperclip className="size-4" />
         </Button>
         <input
           ref={fileInputRef}
@@ -129,7 +129,7 @@ export function MessageAttachmentUpload({
             {attachments.map((att) => (
               <div
                 key={att.id}
-                className="flex items-center gap-2 px-2 py-1 bg-muted rounded text-xs"
+                className="bg-muted flex items-center gap-2 rounded-sm px-2 py-1 text-xs"
               >
                 {getAttachmentTypeIcon(att.type)}
                 <span className="max-w-[100px] truncate">{att.name}</span>
@@ -140,7 +140,7 @@ export function MessageAttachmentUpload({
                   type="button"
                   variant="ghost"
                   size="icon"
-                  className="h-4 w-4"
+                  className="size-4"
                   onClick={() => handleRemoveAttachment(att.id)}
                 >
                   <X className="h-3 w-3" />
@@ -162,13 +162,13 @@ export function MessageAttachmentUpload({
           </DialogHeader>
           <div className="space-y-4 py-4">
             {selectedFile && (
-              <div className="p-3 bg-muted rounded-lg">
+              <div className="bg-muted rounded-lg p-3">
                 <div className="flex items-center gap-2">
-                  <Upload className="h-4 w-4" />
+                  <Upload className="size-4" />
                   <span className="text-sm font-medium">
                     {selectedFile.name}
                   </span>
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-muted-foreground text-xs">
                     ({(selectedFile.size / 1024).toFixed(1)} KB)
                   </span>
                 </div>

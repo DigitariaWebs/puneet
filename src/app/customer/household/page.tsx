@@ -143,8 +143,8 @@ export default function CustomerHouseholdPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background p-4 md:p-6">
-      <div className="max-w-4xl mx-auto space-y-6">
+    <div className="from-background via-muted/20 to-background min-h-screen bg-linear-to-br p-4 md:p-6">
+      <div className="mx-auto max-w-4xl space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
@@ -156,7 +156,7 @@ export default function CustomerHouseholdPage() {
           </div>
           {!isEditing ? (
             <Button onClick={() => setIsEditing(true)}>
-              <Edit className="h-4 w-4 mr-2" />
+              <Edit className="mr-2 size-4" />
               Edit Contacts
             </Button>
           ) : (
@@ -171,12 +171,12 @@ export default function CustomerHouseholdPage() {
               <Button onClick={handleSave} disabled={isSaving}>
                 {isSaving ? (
                   <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    <Loader2 className="mr-2 size-4 animate-spin" />
                     Saving...
                   </>
                 ) : (
                   <>
-                    <Save className="h-4 w-4 mr-2" />
+                    <Save className="mr-2 size-4" />
                     Save Changes
                   </>
                 )}
@@ -198,7 +198,7 @@ export default function CustomerHouseholdPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="text-sm text-muted-foreground">
+            <div className="text-muted-foreground text-sm">
               Many families share responsibilities. Add secondary contacts
               (spouse, partner, roommate) and choose what each person is allowed
               to do.
@@ -206,29 +206,29 @@ export default function CustomerHouseholdPage() {
 
             {/* Existing Contacts */}
             <div className="space-y-2">
-              <div className="text-sm font-medium text-muted-foreground">
+              <div className="text-muted-foreground text-sm font-medium">
                 People on this account
               </div>
               <div className="space-y-2">
                 {householdContacts.map((contact) => (
                   <div
                     key={contact.id}
-                    className="grid grid-cols-1 md:grid-cols-5 gap-3 items-center p-3 rounded-lg border bg-background/60"
+                    className="bg-background/60 grid grid-cols-1 items-center gap-3 rounded-lg border p-3 md:grid-cols-5"
                   >
                     <div className="space-y-0.5 md:col-span-2">
                       <div className="flex items-center gap-2">
-                        <p className="font-medium text-sm">{contact.name}</p>
+                        <p className="text-sm font-medium">{contact.name}</p>
                         {contact.id === "primary" && (
                           <Badge className="text-xs" variant="default">
                             Primary
                           </Badge>
                         )}
                       </div>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         {contact.relationship || "Household member"}
                       </p>
                       {(contact.email || contact.phone) && (
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-muted-foreground text-xs">
                           {contact.email && <span>{contact.email}</span>}
                           {contact.email && contact.phone && <span> · </span>}
                           {contact.phone && <span>{contact.phone}</span>}
@@ -288,10 +288,10 @@ export default function CustomerHouseholdPage() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 text-destructive hover:text-destructive"
+                          className="text-destructive hover:text-destructive h-8 w-8"
                           onClick={() => handleRemoveContact(contact.id)}
                         >
-                          <Trash2 className="h-4 w-4" />
+                          <Trash2 className="size-4" />
                         </Button>
                       </div>
                     )}
@@ -301,11 +301,11 @@ export default function CustomerHouseholdPage() {
             </div>
 
             {/* Add Secondary Contact */}
-            <div className="pt-2 border-t space-y-3">
+            <div className="space-y-3 border-t pt-2">
               <div className="flex items-center justify-between">
                 <p className="text-sm font-medium">Add Secondary Contact</p>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
                 <div className="space-y-1">
                   <Label htmlFor="hh-name">Name</Label>
                   <Input
@@ -431,7 +431,7 @@ export default function CustomerHouseholdPage() {
                   toast.success("Contact added");
                 }}
               >
-                <Plus className="h-4 w-4 mr-2" />
+                <Plus className="mr-2 size-4" />
                 Add Contact
               </Button>
             </div>

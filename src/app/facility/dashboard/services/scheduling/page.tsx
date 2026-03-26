@@ -1790,7 +1790,7 @@ export default function FacilitySchedulingPage() {
   return (
     <div className="space-y-6">
       {/* Action Bar - Role-Based */}
-      <div className="flex items-center justify-between flex-wrap gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <h1 className="text-2xl font-bold">
             {isAdmin ? "Schedule Administration" : "Schedule Planning"}
@@ -1803,7 +1803,7 @@ export default function FacilitySchedulingPage() {
                   setSelectedFacilityId(parseInt(value))
                 }
               >
-                <SelectTrigger className="w-[250px] border-primary">
+                <SelectTrigger className="border-primary w-[250px]">
                   <SelectValue placeholder="Select Facility" />
                 </SelectTrigger>
                 <SelectContent>
@@ -1824,10 +1824,10 @@ export default function FacilitySchedulingPage() {
             </Badge>
           )}
         </div>
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex flex-wrap items-center gap-2">
           {/* Planning Actions - Manager Focus */}
           <Button onClick={() => handleAddNew()} size="sm">
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus className="mr-2 size-4" />
             Add Shift
           </Button>
           <Button
@@ -1835,7 +1835,7 @@ export default function FacilitySchedulingPage() {
             onClick={() => setIsCopyWeekModalOpen(true)}
             size="sm"
           >
-            <Copy className="mr-2 h-4 w-4" />
+            <Copy className="mr-2 size-4" />
             Copy Week
           </Button>
           <Button
@@ -1851,7 +1851,7 @@ export default function FacilitySchedulingPage() {
             className="bg-green-600 hover:bg-green-700"
             size="sm"
           >
-            <CheckCircle2 className="mr-2 h-4 w-4" />
+            <CheckCircle2 className="mr-2 size-4" />
             Publish
           </Button>
           <Button
@@ -1859,7 +1859,7 @@ export default function FacilitySchedulingPage() {
             onClick={() => exportSchedulesToCSV(facilitySchedules)}
             size="sm"
           >
-            <Download className="mr-2 h-4 w-4" />
+            <Download className="mr-2 size-4" />
             <span className="hidden sm:inline">CSV</span>
           </Button>
           <Button
@@ -1869,7 +1869,7 @@ export default function FacilitySchedulingPage() {
             }
             size="sm"
           >
-            <FileDown className="mr-2 h-4 w-4" />
+            <FileDown className="mr-2 size-4" />
             <span className="hidden sm:inline">ICS</span>
           </Button>
         </div>
@@ -1877,11 +1877,11 @@ export default function FacilitySchedulingPage() {
 
       {/* Coverage-First Quick Actions Bar (Manager) */}
       {!isAdmin && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
           {/* Coverage Needs - Prominent */}
           {getSickCallInsNeedingCoverage().length > 0 && (
             <Card
-              className="border-red-200 bg-red-50/50 cursor-pointer hover:bg-red-100/50 transition-colors"
+              className="cursor-pointer border-red-200 bg-red-50/50 transition-colors hover:bg-red-100/50"
               onClick={() => {
                 const coverageTab = document.querySelector(
                   '[value="coverage"]',
@@ -1895,7 +1895,7 @@ export default function FacilitySchedulingPage() {
                     <p className="text-sm font-medium text-red-900">
                       Coverage Needed
                     </p>
-                    <p className="text-2xl font-bold text-red-600 mt-1">
+                    <p className="mt-1 text-2xl font-bold text-red-600">
                       {getSickCallInsNeedingCoverage().length}
                     </p>
                   </div>
@@ -1909,7 +1909,7 @@ export default function FacilitySchedulingPage() {
             timeOffRequests.filter((r) => r.status === "pending").length >
               0) && (
             <Card
-              className="border-orange-200 bg-orange-50/50 cursor-pointer hover:bg-orange-100/50 transition-colors"
+              className="cursor-pointer border-orange-200 bg-orange-50/50 transition-colors hover:bg-orange-100/50"
               onClick={() => {
                 const requestsTab = document.querySelector(
                   '[value="requests"]',
@@ -1923,7 +1923,7 @@ export default function FacilitySchedulingPage() {
                     <p className="text-sm font-medium text-orange-900">
                       Pending Approvals
                     </p>
-                    <p className="text-2xl font-bold text-orange-600 mt-1">
+                    <p className="mt-1 text-2xl font-bold text-orange-600">
                       {getPendingSwapRequests().length +
                         timeOffRequests.filter((r) => r.status === "pending")
                           .length}
@@ -1938,7 +1938,7 @@ export default function FacilitySchedulingPage() {
           {detectAllConflicts().filter((c) => c.severity === "critical")
             .length > 0 && (
             <Card
-              className="border-yellow-200 bg-yellow-50/50 cursor-pointer hover:bg-yellow-100/50 transition-colors"
+              className="cursor-pointer border-yellow-200 bg-yellow-50/50 transition-colors hover:bg-yellow-100/50"
               onClick={() => {
                 const coverageTab = document.querySelector(
                   '[value="coverage"]',
@@ -1952,7 +1952,7 @@ export default function FacilitySchedulingPage() {
                     <p className="text-sm font-medium text-yellow-900">
                       Critical Conflicts
                     </p>
-                    <p className="text-2xl font-bold text-yellow-600 mt-1">
+                    <p className="mt-1 text-2xl font-bold text-yellow-600">
                       {
                         detectAllConflicts().filter(
                           (c) => c.severity === "critical",
@@ -1970,19 +1970,19 @@ export default function FacilitySchedulingPage() {
 
       {/* Tabs - Reordered for Manager: Coverage First */}
       <Tabs defaultValue="schedule" className="space-y-6">
-        <TabsList className="inline-flex h-auto gap-1 rounded-lg bg-muted p-1">
+        <TabsList className="bg-muted inline-flex h-auto gap-1 rounded-lg p-1">
           <TabsTrigger
             value="schedule"
-            className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm"
+            className="data-[state=active]:bg-background data-[state=active]:text-primary inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium data-[state=active]:shadow-sm"
           >
-            <Calendar className="h-4 w-4" />
+            <Calendar className="size-4" />
             Schedule
           </TabsTrigger>
           <TabsTrigger
             value="coverage"
-            className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm"
+            className="data-[state=active]:bg-background data-[state=active]:text-primary inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium data-[state=active]:shadow-sm"
           >
-            <Users className="h-4 w-4" />
+            <Users className="size-4" />
             Coverage & Conflicts
             {getSickCallInsNeedingCoverage().length > 0 && (
               <Badge variant="destructive" className="ml-1 h-5 px-1.5">
@@ -1992,9 +1992,9 @@ export default function FacilitySchedulingPage() {
           </TabsTrigger>
           <TabsTrigger
             value="requests"
-            className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm"
+            className="data-[state=active]:bg-background data-[state=active]:text-primary inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium data-[state=active]:shadow-sm"
           >
-            <FileText className="h-4 w-4" />
+            <FileText className="size-4" />
             Requests
             {(getSickCallInsNeedingCoverage().length > 0 ||
               getPendingSwapRequests().length > 0) && (
@@ -2006,17 +2006,17 @@ export default function FacilitySchedulingPage() {
           </TabsTrigger>
           <TabsTrigger
             value="templates"
-            className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm"
+            className="data-[state=active]:bg-background data-[state=active]:text-primary inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium data-[state=active]:shadow-sm"
           >
-            <CalendarDays className="h-4 w-4" />
+            <CalendarDays className="size-4" />
             Templates
           </TabsTrigger>
           {isAdmin && (
             <TabsTrigger
               value="settings"
-              className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm"
+              className="data-[state=active]:bg-background data-[state=active]:text-primary inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium data-[state=active]:shadow-sm"
             >
-              <Settings className="h-4 w-4" />
+              <Settings className="size-4" />
               Settings
             </TabsTrigger>
           )}
@@ -2035,7 +2035,7 @@ export default function FacilitySchedulingPage() {
                 <div className="text-2xl font-bold">
                   {todaySchedules.length}
                 </div>
-                <p className="text-xs text-muted-foreground">Active today</p>
+                <p className="text-muted-foreground text-xs">Active today</p>
               </CardContent>
             </Card>
             <Card>
@@ -2048,7 +2048,7 @@ export default function FacilitySchedulingPage() {
                 <div className="text-2xl font-bold">
                   {upcomingSchedules.length}
                 </div>
-                <p className="text-xs text-muted-foreground">Future shifts</p>
+                <p className="text-muted-foreground text-xs">Future shifts</p>
               </CardContent>
             </Card>
             <Card>
@@ -2061,7 +2061,7 @@ export default function FacilitySchedulingPage() {
                 <div className="text-2xl font-bold">
                   {totalHours.toFixed(1)}
                 </div>
-                <p className="text-xs text-muted-foreground">Scheduled hours</p>
+                <p className="text-muted-foreground text-xs">Scheduled hours</p>
               </CardContent>
             </Card>
             <Card>
@@ -2074,21 +2074,21 @@ export default function FacilitySchedulingPage() {
                 <div className="text-2xl font-bold">
                   {new Set(facilitySchedules.map((s) => s.staffId)).size}
                 </div>
-                <p className="text-xs text-muted-foreground">Staff members</p>
+                <p className="text-muted-foreground text-xs">Staff members</p>
               </CardContent>
             </Card>
           </div>
 
           {/* Planning Tools Bar - Fast Editing Focus */}
           <div className="space-y-4">
-            <div className="flex items-center justify-between flex-wrap gap-3">
-              <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="flex flex-wrap items-center gap-2">
                 <Button
                   variant={viewMode === "calendar" ? "default" : "outline"}
                   onClick={() => setViewMode("calendar")}
                   size="sm"
                 >
-                  <User className="mr-2 h-4 w-4" />
+                  <User className="mr-2 size-4" />
                   By Employee
                 </Button>
                 <Button
@@ -2096,7 +2096,7 @@ export default function FacilitySchedulingPage() {
                   onClick={() => setViewMode("role")}
                   size="sm"
                 >
-                  <Users className="mr-2 h-4 w-4" />
+                  <Users className="mr-2 size-4" />
                   By Role
                 </Button>
                 <Button
@@ -2104,7 +2104,7 @@ export default function FacilitySchedulingPage() {
                   onClick={() => setViewMode("list")}
                   size="sm"
                 >
-                  <Clock className="mr-2 h-4 w-4" />
+                  <Clock className="mr-2 size-4" />
                   List
                 </Button>
                 {/* Bulk Edit Button */}
@@ -2116,7 +2116,7 @@ export default function FacilitySchedulingPage() {
                     toast.info("Bulk edit feature coming soon");
                   }}
                 >
-                  <Users2 className="mr-2 h-4 w-4" />
+                  <Users2 className="mr-2 size-4" />
                   Bulk Edit
                 </Button>
               </div>
@@ -2125,7 +2125,7 @@ export default function FacilitySchedulingPage() {
                 <div className="flex items-center gap-2">
                   <Badge
                     variant={calendarView === "day" ? "default" : "outline"}
-                    className="flex items-center gap-1 cursor-pointer"
+                    className="flex cursor-pointer items-center gap-1"
                     onClick={() => {
                       if (calendarView !== "day") {
                         setCalendarView("day");
@@ -2146,7 +2146,7 @@ export default function FacilitySchedulingPage() {
               {viewMode === "calendar" && (
                 <div className="flex items-center gap-2">
                   {/* Date Navigation */}
-                  <div className="flex items-center gap-1 border rounded-md">
+                  <div className="flex items-center gap-1 rounded-md border">
                     <Button
                       variant="ghost"
                       size="sm"
@@ -2162,7 +2162,7 @@ export default function FacilitySchedulingPage() {
                         setCurrentDate(newDate);
                       }}
                     >
-                      <ChevronLeft className="h-4 w-4" />
+                      <ChevronLeft className="size-4" />
                     </Button>
                     <Input
                       type="date"
@@ -2183,7 +2183,7 @@ export default function FacilitySchedulingPage() {
                         }
                         setCurrentDate(newDate);
                       }}
-                      className="w-auto border-0 h-8 px-2"
+                      className="h-8 w-auto border-0 px-2"
                     />
                     <Button
                       variant="ghost"
@@ -2200,7 +2200,7 @@ export default function FacilitySchedulingPage() {
                         setCurrentDate(newDate);
                       }}
                     >
-                      <ChevronRight className="h-4 w-4" />
+                      <ChevronRight className="size-4" />
                     </Button>
                     <Button
                       variant="ghost"
@@ -2314,7 +2314,7 @@ export default function FacilitySchedulingPage() {
                                     >
                                       <Badge
                                         variant="secondary"
-                                        className="cursor-pointer hover:bg-secondary/80"
+                                        className="hover:bg-secondary/80 cursor-pointer"
                                         onClick={() => handleEdit(schedule)}
                                       >
                                         {schedule.startTime} -{" "}
@@ -2328,15 +2328,15 @@ export default function FacilitySchedulingPage() {
                                             .map((task) => (
                                               <div
                                                 key={task.id}
-                                                className={`text-[10px] px-1 py-0.5 rounded ${
+                                                className={`rounded-sm px-1 py-0.5 text-[10px] ${
                                                   task.status === "completed"
-                                                    ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                                                    ? `bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400`
                                                     : task.priority === "urgent"
-                                                      ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
+                                                      ? `bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400`
                                                       : task.priority === "high"
-                                                        ? "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400"
-                                                        : "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
-                                                }`}
+                                                        ? `bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400`
+                                                        : `bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400`
+                                                } `}
                                                 title={task.taskName}
                                               >
                                                 {task.taskName.length > 15
@@ -2348,7 +2348,7 @@ export default function FacilitySchedulingPage() {
                                               </div>
                                             ))}
                                           {shiftTasksForSchedule.length > 2 && (
-                                            <div className="text-[10px] text-muted-foreground">
+                                            <div className="text-muted-foreground text-[10px]">
                                               +
                                               {shiftTasksForSchedule.length - 2}{" "}
                                               more
@@ -2356,7 +2356,7 @@ export default function FacilitySchedulingPage() {
                                           )}
                                         </div>
                                       )}
-                                      <div className="absolute hidden group-hover:flex gap-1 top-full left-1/2 transform -translate-x-1/2 mt-1 z-10">
+                                      <div className="absolute top-full left-1/2 z-10 mt-1 hidden -translate-x-1/2 transform gap-1 group-hover:flex">
                                         <Button
                                           size="sm"
                                           variant="outline"
@@ -2389,7 +2389,7 @@ export default function FacilitySchedulingPage() {
                                             handleDeleteClick(schedule);
                                           }}
                                         >
-                                          <Trash2 className="h-3 w-3 text-destructive" />
+                                          <Trash2 className="text-destructive h-3 w-3" />
                                         </Button>
                                       </div>
                                     </div>
@@ -2413,19 +2413,19 @@ export default function FacilitySchedulingPage() {
                             {items.slice(0, 3).map((schedule) => (
                               <div
                                 key={schedule.id}
-                                className="group relative text-xs bg-secondary/50 rounded px-1.5 py-0.5 cursor-pointer hover:bg-secondary/80"
+                                className="group bg-secondary/50 hover:bg-secondary/80 relative cursor-pointer rounded-sm px-1.5 py-0.5 text-xs"
                                 onClick={() => handleEdit(schedule)}
                               >
-                                <div className="font-medium truncate">
+                                <div className="truncate font-medium">
                                   {schedule.staffName}
                                 </div>
-                                <div className="text-[10px] text-muted-foreground">
+                                <div className="text-muted-foreground text-[10px]">
                                   {schedule.startTime}-{schedule.endTime}
                                 </div>
                               </div>
                             ))}
                             {items.length > 3 && (
-                              <div className="text-[10px] text-muted-foreground text-center">
+                              <div className="text-muted-foreground text-center text-[10px]">
                                 +{items.length - 3} more
                               </div>
                             )}
@@ -2453,23 +2453,23 @@ export default function FacilitySchedulingPage() {
                 <CardContent>
                   <div className="space-y-4">
                     {/* Coverage Heatmap */}
-                    <div className="border rounded-lg p-4 bg-muted/50">
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="font-semibold flex items-center gap-2">
-                          <Map className="h-4 w-4" />
+                    <div className="bg-muted/50 rounded-lg border p-4">
+                      <div className="mb-4 flex items-center justify-between">
+                        <h3 className="flex items-center gap-2 font-semibold">
+                          <Map className="size-4" />
                           Coverage Heatmap
                         </h3>
                         <div className="flex items-center gap-4 text-sm">
                           <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded bg-red-500"></div>
+                            <div className="h-3 w-3 rounded-sm bg-red-500"></div>
                             <span>Understaffed</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded bg-green-500"></div>
+                            <div className="h-3 w-3 rounded-sm bg-green-500"></div>
                             <span>OK</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded bg-yellow-500"></div>
+                            <div className="h-3 w-3 rounded-sm bg-yellow-500"></div>
                             <span>Overstaffed</span>
                           </div>
                         </div>
@@ -2483,21 +2483,21 @@ export default function FacilitySchedulingPage() {
                           return (
                             <div
                               key={timeSlot}
-                              className={`p-2 rounded text-center text-xs ${
+                              className={`rounded-sm p-2 text-center text-xs ${
                                 coverage.status === "understaffed"
-                                  ? "bg-red-500/20 border border-red-500"
+                                  ? "border border-red-500 bg-red-500/20"
                                   : coverage.status === "overstaffed"
-                                    ? "bg-yellow-500/20 border border-yellow-500"
-                                    : "bg-green-500/20 border border-green-500"
-                              }`}
+                                    ? `border border-yellow-500 bg-yellow-500/20`
+                                    : "border border-green-500 bg-green-500/20"
+                              } `}
                               title={`${timeSlot}: ${coverage.count} staff (${coverage.status}) | Required: ${coverage.min} | Busy: ${coverage.workload}%`}
                             >
                               <div className="font-medium">{timeSlot}</div>
-                              <div className="text-xs mt-1">
+                              <div className="mt-1 text-xs">
                                 {coverage.count}/{coverage.min}
                               </div>
                               {coverage.workload > 0 && (
-                                <div className="text-[10px] mt-0.5 opacity-75">
+                                <div className="mt-0.5 text-[10px] opacity-75">
                                   {coverage.workload}% busy
                                 </div>
                               )}
@@ -2515,10 +2515,10 @@ export default function FacilitySchedulingPage() {
                         facility.id,
                       );
                       return (
-                        <div className="border rounded-lg p-4 bg-muted/50">
-                          <div className="flex items-center justify-between mb-4">
-                            <h3 className="font-semibold flex items-center gap-2">
-                              <Activity className="h-4 w-4" />
+                        <div className="bg-muted/50 rounded-lg border p-4">
+                          <div className="mb-4 flex items-center justify-between">
+                            <h3 className="flex items-center gap-2 font-semibold">
+                              <Activity className="size-4" />
                               Workload Indicators
                             </h3>
                             <div className="flex items-center gap-2">
@@ -2526,7 +2526,7 @@ export default function FacilitySchedulingPage() {
                                 Busy Meter:
                               </div>
                               <div className="flex items-center gap-2">
-                                <div className="w-32 h-2 bg-muted rounded-full overflow-hidden">
+                                <div className="bg-muted h-2 w-32 overflow-hidden rounded-full">
                                   <div
                                     className={`h-full transition-all ${
                                       workload.busyMeter >= 80
@@ -2534,7 +2534,7 @@ export default function FacilitySchedulingPage() {
                                         : workload.busyMeter >= 50
                                           ? "bg-yellow-500"
                                           : "bg-green-500"
-                                    }`}
+                                    } `}
                                     style={{ width: `${workload.busyMeter}%` }}
                                   />
                                 </div>
@@ -2544,13 +2544,13 @@ export default function FacilitySchedulingPage() {
                               </div>
                             </div>
                           </div>
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <div className="flex items-center gap-3 p-3 bg-background rounded-lg border">
-                              <div className="p-2 bg-blue-100 rounded-lg">
-                                <UsersIcon className="h-4 w-4 text-blue-600" />
+                          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                            <div className="bg-background flex items-center gap-3 rounded-lg border p-3">
+                              <div className="rounded-lg bg-blue-100 p-2">
+                                <UsersIcon className="size-4 text-blue-600" />
                               </div>
                               <div>
-                                <p className="text-xs text-muted-foreground">
+                                <p className="text-muted-foreground text-xs">
                                   Check-ins
                                 </p>
                                 <p className="text-lg font-bold">
@@ -2558,12 +2558,12 @@ export default function FacilitySchedulingPage() {
                                 </p>
                               </div>
                             </div>
-                            <div className="flex items-center gap-3 p-3 bg-background rounded-lg border">
-                              <div className="p-2 bg-green-100 rounded-lg">
-                                <TrendingUp className="h-4 w-4 text-green-600" />
+                            <div className="bg-background flex items-center gap-3 rounded-lg border p-3">
+                              <div className="rounded-lg bg-green-100 p-2">
+                                <TrendingUp className="size-4 text-green-600" />
                               </div>
                               <div>
-                                <p className="text-xs text-muted-foreground">
+                                <p className="text-muted-foreground text-xs">
                                   Check-outs
                                 </p>
                                 <p className="text-lg font-bold">
@@ -2571,12 +2571,12 @@ export default function FacilitySchedulingPage() {
                                 </p>
                               </div>
                             </div>
-                            <div className="flex items-center gap-3 p-3 bg-background rounded-lg border">
-                              <div className="p-2 bg-purple-100 rounded-lg">
-                                <UsersIcon className="h-4 w-4 text-purple-600" />
+                            <div className="bg-background flex items-center gap-3 rounded-lg border p-3">
+                              <div className="rounded-lg bg-purple-100 p-2">
+                                <UsersIcon className="size-4 text-purple-600" />
                               </div>
                               <div>
-                                <p className="text-xs text-muted-foreground">
+                                <p className="text-muted-foreground text-xs">
                                   Daycare
                                 </p>
                                 <p className="text-lg font-bold">
@@ -2585,12 +2585,12 @@ export default function FacilitySchedulingPage() {
                                 </p>
                               </div>
                             </div>
-                            <div className="flex items-center gap-3 p-3 bg-background rounded-lg border">
-                              <div className="p-2 bg-orange-100 rounded-lg">
-                                <Home className="h-4 w-4 text-orange-600" />
+                            <div className="bg-background flex items-center gap-3 rounded-lg border p-3">
+                              <div className="rounded-lg bg-orange-100 p-2">
+                                <Home className="size-4 text-orange-600" />
                               </div>
                               <div>
-                                <p className="text-xs text-muted-foreground">
+                                <p className="text-muted-foreground text-xs">
                                   Boarding
                                 </p>
                                 <p className="text-lg font-bold">
@@ -2598,19 +2598,19 @@ export default function FacilitySchedulingPage() {
                                 </p>
                                 {(workload.boardingArrivals > 0 ||
                                   workload.boardingDepartures > 0) && (
-                                  <p className="text-xs text-muted-foreground mt-1">
+                                  <p className="text-muted-foreground mt-1 text-xs">
                                     {workload.boardingArrivals} in,{" "}
                                     {workload.boardingDepartures} out
                                   </p>
                                 )}
                               </div>
                             </div>
-                            <div className="flex items-center gap-3 p-3 bg-background rounded-lg border">
-                              <div className="p-2 bg-pink-100 rounded-lg">
-                                <ScissorsIcon className="h-4 w-4 text-pink-600" />
+                            <div className="bg-background flex items-center gap-3 rounded-lg border p-3">
+                              <div className="rounded-lg bg-pink-100 p-2">
+                                <ScissorsIcon className="size-4 text-pink-600" />
                               </div>
                               <div>
-                                <p className="text-xs text-muted-foreground">
+                                <p className="text-muted-foreground text-xs">
                                   Grooming
                                 </p>
                                 <p className="text-lg font-bold">
@@ -2618,12 +2618,12 @@ export default function FacilitySchedulingPage() {
                                 </p>
                               </div>
                             </div>
-                            <div className="flex items-center gap-3 p-3 bg-background rounded-lg border">
-                              <div className="p-2 bg-indigo-100 rounded-lg">
-                                <FileText className="h-4 w-4 text-indigo-600" />
+                            <div className="bg-background flex items-center gap-3 rounded-lg border p-3">
+                              <div className="rounded-lg bg-indigo-100 p-2">
+                                <FileText className="size-4 text-indigo-600" />
                               </div>
                               <div>
-                                <p className="text-xs text-muted-foreground">
+                                <p className="text-muted-foreground text-xs">
                                   Evaluations
                                 </p>
                                 <p className="text-lg font-bold">
@@ -2631,12 +2631,12 @@ export default function FacilitySchedulingPage() {
                                 </p>
                               </div>
                             </div>
-                            <div className="flex items-center gap-3 p-3 bg-background rounded-lg border">
-                              <div className="p-2 bg-teal-100 rounded-lg">
-                                <GraduationCapIcon className="h-4 w-4 text-teal-600" />
+                            <div className="bg-background flex items-center gap-3 rounded-lg border p-3">
+                              <div className="rounded-lg bg-teal-100 p-2">
+                                <GraduationCapIcon className="size-4 text-teal-600" />
                               </div>
                               <div>
-                                <p className="text-xs text-muted-foreground">
+                                <p className="text-muted-foreground text-xs">
                                   Training
                                 </p>
                                 <p className="text-lg font-bold">
@@ -2660,7 +2660,7 @@ export default function FacilitySchedulingPage() {
                           .map((schedule) => (
                             <div
                               key={schedule.id}
-                              className="flex items-center justify-between p-3 border rounded-lg hover:bg-accent/50"
+                              className="hover:bg-accent/50 flex items-center justify-between rounded-lg border p-3"
                             >
                               <div className="flex items-center gap-3">
                                 <Avatar className="h-10 w-10">
@@ -2675,7 +2675,7 @@ export default function FacilitySchedulingPage() {
                                   <p className="font-medium">
                                     {schedule.staffName}
                                   </p>
-                                  <p className="text-sm text-muted-foreground">
+                                  <p className="text-muted-foreground text-sm">
                                     {schedule.role}
                                   </p>
                                 </div>
@@ -2685,7 +2685,7 @@ export default function FacilitySchedulingPage() {
                                   {schedule.startTime} - {schedule.endTime}
                                 </p>
                                 {schedule.location && (
-                                  <p className="text-xs text-muted-foreground mt-1">
+                                  <p className="text-muted-foreground mt-1 text-xs">
                                     📍 {schedule.location}
                                   </p>
                                 )}
@@ -2696,7 +2696,7 @@ export default function FacilitySchedulingPage() {
                             </div>
                           ))}
                         {getSchedulesForDate(currentDate).length === 0 && (
-                          <p className="text-center text-muted-foreground py-8">
+                          <p className="text-muted-foreground py-8 text-center">
                             No shifts scheduled for this day
                           </p>
                         )}
@@ -2704,9 +2704,9 @@ export default function FacilitySchedulingPage() {
                     </div>
 
                     {/* Day Tasks Section */}
-                    <div className="space-y-2 mt-4">
-                      <h3 className="font-semibold flex items-center gap-2">
-                        <ClipboardList className="h-4 w-4" />
+                    <div className="mt-4 space-y-2">
+                      <h3 className="flex items-center gap-2 font-semibold">
+                        <ClipboardList className="size-4" />
                         Day Tasks
                       </h3>
                       <div className="space-y-2">
@@ -2719,7 +2719,7 @@ export default function FacilitySchedulingPage() {
                           .map((task) => (
                             <div
                               key={task.id}
-                              className="flex items-center justify-between p-3 border rounded-lg hover:bg-accent/50"
+                              className="hover:bg-accent/50 flex items-center justify-between rounded-lg border p-3"
                             >
                               <div className="flex items-center gap-3">
                                 <Checkbox
@@ -2728,16 +2728,16 @@ export default function FacilitySchedulingPage() {
                                 />
                                 <div>
                                   <p className="font-medium">{task.taskName}</p>
-                                  <p className="text-sm text-muted-foreground">
+                                  <p className="text-muted-foreground text-sm">
                                     {task.description}
                                   </p>
                                   {task.assignedToStaffName && (
-                                    <p className="text-xs text-muted-foreground mt-1">
+                                    <p className="text-muted-foreground mt-1 text-xs">
                                       Assigned to: {task.assignedToStaffName}
                                     </p>
                                   )}
                                   {task.shiftStartTime && (
-                                    <p className="text-xs text-muted-foreground">
+                                    <p className="text-muted-foreground text-xs">
                                       Time: {task.shiftStartTime}
                                     </p>
                                   )}
@@ -2779,7 +2779,7 @@ export default function FacilitySchedulingPage() {
                             t.scheduleDate === formatDate(currentDate) &&
                             !t.shiftId,
                         ).length === 0 && (
-                          <p className="text-center text-muted-foreground py-4 text-sm">
+                          <p className="text-muted-foreground py-4 text-center text-sm">
                             No day-level tasks for this date
                           </p>
                         )}
@@ -2818,7 +2818,7 @@ export default function FacilitySchedulingPage() {
                             }
                             onClick={() => setSelectedRole(category.id)}
                           >
-                            <Icon className="mr-2 h-4 w-4" />
+                            <Icon className="mr-2 size-4" />
                             {category.label}
                           </Button>
                         );
@@ -2879,13 +2879,13 @@ export default function FacilitySchedulingPage() {
                                     />
                                   </TableCell>
                                   <TableCell className="text-right">
-                                    <div className="flex gap-2 justify-end">
+                                    <div className="flex justify-end gap-2">
                                       <Button
                                         variant="outline"
                                         size="sm"
                                         onClick={() => handleEdit(schedule)}
                                       >
-                                        <Edit className="h-4 w-4" />
+                                        <Edit className="size-4" />
                                       </Button>
                                       <Button
                                         variant="outline"
@@ -2894,7 +2894,7 @@ export default function FacilitySchedulingPage() {
                                           handleDeleteClick(schedule)
                                         }
                                       >
-                                        <Trash2 className="h-4 w-4" />
+                                        <Trash2 className="size-4" />
                                       </Button>
                                     </div>
                                   </TableCell>
@@ -2947,13 +2947,13 @@ export default function FacilitySchedulingPage() {
                             />
                           </TableCell>
                           <TableCell className="text-right">
-                            <div className="flex gap-2 justify-end">
+                            <div className="flex justify-end gap-2">
                               <Button
                                 variant="outline"
                                 size="sm"
                                 onClick={() => handleEdit(schedule)}
                               >
-                                <Edit className="h-4 w-4" />
+                                <Edit className="size-4" />
                               </Button>
                               <Button
                                 variant="outline"
@@ -2963,14 +2963,14 @@ export default function FacilitySchedulingPage() {
                                   setIsShiftReportModalOpen(true);
                                 }}
                               >
-                                <ClipboardList className="h-4 w-4" />
+                                <ClipboardList className="size-4" />
                               </Button>
                               <Button
                                 variant="outline"
                                 size="sm"
                                 onClick={() => handleDeleteClick(schedule)}
                               >
-                                <Trash2 className="h-4 w-4 text-destructive" />
+                                <Trash2 className="text-destructive size-4" />
                               </Button>
                             </div>
                           </TableCell>
@@ -2988,7 +2988,7 @@ export default function FacilitySchedulingPage() {
             open={isAddEditModalOpen}
             onOpenChange={setIsAddEditModalOpen}
           >
-            <DialogContent className="max-h-[85vh] flex flex-col">
+            <DialogContent className="flex max-h-[85vh] flex-col">
               <DialogHeader>
                 <DialogTitle>
                   {editingSchedule ? "Edit Shift" : "Add New Shift"}
@@ -3000,7 +3000,7 @@ export default function FacilitySchedulingPage() {
                 </DialogDescription>
               </DialogHeader>
 
-              <div className="space-y-3 py-4 overflow-y-auto flex-1 pr-2">
+              <div className="flex-1 space-y-3 overflow-y-auto py-4 pr-2">
                 <div className="space-y-2">
                   <Label htmlFor="staffId">Staff Member</Label>
                   <Select
@@ -3189,7 +3189,7 @@ export default function FacilitySchedulingPage() {
                 {editingSchedule && (
                   <div className="space-y-2 border-t pt-3">
                     <Label>Shift Tasks</Label>
-                    <div className="space-y-1.5 border rounded-lg p-2 bg-muted/50 max-h-[200px] overflow-y-auto">
+                    <div className="bg-muted/50 max-h-[200px] space-y-1.5 overflow-y-auto rounded-lg border p-2">
                       {shiftTasks
                         .filter(
                           (t) =>
@@ -3201,26 +3201,26 @@ export default function FacilitySchedulingPage() {
                         .map((task) => (
                           <div
                             key={task.id}
-                            className="flex items-center justify-between p-1.5 bg-background rounded text-sm"
+                            className="bg-background flex items-center justify-between rounded-sm p-1.5 text-sm"
                           >
-                            <div className="flex items-center gap-2 flex-1 min-w-0">
+                            <div className="flex min-w-0 flex-1 items-center gap-2">
                               <Checkbox
                                 checked={task.status === "completed"}
                                 disabled
                                 className="h-3 w-3"
                               />
                               <div className="min-w-0 flex-1">
-                                <p className="font-medium text-xs truncate">
+                                <p className="truncate text-xs font-medium">
                                   {task.taskName}
                                 </p>
-                                <p className="text-[10px] text-muted-foreground truncate">
+                                <p className="text-muted-foreground truncate text-[10px]">
                                   {task.description}
                                 </p>
                               </div>
                             </div>
                             <Badge
                               variant="outline"
-                              className="text-[10px] ml-2 shrink-0"
+                              className="ml-2 shrink-0 text-[10px]"
                             >
                               {task.status}
                             </Badge>
@@ -3234,20 +3234,20 @@ export default function FacilitySchedulingPage() {
                               t.shiftStartTime === editingSchedule.startTime &&
                               t.shiftEndTime === editingSchedule.endTime)),
                       ).length === 0 && (
-                        <p className="text-xs text-muted-foreground text-center py-2">
+                        <p className="text-muted-foreground py-2 text-center text-xs">
                           No tasks assigned to this shift
                         </p>
                       )}
                       <Button
                         variant="outline"
                         size="sm"
-                        className="w-full mt-1.5 text-xs h-7"
+                        className="mt-1.5 h-7 w-full text-xs"
                         onClick={() => {
                           // TODO: Open modal to add task to this shift
                           toast.info("Task assignment feature coming soon");
                         }}
                       >
-                        <Plus className="h-3 w-3 mr-1.5" />
+                        <Plus className="mr-1.5 h-3 w-3" />
                         Add Task to Shift
                       </Button>
                     </div>
@@ -3266,9 +3266,9 @@ export default function FacilitySchedulingPage() {
                       />
                       <Label
                         htmlFor="isRecurring"
-                        className="font-normal flex items-center gap-2"
+                        className="flex items-center gap-2 font-normal"
                       >
-                        <Repeat className="h-4 w-4" />
+                        <Repeat className="size-4" />
                         Create recurring shift
                       </Label>
                     </div>
@@ -3343,7 +3343,7 @@ export default function FacilitySchedulingPage() {
                     return (
                       <div className="space-y-3 border-t pt-3">
                         <div className="flex items-center gap-2">
-                          <AlertTriangle className="h-4 w-4 text-yellow-600" />
+                          <AlertTriangle className="size-4 text-yellow-600" />
                           <Label className="text-sm font-semibold">
                             Detected Conflicts
                           </Label>
@@ -3354,24 +3354,24 @@ export default function FacilitySchedulingPage() {
                               key={idx}
                               className={`border-2 ${
                                 conflict.severity === "critical"
-                                  ? "border-red-500 bg-red-50 dark:bg-red-950/20"
+                                  ? `border-red-500 bg-red-50 dark:bg-red-950/20`
                                   : conflict.severity === "warning"
-                                    ? "border-yellow-500 bg-yellow-50 dark:bg-yellow-950/20"
-                                    : "border-blue-500 bg-blue-50 dark:bg-blue-950/20"
-                              }`}
+                                    ? `border-yellow-500 bg-yellow-50 dark:bg-yellow-950/20`
+                                    : `border-blue-500 bg-blue-50 dark:bg-blue-950/20`
+                              } `}
                             >
                               <CardContent className="p-3">
                                 <div className="flex items-start justify-between gap-2">
                                   <div className="flex-1">
-                                    <div className="flex items-center gap-2 mb-1">
+                                    <div className="mb-1 flex items-center gap-2">
                                       {conflict.severity === "critical" && (
-                                        <AlertTriangle className="h-4 w-4 text-red-600" />
+                                        <AlertTriangle className="size-4 text-red-600" />
                                       )}
                                       {conflict.severity === "warning" && (
-                                        <AlertCircle className="h-4 w-4 text-yellow-600" />
+                                        <AlertCircle className="size-4 text-yellow-600" />
                                       )}
                                       {conflict.severity === "info" && (
-                                        <Info className="h-4 w-4 text-blue-600" />
+                                        <Info className="size-4 text-blue-600" />
                                       )}
                                       <Badge
                                         variant="outline"
@@ -3379,7 +3379,7 @@ export default function FacilitySchedulingPage() {
                                           conflict.severity === "critical"
                                             ? "border-red-600 text-red-700"
                                             : conflict.severity === "warning"
-                                              ? "border-yellow-600 text-yellow-700"
+                                              ? `border-yellow-600 text-yellow-700`
                                               : "border-blue-600 text-blue-700"
                                         }
                                       >
@@ -3397,11 +3397,11 @@ export default function FacilitySchedulingPage() {
                                           "Insufficient Rest"}
                                       </Badge>
                                     </div>
-                                    <p className="text-sm text-muted-foreground">
+                                    <p className="text-muted-foreground text-sm">
                                       {conflict.message}
                                     </p>
                                     {conflict.conflictingShift && (
-                                      <p className="text-xs text-muted-foreground mt-1">
+                                      <p className="text-muted-foreground mt-1 text-xs">
                                         Conflicting shift:{" "}
                                         {conflict.conflictingShift.staffName} -{" "}
                                         {conflict.conflictingShift.date} (
@@ -3411,27 +3411,27 @@ export default function FacilitySchedulingPage() {
                                     )}
                                   </div>
                                 </div>
-                                <div className="flex items-center gap-2 mt-3 pt-2 border-t">
+                                <div className="mt-3 flex items-center gap-2 border-t pt-2">
                                   {(conflict.type === "double_booking" ||
                                     conflict.type === "overlapping") && (
                                     <>
                                       <Button
                                         size="sm"
                                         variant="outline"
-                                        className="flex-1 text-xs h-7"
+                                        className="h-7 flex-1 text-xs"
                                         onClick={() => {
                                           toast.info(
                                             "Reassign feature - select a different staff member",
                                           );
                                         }}
                                       >
-                                        <ArrowRightLeft className="h-3 w-3 mr-1" />
+                                        <ArrowRightLeft className="mr-1 h-3 w-3" />
                                         Reassign
                                       </Button>
                                       <Button
                                         size="sm"
                                         variant="outline"
-                                        className="flex-1 text-xs h-7"
+                                        className="h-7 flex-1 text-xs"
                                         onClick={() => {
                                           if (conflict.conflictingShift) {
                                             const [
@@ -3452,7 +3452,7 @@ export default function FacilitySchedulingPage() {
                                           }
                                         }}
                                       >
-                                        <Clock className="h-3 w-3 mr-1" />
+                                        <Clock className="mr-1 h-3 w-3" />
                                         Adjust Time
                                       </Button>
                                     </>
@@ -3461,14 +3461,14 @@ export default function FacilitySchedulingPage() {
                                     <Button
                                       size="sm"
                                       variant="outline"
-                                      className="flex-1 text-xs h-7"
+                                      className="h-7 flex-1 text-xs"
                                       onClick={() => {
                                         toast.info(
                                           "This is a warning. You can proceed, but consider reviewing.",
                                         );
                                       }}
                                     >
-                                      <Info className="h-3 w-3 mr-1" />
+                                      <Info className="mr-1 h-3 w-3" />
                                       Continue Anyway
                                     </Button>
                                   )}
@@ -3563,7 +3563,7 @@ export default function FacilitySchedulingPage() {
                     value={copyTargetDate}
                     onChange={(e) => setCopyTargetDate(e.target.value)}
                   />
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-muted-foreground text-xs">
                     All shifts from the current week will be copied to the
                     selected week.
                   </p>
@@ -3578,7 +3578,7 @@ export default function FacilitySchedulingPage() {
                   Cancel
                 </Button>
                 <Button onClick={handleCopyWeek}>
-                  <Copy className="mr-2 h-4 w-4" />
+                  <Copy className="mr-2 size-4" />
                   Copy Shifts
                 </Button>
               </DialogFooter>
@@ -3614,12 +3614,12 @@ export default function FacilitySchedulingPage() {
                     onChange={(e) => setPublishWeekStart(e.target.value)}
                     required
                   />
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-muted-foreground text-xs">
                     Select the Monday of the week you want to publish.
                   </p>
                   {publishWeekStart && isWeekPublished(publishWeekStart) && (
-                    <div className="flex items-center gap-2 p-2 bg-yellow-50 border border-yellow-200 rounded text-sm text-yellow-800">
-                      <AlertTriangle className="h-4 w-4" />
+                    <div className="flex items-center gap-2 rounded-sm border border-yellow-200 bg-yellow-50 p-2 text-sm text-yellow-800">
+                      <AlertTriangle className="size-4" />
                       This week has already been published.
                     </div>
                   )}
@@ -3634,11 +3634,11 @@ export default function FacilitySchedulingPage() {
                     rows={3}
                   />
                 </div>
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                  <p className="text-sm text-blue-900 font-medium mb-1">
+                <div className="rounded-lg border border-blue-200 bg-blue-50 p-3">
+                  <p className="mb-1 text-sm font-medium text-blue-900">
                     What happens when you publish:
                   </p>
-                  <ul className="text-xs text-blue-800 space-y-1 list-disc list-inside">
+                  <ul className="list-inside list-disc space-y-1 text-xs text-blue-800">
                     <li>All staff members will be notified</li>
                     <li>Schedule will be visible in their staff portal</li>
                     <li>Staff will need to acknowledge the schedule update</li>
@@ -3662,7 +3662,7 @@ export default function FacilitySchedulingPage() {
                   className="bg-green-600 hover:bg-green-700"
                   disabled={!publishWeekStart}
                 >
-                  <CheckCircle2 className="mr-2 h-4 w-4" />
+                  <CheckCircle2 className="mr-2 size-4" />
                   Publish Schedule
                 </Button>
               </DialogFooter>
@@ -3690,7 +3690,7 @@ export default function FacilitySchedulingPage() {
                 <div className="space-y-4 py-4">
                   <div className="space-y-2">
                     <Label>Select Shifts</Label>
-                    <div className="border rounded-lg p-3 max-h-[300px] overflow-y-auto">
+                    <div className="max-h-[300px] overflow-y-auto rounded-lg border p-3">
                       <div className="space-y-2">
                         {facilitySchedules
                           .filter(
@@ -3702,7 +3702,7 @@ export default function FacilitySchedulingPage() {
                           .map((shift) => (
                             <div
                               key={shift.id}
-                              className="flex items-center gap-2 p-2 border rounded hover:bg-accent/50"
+                              className="hover:bg-accent/50 flex items-center gap-2 rounded-sm border p-2"
                             >
                               <Checkbox
                                 checked={selectedShiftsForBulkEdit.includes(
@@ -3736,7 +3736,7 @@ export default function FacilitySchedulingPage() {
                           ))}
                       </div>
                     </div>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-muted-foreground text-xs">
                       {selectedShiftsForBulkEdit.length} shift(s) selected
                     </p>
                   </div>
@@ -3764,7 +3764,7 @@ export default function FacilitySchedulingPage() {
                   )}
 
                   {bulkEditAction && selectedShiftsForBulkEdit.length > 0 && (
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                    <div className="rounded-lg border border-blue-200 bg-blue-50 p-3">
                       <p className="text-sm text-blue-900">
                         <strong>Note:</strong> This will apply the action to{" "}
                         {selectedShiftsForBulkEdit.length} selected shift(s).
@@ -3818,7 +3818,7 @@ export default function FacilitySchedulingPage() {
           <Tabs defaultValue="time-off" className="space-y-4">
             <TabsList>
               <TabsTrigger value="time-off">
-                <FileText className="h-4 w-4 mr-2" />
+                <FileText className="mr-2 size-4" />
                 Time Off
                 {getSickCallInsNeedingCoverage().length > 0 && (
                   <Badge variant="destructive" className="ml-2 h-5 px-1.5">
@@ -3827,7 +3827,7 @@ export default function FacilitySchedulingPage() {
                 )}
               </TabsTrigger>
               <TabsTrigger value="shift-swap">
-                <ArrowLeftRight className="h-4 w-4 mr-2" />
+                <ArrowLeftRight className="mr-2 size-4" />
                 Shift Swap
                 {getPendingSwapRequests().length > 0 && (
                   <Badge variant="secondary" className="ml-2 h-5 px-1.5">
@@ -3847,7 +3847,7 @@ export default function FacilitySchedulingPage() {
                         <FileText className="h-5 w-5" />
                         Time Off Requests
                       </CardTitle>
-                      <p className="text-sm text-muted-foreground mt-1">
+                      <p className="text-muted-foreground mt-1 text-sm">
                         Manage time off requests including sick calls, vacation,
                         and other absences
                       </p>
@@ -3865,7 +3865,7 @@ export default function FacilitySchedulingPage() {
                         }}
                         variant="outline"
                       >
-                        <Phone className="mr-2 h-4 w-4" />
+                        <Phone className="mr-2 size-4" />
                         Same-Day Sick / Call-Out
                       </Button>
                       <Button
@@ -3879,7 +3879,7 @@ export default function FacilitySchedulingPage() {
                           setIsTimeOffRequestModalOpen(true);
                         }}
                       >
-                        <Plus className="mr-2 h-4 w-4" />
+                        <Plus className="mr-2 size-4" />
                         Request Time Off
                       </Button>
                     </div>
@@ -4010,7 +4010,7 @@ export default function FacilitySchedulingPage() {
                                 </TableCell>
                                 <TableCell className="text-right">
                                   {request.status === "pending" && (
-                                    <div className="flex gap-2 justify-end">
+                                    <div className="flex justify-end gap-2">
                                       <Button
                                         size="sm"
                                         variant="default"
@@ -4021,7 +4021,7 @@ export default function FacilitySchedulingPage() {
                                           setIsTimeOffReviewModalOpen(true);
                                         }}
                                       >
-                                        <CheckCircle2 className="h-4 w-4 mr-1" />
+                                        <CheckCircle2 className="mr-1 size-4" />
                                         Approve
                                       </Button>
                                       <Button
@@ -4034,7 +4034,7 @@ export default function FacilitySchedulingPage() {
                                           setIsTimeOffReviewModalOpen(true);
                                         }}
                                       >
-                                        <AlertTriangle className="h-4 w-4 mr-1" />
+                                        <AlertTriangle className="mr-1 size-4" />
                                         Request Changes
                                       </Button>
                                       <Button
@@ -4047,14 +4047,14 @@ export default function FacilitySchedulingPage() {
                                           setIsTimeOffReviewModalOpen(true);
                                         }}
                                       >
-                                        <XCircle className="h-4 w-4 mr-1" />
+                                        <XCircle className="mr-1 size-4" />
                                         Deny
                                       </Button>
                                     </div>
                                   )}
                                   {request.status === "changes_requested" &&
                                     request.requestedChanges && (
-                                      <div className="text-xs text-muted-foreground max-w-[200px]">
+                                      <div className="text-muted-foreground max-w-[200px] text-xs">
                                         {request.requestedChanges}
                                       </div>
                                     )}
@@ -4131,11 +4131,11 @@ export default function FacilitySchedulingPage() {
                                   }
                                 >
                                   {callIn.coverageStatus === "covered" && (
-                                    <CheckCircle2 className="h-3 w-3 mr-1" />
+                                    <CheckCircle2 className="mr-1 h-3 w-3" />
                                   )}
                                   {callIn.coverageStatus ===
                                     "needs_coverage" && (
-                                    <AlertTriangle className="h-3 w-3 mr-1" />
+                                    <AlertTriangle className="mr-1 h-3 w-3" />
                                   )}
                                   {callIn.coverageStatus.replace("_", " ")}
                                 </Badge>
@@ -4195,7 +4195,7 @@ export default function FacilitySchedulingPage() {
                         <ArrowLeftRight className="h-5 w-5" />
                         Shift Swap Requests
                       </CardTitle>
-                      <p className="text-sm text-muted-foreground mt-1">
+                      <p className="text-muted-foreground mt-1 text-sm">
                         Review and manage shift swap requests between staff
                       </p>
                     </div>
@@ -4212,7 +4212,7 @@ export default function FacilitySchedulingPage() {
                         setIsSwapModalOpen(true);
                       }}
                     >
-                      <Plus className="mr-2 h-4 w-4" />
+                      <Plus className="mr-2 size-4" />
                       Request Shift Swap
                     </Button>
                   </div>
@@ -4273,7 +4273,7 @@ export default function FacilitySchedulingPage() {
                               </div>
                             ) : (
                               <Badge variant="outline">
-                                <User className="h-3 w-3 mr-1" />
+                                <User className="mr-1 h-3 w-3" />
                                 Anyone available
                               </Badge>
                             )}
@@ -4295,7 +4295,7 @@ export default function FacilitySchedulingPage() {
                             )}
                           </TableCell>
                           <TableCell>
-                            <span className="text-sm max-w-[200px] truncate block">
+                            <span className="block max-w-[200px] truncate text-sm">
                               {swap.reason}
                             </span>
                           </TableCell>
@@ -4315,20 +4315,20 @@ export default function FacilitySchedulingPage() {
                               }
                             >
                               {swap.status === "approved" && (
-                                <CheckCircle2 className="h-3 w-3 mr-1" />
+                                <CheckCircle2 className="mr-1 h-3 w-3" />
                               )}
                               {swap.status === "denied" && (
-                                <XCircle className="h-3 w-3 mr-1" />
+                                <XCircle className="mr-1 h-3 w-3" />
                               )}
                               {swap.status === "pending" && (
-                                <Clock className="h-3 w-3 mr-1" />
+                                <Clock className="mr-1 h-3 w-3" />
                               )}
                               {swap.status}
                             </Badge>
                           </TableCell>
                           <TableCell className="text-right">
                             {swap.status === "pending" && (
-                              <div className="flex gap-2 justify-end">
+                              <div className="flex justify-end gap-2">
                                 <Button
                                   size="sm"
                                   variant="default"
@@ -4339,7 +4339,7 @@ export default function FacilitySchedulingPage() {
                                     setIsSwapApprovalModalOpen(true);
                                   }}
                                 >
-                                  <CheckCircle2 className="h-4 w-4 mr-1" />
+                                  <CheckCircle2 className="mr-1 size-4" />
                                   Approve
                                 </Button>
                                 <Button
@@ -4352,13 +4352,13 @@ export default function FacilitySchedulingPage() {
                                     setIsSwapApprovalModalOpen(true);
                                   }}
                                 >
-                                  <XCircle className="h-4 w-4 mr-1" />
+                                  <XCircle className="mr-1 size-4" />
                                   Deny
                                 </Button>
                               </div>
                             )}
                             {swap.status !== "pending" && swap.reviewNotes && (
-                              <span className="text-xs text-muted-foreground max-w-[150px] truncate block">
+                              <span className="text-muted-foreground block max-w-[150px] truncate text-xs">
                                 {swap.reviewNotes}
                               </span>
                             )}
@@ -4383,7 +4383,7 @@ export default function FacilitySchedulingPage() {
                   <Users className="h-5 w-5" />
                   Coverage Needs
                 </CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">
+                <p className="text-muted-foreground mt-1 text-sm">
                   Shifts that need coverage and available staff
                 </p>
               </CardHeader>
@@ -4403,11 +4403,11 @@ export default function FacilitySchedulingPage() {
                         {getSickCallInsNeedingCoverage().map((callIn) => (
                           <div
                             key={callIn.id}
-                            className="flex items-center justify-between p-3 rounded-lg border bg-muted/50"
+                            className="bg-muted/50 flex items-center justify-between rounded-lg border p-3"
                           >
                             <div>
                               <p className="font-medium">{callIn.staffName}</p>
-                              <p className="text-sm text-muted-foreground">
+                              <p className="text-muted-foreground text-sm">
                                 {callIn.shiftDate} - {callIn.shiftTime}
                               </p>
                             </div>
@@ -4426,7 +4426,7 @@ export default function FacilitySchedulingPage() {
                       </div>
                     </div>
                   ) : (
-                    <p className="text-sm text-muted-foreground text-center py-4">
+                    <p className="text-muted-foreground py-4 text-center text-sm">
                       No coverage needs at this time
                     </p>
                   )}
@@ -4441,7 +4441,7 @@ export default function FacilitySchedulingPage() {
                   <AlertTriangle className="h-5 w-5" />
                   Schedule Conflicts
                 </CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">
+                <p className="text-muted-foreground mt-1 text-sm">
                   Detect and resolve scheduling conflicts
                 </p>
               </CardHeader>
@@ -4484,7 +4484,7 @@ export default function FacilitySchedulingPage() {
                     <CalendarDays className="h-5 w-5" />
                     Shift Templates
                   </CardTitle>
-                  <p className="text-sm text-muted-foreground mt-1">
+                  <p className="text-muted-foreground mt-1 text-sm">
                     Create and manage reusable shift templates for quick
                     scheduling
                   </p>
@@ -4494,7 +4494,7 @@ export default function FacilitySchedulingPage() {
                     /* TODO: Open template creation modal */
                   }}
                 >
-                  <Plus className="mr-2 h-4 w-4" />
+                  <Plus className="mr-2 size-4" />
                   Create Template
                 </Button>
               </div>
@@ -4506,13 +4506,13 @@ export default function FacilitySchedulingPage() {
                     {shiftTemplates.map((template) => (
                       <Card
                         key={template.id}
-                        className="cursor-pointer hover:bg-accent/50 transition-colors"
+                        className="hover:bg-accent/50 cursor-pointer transition-colors"
                       >
                         <CardHeader>
                           <CardTitle className="text-lg">
                             {template.name}
                           </CardTitle>
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-muted-foreground text-sm">
                             {template.startTime} - {template.endTime}
                           </p>
                         </CardHeader>
@@ -4543,10 +4543,10 @@ export default function FacilitySchedulingPage() {
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-12">
-                    <CalendarDays className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <div className="py-12 text-center">
+                    <CalendarDays className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
                     <p className="text-lg font-medium">No templates yet</p>
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="text-muted-foreground mt-1 text-sm">
                       Create your first shift template to get started
                     </p>
                   </div>
@@ -4566,7 +4566,7 @@ export default function FacilitySchedulingPage() {
 
       {/* Same-Day Sick / Call-Out Modal */}
       <Dialog open={isSickCallModalOpen} onOpenChange={setIsSickCallModalOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Phone className="h-5 w-5" />
@@ -4638,22 +4638,22 @@ export default function FacilitySchedulingPage() {
                     <Card
                       className={
                         impact.impact === "critical"
-                          ? "border-red-500 bg-red-50 dark:bg-red-950/20"
+                          ? `border-red-500 bg-red-50 dark:bg-red-950/20`
                           : impact.impact === "warning"
-                            ? "border-yellow-500 bg-yellow-50 dark:bg-yellow-950/20"
+                            ? `border-yellow-500 bg-yellow-50 dark:bg-yellow-950/20`
                             : ""
                       }
                     >
                       <CardHeader className="pb-3">
-                        <CardTitle className="text-sm flex items-center gap-2">
+                        <CardTitle className="flex items-center gap-2 text-sm">
                           {impact.impact === "critical" && (
-                            <AlertCircle className="h-4 w-4 text-red-600" />
+                            <AlertCircle className="size-4 text-red-600" />
                           )}
                           {impact.impact === "warning" && (
-                            <AlertTriangle className="h-4 w-4 text-yellow-600" />
+                            <AlertTriangle className="size-4 text-yellow-600" />
                           )}
                           {impact.impact === "none" && (
-                            <CheckCircle2 className="h-4 w-4 text-green-600" />
+                            <CheckCircle2 className="size-4 text-green-600" />
                           )}
                           Coverage Impact
                         </CardTitle>
@@ -4669,7 +4669,7 @@ export default function FacilitySchedulingPage() {
                                   : impact.status === "at_minimum"
                                     ? "text-yellow-600"
                                     : "text-green-600"
-                              }`}
+                              } `}
                             >
                               {impact.status === "understaffed"
                                 ? "Understaffed"
@@ -4692,7 +4692,7 @@ export default function FacilitySchedulingPage() {
                           </div>
                         </div>
                         {impact.impact === "critical" && (
-                          <div className="mt-3 p-2 bg-red-100 dark:bg-red-900/30 rounded text-sm text-red-900 dark:text-red-200">
+                          <div className="mt-3 rounded-sm bg-red-100 p-2 text-sm text-red-900 dark:bg-red-900/30 dark:text-red-200">
                             <strong>Critical:</strong> This shift removal will
                             leave {impact.currentCount} staff member(s), which
                             is below the minimum of {impact.minNeeded} for{" "}
@@ -4714,22 +4714,22 @@ export default function FacilitySchedulingPage() {
                       <Label className="text-base font-semibold">
                         Suggested Replacements
                       </Label>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-muted-foreground text-sm">
                         Staff members available for this shift based on
                         availability
                       </p>
                       {suggestions.length > 0 ? (
-                        <div className="space-y-2 mt-3 max-h-64 overflow-y-auto">
+                        <div className="mt-3 max-h-64 space-y-2 overflow-y-auto">
                           {suggestions.map((staff) => (
                             <div
                               key={staff.id}
-                              className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors ${
+                              className={`flex cursor-pointer items-center justify-between rounded-lg border p-3 transition-colors ${
                                 selectedReplacementStaffId ===
                                   staff.id.toString() ||
                                 splitShiftStaffIds.includes(staff.id.toString())
                                   ? "border-primary bg-primary/5"
                                   : "hover:bg-muted/50"
-                              }`}
+                              } `}
                               onClick={() => {
                                 if (sickCallAction === "split") {
                                   if (
@@ -4766,13 +4766,13 @@ export default function FacilitySchedulingPage() {
                                 </Avatar>
                                 <div>
                                   <p className="font-medium">{staff.name}</p>
-                                  <p className="text-sm text-muted-foreground">
+                                  <p className="text-muted-foreground text-sm">
                                     {staff.role}
                                   </p>
                                 </div>
                               </div>
                               <div className="text-right">
-                                <p className="text-sm text-muted-foreground">
+                                <p className="text-muted-foreground text-sm">
                                   Available: {staff.availability}
                                 </p>
                                 {(selectedReplacementStaffId ===
@@ -4791,11 +4791,11 @@ export default function FacilitySchedulingPage() {
                       ) : (
                         <Card className="bg-muted/50">
                           <CardContent className="py-8 text-center">
-                            <UserX className="h-12 w-12 mx-auto text-muted-foreground mb-2" />
+                            <UserX className="text-muted-foreground mx-auto mb-2 h-12 w-12" />
                             <p className="text-muted-foreground">
                               No available staff found for this shift
                             </p>
-                            <p className="text-sm text-muted-foreground mt-1">
+                            <p className="text-muted-foreground mt-1 text-sm">
                               All available staff are already scheduled or
                               unavailable
                             </p>
@@ -4807,7 +4807,7 @@ export default function FacilitySchedulingPage() {
                 })()}
 
                 {/* Step 5: Manager Actions */}
-                <div className="space-y-3 pt-4 border-t">
+                <div className="space-y-3 border-t pt-4">
                   <Label className="text-base font-semibold">
                     Coverage Options
                   </Label>
@@ -4816,7 +4816,7 @@ export default function FacilitySchedulingPage() {
                       variant={
                         sickCallAction === "assign" ? "default" : "outline"
                       }
-                      className="flex flex-col items-center gap-2 h-auto py-4"
+                      className="flex h-auto flex-col items-center gap-2 py-4"
                       onClick={() => {
                         setSickCallAction("assign");
                         setSplitShiftStaffIds([]);
@@ -4833,7 +4833,7 @@ export default function FacilitySchedulingPage() {
                       variant={
                         sickCallAction === "split" ? "default" : "outline"
                       }
-                      className="flex flex-col items-center gap-2 h-auto py-4"
+                      className="flex h-auto flex-col items-center gap-2 py-4"
                       onClick={() => {
                         setSickCallAction("split");
                         setSelectedReplacementStaffId("");
@@ -4850,7 +4850,7 @@ export default function FacilitySchedulingPage() {
                       variant={
                         sickCallAction === "volunteers" ? "default" : "outline"
                       }
-                      className="flex flex-col items-center gap-2 h-auto py-4"
+                      className="flex h-auto flex-col items-center gap-2 py-4"
                       onClick={() => {
                         setSickCallAction("volunteers");
                         setSelectedReplacementStaffId("");
@@ -4863,11 +4863,11 @@ export default function FacilitySchedulingPage() {
                   </div>
 
                   {sickCallAction === "assign" && (
-                    <div className="p-3 bg-muted/50 rounded-lg">
-                      <p className="text-sm font-medium mb-2">
+                    <div className="bg-muted/50 rounded-lg p-3">
+                      <p className="mb-2 text-sm font-medium">
                         Assign Replacement
                       </p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         {selectedReplacementStaffId
                           ? `Selected: ${facilityStaff.find((s) => s.id.toString() === selectedReplacementStaffId)?.name}`
                           : "Please select a replacement from the suggestions above"}
@@ -4876,9 +4876,9 @@ export default function FacilitySchedulingPage() {
                   )}
 
                   {sickCallAction === "split" && (
-                    <div className="p-3 bg-muted/50 rounded-lg">
-                      <p className="text-sm font-medium mb-2">Split Shift</p>
-                      <p className="text-xs text-muted-foreground">
+                    <div className="bg-muted/50 rounded-lg p-3">
+                      <p className="mb-2 text-sm font-medium">Split Shift</p>
+                      <p className="text-muted-foreground text-xs">
                         {splitShiftStaffIds.length > 0
                           ? `Selected: ${splitShiftStaffIds.map((id) => facilityStaff.find((s) => s.id.toString() === id)?.name).join(", ")}`
                           : "Select up to 2 staff members to split this shift"}
@@ -4887,11 +4887,11 @@ export default function FacilitySchedulingPage() {
                   )}
 
                   {sickCallAction === "volunteers" && (
-                    <div className="p-3 bg-muted/50 rounded-lg">
-                      <p className="text-sm font-medium mb-2">
+                    <div className="bg-muted/50 rounded-lg p-3">
+                      <p className="mb-2 text-sm font-medium">
                         Request Volunteers
                       </p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         Eligible staff will be notified to volunteer for this
                         shift
                       </p>
@@ -4900,7 +4900,7 @@ export default function FacilitySchedulingPage() {
                 </div>
 
                 {/* Step 6: Notification Options */}
-                <div className="space-y-3 pt-4 border-t">
+                <div className="space-y-3 border-t pt-4">
                   <Label className="text-base font-semibold">
                     Notifications
                   </Label>
@@ -4913,7 +4913,7 @@ export default function FacilitySchedulingPage() {
                       />
                       <Label
                         htmlFor="notifyReplacement"
-                        className="text-sm font-normal cursor-pointer"
+                        className="cursor-pointer text-sm font-normal"
                       >
                         Notify replacement staff
                       </Label>
@@ -4922,7 +4922,7 @@ export default function FacilitySchedulingPage() {
                       <Checkbox id="notifyManagers" checked={true} disabled />
                       <Label
                         htmlFor="notifyManagers"
-                        className="text-sm font-normal cursor-pointer"
+                        className="cursor-pointer text-sm font-normal"
                       >
                         Notify manager team
                       </Label>
@@ -4961,7 +4961,7 @@ export default function FacilitySchedulingPage() {
                             />
                             <Label
                               htmlFor={`notify-${dept}`}
-                              className="text-sm font-normal cursor-pointer"
+                              className="cursor-pointer text-sm font-normal"
                             >
                               {dept}
                             </Label>
@@ -5061,7 +5061,7 @@ export default function FacilitySchedulingPage() {
 
       {/* Shift Swap Request Modal */}
       <Dialog open={isSwapModalOpen} onOpenChange={setIsSwapModalOpen}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <ArrowLeftRight className="h-5 w-5" />
@@ -5130,7 +5130,7 @@ export default function FacilitySchedulingPage() {
                       <RadioGroupItem value="specific" id="swap-specific" />
                       <Label
                         htmlFor="swap-specific"
-                        className="font-normal cursor-pointer"
+                        className="cursor-pointer font-normal"
                       >
                         Specific coworker
                       </Label>
@@ -5139,7 +5139,7 @@ export default function FacilitySchedulingPage() {
                       <RadioGroupItem value="anyone" id="swap-anyone" />
                       <Label
                         htmlFor="swap-anyone"
-                        className="font-normal cursor-pointer"
+                        className="cursor-pointer font-normal"
                       >
                         Open to anyone qualified
                       </Label>
@@ -5243,12 +5243,12 @@ export default function FacilitySchedulingPage() {
                               <Card className="border-red-500 bg-red-50 dark:bg-red-950/20">
                                 <CardContent className="pt-4">
                                   <div className="flex items-start gap-2">
-                                    <AlertCircle className="h-5 w-5 text-red-600 mt-0.5" />
+                                    <AlertCircle className="mt-0.5 h-5 w-5 text-red-600" />
                                     <div className="space-y-1">
-                                      <p className="font-medium text-sm text-red-900 dark:text-red-200">
+                                      <p className="text-sm font-medium text-red-900 dark:text-red-200">
                                         Validation Errors
                                       </p>
-                                      <ul className="text-sm text-red-700 dark:text-red-300 list-disc list-inside">
+                                      <ul className="list-inside list-disc text-sm text-red-700 dark:text-red-300">
                                         {validation.errors.map((error, idx) => (
                                           <li key={idx}>{error}</li>
                                         ))}
@@ -5262,12 +5262,12 @@ export default function FacilitySchedulingPage() {
                               <Card className="border-yellow-500 bg-yellow-50 dark:bg-yellow-950/20">
                                 <CardContent className="pt-4">
                                   <div className="flex items-start gap-2">
-                                    <AlertTriangle className="h-5 w-5 text-yellow-600 mt-0.5" />
+                                    <AlertTriangle className="mt-0.5 h-5 w-5 text-yellow-600" />
                                     <div className="space-y-1">
-                                      <p className="font-medium text-sm text-yellow-900 dark:text-yellow-200">
+                                      <p className="text-sm font-medium text-yellow-900 dark:text-yellow-200">
                                         Warnings
                                       </p>
-                                      <ul className="text-sm text-yellow-700 dark:text-yellow-300 list-disc list-inside">
+                                      <ul className="list-inside list-disc text-sm text-yellow-700 dark:text-yellow-300">
                                         {validation.warnings.map(
                                           (warning, idx) => (
                                             <li key={idx}>{warning}</li>
@@ -5285,7 +5285,7 @@ export default function FacilitySchedulingPage() {
                                   <CardContent className="pt-4">
                                     <div className="flex items-center gap-2">
                                       <CheckCircle2 className="h-5 w-5 text-green-600" />
-                                      <p className="text-sm text-green-900 dark:text-green-200 font-medium">
+                                      <p className="text-sm font-medium text-green-900 dark:text-green-200">
                                         Swap is valid and ready to submit
                                       </p>
                                     </div>
@@ -5307,22 +5307,22 @@ export default function FacilitySchedulingPage() {
                     return (
                       <div className="space-y-2">
                         <Label>Qualified Staff Available</Label>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-muted-foreground text-sm">
                           Staff members who are qualified and available for this
                           swap
                         </p>
                         {qualifiedStaff.length > 0 ? (
-                          <div className="space-y-2 mt-3 max-h-64 overflow-y-auto">
+                          <div className="mt-3 max-h-64 space-y-2 overflow-y-auto">
                             {qualifiedStaff.map((staff) => (
                               <Card
                                 key={staff.id}
-                                className={`${
+                                className={` ${
                                   staff.wouldExceedOvertime
-                                    ? "border-yellow-500 bg-yellow-50 dark:bg-yellow-950/20"
+                                    ? `border-yellow-500 bg-yellow-50 dark:bg-yellow-950/20`
                                     : staff.roleMatch
-                                      ? "border-green-500 bg-green-50 dark:bg-green-950/20"
+                                      ? `border-green-500 bg-green-50 dark:bg-green-950/20`
                                       : ""
-                                }`}
+                                } `}
                               >
                                 <CardContent className="p-3">
                                   <div className="flex items-center justify-between">
@@ -5339,7 +5339,7 @@ export default function FacilitySchedulingPage() {
                                         <p className="font-medium">
                                           {staff.name}
                                         </p>
-                                        <p className="text-sm text-muted-foreground">
+                                        <p className="text-muted-foreground text-sm">
                                           {staff.role}{" "}
                                           {!staff.roleMatch && (
                                             <Badge
@@ -5363,7 +5363,7 @@ export default function FacilitySchedulingPage() {
                                       {staff.wouldExceedOvertime && (
                                         <Badge
                                           variant="outline"
-                                          className="mt-1 text-yellow-600 border-yellow-600"
+                                          className="mt-1 border-yellow-600 text-yellow-600"
                                         >
                                           Would exceed overtime
                                         </Badge>
@@ -5377,11 +5377,11 @@ export default function FacilitySchedulingPage() {
                         ) : (
                           <Card className="bg-muted/50">
                             <CardContent className="py-8 text-center">
-                              <UserX className="h-12 w-12 mx-auto text-muted-foreground mb-2" />
+                              <UserX className="text-muted-foreground mx-auto mb-2 h-12 w-12" />
                               <p className="text-muted-foreground">
                                 No qualified staff found
                               </p>
-                              <p className="text-sm text-muted-foreground mt-1">
+                              <p className="text-muted-foreground mt-1 text-sm">
                                 All available staff are already scheduled or
                                 unavailable
                               </p>
@@ -5524,21 +5524,21 @@ export default function FacilitySchedulingPage() {
 
           {selectedSwapRequest && (
             <div className="space-y-4 py-4">
-              <div className="grid grid-cols-2 gap-4 p-3 bg-muted/50 rounded-lg">
+              <div className="bg-muted/50 grid grid-cols-2 gap-4 rounded-lg p-3">
                 <div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     Requesting Staff
                   </p>
                   <p className="font-medium">
                     {selectedSwapRequest.requestingStaffName}
                   </p>
-                  <p className="text-xs text-muted-foreground mt-1">
+                  <p className="text-muted-foreground mt-1 text-xs">
                     {selectedSwapRequest.requestingShiftDate} (
                     {selectedSwapRequest.requestingShiftTime})
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     {selectedSwapRequest.targetStaffName
                       ? "Target Staff"
                       : "Open Request"}
@@ -5549,7 +5549,7 @@ export default function FacilitySchedulingPage() {
                         {selectedSwapRequest.targetStaffName}
                       </p>
                       {selectedSwapRequest.targetShiftDate && (
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="text-muted-foreground mt-1 text-xs">
                           {selectedSwapRequest.targetShiftDate} (
                           {selectedSwapRequest.targetShiftTime})
                         </p>
@@ -5561,7 +5561,7 @@ export default function FacilitySchedulingPage() {
                 </div>
                 {selectedSwapRequest.reason && (
                   <div className="col-span-2">
-                    <p className="text-sm text-muted-foreground">Reason</p>
+                    <p className="text-muted-foreground text-sm">Reason</p>
                     <p className="font-medium">{selectedSwapRequest.reason}</p>
                   </div>
                 )}
@@ -5793,7 +5793,7 @@ export default function FacilitySchedulingPage() {
                   ))}
                 </SelectContent>
               </Select>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 Leave unassigned if any staff member on the shift can complete
                 this task.
               </p>
@@ -5842,7 +5842,7 @@ export default function FacilitySchedulingPage() {
             )}
           </DialogHeader>
 
-          <div className="py-4 space-y-4">
+          <div className="space-y-4 py-4">
             {selectedSickCallIn && (
               <>
                 {/* Shift Details */}
@@ -5879,14 +5879,14 @@ export default function FacilitySchedulingPage() {
                   <Label className="text-base font-semibold">
                     Available Staff
                   </Label>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     Staff members available on this day who are not already
                     scheduled
                   </p>
 
                   {getAvailableStaffForCoverage(selectedSickCallIn).length >
                   0 ? (
-                    <div className="space-y-2 mt-3">
+                    <div className="mt-3 space-y-2">
                       {getAvailableStaffForCoverage(selectedSickCallIn).map(
                         (staff) => {
                           const availability = staffAvailability.find(
@@ -5898,11 +5898,11 @@ export default function FacilitySchedulingPage() {
                           return (
                             <div
                               key={staff.id}
-                              className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors ${
+                              className={`flex cursor-pointer items-center justify-between rounded-lg border p-3 transition-colors ${
                                 selectedCoverageStaffId === staff.id.toString()
                                   ? "border-primary bg-primary/5"
                                   : "hover:bg-muted/50"
-                              }`}
+                              } `}
                               onClick={() =>
                                 setSelectedCoverageStaffId(staff.id.toString())
                               }
@@ -5918,14 +5918,14 @@ export default function FacilitySchedulingPage() {
                                 </Avatar>
                                 <div>
                                   <p className="font-medium">{staff.name}</p>
-                                  <p className="text-sm text-muted-foreground">
+                                  <p className="text-muted-foreground text-sm">
                                     {staff.role}
                                   </p>
                                 </div>
                               </div>
                               <div className="text-right">
                                 {availability && (
-                                  <p className="text-sm text-muted-foreground">
+                                  <p className="text-muted-foreground text-sm">
                                     Available: {availability.startTime} -{" "}
                                     {availability.endTime}
                                   </p>
@@ -5945,11 +5945,11 @@ export default function FacilitySchedulingPage() {
                   ) : (
                     <Card className="bg-muted/50">
                       <CardContent className="py-8 text-center">
-                        <UserX className="h-12 w-12 mx-auto text-muted-foreground mb-2" />
+                        <UserX className="text-muted-foreground mx-auto mb-2 h-12 w-12" />
                         <p className="text-muted-foreground">
                           No available staff found for this shift
                         </p>
-                        <p className="text-sm text-muted-foreground mt-1">
+                        <p className="text-muted-foreground mt-1 text-sm">
                           All available staff are already scheduled or
                           unavailable
                         </p>
@@ -5961,7 +5961,7 @@ export default function FacilitySchedulingPage() {
                 {/* Send Request Options */}
                 {getAvailableStaffForCoverage(selectedSickCallIn).length >
                   0 && (
-                  <div className="space-y-3 pt-4 border-t">
+                  <div className="space-y-3 border-t pt-4">
                     <Label className="text-base font-semibold">
                       Coverage Options
                     </Label>
@@ -5973,7 +5973,7 @@ export default function FacilitySchedulingPage() {
                           setIsFindCoverageModalOpen(false);
                         }}
                       >
-                        <Phone className="h-4 w-4 mr-2" />
+                        <Phone className="mr-2 size-4" />
                         Notify All Available
                       </Button>
                       <Button
@@ -5983,7 +5983,7 @@ export default function FacilitySchedulingPage() {
                           setIsFindCoverageModalOpen(false);
                         }}
                       >
-                        <CheckCircle2 className="h-4 w-4 mr-2" />
+                        <CheckCircle2 className="mr-2 size-4" />
                         Assign Selected
                       </Button>
                     </div>
@@ -6009,7 +6009,7 @@ export default function FacilitySchedulingPage() {
         open={isShiftReportModalOpen}
         onOpenChange={setIsShiftReportModalOpen}
       >
-        <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-5xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <ClipboardList className="h-5 w-5" />
@@ -6028,7 +6028,7 @@ export default function FacilitySchedulingPage() {
           <div className="py-4">
             {selectedShiftForReport && (
               <div className="space-y-4">
-                <div className="grid grid-cols-4 gap-4 min-w-[800px]">
+                <div className="grid min-w-[800px] grid-cols-4 gap-4">
                   <Card>
                     <CardContent className="pt-4">
                       <div className="text-2xl font-bold">
@@ -6041,7 +6041,7 @@ export default function FacilitySchedulingPage() {
                           ).length
                         }
                       </div>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         Total Tasks
                       </p>
                     </CardContent>
@@ -6059,7 +6059,7 @@ export default function FacilitySchedulingPage() {
                           ).length
                         }
                       </div>
-                      <p className="text-xs text-muted-foreground">Completed</p>
+                      <p className="text-muted-foreground text-xs">Completed</p>
                     </CardContent>
                   </Card>
                   <Card>
@@ -6075,7 +6075,7 @@ export default function FacilitySchedulingPage() {
                           ).length
                         }
                       </div>
-                      <p className="text-xs text-muted-foreground">Pending</p>
+                      <p className="text-muted-foreground text-xs">Pending</p>
                     </CardContent>
                   </Card>
                   <Card>
@@ -6091,7 +6091,7 @@ export default function FacilitySchedulingPage() {
                           ).length
                         }
                       </div>
-                      <p className="text-xs text-muted-foreground">Skipped</p>
+                      <p className="text-muted-foreground text-xs">Skipped</p>
                     </CardContent>
                   </Card>
                 </div>
@@ -6121,7 +6121,7 @@ export default function FacilitySchedulingPage() {
                                 <div className="font-medium">
                                   {task.taskName}
                                 </div>
-                                <div className="text-sm text-muted-foreground">
+                                <div className="text-muted-foreground text-sm">
                                   {task.description}
                                 </div>
                               </div>
@@ -6336,9 +6336,9 @@ export default function FacilitySchedulingPage() {
 
           {selectedTimeOffRequest && (
             <div className="space-y-4 py-4">
-              <div className="grid grid-cols-2 gap-4 p-3 bg-muted/50 rounded-lg">
+              <div className="bg-muted/50 grid grid-cols-2 gap-4 rounded-lg p-3">
                 <div>
-                  <p className="text-sm text-muted-foreground">Type</p>
+                  <p className="text-muted-foreground text-sm">Type</p>
                   <p className="font-medium">
                     {selectedTimeOffRequest.customTypeName ||
                       defaultTimeOffReasons.find(
@@ -6348,7 +6348,7 @@ export default function FacilitySchedulingPage() {
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Date Range</p>
+                  <p className="text-muted-foreground text-sm">Date Range</p>
                   <p className="font-medium">
                     {selectedTimeOffRequest.startDate ===
                     selectedTimeOffRequest.endDate
@@ -6358,7 +6358,7 @@ export default function FacilitySchedulingPage() {
                 </div>
                 {selectedTimeOffRequest.reason && (
                   <div className="col-span-2">
-                    <p className="text-sm text-muted-foreground">Reason</p>
+                    <p className="text-muted-foreground text-sm">Reason</p>
                     <p className="font-medium">
                       {selectedTimeOffRequest.reason}
                     </p>
@@ -6368,14 +6368,14 @@ export default function FacilitySchedulingPage() {
 
               {reviewAction === "approve" &&
                 checkCoverageGaps(selectedTimeOffRequest) && (
-                  <div className="p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+                  <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-3 dark:border-yellow-800 dark:bg-yellow-900/20">
                     <div className="flex items-start gap-2">
-                      <AlertTriangle className="h-5 w-5 text-yellow-600 mt-0.5" />
+                      <AlertTriangle className="mt-0.5 h-5 w-5 text-yellow-600" />
                       <div>
-                        <p className="font-medium text-sm text-yellow-900 dark:text-yellow-200">
+                        <p className="text-sm font-medium text-yellow-900 dark:text-yellow-200">
                           Coverage Gap Detected
                         </p>
-                        <p className="text-xs text-yellow-700 dark:text-yellow-300 mt-1">
+                        <p className="mt-1 text-xs text-yellow-700 dark:text-yellow-300">
                           This staff member has scheduled shifts during this
                           time off period. A coverage alert will be
                           automatically triggered upon approval.

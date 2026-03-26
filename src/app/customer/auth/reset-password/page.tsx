@@ -108,11 +108,11 @@ function ResetPasswordForm() {
 
   if (isValidToken === null) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted/20 to-background p-4">
+      <div className="from-background via-muted/20 to-background flex min-h-screen items-center justify-center bg-linear-to-br p-4">
         <Card className="w-full max-w-md">
           <CardContent className="pt-6">
             <div className="flex items-center justify-center">
-              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+              <Loader2 className="text-muted-foreground h-6 w-6 animate-spin" />
             </div>
           </CardContent>
         </Card>
@@ -122,10 +122,10 @@ function ResetPasswordForm() {
 
   if (isValidToken === false) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted/20 to-background p-4">
+      <div className="from-background via-muted/20 to-background flex min-h-screen items-center justify-center bg-linear-to-br p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-1 text-center">
-            <div className="flex justify-center mb-4">
+            <div className="mb-4 flex justify-center">
               <Image
                 src="/yipyy-transparent.png"
                 alt="Yipyy"
@@ -142,7 +142,7 @@ function ResetPasswordForm() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="rounded-lg bg-destructive/10 p-4 text-sm text-destructive">
+            <div className="bg-destructive/10 text-destructive rounded-lg p-4 text-sm">
               Please request a new password reset link.
             </div>
             <div className="flex flex-col gap-2">
@@ -157,7 +157,7 @@ function ResetPasswordForm() {
                 onClick={() => router.push("/customer/auth/login")}
                 className="w-full"
               >
-                <ArrowLeft className="mr-2 h-4 w-4" />
+                <ArrowLeft className="mr-2 size-4" />
                 Back to login
               </Button>
             </div>
@@ -168,10 +168,10 @@ function ResetPasswordForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted/20 to-background p-4">
+    <div className="from-background via-muted/20 to-background flex min-h-screen items-center justify-center bg-linear-to-br p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
-          <div className="flex justify-center mb-4">
+          <div className="mb-4 flex justify-center">
             <Image
               src="/yipyy-transparent.png"
               alt="Yipyy"
@@ -190,7 +190,7 @@ function ResetPasswordForm() {
             <div className="space-y-2">
               <Label htmlFor="password">New Password</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Lock className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
@@ -199,30 +199,30 @@ function ResetPasswordForm() {
                   onChange={(e) =>
                     setFormData({ ...formData, password: e.target.value })
                   }
-                  className="pl-9 pr-9"
+                  className="px-9"
                   aria-invalid={errors.password ? "true" : "false"}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2"
                 >
                   {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
+                    <EyeOff className="size-4" />
                   ) : (
-                    <Eye className="h-4 w-4" />
+                    <Eye className="size-4" />
                   )}
                 </button>
               </div>
               {errors.password && (
-                <p className="text-sm text-destructive">{errors.password}</p>
+                <p className="text-destructive text-sm">{errors.password}</p>
               )}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="confirmPassword">Confirm New Password</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Lock className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
                 <Input
                   id="confirmPassword"
                   type={showConfirmPassword ? "text" : "password"}
@@ -234,23 +234,23 @@ function ResetPasswordForm() {
                       confirmPassword: e.target.value,
                     })
                   }
-                  className="pl-9 pr-9"
+                  className="px-9"
                   aria-invalid={errors.confirmPassword ? "true" : "false"}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2"
                 >
                   {showConfirmPassword ? (
-                    <EyeOff className="h-4 w-4" />
+                    <EyeOff className="size-4" />
                   ) : (
-                    <Eye className="h-4 w-4" />
+                    <Eye className="size-4" />
                   )}
                 </button>
               </div>
               {errors.confirmPassword && (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {errors.confirmPassword}
                 </p>
               )}
@@ -259,7 +259,7 @@ function ResetPasswordForm() {
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="mr-2 size-4 animate-spin" />
                   Resetting password...
                 </>
               ) : (
@@ -271,9 +271,9 @@ function ResetPasswordForm() {
           <div className="text-center">
             <Link
               href="/customer/auth/login"
-              className="text-sm text-primary hover:underline inline-flex items-center"
+              className="text-primary inline-flex items-center text-sm hover:underline"
             >
-              <ArrowLeft className="mr-1 h-3 w-3" />
+              <ArrowLeft className="mr-1 size-3" />
               Back to login
             </Link>
           </div>
@@ -287,11 +287,11 @@ export default function ResetPasswordPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted/20 to-background p-4">
+        <div className="from-background via-muted/20 to-background flex min-h-screen items-center justify-center bg-linear-to-br p-4">
           <Card className="w-full max-w-md">
             <CardContent className="pt-6">
               <div className="flex items-center justify-center">
-                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                <Loader2 className="text-muted-foreground h-6 w-6 animate-spin" />
               </div>
             </CardContent>
           </Card>

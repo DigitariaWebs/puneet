@@ -316,11 +316,11 @@ export default function GroomingCalendarPage() {
             <CardTitle className="text-sm font-medium">
               Today&apos;s Appointments
             </CardTitle>
-            <CalendarIcon className="h-4 w-4 text-muted-foreground" />
+            <CalendarIcon className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.todayTotal}</div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {stats.todayCompleted} completed, {stats.todayScheduled} remaining
             </p>
           </CardContent>
@@ -328,11 +328,11 @@ export default function GroomingCalendarPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">In Progress</CardTitle>
-            <Scissors className="h-4 w-4 text-muted-foreground" />
+            <Scissors className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.todayInProgress}</div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Currently being groomed
             </p>
           </CardContent>
@@ -342,11 +342,11 @@ export default function GroomingCalendarPage() {
             <CardTitle className="text-sm font-medium">
               Today&apos;s Revenue
             </CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <DollarSign className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">${stats.todayRevenue}</div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               From completed appointments
             </p>
           </CardContent>
@@ -356,11 +356,11 @@ export default function GroomingCalendarPage() {
             <CardTitle className="text-sm font-medium">
               Active Stylists
             </CardTitle>
-            <User className="h-4 w-4 text-muted-foreground" />
+            <User className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.activeStylists}</div>
-            <p className="text-xs text-muted-foreground">Available today</p>
+            <p className="text-muted-foreground text-xs">Available today</p>
           </CardContent>
         </Card>
       </div>
@@ -374,11 +374,11 @@ export default function GroomingCalendarPage() {
               onClick={() => setIsGroomingBookingOpen(true)}
               variant="default"
             >
-              <Plus className="mr-2 h-4 w-4" />
+              <Plus className="mr-2 size-4" />
               Book Grooming (Customer Flow)
             </Button>
             <Button onClick={() => handleAddNew()} variant="outline">
-              <Plus className="mr-2 h-4 w-4" />
+              <Plus className="mr-2 size-4" />
               New Appointment
             </Button>
           </div>
@@ -407,7 +407,7 @@ export default function GroomingCalendarPage() {
                 { color: "bg-red-100 border-red-300", label: "No Show" },
               ],
               renderMonthItem: ({ item }) => (
-                <div className="text-xs truncate">
+                <div className="truncate text-xs">
                   <span className="font-medium">{item.startTime}</span> -{" "}
                   {item.petName}
                 </div>
@@ -431,7 +431,7 @@ export default function GroomingCalendarPage() {
                   label: "Status",
                   render: (item) => (
                     <Badge
-                      className={`${statusColors[item.status as GroomingStatus]?.bg} ${statusColors[item.status as GroomingStatus]?.text}`}
+                      className={` ${statusColors[item.status as GroomingStatus]?.bg} ${statusColors[item.status as GroomingStatus]?.text} `}
                     >
                       {item.status}
                     </Badge>
@@ -466,10 +466,10 @@ export default function GroomingCalendarPage() {
                     <PawPrint className="h-6 w-6 text-pink-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg">
+                    <h3 className="text-lg font-semibold">
                       {selectedAppointment.petName}
                     </h3>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       {selectedAppointment.petBreed} •{" "}
                       {selectedAppointment.petSize} •{" "}
                       {selectedAppointment.petWeight} lbs
@@ -477,7 +477,7 @@ export default function GroomingCalendarPage() {
                   </div>
                 </div>
                 <Badge
-                  className={`${statusColors[selectedAppointment.status]?.bg} ${statusColors[selectedAppointment.status]?.text} gap-1`}
+                  className={` ${statusColors[selectedAppointment.status]?.bg} ${statusColors[selectedAppointment.status]?.text} gap-1`}
                 >
                   {statusIcons[selectedAppointment.status]}
                   {selectedAppointment.status}
@@ -487,7 +487,7 @@ export default function GroomingCalendarPage() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-3">
                   <div className="flex items-center gap-2 text-sm">
-                    <CalendarIcon className="h-4 w-4 text-muted-foreground" />
+                    <CalendarIcon className="text-muted-foreground size-4" />
                     <span>
                       {new Date(selectedAppointment.date).toLocaleDateString(
                         "en-US",
@@ -501,28 +501,28 @@ export default function GroomingCalendarPage() {
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
-                    <Clock className="h-4 w-4 text-muted-foreground" />
+                    <Clock className="text-muted-foreground size-4" />
                     <span>
                       {selectedAppointment.startTime} -{" "}
                       {selectedAppointment.endTime}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
-                    <User className="h-4 w-4 text-muted-foreground" />
+                    <User className="text-muted-foreground size-4" />
                     <span>Stylist: {selectedAppointment.stylistName}</span>
                   </div>
                 </div>
                 <div className="space-y-3">
                   <div className="flex items-center gap-2 text-sm">
-                    <User className="h-4 w-4 text-muted-foreground" />
+                    <User className="text-muted-foreground size-4" />
                     <span>Owner: {selectedAppointment.ownerName}</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
-                    <Phone className="h-4 w-4 text-muted-foreground" />
+                    <Phone className="text-muted-foreground size-4" />
                     <span>{selectedAppointment.ownerPhone}</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
-                    <DollarSign className="h-4 w-4 text-muted-foreground" />
+                    <DollarSign className="text-muted-foreground size-4" />
                     <span className="font-semibold">
                       ${selectedAppointment.totalPrice}
                     </span>
@@ -547,8 +547,8 @@ export default function GroomingCalendarPage() {
 
               {selectedAppointment.specialInstructions && (
                 <div className="space-y-1">
-                  <h4 className="font-medium text-sm">Special Instructions</h4>
-                  <p className="text-sm text-muted-foreground">
+                  <h4 className="text-sm font-medium">Special Instructions</h4>
+                  <p className="text-muted-foreground text-sm">
                     {selectedAppointment.specialInstructions}
                   </p>
                 </div>
@@ -557,7 +557,7 @@ export default function GroomingCalendarPage() {
               {selectedAppointment.allergies &&
                 selectedAppointment.allergies.length > 0 && (
                   <div className="space-y-1">
-                    <h4 className="font-medium text-sm text-red-600">
+                    <h4 className="text-sm font-medium text-red-600">
                       Allergies
                     </h4>
                     <div className="flex flex-wrap gap-1">
@@ -572,8 +572,8 @@ export default function GroomingCalendarPage() {
 
               {selectedAppointment.notes && (
                 <div className="space-y-1">
-                  <h4 className="font-medium text-sm">Notes</h4>
-                  <p className="text-sm text-muted-foreground">
+                  <h4 className="text-sm font-medium">Notes</h4>
+                  <p className="text-muted-foreground text-sm">
                     {selectedAppointment.notes}
                   </p>
                 </div>
@@ -607,7 +607,7 @@ export default function GroomingCalendarPage() {
 
       {/* Add/Edit Modal */}
       <Dialog open={isAddEditModalOpen} onOpenChange={setIsAddEditModalOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {editingAppointment
@@ -679,7 +679,7 @@ export default function GroomingCalendarPage() {
                 </SelectTrigger>
                 <SelectContent>
                   {availableStylists.length === 0 ? (
-                    <div className="p-2 text-sm text-muted-foreground">
+                    <div className="text-muted-foreground p-2 text-sm">
                       No available stylists for this date/time and pet size
                     </div>
                   ) : (
@@ -702,12 +702,12 @@ export default function GroomingCalendarPage() {
 
                       return (
                         <SelectItem key={stylist.id} value={stylist.id}>
-                          <div className="flex items-center justify-between w-full">
+                          <div className="flex w-full items-center justify-between">
                             <span>
                               {stylist.name} {skillBadge && `(${skillBadge})`}
                             </span>
                             {isPreferred && (
-                              <span className="text-xs text-muted-foreground ml-2">
+                              <span className="text-muted-foreground ml-2 text-xs">
                                 ✓ Preferred
                               </span>
                             )}
@@ -717,7 +717,7 @@ export default function GroomingCalendarPage() {
                     })
                   )}
                   {activeStylists.length > availableStylists.length && (
-                    <div className="p-2 text-xs text-muted-foreground border-t">
+                    <div className="text-muted-foreground border-t p-2 text-xs">
                       {activeStylists.length - availableStylists.length}{" "}
                       stylist(s) unavailable
                     </div>
@@ -727,7 +727,7 @@ export default function GroomingCalendarPage() {
             </div>
 
             <div className="border-t pt-4">
-              <h4 className="font-medium mb-3">Pet Information</h4>
+              <h4 className="mb-3 font-medium">Pet Information</h4>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="petName">Pet Name</Label>
@@ -795,7 +795,7 @@ export default function GroomingCalendarPage() {
             </div>
 
             <div className="border-t pt-4">
-              <h4 className="font-medium mb-3">Owner Information</h4>
+              <h4 className="mb-3 font-medium">Owner Information</h4>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="ownerName">Owner Name</Label>
@@ -832,7 +832,7 @@ export default function GroomingCalendarPage() {
             </div>
 
             <div className="border-t pt-4">
-              <h4 className="font-medium mb-3">Service</h4>
+              <h4 className="mb-3 font-medium">Service</h4>
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="packageId">Grooming Package</Label>
@@ -922,16 +922,16 @@ export default function GroomingCalendarPage() {
                   const assignedStylistIds = selectedPackage.assignedStylistIds;
 
                   return (
-                    <div className="rounded-lg bg-muted p-3 space-y-2">
+                    <div className="bg-muted space-y-2 rounded-lg p-3">
                       <div>
                         <p className="text-sm font-medium">
                           {selectedPackage.name}
                         </p>
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="text-muted-foreground mt-1 text-xs">
                           {selectedPackage.description}
                         </p>
                       </div>
-                      <div className="flex items-center gap-2 text-xs flex-wrap">
+                      <div className="flex flex-wrap items-center gap-2 text-xs">
                         <Badge variant="outline">
                           Duration: {selectedPackage.duration} min
                         </Badge>
@@ -964,20 +964,20 @@ export default function GroomingCalendarPage() {
                           )}
                       </div>
                       <div className="mt-2">
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-muted-foreground text-xs">
                           Includes:
                         </p>
-                        <ul className="text-xs mt-1 space-y-0.5">
+                        <ul className="mt-1 space-y-0.5 text-xs">
                           {selectedPackage.includes.map((item, idx) => (
                             <li key={idx}>• {item}</li>
                           ))}
                         </ul>
                       </div>
-                      <p className="text-sm font-semibold mt-2">
+                      <p className="mt-2 text-sm font-semibold">
                         Price: ${calculatePrice()}
                       </p>
                       {selectedPackage.requiresEvaluation && (
-                        <div className="mt-2 p-2 rounded bg-orange-50 dark:bg-orange-950/20 border border-orange-200 dark:border-orange-900">
+                        <div className="mt-2 rounded-sm border border-orange-200 bg-orange-50 p-2 dark:border-orange-900 dark:bg-orange-950/20">
                           <p className="text-xs text-orange-800 dark:text-orange-200">
                             ⚠️ This package requires a valid pet evaluation
                             before booking.

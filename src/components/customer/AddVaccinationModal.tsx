@@ -188,7 +188,7 @@ export function AddVaccinationModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Upload Vaccination Record</DialogTitle>
           <DialogDescription>
@@ -198,7 +198,7 @@ export function AddVaccinationModal({
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="vaccineName">
                 Vaccine Name <span className="text-destructive">*</span>
@@ -241,7 +241,7 @@ export function AddVaccinationModal({
                 />
               )}
               {errors.vaccineName && (
-                <p className="text-sm text-destructive">{errors.vaccineName}</p>
+                <p className="text-destructive text-sm">{errors.vaccineName}</p>
               )}
             </div>
 
@@ -265,14 +265,14 @@ export function AddVaccinationModal({
                 aria-invalid={errors.administeredDate ? "true" : "false"}
               />
               {errors.administeredDate && (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {errors.administeredDate}
                 </p>
               )}
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="expiryDate">
                 Expiry Date <span className="text-destructive">*</span>
@@ -290,7 +290,7 @@ export function AddVaccinationModal({
                 aria-invalid={errors.expiryDate ? "true" : "false"}
               />
               {errors.expiryDate && (
-                <p className="text-sm text-destructive">{errors.expiryDate}</p>
+                <p className="text-destructive text-sm">{errors.expiryDate}</p>
               )}
             </div>
 
@@ -330,7 +330,7 @@ export function AddVaccinationModal({
                 className="cursor-pointer"
               />
               {uploadedFile && (
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <div className="text-muted-foreground flex items-center gap-2 text-sm">
                   <span>{uploadedFile.name}</span>
                   <Button
                     type="button"
@@ -338,12 +338,12 @@ export function AddVaccinationModal({
                     size="sm"
                     onClick={() => setUploadedFile(null)}
                   >
-                    <X className="h-4 w-4" />
+                    <X className="size-4" />
                   </Button>
                 </div>
               )}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Upload a PDF or image of the vaccination certificate (max 10MB)
             </p>
           </div>
@@ -373,12 +373,12 @@ export function AddVaccinationModal({
             <Button type="submit" disabled={isSaving}>
               {isSaving ? (
                 <>
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  <Loader2 className="mr-2 size-4 animate-spin" />
                   Uploading...
                 </>
               ) : (
                 <>
-                  <Upload className="h-4 w-4 mr-2" />
+                  <Upload className="mr-2 size-4" />
                   Upload for Review
                 </>
               )}

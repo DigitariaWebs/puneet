@@ -22,17 +22,17 @@ export function StayBasedStep({ data, onChange }: StayBasedStepProps) {
   return (
     <div className="space-y-6">
       {/* Enable toggle */}
-      <div className="flex items-center justify-between rounded-xl border border-border bg-card p-4">
+      <div className="border-border bg-card flex items-center justify-between rounded-xl border p-4">
         <div className="flex items-start gap-3">
-          <Bed className="h-5 w-5 text-muted-foreground mt-0.5 shrink-0" />
+          <Bed className="text-muted-foreground mt-0.5 h-5 w-5 shrink-0" />
           <div className="space-y-0.5">
             <Label
               htmlFor="sb-enabled"
-              className="text-sm font-semibold cursor-pointer"
+              className="cursor-pointer text-sm font-semibold"
             >
               Enable Stay-Based Features
             </Label>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Activate when this service spans multiple days and involves
               physical space (kennels, suites, rooms).
             </p>
@@ -46,8 +46,8 @@ export function StayBasedStep({ data, onChange }: StayBasedStepProps) {
       </div>
 
       {!sb.enabled && (
-        <div className="flex items-start gap-2 rounded-lg bg-muted/50 p-3 text-xs text-muted-foreground">
-          <Info className="h-3.5 w-3.5 shrink-0 mt-0.5" />
+        <div className="bg-muted/50 text-muted-foreground flex items-start gap-2 rounded-lg p-3 text-xs">
+          <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
           <span>
             Stay-based features are off. This service is treated as a timed
             session or appointment, not a multi-day stay. Enable this for
@@ -59,19 +59,19 @@ export function StayBasedStep({ data, onChange }: StayBasedStepProps) {
       <div
         className={cn(
           "space-y-4",
-          !sb.enabled && "opacity-50 pointer-events-none",
+          !sb.enabled && "pointer-events-none opacity-50",
         )}
       >
         {/* Requires Room/Kennel */}
-        <div className="flex items-center justify-between rounded-xl border border-border bg-card p-4">
+        <div className="border-border bg-card flex items-center justify-between rounded-xl border p-4">
           <div className="space-y-0.5">
             <Label
               htmlFor="sb-room"
-              className="text-sm font-medium cursor-pointer"
+              className="cursor-pointer text-sm font-medium"
             >
               Requires Room / Kennel Assignment
             </Label>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               A kennel or room must be assigned before check-in. Staff will be
               prompted to select a space when creating the booking.
             </p>
@@ -86,15 +86,15 @@ export function StayBasedStep({ data, onChange }: StayBasedStepProps) {
         </div>
 
         {/* Affects Kennel View */}
-        <div className="flex items-center justify-between rounded-xl border border-border bg-card p-4">
+        <div className="border-border bg-card flex items-center justify-between rounded-xl border p-4">
           <div className="space-y-0.5">
             <Label
               htmlFor="sb-kennel-view"
-              className="text-sm font-medium cursor-pointer"
+              className="cursor-pointer text-sm font-medium"
             >
               Show on Kennel / Room View
             </Label>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Bookings for this service will appear on the facility Kennel View
               board, occupying a room or kennel slot for the duration of the
               stay.
@@ -110,15 +110,15 @@ export function StayBasedStep({ data, onChange }: StayBasedStepProps) {
         </div>
 
         {/* Generates Daily Tasks */}
-        <div className="flex items-center justify-between rounded-xl border border-border bg-card p-4">
+        <div className="border-border bg-card flex items-center justify-between rounded-xl border p-4">
           <div className="space-y-0.5">
             <Label
               htmlFor="sb-daily-tasks"
-              className="text-sm font-medium cursor-pointer"
+              className="cursor-pointer text-sm font-medium"
             >
               Generate Daily Care Tasks
             </Label>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Automatically create daily tasks (feeding, medication checks, walk
               schedules) for each day of the stay. Task templates are configured
               in the Staff Assignment step.
@@ -134,8 +134,8 @@ export function StayBasedStep({ data, onChange }: StayBasedStepProps) {
         </div>
 
         {sb.generatesDailyTasks && (
-          <div className="flex items-start gap-2 rounded-lg bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800 p-3 text-xs text-purple-700 dark:text-purple-400">
-            <Info className="h-3.5 w-3.5 shrink-0 mt-0.5" />
+          <div className="flex items-start gap-2 rounded-lg border border-purple-200 bg-purple-50 p-3 text-xs text-purple-700 dark:border-purple-800 dark:bg-purple-950/30 dark:text-purple-400">
+            <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
             <span>
               Daily tasks will be auto-generated at midnight for each
               in-progress stay. Configure which task types are generated in the{" "}
@@ -147,8 +147,8 @@ export function StayBasedStep({ data, onChange }: StayBasedStepProps) {
 
       {/* Category hint */}
       {data.category !== "stay_based" && sb.enabled && (
-        <div className="flex items-start gap-2 rounded-lg bg-yellow-50 dark:bg-yellow-950/30 border border-yellow-200 dark:border-yellow-800 p-3 text-xs text-yellow-700 dark:text-yellow-400">
-          <Info className="h-3.5 w-3.5 shrink-0 mt-0.5" />
+        <div className="flex items-start gap-2 rounded-lg border border-yellow-200 bg-yellow-50 p-3 text-xs text-yellow-700 dark:border-yellow-800 dark:bg-yellow-950/30 dark:text-yellow-400">
+          <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
           <span>
             Your selected category is{" "}
             <strong>

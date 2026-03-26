@@ -180,9 +180,9 @@ export function FormTemplateSection({
             return (
               <div
                 key={key}
-                className="flex items-center justify-between p-4 border rounded-lg"
+                className="flex items-center justify-between rounded-lg border p-4"
               >
-                <div className="flex items-center gap-3 flex-1">
+                <div className="flex flex-1 items-center gap-3">
                   <Switch
                     checked={section.enabled}
                     onCheckedChange={(enabled) =>
@@ -190,7 +190,7 @@ export function FormTemplateSection({
                     }
                   />
                   <div className="flex-1">
-                    <Label className="text-base font-medium cursor-pointer">
+                    <Label className="cursor-pointer text-base font-medium">
                       {label}
                     </Label>
                     {section.enabled && (
@@ -202,7 +202,7 @@ export function FormTemplateSection({
                               handleSectionRequired(key, required)
                             }
                           />
-                          <Label className="text-sm text-muted-foreground">
+                          <Label className="text-muted-foreground text-sm">
                             Required
                           </Label>
                         </div>
@@ -228,10 +228,10 @@ export function FormTemplateSection({
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex items-center justify-between p-4 border rounded-lg">
+          <div className="flex items-center justify-between rounded-lg border p-4">
             <div>
               <Label className="text-base font-medium">Photo Uploads</Label>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-muted-foreground mt-1 text-sm">
                 Allow customers to upload photos with their form
               </p>
             </div>
@@ -242,10 +242,10 @@ export function FormTemplateSection({
               }
             />
           </div>
-          <div className="flex items-center justify-between p-4 border rounded-lg">
+          <div className="flex items-center justify-between rounded-lg border p-4">
             <div>
               <Label className="text-base font-medium">Add-ons Section</Label>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-muted-foreground mt-1 text-sm">
                 Show add-ons selection in the form
               </p>
             </div>
@@ -256,10 +256,10 @@ export function FormTemplateSection({
               }
             />
           </div>
-          <div className="flex items-center justify-between p-4 border rounded-lg">
+          <div className="flex items-center justify-between rounded-lg border p-4">
             <div>
               <Label className="text-base font-medium">Tip Section</Label>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-muted-foreground mt-1 text-sm">
                 Allow customers to add a tip in the form
               </p>
             </div>
@@ -319,24 +319,24 @@ export function FormTemplateSection({
               variant="outline"
               size="sm"
             >
-              <Plus className="h-4 w-4 mr-2" />
+              <Plus className="mr-2 size-4" />
               Add Question
             </Button>
           </div>
         </CardHeader>
         <CardContent className="space-y-3">
           {config.formTemplate.globalCustomQuestions.length === 0 ? (
-            <p className="text-sm text-muted-foreground text-center py-4">
+            <p className="text-muted-foreground py-4 text-center text-sm">
               No custom questions. Add one to collect additional information.
             </p>
           ) : (
             config.formTemplate.globalCustomQuestions
               .sort((a, b) => a.order - b.order)
               .map((question) => (
-                <div key={question.id} className="p-4 border rounded-lg">
+                <div key={question.id} className="rounded-lg border p-4">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
+                      <div className="mb-2 flex items-center gap-2">
                         <Badge variant="outline">
                           {QUESTION_TYPE_LABELS[question.type]}
                         </Badge>
@@ -348,7 +348,7 @@ export function FormTemplateSection({
                         {question.label}
                       </Label>
                       {question.helpText && (
-                        <p className="text-sm text-muted-foreground mt-1">
+                        <p className="text-muted-foreground mt-1 text-sm">
                           {question.helpText}
                         </p>
                       )}
@@ -362,14 +362,14 @@ export function FormTemplateSection({
                           setIsQuestionDialogOpen(true);
                         }}
                       >
-                        <Settings2 className="h-4 w-4" />
+                        <Settings2 className="size-4" />
                       </Button>
                       <Button
                         variant="ghost"
                         size="icon"
                         onClick={() => handleRemoveQuestion(question.id)}
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="size-4" />
                       </Button>
                     </div>
                   </div>
@@ -384,7 +384,7 @@ export function FormTemplateSection({
         open={isQuestionDialogOpen}
         onOpenChange={setIsQuestionDialogOpen}
       >
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {editingQuestion?.id ? "Edit Question" : "Add Custom Question"}
@@ -489,7 +489,7 @@ function CustomQuestionForm({
           type="checkbox"
           checked={localQuestion.required}
           onChange={(e) => handleChange({ required: e.target.checked })}
-          className="rounded"
+          className="rounded-sm"
         />
         <Label>Required field</Label>
       </div>

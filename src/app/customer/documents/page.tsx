@@ -93,8 +93,8 @@ export default function CustomerDocumentsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background p-4 md:p-6">
-      <div className="max-w-5xl mx-auto space-y-6">
+    <div className="from-background via-muted/20 to-background min-h-screen bg-linear-to-br p-4 md:p-6">
+      <div className="mx-auto max-w-5xl space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
@@ -107,9 +107,9 @@ export default function CustomerDocumentsPage() {
         </div>
 
         {/* Search + Tabs */}
-        <div className="flex flex-col md:flex-row md:items-center gap-4 justify-between">
-          <div className="relative md:max-w-sm w-full">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+          <div className="relative w-full md:max-w-sm">
+            <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
             <Input
               placeholder="Search documents..."
               className="pl-9"
@@ -151,10 +151,10 @@ export default function CustomerDocumentsPage() {
               </CardHeader>
               <CardContent className="space-y-3">
                 {agreementDocs.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center text-center py-10">
-                    <AlertCircle className="h-10 w-10 text-muted-foreground mb-2" />
+                  <div className="flex flex-col items-center justify-center py-10 text-center">
+                    <AlertCircle className="text-muted-foreground mb-2 h-10 w-10" />
                     <p className="font-semibold">No agreements on file yet</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       Your facility may ask you to sign agreements or waivers
                       before your next booking.
                     </p>
@@ -164,21 +164,21 @@ export default function CustomerDocumentsPage() {
                     {agreementDocs.map((doc) => (
                       <div
                         key={doc.id}
-                        className="flex items-center justify-between p-4 rounded-lg border bg-background/60"
+                        className="bg-background/60 flex items-center justify-between rounded-lg border p-4"
                       >
                         <div className="space-y-0.5">
-                          <p className="font-medium flex items-center gap-2">
-                            <FileSignature className="h-4 w-4 text-primary" />
+                          <p className="flex items-center gap-2 font-medium">
+                            <FileSignature className="text-primary size-4" />
                             {doc.name}
                           </p>
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-muted-foreground text-xs">
                             Signed:{" "}
                             {doc.signedAt
                               ? formatDateTime(doc.signedAt)
                               : formatDateTime(doc.uploadedAt)}
                           </p>
                           {doc.agreedToTerms && (
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-muted-foreground text-xs">
                               Terms agreed: {doc.agreedToTerms.join(" · ")}
                             </p>
                           )}
@@ -197,7 +197,7 @@ export default function CustomerDocumentsPage() {
                                 handleDownload(doc.fileUrl, doc.name)
                               }
                             >
-                              <Download className="h-4 w-4 mr-1" />
+                              <Download className="mr-1 size-4" />
                               Download
                             </Button>
                           )}
@@ -210,7 +210,7 @@ export default function CustomerDocumentsPage() {
             </Card>
 
             <Card className="border-primary/20 bg-primary/5">
-              <CardContent className="py-4 text-sm text-muted-foreground">
+              <CardContent className="text-muted-foreground py-4 text-sm">
                 Facilities can require certain agreements to be signed before
                 new bookings are approved. If you’re blocked from booking, check
                 here to see if any agreements are missing or contact the
@@ -245,10 +245,10 @@ export default function CustomerDocumentsPage() {
                   );
                   if (forms.length === 0) {
                     return (
-                      <div className="flex flex-col items-center justify-center text-center py-10">
-                        <AlertCircle className="h-10 w-10 text-muted-foreground mb-2" />
+                      <div className="flex flex-col items-center justify-center py-10 text-center">
+                        <AlertCircle className="text-muted-foreground mb-2 h-10 w-10" />
                         <p className="font-semibold">No forms available</p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-muted-foreground text-sm">
                           Your facility hasn&apos;t published any forms yet.
                           Check back later.
                         </p>
@@ -258,14 +258,14 @@ export default function CustomerDocumentsPage() {
                   return forms.map((form) => (
                     <div
                       key={form.id}
-                      className="flex items-center justify-between p-4 rounded-lg border hover:bg-muted/40 transition-colors"
+                      className="hover:bg-muted/40 flex items-center justify-between rounded-lg border p-4 transition-colors"
                     >
                       <div className="space-y-0.5">
-                        <p className="font-medium flex items-center gap-2">
-                          <ClipboardList className="h-4 w-4 text-primary" />
+                        <p className="flex items-center gap-2 font-medium">
+                          <ClipboardList className="text-primary size-4" />
                           {form.name}
                         </p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-muted-foreground text-xs">
                           {form.questions.length} question
                           {form.questions.length !== 1 ? "s" : ""}
                           {form.type && (
@@ -278,7 +278,7 @@ export default function CustomerDocumentsPage() {
                       </div>
                       <Button size="sm" asChild>
                         <Link href={`/forms/${form.slug}`}>
-                          <ExternalLink className="h-4 w-4 mr-1" />
+                          <ExternalLink className="mr-1 size-4" />
                           Fill out
                         </Link>
                       </Button>
@@ -304,10 +304,10 @@ export default function CustomerDocumentsPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 {otherDocs.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center text-center py-10">
-                    <AlertCircle className="h-10 w-10 text-muted-foreground mb-2" />
+                  <div className="flex flex-col items-center justify-center py-10 text-center">
+                    <AlertCircle className="text-muted-foreground mb-2 h-10 w-10" />
                     <p className="font-semibold">No documents yet</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       When your facility uploads vaccine records, medical notes,
                       or other files, they will appear here.
                     </p>
@@ -317,30 +317,30 @@ export default function CustomerDocumentsPage() {
                     {otherDocs.map((doc) => (
                       <div
                         key={doc.id}
-                        className="flex items-center justify-between p-4 rounded-lg border hover:bg-muted/40 transition-colors"
+                        className="hover:bg-muted/40 flex items-center justify-between rounded-lg border p-4 transition-colors"
                       >
                         <div className="space-y-0.5">
-                          <p className="font-medium flex items-center gap-2">
-                            <FileText className="h-4 w-4 text-muted-foreground" />
+                          <p className="flex items-center gap-2 font-medium">
+                            <FileText className="text-muted-foreground size-4" />
                             {doc.name}
                           </p>
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-muted-foreground text-xs">
                             Type: {doc.type}
                             {doc.petId && (
                               <>
                                 {" "}
-                                · <Dog className="inline-block h-3 w-3 mr-1" />
+                                · <Dog className="mr-1 inline-block h-3 w-3" />
                                 Pet ID #{doc.petId}
                               </>
                             )}
                           </p>
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-muted-foreground text-xs">
                             Uploaded: {formatDateTime(doc.uploadedAt)}
                             {doc.expiryDate &&
                               ` · Expires: ${formatDateTime(doc.expiryDate)}`}
                           </p>
                           {doc.notes && (
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-muted-foreground text-xs">
                               {doc.notes}
                             </p>
                           )}
@@ -353,7 +353,7 @@ export default function CustomerDocumentsPage() {
                               handleDownload(doc.fileUrl, doc.name)
                             }
                           >
-                            <Download className="h-4 w-4 mr-1" />
+                            <Download className="mr-1 size-4" />
                             Download
                           </Button>
                         )}

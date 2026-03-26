@@ -175,7 +175,7 @@ export function YipyyGoStaffReviewModal({
           <p className="text-muted-foreground">
             No YipyyGo form found for this booking.
           </p>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             You can mark as manually completed if the customer did not submit.
             This is logged for audit.
           </p>
@@ -203,7 +203,7 @@ export function YipyyGoStaffReviewModal({
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>YipyyGo Review – Booking #{bookingId}</DialogTitle>
           </DialogHeader>
@@ -212,14 +212,14 @@ export function YipyyGoStaffReviewModal({
             {/* Belongings + photo */}
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm flex items-center gap-2">
-                  <Package className="h-4 w-4" />
+                <CardTitle className="flex items-center gap-2 text-sm">
+                  <Package className="size-4" />
                   Belongings
                 </CardTitle>
               </CardHeader>
               <CardContent className="text-sm">
                 {form.belongings?.length ? (
-                  <ul className="list-disc pl-4 space-y-1">
+                  <ul className="list-disc space-y-1 pl-4">
                     {form.belongings.map((b) => (
                       <li key={b.id}>
                         {b.type.replace("_", " ")}{" "}
@@ -232,7 +232,7 @@ export function YipyyGoStaffReviewModal({
                   <p className="text-muted-foreground">None listed</p>
                 )}
                 {form.belongingsPhotoUrl && (
-                  <p className="mt-2 text-muted-foreground">Photo attached</p>
+                  <p className="text-muted-foreground mt-2">Photo attached</p>
                 )}
               </CardContent>
             </Card>
@@ -240,8 +240,8 @@ export function YipyyGoStaffReviewModal({
             {/* Feeding */}
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm flex items-center gap-2">
-                  <Utensils className="h-4 w-4" />
+                <CardTitle className="flex items-center gap-2 text-sm">
+                  <Utensils className="size-4" />
                   Feeding
                 </CardTitle>
               </CardHeader>
@@ -262,8 +262,8 @@ export function YipyyGoStaffReviewModal({
             {/* Medications */}
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm flex items-center gap-2">
-                  <Pill className="h-4 w-4" />
+                <CardTitle className="flex items-center gap-2 text-sm">
+                  <Pill className="size-4" />
                   Medications
                 </CardTitle>
               </CardHeader>
@@ -271,7 +271,7 @@ export function YipyyGoStaffReviewModal({
                 {form.noMedications ? (
                   <p className="text-muted-foreground">No medications</p>
                 ) : form.medications?.length ? (
-                  <ul className="list-disc pl-4 space-y-1">
+                  <ul className="list-disc space-y-1 pl-4">
                     {form.medications.map((m) => (
                       <li key={m.id}>
                         {m.name} – {m.dosage}, {m.frequency}
@@ -287,8 +287,8 @@ export function YipyyGoStaffReviewModal({
             {/* Notes / behavior */}
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm flex items-center gap-2">
-                  <Heart className="h-4 w-4" />
+                <CardTitle className="flex items-center gap-2 text-sm">
+                  <Heart className="size-4" />
                   Notes
                 </CardTitle>
               </CardHeader>
@@ -304,8 +304,8 @@ export function YipyyGoStaffReviewModal({
             {/* Add-ons + tip */}
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm flex items-center gap-2">
-                  <DollarSign className="h-4 w-4" />
+                <CardTitle className="flex items-center gap-2 text-sm">
+                  <DollarSign className="size-4" />
                   Add-ons & tip
                 </CardTitle>
               </CardHeader>
@@ -334,21 +334,21 @@ export function YipyyGoStaffReviewModal({
             {hasSubmitted ? (
               <>
                 <Button onClick={handleApprove}>
-                  <CheckCircle2 className="h-4 w-4 mr-2" />
+                  <CheckCircle2 className="mr-2 size-4" />
                   Approve
                 </Button>
                 <Button
                   variant="secondary"
                   onClick={() => setRequestChangesOpen(true)}
                 >
-                  <MessageSquare className="h-4 w-4 mr-2" />
+                  <MessageSquare className="mr-2 size-4" />
                   Request changes
                 </Button>
                 <Button
                   variant="secondary"
                   onClick={() => setEditReasonOpen(true)}
                 >
-                  <Pencil className="h-4 w-4 mr-2" />
+                  <Pencil className="mr-2 size-4" />
                   Edit internally
                 </Button>
               </>
@@ -357,7 +357,7 @@ export function YipyyGoStaffReviewModal({
               variant="outline"
               onClick={() => setManualCompleteOpen(true)}
             >
-              <UserCheck className="h-4 w-4 mr-2" />
+              <UserCheck className="mr-2 size-4" />
               Manual completion
             </Button>
           </DialogFooter>
@@ -422,7 +422,7 @@ export function YipyyGoStaffReviewModal({
           <DialogHeader>
             <DialogTitle>Manual completion</DialogTitle>
           </DialogHeader>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Mark this booking’s YipyyGo as completed without a customer
             submission. Use when the customer provided info in person or by
             phone.

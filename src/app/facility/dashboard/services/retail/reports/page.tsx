@@ -155,11 +155,11 @@ export default function RetailReportsPage() {
         <div>
           <div className="font-medium">{item.productName}</div>
           {item.variantName && (
-            <div className="text-sm text-muted-foreground">
+            <div className="text-muted-foreground text-sm">
               {item.variantName}
             </div>
           )}
-          <div className="text-xs text-muted-foreground">SKU: {item.sku}</div>
+          <div className="text-muted-foreground text-xs">SKU: {item.sku}</div>
         </div>
       ),
     },
@@ -325,7 +325,7 @@ export default function RetailReportsPage() {
           </p>
         </div>
         <Button>
-          <Download className="h-4 w-4 mr-2" />
+          <Download className="mr-2 size-4" />
           Export All Reports
         </Button>
       </div>
@@ -407,11 +407,11 @@ export default function RetailReportsPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Sales</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <DollarSign className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">${totalSales.toFixed(2)}</div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {totalTransactions} transactions
             </p>
           </CardContent>
@@ -419,21 +419,21 @@ export default function RetailReportsPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Items Sold</CardTitle>
-            <Package className="h-4 w-4 text-muted-foreground" />
+            <Package className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{totalItems}</div>
-            <p className="text-xs text-muted-foreground">Total units</p>
+            <p className="text-muted-foreground text-xs">Total units</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Profit</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <TrendingUp className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">${totalProfit.toFixed(2)}</div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {averageProfitMargin.toFixed(1)}% avg margin
             </p>
           </CardContent>
@@ -443,7 +443,7 @@ export default function RetailReportsPage() {
             <CardTitle className="text-sm font-medium">
               Avg Transaction
             </CardTitle>
-            <ShoppingBag className="h-4 w-4 text-muted-foreground" />
+            <ShoppingBag className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
@@ -452,7 +452,7 @@ export default function RetailReportsPage() {
                 ? (totalSales / totalTransactions).toFixed(2)
                 : "0.00"}
             </div>
-            <p className="text-xs text-muted-foreground">Per transaction</p>
+            <p className="text-muted-foreground text-xs">Per transaction</p>
           </CardContent>
         </Card>
       </div>
@@ -679,7 +679,7 @@ export default function RetailReportsPage() {
             </CardHeader>
             <CardContent>
               {salesLinkedToServices.length === 0 ? (
-                <div className="text-center py-8 text-muted-foreground">
+                <div className="text-muted-foreground py-8 text-center">
                   No sales linked to services in this period
                 </div>
               ) : (
@@ -758,7 +758,7 @@ function ReconciliationTable({
         return (
           <div className="flex flex-col">
             <span>{formatTransactionTimestamp(txn.createdAt)}</span>
-            <span className="text-xs text-muted-foreground">
+            <span className="text-muted-foreground text-xs">
               {new Date(txn.createdAt).toLocaleTimeString("en-US", {
                 hour: "2-digit",
                 minute: "2-digit",
@@ -779,11 +779,11 @@ function ReconciliationTable({
         const PaymentIcon = paymentInfo.icon;
         return (
           <div className="flex items-center gap-2">
-            <PaymentIcon className="h-4 w-4 text-muted-foreground" />
+            <PaymentIcon className="text-muted-foreground size-4" />
             <div className="flex flex-col">
               <span className="font-medium">{paymentInfo.label}</span>
               {paymentInfo.processor && (
-                <span className="text-xs text-muted-foreground">
+                <span className="text-muted-foreground text-xs">
                   {paymentInfo.processor}
                 </span>
               )}
@@ -808,19 +808,19 @@ function ReconciliationTable({
           <div className="flex flex-col">
             <span className="font-mono text-xs">{transactionId}</span>
             {txn.yipyyPayTransactionId && (
-              <Badge variant="outline" className="text-xs w-fit mt-1">
+              <Badge variant="outline" className="mt-1 w-fit text-xs">
                 Yipyy Pay
               </Badge>
             )}
             {txn.cloverTransactionId && (
-              <Badge variant="outline" className="text-xs w-fit mt-1">
+              <Badge variant="outline" className="mt-1 w-fit text-xs">
                 Clover
               </Badge>
             )}
             {txn.fiservTransactionId &&
               !txn.yipyyPayTransactionId &&
               !txn.cloverTransactionId && (
-                <Badge variant="outline" className="text-xs w-fit mt-1">
+                <Badge variant="outline" className="mt-1 w-fit text-xs">
                   Fiserv
                 </Badge>
               )}
@@ -839,7 +839,7 @@ function ReconciliationTable({
           <div className="flex flex-col">
             <span className="font-medium">{txn.cashierName || "Unknown"}</span>
             {txn.cashierId && (
-              <span className="text-xs text-muted-foreground">
+              <span className="text-muted-foreground text-xs">
                 ID: {txn.cashierId}
               </span>
             )}
@@ -857,7 +857,7 @@ function ReconciliationTable({
         const locationName = getLocationName(txn.locationId);
         return (
           <div className="flex items-center gap-2">
-            <MapPin className="h-4 w-4 text-muted-foreground" />
+            <MapPin className="text-muted-foreground size-4" />
             <span>{locationName}</span>
           </div>
         );
@@ -886,12 +886,12 @@ function ReconciliationTable({
               <span className="font-medium">Booking #{txn.bookingId}</span>
             )}
             {txn.bookingService && (
-              <span className="text-xs text-muted-foreground capitalize">
+              <span className="text-muted-foreground text-xs capitalize">
                 {txn.bookingService}
               </span>
             )}
             {txn.petName && (
-              <span className="text-xs text-muted-foreground">
+              <span className="text-muted-foreground text-xs">
                 Pet: {txn.petName}
               </span>
             )}

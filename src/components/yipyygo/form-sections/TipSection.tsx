@@ -95,7 +95,7 @@ export function TipSection({
         <div className="space-y-2">
           <Label>Custom Amount</Label>
           <div className="flex items-center gap-2">
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <DollarSign className="text-muted-foreground size-4" />
             <Input
               type="number"
               min="0"
@@ -119,15 +119,15 @@ export function TipSection({
         </div>
 
         {tipAmount > 0 && (
-          <div className="p-4 bg-muted rounded-lg">
+          <div className="bg-muted rounded-lg p-4">
             <div className="flex items-center justify-between">
               <span className="font-medium">Tip Amount:</span>
               <span className="text-lg font-bold">
-                <DollarSign className="inline h-4 w-4" />
+                <DollarSign className="inline size-4" />
                 {tipAmount.toFixed(2)}
               </span>
             </div>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-muted-foreground mt-1 text-sm">
               Applies to:{" "}
               {tip.appliesTo === "stay_total"
                 ? "Stay Total"

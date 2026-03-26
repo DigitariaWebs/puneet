@@ -247,7 +247,7 @@ export function SegmentBuilderModal({
       <ScrollArea className="max-h-[70vh]">
         <div className="space-y-6 py-4 pr-4">
           {/* Name + Favorite */}
-          <div className="flex gap-4 items-end">
+          <div className="flex items-end gap-4">
             <div className="flex-1 space-y-2">
               <Label htmlFor="seg-name">Segment Name *</Label>
               <Input
@@ -265,7 +265,7 @@ export function SegmentBuilderModal({
                 isFavorite ? "Remove from favorites" : "Mark as favorite"
               }
             >
-              <Star className={`h-4 w-4 ${isFavorite ? "fill-current" : ""}`} />
+              <Star className={`size-4 ${isFavorite ? "fill-current" : ""} `} />
             </Button>
           </div>
 
@@ -284,12 +284,12 @@ export function SegmentBuilderModal({
           {/* Quick-Apply Suggestions */}
           {!isEditing && (
             <div className="space-y-2">
-              <Label className="text-sm flex items-center gap-1.5">
+              <Label className="flex items-center gap-1.5 text-sm">
                 <Zap className="h-3.5 w-3.5" />
                 Quick Start from Pre-Built Segment
               </Label>
               <div
-                className="flex gap-2 flex-wrap"
+                className="flex flex-wrap gap-2"
                 role="group"
                 aria-label="Pre-built segment suggestions"
               >
@@ -298,7 +298,7 @@ export function SegmentBuilderModal({
                     key={seg.id}
                     variant="outline"
                     size="sm"
-                    className="h-auto py-1.5 px-3 text-xs font-normal"
+                    className="h-auto px-3 py-1.5 text-xs font-normal"
                     onClick={() => handleApplySuggestion(seg)}
                   >
                     {seg.name}
@@ -311,8 +311,8 @@ export function SegmentBuilderModal({
           {/* Filter Groups */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <Label className="text-base flex items-center gap-1.5">
-                <Layers className="h-4 w-4" />
+              <Label className="flex items-center gap-1.5 text-base">
+                <Layers className="size-4" />
                 Filter Groups
               </Label>
               {filterGroups.length > 1 && (
@@ -356,18 +356,18 @@ export function SegmentBuilderModal({
                     className="flex items-center justify-center py-2"
                     aria-hidden="true"
                   >
-                    <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold bg-secondary text-secondary-foreground">
+                    <span className="bg-secondary text-secondary-foreground inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold">
                       {groupLogicOperator}
                     </span>
                   </div>
                 )}
 
                 <Card>
-                  <CardHeader className="pb-3 pt-4 px-4">
+                  <CardHeader className="px-4 pt-4 pb-3">
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-sm font-medium">
                         Group {groupIdx + 1}
-                        <span className="text-muted-foreground font-normal ml-2">
+                        <span className="text-muted-foreground ml-2 font-normal">
                           (filters are AND-ed within this group)
                         </span>
                       </CardTitle>
@@ -384,16 +384,16 @@ export function SegmentBuilderModal({
                       )}
                     </div>
                   </CardHeader>
-                  <CardContent className="px-4 pb-4 space-y-3">
+                  <CardContent className="space-y-3 px-4 pb-4">
                     {/* Existing filters in this group */}
                     {group.filters.map((filter) => {
                       const def = getFieldDef(filter.field);
                       return (
                         <div
                           key={filter.id}
-                          className="flex items-center justify-between p-2.5 bg-muted/50 rounded-lg text-sm"
+                          className="bg-muted/50 flex items-center justify-between rounded-lg p-2.5 text-sm"
                         >
-                          <div className="flex items-center gap-1.5 flex-wrap">
+                          <div className="flex flex-wrap items-center gap-1.5">
                             <span className="inline-flex items-center rounded-full border px-2 py-0.5 text-xs">
                               {SEGMENT_CATEGORY_LABELS[filter.category]}
                             </span>
@@ -424,9 +424,9 @@ export function SegmentBuilderModal({
 
                     {/* Add filter inline form */}
                     {activeGroupId === group.id ? (
-                      <div className="space-y-3 p-3 border rounded-lg border-dashed">
+                      <div className="space-y-3 rounded-lg border border-dashed p-3">
                         {/* Row 1: Category + Field */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                           <div className="space-y-1">
                             <Label className="text-xs">Category</Label>
                             <Select
@@ -490,7 +490,7 @@ export function SegmentBuilderModal({
 
                         {/* Row 2: Operator + Value */}
                         {selectedFieldDef && (
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                             <div className="space-y-1">
                               <Label className="text-xs">Condition</Label>
                               <Select
@@ -519,7 +519,7 @@ export function SegmentBuilderModal({
                               {selectedFieldDef.valueType === "boolean" ||
                               newFilterOperator === "is_true" ||
                               newFilterOperator === "is_false" ? (
-                                <div className="flex items-center h-9 px-3 border rounded-md bg-muted/30 text-sm">
+                                <div className="bg-muted/30 flex h-9 items-center rounded-md border px-3 text-sm">
                                   {newFilterOperator === "is_true"
                                     ? "Yes"
                                     : newFilterOperator === "is_false"
@@ -549,9 +549,9 @@ export function SegmentBuilderModal({
                               ) : selectedFieldDef.valueType ===
                                   "multi_select" && selectedFieldDef.options ? (
                                 <div className="space-y-1.5">
-                                  <div className="flex flex-wrap gap-1 max-h-20 overflow-y-auto p-1.5 border rounded-md">
+                                  <div className="flex max-h-20 flex-wrap gap-1 overflow-y-auto rounded-md border p-1.5">
                                     {newFilterMultiValues.length === 0 && (
-                                      <span className="text-xs text-muted-foreground">
+                                      <span className="text-muted-foreground text-xs">
                                         Click to select...
                                       </span>
                                     )}
@@ -560,11 +560,11 @@ export function SegmentBuilderModal({
                                         key={v}
                                         variant="default"
                                         size="sm"
-                                        className="h-auto py-0.5 px-2 text-xs"
+                                        className="h-auto px-2 py-0.5 text-xs"
                                         onClick={() => toggleMultiValue(v)}
                                         aria-label={`Remove ${v}`}
                                       >
-                                        {v} <X className="h-2.5 w-2.5 ml-1" />
+                                        {v} <X className="ml-1 h-2.5 w-2.5" />
                                       </Button>
                                     ))}
                                   </div>
@@ -582,7 +582,7 @@ export function SegmentBuilderModal({
                                           key={opt.value}
                                           variant="outline"
                                           size="sm"
-                                          className="h-auto py-0.5 px-2 text-xs font-normal"
+                                          className="h-auto px-2 py-0.5 text-xs font-normal"
                                           onClick={() =>
                                             toggleMultiValue(opt.value)
                                           }
@@ -593,7 +593,7 @@ export function SegmentBuilderModal({
                                     {selectedFieldDef.options.length -
                                       newFilterMultiValues.length >
                                       12 && (
-                                      <span className="text-xs text-muted-foreground self-center">
+                                      <span className="text-muted-foreground self-center text-xs">
                                         +
                                         {selectedFieldDef.options.length -
                                           12 -
@@ -656,7 +656,7 @@ export function SegmentBuilderModal({
                                 newFilterMultiValues.length === 0)
                             }
                           >
-                            <Plus className="h-3.5 w-3.5 mr-1" />
+                            <Plus className="mr-1 h-3.5 w-3.5" />
                             Add Filter
                           </Button>
                         </div>
@@ -671,7 +671,7 @@ export function SegmentBuilderModal({
                           setActiveGroupId(group.id);
                         }}
                       >
-                        <Plus className="h-3.5 w-3.5 mr-1" />
+                        <Plus className="mr-1 h-3.5 w-3.5" />
                         Add Filter
                       </Button>
                     )}
@@ -687,26 +687,26 @@ export function SegmentBuilderModal({
               onClick={handleAddGroup}
               className="w-full border-dashed"
             >
-              <Plus className="h-3.5 w-3.5 mr-1" />
+              <Plus className="mr-1 h-3.5 w-3.5" />
               Add Filter Group
             </Button>
           </div>
 
           {/* Estimated Count */}
           {totalFilters > 0 && (
-            <Card className="bg-primary/5 border-primary/20">
+            <Card className="border-primary/20 bg-primary/5">
               <CardContent className="py-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label className="text-sm text-muted-foreground">
+                    <Label className="text-muted-foreground text-sm">
                       Estimated Customers
                     </Label>
-                    <div className="text-2xl font-bold mt-0.5">
+                    <div className="mt-0.5 text-2xl font-bold">
                       ~{estimatedCount}
                     </div>
                   </div>
                   <Users
-                    className="h-10 w-10 text-primary/20"
+                    className="text-primary/20 h-10 w-10"
                     aria-hidden="true"
                   />
                 </div>
@@ -721,7 +721,7 @@ export function SegmentBuilderModal({
           Cancel
         </Button>
         <Button onClick={handleSave} disabled={!name || totalFilters === 0}>
-          <Users className="h-4 w-4 mr-2" />
+          <Users className="mr-2 size-4" />
           {isEditing ? "Update" : "Create"} Segment
         </Button>
       </DialogFooter>

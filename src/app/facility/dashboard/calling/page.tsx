@@ -78,9 +78,9 @@ export default function CallingPage() {
       cell: ({ row }) => (
         <div className="flex items-center gap-2">
           {row.original.type === "inbound" ? (
-            <PhoneIncoming className="h-4 w-4 text-green-600" />
+            <PhoneIncoming className="size-4 text-green-600" />
           ) : (
-            <PhoneOutgoing className="h-4 w-4 text-blue-600" />
+            <PhoneOutgoing className="size-4 text-blue-600" />
           )}
           <Badge
             variant={row.original.type === "inbound" ? "default" : "outline"}
@@ -98,7 +98,7 @@ export default function CallingPage() {
           <div className="font-medium">
             {row.original.clientName || "Unknown Caller"}
           </div>
-          <div className="text-sm text-muted-foreground">
+          <div className="text-muted-foreground text-sm">
             {row.original.from}
           </div>
         </div>
@@ -128,10 +128,10 @@ export default function CallingPage() {
         return (
           <Badge variant={variants[row.original.status]}>
             {row.original.status === "missed" && (
-              <PhoneOff className="h-3 w-3 mr-1 inline" />
+              <PhoneOff className="mr-1 inline h-3 w-3" />
             )}
             {row.original.status === "voicemail" && (
-              <Voicemail className="h-3 w-3 mr-1 inline" />
+              <Voicemail className="mr-1 inline h-3 w-3" />
             )}
             {row.original.status}
           </Badge>
@@ -145,7 +145,7 @@ export default function CallingPage() {
         <Badge variant={row.original.aiHandled ? "default" : "outline"}>
           {row.original.aiHandled ? (
             <>
-              <Zap className="h-3 w-3 mr-1 inline" />
+              <Zap className="mr-1 inline h-3 w-3" />
               AI
             </>
           ) : (
@@ -201,7 +201,7 @@ export default function CallingPage() {
               }}
               title="Play Recording"
             >
-              <Play className="h-4 w-4" />
+              <Play className="size-4" />
             </Button>
           )}
           <Button
@@ -213,7 +213,7 @@ export default function CallingPage() {
             }}
             title="View Details"
           >
-            <AlertCircle className="h-4 w-4" />
+            <AlertCircle className="size-4" />
           </Button>
         </div>
       ),
@@ -230,7 +230,7 @@ export default function CallingPage() {
           <div className="font-medium">
             {row.original.clientName || "Unknown Caller"}
           </div>
-          <div className="text-sm text-muted-foreground">
+          <div className="text-muted-foreground text-sm">
             {row.original.from}
           </div>
         </div>
@@ -263,7 +263,7 @@ export default function CallingPage() {
               alert(`Playing recording...`);
             }}
           >
-            <Play className="h-4 w-4 mr-2" />
+            <Play className="mr-2 size-4" />
             Play
           </Button>
           <Button
@@ -273,7 +273,7 @@ export default function CallingPage() {
               alert(`Downloading recording...`);
             }}
           >
-            <Download className="h-4 w-4" />
+            <Download className="size-4" />
           </Button>
         </div>
       ),
@@ -323,14 +323,14 @@ export default function CallingPage() {
             alert(`Edit routing rule "${row.original.name}"`);
           }}
         >
-          <Settings className="h-4 w-4" />
+          <Settings className="size-4" />
         </Button>
       ),
     },
   ];
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6 p-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -342,12 +342,12 @@ export default function CallingPage() {
       </div>
 
       {/* Live Status & Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
         {/* Live Call Status */}
         <Card className="border-2 border-green-500/20 bg-green-50/50">
           <CardHeader className="pb-2">
             <div className="flex items-center gap-2">
-              <Radio className="h-4 w-4 text-green-600 animate-pulse" />
+              <Radio className="size-4 animate-pulse text-green-600" />
               <CardTitle className="text-sm font-medium">
                 System Status
               </CardTitle>
@@ -355,7 +355,7 @@ export default function CallingPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-600">Online</div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-muted-foreground mt-1 text-xs">
               All systems operational
             </p>
           </CardContent>
@@ -370,18 +370,18 @@ export default function CallingPage() {
           }
         >
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <PhoneOff className="h-4 w-4" />
+            <CardTitle className="flex items-center gap-2 text-sm font-medium">
+              <PhoneOff className="size-4" />
               Missed Calls
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div
-              className={`text-2xl font-bold ${missedCalls.length > 0 ? "text-red-600" : ""}`}
+              className={`text-2xl font-bold ${missedCalls.length > 0 ? `text-red-600` : ""} `}
             >
               {missedCalls.length}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-muted-foreground mt-1 text-xs">
               Require attention
             </p>
           </CardContent>
@@ -396,18 +396,18 @@ export default function CallingPage() {
           }
         >
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <Voicemail className="h-4 w-4" />
+            <CardTitle className="flex items-center gap-2 text-sm font-medium">
+              <Voicemail className="size-4" />
               New Voicemails
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div
-              className={`text-2xl font-bold ${voicemails.length > 0 ? "text-orange-600" : ""}`}
+              className={`text-2xl font-bold ${voicemails.length > 0 ? `text-orange-600` : ""} `}
             >
               {voicemails.length}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-muted-foreground mt-1 text-xs">
               Unread messages
             </p>
           </CardContent>
@@ -416,8 +416,8 @@ export default function CallingPage() {
         {/* Total Calls Today */}
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <PhoneCall className="h-4 w-4" />
+            <CardTitle className="flex items-center gap-2 text-sm font-medium">
+              <PhoneCall className="size-4" />
               Calls Today
             </CardTitle>
           </CardHeader>
@@ -431,7 +431,7 @@ export default function CallingPage() {
                 }).length
               }
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-muted-foreground mt-1 text-xs">
               Inbound & outbound
             </p>
           </CardContent>
@@ -442,11 +442,11 @@ export default function CallingPage() {
       <Tabs defaultValue="dialer" className="space-y-4">
         <TabsList>
           <TabsTrigger value="dialer">
-            <Phone className="h-4 w-4 mr-2" />
+            <Phone className="mr-2 size-4" />
             Dialer
           </TabsTrigger>
           <TabsTrigger value="calls">
-            <PhoneCall className="h-4 w-4 mr-2" />
+            <PhoneCall className="mr-2 size-4" />
             Call Log
             {missedCalls.length > 0 && (
               <Badge variant="destructive" className="ml-2">
@@ -455,7 +455,7 @@ export default function CallingPage() {
             )}
           </TabsTrigger>
           <TabsTrigger value="voicemail">
-            <Voicemail className="h-4 w-4 mr-2" />
+            <Voicemail className="mr-2 size-4" />
             Voicemail
             {voicemails.length > 0 && (
               <Badge variant="destructive" className="ml-2">
@@ -464,7 +464,7 @@ export default function CallingPage() {
             )}
           </TabsTrigger>
           <TabsTrigger value="recordings">
-            <Play className="h-4 w-4 mr-2" />
+            <Play className="mr-2 size-4" />
             Recordings
             {callsWithRecordings.length > 0 && (
               <Badge variant="secondary" className="ml-2">
@@ -473,11 +473,11 @@ export default function CallingPage() {
             )}
           </TabsTrigger>
           <TabsTrigger value="routing">
-            <PhoneForwarded className="h-4 w-4 mr-2" />
+            <PhoneForwarded className="mr-2 size-4" />
             Routing
           </TabsTrigger>
           <TabsTrigger value="analytics" disabled>
-            <BarChart3 className="h-4 w-4 mr-2" />
+            <BarChart3 className="mr-2 size-4" />
             Analytics
           </TabsTrigger>
         </TabsList>
@@ -487,14 +487,14 @@ export default function CallingPage() {
           <Card>
             <CardHeader>
               <CardTitle>Dialer</CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-muted-foreground mt-1 text-sm">
                 Make outbound calls using Twilio integration
               </p>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4 max-w-md mx-auto">
+              <div className="mx-auto max-w-md space-y-4">
                 <div>
-                  <label className="block text-sm font-medium mb-2">
+                  <label className="mb-2 block text-sm font-medium">
                     Phone Number
                   </label>
                   <Input
@@ -549,7 +549,7 @@ export default function CallingPage() {
                     disabled={!phoneNumber.trim()}
                     size="lg"
                   >
-                    <Phone className="h-5 w-5 mr-2" />
+                    <Phone className="mr-2 h-5 w-5" />
                     Dial
                   </Button>
                 </div>
@@ -564,7 +564,7 @@ export default function CallingPage() {
           <Card>
             <CardContent className="pt-6">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2 transform" />
                 <Input
                   placeholder="Search by customer name or phone number..."
                   value={searchQuery}
@@ -576,7 +576,7 @@ export default function CallingPage() {
           </Card>
 
           {/* Call Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium">
@@ -585,7 +585,7 @@ export default function CallingPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{filteredCalls.length}</div>
-                <p className="text-xs text-muted-foreground mt-1">This month</p>
+                <p className="text-muted-foreground mt-1 text-xs">This month</p>
               </CardContent>
             </Card>
 
@@ -599,7 +599,7 @@ export default function CallingPage() {
                 <div className="text-2xl font-bold">
                   {filteredCalls.filter((c) => c.aiHandled).length}
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">
+                <p className="text-muted-foreground mt-1 text-xs">
                   {filteredCalls.length > 0
                     ? (
                         (filteredCalls.filter((c) => c.aiHandled).length /
@@ -629,7 +629,7 @@ export default function CallingPage() {
                     : 0}
                   m
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">Per call</p>
+                <p className="text-muted-foreground mt-1 text-xs">Per call</p>
               </CardContent>
             </Card>
 
@@ -643,7 +643,7 @@ export default function CallingPage() {
                 <div className="text-2xl font-bold">
                   {filteredCalls.filter((c) => c.recordingUrl).length}
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">Available</p>
+                <p className="text-muted-foreground mt-1 text-xs">Available</p>
               </CardContent>
             </Card>
           </div>
@@ -651,7 +651,7 @@ export default function CallingPage() {
           <Card>
             <CardHeader>
               <CardTitle>Call History</CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-muted-foreground mt-1 text-sm">
                 All inbound and outbound calls with search by customer name or
                 phone number
               </p>
@@ -674,12 +674,12 @@ export default function CallingPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle>Voicemail</CardTitle>
-                  <p className="text-sm text-muted-foreground mt-1">
+                  <p className="text-muted-foreground mt-1 text-sm">
                     All voicemail messages from missed calls
                   </p>
                 </div>
                 {voicemails.length > 0 && (
-                  <Badge variant="destructive" className="text-lg px-3 py-1">
+                  <Badge variant="destructive" className="px-3 py-1 text-lg">
                     {voicemails.length} New
                   </Badge>
                 )}
@@ -687,8 +687,8 @@ export default function CallingPage() {
             </CardHeader>
             <CardContent>
               {voicemails.length === 0 ? (
-                <div className="text-center py-8 text-muted-foreground">
-                  <Voicemail className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <div className="text-muted-foreground py-8 text-center">
+                  <Voicemail className="mx-auto mb-4 h-12 w-12 opacity-50" />
                   <p>No voicemails</p>
                 </div>
               ) : (
@@ -708,14 +708,14 @@ export default function CallingPage() {
           <Card>
             <CardHeader>
               <CardTitle>Call Recordings</CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-muted-foreground mt-1 text-sm">
                 All recorded calls available for playback and download
               </p>
             </CardHeader>
             <CardContent>
               {callsWithRecordings.length === 0 ? (
-                <div className="text-center py-8 text-muted-foreground">
-                  <Play className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <div className="text-muted-foreground py-8 text-center">
+                  <Play className="mx-auto mb-4 h-12 w-12 opacity-50" />
                   <p>No recordings available</p>
                 </div>
               ) : (
@@ -737,12 +737,12 @@ export default function CallingPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle>Call Routing Rules</CardTitle>
-                  <p className="text-sm text-muted-foreground mt-1">
+                  <p className="text-muted-foreground mt-1 text-sm">
                     Configure how incoming calls are handled and routed
                   </p>
                 </div>
                 <Button onClick={() => setShowRoutingModal(true)}>
-                  <Plus className="h-4 w-4 mr-2" />
+                  <Plus className="mr-2 size-4" />
                   Add Rule
                 </Button>
               </div>
@@ -763,13 +763,13 @@ export default function CallingPage() {
           <Card>
             <CardHeader>
               <CardTitle>Call Analytics</CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-muted-foreground mt-1 text-sm">
                 Detailed call metrics and insights (Coming soon)
               </p>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-12 text-muted-foreground">
-                <BarChart3 className="h-16 w-16 mx-auto mb-4 opacity-50" />
+              <div className="text-muted-foreground py-12 text-center">
+                <BarChart3 className="mx-auto mb-4 h-16 w-16 opacity-50" />
                 <p>Call Analytics coming soon</p>
               </div>
             </CardContent>
@@ -782,7 +782,7 @@ export default function CallingPage() {
         open={showCallDetailsModal}
         onOpenChange={setShowCallDetailsModal}
       >
-        <DialogContent className="min-w-5xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] min-w-5xl overflow-y-auto">
           {selectedCall && (
             <CallDetailsModal
               call={selectedCall}
@@ -796,7 +796,7 @@ export default function CallingPage() {
       </Dialog>
 
       <Dialog open={showRoutingModal} onOpenChange={setShowRoutingModal}>
-        <DialogContent className="min-w-5xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] min-w-5xl overflow-y-auto">
           <RoutingRuleModal onClose={() => setShowRoutingModal(false)} />
         </DialogContent>
       </Dialog>

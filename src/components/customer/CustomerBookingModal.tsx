@@ -111,15 +111,15 @@ function WizardWrapper({
 }) {
   if (asPage) {
     return (
-      <div className="flex flex-col min-h-[85vh] w-full max-w-5xl mx-auto px-4 py-6">
+      <div className="mx-auto flex min-h-[85vh] w-full max-w-5xl flex-col px-4 py-6">
         {children}
       </div>
     );
   }
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[1600px] w-[98vw] min-w-[90vw] h-[95vh] max-h-[95vh] flex flex-col p-0 overflow-hidden">
-        <DialogHeader className="px-6 pt-6 pb-4 flex-shrink-0">
+      <DialogContent className="flex h-[95vh] max-h-[95vh] w-[98vw] max-w-[1600px] min-w-[90vw] flex-col overflow-hidden p-0">
+        <DialogHeader className="shrink-0 px-6 pt-6 pb-4">
           <DialogTitle>
             {existingBooking ? "Reschedule Booking" : "Book a Service"}
           </DialogTitle>
@@ -1062,13 +1062,13 @@ export function CustomerBookingModal({
       onOpenChange={onOpenChange}
       existingBooking={existingBooking}
     >
-      <div className="relative flex-1 flex flex-col min-h-0 px-6">
+      <div className="relative flex min-h-0 flex-1 flex-col px-6">
         {/* Back à gauche, Next à droite — cercles, légèrement plus petits, grossissent au hover */}
-        <div className="absolute -left-20 top-1/2 -translate-y-1/2 z-10">
+        <div className="absolute top-1/2 -left-20 z-10 -translate-y-1/2">
           <Button
             variant="outline"
             size="lg"
-            className="h-[4rem] w-[4rem] rounded-full p-0 flex items-center justify-center gap-1 transition-transform duration-200 hover:scale-110 disabled:hover:scale-100"
+            className="flex h-16 w-16 items-center justify-center gap-1 rounded-full p-0 transition-transform duration-200 hover:scale-110 disabled:hover:scale-100"
             onClick={handleBack}
             disabled={currentStep === 0}
           >
@@ -1076,11 +1076,11 @@ export function CustomerBookingModal({
             <span className="text-xs">Back</span>
           </Button>
         </div>
-        <div className="absolute -right-20 top-1/2 -translate-y-1/2 z-10">
+        <div className="absolute top-1/2 -right-20 z-10 -translate-y-1/2">
           {currentStep < STEPS.length - 1 ? (
             <Button
               size="lg"
-              className="h-[4rem] w-[4rem] rounded-full p-0 flex items-center justify-center gap-1 transition-transform duration-200 hover:scale-110"
+              className="flex h-16 w-16 items-center justify-center gap-1 rounded-full p-0 transition-transform duration-200 hover:scale-110"
               onClick={handleNext}
               disabled={!canProceed}
             >
@@ -1090,7 +1090,7 @@ export function CustomerBookingModal({
           ) : (
             <Button
               size="lg"
-              className="h-[4rem] w-[4rem] rounded-full p-0 flex items-center justify-center transition-transform duration-200 hover:scale-110"
+              className="flex h-16 w-16 items-center justify-center rounded-full p-0 transition-transform duration-200 hover:scale-110"
               onClick={handleSubmit}
               disabled={isSubmitting}
             >
@@ -1104,15 +1104,15 @@ export function CustomerBookingModal({
         </div>
 
         {/* Stepper */}
-        <div className="mb-6 flex-shrink-0">
+        <div className="mb-6 shrink-0">
           <Stepper
             steps={STEPS.map((s) => ({ id: s.id, title: s.label }))}
             currentStep={currentStep}
           />
         </div>
 
-        <div className="flex-1 min-h-0 flex flex-col">
-          <ScrollArea className="flex-1 pr-4 max-h-[calc(95vh-280px)]">
+        <div className="flex min-h-0 flex-1 flex-col">
+          <ScrollArea className="max-h-[calc(95vh-280px)] flex-1 pr-4">
             <div className="space-y-6 pb-4">
               {/* Step 1: Pet Selection */}
               {currentStep === 0 && (
@@ -1130,7 +1130,7 @@ export function CustomerBookingModal({
                             : "border-warning"
                         }
                       >
-                        <Syringe className="h-4 w-4" />
+                        <Syringe className="size-4" />
                         <AlertDescription>
                           <div className="space-y-2">
                             <p className="font-semibold">
@@ -1147,7 +1147,7 @@ export function CustomerBookingModal({
                             ))}
                             {facilityConfig.vaccinationRequirements
                               .mandatoryRecords && (
-                              <p className="text-sm font-medium text-destructive">
+                              <p className="text-destructive text-sm font-medium">
                                 Please update vaccinations before booking.
                               </p>
                             )}
@@ -1174,9 +1174,17 @@ export function CustomerBookingModal({
                           key={pet.id}
                           className={`cursor-pointer transition-all ${
                             selectedPetIds.includes(pet.id)
-                              ? "ring-2 ring-primary"
+                              ? "ring-primary ring-2"
                               : "hover:border-primary/50"
-                          } ${isBlocked ? "opacity-50 cursor-not-allowed border-destructive/50" : ""} ${hasVaxIssues && !isBlocked ? "border-yellow-200 bg-yellow-50/50" : ""}`}
+                          } ${
+                            isBlocked
+                              ? `border-destructive/50 cursor-not-allowed opacity-50`
+                              : ""
+                          } ${
+                            hasVaxIssues && !isBlocked
+                              ? `border-yellow-200 bg-yellow-50/50`
+                              : ""
+                          } `}
                           onClick={() => {
                             if (isBlocked) {
                               toast.error(
@@ -1217,11 +1225,11 @@ export function CustomerBookingModal({
                               <div className="flex-1">
                                 <div className="flex items-center justify-between">
                                   <h3 className="font-semibold">{pet.name}</h3>
-                                  <div className="flex items-center gap-2 flex-wrap">
+                                  <div className="flex flex-wrap items-center gap-2">
                                     {hasVaxIssues && (
                                       <Badge
                                         variant="destructive"
-                                        className="text-xs flex items-center gap-1"
+                                        className="flex items-center gap-1 text-xs"
                                       >
                                         <Syringe className="h-3 w-3" />
                                         {petVaxStatus.missing.length > 0
@@ -1241,25 +1249,25 @@ export function CustomerBookingModal({
                                       )}
                                   </div>
                                 </div>
-                                <p className="text-sm text-muted-foreground">
+                                <p className="text-muted-foreground text-sm">
                                   {pet.breed} • {pet.age} years old
                                 </p>
                                 {(hasVaxIssues ||
                                   (bookingFlow.evaluationRequired &&
                                     !hasValidEvaluation(pet))) && (
-                                  <div className="flex flex-wrap items-center gap-2 mt-2">
+                                  <div className="mt-2 flex flex-wrap items-center gap-2">
                                     {(hasVaxIssues ||
                                       !hasValidEvaluation(pet)) && (
                                       <a
                                         href={`/customer/pets/${pet.id}`}
-                                        className="text-xs font-medium text-primary hover:underline"
+                                        className="text-primary text-xs font-medium hover:underline"
                                         onClick={(e) => e.stopPropagation()}
                                       >
                                         Fix now →
                                       </a>
                                     )}
                                     {hasVaxIssues && (
-                                      <span className="text-xs text-destructive">
+                                      <span className="text-destructive text-xs">
                                         {petVaxStatus.missing.length > 0 &&
                                           `${petVaxStatus.missing.join(", ")} missing. `}
                                         {petVaxStatus.expired.length > 0 &&
@@ -1294,12 +1302,12 @@ export function CustomerBookingModal({
                     bookingFlow.hideServicesUntilEvaluationCompleted &&
                     selectedPetIds.length === 0 && (
                       <Alert className="border-amber-200 bg-amber-50 dark:bg-amber-950/20">
-                        <AlertCircle className="h-4 w-4 text-amber-600" />
+                        <AlertCircle className="size-4 text-amber-600" />
                         <AlertDescription>
                           <p className="font-semibold text-amber-800 dark:text-amber-200">
                             Book an evaluation first
                           </p>
-                          <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">
+                          <p className="mt-1 text-sm text-amber-700 dark:text-amber-300">
                             You must book an evaluation before you can book any
                             other services. Select your pet(s) above, then
                             choose Evaluation below.
@@ -1322,17 +1330,17 @@ export function CustomerBookingModal({
                       if (petsNeedingEvaluation.length > 0) {
                         return (
                           <Alert className="border-warning bg-warning/10">
-                            <AlertCircle className="h-4 w-4 text-warning" />
+                            <AlertCircle className="text-warning size-4" />
                             <AlertDescription>
-                              <p className="font-semibold text-warning">
+                              <p className="text-warning font-semibold">
                                 Evaluation required
                               </p>
-                              <p className="text-sm mt-1">
+                              <p className="mt-1 text-sm">
                                 {petsNeedingEvaluation.length === 1
                                   ? `${petsNeedingEvaluation[0].name} needs to complete an evaluation before booking other services.`
                                   : `The following pets need an evaluation first: ${petsNeedingEvaluation.map((p) => p.name).join(", ")}`}
                               </p>
-                              <p className="text-xs text-muted-foreground mt-2">
+                              <p className="text-muted-foreground mt-2 text-xs">
                                 Book an evaluation below. Once completed and
                                 approved, you can book other services.
                               </p>
@@ -1343,7 +1351,7 @@ export function CustomerBookingModal({
                       return null;
                     })()}
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 px-1 py-2">
+                  <div className="grid grid-cols-1 gap-4 px-1 py-2 sm:grid-cols-2">
                     {availableServices.map((service) => {
                       const Icon = service.icon;
                       const config =
@@ -1375,17 +1383,17 @@ export function CustomerBookingModal({
                       return (
                         <div
                           key={service.id}
-                          className={`relative flex flex-col min-h-[240px] border-2 rounded-lg transition-all overflow-hidden ${
+                          className={`relative flex min-h-[240px] flex-col overflow-hidden rounded-lg border-2 transition-all ${
                             isDisabled
-                              ? "opacity-50 cursor-not-allowed"
+                              ? "cursor-not-allowed opacity-50"
                               : "cursor-pointer"
                           } ${
                             selectedService === service.id && !isDisabled
-                              ? "border-primary bg-primary/5 ring-2 ring-primary shadow-sm"
+                              ? `border-primary bg-primary/5 ring-primary shadow-sm ring-2`
                               : !isDisabled
-                                ? "hover:border-primary/50 hover:shadow"
+                                ? "hover:border-primary/50 hover:shadow-sm"
                                 : ""
-                          }`}
+                          } `}
                           onClick={() =>
                             !isDisabled && handleServiceSelect(service.id)
                           }
@@ -1397,7 +1405,7 @@ export function CustomerBookingModal({
                               </Badge>
                             </div>
                           )}
-                          <div className="w-full h-28 shrink-0 bg-muted relative">
+                          <div className="bg-muted relative h-28 w-full shrink-0">
                             {config?.bannerImage ? (
                               <Image
                                 src={config.bannerImage}
@@ -1416,44 +1424,44 @@ export function CustomerBookingModal({
                               />
                             ) : (
                               <div
-                                className={`w-full h-full flex items-center justify-center ${
+                                className={`flex h-full w-full items-center justify-center ${
                                   selectedService === service.id && !isDisabled
                                     ? "bg-primary text-primary-foreground"
                                     : "bg-muted"
-                                }`}
+                                } `}
                               >
                                 <Icon className="h-10 w-10" />
                               </div>
                             )}
                           </div>
-                          <div className="p-3 flex flex-col flex-1 space-y-1.5">
+                          <div className="flex flex-1 flex-col space-y-1.5 p-3">
                             <div className="flex items-start justify-between gap-2">
-                              <h3 className="font-semibold text-base leading-tight">
+                              <h3 className="text-base/tight font-semibold">
                                 {displayName}
                               </h3>
                               {selectedService === service.id &&
                                 !isDisabled && (
-                                  <CheckCircle className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                                  <CheckCircle className="text-primary mt-0.5 size-4 shrink-0" />
                                 )}
                             </div>
-                            <p className="text-xs text-muted-foreground line-clamp-2">
+                            <p className="text-muted-foreground line-clamp-2 text-xs">
                               {displayDesc}
                             </p>
                             {included && included.length > 0 && (
-                              <ul className="text-xs text-muted-foreground space-y-0.5 mt-0.5">
+                              <ul className="text-muted-foreground mt-0.5 space-y-0.5 text-xs">
                                 {included.slice(0, 3).map((item, i) => (
                                   <li
                                     key={i}
                                     className="flex items-center gap-1"
                                   >
-                                    <CheckCircle className="h-3 w-3 text-primary shrink-0" />
+                                    <CheckCircle className="text-primary h-3 w-3 shrink-0" />
                                     {item}
                                   </li>
                                 ))}
                               </ul>
                             )}
                             <div className="mt-auto pt-1">
-                              <p className="font-bold text-primary text-sm">
+                              <p className="text-primary text-sm font-bold">
                                 {isEvaluation
                                   ? `$${displayPrice}`
                                   : `From $${displayPrice}`}
@@ -1471,7 +1479,7 @@ export function CustomerBookingModal({
               {currentStep === 2 && (
                 <div className="space-y-4 px-2 py-2">
                   {detailsSubStepCount > 1 && (
-                    <p className="text-sm text-muted-foreground font-medium">
+                    <p className="text-muted-foreground text-sm font-medium">
                       Step {currentDetailsSubStep + 1} of {detailsSubStepCount}
                     </p>
                   )}
@@ -1481,15 +1489,15 @@ export function CustomerBookingModal({
                     <>
                       {selectedService === "daycare" && (
                         <Card>
-                          <CardContent className="p-4 space-y-4">
+                          <CardContent className="space-y-4 p-4">
                             <Label className="text-base">
                               Select Daycare Days
                             </Label>
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-muted-foreground text-xs">
                               Drop-off and pick-up times use the same time
                               slider as the facility booking flow.
                             </p>
-                            <p className="text-xs text-muted-foreground italic">
+                            <p className="text-muted-foreground text-xs italic">
                               Play area and group are assigned by the facility.
                             </p>
                             <DateSelectionCalendar
@@ -1520,11 +1528,11 @@ export function CustomerBookingModal({
                       )}
                       {selectedService === "boarding" && (
                         <Card>
-                          <CardContent className="p-4 space-y-4">
+                          <CardContent className="space-y-4 p-4">
                             <Label className="text-base">
                               Select Boarding Dates
                             </Label>
-                            <p className="text-xs text-muted-foreground mb-2">
+                            <p className="text-muted-foreground mb-2 text-xs">
                               Choose check-in and check-out dates, then set
                               times with the slider (same as facility).
                             </p>
@@ -1573,7 +1581,7 @@ export function CustomerBookingModal({
                         selectedService === "evaluation" ||
                         selectedService === "training") && (
                         <Card>
-                          <CardContent className="p-4 space-y-4">
+                          <CardContent className="space-y-4 p-4">
                             <Label className="text-base">
                               {selectedService === "grooming"
                                 ? "Appointment Date & Time"
@@ -1692,12 +1700,12 @@ export function CustomerBookingModal({
                           <Label className="text-base font-semibold">
                             Add-ons
                           </Label>
-                          <p className="text-sm text-muted-foreground mt-1">
+                          <p className="text-muted-foreground mt-1 text-sm">
                             Add optional services to enhance your pet&apos;s
                             daycare experience
                           </p>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                           {eligibleAddons.map((addon) => {
                             const applyTo = addOnApplyTo[addon.id] ?? "all";
                             const isAll = applyTo === "all";
@@ -1718,9 +1726,9 @@ export function CustomerBookingModal({
                             return (
                               <Card
                                 key={addon.id}
-                                className={`flex flex-col min-h-[240px] overflow-hidden ${totalQty > 0 ? "ring-2 ring-primary" : ""}`}
+                                className={`flex min-h-[240px] flex-col overflow-hidden ${totalQty > 0 ? `ring-primary ring-2` : ""} `}
                               >
-                                <div className="h-28 w-full shrink-0 bg-muted relative">
+                                <div className="bg-muted relative h-28 w-full shrink-0">
                                   <Image
                                     src={addon.image}
                                     alt={addon.name}
@@ -1729,18 +1737,18 @@ export function CustomerBookingModal({
                                     unoptimized
                                   />
                                 </div>
-                                <CardContent className="p-3 flex flex-col flex-1 space-y-2">
+                                <CardContent className="flex flex-1 flex-col space-y-2 p-3">
                                   <div>
-                                    <h4 className="font-semibold text-sm">
+                                    <h4 className="text-sm font-semibold">
                                       {addon.name}
                                     </h4>
-                                    <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
+                                    <p className="text-muted-foreground mt-0.5 line-clamp-2 text-xs">
                                       {addon.description}
                                     </p>
                                   </div>
                                   {addon.included &&
                                     addon.included.length > 0 && (
-                                      <ul className="text-xs text-muted-foreground space-y-0.5">
+                                      <ul className="text-muted-foreground space-y-0.5 text-xs">
                                         {addon.included
                                           .slice(0, 2)
                                           .map((item, i) => (
@@ -1748,19 +1756,19 @@ export function CustomerBookingModal({
                                               key={i}
                                               className="flex items-center gap-1"
                                             >
-                                              <CheckCircle className="h-3 w-3 text-primary shrink-0" />
+                                              <CheckCircle className="text-primary h-3 w-3 shrink-0" />
                                               {item}
                                             </li>
                                           ))}
                                       </ul>
                                     )}
-                                  <p className="font-semibold text-primary text-sm">
+                                  <p className="text-primary text-sm font-semibold">
                                     {addon.hasUnits
                                       ? `$${addon.pricePerUnit} / ${addon.unit}`
                                       : `$${addon.basePrice}`}
                                   </p>
                                   <div className="flex flex-wrap items-center gap-2">
-                                    <span className="text-xs text-muted-foreground">
+                                    <span className="text-muted-foreground text-xs">
                                       Apply to:
                                     </span>
                                     <Select
@@ -1815,7 +1823,7 @@ export function CustomerBookingModal({
                                       </SelectContent>
                                     </Select>
                                   </div>
-                                  <div className="flex items-center gap-2 mt-auto pt-0.5">
+                                  <div className="mt-auto flex items-center gap-2 pt-0.5">
                                     {addon.hasUnits ? (
                                       <>
                                         <Button
@@ -1851,7 +1859,7 @@ export function CustomerBookingModal({
                                         >
                                           -
                                         </Button>
-                                        <span className="text-xs font-medium min-w-[2ch] text-center">
+                                        <span className="min-w-[2ch] text-center text-xs font-medium">
                                           {currentQty}
                                         </span>
                                         <Button
@@ -1926,7 +1934,7 @@ export function CustomerBookingModal({
                                       >
                                         {currentQty > 0 ? (
                                           <>
-                                            <CheckCircle className="h-3 w-3 mr-1" />{" "}
+                                            <CheckCircle className="mr-1 h-3 w-3" />{" "}
                                             Added
                                           </>
                                         ) : (
@@ -1948,7 +1956,7 @@ export function CustomerBookingModal({
                     selectedService === "boarding" && (
                       <div className="space-y-4 px-1 py-2">
                         <Label className="text-base">Choose room type</Label>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-muted-foreground text-sm">
                           {allowDifferentRoomPerPet
                             ? "Select a room type for each pet. Only rooms that fit your pets are shown."
                             : "One room type will apply to all pets."}
@@ -1969,11 +1977,11 @@ export function CustomerBookingModal({
                               return (
                                 <Card key={pet.id}>
                                   <CardContent className="p-4">
-                                    <p className="font-medium mb-3">
-                                      <PawPrint className="inline h-4 w-4 mr-1" />
+                                    <p className="mb-3 font-medium">
+                                      <PawPrint className="mr-1 inline size-4" />
                                       {pet.name} ({pet.type}, {pet.weight} lbs)
                                     </p>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                                       {eligibleBoardingRooms.map((room) => {
                                         const available =
                                           room.totalRooms - room.bookedRooms;
@@ -1995,13 +2003,17 @@ export function CustomerBookingModal({
                                                 ]);
                                               }
                                             }}
-                                            className={`flex flex-col min-h-[220px] border-2 rounded-lg overflow-hidden cursor-pointer transition-all ${
+                                            className={`flex min-h-[220px] cursor-pointer flex-col overflow-hidden rounded-lg border-2 transition-all ${
                                               isSelected
                                                 ? "border-primary bg-primary/5"
-                                                : "border-border hover:border-primary/50"
-                                            } ${available === 0 ? "opacity-60 cursor-not-allowed" : ""}`}
+                                                : `border-border hover:border-primary/50`
+                                            } ${
+                                              available === 0
+                                                ? `cursor-not-allowed opacity-60`
+                                                : ""
+                                            } `}
                                           >
-                                            <div className="h-28 bg-muted relative shrink-0">
+                                            <div className="bg-muted relative h-28 shrink-0">
                                               {room.image ? (
                                                 <Image
                                                   src={room.image}
@@ -2011,27 +2023,27 @@ export function CustomerBookingModal({
                                                   unoptimized
                                                 />
                                               ) : (
-                                                <div className="w-full h-full flex items-center justify-center">
-                                                  <Bed className="h-8 w-8 text-muted-foreground" />
+                                                <div className="flex h-full w-full items-center justify-center">
+                                                  <Bed className="text-muted-foreground h-8 w-8" />
                                                 </div>
                                               )}
                                               {isSelected && (
-                                                <div className="absolute top-2 right-2 bg-primary text-primary-foreground rounded-full p-1">
-                                                  <CheckCircle className="h-4 w-4" />
+                                                <div className="bg-primary text-primary-foreground absolute top-2 right-2 rounded-full p-1">
+                                                  <CheckCircle className="size-4" />
                                                 </div>
                                               )}
                                             </div>
-                                            <div className="p-2.5 flex flex-col flex-1">
-                                              <h4 className="font-semibold text-sm">
+                                            <div className="flex flex-1 flex-col p-2.5">
+                                              <h4 className="text-sm font-semibold">
                                                 {room.name}
                                               </h4>
-                                              <p className="text-primary font-bold text-xs mt-0.5">
+                                              <p className="text-primary mt-0.5 text-xs font-bold">
                                                 ${room.price}/night
                                               </p>
-                                              <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
+                                              <p className="text-muted-foreground mt-0.5 line-clamp-2 text-xs">
                                                 {room.description}
                                               </p>
-                                              <ul className="text-xs text-muted-foreground mt-1 space-y-0.5">
+                                              <ul className="text-muted-foreground mt-1 space-y-0.5 text-xs">
                                                 {room.included
                                                   .slice(0, 3)
                                                   .map((item, i) => (
@@ -2039,12 +2051,12 @@ export function CustomerBookingModal({
                                                       key={i}
                                                       className="flex items-center gap-1"
                                                     >
-                                                      <CheckCircle className="h-3 w-3 text-primary shrink-0" />
+                                                      <CheckCircle className="text-primary h-3 w-3 shrink-0" />
                                                       {item}
                                                     </li>
                                                   ))}
                                               </ul>
-                                              <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
+                                              <div className="text-muted-foreground mt-1 flex items-center gap-1 text-xs">
                                                 {room.allowedPetTypes.includes(
                                                   "Dog",
                                                 ) && (
@@ -2068,7 +2080,7 @@ export function CustomerBookingModal({
                                                   </span>
                                                 )}
                                               </div>
-                                              <p className="text-xs mt-0.5">
+                                              <p className="mt-0.5 text-xs">
                                                 {available <= 2
                                                   ? "Limited availability"
                                                   : `${available} available`}
@@ -2077,7 +2089,7 @@ export function CustomerBookingModal({
                                                 type="button"
                                                 variant="ghost"
                                                 size="sm"
-                                                className="mt-auto w-full text-xs h-7"
+                                                className="mt-auto h-7 w-full text-xs"
                                                 onClick={(e) => {
                                                   e.stopPropagation();
                                                   setDetailsOpen({
@@ -2086,7 +2098,7 @@ export function CustomerBookingModal({
                                                   });
                                                 }}
                                               >
-                                                <Info className="h-3.5 w-3.5 mr-1" />
+                                                <Info className="mr-1 h-3.5 w-3.5" />
                                                 View details
                                               </Button>
                                             </div>
@@ -2100,7 +2112,7 @@ export function CustomerBookingModal({
                             })}
                           </div>
                         ) : (
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                             {eligibleBoardingRooms.map((room) => {
                               const available =
                                 room.totalRooms - room.bookedRooms;
@@ -2114,11 +2126,15 @@ export function CustomerBookingModal({
                               return (
                                 <div
                                   key={room.id}
-                                  className={`flex flex-col min-h-[260px] border-2 rounded-lg overflow-hidden cursor-pointer transition-all ${
+                                  className={`flex min-h-[260px] cursor-pointer flex-col overflow-hidden rounded-lg border-2 transition-all ${
                                     isSelected
-                                      ? "ring-2 ring-primary border-primary bg-primary/5"
-                                      : "border-border hover:border-primary/50"
-                                  } ${available === 0 ? "opacity-60 cursor-not-allowed" : ""}`}
+                                      ? `border-primary bg-primary/5 ring-primary ring-2`
+                                      : `border-border hover:border-primary/50`
+                                  } ${
+                                    available === 0
+                                      ? `cursor-not-allowed opacity-60`
+                                      : ""
+                                  } `}
                                   onClick={() => {
                                     if (available > 0) {
                                       setRoomAssignments(
@@ -2130,7 +2146,7 @@ export function CustomerBookingModal({
                                     }
                                   }}
                                 >
-                                  <div className="h-32 bg-muted relative shrink-0">
+                                  <div className="bg-muted relative h-32 shrink-0">
                                     {room.image ? (
                                       <Image
                                         src={room.image}
@@ -2140,27 +2156,27 @@ export function CustomerBookingModal({
                                         unoptimized
                                       />
                                     ) : (
-                                      <div className="w-full h-full flex items-center justify-center bg-muted">
-                                        <Bed className="h-10 w-10 text-muted-foreground" />
+                                      <div className="bg-muted flex h-full w-full items-center justify-center">
+                                        <Bed className="text-muted-foreground h-10 w-10" />
                                       </div>
                                     )}
                                     {isSelected && (
-                                      <div className="absolute top-2 right-2 bg-primary text-primary-foreground rounded-full p-1">
+                                      <div className="bg-primary text-primary-foreground absolute top-2 right-2 rounded-full p-1">
                                         <CheckCircle className="h-5 w-5" />
                                       </div>
                                     )}
                                   </div>
-                                  <div className="p-3 flex flex-col flex-1">
-                                    <h3 className="font-semibold text-base">
+                                  <div className="flex flex-1 flex-col p-3">
+                                    <h3 className="text-base font-semibold">
                                       {room.name}
                                     </h3>
-                                    <p className="text-primary font-bold text-sm mt-0.5">
+                                    <p className="text-primary mt-0.5 text-sm font-bold">
                                       ${room.price}/night
                                     </p>
-                                    <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
+                                    <p className="text-muted-foreground mt-0.5 line-clamp-2 text-xs">
                                       {room.description}
                                     </p>
-                                    <ul className="text-xs text-muted-foreground mt-1 space-y-0.5">
+                                    <ul className="text-muted-foreground mt-1 space-y-0.5 text-xs">
                                       {room.included
                                         .slice(0, 4)
                                         .map((item, i) => (
@@ -2168,12 +2184,12 @@ export function CustomerBookingModal({
                                             key={i}
                                             className="flex items-center gap-1"
                                           >
-                                            <CheckCircle className="h-3 w-3 text-primary shrink-0" />
+                                            <CheckCircle className="text-primary h-3 w-3 shrink-0" />
                                             {item}
                                           </li>
                                         ))}
                                     </ul>
-                                    <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
+                                    <div className="text-muted-foreground mt-1 flex items-center gap-2 text-xs">
                                       {room.allowedPetTypes.includes("Dog") && (
                                         <Dog className="h-3.5 w-3.5" />
                                       )}
@@ -2190,7 +2206,7 @@ export function CustomerBookingModal({
                                         </span>
                                       )}
                                     </div>
-                                    <p className="text-xs text-muted-foreground mt-1">
+                                    <p className="text-muted-foreground mt-1 text-xs">
                                       {available <= 2
                                         ? "Limited availability"
                                         : `${available} available`}
@@ -2199,7 +2215,7 @@ export function CustomerBookingModal({
                                       type="button"
                                       variant="outline"
                                       size="sm"
-                                      className="mt-auto w-full text-xs h-8"
+                                      className="mt-auto h-8 w-full text-xs"
                                       onClick={(e) => {
                                         e.stopPropagation();
                                         setDetailsOpen({
@@ -2208,7 +2224,7 @@ export function CustomerBookingModal({
                                         });
                                       }}
                                     >
-                                      <Info className="h-3.5 w-3.5 mr-1" />
+                                      <Info className="mr-1 h-3.5 w-3.5" />
                                       View details
                                     </Button>
                                   </div>
@@ -2228,12 +2244,12 @@ export function CustomerBookingModal({
                           <Label className="text-base font-semibold">
                             Add-ons
                           </Label>
-                          <p className="text-sm text-muted-foreground mt-1">
+                          <p className="text-muted-foreground mt-1 text-sm">
                             Add optional services to enhance your pet&apos;s
                             boarding experience
                           </p>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                           {eligibleAddons.map((addon) => {
                             const applyTo = addOnApplyTo[addon.id] ?? "all";
                             const isAll = applyTo === "all";
@@ -2254,9 +2270,9 @@ export function CustomerBookingModal({
                             return (
                               <Card
                                 key={addon.id}
-                                className={`flex flex-col min-h-[240px] overflow-hidden ${totalQty > 0 ? "ring-2 ring-primary" : ""}`}
+                                className={`flex min-h-[240px] flex-col overflow-hidden ${totalQty > 0 ? `ring-primary ring-2` : ""} `}
                               >
-                                <div className="h-28 w-full shrink-0 bg-muted relative">
+                                <div className="bg-muted relative h-28 w-full shrink-0">
                                   <Image
                                     src={addon.image}
                                     alt={addon.name}
@@ -2265,18 +2281,18 @@ export function CustomerBookingModal({
                                     unoptimized
                                   />
                                 </div>
-                                <CardContent className="p-3 flex flex-col flex-1 space-y-2">
+                                <CardContent className="flex flex-1 flex-col space-y-2 p-3">
                                   <div>
-                                    <h4 className="font-semibold text-sm">
+                                    <h4 className="text-sm font-semibold">
                                       {addon.name}
                                     </h4>
-                                    <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
+                                    <p className="text-muted-foreground mt-0.5 line-clamp-2 text-xs">
                                       {addon.description}
                                     </p>
                                   </div>
                                   {addon.included &&
                                     addon.included.length > 0 && (
-                                      <ul className="text-xs text-muted-foreground space-y-0.5">
+                                      <ul className="text-muted-foreground space-y-0.5 text-xs">
                                         {addon.included
                                           .slice(0, 2)
                                           .map((item, i) => (
@@ -2284,19 +2300,19 @@ export function CustomerBookingModal({
                                               key={i}
                                               className="flex items-center gap-1"
                                             >
-                                              <CheckCircle className="h-3 w-3 text-primary shrink-0" />
+                                              <CheckCircle className="text-primary h-3 w-3 shrink-0" />
                                               {item}
                                             </li>
                                           ))}
                                       </ul>
                                     )}
-                                  <p className="font-semibold text-primary text-sm">
+                                  <p className="text-primary text-sm font-semibold">
                                     {addon.hasUnits
                                       ? `$${addon.pricePerUnit} / ${addon.unit}`
                                       : `$${addon.basePrice}`}
                                   </p>
                                   <div className="flex flex-wrap items-center gap-2">
-                                    <span className="text-xs text-muted-foreground">
+                                    <span className="text-muted-foreground text-xs">
                                       Apply to:
                                     </span>
                                     <Select
@@ -2351,7 +2367,7 @@ export function CustomerBookingModal({
                                       </SelectContent>
                                     </Select>
                                   </div>
-                                  <div className="flex items-center gap-2 mt-auto pt-0.5">
+                                  <div className="mt-auto flex items-center gap-2 pt-0.5">
                                     {addon.hasUnits ? (
                                       <>
                                         <Button
@@ -2387,7 +2403,7 @@ export function CustomerBookingModal({
                                         >
                                           −
                                         </Button>
-                                        <span className="text-xs font-medium min-w-[2ch] text-center">
+                                        <span className="min-w-[2ch] text-center text-xs font-medium">
                                           {currentQty}
                                         </span>
                                         <Button
@@ -2461,7 +2477,7 @@ export function CustomerBookingModal({
                                       >
                                         {currentQty > 0 ? (
                                           <>
-                                            <CheckCircle className="h-3 w-3 mr-1" />{" "}
+                                            <CheckCircle className="mr-1 h-3 w-3" />{" "}
                                             Added
                                           </>
                                         ) : (
@@ -2485,27 +2501,27 @@ export function CustomerBookingModal({
                         <Label className="text-base">
                           Choose a grooming package
                         </Label>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-muted-foreground text-sm">
                           Select one package. Add-ons (e.g. nail trim, teeth
                           brushing) are on the next step.
                         </p>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                           {GROOMING_PACKAGES.map((pkg) => {
                             const isSelected =
                               selectedGroomingPackage === pkg.id;
                             return (
                               <div
                                 key={pkg.id}
-                                className={`flex flex-col min-h-[260px] border-2 rounded-lg overflow-hidden cursor-pointer transition-all ${
+                                className={`flex min-h-[260px] cursor-pointer flex-col overflow-hidden rounded-lg border-2 transition-all ${
                                   isSelected
-                                    ? "ring-2 ring-primary border-primary bg-primary/5"
-                                    : "border-border hover:border-primary/50"
-                                }`}
+                                    ? `border-primary bg-primary/5 ring-primary ring-2`
+                                    : `border-border hover:border-primary/50`
+                                } `}
                                 onClick={() =>
                                   setSelectedGroomingPackage(pkg.id)
                                 }
                               >
-                                <div className="h-32 bg-muted relative shrink-0">
+                                <div className="bg-muted relative h-32 shrink-0">
                                   {pkg.image ? (
                                     <Image
                                       src={pkg.image}
@@ -2515,38 +2531,38 @@ export function CustomerBookingModal({
                                       unoptimized
                                     />
                                   ) : (
-                                    <div className="w-full h-full flex items-center justify-center bg-muted">
-                                      <Scissors className="h-8 w-8 text-muted-foreground" />
+                                    <div className="bg-muted flex h-full w-full items-center justify-center">
+                                      <Scissors className="text-muted-foreground h-8 w-8" />
                                     </div>
                                   )}
                                   {isSelected && (
-                                    <div className="absolute top-2 right-2 bg-primary text-primary-foreground rounded-full p-1">
+                                    <div className="bg-primary text-primary-foreground absolute top-2 right-2 rounded-full p-1">
                                       <CheckCircle className="h-5 w-5" />
                                     </div>
                                   )}
                                 </div>
-                                <div className="p-3 flex flex-col flex-1">
-                                  <h3 className="font-semibold text-base">
+                                <div className="flex flex-1 flex-col p-3">
+                                  <h3 className="text-base font-semibold">
                                     {pkg.name}
                                   </h3>
-                                  <p className="text-primary font-bold text-sm mt-0.5">
+                                  <p className="text-primary mt-0.5 text-sm font-bold">
                                     From ${pkg.price}
                                   </p>
-                                  <p className="text-xs text-muted-foreground mt-0.5">
+                                  <p className="text-muted-foreground mt-0.5 text-xs">
                                     ~{pkg.durationMinutes} min
                                   </p>
                                   {pkg.notes && (
-                                    <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
+                                    <p className="text-muted-foreground mt-0.5 line-clamp-2 text-xs">
                                       {pkg.notes}
                                     </p>
                                   )}
-                                  <ul className="text-xs text-muted-foreground mt-1 space-y-0.5">
+                                  <ul className="text-muted-foreground mt-1 space-y-0.5 text-xs">
                                     {pkg.included.slice(0, 4).map((item, i) => (
                                       <li
                                         key={i}
                                         className="flex items-center gap-1"
                                       >
-                                        <CheckCircle className="h-3 w-3 text-primary shrink-0" />
+                                        <CheckCircle className="text-primary h-3 w-3 shrink-0" />
                                         {item}
                                       </li>
                                     ))}
@@ -2555,7 +2571,7 @@ export function CustomerBookingModal({
                                     type="button"
                                     variant="outline"
                                     size="sm"
-                                    className="mt-auto w-full text-xs h-8"
+                                    className="mt-auto h-8 w-full text-xs"
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       setDetailsOpen({
@@ -2564,7 +2580,7 @@ export function CustomerBookingModal({
                                       });
                                     }}
                                   >
-                                    <Info className="h-3.5 w-3.5 mr-1" />
+                                    <Info className="mr-1 h-3.5 w-3.5" />
                                     View details
                                   </Button>
                                 </div>
@@ -2580,11 +2596,11 @@ export function CustomerBookingModal({
                     selectedService === "grooming" && (
                       <div className="space-y-4 px-1 py-2">
                         <Label className="text-base">Add-ons (optional)</Label>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-muted-foreground text-sm">
                           Nail trim, teeth brushing, and more. Select any
                           add-ons to include with your package.
                         </p>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                           {GROOMING_ADDONS.map((addon) => {
                             const isSelected = selectedGroomingAddons.includes(
                               addon.id,
@@ -2598,11 +2614,11 @@ export function CustomerBookingModal({
                             return (
                               <div
                                 key={addon.id}
-                                className={`flex flex-col min-h-[200px] border-2 rounded-lg overflow-hidden cursor-pointer transition-all ${
+                                className={`flex min-h-[200px] cursor-pointer flex-col overflow-hidden rounded-lg border-2 transition-all ${
                                   isSelected
-                                    ? "ring-2 ring-primary border-primary bg-primary/5"
-                                    : "border-border hover:border-primary/50"
-                                }`}
+                                    ? `border-primary bg-primary/5 ring-primary ring-2`
+                                    : `border-border hover:border-primary/50`
+                                } `}
                                 onClick={() => {
                                   setSelectedGroomingAddons((prev) =>
                                     prev.includes(addon.id)
@@ -2611,7 +2627,7 @@ export function CustomerBookingModal({
                                   );
                                 }}
                               >
-                                <div className="h-24 shrink-0 bg-muted relative">
+                                <div className="bg-muted relative h-24 shrink-0">
                                   {addonWithExtras.image ? (
                                     <Image
                                       src={addonWithExtras.image}
@@ -2621,26 +2637,26 @@ export function CustomerBookingModal({
                                       unoptimized
                                     />
                                   ) : (
-                                    <div className="w-full h-full flex items-center justify-center">
-                                      <Scissors className="h-6 w-6 text-muted-foreground" />
+                                    <div className="flex h-full w-full items-center justify-center">
+                                      <Scissors className="text-muted-foreground h-6 w-6" />
                                     </div>
                                   )}
                                   {isSelected && (
-                                    <div className="absolute top-1.5 right-1.5 bg-primary text-primary-foreground rounded-full p-0.5">
+                                    <div className="bg-primary text-primary-foreground absolute top-1.5 right-1.5 rounded-full p-0.5">
                                       <CheckCircle className="h-3.5 w-3.5" />
                                     </div>
                                   )}
                                 </div>
-                                <div className="p-2.5 flex flex-col flex-1">
-                                  <h4 className="font-semibold text-sm">
+                                <div className="flex flex-1 flex-col p-2.5">
+                                  <h4 className="text-sm font-semibold">
                                     {addon.name}
                                   </h4>
                                   {addonWithExtras.description && (
-                                    <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
+                                    <p className="text-muted-foreground mt-0.5 line-clamp-2 text-xs">
                                       {addonWithExtras.description}
                                     </p>
                                   )}
-                                  <p className="font-semibold text-primary text-sm mt-auto pt-1">
+                                  <p className="text-primary mt-auto pt-1 text-sm font-semibold">
                                     +${addon.price}
                                   </p>
                                 </div>
@@ -2667,10 +2683,10 @@ export function CustomerBookingModal({
               {currentStep === 3 && (
                 <div className="space-y-4">
                   <div>
-                    <h3 className="font-semibold text-base mb-1">
+                    <h3 className="mb-1 text-base font-semibold">
                       Complete Required Forms
                     </h3>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       {requiredFormsStatus.allComplete
                         ? "All requirements are complete. You can proceed to confirm your booking."
                         : "The following items are required before you can confirm your booking."}
@@ -2681,7 +2697,7 @@ export function CustomerBookingModal({
                     <span
                       className={
                         requiredFormsStatus.allComplete
-                          ? "text-green-600 font-semibold"
+                          ? "font-semibold text-green-600"
                           : "text-muted-foreground"
                       }
                     >
@@ -2691,15 +2707,15 @@ export function CustomerBookingModal({
                   </div>
                   {requiredFormsStatus.missing.length > 0 && (
                     <Card>
-                      <CardContent className="p-4 space-y-3">
-                        <p className="text-sm font-medium text-muted-foreground">
+                      <CardContent className="space-y-3 p-4">
+                        <p className="text-muted-foreground text-sm font-medium">
                           Missing requirements
                         </p>
                         <ul className="space-y-2">
                           {requiredFormsStatus.missing.map((item, idx) => (
                             <li
                               key={idx}
-                              className="flex items-center justify-between gap-4 py-2 border-b border-border last:border-0"
+                              className="border-border flex items-center justify-between gap-4 border-b py-2 last:border-0"
                             >
                               <div>
                                 {item.petName && (
@@ -2722,7 +2738,7 @@ export function CustomerBookingModal({
                                 href={item.link}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-primary font-medium text-sm hover:underline shrink-0"
+                                className="text-primary shrink-0 text-sm font-medium hover:underline"
                               >
                                 Fill now →
                               </a>
@@ -2748,20 +2764,20 @@ export function CustomerBookingModal({
                 <div className="space-y-6 py-4">
                   {tipsEnabled ? (
                     <>
-                      <div className="text-center space-y-2">
+                      <div className="space-y-2 text-center">
                         <h3 className="text-2xl font-semibold">
                           Tip Your Care Team
                         </h3>
-                        <p className="text-muted-foreground max-w-md mx-auto">
+                        <p className="text-muted-foreground mx-auto max-w-md">
                           Your tip goes directly to the team who will care for
                           your pet. Any amount is appreciated and helps support
                           our staff.
                         </p>
                       </div>
-                      <Card className="max-w-lg mx-auto">
-                        <CardContent className="p-6 space-y-6">
+                      <Card className="mx-auto max-w-lg">
+                        <CardContent className="space-y-6 p-6">
                           <div>
-                            <p className="text-sm font-medium text-muted-foreground mb-3">
+                            <p className="text-muted-foreground mb-3 text-sm font-medium">
                               Select an amount
                             </p>
                             <div className="grid grid-cols-3 gap-3">
@@ -2778,7 +2794,11 @@ export function CustomerBookingModal({
                                     key={s.label}
                                     variant={isSelected ? "default" : "outline"}
                                     size="lg"
-                                    className={`h-14 text-base font-semibold relative ${isRecommended && !isSelected ? "ring-2 ring-primary ring-offset-2" : ""}`}
+                                    className={`relative h-14 text-base font-semibold ${
+                                      isRecommended && !isSelected
+                                        ? `ring-primary ring-2 ring-offset-2`
+                                        : ""
+                                    } `}
                                     onClick={() =>
                                       isPercent
                                         ? handleTipPercentage(s.value)
@@ -2787,7 +2807,7 @@ export function CustomerBookingModal({
                                   >
                                     {s.label}
                                     {isRecommended && (
-                                      <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 text-[10px] font-normal bg-primary text-primary-foreground px-1.5 py-0.5 rounded">
+                                      <span className="bg-primary text-primary-foreground absolute -top-1.5 left-1/2 -translate-x-1/2 rounded-sm px-1.5 py-0.5 text-[10px] font-normal">
                                         Recommended
                                       </span>
                                     )}
@@ -2801,7 +2821,7 @@ export function CustomerBookingModal({
                               Or enter a custom amount
                             </Label>
                             <div className="flex gap-2">
-                              <span className="flex items-center px-3 rounded-md border bg-muted/50 text-muted-foreground text-sm">
+                              <span className="bg-muted/50 text-muted-foreground flex items-center rounded-md border px-3 text-sm">
                                 $
                               </span>
                               <Input
@@ -2818,12 +2838,12 @@ export function CustomerBookingModal({
                             </div>
                           </div>
                           {tipAmount > 0 && (
-                            <p className="text-sm text-green-600 font-medium text-center">
+                            <p className="text-center text-sm font-medium text-green-600">
                               Thank you! Your ${tipAmount.toFixed(2)} tip will
                               go directly to the team.
                             </p>
                           )}
-                          <div className="pt-2 border-t">
+                          <div className="border-t pt-2">
                             <button
                               type="button"
                               onClick={() => {
@@ -2831,7 +2851,7 @@ export function CustomerBookingModal({
                                 setTipPercentage(null);
                                 setCustomTipAmount("");
                               }}
-                              className="text-sm text-muted-foreground hover:text-foreground underline"
+                              className="text-muted-foreground hover:text-foreground text-sm underline"
                             >
                               No tip
                             </button>
@@ -2840,11 +2860,11 @@ export function CustomerBookingModal({
                       </Card>
                     </>
                   ) : (
-                    <div className="text-center py-8 text-muted-foreground">
+                    <div className="text-muted-foreground py-8 text-center">
                       <p className="font-medium">
                         Tipping is not enabled for this facility.
                       </p>
-                      <p className="text-sm mt-1">
+                      <p className="mt-1 text-sm">
                         Continue to confirm your booking.
                       </p>
                     </div>
@@ -2854,11 +2874,11 @@ export function CustomerBookingModal({
 
               {/* Step 6: Confirm — facility receipt-style */}
               {currentStep === 5 && (
-                <div className="space-y-4 max-w-2xl mx-auto">
+                <div className="mx-auto max-w-2xl space-y-4">
                   {/* Receipt card — same style as facility ConfirmStep */}
-                  <div className="rounded-xl border bg-card shadow-lg overflow-hidden">
+                  <div className="bg-card overflow-hidden rounded-xl border shadow-lg">
                     {/* Header */}
-                    <div className="relative overflow-hidden bg-gradient-to-br from-amber-500 via-orange-500 to-rose-500 px-6 py-6">
+                    <div className="relative overflow-hidden bg-linear-to-br from-amber-500 via-orange-500 to-rose-500 px-6 py-6">
                       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzRjMC0yIDItNCAyLTZzLTItNC0yLTYgMi00IDItNi0yLTQtMi02IDItNCAyLTYtMi00LTIgLTYgMi00IDItNiIvPjwvZz48L2c+PC9zdmc+')] opacity-30" />
                       <div className="relative flex items-center gap-4">
                         <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm">
@@ -2872,7 +2892,7 @@ export function CustomerBookingModal({
                           })()}
                         </div>
                         <div>
-                          <h2 className="text-xl font-bold text-white tracking-tight">
+                          <h2 className="text-xl font-bold tracking-tight text-white">
                             Booking Receipt
                           </h2>
                           <p className="text-sm text-white/90">
@@ -2886,21 +2906,21 @@ export function CustomerBookingModal({
                     {/* Client & Pets */}
                     <div className="p-6">
                       <div className="grid gap-4 sm:grid-cols-2">
-                        <div className="rounded-lg border bg-muted/30 p-4">
-                          <p className="mb-1 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                        <div className="bg-muted/30 rounded-lg border p-4">
+                          <p className="text-muted-foreground mb-1 text-xs font-medium tracking-wider uppercase">
                             Client
                           </p>
-                          <p className="font-semibold text-foreground">
+                          <p className="text-foreground font-semibold">
                             {customer?.name ?? "—"}
                           </p>
                           {customer?.email && (
-                            <p className="mt-0.5 text-sm text-muted-foreground">
+                            <p className="text-muted-foreground mt-0.5 text-sm">
                               {customer.email}
                             </p>
                           )}
                         </div>
-                        <div className="rounded-lg border bg-muted/30 p-4">
-                          <p className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                        <div className="bg-muted/30 rounded-lg border p-4">
+                          <p className="text-muted-foreground mb-2 text-xs font-medium tracking-wider uppercase">
                             Pet{selectedPets.length !== 1 ? "s" : ""}
                           </p>
                           <div className="flex flex-wrap gap-2">
@@ -2922,8 +2942,8 @@ export function CustomerBookingModal({
                     <Separator />
 
                     {/* Service summary */}
-                    <div className="p-6 space-y-3">
-                      <div className="flex justify-between items-center">
+                    <div className="space-y-3 p-6">
+                      <div className="flex items-center justify-between">
                         <div>
                           <p className="font-semibold">
                             {
@@ -2933,7 +2953,7 @@ export function CustomerBookingModal({
                           </p>
                           {selectedService === "grooming" &&
                             selectedGroomingPackage && (
-                              <p className="text-sm text-muted-foreground">
+                              <p className="text-muted-foreground text-sm">
                                 {
                                   GROOMING_PACKAGES.find(
                                     (p) => p.id === selectedGroomingPackage,
@@ -2948,7 +2968,7 @@ export function CustomerBookingModal({
                       </div>
 
                       {/* Date & Time */}
-                      <div className="flex justify-between items-center text-sm">
+                      <div className="flex items-center justify-between text-sm">
                         <div>
                           <p className="text-muted-foreground">Date & Time</p>
                           {selectedService === "daycare" &&
@@ -3106,8 +3126,8 @@ export function CustomerBookingModal({
                       const receiptTotal =
                         calculatedPrice + taxAmount + tipAmount;
                       return (
-                        <div className="p-4 border-t border-dashed">
-                          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground mb-3">
+                        <div className="border-t border-dashed p-4">
+                          <p className="text-muted-foreground mb-3 text-xs font-medium tracking-wider uppercase">
                             Pricing breakdown
                           </p>
                           <div className="space-y-2 text-sm">
@@ -3142,14 +3162,14 @@ export function CustomerBookingModal({
                               </span>
                             </div>
                           </div>
-                          <div className="border-t-2 border-dashed pt-3 mt-3 flex justify-between items-center text-lg font-bold">
+                          <div className="mt-3 flex items-center justify-between border-t-2 border-dashed pt-3 text-lg font-bold">
                             <span>Total</span>
                             <span className="text-primary">
                               ${receiptTotal.toFixed(2)}
                             </span>
                           </div>
                           {requiresDeposit && (
-                            <p className="text-xs text-muted-foreground mt-2">
+                            <p className="text-muted-foreground mt-2 text-xs">
                               ${calculatedDeposit.toFixed(2)} due now · $
                               {(receiptTotal - calculatedDeposit).toFixed(2)} at
                               service
@@ -3160,11 +3180,11 @@ export function CustomerBookingModal({
                     })()}
 
                     {/* Footer */}
-                    <div className="bg-muted/50 p-3 text-center border-t">
-                      <p className="text-xs text-muted-foreground">
+                    <div className="bg-muted/50 border-t p-3 text-center">
+                      <p className="text-muted-foreground text-xs">
                         Thank you for choosing our pet care services!
                       </p>
-                      <p className="text-xs text-muted-foreground mt-1">
+                      <p className="text-muted-foreground mt-1 text-xs">
                         Receipt generated on{" "}
                         {new Date().toLocaleDateString("en-US")}
                       </p>
@@ -3181,7 +3201,7 @@ export function CustomerBookingModal({
           open={!!detailsOpen}
           onOpenChange={(open) => !open && setDetailsOpen(null)}
         >
-          <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-h-[90vh] max-w-lg overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
                 {detailsOpen?.type === "room" &&
@@ -3209,7 +3229,7 @@ export function CustomerBookingModal({
                       {photos.map((src, i) => (
                         <div
                           key={i}
-                          className="aspect-video rounded-lg overflow-hidden bg-muted relative"
+                          className="bg-muted relative aspect-video overflow-hidden rounded-lg"
                         >
                           <Image
                             src={src}
@@ -3222,17 +3242,17 @@ export function CustomerBookingModal({
                       ))}
                     </div>
                     {room.notes && (
-                      <div className="rounded-lg bg-muted/50 p-4">
-                        <p className="text-sm font-medium text-muted-foreground mb-1">
+                      <div className="bg-muted/50 rounded-lg p-4">
+                        <p className="text-muted-foreground mb-1 text-sm font-medium">
                           Notes
                         </p>
                         <p className="text-sm">{room.notes}</p>
                       </div>
                     )}
-                    <ul className="text-sm text-muted-foreground space-y-1">
+                    <ul className="text-muted-foreground space-y-1 text-sm">
                       {room.included.map((item, i) => (
                         <li key={i} className="flex items-center gap-2">
-                          <CheckCircle className="h-4 w-4 text-primary shrink-0" />
+                          <CheckCircle className="text-primary size-4 shrink-0" />
                           {item}
                         </li>
                       ))}
@@ -3255,7 +3275,7 @@ export function CustomerBookingModal({
                       {photos.map((src, i) => (
                         <div
                           key={i}
-                          className="aspect-video rounded-lg overflow-hidden bg-muted relative"
+                          className="bg-muted relative aspect-video overflow-hidden rounded-lg"
                         >
                           <Image
                             src={src}
@@ -3268,17 +3288,17 @@ export function CustomerBookingModal({
                       ))}
                     </div>
                     {pkg.notes && (
-                      <div className="rounded-lg bg-muted/50 p-4">
-                        <p className="text-sm font-medium text-muted-foreground mb-1">
+                      <div className="bg-muted/50 rounded-lg p-4">
+                        <p className="text-muted-foreground mb-1 text-sm font-medium">
                           Notes
                         </p>
                         <p className="text-sm">{pkg.notes}</p>
                       </div>
                     )}
-                    <ul className="text-sm text-muted-foreground space-y-1">
+                    <ul className="text-muted-foreground space-y-1 text-sm">
                       {pkg.included.map((item, i) => (
                         <li key={i} className="flex items-center gap-2">
-                          <CheckCircle className="h-4 w-4 text-primary shrink-0" />
+                          <CheckCircle className="text-primary size-4 shrink-0" />
                           {item}
                         </li>
                       ))}

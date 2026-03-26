@@ -250,8 +250,8 @@ export default function TrainingCheckOutPage() {
 
       {/* Search */}
       <div className="flex gap-4">
-        <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <div className="relative flex-1">
+          <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2 transform" />
           <Input
             placeholder="Search by pet name, owner, or series..."
             value={searchQuery}
@@ -264,7 +264,7 @@ export default function TrainingCheckOutPage() {
       {/* Sessions List */}
       {filteredSessions.length === 0 ? (
         <Card>
-          <CardContent className="py-12 text-center text-muted-foreground">
+          <CardContent className="text-muted-foreground py-12 text-center">
             No training sessions to check out today.
           </CardContent>
         </Card>
@@ -280,12 +280,12 @@ export default function TrainingCheckOutPage() {
               <Card key={session.enrollment.id}>
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4 flex-1">
-                      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
-                        <GraduationCap className="h-6 w-6 text-primary" />
+                    <div className="flex flex-1 items-center gap-4">
+                      <div className="bg-primary/10 flex h-12 w-12 items-center justify-center rounded-full">
+                        <GraduationCap className="text-primary h-6 w-6" />
                       </div>
                       <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-1">
+                        <div className="mb-1 flex items-center gap-3">
                           <h3 className="text-lg font-semibold">
                             {session.enrollment.petName} (
                             {session.enrollment.petBreed})
@@ -300,15 +300,15 @@ export default function TrainingCheckOutPage() {
                             {finalSession && "(Final)"}
                           </Badge>
                         </div>
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground mb-2">
+                        <div className="text-muted-foreground mb-2 flex items-center gap-4 text-sm">
                           <div className="flex items-center gap-1">
-                            <Clock className="h-4 w-4" />
+                            <Clock className="size-4" />
                             {getDayName(session.series.dayOfWeek)}{" "}
                             {session.series.startTime} -{" "}
                             {session.series.endTime}
                           </div>
                           <div className="flex items-center gap-1">
-                            <Calendar className="h-4 w-4" />
+                            <Calendar className="size-4" />
                             {isMounted &&
                               new Date(session.sessionDate).toLocaleDateString(
                                 "en-US",
@@ -320,7 +320,7 @@ export default function TrainingCheckOutPage() {
                           </div>
                         </div>
                         <div className="mt-2">
-                          <div className="flex items-center justify-between text-sm mb-1">
+                          <div className="mb-1 flex items-center justify-between text-sm">
                             <span className="text-muted-foreground">
                               Progress
                             </span>
@@ -338,7 +338,7 @@ export default function TrainingCheckOutPage() {
                     </div>
                     <div className="flex items-center gap-2">
                       <Button onClick={() => handleCheckOut(session)}>
-                        <LogOut className="mr-2 h-4 w-4" />
+                        <LogOut className="mr-2 size-4" />
                         Check Out
                       </Button>
                     </div>
@@ -362,11 +362,11 @@ export default function TrainingCheckOutPage() {
 
           {selectedSession && (
             <div className="space-y-6 py-4">
-              <div className="p-4 border rounded-lg space-y-2">
+              <div className="space-y-2 rounded-lg border p-4">
                 <div className="font-medium">
                   {selectedSession.enrollment.petName}
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-muted-foreground text-sm">
                   {selectedSession.series.courseTypeName} - Week{" "}
                   {selectedSession.sessionNumber}
                   {isFinalSession(selectedSession) && " (Final Session)"}
@@ -391,13 +391,13 @@ export default function TrainingCheckOutPage() {
                   <SelectContent>
                     <SelectItem value="present">
                       <div className="flex items-center gap-2">
-                        <CheckCircle2 className="h-4 w-4 text-green-600" />
+                        <CheckCircle2 className="size-4 text-green-600" />
                         Present
                       </div>
                     </SelectItem>
                     <SelectItem value="absent">
                       <div className="flex items-center gap-2">
-                        <XCircle className="h-4 w-4 text-red-600" />
+                        <XCircle className="size-4 text-red-600" />
                         Absent
                       </div>
                     </SelectItem>
@@ -416,16 +416,16 @@ export default function TrainingCheckOutPage() {
                   placeholder="e.g., Mastered stay command, Struggled with distractions, Excellent progress..."
                   rows={4}
                 />
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   Notes will be visible to the pet owner in their portal
                 </p>
               </div>
 
               <Separator />
 
-              <div className="p-4 bg-muted rounded-lg space-y-2 text-sm">
+              <div className="bg-muted space-y-2 rounded-lg p-4 text-sm">
                 <p className="font-medium">Actions that will occur:</p>
-                <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                <ul className="text-muted-foreground list-inside list-disc space-y-1">
                   <li>
                     Update progress: Week {selectedSession.sessionNumber} of{" "}
                     {selectedSession.enrollment.totalSessions} Complete
@@ -433,7 +433,7 @@ export default function TrainingCheckOutPage() {
                   {isFinalSession(selectedSession) ? (
                     <>
                       <li className="flex items-center gap-2">
-                        <Award className="h-4 w-4" />
+                        <Award className="size-4" />
                         Generate digital certificate
                       </li>
                       <li>
@@ -468,7 +468,7 @@ export default function TrainingCheckOutPage() {
               Cancel
             </Button>
             <Button onClick={confirmCheckOut}>
-              <FileText className="mr-2 h-4 w-4" />
+              <FileText className="mr-2 size-4" />
               Complete Check-Out
             </Button>
           </DialogFooter>

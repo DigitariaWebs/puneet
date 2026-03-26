@@ -168,7 +168,7 @@ export function BoardingRequestDialog({
         onOpenChange(next);
       }}
     >
-      <DialogContent className="w-[98vw] max-w-none sm:max-w-none max-h-[94vh] overflow-y-auto">
+      <DialogContent className="max-h-[94vh] w-[98vw] max-w-none overflow-y-auto sm:max-w-none">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between gap-3">
             <span className="truncate">Boarding Request • {request?.id}</span>
@@ -181,7 +181,7 @@ export function BoardingRequestDialog({
         </DialogHeader>
 
         {!request ? (
-          <div className="text-sm text-muted-foreground">
+          <div className="text-muted-foreground text-sm">
             No request selected.
           </div>
         ) : (
@@ -193,11 +193,11 @@ export function BoardingRequestDialog({
                 </CardHeader>
                 <CardContent className="grid gap-3 md:grid-cols-3">
                   <div className="rounded-md border p-3">
-                    <div className="text-xs text-muted-foreground">Client</div>
+                    <div className="text-muted-foreground text-xs">Client</div>
                     <div className="font-medium">{request.clientName}</div>
                   </div>
                   <div className="rounded-md border p-3">
-                    <div className="text-xs text-muted-foreground flex items-center gap-1">
+                    <div className="text-muted-foreground flex items-center gap-1 text-xs">
                       <Calendar className="h-3.5 w-3.5" /> Check-in / out
                     </div>
                     <div className="font-medium">
@@ -205,7 +205,7 @@ export function BoardingRequestDialog({
                     </div>
                   </div>
                   <div className="rounded-md border p-3">
-                    <div className="text-xs text-muted-foreground">
+                    <div className="text-muted-foreground text-xs">
                       PreCheck
                     </div>
                     <div className="font-medium capitalize">
@@ -221,11 +221,11 @@ export function BoardingRequestDialog({
                 </CardHeader>
                 <CardContent className="space-y-2 text-sm">
                   {eligibilityRows.some((r) => !r.eligible) ? (
-                    <div className="flex items-start gap-2 rounded-md border border-warning/40 bg-warning/5 p-2">
-                      <AlertTriangle className="h-4 w-4 text-warning mt-0.5" />
+                    <div className="border-warning/40 bg-warning/5 flex items-start gap-2 rounded-md border p-2">
+                      <AlertTriangle className="text-warning mt-0.5 size-4" />
                       <div>
                         <div className="font-medium">Eligibility issues</div>
-                        <div className="text-xs text-muted-foreground">
+                        <div className="text-muted-foreground text-xs">
                           Some pets are blocked. Fix before accepting.
                         </div>
                       </div>
@@ -236,11 +236,11 @@ export function BoardingRequestDialog({
                     </div>
                   )}
                   {request.preCheck.status === "not-submitted" && (
-                    <div className="flex items-start gap-2 rounded-md border border-destructive/30 bg-destructive/5 p-2">
-                      <AlertTriangle className="h-4 w-4 text-destructive mt-0.5" />
+                    <div className="border-destructive/30 bg-destructive/5 flex items-start gap-2 rounded-md border p-2">
+                      <AlertTriangle className="text-destructive mt-0.5 size-4" />
                       <div>
                         <div className="font-medium">PreCheck missing</div>
-                        <div className="text-xs text-muted-foreground">
+                        <div className="text-muted-foreground text-xs">
                           Staff can add details or request submission.
                         </div>
                       </div>
@@ -325,7 +325,7 @@ export function BoardingRequestDialog({
                           </div>
                           <div className="mt-2 grid gap-2">
                             {addOns.length === 0 ? (
-                              <div className="text-xs text-muted-foreground">
+                              <div className="text-muted-foreground text-xs">
                                 None selected.
                               </div>
                             ) : (
@@ -386,21 +386,21 @@ export function BoardingRequestDialog({
                   </CardHeader>
                   <CardContent className="grid gap-4 md:grid-cols-2">
                     <div className="rounded-md border p-3">
-                      <div className="text-xs text-muted-foreground">
+                      <div className="text-muted-foreground text-xs">
                         Status
                       </div>
                       <div className="mt-1">
                         {paymentBadge(request.paymentStatus)}
                       </div>
-                      <div className="mt-2 text-xs text-muted-foreground">
+                      <div className="text-muted-foreground mt-2 text-xs">
                         Estimate:{" "}
-                        <span className="font-medium text-foreground">
+                        <span className="text-foreground font-medium">
                           ${request.totalEstimate}
                         </span>
                       </div>
                     </div>
                     <div className="rounded-md border p-3">
-                      <div className="text-xs text-muted-foreground">Tip</div>
+                      <div className="text-muted-foreground text-xs">Tip</div>
                       <div className="mt-2 flex items-center gap-2">
                         <div className="text-sm font-medium">$</div>
                         <Input
@@ -408,7 +408,7 @@ export function BoardingRequestDialog({
                           className="max-w-[160px]"
                         />
                       </div>
-                      <div className="mt-2 text-xs text-muted-foreground">
+                      <div className="text-muted-foreground mt-2 text-xs">
                         Staff can adjust tip for in-person checkout.
                       </div>
                     </div>
@@ -425,11 +425,11 @@ export function BoardingRequestDialog({
                           variant="outline"
                           className="flex-1"
                         >
-                          <DollarSign className="h-4 w-4 mr-2" />
+                          <DollarSign className="mr-2 size-4" />
                           Process in-person
                         </Button>
                         <Button type="button" className="flex-1">
-                          <DollarSign className="h-4 w-4 mr-2" />
+                          <DollarSign className="mr-2 size-4" />
                           Process online
                         </Button>
                       </div>
@@ -488,7 +488,7 @@ export function BoardingRequestDialog({
               <CardHeader className="pb-3">
                 <CardTitle className="text-base">Request Actions</CardTitle>
               </CardHeader>
-              <CardContent className="flex flex-col sm:flex-row gap-2">
+              <CardContent className="flex flex-col gap-2 sm:flex-row">
                 <Button
                   type="button"
                   variant="destructive"
@@ -498,7 +498,7 @@ export function BoardingRequestDialog({
                     onOpenChange(false);
                   }}
                 >
-                  <X className="h-4 w-4 mr-2" />
+                  <X className="mr-2 size-4" />
                   Decline
                 </Button>
                 <Button
@@ -517,12 +517,12 @@ export function BoardingRequestDialog({
                     onOpenChange(false);
                   }}
                 >
-                  <Check className="h-4 w-4 mr-2" />
+                  <Check className="mr-2 size-4" />
                   Accept
                 </Button>
               </CardContent>
               {!allowOverride && eligibilityRows.some((r) => !r.eligible) && (
-                <div className="px-6 pb-6 text-xs text-muted-foreground">
+                <div className="text-muted-foreground px-6 pb-6 text-xs">
                   Accept is disabled until eligibility issues are resolved (or
                   override is enabled).
                 </div>

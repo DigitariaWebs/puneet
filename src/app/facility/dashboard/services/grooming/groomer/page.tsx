@@ -129,8 +129,8 @@ export default function GroomerDashboardPage() {
         <Card>
           <CardContent className="pt-6">
             <div className="text-center">
-              <AlertCircle className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
-              <h2 className="text-xl font-semibold mb-2">Access Restricted</h2>
+              <AlertCircle className="mx-auto mb-4 h-12 w-12 text-yellow-500" />
+              <h2 className="mb-2 text-xl font-semibold">Access Restricted</h2>
               <p className="text-muted-foreground">
                 This page is only accessible to groomers.
               </p>
@@ -307,7 +307,7 @@ export default function GroomerDashboardPage() {
   const getStatusBadge = (status: GroomingStatus) => {
     const colors = statusColors[status];
     return (
-      <Badge className={`${colors.bg} ${colors.text} ${colors.border} border`}>
+      <Badge className={` ${colors.bg} ${colors.text} ${colors.border} border`}>
         {status.replace("-", " ")}
       </Badge>
     );
@@ -319,8 +319,8 @@ export default function GroomerDashboardPage() {
         <Card>
           <CardContent className="pt-6">
             <div className="text-center">
-              <AlertCircle className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
-              <h2 className="text-xl font-semibold mb-2">Stylist Not Found</h2>
+              <AlertCircle className="mx-auto mb-4 h-12 w-12 text-yellow-500" />
+              <h2 className="mb-2 text-xl font-semibold">Stylist Not Found</h2>
               <p className="text-muted-foreground">
                 Unable to find your stylist profile. Please contact an
                 administrator.
@@ -333,7 +333,7 @@ export default function GroomerDashboardPage() {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6 p-6">
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold">Today&apos;s Dogs</h1>
@@ -349,10 +349,10 @@ export default function GroomerDashboardPage() {
         </CardHeader>
         <CardContent>
           {sortedAppointments.length === 0 ? (
-            <div className="text-center py-12">
-              <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+            <div className="py-12 text-center">
+              <Calendar className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
               <p className="text-lg font-medium">No appointments scheduled</p>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-muted-foreground mt-1 text-sm">
                 You have no appointments for today.
               </p>
             </div>
@@ -361,34 +361,32 @@ export default function GroomerDashboardPage() {
               {sortedAppointments.map((appointment) => (
                 <Card
                   key={appointment.id}
-                  className={`${
-                    statusColors[appointment.status].border
-                  } border-2`}
+                  className={` ${statusColors[appointment.status].border} border-2`}
                 >
                   <CardContent className="pt-6">
                     <div className="flex items-start justify-between">
-                      <div className="flex items-start gap-4 flex-1">
+                      <div className="flex flex-1 items-start gap-4">
                         {/* Time */}
-                        <div className="flex flex-col items-center min-w-[80px]">
-                          <Clock className="h-5 w-5 text-muted-foreground mb-1" />
+                        <div className="flex min-w-[80px] flex-col items-center">
+                          <Clock className="text-muted-foreground mb-1 h-5 w-5" />
                           <span className="text-sm font-medium">
                             {formatTime(appointment.startTime)}
                           </span>
-                          <span className="text-xs text-muted-foreground">
+                          <span className="text-muted-foreground text-xs">
                             {formatTime(appointment.endTime)}
                           </span>
                         </div>
 
                         {/* Pet Info */}
                         <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-2">
-                            <PawPrint className="h-4 w-4 text-muted-foreground" />
+                          <div className="mb-2 flex items-center gap-2">
+                            <PawPrint className="text-muted-foreground size-4" />
                             <h3 className="text-lg font-semibold">
                               {appointment.petName}
                             </h3>
                             {getStatusBadge(appointment.status)}
                           </div>
-                          <div className="space-y-1 text-sm text-muted-foreground">
+                          <div className="text-muted-foreground space-y-1 text-sm">
                             <p>
                               <span className="font-medium">Breed:</span>{" "}
                               {appointment.petBreed}
@@ -397,7 +395,7 @@ export default function GroomerDashboardPage() {
                               <span className="font-medium">Package:</span>{" "}
                               {appointment.packageName}
                             </p>
-                            <div className="flex items-center gap-4 mt-2">
+                            <div className="mt-2 flex items-center gap-4">
                               <div className="flex items-center gap-1">
                                 <User className="h-3 w-3" />
                                 <span>{appointment.ownerName}</span>
@@ -417,14 +415,14 @@ export default function GroomerDashboardPage() {
                       </div>
 
                       {/* Actions */}
-                      <div className="flex flex-col gap-2 ml-4">
+                      <div className="ml-4 flex flex-col gap-2">
                         {appointment.status === "checked-in" && (
                           <Button
                             onClick={() => handleStartGroom(appointment)}
                             className="w-full"
                             size="sm"
                           >
-                            <PlayCircle className="h-4 w-4 mr-2" />
+                            <PlayCircle className="mr-2 size-4" />
                             Start Groom
                           </Button>
                         )}
@@ -436,7 +434,7 @@ export default function GroomerDashboardPage() {
                               size="sm"
                               variant="default"
                             >
-                              <CheckCircle2 className="h-4 w-4 mr-2" />
+                              <CheckCircle2 className="mr-2 size-4" />
                               Mark Ready
                             </Button>
                             <Button
@@ -445,7 +443,7 @@ export default function GroomerDashboardPage() {
                               size="sm"
                               variant="outline"
                             >
-                              <FileText className="h-4 w-4 mr-2" />
+                              <FileText className="mr-2 size-4" />
                               Add Notes
                             </Button>
                             <Button
@@ -454,7 +452,7 @@ export default function GroomerDashboardPage() {
                               size="sm"
                               variant="outline"
                             >
-                              <Camera className="h-4 w-4 mr-2" />
+                              <Camera className="mr-2 size-4" />
                               Upload After Photo
                             </Button>
                           </>
@@ -467,7 +465,7 @@ export default function GroomerDashboardPage() {
                               size="sm"
                               variant="outline"
                             >
-                              <FileText className="h-4 w-4 mr-2" />
+                              <FileText className="mr-2 size-4" />
                               Add Notes
                             </Button>
                             <Button
@@ -476,7 +474,7 @@ export default function GroomerDashboardPage() {
                               size="sm"
                               variant="outline"
                             >
-                              <Camera className="h-4 w-4 mr-2" />
+                              <Camera className="mr-2 size-4" />
                               Upload After Photo
                             </Button>
                           </>
@@ -542,7 +540,7 @@ export default function GroomerDashboardPage() {
                   {afterPhotos.map((photo, idx) => (
                     <div
                       key={idx}
-                      className="relative aspect-square rounded-lg overflow-hidden border group"
+                      className="group relative aspect-square overflow-hidden rounded-lg border"
                     >
                       <Image
                         src={photo}
@@ -553,7 +551,7 @@ export default function GroomerDashboardPage() {
                       <button
                         type="button"
                         onClick={() => handleRemovePhoto(idx)}
-                        className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="bg-destructive text-destructive-foreground absolute top-1 right-1 rounded-full p-1 opacity-0 transition-opacity group-hover:opacity-100"
                       >
                         <X className="h-3 w-3" />
                       </button>
@@ -581,7 +579,7 @@ export default function GroomerDashboardPage() {
                 onClick={() => fileInputRef.current?.click()}
                 className="w-full"
               >
-                <Upload className="h-4 w-4 mr-2" />
+                <Upload className="mr-2 size-4" />
                 Upload Photos
               </Button>
             </div>

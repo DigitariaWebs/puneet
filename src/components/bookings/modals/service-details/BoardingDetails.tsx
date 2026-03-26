@@ -271,10 +271,10 @@ export function BoardingDetails({
           <div className="space-y-4">
             <div>
               <Label className="text-base">Select Boarding Dates</Label>
-              <p className="text-xs text-muted-foreground mt-1 mb-2">
+              <p className="text-muted-foreground mt-1 mb-2 text-xs">
                 Choose check-in and check-out dates for boarding
               </p>
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+              <div className="mb-4 rounded-lg border border-blue-200 bg-blue-50 p-4">
                 <p className="text-sm text-blue-800">
                   <strong>How it works:</strong> Click on the start date and
                   drag or click on the end date to select a range for boarding.
@@ -325,14 +325,14 @@ export function BoardingDetails({
           <div className="space-y-4">
             <div>
               <h3 className="text-base font-semibold">Select Room Type</h3>
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-muted-foreground mt-1 text-xs">
                 Select a pet, then click a room type — or drag & drop pets into
                 room types
               </p>
             </div>
 
             {!isStepAccessible(1) && (
-              <div className="bg-muted/50 border border-dashed rounded-lg p-8 text-center">
+              <div className="bg-muted/50 rounded-lg border border-dashed p-8 text-center">
                 <p className="text-muted-foreground">
                   Please complete the Schedule step first
                 </p>
@@ -344,7 +344,7 @@ export function BoardingDetails({
                 {/* Unassigned Pets */}
                 <div className="space-y-2">
                   <Label className="text-sm font-medium">Unassigned Pets</Label>
-                  <div className="flex flex-wrap gap-2 p-3 border-2 border-dashed rounded-lg min-h-20 bg-muted/30">
+                  <div className="bg-muted/30 flex min-h-20 flex-wrap gap-2 rounded-lg border-2 border-dashed p-3">
                     {selectedPets
                       .filter(
                         (pet) =>
@@ -366,17 +366,17 @@ export function BoardingDetails({
                               selectedPet?.id === pet.id ? null : pet,
                             )
                           }
-                          className={`flex items-center gap-2 px-3 py-2 bg-background border-2 rounded-lg cursor-move hover:border-primary/50 transition-colors ${
+                          className={`bg-background hover:border-primary/50 flex cursor-move items-center gap-2 rounded-lg border-2 px-3 py-2 transition-colors ${
                             selectedPet?.id === pet.id
                               ? "border-primary bg-primary/5"
                               : "border-border"
-                          }`}
+                          } `}
                         >
-                          <PawPrint className="h-4 w-4 text-muted-foreground" />
-                          <span className="font-medium text-sm">
+                          <PawPrint className="text-muted-foreground size-4" />
+                          <span className="text-sm font-medium">
                             {pet.name}
                           </span>
-                          <span className="text-xs text-muted-foreground">
+                          <span className="text-muted-foreground text-xs">
                             ({pet.type})
                           </span>
                         </div>
@@ -384,7 +384,7 @@ export function BoardingDetails({
                     {selectedPets.filter(
                       (pet) => !roomAssignments.find((a) => a.petId === pet.id),
                     ).length === 0 && (
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-muted-foreground text-sm">
                         All pets assigned
                       </p>
                     )}
@@ -482,13 +482,17 @@ export function BoardingDetails({
                             }
                           }
                         }}
-                        className={`flex flex-col border-2 rounded-lg transition-all overflow-hidden ${
+                        className={`flex flex-col overflow-hidden rounded-lg border-2 transition-all ${
                           isRoomDisabled
-                            ? "opacity-60 cursor-not-allowed"
+                            ? "cursor-not-allowed opacity-60"
                             : "cursor-pointer"
-                        } ${assignedPets.length > 0 ? "border-primary bg-primary/5" : "border-border"}`}
+                        } ${
+                          assignedPets.length > 0
+                            ? `border-primary bg-primary/5`
+                            : `border-border`
+                        } `}
                       >
-                        <div className="relative w-full h-48 overflow-hidden bg-muted">
+                        <div className="bg-muted relative h-48 w-full overflow-hidden">
                           {type.image ? (
                             <>
                               <Image
@@ -498,57 +502,57 @@ export function BoardingDetails({
                                 className="object-cover"
                               />
                               {assignedPets.length > 0 && (
-                                <div className="absolute top-2 right-2 bg-primary text-primary-foreground rounded-full px-2 py-1 text-xs font-semibold">
+                                <div className="bg-primary text-primary-foreground absolute top-2 right-2 rounded-full px-2 py-1 text-xs font-semibold">
                                   {assignedPets.length}
                                 </div>
                               )}
                               {availableRooms === 0 && (
-                                <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-                                  <span className="text-white text-sm font-semibold">
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/60">
+                                  <span className="text-sm font-semibold text-white">
                                     Fully Booked
                                   </span>
                                 </div>
                               )}
                               {draggedPet && !isDraggedPetAllowed && (
-                                <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-                                  <span className="text-white text-sm font-semibold">
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/60">
+                                  <span className="text-sm font-semibold text-white">
                                     Not allowed for {draggedPet.type}s
                                   </span>
                                 </div>
                               )}
                               {selectedPet && !isSelectedPetAllowed && (
-                                <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-                                  <span className="text-white text-sm font-semibold">
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/60">
+                                  <span className="text-sm font-semibold text-white">
                                     Not allowed for {selectedPet.type}s
                                   </span>
                                 </div>
                               )}
                             </>
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center">
+                            <div className="flex h-full w-full items-center justify-center">
                               <div className="text-muted-foreground text-sm">
                                 No image available
                               </div>
                             </div>
                           )}
                         </div>
-                        <div className="p-4 flex-1">
-                          <div className="flex items-center justify-between mb-2">
-                            <p className="font-semibold text-base">
+                        <div className="flex-1 p-4">
+                          <div className="mb-2 flex items-center justify-between">
+                            <p className="text-base font-semibold">
                               {type.name}
                             </p>
-                            <p className="font-bold text-lg">
+                            <p className="text-lg font-bold">
                               ${type.price}
-                              <span className="text-sm text-muted-foreground font-normal">
+                              <span className="text-muted-foreground text-sm font-normal">
                                 /night
                               </span>
                             </p>
                           </div>
                           <div className="mb-2">
-                            <p className="text-sm text-muted-foreground">
+                            <p className="text-muted-foreground text-sm">
                               {type.description}
                             </p>
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-muted-foreground text-xs">
                               Allowed: {type.allowedPetTypes.join(", ")}
                             </p>
                           </div>
@@ -559,7 +563,7 @@ export function BoardingDetails({
                               {assignedPets.map((pet) => (
                                 <div
                                   key={pet.id}
-                                  className="flex items-center gap-1 px-2 py-1 bg-primary/10 border border-primary/20 rounded text-xs"
+                                  className="border-primary/20 bg-primary/10 flex items-center gap-1 rounded-sm border px-2 py-1 text-xs"
                                 >
                                   <span>{pet.name}</span>
                                   <button
@@ -615,14 +619,14 @@ export function BoardingDetails({
           <div className="space-y-4">
             <div>
               <h3 className="text-base font-semibold">Add-ons</h3>
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-muted-foreground mt-1 text-xs">
                 Add optional services to enhance your pet&apos;s boarding
                 experience
               </p>
             </div>
 
             {!isStepAccessible(2) && (
-              <div className="bg-muted/50 border border-dashed rounded-lg p-8 text-center">
+              <div className="bg-muted/50 rounded-lg border border-dashed p-8 text-center">
                 <p className="text-muted-foreground">
                   Please complete the previous steps first
                 </p>
@@ -631,7 +635,7 @@ export function BoardingDetails({
 
             {isStepAccessible(2) && (
               <>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   {EXTRA_SERVICES.map((service) => {
                     const totalQuantity = extraServices
                       .filter((es) => es.serviceId === service.id)
@@ -642,7 +646,7 @@ export function BoardingDetails({
                         key={service.id}
                         className={cn(
                           "overflow-hidden transition-all",
-                          totalQuantity > 0 && "ring-2 ring-primary",
+                          totalQuantity > 0 && "ring-primary ring-2",
                         )}
                       >
                         <Image
@@ -650,14 +654,14 @@ export function BoardingDetails({
                           alt={service.name}
                           width={400}
                           height={128}
-                          className="w-full h-32 object-cover"
+                          className="h-32 w-full object-cover"
                         />
-                        <CardContent className="p-4 space-y-3">
+                        <CardContent className="space-y-3 p-4">
                           <div>
-                            <h4 className="font-semibold text-sm">
+                            <h4 className="text-sm font-semibold">
                               {service.name}
                             </h4>
-                            <p className="text-xs text-muted-foreground mt-1">
+                            <p className="text-muted-foreground mt-1 text-xs">
                               {service.description}
                             </p>
                           </div>
@@ -688,7 +692,7 @@ export function BoardingDetails({
                                   key={pet.id}
                                   className="flex items-center justify-between"
                                 >
-                                  <span className="text-sm text-muted-foreground">
+                                  <span className="text-muted-foreground text-sm">
                                     {pet.name}
                                   </span>
 
@@ -719,7 +723,7 @@ export function BoardingDetails({
                                       >
                                         -
                                       </Button>
-                                      <span className="text-sm font-medium min-w-[2ch] text-center">
+                                      <span className="min-w-[2ch] text-center text-sm font-medium">
                                         {quantity}
                                       </span>
                                       <Button
@@ -787,7 +791,7 @@ export function BoardingDetails({
                                     >
                                       {quantity > 0 ? (
                                         <>
-                                          <Check className="h-3 w-3 mr-1" />
+                                          <Check className="mr-1 h-3 w-3" />
                                           Added
                                         </>
                                       ) : (
@@ -813,14 +817,14 @@ export function BoardingDetails({
           <div className="space-y-4">
             <div>
               <h3 className="text-base font-semibold">Feeding & Medication</h3>
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-muted-foreground mt-1 text-xs">
                 Add feeding schedules and medication details for your pet
                 (optional)
               </p>
             </div>
 
             {!isStepAccessible(3) && (
-              <div className="bg-muted/50 border border-dashed rounded-lg p-8 text-center">
+              <div className="bg-muted/50 rounded-lg border border-dashed p-8 text-center">
                 <p className="text-muted-foreground">
                   Please complete the previous steps first
                 </p>
@@ -829,7 +833,7 @@ export function BoardingDetails({
 
             {isStepAccessible(3) && (
               <>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   {/* Feeding Section */}
                   <FeedingScheduleForm
                     feedingSchedule={feedingSchedule}
