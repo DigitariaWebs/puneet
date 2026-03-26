@@ -1018,7 +1018,7 @@ export default function OrdersPage() {
     });
 
     // Update order items with new received quantities
-    selectedOrder.items = selectedOrder.items.map((orderItem) => {
+    const updatedItems = selectedOrder.items.map((orderItem) => {
       const receivingItem = receivingForm.items.find(
         (item) => item.sku === orderItem.sku,
       );
@@ -1032,19 +1032,28 @@ export default function OrdersPage() {
     });
 
     // Update order status based on received quantities
-    const allItemsReceived = selectedOrder.items.every(
+    const allItemsReceived = updatedItems.every(
       (item) => item.receivedQuantity >= item.quantity,
     );
-    const someItemsReceived = selectedOrder.items.some(
+    const someItemsReceived = updatedItems.some(
       (item) => item.receivedQuantity > 0,
     );
 
+    let updatedStatus = selectedOrder.status;
+    let updatedReceivedAt = selectedOrder.receivedAt;
     if (allItemsReceived) {
-      selectedOrder.status = "received";
-      selectedOrder.receivedAt = new Date().toISOString();
+      updatedStatus = "received";
+      updatedReceivedAt = new Date().toISOString();
     } else if (someItemsReceived) {
-      selectedOrder.status = "partially_received";
+      updatedStatus = "partially_received";
     }
+
+    const _updatedOrder = {
+      ...selectedOrder,
+      items: updatedItems,
+      status: updatedStatus,
+      receivedAt: updatedReceivedAt,
+    };
 
     // Close modal and reset
     setIsReceiveOrderModalOpen(false);

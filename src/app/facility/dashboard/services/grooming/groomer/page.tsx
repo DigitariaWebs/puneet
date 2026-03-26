@@ -94,25 +94,6 @@ export default function GroomerDashboardPage() {
   const [appointmentsData, setAppointmentsData] =
     useState<GroomingAppointment[]>(groomingAppointments);
 
-  // Redirect if not a groomer
-  if (role !== "groomer") {
-    return (
-      <div className="p-6">
-        <Card>
-          <CardContent className="pt-6">
-            <div className="text-center">
-              <AlertCircle className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
-              <h2 className="text-xl font-semibold mb-2">Access Restricted</h2>
-              <p className="text-muted-foreground">
-                This page is only accessible to groomers.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
   // Find the stylist for the current user
   // In a real app, userId would match stylist.id or stylist.email
   const currentStylist = useMemo(() => {
@@ -140,6 +121,25 @@ export default function GroomerDashboardPage() {
       return minutesA - minutesB;
     });
   }, [todayAppointments]);
+
+  // Redirect if not a groomer
+  if (role !== "groomer") {
+    return (
+      <div className="p-6">
+        <Card>
+          <CardContent className="pt-6">
+            <div className="text-center">
+              <AlertCircle className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
+              <h2 className="text-xl font-semibold mb-2">Access Restricted</h2>
+              <p className="text-muted-foreground">
+                This page is only accessible to groomers.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   const handleStartGroom = (appointment: GroomingAppointment) => {
     // Check if check-in is required

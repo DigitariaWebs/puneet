@@ -74,12 +74,12 @@ export default function CustomServiceDashboardPage() {
   const params = useParams();
   const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
   const { getModuleBySlug } = useCustomServices();
-  const module = getModuleBySlug(slug ?? "");
+  const serviceModule = getModuleBySlug(slug ?? "");
 
-  if (!module) return null;
+  if (!serviceModule) return null;
 
-  const catMeta = getCategoryMeta(module.category);
-  const basePath = `/facility/dashboard/services/custom/${module.slug}`;
+  const catMeta = getCategoryMeta(serviceModule.category);
+  const basePath = `/facility/dashboard/services/custom/${serviceModule.slug}`;
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
@@ -145,7 +145,8 @@ export default function CustomServiceDashboardPage() {
                   </div>
                   <p className="font-medium">No bookings yet today</p>
                   <p className="text-sm text-muted-foreground mt-1">
-                    Bookings for {module.name} will appear here as they come in.
+                    Bookings for {serviceModule.name} will appear here as they
+                    come in.
                   </p>
                   <Button variant="outline" size="sm" className="mt-3">
                     <Plus className="h-3.5 w-3.5" />
@@ -202,7 +203,8 @@ export default function CustomServiceDashboardPage() {
           <Card
             className="border-l-4"
             style={{
-              borderLeftColor: COLOR_HEX_MAP[module.iconColor] ?? undefined,
+              borderLeftColor:
+                COLOR_HEX_MAP[serviceModule.iconColor] ?? undefined,
             }}
           >
             <CardHeader>
@@ -224,7 +226,7 @@ export default function CustomServiceDashboardPage() {
                   View All Bookings
                 </Button>
               </Link>
-              {module.checkInOut.enabled && (
+              {serviceModule.checkInOut.enabled && (
                 <Link href={`${basePath}/check-in`} className="block">
                   <Button
                     variant="outline"
@@ -261,29 +263,33 @@ export default function CustomServiceDashboardPage() {
                   className={cn("text-xs capitalize", catMeta?.badgeClass)}
                 >
                   <span className={catMeta?.textClass}>
-                    {catMeta?.name ?? module.category.replace(/_/g, " ")}
+                    {catMeta?.name ?? serviceModule.category.replace(/_/g, " ")}
                   </span>
                 </Badge>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Pricing Model</span>
                 <span className="font-medium">
-                  {PRICING_MODEL_LABELS[module.pricing.model]}
+                  {PRICING_MODEL_LABELS[serviceModule.pricing.model]}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Base Price</span>
-                <span className="font-medium">${module.pricing.basePrice}</span>
+                <span className="font-medium">
+                  ${serviceModule.pricing.basePrice}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Online Booking</span>
                 <Badge
                   variant={
-                    module.onlineBooking.enabled ? "default" : "secondary"
+                    serviceModule.onlineBooking.enabled
+                      ? "default"
+                      : "secondary"
                   }
                   className="text-xs"
                 >
-                  {module.onlineBooking.enabled ? "On" : "Off"}
+                  {serviceModule.onlineBooking.enabled ? "On" : "Off"}
                 </Badge>
               </div>
             </CardContent>

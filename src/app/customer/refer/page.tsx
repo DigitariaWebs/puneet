@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
+import { useHydrated } from "@/hooks/use-hydrated";
 import {
   Card,
   CardContent,
@@ -58,15 +59,11 @@ interface ReferralTracking {
 export default function CustomerReferPage() {
   const { selectedFacility } = useCustomerFacility();
   const { canViewReferrals } = useCustomerLoyaltyAccess();
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useHydrated();
   const [copiedLink, setCopiedLink] = useState(false);
   const [showQRCode, setShowQRCode] = useState(false);
   const [dismissedRewardNotifications, setDismissedRewardNotifications] =
     useState<Set<number>>(new Set());
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   // Get facility loyalty config
   const loyaltyConfig = useMemo(() => {

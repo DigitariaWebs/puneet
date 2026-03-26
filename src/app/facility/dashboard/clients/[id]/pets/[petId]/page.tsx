@@ -204,6 +204,28 @@ export default function PetDetailPage({
 
   const [editedPet, setEditedPet] = useState<Pet | null>(pet || null);
 
+  const petEvaluations = (pet as { evaluations?: Evaluation[] } | undefined)
+    ?.evaluations;
+
+  const latestEvaluation = useMemo(() => {
+    const evals = petEvaluations || [];
+    return [...evals].sort((a, b) => {
+      const da = a.evaluatedAt ? new Date(a.evaluatedAt).getTime() : 0;
+      const db = b.evaluatedAt ? new Date(b.evaluatedAt).getTime() : 0;
+      return db - da;
+    })[0];
+  }, [petEvaluations]);
+
+  const latestFailedEvaluation = useMemo(() => {
+    const failed = petEvaluations?.filter((e) => e.status === "failed") || [];
+    return failed
+      .map((e) => ({
+        ...e,
+        evaluatedAtValue: e.evaluatedAt ? new Date(e.evaluatedAt).getTime() : 0,
+      }))
+      .sort((a, b) => b.evaluatedAtValue - a.evaluatedAtValue)[0];
+  }, [petEvaluations]);
+
   if (!client || !pet) {
     return (
       <div className="flex-1 flex items-center justify-center">
@@ -264,8 +286,6 @@ export default function PetDetailPage({
     });
   };
 
-  const petEvaluations = (pet as { evaluations?: Evaluation[] }).evaluations;
-
   const hasValidEvaluation =
     petEvaluations?.some(
       (e) => e.status === "passed" && e.isExpired !== true,
@@ -277,25 +297,6 @@ export default function PetDetailPage({
         (e.status === "passed" && e.isExpired === true) ||
         e.status === "outdated",
     ) ?? false;
-
-  const latestEvaluation = useMemo(() => {
-    const evals = petEvaluations || [];
-    return [...evals].sort((a, b) => {
-      const da = a.evaluatedAt ? new Date(a.evaluatedAt).getTime() : 0;
-      const db = b.evaluatedAt ? new Date(b.evaluatedAt).getTime() : 0;
-      return db - da;
-    })[0];
-  }, [petEvaluations]);
-
-  const latestFailedEvaluation = useMemo(() => {
-    const failed = petEvaluations?.filter((e) => e.status === "failed") || [];
-    return failed
-      .map((e) => ({
-        ...e,
-        evaluatedAtValue: e.evaluatedAt ? new Date(e.evaluatedAt).getTime() : 0,
-      }))
-      .sort((a, b) => b.evaluatedAtValue - a.evaluatedAtValue)[0];
-  }, [petEvaluations]);
 
   const getVaccinationStatus = (
     vaccination: (typeof vaccinationRecords)[0],

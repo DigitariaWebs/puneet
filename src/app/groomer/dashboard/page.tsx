@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useRef } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -90,18 +90,14 @@ export default function GroomerDashboardPage() {
   const [notes, setNotes] = useState("");
   const [afterPhotos, setAfterPhotos] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [userId, setUserId] = useState<string | null>(null);
+  const [userId] = useState<string | null>(() => {
+    const currentUserId = getCurrentUserId();
+    return currentUserId || stylists[0]?.id || null;
+  });
 
   // Local state for appointments to allow updates
   const [appointmentsData, setAppointmentsData] =
     useState<GroomingAppointment[]>(groomingAppointments);
-
-  useEffect(() => {
-    // Get user ID on mount
-    const currentUserId = getCurrentUserId();
-    // If no user ID, use first stylist as default for demo
-    setUserId(currentUserId || stylists[0]?.id || null);
-  }, []);
 
   // Find the stylist for the current user
   const currentStylist = useMemo(() => {

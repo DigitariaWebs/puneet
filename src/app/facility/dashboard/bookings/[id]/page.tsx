@@ -113,28 +113,6 @@ export default function FacilityBookingDetailPage({
     return () => window.removeEventListener("hashchange", open);
   }, []);
 
-  if (!booking) {
-    return (
-      <div className="p-6">
-        <p className="text-muted-foreground">Booking not found.</p>
-        <Button
-          variant="outline"
-          className="mt-4"
-          onClick={() => router.push("/facility/dashboard/bookings")}
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Bookings
-        </Button>
-      </div>
-    );
-  }
-
-  const canReview =
-    yipyyGoEnabled &&
-    (yipyyGoStatus === "submitted" ||
-      yipyyGoStatus === "needs_review" ||
-      yipyyGoStatus === "approved");
-
   const bookingAlerts = useMemo(() => {
     const petId = pet?.id ?? -1;
     const all = playdateAlertLogs.filter(
@@ -173,6 +151,28 @@ export default function FacilityBookingDetailPage({
     if (check.complete) return null; // All good
     return { ...check, stage };
   }, [booking]);
+
+  if (!booking) {
+    return (
+      <div className="p-6">
+        <p className="text-muted-foreground">Booking not found.</p>
+        <Button
+          variant="outline"
+          className="mt-4"
+          onClick={() => router.push("/facility/dashboard/bookings")}
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to Bookings
+        </Button>
+      </div>
+    );
+  }
+
+  const canReview =
+    yipyyGoEnabled &&
+    (yipyyGoStatus === "submitted" ||
+      yipyyGoStatus === "needs_review" ||
+      yipyyGoStatus === "approved");
 
   return (
     <div className="flex-1 space-y-6 p-4 md:p-8 pt-6">

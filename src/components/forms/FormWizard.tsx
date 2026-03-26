@@ -546,12 +546,9 @@ export function FormWizard({
 }: FormWizardProps) {
   // ---- State ----
   const [currentStep, setCurrentStep] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, unknown>>({});
   const [error, setError] = useState<string | null>(null);
   const [allDone, setAllDone] = useState(false);
-  const [loading, setLoading] = useState(true);
 
-  const draftLoadedRef = useRef(false);
   const completionTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ---- Derive incomplete forms ----
@@ -575,27 +572,36 @@ export function FormWizard({
 
   const totalSteps = incompleteForms.length;
   const currentForm: Form | undefined = incompleteForms[currentStep];
+  const loading = false;
 
   // ---- If no forms needed, signal completion immediately ----
+  const [prevTotalSteps, setPrevTotalSteps] = useState(totalSteps);
+  if (totalSteps === 0 && totalSteps !== prevTotalSteps) {
+    setPrevTotalSteps(totalSteps);
+    setAllDone(true);
+  }
   useEffect(() => {
-    if (totalSteps === 0) {
-      setLoading(false);
-      setAllDone(true);
+    if (totalSteps === 0 && allDone) {
       const timer = setTimeout(() => onComplete(), 1500);
       return () => clearTimeout(timer);
     }
-    setLoading(false);
-  }, [totalSteps, onComplete]);
+  }, [totalSteps, allDone, onComplete]);
 
   // ---- Load draft when step changes ----
   const currentFormId = currentForm?.id;
-  useEffect(() => {
-    if (!currentFormId) return;
-    const draft = loadDraft(currentFormId, petId);
-    setAnswers(draft);
+  const [answers, setAnswers] = useState<Record<string, unknown>>(() => {
+    if (currentFormId) {
+      return loadDraft(currentFormId, petId);
+    }
+    return {};
+  });
+
+  const [prevFormId, setPrevFormId] = useState(currentFormId);
+  if (currentFormId && currentFormId !== prevFormId) {
+    setPrevFormId(currentFormId);
+    setAnswers(loadDraft(currentFormId, petId));
     setError(null);
-    draftLoadedRef.current = true;
-  }, [currentFormId, petId]);
+  }
 
   // ---- Autosave draft (debounced) ----
   useEffect(() => {
@@ -614,10 +620,9 @@ export function FormWizard({
   }, []);
 
   // ---- Evaluate logic rules for current form ----
-  const logicEffects = useMemo(() => {
-    if (!currentForm?.logicRules?.length) return null;
-    return evaluateLogicRules(currentForm.logicRules, answers);
-  }, [currentForm?.logicRules, answers]);
+  const logicEffects = currentForm?.logicRules?.length
+    ? evaluateLogicRules(currentForm.logicRules, answers)
+    : null;
 
   // ---- Visible questions for current step ----
   const visibleQuestions = useMemo(() => {

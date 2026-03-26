@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useMemo,
-  ReactNode,
-} from "react";
+import { createContext, useContext, useState, useMemo, ReactNode } from "react";
 import { facilities } from "@/data/facilities";
 
 export interface FacilityBranding {
@@ -41,11 +34,6 @@ export function CustomerFacilityProvider({
 }: {
   children: ReactNode;
 }) {
-  const [selectedFacilityId, setSelectedFacilityId] = useState<number | null>(
-    null,
-  );
-  const [isLoading, setIsLoading] = useState(true);
-
   // Get available facilities for the customer
   // TODO: Replace with actual API call to get customer's facilities
   const availableFacilities: FacilityBranding[] = useMemo(
@@ -63,23 +51,20 @@ export function CustomerFacilityProvider({
     [],
   );
 
-  useEffect(() => {
-    // Load selected facility from localStorage or default to first available
-    const stored = localStorage.getItem(CUSTOMER_FACILITY_KEY);
-    if (stored) {
-      const facilityId = parseInt(stored, 10);
-      if (availableFacilities.some((f) => f.id === facilityId)) {
-        setSelectedFacilityId(facilityId);
-      } else {
-        // If stored facility is not available, use first available
-        setSelectedFacilityId(availableFacilities[0]?.id ?? null);
+  const [selectedFacilityId, setSelectedFacilityId] = useState<number | null>(
+    () => {
+      if (typeof window === "undefined") return null;
+      const stored = localStorage.getItem(CUSTOMER_FACILITY_KEY);
+      if (stored) {
+        const facilityId = parseInt(stored, 10);
+        if (availableFacilities.some((f) => f.id === facilityId)) {
+          return facilityId;
+        }
       }
-    } else {
-      // Default to first available facility
-      setSelectedFacilityId(availableFacilities[0]?.id ?? null);
-    }
-    setIsLoading(false);
-  }, [availableFacilities]);
+      return availableFacilities[0]?.id ?? null;
+    },
+  );
+  const isLoading = false;
 
   const setSelectedFacility = (facilityId: number) => {
     if (availableFacilities.some((f) => f.id === facilityId)) {

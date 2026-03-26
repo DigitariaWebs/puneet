@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useRef } from "react";
+import { useHydrated } from "@/hooks/use-hydrated";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -85,7 +86,7 @@ const petImages: Record<number, string> = {
 const getPetImage = (petId: number) => petImages[petId];
 
 export function DaycareCheckInOutSection() {
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useHydrated();
   const [searchQuery, setSearchQuery] = useState("");
   const [checkInOutMode, setCheckInOutMode] = useState<
     "check-in" | "check-out" | "view" | null
@@ -94,10 +95,6 @@ export function DaycareCheckInOutSection() {
 
   // For undo functionality
   const undoTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   // Helper function to find client for a pet
   const findClientForPet = (petId: number) => {

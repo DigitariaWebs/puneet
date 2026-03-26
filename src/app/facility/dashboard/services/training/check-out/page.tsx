@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
+import { useHydrated } from "@/hooks/use-hydrated";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -115,7 +116,7 @@ interface TodaySession {
 }
 
 export default function TrainingCheckOutPage() {
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useHydrated();
   const [searchQuery, setSearchQuery] = useState("");
   const [enrollments] = useState<TrainingEnrollment[]>(mockEnrollments);
   const [series] = useState<TrainingSeries[]>(mockSeries);
@@ -127,10 +128,6 @@ export default function TrainingCheckOutPage() {
     "present" | "absent" | "late" | "excused"
   >("present");
   const [trainerNotes, setTrainerNotes] = useState("");
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   // Get today's sessions (checked in pets)
   const todaySessions = useMemo(() => {

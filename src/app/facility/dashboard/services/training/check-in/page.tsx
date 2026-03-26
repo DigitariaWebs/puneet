@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
+import { useHydrated } from "@/hooks/use-hydrated";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -125,7 +126,7 @@ interface TodayArrival {
 }
 
 export default function TrainingCheckInPage() {
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useHydrated();
   const [searchQuery, setSearchQuery] = useState("");
   const [enrollments] = useState<TrainingEnrollment[]>(mockEnrollments);
   const [series] = useState<TrainingSeries[]>(mockSeries);
@@ -134,10 +135,6 @@ export default function TrainingCheckInPage() {
     null,
   );
   const [handlerName, setHandlerName] = useState("");
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   // Get today's arrivals
   const todayArrivals = useMemo(() => {

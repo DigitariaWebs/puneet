@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState } from "react";
 import {
   DndContext,
   closestCenter,
@@ -376,8 +376,7 @@ export function FormBuilderEditor({
   const [requireAuth, setRequireAuth] = useState(
     existing?.requireAuth ?? false,
   );
-  const defaultSectionIdRef = useRef<string>(generateSectionId());
-  const defaultSectionId = defaultSectionIdRef.current;
+  const [defaultSectionId] = useState(() => generateSectionId());
   const [sections, setSections] = useState<FormSectionDTO[]>(() =>
     (existing?.sections?.length ?? 0) > 0
       ? existing!.sections!
@@ -445,103 +444,83 @@ export function FormBuilderEditor({
     questions: questions.filter((q) => q.sectionId === sec.id),
   }));
 
-  const addSection = useCallback(() => {
+  const addSection = () => {
     const newSec: FormSectionDTO = {
       id: generateSectionId(),
       title: `Section ${sections.length + 1}`,
       order: sections.length,
     };
     setSections((prev) => [...prev, newSec]);
-  }, [sections.length]);
+  };
 
-  const updateSection = useCallback(
-    (sectionId: string, patch: Partial<FormSectionDTO>) => {
-      setSections((prev) =>
-        prev.map((s) => (s.id === sectionId ? { ...s, ...patch } : s)),
-      );
-    },
-    [],
-  );
+  const updateSection = (sectionId: string, patch: Partial<FormSectionDTO>) => {
+    setSections((prev) =>
+      prev.map((s) => (s.id === sectionId ? { ...s, ...patch } : s)),
+    );
+  };
 
-  const removeSection = useCallback(
-    (sectionId: string) => {
-      const remaining = sections
-        .filter((s) => s.id !== sectionId)
-        .sort((a, b) => a.order - b.order);
-      const targetId = remaining[0]?.id;
-      setSections(remaining.map((s, i) => ({ ...s, order: i })));
-      if (targetId) {
-        setQuestions((prev) =>
-          prev.map((q) =>
-            q.sectionId === sectionId ? { ...q, sectionId: targetId } : q,
-          ),
-        );
-      } else {
-        setQuestions([]);
-        setSelectedQuestionId(null);
-      }
-    },
-    [sections],
-  );
-
-  const insertIndexForSection = useCallback(
-    (sectionId: string) => {
-      const order = sections.find((s) => s.id === sectionId)?.order ?? 0;
-      const lastInSection = questions.reduce(
-        (max, q, i) => (q.sectionId === sectionId ? i : max),
-        -1,
-      );
-      if (lastInSection >= 0) return lastInSection + 1;
-      const firstOfLater = questions.findIndex(
-        (q) =>
-          (sections.find((s) => s.id === q.sectionId)?.order ?? 0) >= order,
-      );
-      return firstOfLater === -1 ? questions.length : firstOfLater;
-    },
-    [questions, sections],
-  );
-
-  const addQuestion = useCallback(
-    (sectionId?: string) => {
-      const secId = sectionId ?? sortedSections[0]?.id;
-      if (!secId) return;
-      const q: FormQuestion = {
-        id: generateQuestionId(),
-        type: "text",
-        label: "New question",
-        required: false,
-        sectionId: secId,
-      };
-      const at = insertIndexForSection(secId);
-      setQuestions((prev) => [...prev.slice(0, at), q, ...prev.slice(at)]);
-      setSelectedQuestionId(q.id);
-    },
-    [sortedSections, insertIndexForSection],
-  );
-
-  const updateQuestion = useCallback(
-    (id: string, patch: Partial<FormQuestion>) => {
+  const removeSection = (sectionId: string) => {
+    const remaining = sections
+      .filter((s) => s.id !== sectionId)
+      .sort((a, b) => a.order - b.order);
+    const targetId = remaining[0]?.id;
+    setSections(remaining.map((s, i) => ({ ...s, order: i })));
+    if (targetId) {
       setQuestions((prev) =>
-        prev.map((q) => (q.id === id ? { ...q, ...patch } : q)),
+        prev.map((q) =>
+          q.sectionId === sectionId ? { ...q, sectionId: targetId } : q,
+        ),
       );
-    },
-    [],
-  );
+    } else {
+      setQuestions([]);
+      setSelectedQuestionId(null);
+    }
+  };
 
-  const removeQuestion = useCallback(
-    (id: string) => {
-      setQuestions((prev) => {
-        const next = prev.filter((q) => q.id !== id);
-        if (selectedQuestionId === id)
-          setSelectedQuestionId(next[0]?.id ?? null);
-        return next;
-      });
-      setFieldMapping((prev) => prev.filter((m) => m.questionId !== id));
-    },
-    [selectedQuestionId],
-  );
+  const insertIndexForSection = (sectionId: string) => {
+    const order = sections.find((s) => s.id === sectionId)?.order ?? 0;
+    const lastInSection = questions.reduce(
+      (max, q, i) => (q.sectionId === sectionId ? i : max),
+      -1,
+    );
+    if (lastInSection >= 0) return lastInSection + 1;
+    const firstOfLater = questions.findIndex(
+      (q) => (sections.find((s) => s.id === q.sectionId)?.order ?? 0) >= order,
+    );
+    return firstOfLater === -1 ? questions.length : firstOfLater;
+  };
 
-  const moveQuestion = useCallback((id: string, dir: "up" | "down") => {
+  const addQuestion = (sectionId?: string) => {
+    const secId = sectionId ?? sortedSections[0]?.id;
+    if (!secId) return;
+    const q: FormQuestion = {
+      id: generateQuestionId(),
+      type: "text",
+      label: "New question",
+      required: false,
+      sectionId: secId,
+    };
+    const at = insertIndexForSection(secId);
+    setQuestions((prev) => [...prev.slice(0, at), q, ...prev.slice(at)]);
+    setSelectedQuestionId(q.id);
+  };
+
+  const updateQuestion = (id: string, patch: Partial<FormQuestion>) => {
+    setQuestions((prev) =>
+      prev.map((q) => (q.id === id ? { ...q, ...patch } : q)),
+    );
+  };
+
+  const removeQuestion = (id: string) => {
+    setQuestions((prev) => {
+      const next = prev.filter((q) => q.id !== id);
+      if (selectedQuestionId === id) setSelectedQuestionId(next[0]?.id ?? null);
+      return next;
+    });
+    setFieldMapping((prev) => prev.filter((m) => m.questionId !== id));
+  };
+
+  const moveQuestion = (id: string, dir: "up" | "down") => {
     setQuestions((prev) => {
       const i = prev.findIndex((q) => q.id === id);
       if (i === -1) return prev;
@@ -558,33 +537,30 @@ export function FormBuilderEditor({
       [next[i], next[j]] = [next[j], next[i]];
       return next;
     });
-  }, []);
+  };
 
-  const handleQuestionDragEnd = useCallback(
-    (event: DragEndEvent) => {
-      const { active, over } = event;
-      if (!over || active.id === over.id) return;
-      const activeId = String(active.id);
-      const overId = String(over.id);
-      setQuestions((prev) => {
-        const dragged = prev.find((q) => q.id === activeId);
-        if (!dragged?.sectionId) return prev;
-        const inSection = prev.filter((q) => q.sectionId === dragged.sectionId);
-        const oldIdx = inSection.findIndex((q) => q.id === activeId);
-        const newIdx = inSection.findIndex((q) => q.id === overId);
-        if (oldIdx === -1 || newIdx === -1) return prev;
-        const reordered = arrayMove(inSection, oldIdx, newIdx);
-        const sectionOrder = sortedSections.map((s) => s.id);
-        const merged: FormQuestion[] = [];
-        for (const secId of sectionOrder) {
-          if (secId === dragged.sectionId) merged.push(...reordered);
-          else merged.push(...prev.filter((q) => q.sectionId === secId));
-        }
-        return merged;
-      });
-    },
-    [sortedSections],
-  );
+  const handleQuestionDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const activeId = String(active.id);
+    const overId = String(over.id);
+    setQuestions((prev) => {
+      const dragged = prev.find((q) => q.id === activeId);
+      if (!dragged?.sectionId) return prev;
+      const inSection = prev.filter((q) => q.sectionId === dragged.sectionId);
+      const oldIdx = inSection.findIndex((q) => q.id === activeId);
+      const newIdx = inSection.findIndex((q) => q.id === overId);
+      if (oldIdx === -1 || newIdx === -1) return prev;
+      const reordered = arrayMove(inSection, oldIdx, newIdx);
+      const sectionOrder = sortedSections.map((s) => s.id);
+      const merged: FormQuestion[] = [];
+      for (const secId of sectionOrder) {
+        if (secId === dragged.sectionId) merged.push(...reordered);
+        else merged.push(...prev.filter((q) => q.sectionId === secId));
+      }
+      return merged;
+    });
+  };
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -593,27 +569,27 @@ export function FormBuilderEditor({
     }),
   );
 
-  const addMapping = useCallback(() => {
+  const addMapping = () => {
     const firstId = questions[0]?.id;
     if (!firstId) return;
     setFieldMapping((prev) => [
       ...prev,
       { questionId: firstId, target: "customer.name" },
     ]);
-  }, [questions]);
+  };
 
-  const updateMapping = useCallback((questionId: string, target: string) => {
+  const updateMapping = (questionId: string, target: string) => {
     setFieldMapping((prev) => {
       const without = prev.filter((m) => m.questionId !== questionId);
       return [...without, { questionId, target }];
     });
-  }, []);
+  };
 
-  const removeMapping = useCallback((questionId: string) => {
+  const removeMapping = (questionId: string) => {
     setFieldMapping((prev) => prev.filter((m) => m.questionId !== questionId));
-  }, []);
+  };
 
-  const handleSave = useCallback(() => {
+  const handleSave = () => {
     if (!name.trim()) return;
     const settings =
       welcomeMessage || submitMessage || themeColor
@@ -672,31 +648,9 @@ export function FormBuilderEditor({
       });
       onSave(created);
     }
-  }, [
-    existing,
-    facilityId,
-    name,
-    slug,
-    type,
-    serviceType,
-    internal,
-    repeatPerPet,
-    requireAuth,
-    audience,
-    appliesTo,
-    sections,
-    questions,
-    sortedSections,
-    fieldMapping,
-    formLogicRules,
-    welcomeMessage,
-    submitMessage,
-    themeColor,
-    template?.id,
-    onSave,
-  ]);
+  };
 
-  const handlePublish = useCallback(() => {
+  const handlePublish = () => {
     if (!name.trim() || !existing) return;
     const settings =
       welcomeMessage || submitMessage || themeColor
@@ -734,27 +688,7 @@ export function FormBuilderEditor({
       status: "published",
     });
     if (updated) onSave(updated);
-  }, [
-    existing,
-    name,
-    slug,
-    type,
-    serviceType,
-    internal,
-    repeatPerPet,
-    requireAuth,
-    audience,
-    appliesTo,
-    sections,
-    questions,
-    sortedSections,
-    fieldMapping,
-    formLogicRules,
-    welcomeMessage,
-    submitMessage,
-    themeColor,
-    onSave,
-  ]);
+  };
 
   return (
     <div className="grid gap-6 lg:grid-cols-3">

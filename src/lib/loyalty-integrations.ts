@@ -5,6 +5,11 @@
  * across all system modules: Bookings, POS, Payments, Memberships, Packages, etc.
  */
 
+import {
+  calculatePointsEarned,
+  isTransactionEligibleForPoints,
+} from "@/data/facility-loyalty-config";
+
 // ============================================================================
 // Types & Interfaces
 // ============================================================================
@@ -93,12 +98,6 @@ export function processLoyaltyPointsEarning(
   },
   loyaltyConfig: any,
 ): LoyaltyTransaction | null {
-  // Import calculation function
-  const { calculatePointsEarned } = require("@/data/facility-loyalty-config");
-  const {
-    isTransactionEligibleForPoints,
-  } = require("@/data/facility-loyalty-config");
-
   // Check if transaction is eligible
   const eligible = isTransactionEligibleForPoints(loyaltyConfig, {
     type:

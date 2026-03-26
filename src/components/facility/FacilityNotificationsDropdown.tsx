@@ -60,7 +60,7 @@ export function FacilityNotificationsDropdown({
   facilityId = 11,
 }: FacilityNotificationsDropdownProps) {
   const [notifications, setNotifications] = useState<FacilityNotification[]>(
-    [],
+    () => getFacilityNotifications(facilityId),
   );
   const [open, setOpen] = useState(false);
 
@@ -71,7 +71,6 @@ export function FacilityNotificationsDropdown({
   const unreadCount = getUnreadFacilityNotificationCount(facilityId);
 
   useEffect(() => {
-    refresh();
     const unsub = subscribeToFacilityNotifications(refresh);
     return unsub;
   }, [refresh]);

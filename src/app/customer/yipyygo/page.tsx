@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo } from "react";
 import Link from "next/link";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
+import { useHydrated } from "@/hooks/use-hydrated";
 import { bookings } from "@/data/bookings";
 import { clients } from "@/data/clients";
 import { getYipyyGoConfig } from "@/data/yipyygo-config";
@@ -38,11 +39,7 @@ const STATUS_COMPLETED = ["submitted", "approved"] as const;
 
 export default function CustomerYipyyGoPage() {
   const { selectedFacility } = useCustomerFacility();
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isMounted = useHydrated();
 
   const customer = useMemo(
     () => clients.find((c) => c.id === MOCK_CUSTOMER_ID),

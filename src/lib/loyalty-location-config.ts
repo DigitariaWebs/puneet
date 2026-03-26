@@ -5,7 +5,10 @@
  * Supports different configurations per location within a facility
  */
 
-import { FacilityLoyaltyConfig } from "@/data/facility-loyalty-config";
+import {
+  FacilityLoyaltyConfig,
+  getFacilityLoyaltyConfig,
+} from "@/data/facility-loyalty-config";
 
 export interface LocationLoyaltyConfig {
   locationId: number;
@@ -40,9 +43,6 @@ export function getLocationLoyaltyConfig(
   facilityId: number,
   locationId?: number,
 ): FacilityLoyaltyConfig | null {
-  const {
-    getFacilityLoyaltyConfig,
-  } = require("@/data/facility-loyalty-config");
   const facilityConfig = getFacilityLoyaltyConfig(facilityId);
 
   if (!facilityConfig || !facilityConfig.enabled) {

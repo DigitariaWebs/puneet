@@ -110,9 +110,9 @@ export default function CustomServiceBookingsPage() {
   const params = useParams();
   const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
   const { getModuleBySlug } = useCustomServices();
-  const module = getModuleBySlug(slug ?? "");
+  const serviceModule = getModuleBySlug(slug ?? "");
 
-  if (!module) return null;
+  if (!serviceModule) return null;
 
   return (
     <div className="space-y-6">
@@ -121,7 +121,7 @@ export default function CustomServiceBookingsPage() {
         <div>
           <h2 className="text-xl font-semibold">Bookings</h2>
           <p className="text-sm text-muted-foreground">
-            All bookings for {module.name}
+            All bookings for {serviceModule.name}
           </p>
         </div>
         <Button className="gap-2">

@@ -54,6 +54,30 @@ export default function BookingDetailPage({
     return clients.find((c) => c.id === MOCK_CUSTOMER_ID);
   }, []);
 
+  // Check if YipyyGo is enabled for this booking
+  const yipyyGoConfig = useMemo(() => {
+    if (!booking) return null;
+    return getYipyyGoConfig(booking.facilityId);
+  }, [booking]);
+
+  const isYipyyGoEnabled = useMemo(() => {
+    if (!booking || !yipyyGoConfig || !yipyyGoConfig.enabled) return false;
+    const serviceType = booking.service.toLowerCase() as
+      | "daycare"
+      | "boarding"
+      | "grooming"
+      | "training";
+    const serviceConfig = yipyyGoConfig.serviceConfigs.find(
+      (sc) => sc.serviceType === serviceType,
+    );
+    return serviceConfig?.enabled || false;
+  }, [yipyyGoConfig, booking]);
+
+  const yipyyGoForm = useMemo(
+    () => (booking ? getYipyyGoForm(booking.id) : null),
+    [booking],
+  );
+
   if (!booking) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -77,26 +101,6 @@ export default function BookingDetailPage({
   const isUpcoming = bookingDate >= new Date();
   const isGrooming = booking.service.toLowerCase() === "grooming";
   const isSalon = booking.serviceType === "salon" || !booking.serviceType; // Default to salon if not specified
-
-  // Check if YipyyGo is enabled for this booking
-  const yipyyGoConfig = useMemo(() => {
-    return getYipyyGoConfig(booking.facilityId);
-  }, [booking.facilityId]);
-
-  const isYipyyGoEnabled = useMemo(() => {
-    if (!yipyyGoConfig || !yipyyGoConfig.enabled) return false;
-    const serviceType = booking.service.toLowerCase() as
-      | "daycare"
-      | "boarding"
-      | "grooming"
-      | "training";
-    const serviceConfig = yipyyGoConfig.serviceConfigs.find(
-      (sc) => sc.serviceType === serviceType,
-    );
-    return serviceConfig?.enabled || false;
-  }, [yipyyGoConfig, booking.service]);
-
-  const yipyyGoForm = useMemo(() => getYipyyGoForm(booking.id), [booking.id]);
   const hasCheckInQR = Boolean(
     yipyyGoForm?.qrCheckInToken &&
     (yipyyGoForm.submittedAt || yipyyGoForm.staffStatus === "approved"),

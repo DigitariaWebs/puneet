@@ -9,9 +9,9 @@ import { useCustomServices } from "@/hooks/use-custom-services";
 export default function EditCustomServicePage() {
   const { slug } = useParams<{ slug: string }>();
   const { getModuleBySlug } = useCustomServices();
-  const module = getModuleBySlug(slug);
+  const serviceModule = getModuleBySlug(slug);
 
-  if (!module) {
+  if (!serviceModule) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
         <div className="text-center space-y-2">
@@ -39,14 +39,14 @@ export default function EditCustomServicePage() {
             className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             <ChevronLeft className="h-4 w-4" />
-            {module.name}
+            {serviceModule.name}
           </Link>
           <span className="text-muted-foreground">/</span>
           <span className="text-sm font-medium">Edit Module</span>
         </div>
       </div>
 
-      <CustomServiceWizard initialData={module} />
+      <CustomServiceWizard initialData={serviceModule} />
     </div>
   );
 }

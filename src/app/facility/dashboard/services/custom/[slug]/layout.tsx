@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Modal } from "@/components/ui/modal";
 import { useCustomServices } from "@/hooks/use-custom-services";
-import { resolveIcon } from "@/lib/service-registry";
+import { DynamicIcon } from "@/components/ui/DynamicIcon";
 import { getGradientStyle, getCategoryMeta } from "@/data/custom-services";
 import {
   LayoutDashboard,
@@ -32,13 +32,13 @@ export default function CustomServiceLayout({
   const pathname = usePathname();
   const { getModuleBySlug, setModuleStatus } = useCustomServices();
 
-  const module = getModuleBySlug(slug ?? "");
+  const serviceModule = getModuleBySlug(slug ?? "");
 
   const [modalOpen, setModalOpen] = useState(false);
   const [pendingEnabled, setPendingEnabled] = useState<boolean | null>(null);
   const [disableReason, setDisableReason] = useState("");
 
-  if (!module) {
+  if (!serviceModule) {
     return (
       <div className="flex flex-1 flex-col items-center justify-center gap-4 p-12 text-center">
         <div className="flex items-center justify-center w-16 h-16 rounded-full bg-muted">
@@ -60,11 +60,9 @@ export default function CustomServiceLayout({
     );
   }
 
-  const catMeta = getCategoryMeta(module.category);
-  const basePath = `/facility/dashboard/services/custom/${module.slug}`;
-  const isEnabled = module.status === "active";
-
-  const Icon = resolveIcon(module.icon);
+  const catMeta = getCategoryMeta(serviceModule.category);
+  const basePath = `/facility/dashboard/services/custom/${serviceModule.slug}`;
+  const isEnabled = serviceModule.status === "active";
 
   // Build tabs dynamically from module config
   const tabs = [
@@ -78,13 +76,13 @@ export default function CustomServiceLayout({
       name: "Bookings",
       href: `${basePath}/bookings`,
       icon: CalendarDays,
-      show: module.calendar.enabled,
+      show: serviceModule.calendar.enabled,
     },
     {
       name: "Check-In/Out",
       href: `${basePath}/check-in`,
       icon: LogIn,
-      show: module.checkInOut.enabled,
+      show: serviceModule.checkInOut.enabled,
     },
     {
       name: "Rates",
@@ -96,7 +94,7 @@ export default function CustomServiceLayout({
       name: "Tasks",
       href: `${basePath}/tasks`,
       icon: ClipboardList,
-      show: module.staffAssignment.taskGeneration.length > 0,
+      show: serviceModule.staffAssignment.taskGeneration.length > 0,
     },
     {
       name: "Settings",
@@ -114,7 +112,7 @@ export default function CustomServiceLayout({
   const handleConfirmToggle = () => {
     if (pendingEnabled !== null) {
       setModuleStatus(
-        module.id,
+        serviceModule.id,
         pendingEnabled ? "active" : "disabled",
         !pendingEnabled ? disableReason : undefined,
       );
@@ -132,18 +130,18 @@ export default function CustomServiceLayout({
 
   // Status badge
   const statusVariant =
-    module.status === "active"
+    serviceModule.status === "active"
       ? "default"
-      : module.status === "disabled"
+      : serviceModule.status === "disabled"
         ? "destructive"
         : "secondary";
 
   const statusLabel =
-    module.status === "active"
+    serviceModule.status === "active"
       ? "Enabled"
-      : module.status === "disabled"
+      : serviceModule.status === "disabled"
         ? "Disabled"
-        : module.status === "draft"
+        : serviceModule.status === "draft"
           ? "Draft"
           : "Archived";
 
@@ -156,14 +154,20 @@ export default function CustomServiceLayout({
               <div
                 className="flex items-center justify-center w-10 h-10 shrink-0 rounded-lg"
                 style={{
-                  ...getGradientStyle(module.iconColor, module.iconColorTo),
+                  ...getGradientStyle(
+                    serviceModule.iconColor,
+                    serviceModule.iconColorTo,
+                  ),
                 }}
               >
-                <Icon className="h-5 w-5 text-white" />
+                <DynamicIcon
+                  name={serviceModule.icon}
+                  className="h-5 w-5 text-white"
+                />
               </div>
               <div className="min-w-0">
                 <h1 className="text-xl sm:text-2xl font-bold tracking-tight flex items-center gap-2 truncate">
-                  {module.name}
+                  {serviceModule.name}
                   <Badge variant={statusVariant} className="shrink-0">
                     {statusLabel}
                   </Badge>
@@ -179,7 +183,7 @@ export default function CustomServiceLayout({
                       {catMeta.name}
                     </Badge>
                   )}
-                  {module.description}
+                  {serviceModule.description}
                 </p>
               </div>
             </div>
@@ -233,12 +237,14 @@ export default function CustomServiceLayout({
         onOpenChange={setModalOpen}
         type={pendingEnabled ? "confirmation" : "warning"}
         title={
-          pendingEnabled ? `Enable ${module.name}` : `Disable ${module.name}`
+          pendingEnabled
+            ? `Enable ${serviceModule.name}`
+            : `Disable ${serviceModule.name}`
         }
         description={
           pendingEnabled
-            ? `Are you sure you want to enable ${module.name}? This will make the service available for booking.`
-            : `Are you sure you want to disable ${module.name}? This will prevent new bookings and may affect existing operations.`
+            ? `Are you sure you want to enable ${serviceModule.name}? This will make the service available for booking.`
+            : `Are you sure you want to disable ${serviceModule.name}? This will prevent new bookings and may affect existing operations.`
         }
         actions={{
           primary: {
@@ -261,7 +267,7 @@ export default function CustomServiceLayout({
               id="disable-reason"
               value={disableReason}
               onChange={(e) => setDisableReason(e.target.value)}
-              placeholder={`Please provide a reason for disabling ${module.name}...`}
+              placeholder={`Please provide a reason for disabling ${serviceModule.name}...`}
               rows={3}
             />
           </div>

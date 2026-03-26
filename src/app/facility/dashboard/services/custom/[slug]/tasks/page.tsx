@@ -87,11 +87,11 @@ export default function CustomServiceTasksPage() {
   const params = useParams();
   const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
   const { getModuleBySlug } = useCustomServices();
-  const module = getModuleBySlug(slug ?? "");
+  const serviceModule = getModuleBySlug(slug ?? "");
 
-  if (!module) return null;
+  if (!serviceModule) return null;
 
-  const { staffAssignment } = module;
+  const { staffAssignment } = serviceModule;
 
   const completedCount = MOCK_TASKS.filter(
     (t) => t.status === "completed",
@@ -107,7 +107,7 @@ export default function CustomServiceTasksPage() {
       <div>
         <h2 className="text-xl font-semibold">Tasks</h2>
         <p className="text-sm text-muted-foreground">
-          Staff task tracking for {module.name}
+          Staff task tracking for {serviceModule.name}
         </p>
       </div>
 

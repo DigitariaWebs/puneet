@@ -106,8 +106,12 @@ export default function CustomerHouseholdPage() {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       setIsEditing(false);
       toast.success("Household contacts updated successfully!");
-    } catch (error: any) {
-      toast.error(error.message || "Failed to update household contacts");
+    } catch (error: unknown) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to update household contacts",
+      );
     } finally {
       setIsSaving(false);
     }

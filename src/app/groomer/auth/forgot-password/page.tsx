@@ -35,8 +35,10 @@ export default function ForgotPasswordPage() {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       setIsSubmitted(true);
       toast.success("Password reset email sent!");
-    } catch (error: any) {
-      toast.error(error.message || "Failed to send reset email");
+    } catch (error: unknown) {
+      toast.error(
+        error instanceof Error ? error.message : "Failed to send reset email",
+      );
     } finally {
       setIsLoading(false);
     }

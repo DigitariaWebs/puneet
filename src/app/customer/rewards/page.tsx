@@ -1060,8 +1060,12 @@ export default function CustomerRewardsPage() {
 
                     setRedeemDialogOpen(false);
                     setSelectedReward(null);
-                  } catch (error: any) {
-                    toast.error(error.message || "Failed to redeem reward");
+                  } catch (error: unknown) {
+                    toast.error(
+                      error instanceof Error
+                        ? error.message
+                        : "Failed to redeem reward",
+                    );
                   } finally {
                     setIsRedeeming(false);
                   }

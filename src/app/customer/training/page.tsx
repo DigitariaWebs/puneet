@@ -302,8 +302,8 @@ export default function CustomerTrainingPage() {
       setIsEnrollmentModalOpen(false);
       setSelectedSeries(null);
       setSelectedPetId(null);
-    } catch (error: any) {
-      toast.error(error.message || "Failed to enroll");
+    } catch (error: unknown) {
+      toast.error(error instanceof Error ? error.message : "Failed to enroll");
     } finally {
       setIsEnrolling(false);
     }
@@ -330,8 +330,10 @@ export default function CustomerTrainingPage() {
       setIsWaitlistModalOpen(false);
       setSelectedSeries(null);
       setSelectedPetId(null);
-    } catch (error: any) {
-      toast.error(error.message || "Failed to join waitlist");
+    } catch (error: unknown) {
+      toast.error(
+        error instanceof Error ? error.message : "Failed to join waitlist",
+      );
     }
   };
 

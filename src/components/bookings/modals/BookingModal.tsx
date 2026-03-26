@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useCallback, useEffect } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -304,25 +304,24 @@ export function BookingModal({
     return selectedPets.every((pet) => petHasValidEvaluation(pet));
   }, [bookingFlow, selectedPets, petHasValidEvaluation]);
 
-  useEffect(() => {
-    if (!selectedService || selectedService === "evaluation") return;
-    if (bookingFlow.hiddenServices.includes(selectedService)) {
-      setSelectedService("");
-      return;
-    }
+  // Derive effective service: reset if hidden, force evaluation if locked
+  const effectiveService = useMemo(() => {
+    if (!selectedService || selectedService === "evaluation")
+      return selectedService;
+    if (bookingFlow.hiddenServices.includes(selectedService)) return "";
     if (
       bookingFlow.evaluationRequired &&
       bookingFlow.hideServicesUntilEvaluationCompleted &&
       !canAccessLockedServices
     ) {
-      setSelectedService("evaluation");
+      return "evaluation";
     }
-  }, [
-    bookingFlow,
-    selectedService,
-    canAccessLockedServices,
-    setSelectedService,
-  ]);
+    return selectedService;
+  }, [bookingFlow, selectedService, canAccessLockedServices]);
+
+  if (effectiveService !== selectedService) {
+    setSelectedService(effectiveService);
+  }
 
   const requiresEvaluationForService = useCallback(
     (serviceId: string) => {

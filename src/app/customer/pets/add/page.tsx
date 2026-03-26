@@ -114,8 +114,8 @@ export default function AddPetPage() {
         toast.success("Pet added successfully!");
         router.push("/customer/pets");
       }
-    } catch (error: any) {
-      toast.error(error.message || "Failed to add pet");
+    } catch (error: unknown) {
+      toast.error(error instanceof Error ? error.message : "Failed to add pet");
     } finally {
       setIsSaving(false);
     }

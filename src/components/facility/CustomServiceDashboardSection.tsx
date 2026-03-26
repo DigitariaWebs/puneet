@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { CustomServiceModule } from "@/lib/types";
-import { resolveIcon } from "@/lib/service-registry";
+import { DynamicIcon } from "@/components/ui/DynamicIcon";
 import {
   getGradientStyle,
   getCategoryMeta,
@@ -56,7 +56,6 @@ export const CustomServiceDashboardSection = memo(
   function CustomServiceDashboardSection({
     module,
   }: CustomServiceDashboardSectionProps) {
-    const Icon = resolveIcon(module.icon);
     const catMeta = getCategoryMeta(module.category);
     const viewAllUrl = `/facility/dashboard/services/custom/${module.slug}`;
     const borderStyle = useMemo(
@@ -84,7 +83,10 @@ export const CustomServiceDashboardSection = memo(
                 )}
                 style={gradientStyle}
               >
-                <Icon className="h-5 w-5 text-white" />
+                <DynamicIcon
+                  name={module.icon}
+                  className="h-5 w-5 text-white"
+                />
               </div>
               <div>
                 <h3 className={cn("text-lg font-semibold", catMeta?.textClass)}>

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
+import { useHydrated } from "@/hooks/use-hydrated";
 import { facilities } from "@/data/facilities";
 import {
   Card,
@@ -299,11 +300,7 @@ function ReservationsCard({
 }: {
   totalReservations: number;
 }) {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isMounted = useHydrated();
 
   // Format number only on client to avoid hydration issues
   const formattedNumber = isMounted

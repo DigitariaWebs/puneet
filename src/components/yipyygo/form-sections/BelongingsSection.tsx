@@ -75,7 +75,7 @@ export function BelongingsSection({
       });
     } else {
       const item: BelongingItem = {
-        id: `item-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+        id: `item-${crypto.randomUUID()}`,
         type,
       };
       updateFormData({ belongings: [...formData.belongings, item] });
@@ -85,7 +85,7 @@ export function BelongingsSection({
   const handleAddOther = () => {
     if (!otherNote.trim()) return;
     const item: BelongingItem = {
-      id: `item-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      id: `item-${crypto.randomUUID()}`,
       type: "other",
       notes: otherNote.trim(),
     };

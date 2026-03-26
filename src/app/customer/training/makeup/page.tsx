@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
+import { useHydrated } from "@/hooks/use-hydrated";
 import { clients } from "@/data/clients";
 import {
   Card,
@@ -162,7 +163,7 @@ interface MissedSessionInfo {
 
 export default function TrainingMakeupPage() {
   const { selectedFacility: _selectedFacility } = useCustomerFacility();
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useHydrated();
   const [enrollments] = useState<TrainingEnrollment[]>(mockEnrollments);
   const [series] = useState<TrainingSeries[]>(mockSeries);
   const [attendances] = useState<SessionAttendance[]>(mockAttendances);
@@ -180,10 +181,6 @@ export default function TrainingMakeupPage() {
     () => clients.find((c) => c.id === MOCK_CUSTOMER_ID),
     [],
   );
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   // Get all missed sessions for customer's pets
   const missedSessions = useMemo(() => {
@@ -268,8 +265,10 @@ export default function TrainingMakeupPage() {
         toast.success(
           `Makeup session requested for Week ${selectedMissedSession.attendance.sessionNumber}. You'll be contacted to schedule.`,
         );
-      } catch (error: any) {
-        toast.error(error.message || "Failed to schedule makeup");
+      } catch (error: unknown) {
+        toast.error(
+          error instanceof Error ? error.message : "Failed to schedule makeup",
+        );
       }
     } else {
       // Skip session
@@ -279,8 +278,10 @@ export default function TrainingMakeupPage() {
         toast.success(
           `Week ${selectedMissedSession.attendance.sessionNumber} skipped. Continuing with Week ${selectedMissedSession.enrollment.currentSessionNumber}.`,
         );
-      } catch (error: any) {
-        toast.error(error.message || "Failed to skip session");
+      } catch (error: unknown) {
+        toast.error(
+          error instanceof Error ? error.message : "Failed to skip session",
+        );
       }
     }
 

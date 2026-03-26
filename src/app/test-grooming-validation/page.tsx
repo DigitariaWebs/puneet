@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useGroomingValidation } from "@/hooks/use-grooming-validation";
+import { useHydrated } from "@/hooks/use-hydrated";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 
 export default function TestGroomingValidationPage() {
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useHydrated();
   const {
     isAvailable,
     availableCategories,
@@ -25,10 +25,6 @@ export default function TestGroomingValidationPage() {
     validation,
     nextAvailableSlot,
   } = useGroomingValidation();
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background p-4 md:p-8">

@@ -58,16 +58,43 @@ export default function PublicFormPage() {
   const [form, _setForm] = useState<Form | null>(() =>
     slug ? (getFormBySlug(slug) ?? null) : null,
   );
-  const [answers, setAnswers] = useState<Record<string, unknown>>({});
+  const [answers, setAnswers] = useState<Record<string, unknown>>(() => {
+    if (!form || typeof window === "undefined") return {};
+    const lpid = searchParams?.get("petId");
+    const lcid = searchParams?.get("customerId");
+    const fpid = lpid
+      ? [parseInt(lpid, 10)].filter((n) => !Number.isNaN(n))[0]
+      : undefined;
+    const cid = lcid ? parseInt(lcid, 10) : undefined;
+    try {
+      const raw = localStorage.getItem(draftKey(form.id, fpid, cid));
+      if (raw) {
+        const parsed = JSON.parse(raw) as Record<string, unknown>;
+        if (parsed && typeof parsed === "object") return parsed;
+      }
+    } catch {
+      // ignore invalid draft
+    }
+    return {};
+  });
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [attemptedSubmit, setAttemptedSubmit] = useState(false);
   const [draftSavedShow, setDraftSavedShow] = useState(false);
-  const draftLoadedRef = useRef(false);
   const formStartedEmittedRef = useRef(false);
 
   // Feature 1: Authentication Gate state
-  const [authVerified, setAuthVerified] = useState(false);
+  const [authVerified, setAuthVerified] = useState(() => {
+    if (!form || typeof window === "undefined") return false;
+    const requireAuth =
+      (form as Form & { requireAuth?: boolean }).requireAuth ?? false;
+    if (!requireAuth) return true;
+    try {
+      return sessionStorage.getItem(authKey(form.id)) === "verified";
+    } catch {
+      return false;
+    }
+  });
   const [authEmail, setAuthEmail] = useState("");
   const [authCodeSent, setAuthCodeSent] = useState(false);
   const [authCode, setAuthCode] = useState("");
@@ -91,23 +118,6 @@ export default function PublicFormPage() {
   const [currentPetIndex, _setCurrentPetIndex] = useState(0);
   const [multiPetSubmitting, setMultiPetSubmitting] = useState(false);
   const [multiPetSubmittedCount, setMultiPetSubmittedCount] = useState(0);
-
-  // Check auth from sessionStorage on mount
-  useEffect(() => {
-    if (!form || typeof window === "undefined") return;
-    const requireAuth =
-      (form as Form & { requireAuth?: boolean }).requireAuth ?? false;
-    if (!requireAuth) {
-      setAuthVerified(true);
-      return;
-    }
-    try {
-      const stored = sessionStorage.getItem(authKey(form.id));
-      if (stored === "verified") setAuthVerified(true);
-    } catch {
-      // ignore
-    }
-  }, [form]);
 
   const context = useMemo(
     () => ({
@@ -145,25 +155,10 @@ export default function PublicFormPage() {
   );
   const isMultiPet = repeatPerPet && !!customerId && customerPets.length > 0;
 
-  // Auto-select single pet
-  useEffect(() => {
-    if (
-      isMultiPet &&
-      customerPets.length === 1 &&
-      selectedPetIds.length === 0
-    ) {
-      setSelectedPetIds([customerPets[0].id]);
-    }
-  }, [isMultiPet, customerPets, selectedPetIds.length]);
-
   // Evaluate logic rules to determine hide/require/end effects
-  const logicEffects = useMemo(
-    () =>
-      form?.logicRules?.length
-        ? evaluateLogicRules(form.logicRules, answers)
-        : null,
-    [form?.logicRules, answers],
-  );
+  const logicEffects = form?.logicRules?.length
+    ? evaluateLogicRules(form.logicRules, answers)
+    : null;
 
   const visibleQuestions = useMemo(
     () =>
@@ -194,23 +189,6 @@ export default function PublicFormPage() {
       petIds,
     });
   }, [form, customerId, petIds]);
-
-  // Load draft on mount (client-only)
-  useEffect(() => {
-    if (!form || typeof window === "undefined" || draftLoadedRef.current)
-      return;
-    draftLoadedRef.current = true;
-    const key = draftKey(form.id, firstPetId, customerId);
-    try {
-      const raw = localStorage.getItem(key);
-      if (raw) {
-        const parsed = JSON.parse(raw) as Record<string, unknown>;
-        if (parsed && typeof parsed === "object") setAnswers(parsed);
-      }
-    } catch {
-      // ignore invalid draft
-    }
-  }, [form, firstPetId, customerId]);
 
   // Autosave draft (debounced) with saved indicator
   useEffect(() => {

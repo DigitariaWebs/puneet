@@ -23,7 +23,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { CustomServiceStatusBadge } from "./CustomServiceStatusBadge";
-import { resolveIcon } from "@/lib/service-registry";
+import { DynamicIcon } from "@/components/ui/DynamicIcon";
 import type { CustomServiceModule } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -51,7 +51,6 @@ export const CustomServiceModuleCard = memo(function CustomServiceModuleCard({
   onArchive,
 }: CustomServiceModuleCardProps) {
   const router = useRouter();
-  const Icon = resolveIcon(module.icon);
   const catMeta = getCategoryMeta(module.category);
   const gradientStyle = getGradientStyle(module.iconColor, module.iconColorTo);
 
@@ -83,7 +82,7 @@ export const CustomServiceModuleCard = memo(function CustomServiceModuleCard({
               className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-white shadow-sm"
               style={gradientStyle}
             >
-              <Icon className="h-5 w-5" />
+              <DynamicIcon name={module.icon} className="h-5 w-5" />
             </div>
             <div className="min-w-0">
               <p className="font-semibold text-sm leading-tight truncate">

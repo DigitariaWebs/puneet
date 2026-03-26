@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -157,25 +157,36 @@ export function StaffEvaluationFormModal({
   petName: string;
 }) {
   const key = useMemo(() => storageKey(evaluation.id), [evaluation.id]);
-  const [form, setForm] = useState<FormState>(defaultState);
-  const [resultError, setResultError] = useState("");
 
-  useEffect(() => {
-    if (!open) return;
+  const loadFormFromStorage = (storageKey: string): FormState => {
+    if (typeof window === "undefined") return defaultState;
     try {
-      const raw = localStorage.getItem(key);
+      const raw = localStorage.getItem(storageKey);
       if (raw) {
-        setForm({
+        return {
           ...defaultState,
           ...(JSON.parse(raw) as Partial<FormState>),
-        });
-      } else {
-        setForm(defaultState);
+        };
       }
     } catch {
-      setForm(defaultState);
+      // ignore
     }
-  }, [open, key]);
+    return defaultState;
+  };
+
+  const [form, setForm] = useState<FormState>(() =>
+    open ? loadFormFromStorage(key) : defaultState,
+  );
+  const [prevKey, setPrevKey] = useState(key);
+  const [prevOpen, setPrevOpen] = useState(open);
+  if (open !== prevOpen || key !== prevKey) {
+    setPrevOpen(open);
+    setPrevKey(key);
+    if (open) {
+      setForm(loadFormFromStorage(key));
+    }
+  }
+  const [resultError, setResultError] = useState("");
 
   const canSave =
     form.dogFriendly !== "" &&

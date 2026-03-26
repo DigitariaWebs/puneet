@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo } from "react";
+import { useHydrated } from "@/hooks/use-hydrated";
 import {
   type GroomingFacilityConfig,
   type GroomingPreBookingValidation,
@@ -24,11 +25,7 @@ import { useSettings } from "@/hooks/use-settings";
  */
 export function useGroomingValidation(requestedDate?: Date) {
   const { grooming } = useSettings();
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isMounted = useHydrated();
 
   // Get grooming config from settings
   // TODO: In production, this would come from the facility's actual settings

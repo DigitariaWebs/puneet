@@ -5,6 +5,7 @@ import { Search, Check } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { resolveIcon, AVAILABLE_ICONS } from "@/lib/service-registry";
+import { DynamicIcon } from "@/components/ui/DynamicIcon";
 import { getGradientStyle } from "@/data/custom-services";
 import { cn } from "@/lib/utils";
 
@@ -42,7 +43,6 @@ export function IconPicker({
   );
 
   const selectedGradient = getGradientStyle(selectedColorFrom, selectedColorTo);
-  const SelectedIcon = resolveIcon(selectedIcon);
 
   return (
     <div className="space-y-4">
@@ -52,7 +52,7 @@ export function IconPicker({
           className="flex h-14 w-14 items-center justify-center rounded-xl text-white shadow-md shrink-0"
           style={selectedGradient}
         >
-          <SelectedIcon className="h-7 w-7" />
+          <DynamicIcon name={selectedIcon} className="h-7 w-7" />
         </div>
         <div>
           <p className="text-sm font-medium">{selectedIcon}</p>

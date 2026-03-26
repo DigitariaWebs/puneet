@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { users } from "@/data/users";
 import { schedules, type Schedule } from "@/data/schedules";
 import { facilities } from "@/data/facilities";
@@ -541,41 +541,24 @@ const timeSlots = [
 
 export default function FacilitySchedulingPage() {
   // Get user role to determine if admin
-  const [_userRole, setUserRole] = useState<
-    "super_admin" | "facility_admin" | null
-  >(null);
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  useEffect(() => {
-    // Check if user is admin (super_admin or facility_admin)
-    const checkAdmin = () => {
-      if (typeof document === "undefined") return;
-      const cookies = document.cookie.split("; ");
-      const roleCookie = cookies.find((cookie) =>
-        cookie.startsWith("user_role="),
-      );
-      if (roleCookie) {
-        const role = roleCookie.split("=")[1] as
-          | "super_admin"
-          | "facility_admin";
-        if (role === "super_admin" || role === "facility_admin") {
-          setUserRole(role);
-          setIsAdmin(true);
-        }
+  const [_userRole] = useState<"super_admin" | "facility_admin" | null>(() => {
+    if (typeof document === "undefined") return null;
+    const cookies = document.cookie.split("; ");
+    const roleCookie = cookies.find((cookie) =>
+      cookie.startsWith("user_role="),
+    );
+    if (roleCookie) {
+      const role = roleCookie.split("=")[1] as "super_admin" | "facility_admin";
+      if (role === "super_admin" || role === "facility_admin") {
+        return role;
       }
-    };
-    checkAdmin();
-  }, []);
+    }
+    return null;
+  });
+  const isAdmin = _userRole === "super_admin" || _userRole === "facility_admin";
 
   // For admins: allow facility selection, for managers: use their assigned facility
   const [selectedFacilityId, setSelectedFacilityId] = useState<number>(11);
-
-  useEffect(() => {
-    if (!isAdmin) {
-      // For non-admins, use their assigned facility (would come from user token in production)
-      setSelectedFacilityId(11);
-    }
-  }, [isAdmin]);
 
   const facility = facilities.find((f) => f.id === selectedFacilityId);
 

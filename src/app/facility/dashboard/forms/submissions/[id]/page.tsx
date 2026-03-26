@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState, useMemo, useEffect } from "react";
+import { use, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -267,33 +267,30 @@ export default function SubmissionDetailPage({
     }
   }, [id, record?.status]);
 
-  const answers = useMemo(
-    () => submission?.answers ?? {},
-    [submission?.answers],
-  );
-  const visibleQuestions = useMemo(() => {
-    if (!form) return [];
-    return form.questions.filter(
-      (q) => answers[q.id] !== undefined && answers[q.id] !== "",
-    );
-  }, [form, answers]);
+  const answers = submission?.answers ?? {};
+  const visibleQuestions = form
+    ? form.questions.filter(
+        (q) => answers[q.id] !== undefined && answers[q.id] !== "",
+      )
+    : [];
 
-  const mappingResults = useMemo(() => {
-    if (!form || !submission) return {};
-    return getMappingResultsByGroup(
-      submission.id,
-      form.fieldMapping,
-      form.questions,
-    );
-  }, [form, submission]);
+  const submissionId = submission?.id;
+  const mappingResults =
+    form && submissionId
+      ? getMappingResultsByGroup(
+          submissionId,
+          form.fieldMapping,
+          form.questions,
+        )
+      : {};
 
   const hasMappings = Object.keys(mappingResults).length > 0;
 
   // Group questions by section
-  const sections = useMemo(() => form?.sections ?? [], [form?.sections]);
+  const sections = form?.sections ?? [];
   const hasSections = sections.length > 0;
 
-  const groupedQuestions = useMemo(() => {
+  const groupedQuestions = (() => {
     if (!hasSections) return null;
     const sortedSections = [...sections].sort((a, b) => a.order - b.order);
     const grouped: {
@@ -309,7 +306,6 @@ export default function SubmissionDetailPage({
         grouped.push({ section: sec, questions: secQuestions });
       }
     }
-    // Questions without a section
     for (const q of visibleQuestions) {
       if (!q.sectionId || !sections.find((s) => s.id === q.sectionId)) {
         unsectioned.push(q);
@@ -322,26 +318,25 @@ export default function SubmissionDetailPage({
       });
     }
     return grouped;
-  }, [hasSections, sections, visibleQuestions]);
+  })();
 
-  const emailFromAnswers = useMemo(() => {
+  const emailFromAnswers = (() => {
     for (const v of Object.values(answers)) {
       const s = String(v);
       if (s.includes("@") && s.includes(".")) return s;
     }
     return "";
-  }, [answers]);
+  })();
 
-  const phoneFromAnswers = useMemo(() => {
+  const phoneFromAnswers = (() => {
     for (const v of Object.values(answers)) {
       const s = String(v).replace(/\D/g, "");
       if (s.length >= 10) return String(v);
     }
     return "";
-  }, [answers]);
+  })();
 
-  // Try to extract pet names from answers
-  const petNamesFromAnswers = useMemo(() => {
+  const petNamesFromAnswers = (() => {
     const names: string[] = [];
     if (!form) return names;
     for (const q of form.questions) {
@@ -360,14 +355,13 @@ export default function SubmissionDetailPage({
       }
     }
     return names;
-  }, [form, answers]);
+  })();
 
-  const submissionAuditEntries = useMemo(
-    () => (id ? getFormAuditLog({ submissionId: id }) : []),
-    [id],
-  );
+  const submissionAuditEntries = id
+    ? getFormAuditLog({ submissionId: id })
+    : [];
 
-  const matchingCustomers = useMemo(() => {
+  const matchingCustomers = (() => {
     const out: typeof clients = [];
     const email = emailFromAnswers.trim().toLowerCase();
     const phone = phoneFromAnswers.replace(/\D/g, "");
@@ -381,7 +375,7 @@ export default function SubmissionDetailPage({
       }
     }
     return out;
-  }, [emailFromAnswers, phoneFromAnswers]);
+  })();
 
   // Customer pets when a customer is selected
   const selectedCustomer = clients.find((c) => c.id === selectedCustomerId);
@@ -402,7 +396,7 @@ export default function SubmissionDetailPage({
   };
 
   // Compute merge diff when a customer is selected
-  const mergeDiff = useMemo(() => {
+  const mergeDiff = (() => {
     if (!selectedCustomerId || !form) return [];
     const customer = clients.find((c) => c.id === selectedCustomerId);
     if (!customer) return [];
@@ -455,7 +449,7 @@ export default function SubmissionDetailPage({
       }
     }
     return diffs;
-  }, [selectedCustomerId, form, answers, mergeRule]);
+  })();
 
   const [conflictChoices, setConflictChoices] = useState<
     Record<string, boolean>

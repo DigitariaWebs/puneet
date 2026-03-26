@@ -5,6 +5,8 @@
  * Fully configurable per facility
  */
 
+import { getFacilityLoyaltyConfig } from "@/data/facility-loyalty-config";
+
 export type LoyaltyPermission =
   | "loyalty.view"
   | "loyalty.manage"
@@ -108,9 +110,6 @@ export function isLoyaltyEnabledForFacility(
 ): boolean {
   // In production, this would check database
   // For now, check if config exists and is enabled
-  const {
-    getFacilityLoyaltyConfig,
-  } = require("@/data/facility-loyalty-config");
   const config = getFacilityLoyaltyConfig(facilityId);
 
   if (!config) return false;

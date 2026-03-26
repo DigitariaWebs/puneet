@@ -156,8 +156,10 @@ export default function CustomerSettingsPage() {
       toast.success(
         "Profile updated successfully! Changes will reflect on the facility side.",
       );
-    } catch (error: any) {
-      toast.error(error.message || "Failed to update profile");
+    } catch (error: unknown) {
+      toast.error(
+        error instanceof Error ? error.message : "Failed to update profile",
+      );
     } finally {
       setIsSaving(false);
     }

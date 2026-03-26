@@ -67,11 +67,23 @@ export default function CustomServiceCheckInPage() {
   const params = useParams();
   const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
   const { getModuleBySlug } = useCustomServices();
-  const module = getModuleBySlug(slug ?? "");
+  const serviceModule = getModuleBySlug(slug ?? "");
 
   const [entries, setEntries] = useState<CheckInEntry[]>(MOCK_ENTRIES);
 
-  if (!module) return null;
+  const { checkedIn, scheduled, checkedOut } = useMemo(() => {
+    let ci = 0,
+      sc = 0,
+      co = 0;
+    for (const e of entries) {
+      if (e.status === "checked-in") ci++;
+      else if (e.status === "scheduled") sc++;
+      else if (e.status === "checked-out") co++;
+    }
+    return { checkedIn: ci, scheduled: sc, checkedOut: co };
+  }, [entries]);
+
+  if (!serviceModule) return null;
 
   const handleCheckIn = (id: string) => {
     setEntries((prev) =>
@@ -93,25 +105,13 @@ export default function CustomServiceCheckInPage() {
     );
   };
 
-  const { checkedIn, scheduled, checkedOut } = useMemo(() => {
-    let ci = 0,
-      sc = 0,
-      co = 0;
-    for (const e of entries) {
-      if (e.status === "checked-in") ci++;
-      else if (e.status === "scheduled") sc++;
-      else if (e.status === "checked-out") co++;
-    }
-    return { checkedIn: ci, scheduled: sc, checkedOut: co };
-  }, [entries]);
-
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
         <h2 className="text-xl font-semibold">Check-In / Check-Out</h2>
         <p className="text-sm text-muted-foreground">
-          Manage arrivals and departures for {module.name} today
+          Manage arrivals and departures for {serviceModule.name} today
         </p>
       </div>
 

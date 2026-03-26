@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -76,8 +76,12 @@ const mockScheduleUpdates: ScheduleUpdate[] = [
 ];
 
 export default function StaffSchedulePage() {
-  const [userId, setUserId] = useState<string | null>(null);
-  const [mySchedules, setMySchedules] = useState<Schedule[]>([]);
+  const [userId] = useState<string | null>(() => {
+    const currentUserId = getCurrentUserId();
+    if (currentUserId) return currentUserId;
+    const defaultStaff = users.find((u) => u.role === "Staff");
+    return defaultStaff?.id.toString() || "4";
+  });
   const [viewMode, setViewMode] = useState<"week" | "list" | "day">("week");
   const [currentWeekStart, setCurrentWeekStart] = useState(() => {
     const today = new Date();
@@ -97,7 +101,9 @@ export default function StaffSchedulePage() {
   const [isSwapResponseModalOpen, setIsSwapResponseModalOpen] = useState(false);
   const [selectedSwapRequest, setSelectedSwapRequest] =
     useState<ShiftSwapRequest | null>(null);
-  const [pendingUpdates, setPendingUpdates] = useState<ScheduleUpdate[]>([]);
+  const [acknowledgedUpdateIds, setAcknowledgedUpdateIds] = useState<
+    Set<string>
+  >(new Set());
 
   // Time off request state
   const [timeOffData, setTimeOffData] = useState({
@@ -127,13 +133,6 @@ export default function StaffSchedulePage() {
     message: "",
   });
 
-  useEffect(() => {
-    const currentUserId = getCurrentUserId();
-    // If no user ID, use first staff member as default for demo
-    const defaultStaff = users.find((u) => u.role === "Staff");
-    setUserId(currentUserId || defaultStaff?.id.toString() || "4");
-  }, []);
-
   // Get staff member info
   const staffMember = useMemo(() => {
     if (!userId) return null;
@@ -144,33 +143,28 @@ export default function StaffSchedulePage() {
   }, [userId]);
 
   // Get schedules for this staff member
-  useEffect(() => {
-    if (!userId) return;
+  const mySchedules = useMemo(() => {
+    if (!userId) return [];
     const staffId = parseInt(userId);
     const today = new Date().toISOString().split("T")[0];
 
-    // Get all future and today's schedules
-    const allSchedules = schedules.filter(
-      (s) => s.staffId === staffId && s.date >= today,
-    );
-
-    // Sort by date and time
-    allSchedules.sort((a, b) => {
-      if (a.date !== b.date) return a.date.localeCompare(b.date);
-      return a.startTime.localeCompare(b.startTime);
-    });
-
-    setMySchedules(allSchedules);
+    return schedules
+      .filter((s) => s.staffId === staffId && s.date >= today)
+      .sort((a, b) => {
+        if (a.date !== b.date) return a.date.localeCompare(b.date);
+        return a.startTime.localeCompare(b.startTime);
+      });
   }, [userId]);
 
   // Get pending schedule updates
-  useEffect(() => {
-    if (!staffMember) return;
-    const unacknowledged = mockScheduleUpdates.filter(
-      (update) => !update.acknowledgedBy.includes(staffMember.id.toString()),
+  const pendingUpdates = useMemo(() => {
+    if (!staffMember) return [];
+    return mockScheduleUpdates.filter(
+      (update) =>
+        !update.acknowledgedBy.includes(staffMember.id.toString()) &&
+        !acknowledgedUpdateIds.has(update.id),
     );
-    setPendingUpdates(unacknowledged);
-  }, [staffMember]);
+  }, [staffMember, acknowledgedUpdateIds]);
 
   // Get time off reasons
   const timeOffReasons = useMemo(() => {
@@ -343,7 +337,7 @@ export default function StaffSchedulePage() {
     if (!staffMember) return;
 
     // In production, this would make an API call
-    setPendingUpdates((prev) => prev.filter((u) => u.id !== updateId));
+    setAcknowledgedUpdateIds((prev) => new Set([...prev, updateId]));
     toast.success("Schedule update acknowledged");
   };
 

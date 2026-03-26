@@ -4,7 +4,7 @@ import { Pencil, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { resolveIcon } from "@/lib/service-registry";
+import { DynamicIcon } from "@/components/ui/DynamicIcon";
 import {
   getCategoryMeta,
   getGradientStyle,
@@ -72,7 +72,6 @@ export function WizardReviewPanel({
   data,
   onEditStep,
 }: WizardReviewPanelProps) {
-  const Icon = resolveIcon(data.icon);
   const gradientStyle = getGradientStyle(data.iconColor, data.iconColorTo);
   const categoryMeta = getCategoryMeta(data.category);
 
@@ -84,7 +83,7 @@ export function WizardReviewPanel({
           className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-white shadow-sm"
           style={gradientStyle}
         >
-          <Icon className="h-7 w-7" />
+          <DynamicIcon name={data.icon} className="h-7 w-7" />
         </div>
         <div>
           <h2 className="text-base font-bold leading-tight">

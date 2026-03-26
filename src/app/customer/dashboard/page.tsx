@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo } from "react";
 import Image from "next/image";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
+import { useHydrated } from "@/hooks/use-hydrated";
 import {
   Card,
   CardContent,
@@ -45,12 +46,7 @@ const MOCK_CUSTOMER_ID = 15;
 
 export default function CustomerDashboardPage() {
   const { selectedFacility } = useCustomerFacility();
-  const [isMounted, setIsMounted] = useState(false);
-
-  // Prevent hydration mismatch
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isMounted = useHydrated();
 
   // Get customer data
   const customer = useMemo(

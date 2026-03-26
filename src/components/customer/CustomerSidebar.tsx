@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo } from "react";
 import Link from "next/link";
 import { useCustomerFacility } from "@/hooks/use-customer-facility";
+import { useHydrated } from "@/hooks/use-hydrated";
 import {
   Home,
   Dog,
@@ -33,13 +34,8 @@ const MOCK_CUSTOMER_ID = 15;
 
 export function CustomerSidebar() {
   const { selectedFacility } = useCustomerFacility();
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useHydrated();
   const { activeModules } = useCustomServices();
-
-  // Prevent hydration mismatch
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   // Check if customer has an active stay at the selected facility
   const hasActiveStay = useMemo(() => {

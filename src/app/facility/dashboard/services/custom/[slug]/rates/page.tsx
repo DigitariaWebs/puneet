@@ -44,11 +44,11 @@ export default function CustomServiceRatesPage() {
   const params = useParams();
   const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
   const { getModuleBySlug } = useCustomServices();
-  const module = getModuleBySlug(slug ?? "");
+  const serviceModule = getModuleBySlug(slug ?? "");
 
-  if (!module) return null;
+  if (!serviceModule) return null;
 
-  const { pricing } = module;
+  const { pricing } = serviceModule;
   const modelLabel = PRICING_MODEL_LABELS[pricing.model] ?? pricing.model;
 
   return (
@@ -57,7 +57,7 @@ export default function CustomServiceRatesPage() {
       <div>
         <h2 className="text-xl font-semibold">Rates &amp; Pricing</h2>
         <p className="text-sm text-muted-foreground">
-          Current pricing configuration for {module.name}
+          Current pricing configuration for {serviceModule.name}
         </p>
       </div>
 
@@ -197,17 +197,17 @@ export default function CustomServiceRatesPage() {
               label="Membership Discounts"
             />
             <StatusIndicator
-              enabled={module.onlineBooking.depositRequired}
+              enabled={serviceModule.onlineBooking.depositRequired}
               label="Deposit Required"
             />
-            {module.onlineBooking.depositRequired &&
-              module.onlineBooking.depositAmount != null && (
+            {serviceModule.onlineBooking.depositRequired &&
+              serviceModule.onlineBooking.depositAmount != null && (
                 <div className="flex items-center justify-between py-2">
                   <span className="text-sm text-muted-foreground">
                     Deposit Amount
                   </span>
                   <span className="text-sm font-semibold">
-                    ${module.onlineBooking.depositAmount}
+                    ${serviceModule.onlineBooking.depositAmount}
                   </span>
                 </div>
               )}
@@ -215,8 +215,8 @@ export default function CustomServiceRatesPage() {
         </Card>
 
         {/* Duration Options */}
-        {module.calendar.enabled &&
-          module.calendar.durationOptions.length > 0 && (
+        {serviceModule.calendar.enabled &&
+          serviceModule.calendar.durationOptions.length > 0 && (
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg font-semibold flex items-center gap-2">
@@ -226,7 +226,7 @@ export default function CustomServiceRatesPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  {module.calendar.durationOptions.map((opt, idx) => (
+                  {serviceModule.calendar.durationOptions.map((opt, idx) => (
                     <div
                       key={idx}
                       className="flex items-center justify-between p-3 rounded-lg border"
@@ -249,7 +249,7 @@ export default function CustomServiceRatesPage() {
                 <div className="mt-4 text-sm text-muted-foreground">
                   Duration mode:{" "}
                   <span className="font-medium capitalize">
-                    {module.calendar.durationMode}
+                    {serviceModule.calendar.durationMode}
                   </span>
                 </div>
               </CardContent>
@@ -269,7 +269,10 @@ export default function CustomServiceRatesPage() {
                 Cancel window
               </span>
               <span className="font-medium">
-                {module.onlineBooking.cancellationPolicy.hoursBeforeBooking}{" "}
+                {
+                  serviceModule.onlineBooking.cancellationPolicy
+                    .hoursBeforeBooking
+                }{" "}
                 hours before
               </span>
             </div>
@@ -279,12 +282,13 @@ export default function CustomServiceRatesPage() {
               </span>
               <Badge
                 variant={
-                  module.onlineBooking.cancellationPolicy.feePercentage > 0
+                  serviceModule.onlineBooking.cancellationPolicy.feePercentage >
+                  0
                     ? "destructive"
                     : "secondary"
                 }
               >
-                {module.onlineBooking.cancellationPolicy.feePercentage}%
+                {serviceModule.onlineBooking.cancellationPolicy.feePercentage}%
               </Badge>
             </div>
           </CardContent>

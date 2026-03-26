@@ -69,9 +69,9 @@ export function CustomServiceDetails({
   selectedPets,
 }: CustomServiceDetailsProps) {
   const { getModuleBySlug } = useCustomServices();
-  const module = getModuleBySlug(serviceId);
+  const serviceModule = getModuleBySlug(serviceId);
 
-  if (!module) {
+  if (!serviceModule) {
     return (
       <div className="text-center py-8 text-muted-foreground">
         Service configuration not found.
@@ -79,12 +79,12 @@ export function CustomServiceDetails({
     );
   }
 
-  const Icon = resolveIcon(module.icon);
+  const Icon = resolveIcon(serviceModule.icon);
 
   if (currentSubStep === 0) {
     return (
       <ScheduleStep
-        module={module}
+        serviceModule={serviceModule}
         startDate={startDate}
         setStartDate={setStartDate}
         checkInTime={checkInTime}
@@ -105,7 +105,7 @@ export function CustomServiceDetails({
 // ========================================
 
 function ScheduleStep({
-  module,
+  serviceModule,
   startDate,
   setStartDate,
   checkInTime,
@@ -115,7 +115,7 @@ function ScheduleStep({
   selectedPets,
   Icon,
 }: {
-  module: CustomServiceModule;
+  serviceModule: CustomServiceModule;
   startDate: string;
   setStartDate: (date: string) => void;
   checkInTime: string;
@@ -126,7 +126,7 @@ function ScheduleStep({
   Icon: React.ComponentType<{ className?: string }>;
 }) {
   const [selectedDuration, setSelectedDuration] = React.useState<string>(
-    module.calendar.durationOptions[0]?.minutes.toString() ?? "60",
+    serviceModule.calendar.durationOptions[0]?.minutes.toString() ?? "60",
   );
 
   const handleDateSelect = (date: Date) => {
@@ -149,9 +149,9 @@ function ScheduleStep({
             <Icon className="h-4 w-4 text-primary" />
           </div>
           <div className="flex-1">
-            <p className="text-sm font-medium">{module.name}</p>
+            <p className="text-sm font-medium">{serviceModule.name}</p>
             <p className="text-xs text-muted-foreground">
-              {module.description}
+              {serviceModule.description}
             </p>
           </div>
           {selectedPets.length > 0 && (
@@ -178,12 +178,12 @@ function ScheduleStep({
       {startDate && (
         <div className="space-y-4">
           {/* Duration selection (if variable) */}
-          {module.calendar.durationMode === "variable" &&
-            module.calendar.durationOptions.length > 1 && (
+          {serviceModule.calendar.durationMode === "variable" &&
+            serviceModule.calendar.durationOptions.length > 1 && (
               <div className="space-y-2">
                 <Label className="text-sm font-medium">Duration</Label>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  {module.calendar.durationOptions.map((opt) => (
+                  {serviceModule.calendar.durationOptions.map((opt) => (
                     <button
                       key={opt.minutes}
                       type="button"
@@ -241,7 +241,7 @@ function ScheduleStep({
           </div>
 
           {/* Transport-specific: address input */}
-          {module.category === "transport" && (
+          {serviceModule.category === "transport" && (
             <div className="space-y-2">
               <Label className="text-sm font-medium flex items-center gap-2">
                 <MapPin className="h-4 w-4" />
@@ -252,7 +252,7 @@ function ScheduleStep({
           )}
 
           {/* Event-specific: participant count */}
-          {module.category === "event_based" && (
+          {serviceModule.category === "event_based" && (
             <div className="space-y-2">
               <Label className="text-sm font-medium flex items-center gap-2">
                 <Users className="h-4 w-4" />
@@ -261,7 +261,7 @@ function ScheduleStep({
               <Input
                 type="number"
                 min={1}
-                max={module.onlineBooking.maxDogsPerSession}
+                max={serviceModule.onlineBooking.maxDogsPerSession}
                 defaultValue={selectedPets.length}
               />
             </div>
@@ -292,7 +292,7 @@ function ScheduleStep({
               <div className="flex items-center justify-between text-sm mt-1">
                 <span className="text-muted-foreground">Price</span>
                 <span className="font-medium text-primary">
-                  ${module.pricing.basePrice}
+                  ${serviceModule.pricing.basePrice}
                 </span>
               </div>
             </CardContent>

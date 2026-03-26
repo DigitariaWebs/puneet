@@ -76,8 +76,10 @@ export default function GroomerLoginPage() {
 
       toast.success("Welcome back!");
       router.push("/groomer/dashboard");
-    } catch (error: any) {
-      toast.error(error.message || "Invalid email or password");
+    } catch (error: unknown) {
+      toast.error(
+        error instanceof Error ? error.message : "Invalid email or password",
+      );
     } finally {
       setIsLoading(false);
     }

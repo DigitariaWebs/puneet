@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useCustomServices } from "@/hooks/use-custom-services";
-import { resolveIcon } from "@/lib/service-registry";
+import { DynamicIcon } from "@/components/ui/DynamicIcon";
 import {
   getCategoryMeta,
   getGradientStyle,
@@ -56,14 +56,12 @@ export default function CustomServiceSettingsPage() {
   const params = useParams();
   const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
   const { getModuleBySlug } = useCustomServices();
-  const module = getModuleBySlug(slug ?? "");
+  const serviceModule = getModuleBySlug(slug ?? "");
 
-  if (!module) return null;
+  if (!serviceModule) return null;
+  const editHref = `/facility/dashboard/services/custom/${serviceModule.slug}/edit`;
 
-  const Icon = resolveIcon(module.icon);
-  const editHref = `/facility/dashboard/services/custom/${module.slug}/edit`;
-
-  const categoryMeta = getCategoryMeta(module.category);
+  const categoryMeta = getCategoryMeta(serviceModule.category);
 
   return (
     <div className="space-y-6">
@@ -72,7 +70,7 @@ export default function CustomServiceSettingsPage() {
         <div>
           <h2 className="text-xl font-semibold">Settings</h2>
           <p className="text-sm text-muted-foreground">
-            Configuration for {module.name}
+            Configuration for {serviceModule.name}
           </p>
         </div>
         <Link href={editHref}>
@@ -110,14 +108,22 @@ export default function CustomServiceSettingsPage() {
               <div
                 className="flex items-center justify-center w-12 h-12 rounded-lg shrink-0"
                 style={{
-                  ...getGradientStyle(module.iconColor, module.iconColorTo),
+                  ...getGradientStyle(
+                    serviceModule.iconColor,
+                    serviceModule.iconColorTo,
+                  ),
                 }}
               >
-                <Icon className="h-6 w-6 text-white" />
+                <DynamicIcon
+                  name={serviceModule.icon}
+                  className="h-6 w-6 text-white"
+                />
               </div>
               <div>
-                <p className="font-semibold">{module.name}</p>
-                <p className="text-xs text-muted-foreground">/{module.slug}</p>
+                <p className="font-semibold">{serviceModule.name}</p>
+                <p className="text-xs text-muted-foreground">
+                  /{serviceModule.slug}
+                </p>
               </div>
             </div>
 
@@ -127,22 +133,22 @@ export default function CustomServiceSettingsPage() {
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Category</span>
                 <span className="font-medium">
-                  {categoryMeta?.name ?? module.category}
+                  {categoryMeta?.name ?? serviceModule.category}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Status</span>
                 <Badge
                   variant={
-                    module.status === "active"
+                    serviceModule.status === "active"
                       ? "default"
-                      : module.status === "disabled"
+                      : serviceModule.status === "disabled"
                         ? "destructive"
                         : "secondary"
                   }
                   className="capitalize"
                 >
-                  {module.status}
+                  {serviceModule.status}
                 </Badge>
               </div>
               <div className="flex justify-between items-start">
@@ -150,19 +156,19 @@ export default function CustomServiceSettingsPage() {
                   Description
                 </span>
                 <span className="font-medium text-right ml-4 line-clamp-2">
-                  {module.description || "—"}
+                  {serviceModule.description || "—"}
                 </span>
               </div>
             </div>
 
-            {module.internalNotes && (
+            {serviceModule.internalNotes && (
               <>
                 <Separator />
                 <div>
                   <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
                     Internal Notes
                   </p>
-                  <p className="text-sm">{module.internalNotes}</p>
+                  <p className="text-sm">{serviceModule.internalNotes}</p>
                 </div>
               </>
             )}
@@ -192,29 +198,32 @@ export default function CustomServiceSettingsPage() {
             <div className="flex justify-between">
               <span className="text-muted-foreground">Model</span>
               <Badge variant="secondary">
-                {PRICING_MODEL_LABELS[module.pricing.model] ??
-                  module.pricing.model}
+                {PRICING_MODEL_LABELS[serviceModule.pricing.model] ??
+                  serviceModule.pricing.model}
               </Badge>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">Base Price</span>
               <span className="font-semibold">
-                ${module.pricing.basePrice.toFixed(2)}
+                ${serviceModule.pricing.basePrice.toFixed(2)}
               </span>
             </div>
             <Separator />
-            <StatusRow label="Taxable" enabled={module.pricing.taxable} />
+            <StatusRow
+              label="Taxable"
+              enabled={serviceModule.pricing.taxable}
+            />
             <StatusRow
               label="Tips Allowed"
-              enabled={module.pricing.tipAllowed}
+              enabled={serviceModule.pricing.tipAllowed}
             />
             <StatusRow
               label="Membership Discounts"
-              enabled={module.pricing.membershipDiscountEligible}
+              enabled={serviceModule.pricing.membershipDiscountEligible}
             />
             <StatusRow
               label="Deposit Required"
-              enabled={module.onlineBooking.depositRequired}
+              enabled={serviceModule.onlineBooking.depositRequired}
             />
           </CardContent>
         </Card>
@@ -252,22 +261,22 @@ export default function CustomServiceSettingsPage() {
               <div className="space-y-1 pl-5">
                 <StatusRow
                   label="Calendar Enabled"
-                  enabled={module.calendar.enabled}
+                  enabled={serviceModule.calendar.enabled}
                 />
-                {module.calendar.enabled && (
+                {serviceModule.calendar.enabled && (
                   <>
                     <div className="flex justify-between py-1.5">
                       <span className="text-muted-foreground">
                         Duration Mode
                       </span>
                       <span className="capitalize font-medium">
-                        {module.calendar.durationMode}
+                        {serviceModule.calendar.durationMode}
                       </span>
                     </div>
                     <div className="flex justify-between py-1.5">
                       <span className="text-muted-foreground">Buffer Time</span>
                       <span className="font-medium">
-                        {module.calendar.bufferTimeMinutes} min
+                        {serviceModule.calendar.bufferTimeMinutes} min
                       </span>
                     </div>
                     <div className="flex justify-between py-1.5">
@@ -275,7 +284,7 @@ export default function CustomServiceSettingsPage() {
                         Max Simultaneous
                       </span>
                       <span className="font-medium">
-                        {module.calendar.maxSimultaneousBookings}
+                        {serviceModule.calendar.maxSimultaneousBookings}
                       </span>
                     </div>
                   </>
@@ -296,25 +305,25 @@ export default function CustomServiceSettingsPage() {
               <div className="space-y-1 pl-5">
                 <StatusRow
                   label="Check-In/Out Enabled"
-                  enabled={module.checkInOut.enabled}
+                  enabled={serviceModule.checkInOut.enabled}
                 />
-                {module.checkInOut.enabled && (
+                {serviceModule.checkInOut.enabled && (
                   <>
                     <div className="flex justify-between py-1.5">
                       <span className="text-muted-foreground">
                         Check-In Type
                       </span>
                       <span className="capitalize font-medium">
-                        {module.checkInOut.checkInType}
+                        {serviceModule.checkInOut.checkInType}
                       </span>
                     </div>
                     <StatusRow
                       label="QR Code Support"
-                      enabled={module.checkInOut.qrCodeSupport}
+                      enabled={serviceModule.checkInOut.qrCodeSupport}
                     />
                     <StatusRow
                       label="Checkout Time Tracking"
-                      enabled={module.checkInOut.checkOutTimeTracking}
+                      enabled={serviceModule.checkInOut.checkOutTimeTracking}
                     />
                   </>
                 )}
@@ -334,16 +343,16 @@ export default function CustomServiceSettingsPage() {
               <div className="space-y-1 pl-5">
                 <StatusRow
                   label="Online Booking"
-                  enabled={module.onlineBooking.enabled}
+                  enabled={serviceModule.onlineBooking.enabled}
                 />
-                {module.onlineBooking.enabled && (
+                {serviceModule.onlineBooking.enabled && (
                   <>
                     <div className="flex justify-between py-1.5">
                       <span className="text-muted-foreground">
                         Eligible Clients
                       </span>
                       <span className="capitalize font-medium">
-                        {module.onlineBooking.eligibleClients.replace(
+                        {serviceModule.onlineBooking.eligibleClients.replace(
                           /_/g,
                           " ",
                         )}
@@ -351,7 +360,7 @@ export default function CustomServiceSettingsPage() {
                     </div>
                     <StatusRow
                       label="Approval Required"
-                      enabled={module.onlineBooking.approvalRequired}
+                      enabled={serviceModule.onlineBooking.approvalRequired}
                     />
                   </>
                 )}
@@ -385,22 +394,22 @@ export default function CustomServiceSettingsPage() {
             <div className="flex justify-between">
               <span className="text-muted-foreground">Required Role</span>
               <span className="font-medium capitalize">
-                {module.staffAssignment.customRoleName ??
-                  module.staffAssignment.requiredRole}
+                {serviceModule.staffAssignment.customRoleName ??
+                  serviceModule.staffAssignment.requiredRole}
               </span>
             </div>
             <StatusRow
               label="Auto-Assign Staff"
-              enabled={module.staffAssignment.autoAssign}
+              enabled={serviceModule.staffAssignment.autoAssign}
             />
             <Separator />
             <div>
               <p className="text-muted-foreground mb-2">
                 Task Generation Phases
               </p>
-              {module.staffAssignment.taskGeneration.length > 0 ? (
+              {serviceModule.staffAssignment.taskGeneration.length > 0 ? (
                 <div className="flex flex-wrap gap-1.5">
-                  {module.staffAssignment.taskGeneration.map((phase) => (
+                  {serviceModule.staffAssignment.taskGeneration.map((phase) => (
                     <Badge
                       key={phase}
                       variant="secondary"
@@ -419,9 +428,12 @@ export default function CustomServiceSettingsPage() {
             <Separator />
             <StatusRow
               label="Requires Evaluation"
-              enabled={module.requiresEvaluation}
+              enabled={serviceModule.requiresEvaluation}
             />
-            <StatusRow label="Show in Sidebar" enabled={module.showInSidebar} />
+            <StatusRow
+              label="Show in Sidebar"
+              enabled={serviceModule.showInSidebar}
+            />
           </CardContent>
         </Card>
       </div>
@@ -431,11 +443,11 @@ export default function CustomServiceSettingsPage() {
         <CardContent className="pt-4 pb-4">
           <div className="flex flex-wrap gap-6 text-xs text-muted-foreground">
             <span>
-              <strong>ID:</strong> {module.id}
+              <strong>ID:</strong> {serviceModule.id}
             </span>
             <span>
               <strong>Created:</strong>{" "}
-              {new Date(module.createdAt).toLocaleDateString("en-US", {
+              {new Date(serviceModule.createdAt).toLocaleDateString("en-US", {
                 month: "short",
                 day: "numeric",
                 year: "numeric",
@@ -443,7 +455,7 @@ export default function CustomServiceSettingsPage() {
             </span>
             <span>
               <strong>Last Updated:</strong>{" "}
-              {new Date(module.updatedAt).toLocaleDateString("en-US", {
+              {new Date(serviceModule.updatedAt).toLocaleDateString("en-US", {
                 month: "short",
                 day: "numeric",
                 year: "numeric",

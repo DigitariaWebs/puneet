@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { useHydrated } from "@/hooks/use-hydrated";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -315,7 +316,7 @@ function replaceTokens(template: string, tokens: Record<string, string>) {
 export function ReportCardsModule({
   defaultServiceType = "daycare" as ServiceType,
 }) {
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useHydrated();
   const { reportCards: reportCardConfig, profile } = useSettings();
   const facilityName = profile.businessName;
 
@@ -671,10 +672,6 @@ export function ReportCardsModule({
   ).length;
   const viewingThemeMeta =
     themeMeta[viewingCard?.theme ?? "everyday"] ?? themeMeta.everyday;
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   if (!isMounted) {
     return null;

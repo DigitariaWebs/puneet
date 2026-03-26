@@ -56,37 +56,6 @@ export default function LoyaltyReportsPage() {
     endDate: new Date().toISOString().split("T")[0],
   });
 
-  // Check if loyalty is enabled and user has permission
-  if (!isEnabled) {
-    return (
-      <div className="container mx-auto p-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Loyalty Program Not Enabled</CardTitle>
-            <CardDescription>
-              Enable the loyalty program in settings to view reports.
-            </CardDescription>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  }
-
-  if (!canViewReports) {
-    return (
-      <div className="container mx-auto p-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Access Denied</CardTitle>
-            <CardDescription>
-              You don&apos;t have permission to view loyalty reports.
-            </CardDescription>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  }
-
   // Calculate loyalty statistics
   const loyaltyStats = useMemo(() => {
     // Get all customers for this facility
@@ -190,26 +159,40 @@ export default function LoyaltyReportsPage() {
     };
   }, []);
 
-  // Points activity over time (last 12 months)
+  // Points activity over time (last 12 months) — deterministic mock data
   const pointsActivityData = useMemo(() => {
-    const months = [];
-    for (let i = 11; i >= 0; i--) {
-      const date = new Date();
-      date.setMonth(date.getMonth() - i);
-      const monthName = date.toLocaleDateString("en-US", { month: "short" });
-
-      // Calculate points for this month (mock data - in production, query actual data)
-      const earned = Math.floor(Math.random() * 5000) + 2000;
-      const redeemed = Math.floor(Math.random() * 2000) + 500;
-
-      months.push({
-        month: monthName,
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const seedEarned = [
+      4200, 3100, 5800, 2900, 4700, 3500, 6100, 2400, 5300, 3800, 4900, 3200,
+    ];
+    const seedRedeemed = [
+      1800, 900, 2100, 1300, 1600, 700, 2400, 1100, 1900, 1400, 2000, 800,
+    ];
+    const now = new Date();
+    return Array.from({ length: 12 }, (_, idx) => {
+      const monthIdx = (now.getMonth() - 11 + idx + 12) % 12;
+      const earned = seedEarned[idx];
+      const redeemed = seedRedeemed[idx];
+      return {
+        month: monthNames[monthIdx],
         earned,
         redeemed,
         net: earned - redeemed,
-      });
-    }
-    return months;
+      };
+    });
   }, []);
 
   // Tier distribution
@@ -240,6 +223,37 @@ export default function LoyaltyReportsPage() {
   const formatPercentage = (value: number) => {
     return `${value.toFixed(1)}%`;
   };
+
+  // Check if loyalty is enabled and user has permission
+  if (!isEnabled) {
+    return (
+      <div className="container mx-auto p-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Loyalty Program Not Enabled</CardTitle>
+            <CardDescription>
+              Enable the loyalty program in settings to view reports.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    );
+  }
+
+  if (!canViewReports) {
+    return (
+      <div className="container mx-auto p-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Access Denied</CardTitle>
+            <CardDescription>
+              You don&apos;t have permission to view loyalty reports.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <LoyaltyModuleGuard requirePermission="reports">
