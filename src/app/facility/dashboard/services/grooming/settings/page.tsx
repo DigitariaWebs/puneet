@@ -718,7 +718,7 @@ export default function GroomingSettingsPage() {
                 <Label>Require Check-In Before Groom Starts</Label>
                 <p className="text-sm text-muted-foreground">
                   Appointment must be checked in before status can change to
-                  "in-progress"
+                  &quot;in-progress&quot;
                 </p>
               </div>
               <Switch
@@ -764,10 +764,10 @@ export default function GroomingSettingsPage() {
             <Separator />
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label>Auto "Ready for Pickup" SMS</Label>
+                <Label>Auto &quot;Ready for Pickup&quot; SMS</Label>
                 <p className="text-sm text-muted-foreground">
                   Automatically send SMS notification when appointment status
-                  changes to "ready-for-pickup"
+                  changes to &quot;ready-for-pickup&quot;
                 </p>
               </div>
               <Switch
@@ -781,18 +781,18 @@ export default function GroomingSettingsPage() {
             {settings.autoReadyForPickupSMS && (
               <div className="p-3 rounded-lg bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-900">
                 <p className="text-sm text-green-800 dark:text-green-200">
-                  Customers will automatically receive an SMS when their pet's
-                  grooming is complete and ready for pickup.
+                  Customers will automatically receive an SMS when their
+                  pet&apos;s grooming is complete and ready for pickup.
                 </p>
               </div>
             )}
             <Separator />
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label>Auto "Ready for Pickup" Email</Label>
+                <Label>Auto &quot;Ready for Pickup&quot; Email</Label>
                 <p className="text-sm text-muted-foreground">
                   Automatically send Email notification when appointment status
-                  changes to "ready-for-pickup"
+                  changes to &quot;ready-for-pickup&quot;
                 </p>
               </div>
               <Switch
@@ -806,8 +806,8 @@ export default function GroomingSettingsPage() {
             {settings.autoReadyForPickupEmail && (
               <div className="p-3 rounded-lg bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900">
                 <p className="text-sm text-blue-800 dark:text-blue-200">
-                  Customers will automatically receive an Email when their pet's
-                  grooming is complete and ready for pickup.
+                  Customers will automatically receive an Email when their
+                  pet&apos;s grooming is complete and ready for pickup.
                 </p>
               </div>
             )}
@@ -955,8 +955,8 @@ export default function GroomingSettingsPage() {
               />
             </div>
             <p className="text-xs text-muted-foreground">
-              Note: SMS notifications for "Ready for Pickup" are controlled
-              separately in Operational Flow Controls.
+              Note: SMS notifications for &quot;Ready for Pickup&quot; are
+              controlled separately in Operational Flow Controls.
             </p>
             {settings.sendCompletionNotification && (
               <div className="flex items-center justify-between">

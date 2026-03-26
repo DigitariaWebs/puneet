@@ -37,7 +37,7 @@ export function CancelBookingDialog({
             undone.
             {booking.paymentStatus === "paid" && (
               <span className="block mt-2 text-sm font-medium">
-                A refund will be processed according to the facility's
+                A refund will be processed according to the facility&apos;s
                 cancellation policy.
               </span>
             )}

@@ -124,7 +124,7 @@ export function YipyyGoSettings({
             <AlertDescription>
               <strong>Mandatory vs Optional:</strong> Mandatory forms must be
               completed before check-in (staff can override if needed). Optional
-              forms are recommended but don't block check-in.
+              forms are recommended but don&apos;t block check-in.
             </AlertDescription>
           </Alert>
 

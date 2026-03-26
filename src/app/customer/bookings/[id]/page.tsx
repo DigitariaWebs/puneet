@@ -288,14 +288,14 @@ export default function BookingDetailPage({
                 <CardHeader>
                   <CardTitle>Groomer Arrival</CardTitle>
                   <CardDescription>
-                    You'll receive a notification when the groomer is 10 minutes
-                    away
+                    You&apos;ll receive a notification when the groomer is 10
+                    minutes away
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">
-                    The mobile grooming van will arrive at your location. You'll
-                    be notified when they're on their way.
+                    The mobile grooming van will arrive at your location.
+                    You&apos;ll be notified when they&apos;re on their way.
                   </p>
                 </CardContent>
               </Card>

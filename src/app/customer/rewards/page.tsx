@@ -413,7 +413,7 @@ export default function CustomerRewardsPage() {
               <CardHeader>
                 <CardTitle>Loyalty History</CardTitle>
                 <CardDescription>
-                  Track how you've earned and redeemed points
+                  Track how you&apos;ve earned and redeemed points
                 </CardDescription>
               </CardHeader>
               <CardContent>

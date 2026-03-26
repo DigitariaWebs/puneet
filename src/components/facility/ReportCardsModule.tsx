@@ -1558,7 +1558,7 @@ export function ReportCardsModule({
               </div>
 
               <div className="space-y-3">
-                <h3 className="font-semibold">Today's vibe</h3>
+                <h3 className="font-semibold">Today&apos;s vibe</h3>
                 <p className="text-sm text-muted-foreground">
                   {viewingCard.generated.todaysVibe}
                 </p>
@@ -1673,7 +1673,9 @@ export function ReportCardsModule({
               <div className="space-y-1 text-sm text-muted-foreground">
                 <p className="font-medium text-foreground">With love,</p>
                 <p>The {viewingCard.facilityName} Team 🐶</p>
-                <p>Thanks for trusting us with {viewingCard.petName}'s day!</p>
+                <p>
+                  Thanks for trusting us with {viewingCard.petName}&apos;s day!
+                </p>
                 <p className="text-xs text-muted-foreground">
                   Reply to this message if you have any questions 💬
                 </p>

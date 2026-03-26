@@ -1039,7 +1039,8 @@ export default function ProductsPage() {
                   </div>
                 ) : (
                   <p className="text-sm text-muted-foreground text-center py-4">
-                    No variants added yet. Click "Add Variant" to create one.
+                    No variants added yet. Click &quot;Add Variant&quot; to
+                    create one.
                   </p>
                 )}
               </div>

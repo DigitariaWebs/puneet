@@ -186,7 +186,7 @@ export default function AddPetPage() {
           <div>
             <h1 className="text-3xl font-bold">Add a New Pet</h1>
             <p className="text-muted-foreground mt-1">
-              Add your pet's information to start booking services
+              Add your pet&apos;s information to start booking services
             </p>
           </div>
         </div>
@@ -220,7 +220,7 @@ export default function AddPetPage() {
                     Upload Photo
                   </Button>
                   <p className="text-xs text-muted-foreground mt-2">
-                    You can add a photo later from your pet's profile
+                    You can add a photo later from your pet&apos;s profile
                   </p>
                 </div>
               </div>
@@ -379,7 +379,7 @@ export default function AddPetPage() {
                   className="font-mono"
                 />
                 <p className="text-xs text-muted-foreground">
-                  Optional - Enter your pet's microchip number if available
+                  Optional - Enter your pet&apos;s microchip number if available
                 </p>
               </div>
             </CardContent>
@@ -392,7 +392,7 @@ export default function AddPetPage() {
                 Medical & Health Information
               </CardTitle>
               <CardDescription>
-                Important health details for your pet's care
+                Important health details for your pet&apos;s care
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -408,8 +408,8 @@ export default function AddPetPage() {
                   rows={3}
                 />
                 <p className="text-xs text-muted-foreground">
-                  List any known allergies. Enter "None" if your pet has no
-                  allergies.
+                  List any known allergies. Enter &quot;None&quot; if your pet
+                  has no allergies.
                 </p>
               </div>
 

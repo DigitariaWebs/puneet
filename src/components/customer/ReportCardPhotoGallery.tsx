@@ -138,7 +138,7 @@ export function ReportCardPhotoGallery({
           <DialogHeader className="px-6 pt-6 pb-4">
             <DialogTitle className="flex items-center justify-between">
               <span>
-                {petName}'s {serviceType} photos - {date}
+                {petName}&apos;s {serviceType} photos - {date}
               </span>
               <Button
                 variant="ghost"

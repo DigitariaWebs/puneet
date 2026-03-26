@@ -513,7 +513,9 @@ export default function TrainingMakeupPage() {
                           facilityConfig,
                         )}
                       </p>
-                      <p>• We'll contact you to schedule a convenient time</p>
+                      <p>
+                        • We&apos;ll contact you to schedule a convenient time
+                      </p>
                     </div>
                   </div>
                   <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
@@ -603,7 +605,7 @@ export default function TrainingMakeupPage() {
                 <p className="text-sm text-blue-900">
                   <AlertCircle className="h-4 w-4 inline mr-1" />
                   Consider scheduling a makeup session instead to ensure your
-                  pet doesn't miss important training material.
+                  pet doesn&apos;t miss important training material.
                 </p>
               </div>
             </div>

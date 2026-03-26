@@ -310,7 +310,7 @@ export default function CustomerReportCardsPage() {
         <div className="space-y-2">
           <h1 className="text-3xl font-bold">Report Cards History</h1>
           <p className="text-muted-foreground">
-            A warm timeline of your pet's stays at {facilityName}.
+            A warm timeline of your pet&apos;s stays at {facilityName}.
           </p>
         </div>
 

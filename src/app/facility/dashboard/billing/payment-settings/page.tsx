@@ -1770,8 +1770,8 @@ export default function PaymentSettingsPage() {
                   </SelectContent>
                 </Select>
                 <p className="text-xs text-muted-foreground">
-                  When "Both" is selected, cashier will be prompted to choose
-                  between terminal or web payment
+                  When &quot;Both&quot; is selected, cashier will be prompted to
+                  choose between terminal or web payment
                 </p>
               </div>
 

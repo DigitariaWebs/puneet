@@ -2699,7 +2699,7 @@ export default function OrdersPage() {
                 {returnForm.refundMethod !== "original_payment" &&
                   !returnForm.notes && (
                     <p className="text-xs text-orange-600">
-                      ⚠️ It's recommended to provide notes when using an
+                      ⚠️ It&apos;s recommended to provide notes when using an
                       override refund method for audit purposes.
                     </p>
                   )}

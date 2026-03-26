@@ -227,8 +227,8 @@ export default function TrainingCourseCatalogPage() {
                     colSpan={7}
                     className="text-center py-8 text-muted-foreground"
                   >
-                    No course types configured. Click "Add Course Type" to get
-                    started.
+                    No course types configured. Click &quot;Add Course
+                    Type&quot; to get started.
                   </TableCell>
                 </TableRow>
               ) : (
@@ -503,7 +503,7 @@ export default function TrainingCourseCatalogPage() {
               <div>
                 <Label htmlFor="isActive">Course Active</Label>
                 <p className="text-sm text-muted-foreground">
-                  Inactive courses won't appear in client booking options
+                  Inactive courses won&apos;t appear in client booking options
                 </p>
               </div>
               <Switch

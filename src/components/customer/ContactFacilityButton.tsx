@@ -40,7 +40,7 @@ export function ContactFacilityButton() {
           <DialogHeader>
             <DialogTitle>Contact {selectedFacility.name}</DialogTitle>
             <DialogDescription>
-              Choose how you'd like to reach us
+              Choose how you&apos;d like to reach us
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3">

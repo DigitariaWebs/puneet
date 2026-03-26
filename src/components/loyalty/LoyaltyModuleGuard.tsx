@@ -98,7 +98,7 @@ export function LoyaltyModuleGuard({
           <CardHeader>
             <CardTitle>Access Denied</CardTitle>
             <CardDescription>
-              You don't have permission to view loyalty features.
+              You don&apos;t have permission to view loyalty features.
             </CardDescription>
           </CardHeader>
         </Card>
@@ -113,7 +113,7 @@ export function LoyaltyModuleGuard({
           <CardHeader>
             <CardTitle>Access Denied</CardTitle>
             <CardDescription>
-              You don't have permission to manage loyalty settings.
+              You don&apos;t have permission to manage loyalty settings.
             </CardDescription>
           </CardHeader>
         </Card>
@@ -128,7 +128,7 @@ export function LoyaltyModuleGuard({
           <CardHeader>
             <CardTitle>Access Denied</CardTitle>
             <CardDescription>
-              You don't have permission to view loyalty reports.
+              You don&apos;t have permission to view loyalty reports.
             </CardDescription>
           </CardHeader>
         </Card>

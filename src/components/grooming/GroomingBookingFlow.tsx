@@ -2967,7 +2967,8 @@ export function GroomingBookingFlow({
                         Recommended for {selectedPet?.name}
                       </h4>
                       <p className="text-sm text-muted-foreground mb-3">
-                        Based on {selectedPet?.name}'s profile, we recommend:
+                        Based on {selectedPet?.name}&apos;s profile, we
+                        recommend:
                       </p>
                       <div className="space-y-2">
                         {suggestedAddOns.map((addon) => (
@@ -3092,7 +3093,7 @@ export function GroomingBookingFlow({
                 <CardContent className="py-12 text-center">
                   <p className="text-muted-foreground">
                     Our team will assign the best available groomer for{" "}
-                    {selectedPet?.name || "your pet"}'s needs.
+                    {selectedPet?.name || "your pet"}&apos;s needs.
                   </p>
                 </CardContent>
               </Card>
@@ -3291,8 +3292,8 @@ export function GroomingBookingFlow({
                               {/* Not Qualified Warning */}
                               {!isQualified && (
                                 <p className="text-xs text-destructive mt-2">
-                                  Not qualified for {selectedPet?.name}'s care
-                                  needs
+                                  Not qualified for {selectedPet?.name}&apos;s
+                                  care needs
                                 </p>
                               )}
                             </div>
@@ -3349,8 +3350,8 @@ export function GroomingBookingFlow({
                           Keep the same groomer for all future appointments?
                         </h4>
                         <p className="text-sm text-muted-foreground">
-                          We'll assign {selectedPet?.name || "your pet"} to the
-                          same groomer for consistency.
+                          We&apos;ll assign {selectedPet?.name || "your pet"} to
+                          the same groomer for consistency.
                         </p>
                       </div>
                       <Checkbox
@@ -3421,7 +3422,7 @@ export function GroomingBookingFlow({
                               </Label>
                             </div>
                             <p className="text-sm text-muted-foreground">
-                              Visit our facility for your pet's grooming
+                              Visit our facility for your pet&apos;s grooming
                               appointment
                             </p>
                           </div>
@@ -3678,11 +3679,11 @@ export function GroomingBookingFlow({
                             >
                               <div>
                                 <p className="font-medium">
-                                  I'll wait in lobby
+                                  I&apos;ll wait in lobby
                                 </p>
                                 <p className="text-xs text-muted-foreground">
-                                  You'll receive a 15-minute early notification
-                                  when ready
+                                  You&apos;ll receive a 15-minute early
+                                  notification when ready
                                 </p>
                               </div>
                             </Label>
@@ -3736,7 +3737,7 @@ export function GroomingBookingFlow({
                               <div>
                                 <p className="font-medium">Curbside pickup</p>
                                 <p className="text-xs text-muted-foreground">
-                                  We'll bring your pet to your vehicle when
+                                  We&apos;ll bring your pet to your vehicle when
                                   ready
                                 </p>
                               </div>
@@ -3965,8 +3966,8 @@ export function GroomingBookingFlow({
                 <div className="space-y-4">
                   <h4 className="font-semibold">Select Preferred Date Range</h4>
                   <p className="text-sm text-muted-foreground">
-                    Choose your preferred dates. We'll find the best available
-                    slot based on our route optimization.
+                    Choose your preferred dates. We&apos;ll find the best
+                    available slot based on our route optimization.
                   </p>
                   <DateSelectionCalendar
                     mode="range"
@@ -4419,7 +4420,7 @@ export function GroomingBookingFlow({
                           <strong>
                             Save ${pkg.savings} ({pkg.savingsPercentage}% off)
                           </strong>{" "}
-                          — ${pkg.savings} off today's booking
+                          — ${pkg.savings} off today&apos;s booking
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
@@ -4630,7 +4631,7 @@ export function GroomingBookingFlow({
                     </p>
                   )}
                   <p className="text-xs text-muted-foreground">
-                    We'll send booking confirmations to this email
+                    We&apos;ll send booking confirmations to this email
                   </p>
                 </div>
 
@@ -4801,12 +4802,13 @@ export function GroomingBookingFlow({
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="coat-photo">
-                    Upload current photo of {selectedPet?.name}'s coat condition
+                    Upload current photo of {selectedPet?.name}&apos;s coat
+                    condition
                   </Label>
                   <p className="text-xs text-muted-foreground">
                     <strong className="text-primary">Helps us prepare!</strong>{" "}
                     This helps our groomers understand the current condition of
-                    your pet's coat.
+                    your pet&apos;s coat.
                   </p>
                   {!petCoatPhoto ? (
                     <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
@@ -5163,7 +5165,7 @@ export function GroomingBookingFlow({
                         >
                           24-hour cancellation policy
                         </Link>{" "}
-                        ({selectedFacility?.name || "facility"}'s specific
+                        ({selectedFacility?.name || "facility"}&apos;s specific
                         terms)
                       </span>
                     </Label>

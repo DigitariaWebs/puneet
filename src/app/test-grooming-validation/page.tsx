@@ -216,7 +216,7 @@ export default function TestGroomingValidationPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <CreditCard className="h-5 w-5" />
-                  Informations sur l'Acompte
+                  Informations sur l&apos;Acompte
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">

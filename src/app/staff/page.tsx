@@ -784,7 +784,7 @@ export default function StaffSchedulePage() {
         <TabsContent value="day" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Today's Shifts</CardTitle>
+              <CardTitle>Today&apos;s Shifts</CardTitle>
             </CardHeader>
             <CardContent>
               {todayShifts.length === 0 ? (
@@ -998,7 +998,8 @@ export default function StaffSchedulePage() {
                 setIsSickCallModalOpen(true);
               }}
             >
-              <AlertCircle className="mr-2 h-4 w-4" />I Can't Make This Shift
+              <AlertCircle className="mr-2 h-4 w-4" />I Can&apos;t Make This
+              Shift
             </Button>
             <Button
               variant="outline"

@@ -247,7 +247,7 @@ export default function TrainingCheckOutPage() {
           Training Check-Out
         </h2>
         <p className="text-muted-foreground">
-          Mark attendance and complete today's training sessions
+          Mark attendance and complete today&apos;s training sessions
         </p>
       </div>
 
@@ -443,7 +443,9 @@ export default function TrainingCheckOutPage() {
                         Email certificate to{" "}
                         {selectedSession.enrollment.ownerEmail}
                       </li>
-                      <li>Unlock "Advanced Obedience" booking option</li>
+                      <li>
+                        Unlock &quot;Advanced Obedience&quot; booking option
+                      </li>
                     </>
                   ) : (
                     <li>

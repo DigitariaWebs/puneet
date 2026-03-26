@@ -363,7 +363,8 @@ export default function TrainingSeriesPage() {
                     colSpan={8}
                     className="text-center py-8 text-muted-foreground"
                   >
-                    No series created yet. Click "Create Series" to get started.
+                    No series created yet. Click &quot;Create Series&quot; to
+                    get started.
                   </TableCell>
                 </TableRow>
               ) : (

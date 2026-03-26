@@ -79,7 +79,7 @@ export default function LoyaltyReportsPage() {
           <CardHeader>
             <CardTitle>Access Denied</CardTitle>
             <CardDescription>
-              You don't have permission to view loyalty reports.
+              You don&apos;t have permission to view loyalty reports.
             </CardDescription>
           </CardHeader>
         </Card>

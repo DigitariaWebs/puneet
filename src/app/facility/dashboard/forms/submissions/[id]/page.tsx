@@ -188,7 +188,9 @@ function AnswerBlock({
               </p>
             )}
             {Boolean(sigMeta!.agreementText) && (
-              <p className="italic">"{String(sigMeta!.agreementText)}"</p>
+              <p className="italic">
+                &quot;{String(sigMeta!.agreementText)}&quot;
+              </p>
             )}
           </div>
         )}

@@ -157,7 +157,7 @@ export function MessageAttachmentUpload({
           <DialogHeader>
             <DialogTitle>Add Attachment</DialogTitle>
             <DialogDescription>
-              Select the type of attachment you're uploading
+              Select the type of attachment you&apos;re uploading
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">

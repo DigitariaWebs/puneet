@@ -119,7 +119,7 @@ export function BehaviorSection({
       <CardHeader>
         <CardTitle>Behavior & Special Notes</CardTitle>
         <CardDescription>
-          Help us understand {formData.petName}'s behavior and preferences
+          Help us understand {formData.petName}&apos;s behavior and preferences
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">

@@ -896,9 +896,9 @@ export default function CustomerTrainingPage() {
               <div className="p-4 bg-muted rounded-lg">
                 <p className="text-sm">
                   If you join now, your position will be{" "}
-                  <strong>#{waitlistPosition}</strong>. You'll receive an SMS
-                  notification when a spot opens, with a 24-hour window to claim
-                  it.
+                  <strong>#{waitlistPosition}</strong>. You&apos;ll receive an
+                  SMS notification when a spot opens, with a 24-hour window to
+                  claim it.
                 </p>
               </div>
             )}

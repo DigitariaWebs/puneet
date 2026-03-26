@@ -134,7 +134,8 @@ export function ReportCardQuickReply({
           <DialogHeader>
             <DialogTitle>Send a Custom Reply</DialogTitle>
             <DialogDescription>
-              Send a personalized message about {petName}'s {serviceType} visit
+              Send a personalized message about {petName}&apos;s {serviceType}{" "}
+              visit
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">

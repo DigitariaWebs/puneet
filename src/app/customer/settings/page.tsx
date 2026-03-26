@@ -987,7 +987,7 @@ export default function CustomerSettingsPage() {
                   <div className="space-y-0.5">
                     <Label className="text-base">Pet Updates</Label>
                     <p className="text-sm text-muted-foreground">
-                      Real-time updates during your pet's stay
+                      Real-time updates during your pet&apos;s stay
                     </p>
                   </div>
                   <Switch

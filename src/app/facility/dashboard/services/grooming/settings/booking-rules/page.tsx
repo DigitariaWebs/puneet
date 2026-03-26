@@ -411,8 +411,8 @@ export default function GroomingBookingRulesPage() {
         <CardHeader>
           <CardTitle>Add-On Restrictions</CardTitle>
           <CardDescription>
-            Configure conditional rules for add-ons (e.g., "Don't show Teeth
-            Brushing if Bath not selected")
+            Configure conditional rules for add-ons (e.g., &quot;Don&apos;t show
+            Teeth Brushing if Bath not selected&quot;)
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">

@@ -289,7 +289,8 @@ export function EnablementScopeSection({
               <strong>Mandatory:</strong> Booking cannot be checked-in without
               completion (staff can override if needed).
               <br />
-              <strong>Optional:</strong> Recommended, doesn't block check-in.
+              <strong>Optional:</strong> Recommended, doesn&apos;t block
+              check-in.
             </AlertDescription>
           </Alert>
         </CardContent>

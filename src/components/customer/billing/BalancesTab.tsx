@@ -314,7 +314,7 @@ export function BalancesTab() {
                     {giftCard.message && (
                       <div className="pt-2 border-t">
                         <p className="text-sm text-muted-foreground italic">
-                          "{giftCard.message}"
+                          &quot;{giftCard.message}&quot;
                         </p>
                       </div>
                     )}

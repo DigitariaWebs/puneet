@@ -242,7 +242,7 @@ export default function TrainingCheckInPage() {
       <div>
         <h2 className="text-3xl font-bold tracking-tight">Training Check-In</h2>
         <p className="text-muted-foreground">
-          Check in pets for today's training sessions
+          Check in pets for today&apos;s training sessions
         </p>
       </div>
 
@@ -366,7 +366,7 @@ export default function TrainingCheckInPage() {
           <DialogHeader>
             <DialogTitle>Check In Pet</DialogTitle>
             <DialogDescription>
-              Confirm check-in for today's training session
+              Confirm check-in for today&apos;s training session
             </DialogDescription>
           </DialogHeader>
 

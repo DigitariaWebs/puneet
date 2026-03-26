@@ -112,7 +112,7 @@ export function AddOnsSection({
       <CardHeader>
         <CardTitle>Add-ons & Upsells</CardTitle>
         <CardDescription>
-          Enhance {formData.petName}'s stay with optional services
+          Enhance {formData.petName}&apos;s stay with optional services
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">

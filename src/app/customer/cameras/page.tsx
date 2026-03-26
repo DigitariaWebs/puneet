@@ -162,7 +162,7 @@ export default function CustomerCamerasPage() {
               </p>
               {hours && (
                 <p className="text-sm text-muted-foreground">
-                  Today's hours: {hours.open} - {hours.close}
+                  Today&apos;s hours: {hours.open} - {hours.close}
                 </p>
               )}
             </CardContent>
